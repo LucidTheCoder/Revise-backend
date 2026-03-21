@@ -483,31 +483,95 @@ app.get('/api/community/chat/:channelId/messages', async (req, res, next) => {
 });
 
 // ============================================================================
-// ROUTES: USER PROGRESS (Placeholder for future database)
+// IN-MEMORY USER DATA STORE
+// ============================================================================
+
+/**
+ * In-memory user data storage
+ * In production, this would be a database with persistent storage
+ * For now, data persists during the server session
+ */
+const users = {};
+
+function getOrCreateUser(userId = 'default-user') {
+  if (!users[userId]) {
+    users[userId] = {
+      userId,
+      createdAt: new Date().toISOString(),
+      progress: {}, // { topicId: { subject, confidence, isComplete, quizScore, completedAt } }
+      stats: {
+        totalTopicsCompleted: 0,
+        totalQuizzesCompleted: 0,
+        averageQuizScore: 0,
+        streak: 0,
+        xp: 0,
+        totalMinutesStudied: 0,
+        lastActiveAt: new Date().toISOString()
+      },
+      weakTopics: [], // Topics with low scores
+      learningPath: [] // Recommended topics based on performance
+    };
+  }
+  return users[userId];
+}
+
+// ============================================================================
+// ROUTES: USER PROGRESS
 // ============================================================================
 
 /**
  * POST /api/user/progress
- * Save user progress (requires authentication in production)
+ * Save/update user progress for a topic
+ * Body: { topicId, subject, confidence, isComplete, quizScore }
  */
 app.post('/api/user/progress', async (req, res, next) => {
   try {
     const { topicId, subject, confidence, isComplete, quizScore } = req.body;
+    const userId = req.headers['x-user-id'] || 'default-user';
     
-    // TODO: Save to database
-    // In production, validate user token and save to DB
+    if (!topicId || !subject) {
+      return res.status(400).json({
+        success: false,
+        error: 'topicId and subject are required'
+      });
+    }
+    
+    const user = getOrCreateUser(userId);
+    
+    // Save progress
+    user.progress[topicId] = {
+      topicId,
+      subject,
+      confidence: confidence ?? 0,
+      isComplete: isComplete ?? false,
+      quizScore: quizScore ?? null,
+      completedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    // Update stats if topic is complete
+    if (isComplete) {
+      if (!user.progress[topicId].wasComplete) {
+        user.stats.totalTopicsCompleted++;
+      }
+    }
+    
+    if (quizScore !== null && quizScore !== undefined) {
+      user.stats.totalQuizzesCompleted++;
+      // Update average score
+      const totalScore = Object.values(user.progress)
+        .filter(p => p.quizScore !== null)
+        .reduce((sum, p) => sum + p.quizScore, 0);
+      const count = Object.values(user.progress).filter(p => p.quizScore !== null).length;
+      user.stats.averageQuizScore = count > 0 ? totalScore / count : 0;
+    }
+    
+    user.stats.lastActiveAt = new Date().toISOString();
     
     res.json({
       success: true,
       message: 'Progress saved',
-      data: {
-        topicId,
-        subject,
-        confidence,
-        isComplete,
-        quizScore,
-        timestamp: new Date().toISOString()
-      }
+      data: user.progress[topicId]
     });
   } catch (error) {
     next(error);
@@ -516,16 +580,283 @@ app.post('/api/user/progress', async (req, res, next) => {
 
 /**
  * GET /api/user/progress
- * Get user's learning progress (requires authentication)
+ * Get all user progress
  */
 app.get('/api/user/progress', async (req, res, next) => {
   try {
-    // TODO: Retrieve from database for authenticated user
+    const userId = req.headers['x-user-id'] || 'default-user';
+    const user = getOrCreateUser(userId);
+    
     res.json({
       success: true,
       data: {
-        message: 'User progress endpoint - database integration required'
+        progress: user.progress,
+        stats: user.stats,
+        totalProgressed: Object.keys(user.progress).length
       }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/user/progress/:topicId
+ * Get progress for specific topic
+ */
+app.get('/api/user/progress/:topicId', async (req, res, next) => {
+  try {
+    const userId = req.headers['x-user-id'] || 'default-user';
+    const { topicId } = req.params;
+    const user = getOrCreateUser(userId);
+    
+    const progress = user.progress[topicId];
+    if (!progress) {
+      return res.status(404).json({
+        success: false,
+        error: 'No progress found for this topic',
+        topicId
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: progress
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ============================================================================
+// ROUTES: USER STATS & ANALYTICS
+// ============================================================================
+
+/**
+ * GET /api/user/stats
+ * Get user statistics and learning metrics
+ */
+app.get('/api/user/stats', async (req, res, next) => {
+  try {
+    const userId = req.headers['x-user-id'] || 'default-user';
+    const user = getOrCreateUser(userId);
+    
+    // Calculate weak topics (average score < 60%)
+    const weakTopics = Object.entries(user.progress)
+      .filter(([_, p]) => p.quizScore !== null && p.quizScore < 60)
+      .map(([id, p]) => ({
+        topicId: id,
+        subject: p.subject,
+        score: p.quizScore,
+        confidence: p.confidence
+      }))
+      .sort((a, b) => a.score - b.score);
+    
+    // Calculate completion rate
+    const completionRate = Object.keys(user.progress).length > 0
+      ? (Object.values(user.progress).filter(p => p.isComplete).length / Object.keys(user.progress).length) * 100
+      : 0;
+    
+    res.json({
+      success: true,
+      data: {
+        ...user.stats,
+        completionRate: Math.round(completionRate),
+        weakTopics,
+        topicsProgressed: Object.keys(user.progress).length
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * POST /api/user/stats/update
+ * Update user stats (XP, streak, study time)
+ * Body: { xpGain, addToStreak, minutesStudied }
+ */
+app.post('/api/user/stats/update', async (req, res, next) => {
+  try {
+    const userId = req.headers['x-user-id'] || 'default-user';
+    const { xpGain, addToStreak, minutesStudied } = req.body;
+    const user = getOrCreateUser(userId);
+    
+    if (xpGain) user.stats.xp += xpGain;
+    if (addToStreak) user.stats.streak += 1;
+    if (minutesStudied) user.stats.totalMinutesStudied += minutesStudied;
+    
+    user.stats.lastActiveAt = new Date().toISOString();
+    
+    res.json({
+      success: true,
+      message: 'Stats updated',
+      data: user.stats
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/user/analytics
+ * Get detailed learning analytics
+ */
+app.get('/api/user/analytics', async (req, res, next) => {
+  try {
+    const userId = req.headers['x-user-id'] || 'default-user';
+    const user = getOrCreateUser(userId);
+    
+    // Group progress by subject
+    const bySubject = {};
+    Object.values(user.progress).forEach(p => {
+      if (!bySubject[p.subject]) {
+        bySubject[p.subject] = {
+          subject: p.subject,
+          topicsCompleted: 0,
+          averageScore: 0,
+          averageConfidence: 0,
+          topics: []
+        };
+      }
+      if (p.isComplete) bySubject[p.subject].topicsCompleted++;
+      bySubject[p.subject].topics.push({
+        topicId: p.topicId,
+        score: p.quizScore,
+        confidence: p.confidence
+      });
+    });
+    
+    // Calculate averages by subject
+    Object.values(bySubject).forEach(subject => {
+      const scores = subject.topics.filter(t => t.score !== null).map(t => t.score);
+      const confidences = subject.topics.map(t => t.confidence);
+      subject.averageScore = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+      subject.averageConfidence = confidences.length > 0 ? Math.round(confidences.reduce((a, b) => a + b, 0) / confidences.length) : 0;
+    });
+    
+    res.json({
+      success: true,
+      data: {
+        bySubject,
+        overallStats: user.stats,
+        learningInsights: {
+          bestSubject: Object.entries(bySubject).sort((a, b) => b[1].averageScore - a[1].averageScore)[0]?.[0] || null,
+          needsWork: Object.entries(bySubject).sort((a, b) => a[1].averageScore - b[1].averageScore)[0]?.[0] || null,
+          confidenceLevel: user.stats.totalQuizzesCompleted > 0 ? 'Moderate' : 'Low'
+        }
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ============================================================================
+// ROUTES: ADVANCED SEARCH & FILTERING
+// ============================================================================
+
+/**
+ * GET /api/papers/advanced
+ * Advanced filtering for past papers
+ * Query: ?subject=chem&year=2025&session=May/June&difficulty=High&limit=20
+ */
+app.get('/api/papers/advanced', async (req, res, next) => {
+  try {
+    const data = await loadJsonFile('past-papers.json');
+    let papers = data.papers || data;
+    const { subject, year, session, difficulty, limit, sortBy } = req.query;
+    
+    // Apply filters
+    if (subject) papers = papers.filter(p => p.subject === subject);
+    if (year) papers = papers.filter(p => p.year === parseInt(year));
+    if (session) papers = papers.filter(p => p.session === session);
+    if (difficulty) papers = papers.filter(p => p.difficulty === difficulty);
+    
+    // Sort
+    if (sortBy === 'year-desc') {
+      papers.sort((a, b) => b.year - a.year);
+    } else if (sortBy === 'year-asc') {
+      papers.sort((a, b) => a.year - b.year);
+    } else if (sortBy === 'difficulty') {
+      const difficultyOrder = { 'Low': 1, 'Medium': 2, 'High': 3 };
+      papers.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+    }
+    
+    // Limit results
+    const limitNum = Math.min(parseInt(limit) || 20, 100);
+    const paginated = papers.slice(0, limitNum);
+    
+    res.json({
+      success: true,
+      data: paginated,
+      count: paginated.length,
+      totalAvailable: papers.length,
+      filters: { subject, year, session, difficulty }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/topics/advanced-search
+ * Advanced search with multiple filters
+ * Query: ?q=atomic&subject=chem&difficulty=medium&includeNotes=true&limit=10
+ */
+app.get('/api/topics/advanced-search', async (req, res, next) => {
+  try {
+    const { q, subject, limit } = req.query;
+    const query = q?.toLowerCase();
+    
+    if (!query || query.length < 2) {
+      return res.status(400).json({
+        success: false,
+        error: 'Search query must be at least 2 characters'
+      });
+    }
+    
+    const data = await loadJsonFile('subjects.json');
+    const subjects = data.subjects || data;
+    const results = [];
+    
+    // Advanced search through all topics
+    for (const subj of subjects) {
+      if (subject && subj.id !== subject) continue;
+      
+      for (const unit of subj.units || []) {
+        for (const topic of unit.topics || []) {
+          const matchesQuery = topic.name.toLowerCase().includes(query) ||
+                              topic.id.toLowerCase().includes(query);
+          
+          if (matchesQuery) {
+            results.push({
+              subjectId: subj.id,
+              subjectName: subj.name,
+              unitName: unit.name,
+              topicId: topic.id,
+              topicName: topic.name,
+              topicFile: topic.file,
+              relevance: query.length / Math.max(topic.name.length, topic.id.length)
+            });
+          }
+        }
+      }
+    }
+    
+    // Sort by relevance
+    results.sort((a, b) => b.relevance - a.relevance);
+    
+    // Limit results
+    const limitNum = Math.min(parseInt(limit) || 10, 50);
+    const paginated = results.slice(0, limitNum);
+    
+    res.json({
+      success: true,
+      query,
+      data: paginated,
+      count: paginated.length,
+      totalMatches: results.length
     });
   } catch (error) {
     next(error);

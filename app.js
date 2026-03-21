@@ -612,6 +612,116 @@ function pushQuizScore(scorePct) {
   localStorage.setItem(quizStorageKey, JSON.stringify(entries.slice(-30)));
 }
 
+// ============================================================================
+// BACKEND USER PROGRESS & ANALYTICS
+// ============================================================================
+
+/**
+ * Save topic progress to backend
+ */
+async function saveProgressToBackend(topicId, quizScore, confidence) {
+  if (!USE_BACKEND || !topicId) return;
+  
+  try {
+    const subject = state.currentSubject || 'chem';
+    const response = await fetch(`${API_BASE_URL}/api/user/progress`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-id': localStorage.getItem('userId') || 'default-user'
+      },
+      body: JSON.stringify({
+        topicId,
+        subject,
+        confidence: confidence ?? 75,
+        isComplete: true,
+        quizScore: quizScore ?? null
+      })
+    });
+    
+    if (response.ok) {
+      console.log('✅ Progress saved to backend');
+    }
+  } catch (error) {
+    console.warn('Backend progress save failed:', error);
+  }
+}
+
+/**
+ * Update user stats on backend (XP, streak, study time)
+ */
+async function updateStatsOnBackend(xpGain, minutesStudied = 0) {
+  if (!USE_BACKEND) return;
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/user/stats/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-id': localStorage.getItem('userId') || 'default-user'
+      },
+      body: JSON.stringify({
+        xpGain,
+        addToStreak: 1,
+        minutesStudied
+      })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ Stats updated on backend');
+    }
+  } catch (error) {
+    console.warn('Backend stats update failed:', error);
+  }
+}
+
+/**
+ * Load user analytics from backend
+ */
+async function loadUserAnalytics() {
+  if (!USE_BACKEND) return null;
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/user/analytics`, {
+      headers: {
+        'x-user-id': localStorage.getItem('userId') || 'default-user'
+      }
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      return data.data;
+    }
+  } catch (error) {
+    console.warn('Backend analytics load failed:', error);
+  }
+  return null;
+}
+
+/**
+ * Get user progress for a specific topic
+ */
+async function getTopicProgressFromBackend(topicId) {
+  if (!USE_BACKEND) return null;
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/user/progress/${topicId}`, {
+      headers: {
+        'x-user-id': localStorage.getItem('userId') || 'default-user'
+      }
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      return data.data;
+    }
+  } catch (error) {
+    console.warn('Failed to get topic progress:', error);
+  }
+  return null;
+}
+
 function getTopicRefsForSubject(subjectId) {
   const subject = state.subjectMap.get(subjectId);
   if (!subject) return [];
@@ -1221,6 +1331,10 @@ function renderQuizResult() {
   const xp = quiz.score * 20;
   state.xp += xp;
   pushQuizScore(pct);
+  
+  // Save progress to backend
+  saveProgressToBackend(state.currentTopic, pct);
+  updateStatsOnBackend(xp);
 
   byId("quiz-content").innerHTML = `
     <div class="card result-box">
