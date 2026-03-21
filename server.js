@@ -117,7 +117,8 @@ async function loadTopic(topicId, subject) {
  */
 app.get('/api/subjects', async (req, res, next) => {
   try {
-    const subjects = await loadJsonFile('subjects.json');
+    const data = await loadJsonFile('subjects.json');
+    const subjects = data.subjects || data;
     res.json({
       success: true,
       data: subjects,
@@ -134,7 +135,8 @@ app.get('/api/subjects', async (req, res, next) => {
  */
 app.get('/api/subjects/:subjectId', async (req, res, next) => {
   try {
-    const subjects = await loadJsonFile('subjects.json');
+    const data = await loadJsonFile('subjects.json');
+    const subjects = data.subjects || data;
     const subject = subjects.find(s => s.id === req.params.subjectId);
     
     if (!subject) {
@@ -266,7 +268,8 @@ app.get('/api/topics/search', async (req, res, next) => {
       });
     }
     
-    const subjects = await loadJsonFile('subjects.json');
+    const data = await loadJsonFile('subjects.json');
+    const subjects = data.subjects || data;
     const results = [];
     
     // Search through topics in subjects
@@ -309,7 +312,8 @@ app.get('/api/topics/search', async (req, res, next) => {
  */
 app.get('/api/past-papers', async (req, res, next) => {
   try {
-    let papers = await loadJsonFile('past-papers.json');
+    const data = await loadJsonFile('past-papers.json');
+    let papers = data.papers || data;
     const { subject, year, session } = req.query;
     
     // Apply filters
