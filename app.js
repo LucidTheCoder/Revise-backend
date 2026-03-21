@@ -39,6 +39,8 @@ const weeklyMinutesKey     = "revise.weeklyMinutes";
 const weeklyMinutesWeekKey = "revise.weeklyMinutesWeek";
 const streakKey            = "revise.streak";
 const streakDateKey        = "revise.streakDate";
+const lastVisitedKey       = "revise.lastVisited";  // {topicId: timestamp}
+const themeKey             = "revise.theme";
 
 const auth = {
   get token() { return localStorage.getItem(authTokenKey); },
@@ -92,6 +94,7 @@ async function handleLogin() {
     const data = await res.json();
     if (!res.ok) { errEl.textContent = data.error || "Login failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
+    syncServerStats(data.user);
     showToast("Welcome back, " + data.user.name.split(" ")[0] + "!");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Sign In"; btn.disabled = false; }
@@ -112,12 +115,25 @@ async function handleRegister() {
     const data = await res.json();
     if (!res.ok) { errEl.textContent = data.error || "Registration failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
+    syncServerStats(data.user);
     showToast("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Create Account"; btn.disabled = false; }
 }
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
+
+// Sync server-side stats (XP, streak) into local state after login
+function syncServerStats(user) {
+  if (!user || !user.stats) return;
+  if (typeof user.stats.xp === 'number')     state.xp     = user.stats.xp;
+  if (typeof user.stats.streak === 'number') {
+    state.streak = user.stats.streak;
+    localStorage.setItem(streakKey, String(state.streak));
+    const countEl = byId('streak-count');
+    if (countEl) countEl.textContent = String(state.streak);
+  }
+}
 
 // updateNavForAuth is defined in the new section below
 
@@ -1100,46 +1116,6 @@ function buildTopicDiagramSvg(topic) {
   `);
 }
 
-function fallbackDiagramSvg(topic) {
-  if (topic.subject === "chem") {
-    return `<svg viewBox='0 0 460 190' xmlns='http://www.w3.org/2000/svg'>
-      <rect x='18' y='18' width='424' height='154' rx='16' fill='rgba(0,212,170,0.08)' stroke='rgba(0,212,170,0.35)'/>
-      <text x='36' y='44' fill='#00d4aa' font-size='14' font-family='DM Sans'>Bond Polarity and Energy Snapshot</text>
-      <line x1='120' y1='98' x2='250' y2='98' stroke='#8b949e' stroke-width='2'/>
-      <circle cx='120' cy='98' r='26' fill='rgba(129,140,248,0.22)'/>
-      <circle cx='250' cy='98' r='30' fill='rgba(249,115,22,0.25)'/>
-      <text x='103' y='103' fill='#cdd9e5' font-size='13' font-family='DM Sans'>H</text>
-      <text x='242' y='103' fill='#cdd9e5' font-size='13' font-family='DM Sans'>Cl</text>
-      <text x='84' y='71' fill='#cdd9e5' font-size='13' font-family='DM Sans'>δ+</text>
-      <text x='267' y='66' fill='#cdd9e5' font-size='13' font-family='DM Sans'>δ−</text>
-      <path d='M320 132 L360 92 L402 132' fill='none' stroke='#22c55e' stroke-width='2.2'/>
-      <text x='316' y='148' fill='#22c55e' font-size='13' font-family='DM Sans'>ΔH &lt; 0 exothermic profile</text>
-    </svg>`;
-  }
-  if (topic.subject === "bio") {
-    return `<svg viewBox='0 0 460 190' xmlns='http://www.w3.org/2000/svg'>
-      <rect x='18' y='18' width='424' height='154' rx='16' fill='rgba(34,197,94,0.08)' stroke='rgba(34,197,94,0.35)'/>
-      <text x='36' y='44' fill='#22c55e' font-size='14' font-family='DM Sans'>Membrane Transport Snapshot</text>
-      <rect x='68' y='74' width='324' height='46' rx='20' fill='rgba(129,140,248,0.14)' stroke='rgba(129,140,248,0.45)'/>
-      <circle cx='120' cy='96' r='14' fill='rgba(249,115,22,0.26)'/>
-      <rect x='214' y='70' width='30' height='54' rx='10' fill='rgba(0,212,170,0.36)'/>
-      <path d='M112 96 H198' stroke='#cdd9e5' stroke-width='2' marker-end='url(#arrbio)'/>
-      <text x='78' y='136' fill='#cdd9e5' font-size='12' font-family='DM Sans'>Diffusion</text>
-      <text x='254' y='136' fill='#cdd9e5' font-size='12' font-family='DM Sans'>Carrier protein</text>
-      <defs><marker id='arrbio' markerWidth='6' markerHeight='6' refX='5' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='#cdd9e5'/></marker></defs>
-    </svg>`;
-  }
-  return `<svg viewBox='0 0 460 190' xmlns='http://www.w3.org/2000/svg'>
-    <rect x='18' y='18' width='424' height='154' rx='16' fill='rgba(129,140,248,0.10)' stroke='rgba(129,140,248,0.40)'/>
-    <text x='36' y='44' fill='#818cf8' font-size='14' font-family='DM Sans'>Motion Graph Snapshot</text>
-    <line x1='76' y1='140' x2='392' y2='140' stroke='#8b949e' stroke-width='2'/>
-    <line x1='76' y1='140' x2='76' y2='56' stroke='#8b949e' stroke-width='2'/>
-    <path d='M76 130 L146 112 L230 88 L312 62 L392 46' stroke='#00d4aa' stroke-width='3' fill='none'/>
-    <text x='398' y='146' fill='#cdd9e5' font-size='12' font-family='DM Sans'>t</text>
-    <text x='66' y='52' fill='#cdd9e5' font-size='12' font-family='DM Sans'>v</text>
-    <text x='252' y='163' fill='#cdd9e5' font-size='12' font-family='DM Sans'>gradient = a, area = s</text>
-  </svg>`;
-}
 
 /**
  * Unified fetch function supporting both local JSON and backend API
@@ -1528,7 +1504,85 @@ function setActiveView(viewName) {
 }
 
 // go() is defined in the new section below
+
+// ── Spaced Repetition ──────────────────────────────────────────────────────
+
+function getLastVisited() {
+  try { return JSON.parse(localStorage.getItem(lastVisitedKey) || '{}'); } catch { return {}; }
+}
+
+function computeSpacedRep() {
+  const confidence  = confidenceByTopic();
+  const lastVisited = getLastVisited();
+  const quizScores  = {};
+  quizHistory().forEach(q => { if (q.topicId) quizScores[q.topicId] = q.scorePct; });
+  const now = Date.now();
+  const day = 86400000;
+  const due = [];
+
+  for (const subject of state.subjects) {
+    for (const unit of subject.units) {
+      for (const topic of unit.topics) {
+        const conf   = confidence[topic.id] || 'none';
+        const last   = lastVisited[topic.id] || 0;
+        const days   = last ? (now - last) / day : 999;
+        const score  = quizScores[topic.id] ?? null;
+
+        // Spaced repetition intervals by confidence
+        let interval = 999; // never studied
+        if (conf === 'confident')      interval = 7;
+        else if (conf === 'needs-practice') interval = 3;
+        else if (conf === 'no-idea')   interval = 1;
+
+        if (days >= interval) {
+          let priority = 0;
+          if (conf === 'none' || conf === 'no-idea') priority = 100 + Math.min(days, 50);
+          else if (conf === 'needs-practice')        priority = 70  + Math.min(days, 30);
+          else if (conf === 'confident')             priority = 20  + Math.min(days, 10);
+          if (score !== null && score < 60) priority += 20;
+
+          due.push({ id: topic.id, name: topic.name, subject: subject.id, subjectName: subject.name, days: Math.round(days), conf, priority });
+        }
+      }
+    }
+  }
+  return due.sort((a, b) => b.priority - a.priority).slice(0, 8);
+}
+
+function renderSpacedRep() {
+  const section = byId('spaced-rep-section');
+  const list    = byId('spaced-rep-list');
+  if (!section || !list) return;
+
+  // Only show if user has set confidence on at least one topic
+  const confidence = confidenceByTopic();
+  if (Object.keys(confidence).length === 0) { section.style.display = 'none'; return; }
+
+  const due = computeSpacedRep();
+  if (!due.length) { section.style.display = 'none'; return; }
+
+  section.style.display = '';
+  list.innerHTML = due.map(t => `
+    <button class="sr-item" onclick="App.go('topic',{topicId:'${t.id}'})">
+      <div class="sr-item-main">
+        <strong>${escapeHtml(t.name)}</strong>
+        <small>${escapeHtml(t.subjectName)}</small>
+      </div>
+      <div class="sr-item-meta">
+        <span class="sr-conf sr-conf-${t.conf}">${t.conf === 'none' ? 'not set' : t.conf.replace('-',' ')}</span>
+        <span class="sr-days">${t.days === 999 ? 'not visited' : t.days + 'd ago'}</span>
+      </div>
+    </button>
+  `).join('');
+}
+
+function dismissSpacedRep() {
+  const section = byId('spaced-rep-section');
+  if (section) section.style.display = 'none';
+}
+
 function renderHome() {
+  renderSpacedRep();
   const statsEl = byId("home-stats");
   const continueEl = byId("continue-list");
   const activityEl = byId("recent-activity");
@@ -1787,6 +1841,12 @@ function renderTopicView(topicId) {
 
   state.currentTopic = topicId;
   state.currentSubject = topic.subject;
+  // Track last visited
+  try {
+    const lv = JSON.parse(localStorage.getItem(lastVisitedKey) || '{}');
+    lv[topicId] = Date.now();
+    localStorage.setItem(lastVisitedKey, JSON.stringify(lv));
+  } catch { /* ignore */ }
 
   const subject = state.subjectMap.get(topic.subject);
   byId("topic-sidebar").innerHTML = renderSubjectSidebar(subject, topic.id);
@@ -1878,7 +1938,15 @@ function renderTopicView(topicId) {
   byId("topic-main").innerHTML = `
     <div class="topic-head card">
       <div class="topic-meta-row">
-        <p class="topic-breadcrumb">Home / ${escapeHtml(subject.name)} / ${escapeHtml(topic.title)}</p>
+        <p class="topic-breadcrumb">
+          <button class="breadcrumb-link" onclick="App.go('home')">Home</button>
+          <span class="breadcrumb-sep"> / </span>
+          <button class="breadcrumb-link" onclick="App.go('subject',{subjectId:'${topic.subject}'})">
+            ${escapeHtml(subject.name)}
+          </button>
+          <span class="breadcrumb-sep"> / </span>
+          <span>${escapeHtml(topic.title)}</span>
+        </p>
         <span class="topic-ref">${escapeHtml(syllabusRef)}</span>
       </div>
       <h1 class="topic-title">${escapeHtml(topic.title)}</h1>
@@ -2009,6 +2077,13 @@ function markTopicDone(topicId) {
   persistDoneTopics();
   touchStreakToday();
   addStudyMinutes(15); // credit 15 min for completing a topic
+  // Persist to backend if logged in
+  const topicConfidence = (() => {
+    const map = confidenceByTopic();
+    const lvl = map[topicId];
+    return lvl === 'confident' ? 5 : lvl === 'needs-practice' ? 2 : lvl === 'no-idea' ? 1 : 0;
+  })();
+  saveProgressToBackend(topicId, null, topicConfidence);
   showToast("Topic marked as complete. Great progress.");
   if (state.currentView === "topic") renderTopicView(topicId);
 }
@@ -2223,11 +2298,17 @@ function renderFlashcard() {
   const sideLabel = flash.flipped ? "Answer" : "Question";
   const sideText = flash.flipped ? card.a : card.q;
 
+  const flashPct = Math.round((flash.index / flash.cards.length) * 100);
   byId("flash-content").innerHTML = `
-    <div class="card" style="margin-bottom:0.9rem">
-      <p style="color:var(--text2)">${escapeHtml(flash.label)} / Flashcards</p>
-      <h1 style="font-size:2rem">Flashcards</h1>
-      <p>${flash.index + 1} / ${flash.cards.length}</p>
+    <div class="card flash-header-card">
+      <div class="flash-header-row">
+        <div>
+          <p style="color:var(--text2);font-size:0.82rem;margin-bottom:0.2rem">${escapeHtml(flash.label)}</p>
+          <h2 style="margin:0;font-size:1.2rem">Flashcards</h2>
+        </div>
+        <span class="flash-counter">${flash.index + 1} <span style="color:var(--text3)">/ ${flash.cards.length}</span></span>
+      </div>
+      <div class="flash-progress-bar"><div class="flash-progress-fill" style="width:${flashPct}%"></div></div>
     </div>
     <p class="flashcard-hint">Tap card to flip</p>
     <div class="flashcard-scene" id="flashcard-scene" onclick="App.flipFlash()">
@@ -2340,6 +2421,44 @@ function renderPastPapers() {
 // renderCommunity, renderChatSidebar, selectThread, selectChannel, sendChatMessage
 // are all replaced by the updated versions defined later in this file.
 
+
+async function uploadAvatar(input) {
+  if (!auth.isLoggedIn) { showToast('Sign in to upload an avatar'); return; }
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('Image must be under 5 MB'); return; }
+
+  const btn = byId('avatar-upload-btn');
+  if (btn) btn.textContent = '…';
+
+  try {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    const res  = await fetch(`${API_BASE_URL}/api/upload/avatar`, {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + auth.token },
+      body: formData,
+    });
+    const data = await res.json();
+    if (!res.ok) { showToast(data.error || 'Upload failed'); return; }
+
+    // Update local auth user object with new avatar URL
+    const user = auth.user;
+    user.avatarUrl = data.data.url;
+    auth.set(auth.token, user);
+
+    // Show the image in the avatar element
+    const avatarEl = byId('profile-avatar');
+    if (avatarEl && data.data.url) {
+      avatarEl.style.backgroundImage = `url(${data.data.url})`;
+      avatarEl.style.backgroundSize  = 'cover';
+      avatarEl.textContent = '';
+    }
+    showToast('Avatar updated!');
+  } catch { showToast('Network error'); }
+  finally { if (btn) btn.textContent = '✎'; input.value = ''; }
+}
+
 function renderProfile() {
   const overall  = totalProgress();
   const avgQuiz  = quizHistory();
@@ -2354,9 +2473,21 @@ function renderProfile() {
 
   if (user) {
     const initials = user.name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
-    if (avatarEl) avatarEl.textContent = initials;
+    if (avatarEl) {
+      if (user.avatarUrl) {
+        avatarEl.style.backgroundImage = `url(${user.avatarUrl})`;
+        avatarEl.style.backgroundSize  = 'cover';
+        avatarEl.textContent = '';
+      } else {
+        avatarEl.textContent = initials;
+        avatarEl.style.backgroundImage = '';
+      }
+    }
     if (nameEl)   nameEl.textContent   = user.name;
     if (emailEl)  emailEl.textContent  = user.email;
+    // Show upload button
+    const uploadBtn = byId('avatar-upload-btn');
+    if (uploadBtn) uploadBtn.style.display = '';
     // Use server XP if available, else local state
     const xpDisplay = (user.stats?.xp ?? state.xp) || 0;
     byId("profile-xp").textContent     = xpDisplay.toLocaleString();
@@ -2684,14 +2815,29 @@ function setTheme(theme) {
 }
 
 function toggleTheme() {
-  const current = document.documentElement.getAttribute("data-theme") || "dark";
-  const next = current === "dark" ? "light" : "dark";
-  setTheme(next);
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next    = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem(themeKey, next);
+  updateThemeIcon(next);
 }
 
 function initTheme() {
-  const stored = localStorage.getItem("revise.theme") || "dark";
-  setTheme(stored);
+  const saved = localStorage.getItem(themeKey);
+  const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = saved || (preferDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+  updateThemeIcon(theme);
+}
+
+function updateThemeIcon(theme) {
+  const icon = byId('theme-icon');
+  if (!icon) return;
+  if (theme === 'dark') {
+    icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>';
+  } else {
+    icon.innerHTML = '<circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>';
+  }
 }
 
 function bindSearch() {
@@ -3037,19 +3183,28 @@ function emitTyping() {
 // FORUM — updated render with real data + new thread support
 // ============================================================================
 
-async function renderCommunity() {
-  // Reload threads from API
-  try {
-    const res  = await fetch(`${API_BASE_URL}/api/community/forum?sort=pinned&limit=50`);
-    const data = await res.json();
-    if (data.success) state.community.forumThreads = data.data;
-  } catch { /* use cached */ }
+let _communityLastFetch = 0;
+let _forumPage = 1;
+const FORUM_PAGE_SIZE = 20;
+async function renderCommunity(forceRefresh = false) {
+  // Only re-fetch if cache is older than 30s or force-refreshed
+  const now = Date.now();
+  if (forceRefresh || (now - _communityLastFetch) > 30000) {
+    try {
+      const res  = await fetch(`${API_BASE_URL}/api/community/forum?sort=pinned&limit=50`);
+      const data = await res.json();
+      if (data.success) { state.community.forumThreads = data.data; _communityLastFetch = now; }
+    } catch { /* use cached */ }
+  }
 
   const forumList   = byId('forum-list');
   const forumThread = byId('forum-thread');
+  const allThreads  = state.community.forumThreads;
+  const visibleThreads = allThreads.slice(0, _forumPage * FORUM_PAGE_SIZE);
+  const hasMore = allThreads.length > visibleThreads.length;
 
   // Build thread list
-  const forumItemsHtml = state.community.forumThreads.map(thread => {
+  const forumItemsHtml = visibleThreads.map(thread => {
     const subject     = state.subjectMap.get(thread.subject);
     const activeClass = thread.id === state.selectedThreadId || thread._id === state.selectedThreadId ? 'active' : '';
     const id          = thread._id || thread.id;
@@ -3088,6 +3243,7 @@ async function renderCommunity() {
       <div class="forum-stack">
         ${forumItemsHtml || '<p style="color:var(--text2);padding:1rem">No threads yet. Be the first!</p>'}
       </div>
+      ${hasMore ? `<button class="btn btn-outline btn-sm forum-load-more" style="width:100%;margin-top:0.6rem" onclick="App.forumLoadMore()">Load more (${allThreads.length - visibleThreads.length} remaining)</button>` : ''}
     </div>
   `;
 
@@ -3205,7 +3361,21 @@ async function submitReply(threadId) {
     const data = await res.json();
     if (!res.ok) { showToast(data.error || 'Failed to post reply'); return; }
     showToast('Reply posted!');
+    // Update local reply count so the thread list reflects the new count
+    const updatedThread = data.data;
+    if (updatedThread && updatedThread._id) {
+      const idx = state.community.forumThreads.findIndex(t => (t._id || t.id) === threadId);
+      if (idx !== -1) state.community.forumThreads[idx] = updatedThread;
+    }
     await renderThreadDetail();
+    // Refresh the left-side thread list counts without a full API refetch
+    document.querySelectorAll('.forum-item').forEach(btn => {
+      const onclick = btn.getAttribute('onclick') || '';
+      if (onclick.includes(threadId)) {
+        const countSpan = [...btn.querySelectorAll('.forum-meta span')].find(s => s.textContent.includes('repl'));
+        if (countSpan && updatedThread) countSpan.textContent = `${updatedThread.replies?.length || 0} replies`;
+      }
+    });
   } catch { showToast('Network error'); }
   finally { if (btn) { btn.textContent = 'Post Reply'; btn.disabled = false; } }
 }
@@ -3248,6 +3418,20 @@ async function upvoteThread(threadId) {
       await renderThreadDetail();
     }
   } catch { showToast('Network error'); }
+}
+
+function forumLoadMore() {
+  _forumPage += 1;
+  // Re-render list without re-fetching
+  const forumList = byId('forum-list');
+  if (!forumList) return;
+  const allThreads = state.community.forumThreads;
+  const visibleThreads = allThreads.slice(0, _forumPage * FORUM_PAGE_SIZE);
+  const hasMore = allThreads.length > visibleThreads.length;
+  const forumStack = forumList.querySelector('.forum-stack');
+  if (!forumStack) return;
+  // Rebuild the list portion without touching thread detail
+  renderCommunity(false);
 }
 
 async function filterForumBySubject(subject) {
@@ -3644,7 +3828,12 @@ async function saveTopic() {
       if (!res.ok) { showToast(`Save error: ${data.error}`); return; }
       showToast('Topic saved to server ✓');
     } else {
-      showToast('Topic saved (in-memory — sign in as admin to persist)');
+      // Non-admin: only allow editing in-session preview, explain clearly
+      if (!auth.isLoggedIn) {
+        showToast('Sign in as admin to save topics to the server');
+      } else {
+        showToast('Admin access required to save topic changes');
+      }
     }
 
     state.topics.set(editorState.currentTopic, parsed);
@@ -3696,16 +3885,20 @@ async function deleteCurrentTopic() {
 
 function updateNavForAuth() {
   const btn = byId('signin-btn'); if (!btn) return;
-  const adminBtn = byId('admin-nav-btn');
+  const adminBtn  = byId('admin-nav-btn');
+  const editorBtn = byId('editor-nav-btn');
+  const isAdmin   = auth.user?.role === 'admin';
   if (auth.isLoggedIn) {
     btn.textContent = auth.user?.name?.split(' ')[0] || 'Account';
     btn.title       = 'Click to sign out';
     btn.onclick     = () => { if (confirm('Sign out?')) handleSignOut(); };
-    if (adminBtn) adminBtn.style.display = auth.user?.role === 'admin' ? '' : 'none';
+    if (adminBtn)  adminBtn.style.display  = isAdmin ? '' : 'none';
+    if (editorBtn) editorBtn.style.display = isAdmin ? '' : 'none';
   } else {
     btn.textContent = 'Sign In'; btn.title = '';
     btn.onclick     = () => openAuthModal('login');
-    if (adminBtn) adminBtn.style.display = 'none';
+    if (adminBtn)  adminBtn.style.display  = 'none';
+    if (editorBtn) editorBtn.style.display = 'none';
   }
 }
 
@@ -3739,8 +3932,32 @@ function go(viewName, payload = {}) {
 
 function bindBaseEvents() {
   document.querySelectorAll('[data-route]').forEach(button => {
-    button.addEventListener('click', () => go(button.getAttribute('data-route')));
+    button.addEventListener('click', () => {
+      // Close mobile menu on navigation
+      const links = byId('nav-links');
+      if (links) links.classList.remove('open');
+      const hamburger = byId('nav-hamburger');
+      if (hamburger) hamburger.classList.remove('open');
+      go(button.getAttribute('data-route'));
+    });
   });
+
+  // Hamburger toggle
+  const hamburger = byId('nav-hamburger');
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      const links = byId('nav-links');
+      hamburger.classList.toggle('open');
+      if (links) links.classList.toggle('open');
+    });
+    // Close on outside click
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.nav-right') && byId('nav-links')?.classList.contains('open')) {
+        byId('nav-links').classList.remove('open');
+        hamburger.classList.remove('open');
+      }
+    });
+  }
 
   updateNavForAuth();
   byId('theme-toggle').addEventListener('click', toggleTheme);
@@ -3748,6 +3965,16 @@ function bindBaseEvents() {
   byId('chat-input').addEventListener('keydown', event => {
     if (event.key === 'Enter') sendChatMessage();
     else emitTyping();
+  });
+  // AI compose Shift+Enter = newline, Enter = send
+  document.addEventListener('keydown', event => {
+    const ta = byId('ai-prompt');
+    if (document.activeElement !== ta) return;
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      const topicId = state.currentTopic;
+      if (topicId) askAi(topicId);
+    }
   });
 
   bindSearch();
@@ -3763,6 +3990,8 @@ const App = {
   setTopicConfidence,
   toggleRecall,
   markTopicDone,
+  dismissSpacedRep,
+  uploadAvatar,
   selectQuizAnswer,
   nextQuizQuestion,
   flipFlash,
@@ -3790,6 +4019,7 @@ const App = {
   deleteThread,
   upvoteThread,
   filterForumBySubject,
+  forumLoadMore,
   // Admin
   switchAdminTab,
   loadAdminTopicList,

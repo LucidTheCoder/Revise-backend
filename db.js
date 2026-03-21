@@ -172,11 +172,13 @@ async function incrementStats(userId, { xpGain = 0, addToStreak = false, minutes
 // FORUM HELPERS
 // ============================================================================
 
-async function getForumThreads({ subject, sort = 'recent', limit = 50 } = {}) {
+async function getForumThreads({ subject, sort = 'recent', limit = 20, skip = 0 } = {}) {
   const q = subject ? { subject } : {};
   const sortMap = { recent: { createdAt: -1 }, popular: { upvotes: -1 }, pinned: { pinned: -1, createdAt: -1 } };
-  return ForumThread.find(q).sort(sortMap[sort] || { createdAt: -1 }).limit(limit).lean();
+  return ForumThread.find(q).sort(sortMap[sort] || { createdAt: -1 }).skip(skip).limit(limit).lean();
 }
+
+const countForumThreads = (query = {}) => ForumThread.countDocuments(query);
 
 const getForumThread = async (threadId) => {
   await ForumThread.findByIdAndUpdate(threadId, { $inc: { views: 1 } });
@@ -245,7 +247,7 @@ module.exports = {
   getAllUsers, setUserRole, banUser, deleteUser,
   upsertProgress, getAllProgress, getProgress,
   recalculateStats, incrementStats,
-  getForumThreads, getForumThread, createForumThread, updateForumThread,
+  getForumThreads, countForumThreads, getForumThread, createForumThread, updateForumThread,
   deleteForumThread, addForumReply, deleteForumReply, upvoteThread,
   getChatMessages, saveChatMessage, deleteChatMessage,
   getSiteStats,

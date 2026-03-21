@@ -323,12 +323,15 @@ app.delete('/api/community/chat/messages/:messageId', authenticateToken, require
 // ROUTES: FORUM
 // ============================================================================
 
-// GET  /api/community/forum          – list threads
+// GET  /api/community/forum          – list threads (paginated)
 app.get('/api/community/forum', async (req, res, next) => {
   try {
-    const { subject, sort, limit } = req.query;
-    const threads = await db.getForumThreads({ subject, sort, limit: parseInt(limit) || 50 });
-    res.json({ success: true, data: threads, count: threads.length });
+    const { subject, sort, limit, page } = req.query;
+    const pageNum   = Math.max(1, parseInt(page) || 1);
+    const pageSize  = Math.min(parseInt(limit) || 20, 100);
+    const threads   = await db.getForumThreads({ subject, sort, limit: pageSize, skip: (pageNum - 1) * pageSize });
+    const total     = await db.countForumThreads(subject ? { subject } : {});
+    res.json({ success: true, data: threads, count: threads.length, total, page: pageNum, pageSize });
   } catch (error) { next(error); }
 });
 
@@ -542,6 +545,34 @@ app.delete('/api/topics/:topicId', authenticateToken, requireAdmin, async (req, 
   } catch (error) { next(error); }
 });
 
+
+// ============================================================================
+// SIMPLE IN-MEMORY RATE LIMITER (no extra deps)
+// ============================================================================
+
+const aiRateLimiter = new Map(); // userId/ip -> { count, resetAt }
+
+function checkAiRateLimit(key) {
+  const now    = Date.now();
+  const window = 60 * 1000; // 1-minute window
+  const max    = parseInt(process.env.AI_RATE_LIMIT_PER_MIN || '10', 10);
+  let entry    = aiRateLimiter.get(key);
+  if (!entry || now > entry.resetAt) {
+    entry = { count: 0, resetAt: now + window };
+    aiRateLimiter.set(key, entry);
+  }
+  entry.count += 1;
+  return entry.count <= max;
+}
+
+// Clean up rate limiter every 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, v] of aiRateLimiter.entries()) {
+    if (now > v.resetAt) aiRateLimiter.delete(k);
+  }
+}, 5 * 60 * 1000);
+
 // ============================================================================
 // ROUTES: AI STUDY COACH
 // ============================================================================
@@ -557,12 +588,21 @@ app.delete('/api/topics/:topicId', authenticateToken, requireAdmin, async (req, 
  *
  * Set AI_PROVIDER and the matching key in your Render environment variables.
  */
-app.post('/api/ai-tutor', async (req, res, next) => {
+app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
   try {
     const { topicTitle, subjectId, context, prompt, history = [] } = req.body;
 
     if (!prompt || !prompt.trim()) {
       return res.status(400).json({ success: false, error: 'prompt is required' });
+    }
+
+    // Rate limit per user
+    const rateLimitKey = req.user._id.toString();
+    if (!checkAiRateLimit(rateLimitKey)) {
+      return res.status(429).json({
+        success: false,
+        error: 'Too many requests — you can ask up to 10 questions per minute. Please wait a moment.',
+      });
     }
 
     const provider = (process.env.AI_PROVIDER || 'claude').toLowerCase();
@@ -822,6 +862,48 @@ app.delete('/api/admin/forum/:threadId', authenticateToken, requireAdmin, async 
   try {
     await db.deleteForumThread(req.params.threadId);
     res.json({ success: true, message: 'Thread deleted' });
+  } catch (error) { next(error); }
+});
+
+
+// GET /api/user/spaced-rep
+// Returns today's recommended topics using simple spaced repetition:
+//   - no-idea / no confidence + not done recently = highest priority
+//   - needs-practice + not done in >3 days = medium priority
+//   - confident + not done in >7 days = low priority
+app.get('/api/user/spaced-rep', authenticateToken, async (req, res, next) => {
+  try {
+    const userId    = req.user._id;
+    const progress  = await db.getAllProgress(userId);
+    const progressMap = new Map(progress.map(p => [p.topicId, p]));
+    const now       = Date.now();
+    const day       = 86400000;
+
+    const recommendations = [];
+
+    for (const [topicId, p] of progressMap.entries()) {
+      const daysSince = p.completedAt ? (now - new Date(p.completedAt).getTime()) / day : 999;
+      const score     = p.quizScore ?? null;
+      const conf      = p.confidence ?? 0;
+
+      let priority = 0;
+      // Never studied / very low confidence
+      if (conf <= 1 || score === null)            priority = 100;
+      // Low score or needs practice, overdue
+      else if ((score < 60 || conf === 2) && daysSince >= 3) priority = 80;
+      // Medium confidence, 5+ days
+      else if (conf === 3 && daysSince >= 5)      priority = 60;
+      // Confident but 7+ days ago
+      else if (conf >= 4 && daysSince >= 7)       priority = 30;
+
+      if (priority > 0) {
+        recommendations.push({ topicId, subject: p.subject, priority, daysSince: Math.round(daysSince), confidence: conf, quizScore: score });
+      }
+    }
+
+    recommendations.sort((a, b) => b.priority - a.priority);
+
+    res.json({ success: true, data: recommendations.slice(0, 10) });
   } catch (error) { next(error); }
 });
 

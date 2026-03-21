@@ -22,16 +22,21 @@
       <div class="search-results" id="search-results"></div>
     </div>
     <div class="nav-right">
-      <button class="nav-chip" id="streak-display">Streak <span id="streak-count">3</span></button>
+      <button class="nav-chip" id="streak-display">🔥 <span id="streak-count">0</span></button>
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
         <svg id="theme-icon" width="15" height="15" fill="none" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
       </button>
-      <button class="nav-btn ghost" data-route="past-papers">Past Papers</button>
-      <button class="nav-btn ghost" data-route="community">Community</button>
-      <button class="nav-btn ghost" data-route="editor">Editor</button>
-      <button class="nav-btn ghost" data-route="profile">Profile</button>
-      <button class="nav-btn ghost admin-only-nav" data-route="admin" id="admin-nav-btn" style="display:none">Admin</button>
-      <button class="nav-btn solid" id="signin-btn">Sign In</button>
+      <div class="nav-links" id="nav-links">
+        <button class="nav-btn ghost" data-route="past-papers">Past Papers</button>
+        <button class="nav-btn ghost" data-route="community">Community</button>
+        <button class="nav-btn ghost" data-route="editor" id="editor-nav-btn">Editor</button>
+        <button class="nav-btn ghost" data-route="profile">Profile</button>
+        <button class="nav-btn ghost admin-only-nav" data-route="admin" id="admin-nav-btn" style="display:none">Admin</button>
+        <button class="nav-btn solid" id="signin-btn">Sign In</button>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
@@ -48,6 +53,17 @@
         </section>
 
         <section class="stats-row" id="home-stats"></section>
+
+        <section class="spaced-rep-section" id="spaced-rep-section" style="display:none">
+          <div class="card">
+            <div class="section-title-row">
+              <h2>📅 Revise Today</h2>
+              <button class="pill-btn" onclick="App.dismissSpacedRep()">Dismiss</button>
+            </div>
+            <p style="color:var(--text2);font-size:0.88rem;margin-bottom:0.75rem">Based on your confidence ratings — these topics are due for review.</p>
+            <div id="spaced-rep-list"></div>
+          </div>
+        </section>
 
         <section class="home-grid">
           <div class="card">
@@ -155,7 +171,11 @@
       <div class="container page-pad">
         <div class="profile-grid">
           <div class="card profile-card">
-            <div class="avatar" id="profile-avatar">?</div>
+            <div class="avatar-wrap">
+              <div class="avatar" id="profile-avatar">?</div>
+              <button class="avatar-upload-btn" id="avatar-upload-btn" title="Change avatar" onclick="document.getElementById('avatar-file-input').click()" style="display:none">✎</button>
+              <input type="file" id="avatar-file-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="App.uploadAvatar(this)">
+            </div>
             <h2 id="profile-name">Sign in to view profile</h2>
             <p id="profile-email"></p>
             <div class="profile-metrics">
