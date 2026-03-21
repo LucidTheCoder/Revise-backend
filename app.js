@@ -828,7 +828,12 @@ function totalProgress() {
 function setActiveView(viewName) {
   document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
   const target = byId(`view-${viewName}`);
-  if (target) target.classList.add("active");
+  if (target) {
+    target.classList.add("active");
+    target.classList.remove("view-enter");
+    void target.offsetWidth; // force reflow
+    target.classList.add("view-enter");
+  }
   state.currentView = viewName;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -1391,8 +1396,12 @@ function selectQuizAnswer(index) {
   (q.opts || []).forEach((_, i) => {
     const button = byId(`q-opt-${i}`);
     if (!button) return;
-    if (i === q.ans) button.classList.add("correct");
-    if (i === index && i !== q.ans) button.classList.add("wrong");
+    button.disabled = true;
+    if (i === q.ans) {
+      button.classList.add("correct", "anim-correct");
+    } else if (i === index && i !== q.ans) {
+      button.classList.add("wrong", "anim-wrong");
+    }
   });
 
   byId("quiz-exp").classList.add("open");
@@ -1493,12 +1502,23 @@ function renderFlashcard() {
       <h1 style="font-size:2rem">Flashcards</h1>
       <p>${flash.index + 1} / ${flash.cards.length}</p>
     </div>
-    <button class="flash-card" onclick="App.flipFlash()">
-      <div>
-        <small>${sideLabel}</small>
-        <p>${richText(sideText)}</p>
+    <p class="flashcard-hint">Tap card to flip</p>
+    <div class="flashcard-scene" id="flashcard-scene" onclick="App.flipFlash()">
+      <div class="flashcard-inner" id="flashcard-inner">
+        <div class="flashcard-front">
+          <div>
+            <small>Question</small>
+            <p>${richText(card.q)}</p>
+          </div>
+        </div>
+        <div class="flashcard-back">
+          <div>
+            <small>Answer</small>
+            <p>${richText(card.a)}</p>
+          </div>
+        </div>
       </div>
-    </button>
+    </div>
     <div class="flash-actions">
       <button class="btn btn-outline" onclick="App.rateFlash(false)">Did Not Know</button>
       <button class="btn btn-outline" onclick="App.rateFlash(null)">Skip</button>
@@ -1510,7 +1530,12 @@ function renderFlashcard() {
 function flipFlash() {
   if (!state.flash) return;
   state.flash.flipped = !state.flash.flipped;
-  renderFlashcard();
+  const scene = byId("flashcard-scene");
+  if (scene) {
+    scene.classList.toggle("is-flipped", state.flash.flipped);
+  } else {
+    renderFlashcard();
+  }
 }
 
 function rateFlash(value) {
@@ -1773,8 +1798,9 @@ function showToast(message) {
   toast.textContent = message;
   root.appendChild(toast);
   setTimeout(() => {
-    if (toast.parentNode) toast.remove();
-  }, 2800);
+    toast.classList.add("hiding");
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 220);
+  }, 2600);
 }
 
 function syncThemeIcon(theme) {
