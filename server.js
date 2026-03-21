@@ -25,6 +25,9 @@ const PORT = process.env.PORT || 5000;
 // MIDDLEWARE
 // ============================================================================
 
+// Serve static files (CSS, JS, HTML, images, etc.)
+app.use(express.static(path.join(__dirname)));
+
 // CORS configuration for frontend origin
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
@@ -104,34 +107,6 @@ async function loadTopic(topicId, subject) {
 }
 
 // ============================================================================
-// ROUTES: HEALTH & SYSTEM
-// ============================================================================
-
-/**
- * GET /
- * Health check endpoint for monitoring and deployment verification
- */
-app.get('/', (req, res) => {
-  res.json({
-    status: 'healthy',
-    message: 'Study Platform Backend v1.0',
-    timestamp: new Date().toISOString(),
-    version: '1.0.0'
-  });
-});
-
-/**
- * GET /api/test
- * Test endpoint for API verification
- */
-app.get('/api/test', (req, res) => {
-  res.json({
-    test: 'success',
-    message: 'API is working correctly',
-    timestamp: new Date().toISOString()
-  });
-});
-
 // ============================================================================
 // ROUTES: SUBJECTS & TOPICS
 // ============================================================================
@@ -615,15 +590,22 @@ app.delete('/api/topics/:topicId', async (req, res, next) => {
 // ============================================================================
 
 /**
- * 404 Not Found Handler
+ * Catch-all handler for frontend routing
+ * Serves index.html for non-API routes (supports SPA routing)
  */
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    error: 'Route not found',
-    path: req.path,
-    method: req.method
-  });
+app.get('*', (req, res) => {
+  // If it's an API route, return 404
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({
+      success: false,
+      error: 'API route not found',
+      path: req.path,
+      method: req.method
+    });
+  }
+  
+  // Serve index.html for all other routes (frontend SPA routing)
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 /**
