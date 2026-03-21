@@ -27,14 +27,18 @@ const state = {
   particleSystem: null,
   streak: 0,
   xp: 0,
-  weeklyMinutes: [90, 70, 110, 60, 25, 0, 0],
+  weeklyMinutes: [0, 0, 0, 0, 0, 0, 0],
 };
 
-const doneStorageKey = "revise.doneTopics";
-const quizStorageKey = "revise.quizScores";
+const doneStorageKey       = "revise.doneTopics";
+const quizStorageKey       = "revise.quizScores";
 const confidenceStorageKey = "revise.topicConfidence";
-const authTokenKey = "revise.authToken";
-const authUserKey  = "revise.authUser";
+const authTokenKey         = "revise.authToken";
+const authUserKey          = "revise.authUser";
+const weeklyMinutesKey     = "revise.weeklyMinutes";
+const weeklyMinutesWeekKey = "revise.weeklyMinutesWeek";
+const streakKey            = "revise.streak";
+const streakDateKey        = "revise.streakDate";
 
 const auth = {
   get token() { return localStorage.getItem(authTokenKey); },
@@ -637,6 +641,8 @@ async function loadData() {
     }));
 
     hydrateDoneTopics();
+    hydrateWeeklyMinutes();
+    hydrateStreak();
 
     if (state.community.forumThreads && state.community.forumThreads.length > 0) {
       state.selectedThreadId = state.community.forumThreads[0].id;
@@ -679,6 +685,83 @@ function persistDoneTopics() {
     }
   }
   localStorage.setItem(doneStorageKey, JSON.stringify(done));
+}
+
+// ── Weekly minutes (resets each calendar week) ───────────────────────────────
+
+function getISOWeek() {
+  const now = new Date();
+  const jan4 = new Date(now.getFullYear(), 0, 4);
+  const startOfWeek1 = new Date(jan4);
+  startOfWeek1.setDate(jan4.getDate() - ((jan4.getDay() + 6) % 7));
+  return Math.floor((now - startOfWeek1) / (7 * 86400000)) + 1 + "-" + now.getFullYear();
+}
+
+function hydrateWeeklyMinutes() {
+  try {
+    const savedWeek = localStorage.getItem(weeklyMinutesWeekKey);
+    const thisWeek  = getISOWeek();
+    if (savedWeek !== thisWeek) {
+      // New week — reset
+      state.weeklyMinutes = [0, 0, 0, 0, 0, 0, 0];
+      localStorage.setItem(weeklyMinutesWeekKey, thisWeek);
+      localStorage.setItem(weeklyMinutesKey, JSON.stringify(state.weeklyMinutes));
+      return;
+    }
+    const raw = localStorage.getItem(weeklyMinutesKey);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length === 7) {
+        state.weeklyMinutes = parsed.map(v => (typeof v === "number" ? v : 0));
+      }
+    }
+  } catch { /* ignore */ }
+}
+
+function persistWeeklyMinutes() {
+  localStorage.setItem(weeklyMinutesKey, JSON.stringify(state.weeklyMinutes));
+  localStorage.setItem(weeklyMinutesWeekKey, getISOWeek());
+}
+
+function addStudyMinutes(minutes) {
+  const todayIndex = (new Date().getDay() + 6) % 7;
+  state.weeklyMinutes[todayIndex] = (state.weeklyMinutes[todayIndex] || 0) + minutes;
+  persistWeeklyMinutes();
+}
+
+// ── Streak (persisted, increments once per calendar day) ────────────────────
+
+function hydrateStreak() {
+  try {
+    const saved = parseInt(localStorage.getItem(streakKey) || "0", 10);
+    const lastDate = localStorage.getItem(streakDateKey);
+    const today = new Date().toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    if (lastDate === today) {
+      state.streak = saved;
+    } else if (lastDate === yesterday) {
+      // streak still alive, not yet incremented today
+      state.streak = saved;
+    } else if (lastDate) {
+      // missed a day — reset streak
+      state.streak = 0;
+      localStorage.setItem(streakKey, "0");
+    } else {
+      state.streak = 0;
+    }
+  } catch { state.streak = 0; }
+}
+
+function touchStreakToday() {
+  const today = new Date().toDateString();
+  const lastDate = localStorage.getItem(streakDateKey);
+  if (lastDate !== today) {
+    state.streak = (state.streak || 0) + 1;
+    localStorage.setItem(streakKey, String(state.streak));
+    localStorage.setItem(streakDateKey, today);
+    const countEl = byId("streak-count");
+    if (countEl) countEl.textContent = String(state.streak);
+  }
 }
 
 function quizHistory() {
@@ -874,14 +957,14 @@ function renderHome() {
     )
     .join("");
 
-  const totalTarget = 180;
-  const current = state.weeklyMinutes.reduce((sum, minutes) => sum + minutes, 0);
-  const labels = ["M", "T", "W", "T", "F", "S", "S"];
-  const weeklyPct = Math.round((current / totalTarget) * 100);
-  const weeklyPctCapped = Math.min(100, weeklyPct);
-  const todayIndex = (new Date().getDay() + 6) % 7;
+  const totalTarget  = 180;
+  const current      = state.weeklyMinutes.reduce((sum, m) => sum + m, 0);
+  const labels       = ["M", "T", "W", "T", "F", "S", "S"];
+  const weeklyPct    = Math.round((current / totalTarget) * 100);
+  const todayIndex   = (new Date().getDay() + 6) % 7;
   const todayMinutes = state.weeklyMinutes[todayIndex] || 0;
-  const weakest = state.subjects
+  const maxMin       = Math.max(...state.weeklyMinutes, 1);
+  const weakest      = state.subjects
     .map((s) => ({ ...s, progress: getProgress(s.id).pct }))
     .sort((a, b) => a.progress - b.progress)[0];
   const nextUp = preview[0] || null;
@@ -890,10 +973,10 @@ function renderHome() {
   const activityItems = [
     `🔥 ${state.streak} day streak active`,
     `✅ ${overall.done} topics completed so far`,
-    ...(nextUp ? [`📌 Next recommended topic: ${nextUp.name}`] : ["📌 You are caught up on queued topics"]),
+    ...(nextUp ? [`📌 Next up: ${nextUp.name}`] : ["📌 All queued topics complete"]),
     ...recentQuizEvents.map((item) => {
       const date = new Date(item.at);
-      return `📝 Quiz scored ${item.scorePct}% on ${date.toLocaleDateString()}`;
+      return `📝 Quiz: ${item.scorePct}% on ${date.toLocaleDateString()}`;
     }),
   ].slice(0, 5);
 
@@ -906,49 +989,78 @@ function renderHome() {
     `;
   }
 
+  const isOver       = weeklyPct >= 100;
+  const statusColor  = isOver ? "var(--success)" : weeklyPct >= 60 ? "var(--accent)" : "var(--warn)";
+  const pctCapped    = Math.min(100, weeklyPct);
+  const r            = 36;
+  const circumference = +(2 * Math.PI * r).toFixed(2);
+  const dashOffset   = +(circumference * (1 - pctCapped / 100)).toFixed(2);
+
   goalEl.innerHTML = `
-    <div class="goal-header">
-      <p>${current} / ${totalTarget} min this week</p>
-      <strong>${weeklyPct}%</strong>
-    </div>
-    <div class="goal-days">
-      ${state.weeklyMinutes
-        .map((min, i) => {
-          const pct = Math.min(100, Math.round((min / 120) * 100));
-          const cls = i === todayIndex ? "goal-day today" : "goal-day";
-          return `<div class="${cls}"><div class="goal-bar"><div class="goal-fill" style="height:${pct}%"></div></div>${labels[i]}</div>`;
-        })
-        .join("")}
-    </div>
-    <div class="goal-status-grid">
-      <div class="goal-stat">
-        <div class="goal-ring" style="--ring:${weeklyPctCapped}%">
-          <strong>${weeklyPct}%</strong>
-          <span>of target</span>
+    <div class="wg-header">
+      <div class="wg-ring-wrap">
+        <svg viewBox="0 0 80 80" width="76" height="76" style="display:block;flex-shrink:0">
+          <circle cx="40" cy="40" r="${r}" fill="none" stroke="var(--bg3)" stroke-width="7"/>
+          <circle cx="40" cy="40" r="${r}" fill="none"
+            stroke="${statusColor}" stroke-width="7" stroke-linecap="round"
+            stroke-dasharray="${circumference}" stroke-dashoffset="${dashOffset}"
+            transform="rotate(-90 40 40)"
+            style="transition:stroke-dashoffset 0.9s cubic-bezier(.4,0,.2,1)"/>
+        </svg>
+        <div class="wg-ring-label">
+          <strong style="color:${statusColor}">${weeklyPct}%</strong>
+          <span>of goal</span>
         </div>
       </div>
-      <div class="goal-stat">
-        <small>Today Focus</small>
-        <strong>${todayMinutes} min</strong>
-        <p>${nextUp ? `Next up: ${escapeHtml(nextUp.name)}` : "All queued topics complete"}</p>
-      </div>
-      <div class="goal-stat">
-        <small>Needs Attention</small>
-        <strong>${weakest ? `${escapeHtml(weakest.name)} ${weakest.progress}%` : "No data"}</strong>
-        <p>Run a short quiz to close weak gaps faster.</p>
+      <div class="wg-header-text">
+        <p class="wg-title">Weekly Goal</p>
+        <p class="wg-subtitle">${current} <span style="color:var(--text3)">/</span> ${totalTarget} min this week</p>
+        <span class="wg-badge" style="--badge-color:${statusColor}">
+          ${isOver ? "🎯 Goal smashed!" : `${totalTarget - current} min remaining`}
+        </span>
       </div>
     </div>
-    <div class="goal-actions">
-      ${
-        nextUp
-          ? `<button class="btn btn-primary" onclick="App.go('topic',{topicId:'${nextUp.id}'})">Continue ${escapeHtml(nextUp.name)}</button>`
-          : `<button class="btn btn-primary" onclick="App.go('subjects')">Pick New Topic</button>`
-      }
-      <button class="btn btn-outline" onclick="App.go('quiz',{subjectId:'${weakest ? weakest.id : "chem"}'})">Quick Weak-Area Quiz</button>
-      <button class="btn btn-outline" onclick="App.showToast('Start a 25 minute focused sprint now')">Start Focus Sprint</button>
+
+    <div class="wg-bars">
+      ${state.weeklyMinutes.map((min, i) => {
+        const barPct  = Math.round((min / maxMin) * 100);
+        const isToday = i === todayIndex;
+        return `
+          <div class="wg-day${isToday ? " wg-today" : ""}">
+            <div class="wg-bar-track">
+              <div class="wg-bar-fill" style="height:${barPct}%;background:${isToday ? statusColor : "var(--accent)"}${isToday ? "" : ";opacity:0.5"}"></div>
+            </div>
+            <span class="wg-day-label">${labels[i]}</span>
+            ${min > 0 ? `<span class="wg-day-min">${min}m</span>` : `<span class="wg-day-min">&nbsp;</span>`}
+          </div>
+        `;
+      }).join("")}
+    </div>
+
+    <div class="wg-stats">
+      <div class="wg-stat">
+        <span class="wg-stat-label">Today</span>
+        <strong class="wg-stat-val">${todayMinutes} min</strong>
+      </div>
+      <div class="wg-stat">
+        <span class="wg-stat-label">Streak</span>
+        <strong class="wg-stat-val" style="color:var(--warn)">${state.streak} 🔥</strong>
+      </div>
+      <div class="wg-stat">
+        <span class="wg-stat-label">Weakest area</span>
+        <strong class="wg-stat-val">${weakest ? `${escapeHtml(weakest.name)} — ${weakest.progress}%` : "—"}</strong>
+      </div>
+    </div>
+
+    <div class="wg-actions">
+      ${nextUp
+        ? `<button class="btn btn-primary btn-sm" onclick="App.go('topic',{topicId:'${nextUp.id}'})">▶ ${escapeHtml(nextUp.name)}</button>`
+        : `<button class="btn btn-primary btn-sm" onclick="App.go('subjects')">Browse Topics</button>`}
+      <button class="btn btn-outline btn-sm" onclick="App.go('quiz',{subjectId:'${weakest ? weakest.id : "chem"}'})">Quick Quiz</button>
     </div>
   `;
 }
+
 
 function renderSubjectSelection() {
   const grid = byId("subject-select-grid");
@@ -1263,6 +1375,8 @@ function markTopicDone(topicId) {
     }
   }
   persistDoneTopics();
+  touchStreakToday();
+  addStudyMinutes(15); // credit 15 min for completing a topic
   showToast("Topic marked as complete. Great progress.");
   if (state.currentView === "topic") renderTopicView(topicId);
 }
@@ -1403,6 +1517,8 @@ function renderQuizResult() {
   const xp = quiz.score * 20;
   state.xp += xp;
   pushQuizScore(pct);
+  touchStreakToday();
+  addStudyMinutes(10); // credit 10 min for a quiz session
   
   // Save progress to backend
   saveProgressToBackend(state.currentTopic, pct);

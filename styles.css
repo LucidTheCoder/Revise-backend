@@ -2634,3 +2634,186 @@ textarea:focus-visible {
   .recall-q .pill-btn { align-self: flex-start; }
   .profile-grid { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   WEEKLY GOAL — redesigned wg-* component
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Header row: ring + text side by side */
+.wg-header {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* SVG ring wrapper — positions the label over the centre */
+.wg-ring-wrap {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+}
+.wg-ring-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  line-height: 1.1;
+}
+.wg-ring-label strong {
+  font-size: 1rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.wg-ring-label span {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  margin-top: 1px;
+}
+
+/* Text block beside the ring */
+.wg-header-text {
+  flex: 1;
+  min-width: 0;
+}
+.wg-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text3);
+  margin-bottom: 0.2rem;
+}
+.wg-subtitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+  font-family: var(--font-head);
+  line-height: 1.2;
+}
+.wg-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid color-mix(in srgb, var(--badge-color, var(--accent)), transparent 55%);
+  background: color-mix(in srgb, var(--badge-color, var(--accent)), transparent 82%);
+  color: var(--badge-color, var(--accent));
+}
+
+/* Bar chart */
+.wg-bars {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.35rem;
+  align-items: end;
+  margin-bottom: 1rem;
+  padding: 0 0.1rem;
+}
+.wg-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+.wg-bar-track {
+  width: 100%;
+  height: 56px;
+  background: var(--bg3);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid var(--border);
+}
+.wg-bar-fill {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  min-height: 3px;
+  transition: height 0.7s cubic-bezier(.4,0,.2,1);
+}
+.wg-today .wg-bar-track {
+  border-color: var(--border2);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent), transparent 65%);
+}
+.wg-day-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.wg-today .wg-day-label {
+  color: var(--accent);
+}
+.wg-day-min {
+  font-size: 0.62rem;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  min-height: 0.9rem;
+  line-height: 1;
+}
+
+/* Stats row */
+.wg-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.wg-stat {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.wg-stat-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+}
+.wg-stat-val {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Action buttons */
+.wg-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.wg-actions .btn {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .wg-stats { grid-template-columns: repeat(2, 1fr); }
+  .wg-stats .wg-stat:last-child { grid-column: 1 / -1; }
+  .wg-header { gap: 0.8rem; }
+  .wg-subtitle { font-size: 1rem; }
+}
