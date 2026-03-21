@@ -276,188 +276,774 @@ function setTopicConfidence(topicId, level) {
 }
 
 function buildTopicDiagramSvg(topic) {
-  const seed = hashString(`${topic.id}|${topic.title}`);
-  const variant = seed % 5;
-  const heading = String(topic.title || "");
-  const genericLabel = /^(key point|syllabus|summary|core idea|method|exam link|practice|concept|model|application|definition|exam tip|syllabus ref|core ideas|exam focus)$/i;
-  const topicToken = topic.title.split(/\s+/).find((part) => part.length > 2) || topic.subject.toUpperCase();
-  const labels = [
-    ...(topic.definitions || []).map((item) => item.term),
-    ...(topic.notes || []).map((item) => item.heading),
-    ...(topic.summary || []).map((item) => item.label),
-  ]
-    .filter(Boolean)
-    .filter((label) => !genericLabel.test(String(label).trim()));
-  const normalizeLabel = (text) =>
-    String(text || "")
-      .replace(/\s+/g, " ")
-      .trim();
-  const estimateTextWidth = (text, size) => normalizeLabel(text).length * size * 0.56;
-  const fitTextSize = (text, maxWidth, maxSize = 12, minSize = 7) => {
-    const label = normalizeLabel(text);
-    let size = maxSize;
-    while (size > minSize && estimateTextWidth(label, size) > maxWidth) {
-      size -= 0.5;
+  // ── Helpers ───────────────────────────────────────────────────────────
+  const tid = (topic.id || "").toLowerCase();
+  const sub = (topic.subject || "chem");
+
+  // Colour palette per subject
+  const palette = {
+    chem: { accent:"#f97316", stroke:"rgba(249,115,22,0.7)", fill:"rgba(249,115,22,0.18)", bg:"rgba(249,115,22,0.07)", glow:"rgba(249,115,22,0.12)", line:"rgba(249,115,22,0.55)", text:"#f97316" },
+    bio:  { accent:"#22c55e", stroke:"rgba(34,197,94,0.7)",  fill:"rgba(34,197,94,0.18)",  bg:"rgba(34,197,94,0.07)",  glow:"rgba(34,197,94,0.12)",  line:"rgba(34,197,94,0.55)",  text:"#22c55e" },
+    phy:  { accent:"#818cf8", stroke:"rgba(129,140,248,0.7)",fill:"rgba(129,140,248,0.18)",bg:"rgba(129,140,248,0.07)",glow:"rgba(129,140,248,0.12)",line:"rgba(129,140,248,0.55)", text:"#818cf8" },
+  };
+  const P = palette[sub] || palette.chem;
+
+  // Shared SVG wrapper
+  const W = 700, H = 260;
+  const wrap = (inner, ariaLabel) =>
+    `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(ariaLabel || topic.title)}">
+  <defs>
+    <radialGradient id="bg-${tid}" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="${P.glow}"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+    <marker id="arr-${tid}" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="${P.stroke}"/>
+    </marker>
+    <marker id="arr2-${tid}" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="${W}" height="${H}" rx="20" fill="url(#bg-${tid})"/>
+  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="20" fill="none" stroke="${P.stroke}" stroke-width="1.2"/>
+  ${inner}
+</svg>`;
+
+  // Hexagon polygon at (cx,cy) with radius r
+  const hex = (cx, cy, r) => {
+    const pts = [];
+    for (let i = 0; i < 6; i++) {
+      const a = Math.PI / 180 * (60 * i - 30);
+      pts.push(`${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`);
     }
-    return Number(size.toFixed(1));
-  };
-  const renderFittedText = ({
-    text,
-    x,
-    y,
-    maxWidth,
-    maxSize = 12,
-    minSize = 6,
-    anchor = "start",
-    fill = "#d8e4ef",
-  }) => {
-    const label = normalizeLabel(text);
-    const size = fitTextSize(label, maxWidth, maxSize, minSize);
-    const measured = estimateTextWidth(label, size);
-    const compressAttr =
-      measured > maxWidth ? ` textLength="${maxWidth}" lengthAdjust="spacingAndGlyphs"` : "";
-    return `<text x="${x}" y="${y}" fill="${fill}" font-size="${size}" font-family="DM Sans" text-anchor="${anchor}"${compressAttr}>${escapeXml(label)}</text>`;
+    return pts.join(" ");
   };
 
-  const chipARaw = normalizeLabel(labels[0] || `${topicToken} Core`);
-  const chipBRaw = normalizeLabel(labels[1] || `${topic.subject.toUpperCase()} Model`);
-  const chipCRaw = normalizeLabel(labels[2] || "Exam Focus");
-  const chipDRaw = normalizeLabel(labels[3] || "Recall");
-  const chipERaw = normalizeLabel(labels[4] || "Practice Set");
+  // Draw a hexagon node
+  const hexNode = (cx, cy, r, fillColor, strokeColor) =>
+    `<polygon points="${hex(cx,cy,r)}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.6"/>`;
 
-  const lineColor = pickColor(topic.subject, 0.55);
-  const nodeFill = pickColor(topic.subject, 0.26);
-  const nodeSolidFill = pickColor(topic.subject, 0.88);
-  const nodeStroke = pickColor(topic.subject, 0.75);
-  const glow = pickColor(topic.subject, 0.12);
-  const accent = topic.subject === "chem" ? "#f97316" : topic.subject === "bio" ? "#22c55e" : "#818cf8";
-  const d1x = 78 + (seed % 540);
-  const d1y = 66 + (seed % 96);
-  const d2x = 126 + ((seed >> 4) % 500);
-  const d2y = 74 + ((seed >> 7) % 104);
-  const d3x = 164 + ((seed >> 9) % 450);
-  const d3y = 82 + ((seed >> 12) % 96);
+  // Auto-sizing label inside a hex
+  const hexLabel = (cx, cy, lines, size=11) => {
+    if (!Array.isArray(lines)) lines = [lines];
+    const lineH = size * 1.4;
+    const totalH = lines.length * lineH;
+    const startY = cy - totalH / 2 + lineH * 0.75;
+    return lines.map((l, i) =>
+      `<text x="${cx}" y="${startY + i * lineH}" text-anchor="middle" fill="#e6edf3" font-size="${size}" font-family="DM Sans" font-weight="500">${escapeXml(String(l || ""))}</text>`
+    ).join("");
+  };
 
-  const base = `
-    <defs>
-      <linearGradient id="g-${topic.id}" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="${glow}"/>
-        <stop offset="100%" stop-color="rgba(10,14,23,0.08)"/>
-      </linearGradient>
-    </defs>
-    <rect x="16" y="16" width="668" height="218" rx="18" fill="url(#g-${topic.id})" stroke="${nodeStroke}" stroke-width="1.4"/>
-    <circle cx="${d1x}" cy="${d1y}" r="9" fill="${pickColor(topic.subject, 0.08)}"/>
-    <circle cx="${d2x}" cy="${d2y}" r="6" fill="${pickColor(topic.subject, 0.1)}"/>
-    <circle cx="${d3x}" cy="${d3y}" r="4" fill="${pickColor(topic.subject, 0.14)}"/>
-    ${renderFittedText({ text: heading, x: 38, y: 48, maxWidth: 608, maxSize: 17, minSize: 10.5, fill: accent })}
-  `;
+  // Section title
+  const title = (txt) =>
+    `<text x="28" y="32" fill="${P.accent}" font-size="13" font-family="DM Sans" font-weight="700" letter-spacing="0.3">${escapeXml(txt)}</text>`;
 
-  if (variant === 0) {
-    const y1 = 84 + (seed % 14);
-    const y2 = 112 + (seed % 14);
-    const y3 = 126 + (seed % 12);
-    return `<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)} diagram">
-      ${base}
-      <path d="M90 ${y1} C190 ${y2}, 270 ${y1}, 350 ${y2}" fill="none" stroke="${lineColor}" stroke-width="2.6"/>
-      <path d="M350 ${y2} C430 ${y3}, 510 ${y2}, 612 ${y3}" fill="none" stroke="${lineColor}" stroke-width="2.6"/>
-      <circle cx="90" cy="${y1}" r="14" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <circle cx="350" cy="${y2}" r="18" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <circle cx="612" cy="${y3}" r="14" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <g font-family="DM Sans">
-        <rect x="52" y="166" width="122" height="28" rx="9" fill="${nodeFill}" stroke="${nodeStroke}"/>
-        ${renderFittedText({ text: chipARaw, x: 62, y: 184, maxWidth: 102, maxSize: 12, minSize: 6.2 })}
-        <rect x="192" y="166" width="122" height="28" rx="9" fill="${nodeFill}" stroke="${nodeStroke}"/>
-        ${renderFittedText({ text: chipBRaw, x: 202, y: 184, maxWidth: 102, maxSize: 12, minSize: 6.2 })}
-        <rect x="332" y="166" width="122" height="28" rx="9" fill="${nodeFill}" stroke="${nodeStroke}"/>
-        ${renderFittedText({ text: chipCRaw, x: 342, y: 184, maxWidth: 102, maxSize: 12, minSize: 6.2 })}
-        <rect x="472" y="166" width="122" height="28" rx="9" fill="${nodeFill}" stroke="${nodeStroke}"/>
-        ${renderFittedText({ text: chipDRaw, x: 482, y: 184, maxWidth: 102, maxSize: 12, minSize: 6.2 })}
-      </g>
-    </svg>`;
+  // Connecting lines
+  const line  = (x1,y1,x2,y2, col, w=2, dash="") =>
+    `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col||P.line}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:""}/>`;
+  const arrow = (x1,y1,x2,y2, col) =>
+    `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col||P.line}" stroke-width="2" stroke-linecap="round" marker-end="url(#arr-${tid})"/>`;
+  const curve = (d, col, w=2) =>
+    `<path d="${d}" fill="none" stroke="${col||P.line}" stroke-width="${w}" stroke-linecap="round"/>`;
+  const label = (x,y,txt,col,size=10.5,anchor="middle") =>
+    `<text x="${x}" y="${y}" text-anchor="${anchor}" fill="${col||"#8b949e"}" font-size="${size}" font-family="DM Sans">${escapeXml(String(txt||""))}</text>`;
+
+  // ══════════════════════════════════════════════════════════════════════
+  // CHEMISTRY TOPICS
+  // ══════════════════════════════════════════════════════════════════════
+
+  if (sub === "chem") {
+
+    // Atomic Structure — electron shell diagram + subshell blocks
+    if (tid.includes("atomic-structure") || tid.includes("atomic_structure")) {
+      const nucleus = hexNode(120, 140, 34, "rgba(249,115,22,0.30)", P.stroke);
+      return wrap(`
+        ${title("Atomic Structure")}
+        ${nucleus}
+        ${hexLabel(120, 140, ["nucleus", "p⁺ n⁰"], 11)}
+        <circle cx="120" cy="140" r="58" fill="none" stroke="${P.line}" stroke-width="1.3" stroke-dasharray="4 3"/>
+        <circle cx="120" cy="140" r="82" fill="none" stroke="${P.line}" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
+        <circle cx="120" cy="82" r="6" fill="${P.accent}"/>
+        <circle cx="178" cy="140" r="6" fill="${P.accent}"/>
+        <circle cx="120" cy="198" r="6" fill="${P.accent}"/>
+        <circle cx="62"  cy="140" r="6" fill="${P.accent}"/>
+        ${label(120, 77, "e⁻", P.accent, 10)}
+        ${label(190, 143, "e⁻", P.accent, 10)}
+        ${line(230,60, 690,60, P.line, 1, "2 3")}
+        ${hexNode(310, 105, 34, P.fill, P.stroke)}
+        ${hexLabel(310, 105, ["1s²2s²","2p⁶  …"], 10)}
+        ${hexNode(460, 105, 34, P.fill, P.stroke)}
+        ${hexLabel(460, 105, ["Isotopes","same Z", "diff A"], 9)}
+        ${hexNode(610, 105, 34, P.fill, P.stroke)}
+        ${hexLabel(610, 105, ["Ionisation","Energy"], 10)}
+        ${hexNode(310, 180, 34, P.fill, P.stroke)}
+        ${hexLabel(310, 180, ["Orbital","shapes"], 10)}
+        ${hexNode(460, 180, 34, P.fill, P.stroke)}
+        ${hexLabel(460, 180, ["E shells","n=1,2,3…"], 10)}
+        ${hexNode(610, 180, 34, P.fill, P.stroke)}
+        ${hexLabel(610, 180, ["Aufbau","principle"], 10)}
+        ${line(310,71, 310,61, "#8b949e",1)} ${line(460,71, 460,61, "#8b949e",1)} ${line(610,71, 610,61, "#8b949e",1)}
+        ${line(310,146, 310,146, P.line, 0)}
+        ${line(280,105, 260,105, P.line, 1, "3 2")} ${line(280,180, 260,180, P.line, 1, "3 2")}
+      `);
+    }
+
+    // Stoichiometry — mole wheel
+    if (tid.includes("stoichiometry")) {
+      return wrap(`
+        ${title("Stoichiometry — The Mole")}
+        ${hexNode(350, 140, 44, "rgba(249,115,22,0.25)", P.stroke)}
+        ${hexLabel(350, 140, ["Mole","(n)"], 13)}
+        ${hexNode(200, 80,  32, P.fill, P.stroke)}  ${hexLabel(200, 80,  ["mass","÷ Mᵣ"], 10)}
+        ${hexNode(500, 80,  32, P.fill, P.stroke)}  ${hexLabel(500, 80,  ["volume","at STP"], 10)}
+        ${hexNode(200, 200, 32, P.fill, P.stroke)}  ${hexLabel(200, 200, ["conc","× vol"], 10)}
+        ${hexNode(500, 200, 32, P.fill, P.stroke)}  ${hexLabel(500, 200, ["particles","× Nₐ"], 10)}
+        ${hexNode(90,  140, 28, "rgba(249,115,22,0.10)", P.stroke)} ${hexLabel(90,140,["Mᵣ"],10)}
+        ${hexNode(610, 140, 28, "rgba(249,115,22,0.10)", P.stroke)} ${hexLabel(610,140,["Nₐ"],10)}
+        ${arrow(228,91,318,126, P.line)} ${arrow(472,91,382,126, P.line)}
+        ${arrow(228,189,318,154, P.line)} ${arrow(472,189,382,154, P.line)}
+        ${line(118,140, 168,140, P.line, 1, "3 2")} ${line(532,140, 582,140, P.line, 1, "3 2")}
+        ${label(270,76,"n = m/Mᵣ","#8b949e",9)} ${label(440,76,"n = V/24","#8b949e",9)}
+        ${label(265,215,"n = cv","#8b949e",9)}  ${label(438,215,"n = N/Nₐ","#8b949e",9)}
+      `);
+    }
+
+    // Chemical Bonding
+    if (tid.includes("chemical-bonding") || tid.includes("bonding")) {
+      return wrap(`
+        ${title("Chemical Bonding")}
+        ${hexNode(350, 135, 40, "rgba(249,115,22,0.22)", P.stroke)}
+        ${hexLabel(350, 135, ["Bond","Types"], 12)}
+        ${hexNode(180, 80,  34, P.fill, P.stroke)} ${hexLabel(180, 80,  ["Ionic","δ+ δ−"], 10)}
+        ${hexNode(520, 80,  34, P.fill, P.stroke)} ${hexLabel(520, 80,  ["Covalent","shared e⁻"], 10)}
+        ${hexNode(180, 190, 34, P.fill, P.stroke)} ${hexLabel(180, 190, ["Metallic","e⁻ sea"], 10)}
+        ${hexNode(520, 190, 34, P.fill, P.stroke)} ${hexLabel(520, 190, ["Dative","lone pair"], 10)}
+        ${hexNode(90,  135, 30, P.fill, P.stroke)} ${hexLabel(90,  135, ["Giant","lattice"], 9)}
+        ${hexNode(610, 135, 30, P.fill, P.stroke)} ${hexLabel(610, 135, ["VSEPR","shapes"], 9)}
+        ${line(214,91,314,122,P.line)} ${line(486,91,386,122,P.line)}
+        ${line(214,179,314,148,P.line)} ${line(486,179,386,148,P.line)}
+        ${line(120,135,196,135,P.line,1,"3 2")} ${line(504,135,580,135,P.line,1,"3 2")}
+        ${label(245,68,"electron transfer","#8b949e",8.5)} ${label(450,68,"electrons shared","#8b949e",8.5)}
+      `);
+    }
+
+    // Energetics / Thermodynamics
+    if (tid.includes("energetics") || tid.includes("thermochem")) {
+      return wrap(`
+        ${title("Energetics — Enthalpy")}
+        <rect x="60" y="170" width="580" height="2" rx="1" fill="${P.line}" opacity="0.4"/>
+        <rect x="60" y="170" width="580" height="50" rx="4" fill="${P.fill}" opacity="0.3"/>
+        ${label(350,198,"Reactants + Products (reference line)","#8b949e",9)}
+        <path d="M120,170 L120,100 L260,100" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M260,100 L400,100 L400,170" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 3"/>
+        <path d="M460,170 L460,75 L600,75 L600,170" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+        ${hexNode(190, 100, 28, P.fill, P.stroke)} ${hexLabel(190,100,["Exo","ΔH<0"],10)}
+        ${hexNode(530, 75,  28, "rgba(129,140,248,0.2)", "rgba(129,140,248,0.7)")} ${hexLabel(530,75,["Endo","ΔH>0"],10)}
+        ${hexNode(350, 60,  26, P.fill, P.stroke)} ${hexLabel(350,60,["Eₐ","activ."],9)}
+        ${arrow(280,60,324,60,P.line)}
+        ${label(120,94,"start","#8b949e",8.5)} ${label(600,92,"start","#8b949e",8.5)}
+        ${label(400,93,"end","#8b949e",8.5)}  ${label(460,69,"end","#8b949e",8.5)}
+        ${line(260,100, 350,86, P.line, 1, "2 2")}
+      `);
+    }
+
+    // Kinetics
+    if (tid.includes("kinetics")) {
+      return wrap(`
+        ${title("Reaction Kinetics")}
+        ${hexNode(120, 135, 36, P.fill, P.stroke)} ${hexLabel(120,135,["Rate","factors"],11)}
+        ${hexNode(270, 85,  30, P.fill, P.stroke)} ${hexLabel(270,85,["Temp","↑ rate"],10)}
+        ${hexNode(270, 185, 30, P.fill, P.stroke)} ${hexLabel(270,185,["Conc","↑ rate"],10)}
+        ${hexNode(420, 85,  30, P.fill, P.stroke)} ${hexLabel(420,85,["Surface","area"],10)}
+        ${hexNode(420, 185, 30, P.fill, P.stroke)} ${hexLabel(420,185,["Catalyst","↓ Eₐ"],10)}
+        ${hexNode(570, 135, 36, P.fill, P.stroke)} ${hexLabel(570,135,["Maxwell-","Boltzmann"],9)}
+        ${line(156,135,240,135,P.line)} ${line(300,91,390,91,P.line,1,"3 2")} ${line(300,179,390,179,P.line,1,"3 2")}
+        ${line(450,95,539,120,P.line)} ${line(450,175,539,150,P.line)}
+        <path d="M590,195 Q620,155 610,130 Q600,105 580,110" fill="none" stroke="${P.accent}" stroke-width="2"/>
+        ${label(632,150,"f(E)","#8b949e",9)} ${label(592,118,"Eₐ","#8b949e",8.5)}
+      `);
+    }
+
+    // Equilibria
+    if (tid.includes("equilibria") || tid.includes("equilibrium")) {
+      return wrap(`
+        ${title("Chemical Equilibria")}
+        ${hexNode(190, 135, 40, P.fill, P.stroke)} ${hexLabel(190,135,["Forward","reaction"],11)}
+        ${hexNode(510, 135, 40, P.fill, P.stroke)} ${hexLabel(510,135,["Reverse","reaction"],11)}
+        ${arrow(234,120, 466,120, P.accent)} ${arrow(466,150, 234,150, "#818cf8")}
+        ${label(350,113,"kf","#f97316",9)} ${label(350,165,"kr","#818cf8",9)}
+        ${hexNode(350, 55,  28, P.fill, P.stroke)} ${hexLabel(350,55,["Kc","= [P]/[R]"],9.5)}
+        ${hexNode(100, 60,  26, P.fill, P.stroke)} ${hexLabel(100,60,["Le","Chatelier"],9)}
+        ${hexNode(600, 60,  26, P.fill, P.stroke)} ${hexLabel(600,60,["Kp","= pᵅpᵝ…"],9)}
+        ${hexNode(100, 210, 26, P.fill, P.stroke)} ${hexLabel(100,210,["Haber","Process"],9)}
+        ${hexNode(600, 210, 26, P.fill, P.stroke)} ${hexLabel(600,210,["Contact","Process"],9)}
+        ${line(350,83,350,95,P.line,1,"3 2")} ${line(120,86,150,100,P.line,1,"3 2")}
+        ${line(580,86,560,100,P.line,1,"3 2")}
+      `);
+    }
+
+    // Electrochemistry
+    if (tid.includes("electrochem")) {
+      return wrap(`
+        ${title("Electrochemistry")}
+        <rect x="70" y="100" width="240" height="110" rx="14" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.4"/>
+        <rect x="390" y="100" width="240" height="110" rx="14" fill="rgba(129,140,248,0.14)" stroke="rgba(129,140,248,0.6)" stroke-width="1.4"/>
+        ${label(190,124,"Anode (−) oxidation","#f97316",10)} ${label(510,124,"Cathode (+) reduction","#818cf8",10)}
+        <line x1="310" y1="155" x2="390" y2="155" stroke="#8b949e" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+        ${label(350,152,"salt bridge","#8b949e",8.5)}
+        <path d="M190,100 L190,70 L510,70 L510,100" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M340,70 L360,70" fill="none" stroke="${P.accent}" stroke-width="4"/>
+        ${label(350,64,"e⁻ flow","#f97316",9)}
+        ${hexNode(190,170,22,P.fill,P.stroke)} ${hexLabel(190,170,["M→Mⁿ⁺","+ ne⁻"],8.5)}
+        ${hexNode(510,170,22,"rgba(129,140,248,0.2)","rgba(129,140,248,0.7)")} ${hexLabel(510,170,["Mⁿ⁺+ne⁻","→M"],8.5)}
+        ${hexNode(350,220,28,P.fill,P.stroke)} ${hexLabel(350,220,["EMF = E°cathode","− E°anode"],8.5)}
+      `);
+    }
+
+    // Organic basics + any other organic
+    if (tid.includes("organic") || tid.includes("hydrocarbons") || tid.includes("alkene") || tid.includes("alkane")) {
+      return wrap(`
+        ${title("Organic Chemistry — Homologous Series")}
+        ${hexNode(120,135, 36, P.fill, P.stroke)} ${hexLabel(120,135,["Alkanes","CₙH₂ₙ₊₂"],10)}
+        ${hexNode(270,80,  30, P.fill, P.stroke)} ${hexLabel(270,80, ["Alkenes","CₙH₂ₙ"],10)}
+        ${hexNode(270,190, 30, P.fill, P.stroke)} ${hexLabel(270,190,["Arenes","benzene"],10)}
+        ${hexNode(420,80,  30, P.fill, P.stroke)} ${hexLabel(420,80, ["Alcohols","−OH"],10)}
+        ${hexNode(420,190, 30, P.fill, P.stroke)} ${hexLabel(420,190,["Carbonyls","C=O"],10)}
+        ${hexNode(570,135, 36, P.fill, P.stroke)} ${hexLabel(570,135,["Carboxyl","−COOH"],10)}
+        ${line(156,120,240,95,P.line)} ${line(156,150,240,175,P.line)}
+        ${line(300,80,390,80,P.line,1,"3 2")} ${line(300,190,390,190,P.line,1,"3 2")}
+        ${line(450,90,539,118,P.line)} ${line(450,180,539,152,P.line)}
+        <path d="M320,130 L360,130 M360,120 L360,140" stroke="${P.accent}" stroke-width="2" stroke-linecap="round"/>
+        ${label(348,118,"C=C",P.accent,9)}
+      `);
+    }
+
+    if (tid.includes("halogen") || tid.includes("halogen-compounds")) {
+      return wrap(`
+        ${title("Halogen Compounds")}
+        ${hexNode(350,130,40,P.fill,P.stroke)} ${hexLabel(350,130,["C–X","bond"],13)}
+        ${hexNode(170,75, 32,P.fill,P.stroke)} ${hexLabel(170,75, ["Nucleo-","philic sub"],9.5)}
+        ${hexNode(530,75, 32,P.fill,P.stroke)} ${hexLabel(530,75, ["Eliminat-","ion"],9.5)}
+        ${hexNode(170,185,32,P.fill,P.stroke)} ${hexLabel(170,185,["SN1","tertiary"],10)}
+        ${hexNode(530,185,32,P.fill,P.stroke)} ${hexLabel(530,185,["SN2","primary"],10)}
+        ${hexNode(90, 130,26,P.fill,P.stroke)} ${hexLabel(90, 130,["F Cl","Br I"],9.5)}
+        ${hexNode(610,130,26,P.fill,P.stroke)} ${hexLabel(610,130,["Reactiv-","ity↑"],9.5)}
+        ${line(202,86,314,119,P.line)} ${line(498,86,386,119,P.line)}
+        ${line(202,174,314,141,P.line)} ${line(498,174,386,141,P.line)}
+        ${line(116,130,192,130,P.line,1,"3 2")} ${line(508,130,584,130,P.line,1,"3 2")}
+      `);
+    }
+
+    // Periodicity
+    if (tid.includes("periodicity") || tid.includes("period-3")) {
+      return wrap(`
+        ${title("Periodicity — Period 3")}
+        <rect x="52" y="80" width="596" height="50" rx="10" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.2"/>
+        ${["Na","Mg","Al","Si","P","S","Cl","Ar"].map((el,i) => {
+          const cx = 90 + i * 76;
+          return `${hexNode(cx,180,28,P.fill,P.stroke)}${hexLabel(cx,180,[el],13)}`;
+        }).join("")}
+        ${label(90,72,"metallic →","#8b949e",9,"start")} ${label(610,72,"→ non-metallic","#8b949e",9,"end")}
+        ${label(350,115,"Atomic radius decreases →","#8b949e",9)}
+        ${label(350,130,"Ionisation energy increases (with exceptions) →","#8b949e",8.5)}
+        ${[90,166,242,318,394,470,546,622].map((x,i) =>
+          `<line x1="${x}" y1="152" x2="${x}" y2="162" stroke="${P.line}" stroke-width="1.5"/>`
+        ).join("")}
+      `);
+    }
+
+    // Group 2 / Group 17
+    if (tid.includes("group-2")) {
+      return wrap(`
+        ${title("Group 2 — Alkaline Earth Metals")}
+        ${["Be","Mg","Ca","Sr","Ba","Ra"].map((el,i) => {
+          const cx = 90 + i * 104;
+          const r  = 22 + i*2;
+          return `${hexNode(cx,120,r,"rgba(249,115,22,0.15)",P.stroke)}${hexLabel(cx,120,[el],12)}`;
+        }).join("")}
+        <path d="M90,150 Q194,175 298,165 Q402,155 506,170 Q558,178 610,185" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
+        ${label(350,205,"Reactivity with H₂O increases down group","#8b949e",9.5)}
+        ${label(120,210,"↑ IE","#8b949e",9)} ${label(580,210,"↓ IE","#8b949e",9)}
+        <line x1="60" y1="148" x2="648" y2="148" stroke="${P.line}" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+      `);
+    }
+
+    if (tid.includes("group-17") || tid.includes("halogens")) {
+      return wrap(`
+        ${title("Group 17 — The Halogens")}
+        ${[["F","pale yellow"],["Cl","green gas"],["Br","red-brn liq"],["I","grey solid"]].map(([el,state],i) => {
+          const cx = 120 + i * 152;
+          return `${hexNode(cx,100,36,"rgba(249,115,22,0.15)",P.stroke)}
+                  ${hexLabel(cx,100,[el],16)}
+                  ${label(cx,152,state,"#8b949e",8.5)}`;
+        }).join("")}
+        <path d="M120,136 Q272,160 424,150 Q500,146 576,140" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
+        ${label(350,185,"Oxidising power decreases down group","#8b949e",9.5)}
+        ${label(350,200,"Boiling point increases down group","#8b949e",9.5)}
+        <line x1="60" y1="136" x2="640" y2="136" stroke="${P.line}" stroke-width="1" stroke-dasharray="3 4" opacity="0.4"/>
+      `);
+    }
+
+    // Carbonyl / Carboxylic / Nitrogen
+    if (tid.includes("carbonyl")) {
+      return wrap(`
+        ${title("Carbonyl Compounds")}
+        ${hexNode(180,130,36,P.fill,P.stroke)} ${hexLabel(180,130,["Aldehydes","R–CHO"],10)}
+        ${hexNode(350,80, 30,P.fill,P.stroke)} ${hexLabel(350,80, ["Nucleophilic","Addition"],9.5)}
+        ${hexNode(520,130,36,P.fill,P.stroke)} ${hexLabel(520,130,["Ketones","R–CO–R"],10)}
+        ${hexNode(180,210,30,P.fill,P.stroke)} ${hexLabel(180,210,["2,4-DNPH","orange ppt"],9)}
+        ${hexNode(350,195,30,P.fill,P.stroke)} ${hexLabel(350,195,["Tollens'","silver mirr"],9)}
+        ${hexNode(520,210,30,P.fill,P.stroke)} ${hexLabel(520,210,["Fehling's","brick red"],9)}
+        <text x="265" y="82" text-anchor="middle" fill="${P.accent}" font-size="22" font-family="DM Sans" font-weight="300">C=O</text>
+        ${line(216,130,320,130,P.line)} ${line(380,130,484,130,P.line)}
+        ${line(180,166,180,180,P.line)} ${line(350,110,350,165,P.line)} ${line(520,166,520,180,P.line)}
+      `);
+    }
+
+    if (tid.includes("nitrogen") || tid.includes("amines") || tid.includes("amino")) {
+      return wrap(`
+        ${title("Nitrogen Compounds")}
+        ${hexNode(120,135,36,P.fill,P.stroke)} ${hexLabel(120,135,["Amines","–NH₂"],12)}
+        ${hexNode(290,85, 30,P.fill,P.stroke)} ${hexLabel(290,85, ["Primary","R–NH₂"],10)}
+        ${hexNode(290,185,30,P.fill,P.stroke)} ${hexLabel(290,185,["Secondary","R₂NH"],10)}
+        ${hexNode(460,85, 30,P.fill,P.stroke)} ${hexLabel(460,85, ["Amides","–CONH₂"],10)}
+        ${hexNode(460,185,30,P.fill,P.stroke)} ${hexLabel(460,185,["Amino","acids"],10)}
+        ${hexNode(600,135,30,P.fill,P.stroke)} ${hexLabel(600,135,["Peptide","bonds"],10)}
+        ${line(156,120,260,98, P.line)} ${line(156,150,260,172,P.line)}
+        ${line(320,85, 430,85, P.line,1,"3 2")} ${line(320,185,430,185,P.line,1,"3 2")}
+        ${line(490,90, 570,118,P.line)} ${line(490,180,570,152,P.line)}
+      `);
+    }
+
+    // States of matter / Gases
+    if (tid.includes("states") || tid.includes("gases")) {
+      return wrap(`
+        ${title("States of Matter")}
+        ${hexNode(160,130,46,P.fill,P.stroke)} ${hexLabel(160,130,["Solid","ordered"],11)}
+        ${hexNode(350,130,46,P.fill,P.stroke)} ${hexLabel(350,130,["Liquid","flowing"],11)}
+        ${hexNode(540,130,46,P.fill,P.stroke)} ${hexLabel(540,130,["Gas","random"],11)}
+        ${arrow(206,115,304,115,P.accent)} ${label(255,108,"melting","#8b949e",8.5)}
+        ${arrow(406,115,494,115,P.accent)} ${label(450,108,"vaporise","#8b949e",8.5)}
+        ${arrow(494,145,404,145,"#818cf8")} ${label(449,158,"condense","#8b949e",8.5)}
+        ${arrow(302,145,208,145,"#818cf8")} ${label(255,158,"freezing","#8b949e",8.5)}
+        ${hexNode(160,210,22,P.fill,P.stroke)} ${hexLabel(160,210,["pV=nRT"],9)}
+        ${hexNode(350,210,22,P.fill,P.stroke)} ${hexLabel(350,210,["intermolec","forces"],8.5)}
+        ${hexNode(540,210,22,P.fill,P.stroke)} ${hexLabel(540,210,["ideal gas","laws"],8.5)}
+      `);
+    }
+
+    // Generic chem fallback — hexagonal network
+    const chemLabels = [
+      ...(topic.definitions||[]).map(d=>d.term),
+      ...(topic.notes||[]).map(n=>n.heading),
+    ].filter(Boolean).filter(l=>l.length>2).slice(0,6);
+    while (chemLabels.length < 6) chemLabels.push(["Reaction","Equation","Mechanism","Structure","Property","Analysis"][chemLabels.length]);
+    const chemHexPos = [[350,130,40],[175,85,30],[525,85,30],[175,180,30],[525,180,30],[350,50,24]];
+    return wrap(`
+      ${title(topic.title)}
+      ${chemHexPos.map(([cx,cy,r],i)=>`${hexNode(cx,cy,r,i===0?P.fill+"":P.fill,P.stroke)}${hexLabel(cx,cy,[chemLabels[i]],i===0?11:9.5)}`).join("")}
+      ${line(350,90,350,72,P.line,1,"3 2")}
+      ${line(215,97,314,120,P.line)} ${line(485,97,386,120,P.line)}
+      ${line(215,168,314,140,P.line)} ${line(485,168,386,140,P.line)}
+    `);
   }
 
-  if (variant === 1) {
-    return `<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)} diagram">
-      ${base}
-      <line x1="350" y1="122" x2="170" y2="92" stroke="${lineColor}" stroke-width="2.2" stroke-linecap="round"/>
-      <line x1="350" y1="122" x2="530" y2="92" stroke="${lineColor}" stroke-width="2.2" stroke-linecap="round"/>
-      <line x1="350" y1="122" x2="170" y2="156" stroke="${lineColor}" stroke-width="2.2" stroke-linecap="round"/>
-      <line x1="350" y1="122" x2="530" y2="156" stroke="${lineColor}" stroke-width="2.2" stroke-linecap="round"/>
-      <circle cx="350" cy="122" r="30" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <circle cx="170" cy="92" r="16" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <circle cx="530" cy="92" r="16" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <circle cx="170" cy="156" r="16" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <circle cx="530" cy="156" r="16" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <g font-family="DM Sans" fill="#d8e4ef">
-        ${renderFittedText({ text: topic.subject.toUpperCase(), x: 325, y: 126, maxWidth: 60, maxSize: 12, minSize: 8 })}
-        ${renderFittedText({ text: chipARaw, x: 118, y: 88, maxWidth: 106, maxSize: 12, minSize: 6.2 })}
-        ${renderFittedText({ text: chipBRaw, x: 484, y: 88, maxWidth: 106, maxSize: 12, minSize: 6.2 })}
-        ${renderFittedText({ text: chipCRaw, x: 118, y: 176, maxWidth: 106, maxSize: 12, minSize: 6.2 })}
-        ${renderFittedText({ text: chipDRaw, x: 484, y: 176, maxWidth: 106, maxSize: 12, minSize: 6.2 })}
-      </g>
-    </svg>`;
+  // ══════════════════════════════════════════════════════════════════════
+  // BIOLOGY TOPICS
+  // ══════════════════════════════════════════════════════════════════════
+
+  if (sub === "bio") {
+
+    // Cell Structure
+    if (tid.includes("cell-structure") || tid.includes("cell_structure")) {
+      return wrap(`
+        ${title("Cell Structure")}
+        <ellipse cx="350" cy="135" rx="180" ry="90" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.5"/>
+        <ellipse cx="350" cy="135" rx="60" ry="38" fill="rgba(34,197,94,0.30)" stroke="${P.stroke}" stroke-width="1.8"/>
+        ${label(350,138,"Nucleus","#e6edf3",10)}
+        ${hexNode(120,85, 26,P.fill,P.stroke)} ${hexLabel(120,85, ["Mitoch-","ondria"],9)}
+        ${hexNode(120,185,26,P.fill,P.stroke)} ${hexLabel(120,185,["ER","rough/smth"],8.5)}
+        ${hexNode(580,85, 26,P.fill,P.stroke)} ${hexLabel(580,85, ["Golgi","apparatus"],9)}
+        ${hexNode(580,185,26,P.fill,P.stroke)} ${hexLabel(580,185,["Ribosome","80S/70S"],8.5)}
+        ${hexNode(350,210,24,P.fill,P.stroke)} ${hexLabel(350,210,["Vacuole"],9)}
+        ${line(146,95,196,108,P.line,1,"3 2")} ${line(146,175,196,162,P.line,1,"3 2")}
+        ${line(554,95,504,108,P.line,1,"3 2")} ${line(554,175,504,162,P.line,1,"3 2")}
+      `);
+    }
+
+    // Cell Membranes / Transport
+    if (tid.includes("cell-membrane") || tid.includes("membrane")) {
+      return wrap(`
+        ${title("Cell Membranes — Fluid Mosaic")}
+        <rect x="60" y="115" width="580" height="60" rx="0" fill="${P.fill}" stroke="none"/>
+        <rect x="60" y="110" width="580" height="10" rx="5" fill="${P.accent}" opacity="0.5"/>
+        <rect x="60" y="165" width="580" height="10" rx="5" fill="${P.accent}" opacity="0.5"/>
+        ${label(350,145,"Phospholipid bilayer","#e6edf3",10)}
+        ${[100,200,300,400,500,600].map(x=>
+          `<line x1="${x}" y1="110" x2="${x-8}" y2="165" stroke="${P.accent}" stroke-width="1.5" opacity="0.3"/>`
+        ).join("")}
+        ${hexNode(130,80, 26,P.fill,P.stroke)} ${hexLabel(130,80, ["Channel","protein"],9)}
+        ${hexNode(280,80, 26,P.fill,P.stroke)} ${hexLabel(280,80, ["Carrier","protein"],9)}
+        ${hexNode(430,80, 26,P.fill,P.stroke)} ${hexLabel(430,80, ["Glyco-","protein"],9)}
+        ${hexNode(580,80, 26,P.fill,P.stroke)} ${hexLabel(580,80, ["Cholest-","erol"],9)}
+        ${hexNode(200,205,26,P.fill,P.stroke)} ${hexLabel(200,205,["Osmosis","H₂O"],9)}
+        ${hexNode(350,205,26,P.fill,P.stroke)} ${hexLabel(350,205,["Diffusion","passive"],9)}
+        ${hexNode(500,205,26,P.fill,P.stroke)} ${hexLabel(500,205,["Active","transport"],9)}
+        ${[130,280,430,580].map(x=>`<line x1="${x}" y1="106" x2="${x}" y2="92" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="3 2"/>`).join("")}
+        ${[200,350,500].map(x=>`<line x1="${x}" y1="179" x2="${x}" y2="193" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="3 2"/>`).join("")}
+      `);
+    }
+
+    // Biological Molecules
+    if (tid.includes("biological-molecule") || tid.includes("bio-molecule")) {
+      return wrap(`
+        ${title("Biological Molecules")}
+        ${hexNode(350,120,40,P.fill,P.stroke)} ${hexLabel(350,120,["Monomers","→ Polymers"],10)}
+        ${hexNode(160,75, 34,P.fill,P.stroke)} ${hexLabel(160,75, ["Carbo-","hydrates"],10)}
+        ${hexNode(540,75, 34,P.fill,P.stroke)} ${hexLabel(540,75, ["Proteins","AA chains"],10)}
+        ${hexNode(160,195,34,P.fill,P.stroke)} ${hexLabel(160,195,["Lipids","fatty acid"],10)}
+        ${hexNode(540,195,34,P.fill,P.stroke)} ${hexLabel(540,195,["Nucleic","Acids"],10)}
+        ${hexNode(90, 135,24,P.fill,P.stroke)} ${hexLabel(90, 135,["glucose","C₆H₁₂O₆"],8.5)}
+        ${hexNode(610,135,24,P.fill,P.stroke)} ${hexLabel(610,135,["DNA","RNA"],9)}
+        ${line(194,86,310,110,P.line)} ${line(506,86,390,110,P.line)}
+        ${line(194,184,310,130,P.line)} ${line(506,184,390,130,P.line)}
+        ${line(114,135,160,135,P.line,1,"3 2")} ${line(540,135,586,135,P.line,1,"3 2")}
+        ${label(240,68,"condensation →","#8b949e",8.5)} ${label(460,68,"peptide bond","#8b949e",8.5)}
+      `);
+    }
+
+    // Enzymes
+    if (tid.includes("enzyme")) {
+      return wrap(`
+        ${title("Enzymes — Catalysis")}
+        <path d="M200,100 Q240,55 280,100 Q320,145 280,180 Q240,215 200,180 Q160,145 200,100Z" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.8"/>
+        ${label(240,142,"Active","#e6edf3",10)} ${label(240,155,"site","#e6edf3",10)}
+        <path d="M260,130 Q290,115 315,130 Q290,150 260,130Z" fill="${P.accent}" opacity="0.5"/>
+        ${label(290,135,"S","#e6edf3",11)}
+        ${hexNode(460,100,30,P.fill,P.stroke)} ${hexLabel(460,100,["Lock & key","model"],9.5)}
+        ${hexNode(600,100,30,P.fill,P.stroke)} ${hexLabel(600,100,["Induced","fit model"],9.5)}
+        ${hexNode(460,195,30,P.fill,P.stroke)} ${hexLabel(460,195,["Inhibitors","comp/non"],9.5)}
+        ${hexNode(600,195,30,P.fill,P.stroke)} ${hexLabel(600,195,["Temp &","pH effect"],9.5)}
+        ${line(280,140,430,105,P.line,1,"3 2")} ${line(280,155,430,190,P.line,1,"3 2")}
+        ${line(490,100,570,100,P.line,1,"2 2")} ${line(490,195,570,195,P.line,1,"2 2")}
+        ${label(80,230,"E + S ⇌ ES → E + P",P.accent,10.5,"start")}
+      `);
+    }
+
+    // Gas Exchange / Transport
+    if (tid.includes("gas-exchange") || tid.includes("transport-gas")) {
+      return wrap(`
+        ${title("Gas Exchange")}
+        ${hexNode(175,110,40,P.fill,P.stroke)} ${hexLabel(175,110,["Alveoli","features"],11)}
+        ${hexNode(350,80, 28,P.fill,P.stroke)} ${hexLabel(350,80, ["Large SA","thin wall"],9.5)}
+        ${hexNode(525,110,40,P.fill,P.stroke)} ${hexLabel(525,110,["Fick's","Law"],12)}
+        ${hexNode(175,210,28,P.fill,P.stroke)} ${hexLabel(175,210,["Ventilat-","ion mech"],9.5)}
+        ${hexNode(350,200,28,P.fill,P.stroke)} ${hexLabel(350,200,["Conc.","gradient"],9.5)}
+        ${hexNode(525,210,28,P.fill,P.stroke)} ${hexLabel(525,210,["Diffusion","rate"],9.5)}
+        ${arrow(215,110,321,110,P.line)} ${arrow(379,110,485,110,P.line)}
+        ${line(175,150,175,182,P.line,1,"3 2")} ${line(350,108,350,172,P.line)} ${line(525,150,525,182,P.line,1,"3 2")}
+        ${label(350,50,"rate = (SA × conc. diff.) / thickness",P.accent,9.5)}
+      `);
+    }
+
+    // Genetics / DNA
+    if (tid.includes("genetics") || tid.includes("nucleic") || tid.includes("dna") || tid.includes("gene")) {
+      return wrap(`
+        ${title("Genetics & DNA")}
+        <path d="M200,60 Q240,100 200,140 Q160,180 200,220" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M240,60 Q200,100 240,140 Q280,180 240,220" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
+        ${[80,105,130,155,180].map(y=>`<line x1="200" y1="${y}" x2="240" y2="${y}" stroke="${P.line}" stroke-width="2" opacity="0.7"/>`).join("")}
+        ${label(220,240,"DNA double helix","#8b949e",8.5)}
+        ${hexNode(420,80, 30,P.fill,P.stroke)} ${hexLabel(420,80, ["Codons","triplet"],10)}
+        ${hexNode(570,80, 30,P.fill,P.stroke)} ${hexLabel(570,80, ["mRNA","transcr."],10)}
+        ${hexNode(420,145,30,P.fill,P.stroke)} ${hexLabel(420,145,["tRNA","transl."],10)}
+        ${hexNode(570,145,30,P.fill,P.stroke)} ${hexLabel(570,145,["Ribosome","protein"],10)}
+        ${hexNode(420,210,30,P.fill,P.stroke)} ${hexLabel(420,210,["Alleles","dominant"],10)}
+        ${hexNode(570,210,30,P.fill,P.stroke)} ${hexLabel(570,210,["Punnett","square"],10)}
+        ${line(310,80,390,80,P.line,1,"3 2")} ${line(310,145,390,145,P.line,1,"3 2")} ${line(310,210,390,210,P.line,1,"3 2")}
+        ${line(450,80,540,80,P.line,1,"2 2")} ${line(450,145,540,145,P.line,1,"2 2")} ${line(450,210,540,210,P.line,1,"2 2")}
+      `);
+    }
+
+    // Cell cycle / Mitosis
+    if (tid.includes("mitosis") || tid.includes("cell-cycle") || tid.includes("meiosis")) {
+      return wrap(`
+        ${title("Mitotic Cell Cycle")}
+        <circle cx="350" cy="135" r="90" fill="none" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="5 4"/>
+        ${[["G1","DNA","synthesis",-60],["S","Replic-","ation",0],["G2","Check-","point",60],["M","Mitosis","PMAT",130]].map(([ph,l1,l2,angle])=>{
+          const rad = (angle - 90) * Math.PI / 180;
+          const cx = 350 + 88 * Math.cos(rad);
+          const cy = 135 + 88 * Math.sin(rad);
+          return `${hexNode(cx,cy,28,P.fill,P.stroke)}${hexLabel(cx,cy,[ph,l1],9.5)}`;
+        }).join("")}
+        ${hexNode(350,135,36,"rgba(34,197,94,0.30)",P.stroke)} ${hexLabel(350,135,["Cell","Cycle"],11)}
+        ${hexNode(580,80, 26,P.fill,P.stroke)} ${hexLabel(580,80, ["PMAT","stages"],9)}
+        ${hexNode(580,190,26,P.fill,P.stroke)} ${hexLabel(580,190,["Checkpt","control"],9)}
+        ${line(350,45,350,35,P.line,1,"3 2")}
+      `);
+    }
+
+    // Immunity
+    if (tid.includes("immun")) {
+      return wrap(`
+        ${title("Immunity")}
+        ${hexNode(120,100,36,P.fill,P.stroke)} ${hexLabel(120,100,["Non-","specific"],11)}
+        ${hexNode(120,190,36,P.fill,P.stroke)} ${hexLabel(120,190,["Specific","immunity"],11)}
+        ${hexNode(310,80, 30,P.fill,P.stroke)} ${hexLabel(310,80, ["Phago-","cytosis"],9.5)}
+        ${hexNode(310,165,30,P.fill,P.stroke)} ${hexLabel(310,165,["B cells","antibodies"],9.5)}
+        ${hexNode(480,80, 30,P.fill,P.stroke)} ${hexLabel(480,80, ["T cells","cytotoxic"],9.5)}
+        ${hexNode(480,165,30,P.fill,P.stroke)} ${hexLabel(480,165,["Memory","cells"],9.5)}
+        ${hexNode(620,130,30,P.fill,P.stroke)} ${hexLabel(620,130,["Vaccine","immunity"],9.5)}
+        ${line(156,100,280,88,P.line)} ${line(156,190,280,170,P.line)}
+        ${line(340,80,450,80,P.line,1,"2 2")} ${line(340,165,450,165,P.line,1,"2 2")}
+        ${line(510,90,590,118,P.line)} ${line(510,175,590,142,P.line)}
+        ${label(540,60,"Ag + Ab →","#8b949e",8.5)}
+      `);
+    }
+
+    // Transport in mammals
+    if (tid.includes("transport-in-mammals") || tid.includes("heart") || tid.includes("circulation")) {
+      return wrap(`
+        ${title("Transport in Mammals")}
+        <path d="M310,90 Q315,60 350,75 Q385,60 390,90 Q415,115 390,145 Q370,165 350,180 Q330,165 310,145 Q285,115 310,90Z" fill="${P.fill}" stroke="${P.stroke}" stroke-width="2"/>
+        ${label(350,130,"Heart","#e6edf3",11)}
+        ${hexNode(145,80, 28,P.fill,P.stroke)} ${hexLabel(145,80, ["Pulmon-","ary circ."],9)}
+        ${hexNode(145,190,28,P.fill,P.stroke)} ${hexLabel(145,190,["Systemic","circ."],9.5)}
+        ${hexNode(555,80, 28,P.fill,P.stroke)} ${hexLabel(555,80, ["Arteries","thick wall"],9)}
+        ${hexNode(555,190,28,P.fill,P.stroke)} ${hexLabel(555,190,["Veins","valves"],9.5)}
+        ${hexNode(350,50, 26,P.fill,P.stroke)} ${hexLabel(350,50, ["Double","circ."],9.5)}
+        ${hexNode(350,220,26,P.fill,P.stroke)} ${hexLabel(350,220,["Capillaries","exchange"],9)}
+        ${arrow(173,88,290,98,P.line)} ${arrow(173,182,290,155,P.line)}
+        ${arrow(410,98,527,88,P.line)} ${arrow(410,162,527,178,P.line)}
+        ${line(350,76,350,62,P.line,1,"3 2")} ${line(350,180,350,208,P.line,1,"3 2")}
+      `);
+    }
+
+    // Transport in plants
+    if (tid.includes("transport-in-plants") || tid.includes("xylem") || tid.includes("phloem")) {
+      return wrap(`
+        ${title("Transport in Plants")}
+        <rect x="240" y="55" width="40" height="170" rx="8" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.6"/>
+        <rect x="310" y="55" width="40" height="170" rx="8" fill="rgba(34,197,94,0.10)" stroke="${P.stroke}" stroke-width="1.6"/>
+        ${label(260,46,"Xylem","#22c55e",9)} ${label(330,46,"Phloem","#22c55e",9)}
+        ${[70,95,120,145,170,195].map(y=>`<line x1="240" y1="${y}" x2="280" y2="${y}" stroke="${P.accent}" stroke-width="1.2" opacity="0.5"/>`).join("")}
+        <path d="M330,65 L330,210" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="5 4"/>
+        ${hexNode(120,80, 30,P.fill,P.stroke)} ${hexLabel(120,80, ["Cohesion","tension"],9.5)}
+        ${hexNode(120,190,30,P.fill,P.stroke)} ${hexLabel(120,190,["Root hair","uptake"],9.5)}
+        ${hexNode(520,80, 30,P.fill,P.stroke)} ${hexLabel(520,80, ["Source","to sink"],9.5)}
+        ${hexNode(520,190,30,P.fill,P.stroke)} ${hexLabel(520,190,["Transpir-","ation"],9.5)}
+        ${hexNode(600,135,26,P.fill,P.stroke)} ${hexLabel(600,135,["Stomata","guard cells"],8.5)}
+        ${arrow(150,80,238,100,P.line)} ${arrow(150,190,238,180,P.line)}
+        ${arrow(352,100,490,88,P.line)} ${arrow(352,170,490,178,P.line)}
+        ${line(550,100,576,120,P.line,1,"3 2")} ${line(550,170,576,150,P.line,1,"3 2")}
+      `);
+    }
+
+    // Infectious diseases
+    if (tid.includes("infectious") || tid.includes("pathogen")) {
+      return wrap(`
+        ${title("Infectious Diseases")}
+        ${hexNode(350,110,40,P.fill,P.stroke)} ${hexLabel(350,110,["Pathogens"],13)}
+        ${hexNode(155,75, 32,P.fill,P.stroke)} ${hexLabel(155,75, ["Bacteria","prokaryote"],9.5)}
+        ${hexNode(545,75, 32,P.fill,P.stroke)} ${hexLabel(545,75, ["Viruses","non-living"],9.5)}
+        ${hexNode(155,185,32,P.fill,P.stroke)} ${hexLabel(155,185,["Fungi","eukaryote"],9.5)}
+        ${hexNode(545,185,32,P.fill,P.stroke)} ${hexLabel(545,185,["Parasites","vectors"],9.5)}
+        ${hexNode(350,210,28,P.fill,P.stroke)} ${hexLabel(350,210,["Transmission","droplet/direct"],9)}
+        ${hexNode(90, 130,24,P.fill,P.stroke)} ${hexLabel(90, 130,["Antibiotics"],8.5)}
+        ${hexNode(610,130,24,P.fill,P.stroke)} ${hexLabel(610,130,["Resistance"],8.5)}
+        ${line(187,86,314,110,P.line)} ${line(513,86,386,110,P.line)}
+        ${line(187,174,314,120,P.line)} ${line(513,174,386,120,P.line)}
+        ${line(350,150,350,182,P.line,1,"3 2")}
+        ${line(114,130,140,130,P.line,1,"3 2")} ${line(560,130,586,130,P.line,1,"3 2")}
+      `);
+    }
+
+    // Generic bio fallback
+    const bioLabels = [
+      ...(topic.definitions||[]).map(d=>d.term),
+      ...(topic.notes||[]).map(n=>n.heading),
+    ].filter(Boolean).filter(l=>l.length>2).slice(0,5);
+    while (bioLabels.length < 5) bioLabels.push(["Structure","Function","Process","Regulation","Adaptation"][bioLabels.length]);
+    return wrap(`
+      ${title(topic.title)}
+      ${hexNode(350,125,40,P.fill,P.stroke)} ${hexLabel(350,125,[bioLabels[0]],10)}
+      ${hexNode(175,80, 30,P.fill,P.stroke)} ${hexLabel(175,80, [bioLabels[1]],9.5)}
+      ${hexNode(525,80, 30,P.fill,P.stroke)} ${hexLabel(525,80, [bioLabels[2]],9.5)}
+      ${hexNode(175,185,30,P.fill,P.stroke)} ${hexLabel(175,185,[bioLabels[3]],9.5)}
+      ${hexNode(525,185,30,P.fill,P.stroke)} ${hexLabel(525,185,[bioLabels[4]],9.5)}
+      ${line(205,90,314,115,P.line)} ${line(495,90,386,115,P.line)}
+      ${line(205,175,314,135,P.line)} ${line(495,175,386,135,P.line)}
+    `);
   }
 
-  if (variant === 2) {
-    const b1 = 72 + (seed % 24);
-    const b2 = 92 + (seed % 30);
-    const b3 = 65 + (seed % 20);
-    const b4 = 104 + (seed % 22);
-    const b5 = 82 + (seed % 26);
-    return `<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)} diagram">
-      ${base}
-      <line x1="62" y1="176" x2="640" y2="176" stroke="${lineColor}" stroke-width="2"/>
-      <path d="M114 ${176 - b1} L216 ${176 - b2} L318 ${176 - b3} L420 ${176 - b4} L522 ${176 - b5}" fill="none" stroke="${lineColor}" stroke-width="2.4" stroke-linecap="round"/>
-      <rect x="88" y="${176 - b1}" width="52" height="${b1}" rx="7" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="190" y="${176 - b2}" width="52" height="${b2}" rx="7" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="292" y="${176 - b3}" width="52" height="${b3}" rx="7" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="394" y="${176 - b4}" width="52" height="${b4}" rx="7" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="496" y="${176 - b5}" width="52" height="${b5}" rx="7" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <g font-family="DM Sans" fill="#d8e4ef">
-        ${renderFittedText({ text: chipARaw, x: 78, y: 198, maxWidth: 94, maxSize: 11.8, minSize: 5.8 })}
-        ${renderFittedText({ text: chipBRaw, x: 180, y: 198, maxWidth: 94, maxSize: 11.8, minSize: 5.8 })}
-        ${renderFittedText({ text: chipCRaw, x: 282, y: 198, maxWidth: 94, maxSize: 11.8, minSize: 5.8 })}
-        ${renderFittedText({ text: chipDRaw, x: 384, y: 198, maxWidth: 94, maxSize: 11.8, minSize: 5.8 })}
-        ${renderFittedText({ text: chipERaw, x: 486, y: 198, maxWidth: 94, maxSize: 11.8, minSize: 5.8 })}
-      </g>
-    </svg>`;
+  // ══════════════════════════════════════════════════════════════════════
+  // PHYSICS TOPICS
+  // ══════════════════════════════════════════════════════════════════════
+
+  if (sub === "phy") {
+
+    // Kinematics
+    if (tid.includes("kinematics") || tid.includes("suvat") || tid.includes("motion")) {
+      return wrap(`
+        ${title("Kinematics — SUVAT")}
+        <rect x="60" y="170" width="580" height="1.5" rx="1" fill="${P.line}" opacity="0.5"/>
+        <line x1="60" y1="60" x2="60" y2="178" stroke="${P.line}" stroke-width="1.5" opacity="0.5"/>
+        <path d="M60,170 Q160,80 260,140 Q360,200 460,90 Q510,60 640,50" fill="none" stroke="${P.accent}" stroke-width="3" stroke-linecap="round"/>
+        ${label(648,52,"v","#818cf8",11)} ${label(45,168,"0","#8b949e",9)} ${label(648,180,"t","#8b949e",10)}
+        ${label(160,65,"gradient = a","#8b949e",8.5)} ${label(400,215,"area = s","#8b949e",8.5)}
+        ${hexNode(200,50,26,P.fill,P.stroke)} ${hexLabel(200,50,["v = u + at"],9)}
+        ${hexNode(400,50,26,P.fill,P.stroke)} ${hexLabel(400,50,["s = ut + ½at²"],8.5)}
+        ${hexNode(580,130,26,P.fill,P.stroke)} ${hexLabel(580,130,["v² = u² + 2as"],8.5)}
+        ${line(200,76,200,88,P.line,1,"3 2")} ${line(400,76,400,88,P.line,1,"3 2")}
+      `);
+    }
+
+    // Dynamics / Forces / Newton
+    if (tid.includes("dynamics") || tid.includes("forces") || tid.includes("newton")) {
+      return wrap(`
+        ${title("Dynamics — Newton's Laws")}
+        ${hexNode(350,120,44,P.fill,P.stroke)} ${hexLabel(350,120,["F = ma"],14)}
+        ${hexNode(160,75, 34,P.fill,P.stroke)} ${hexLabel(160,75, ["1st Law","inertia"],11)}
+        ${hexNode(540,75, 34,P.fill,P.stroke)} ${hexLabel(540,75, ["3rd Law","action-reaction"],9)}
+        ${hexNode(160,190,34,P.fill,P.stroke)} ${hexLabel(160,190,["Friction","μ = F/N"],11)}
+        ${hexNode(540,190,34,P.fill,P.stroke)} ${hexLabel(540,190,["Momentum","p = mv"],11)}
+        ${hexNode(350,220,26,P.fill,P.stroke)} ${hexLabel(350,220,["Impulse","FΔt = Δp"],10)}
+        ${line(194,86,310,114,P.line)} ${line(506,86,390,114,P.line)}
+        ${line(194,179,310,126,P.line)} ${line(506,179,390,126,P.line)}
+        ${line(350,164,350,194,P.line,1,"3 2")}
+      `);
+    }
+
+    // Work / Energy / Power
+    if (tid.includes("work-energy") || tid.includes("energy") || tid.includes("power")) {
+      return wrap(`
+        ${title("Work, Energy & Power")}
+        ${hexNode(350,115,40,P.fill,P.stroke)} ${hexLabel(350,115,["Energy","conservation"],10)}
+        ${hexNode(160,70, 32,P.fill,P.stroke)} ${hexLabel(160,70, ["KE","½mv²"],12)}
+        ${hexNode(540,70, 32,P.fill,P.stroke)} ${hexLabel(540,70, ["GPE","mgh"],12)}
+        ${hexNode(160,185,32,P.fill,P.stroke)} ${hexLabel(160,185,["Work","W = Fs cosθ"],9.5)}
+        ${hexNode(540,185,32,P.fill,P.stroke)} ${hexLabel(540,185,["Power","P = Fv"],11)}
+        ${hexNode(350,210,26,P.fill,P.stroke)} ${hexLabel(350,210,["Efficiency","%"],10)}
+        ${arrow(192,80,314,108,P.line)} ${arrow(508,80,386,108,P.line)}
+        ${line(192,174,314,122,P.line)} ${line(508,174,386,122,P.line)}
+        ${line(350,155,350,184,P.line,1,"3 2")}
+        ${label(260,45,"KE ↔ GPE",P.accent,9.5)}
+      `);
+    }
+
+    // Waves
+    if (tid.includes("wave") || tid.includes("superposition")) {
+      return wrap(`
+        ${title("Waves & Superposition")}
+        <path d="M60,135 Q100,75 140,135 Q180,195 220,135 Q260,75 300,135 Q340,195 380,135 Q420,75 460,135 Q500,195 540,135 Q580,75 620,135" fill="none" stroke="${P.accent}" stroke-width="3" stroke-linecap="round"/>
+        ${label(340,75,"amplitude A","#8b949e",8.5)} ${label(200,215,"λ (wavelength)","#8b949e",8.5)}
+        <line x1="120" y1="75" x2="120" y2="195" stroke="${P.line}" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.5"/>
+        <line x1="220" y1="75" x2="220" y2="195" stroke="${P.line}" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.5"/>
+        ${hexNode(160,228,24,P.fill,P.stroke)} ${hexLabel(160,228,["v = fλ"],9.5)}
+        ${hexNode(350,228,24,P.fill,P.stroke)} ${hexLabel(350,228,["T = 1/f"],9.5)}
+        ${hexNode(540,228,24,P.fill,P.stroke)} ${hexLabel(540,228,["I ∝ A²"],9.5)}
+        ${label(140,60,"A","#818cf8",11)}
+        ${curve(`M60,135 L60,50`, P.line, 1)}
+        ${label(66,48,"A","#8b949e",9)}
+      `);
+    }
+
+    // Electricity / Circuits
+    if (tid.includes("electric") || tid.includes("dc-circuit") || tid.includes("circuit")) {
+      return wrap(`
+        ${title("Electricity & Circuits")}
+        ${hexNode(350,120,40,P.fill,P.stroke)} ${hexLabel(350,120,["Ohm's","V = IR"],13)}
+        ${hexNode(165,75, 32,P.fill,P.stroke)} ${hexLabel(165,75, ["Series","Σ R = R₁+R₂"],9)}
+        ${hexNode(535,75, 32,P.fill,P.stroke)} ${hexLabel(535,75, ["Parallel","1/R = Σ1/Rₙ"],9)}
+        ${hexNode(165,190,32,P.fill,P.stroke)} ${hexLabel(165,190,["Power","P = IV = I²R"],9)}
+        ${hexNode(535,190,32,P.fill,P.stroke)} ${hexLabel(535,190,["EMF","ε = I(R+r)"],11)}
+        ${hexNode(90, 130,26,P.fill,P.stroke)} ${hexLabel(90, 130,["Q = It","charge"],9)}
+        ${hexNode(610,130,26,P.fill,P.stroke)} ${hexLabel(610,130,["Kirchhoff","laws"],9)}
+        ${line(197,86,314,110,P.line)} ${line(503,86,386,110,P.line)}
+        ${line(197,179,314,130,P.line)} ${line(503,179,386,130,P.line)}
+        ${line(116,130,152,130,P.line,1,"3 2")} ${line(548,130,584,130,P.line,1,"3 2")}
+      `);
+    }
+
+    // Particle Physics / Quantum
+    if (tid.includes("particle") || tid.includes("quantum") || tid.includes("photon") || tid.includes("nuclear")) {
+      return wrap(`
+        ${title("Particle Physics")}
+        ${hexNode(350,115,42,P.fill,P.stroke)} ${hexLabel(350,115,["Standard","Model"],11)}
+        ${hexNode(155,70, 32,P.fill,P.stroke)} ${hexLabel(155,70, ["Quarks","u d s c b t"],9.5)}
+        ${hexNode(545,70, 32,P.fill,P.stroke)} ${hexLabel(545,70, ["Leptons","e μ τ ν"],9.5)}
+        ${hexNode(155,185,32,P.fill,P.stroke)} ${hexLabel(155,185,["Bosons","force carriers"],9.5)}
+        ${hexNode(545,185,32,P.fill,P.stroke)} ${hexLabel(545,185,["Antimat-","ter"],9.5)}
+        ${hexNode(350,205,26,P.fill,P.stroke)} ${hexLabel(350,205,["E = hf","photoelectric"],9)}
+        ${hexNode(90, 125,24,P.fill,P.stroke)} ${hexLabel(90, 125,["Hadrons"],8.5)}
+        ${hexNode(610,125,24,P.fill,P.stroke)} ${hexLabel(610,125,["Feynman"],8.5)}
+        ${line(187,81,314,108,P.line)} ${line(513,81,386,108,P.line)}
+        ${line(187,174,314,122,P.line)} ${line(513,174,386,122,P.line)}
+        ${line(350,157,350,179,P.line,1,"3 2")}
+        ${line(114,125,144,120,P.line,1,"3 2")} ${line(556,125,586,120,P.line,1,"3 2")}
+      `);
+    }
+
+    // Deformation of Solids
+    if (tid.includes("deformation") || tid.includes("stress") || tid.includes("strain") || tid.includes("young")) {
+      return wrap(`
+        ${title("Deformation of Solids")}
+        <path d="M120,180 L200,180 L200,80 M200,80 Q240,45 280,80 L280,180 L360,180" fill="none" stroke="${P.accent}" stroke-width="3" stroke-linecap="round"/>
+        ${label(200,60,"stress σ","#8b949e",8.5,"middle")} ${label(340,195,"strain ε","#8b949e",8.5,"middle")}
+        ${label(145,155,"elastic","#22c55e",8.5,"middle")}
+        ${label(250,90,"plastic","#f97316",8.5,"middle")}
+        ${hexNode(470,80, 30,P.fill,P.stroke)} ${hexLabel(470,80, ["E = σ/ε","Young mod"],9.5)}
+        ${hexNode(620,80, 28,P.fill,P.stroke)} ${hexLabel(620,80, ["Elastic","limit"],9.5)}
+        ${hexNode(470,180,30,P.fill,P.stroke)} ${hexLabel(470,180,["Hooke's","F = kx"],10)}
+        ${hexNode(620,180,28,P.fill,P.stroke)} ${hexLabel(620,180,["UTS","fracture"],9.5)}
+        ${line(440,80,400,80,P.line,1,"3 2")} ${line(440,180,380,180,P.line,1,"3 2")}
+        ${line(470,110,470,150,P.line,1,"2 2")} ${line(620,108,620,152,P.line,1,"2 2")}
+      `);
+    }
+
+    // Measurements / Uncertainties
+    if (tid.includes("measurement") || tid.includes("uncertainty") || tid.includes("error")) {
+      return wrap(`
+        ${title("Measurements & Uncertainties")}
+        ${hexNode(350,115,40,P.fill,P.stroke)} ${hexLabel(350,115,["Uncertainty","analysis"],10)}
+        ${hexNode(160,70, 32,P.fill,P.stroke)} ${hexLabel(160,70, ["Random","errors"],10)}
+        ${hexNode(540,70, 32,P.fill,P.stroke)} ${hexLabel(540,70, ["Systematic","errors"],9.5)}
+        ${hexNode(160,190,32,P.fill,P.stroke)} ${hexLabel(160,190,["Absolute","Δx"],11)}
+        ${hexNode(540,190,32,P.fill,P.stroke)} ${hexLabel(540,190,["% uncert.","Δx/x × 100"],9)}
+        ${hexNode(90, 130,26,P.fill,P.stroke)} ${hexLabel(90, 130,["Precision","repeat"],9)}
+        ${hexNode(610,130,26,P.fill,P.stroke)} ${hexLabel(610,130,["Accuracy","calibrate"],9)}
+        ${line(192,81,314,108,P.line)} ${line(508,81,386,108,P.line)}
+        ${line(192,179,314,122,P.line)} ${line(508,179,386,122,P.line)}
+        ${line(116,130,152,130,P.line,1,"3 2")} ${line(548,130,584,130,P.line,1,"3 2")}
+        ${label(260,44,"add Δx for + and −","#8b949e",8.5)} ${label(468,44,"add % for × and ÷","#8b949e",8.5)}
+      `);
+    }
+
+    // Generic physics fallback
+    const phyLabels = [
+      ...(topic.definitions||[]).map(d=>d.term),
+      ...(topic.notes||[]).map(n=>n.heading),
+    ].filter(Boolean).filter(l=>l.length>2).slice(0,5);
+    while (phyLabels.length < 5) phyLabels.push(["Equation","Principle","Law","Graph","SI Units"][phyLabels.length]);
+    return wrap(`
+      ${title(topic.title)}
+      ${hexNode(350,120,40,P.fill,P.stroke)} ${hexLabel(350,120,[phyLabels[0]],10)}
+      ${hexNode(170,75, 30,P.fill,P.stroke)} ${hexLabel(170,75, [phyLabels[1]],9.5)}
+      ${hexNode(530,75, 30,P.fill,P.stroke)} ${hexLabel(530,75, [phyLabels[2]],9.5)}
+      ${hexNode(170,185,30,P.fill,P.stroke)} ${hexLabel(170,185,[phyLabels[3]],9.5)}
+      ${hexNode(530,185,30,P.fill,P.stroke)} ${hexLabel(530,185,[phyLabels[4]],9.5)}
+      ${line(200,86,314,112,P.line)} ${line(500,86,386,112,P.line)}
+      ${line(200,174,314,128,P.line)} ${line(500,174,386,128,P.line)}
+    `);
   }
 
-  if (variant === 3) {
-    return `<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)} diagram">
-      ${base}
-      <path d="M234 99 H258 M432 99 H456 M350 122 V138" stroke="${lineColor}" stroke-width="2.1" stroke-linecap="round"/>
-      <rect x="70" y="76" width="164" height="46" rx="12" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="268" y="76" width="164" height="46" rx="12" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="466" y="76" width="164" height="46" rx="12" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="168" y="144" width="164" height="46" rx="12" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <rect x="366" y="144" width="164" height="46" rx="12" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-      <g font-family="DM Sans" fill="#d8e4ef">
-        ${renderFittedText({ text: chipARaw, x: 84, y: 103, maxWidth: 136, maxSize: 12, minSize: 6.2 })}
-        ${renderFittedText({ text: chipBRaw, x: 282, y: 103, maxWidth: 136, maxSize: 12, minSize: 6.2 })}
-        ${renderFittedText({ text: chipCRaw, x: 480, y: 103, maxWidth: 136, maxSize: 12, minSize: 6.2 })}
-        ${renderFittedText({ text: chipDRaw, x: 182, y: 171, maxWidth: 136, maxSize: 12, minSize: 6.2 })}
-        ${renderFittedText({ text: chipERaw, x: 380, y: 171, maxWidth: 136, maxSize: 12, minSize: 6.2 })}
-      </g>
-    </svg>`;
-  }
-
-  return `<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)} diagram">
-    ${base}
-    <line x1="250" y1="136" x2="290" y2="136" stroke="${lineColor}" stroke-width="2.4" stroke-linecap="round"/>
-    <line x1="410" y1="136" x2="450" y2="136" stroke="${lineColor}" stroke-width="2.4" stroke-linecap="round"/>
-    <polygon points="160,84 220,84 250,136 220,188 160,188 130,136" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-    <polygon points="320,84 380,84 410,136 380,188 320,188 290,136" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-    <polygon points="480,84 540,84 570,136 540,188 480,188 450,136" fill="${nodeSolidFill}" stroke="${nodeStroke}"/>
-    <g font-family="DM Sans" fill="#d8e4ef" text-anchor="middle">
-      ${renderFittedText({ text: chipARaw, x: 190, y: 138, maxWidth: 102, maxSize: 12, minSize: 6, anchor: "middle" })}
-      ${renderFittedText({ text: chipBRaw, x: 350, y: 138, maxWidth: 102, maxSize: 12, minSize: 6, anchor: "middle" })}
-      ${renderFittedText({ text: chipCRaw, x: 510, y: 138, maxWidth: 102, maxSize: 12, minSize: 6, anchor: "middle" })}
-      ${renderFittedText({ text: chipDRaw, x: 190, y: 206, maxWidth: 94, maxSize: 12, minSize: 6, anchor: "middle" })}
-      ${renderFittedText({ text: chipERaw, x: 510, y: 206, maxWidth: 94, maxSize: 12, minSize: 6, anchor: "middle" })}
-    </g>
-  </svg>`;
+  // Ultimate fallback
+  return wrap(`
+    ${title(topic.title)}
+    ${hexNode(350,130,40,P.fill,P.stroke)} ${hexLabel(350,130,[topic.title.split(" ").slice(0,2).join(" ")],10)}
+  `);
 }
+
 
 function fallbackDiagramSvg(topic) {
   if (topic.subject === "chem") {
