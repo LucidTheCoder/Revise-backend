@@ -3467,3 +3467,352 @@ textarea:focus-visible {
   .wg-stats { grid-template-columns: repeat(2,1fr); }
   .wg-stats .wg-stat:last-child { grid-column: 1 / -1; }
 }
+
+/* ============================================================================
+   FORMULA SPACING  — more breathing room around inline math
+   ============================================================================ */
+
+.math-eq {
+  margin: 0 0.22rem;
+}
+
+p .math-eq,
+li .math-eq,
+.topic-paragraph .math-eq {
+  margin-top:    0.18rem;
+  margin-bottom: 0.18rem;
+}
+
+/* Displayed (block-level) equations get extra vertical space */
+.math-block {
+  display:    block;
+  text-align: center;
+  margin:     0.85rem auto;
+}
+
+/* ============================================================================
+   PAST PAPERS — new tabbed layout
+   ============================================================================ */
+
+.papers-subject-tabs {
+  display:       flex;
+  gap:           0.35rem;
+  margin-bottom: 0.75rem;
+  flex-wrap:     wrap;
+  padding:       0.5rem 0.75rem;
+}
+
+.papers-tab {
+  padding:       0.35rem 1rem;
+  border-radius: 99px;
+  border:        1px solid var(--border);
+  background:    transparent;
+  color:         var(--text2);
+  font-size:     0.85rem;
+  font-weight:   500;
+  cursor:        pointer;
+  transition:    background 0.14s, color 0.14s, border-color 0.14s;
+}
+.papers-tab:hover  { background: var(--bg3); color: var(--text1); }
+.papers-tab.active {
+  background:   var(--accent);
+  border-color: var(--accent);
+  color:        #fff;
+}
+
+.paper-subject-group {
+  margin-bottom: 1.75rem;
+}
+
+.paper-subject-heading {
+  padding:        0.45rem 0 0.45rem 0.9rem;
+  border-left:    3px solid var(--border2);
+  margin-bottom:  0.65rem;
+  letter-spacing: 0.01em;
+}
+
+.paper-year-group {
+  margin-bottom: 1rem;
+}
+
+.paper-year-label {
+  font-size:     0.78rem;
+  font-weight:   600;
+  color:         var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin:        0 0 0.5rem;
+}
+
+/* Override base paper-card for new style */
+.paper-card {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.4rem;
+}
+
+.paper-card-top {
+  display:     flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:         0.4rem;
+}
+
+.paper-session-label {
+  font-size:   0.75rem;
+  color:       var(--text3);
+  font-weight: 500;
+}
+
+.paper-title {
+  font-size:   0.95rem;
+  font-weight: 600;
+  margin:      0;
+  color:       var(--text1);
+}
+
+.paper-subtitle {
+  font-size: 0.82rem;
+  color:     var(--text2);
+  margin:    0;
+}
+
+.paper-actions {
+  display:    flex;
+  gap:        0.4rem;
+  flex-wrap:  wrap;
+  margin-top: 0.35rem;
+}
+
+.paper-diff {
+  font-size:     0.68rem;
+  font-weight:   700;
+  padding:       0.1rem 0.5rem;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.diff-high { background: #fecaca; color: #991b1b; }
+.diff-med  { background: #fef08a; color: #854d0e; }
+.diff-low  { background: #bbf7d0; color: #166534; }
+
+.paper-empty {
+  padding:    2rem;
+  text-align: center;
+  color:      var(--text2);
+}
+
+.btn-ghost {
+  background:  transparent;
+  border:      1px solid transparent;
+  color:       var(--text2);
+  font-size:   0.82rem;
+  padding:     0.3rem 0.65rem;
+  border-radius: var(--radius2);
+  cursor:      pointer;
+  transition:  background 0.12s, color 0.12s;
+}
+.btn-ghost:hover { background: var(--bg3); color: var(--text1); }
+
+/* ============================================================================
+   WEEKLY GOAL — empty-state tip
+   ============================================================================ */
+
+.wg-empty-tip {
+  margin-top:    0.85rem;
+  padding:       0.65rem 0.9rem;
+  border-radius: var(--radius2);
+  background:    color-mix(in srgb, var(--accent), transparent 88%);
+  border:        1px solid color-mix(in srgb, var(--accent), transparent 65%);
+  font-size:     0.85rem;
+  color:         var(--text2);
+  text-align:    center;
+}
+
+/* ============================================================================
+   SITE FOOTER
+   ============================================================================ */
+
+.site-footer {
+  border-top:  1px solid var(--border);
+  background:  var(--bg2);
+  padding:     1rem 1.5rem;
+  margin-top:  3rem;
+}
+
+.footer-inner {
+  max-width:      1200px;
+  margin:         0 auto;
+  display:        flex;
+  align-items:    center;
+  justify-content: space-between;
+  flex-wrap:      wrap;
+  gap:            0.5rem;
+}
+
+.footer-brand {
+  font-size:   1.05rem;
+  font-family: var(--font-head);
+  font-weight: 600;
+  color:       var(--text1);
+}
+.footer-brand strong { color: var(--accent); }
+
+.footer-copy {
+  font-size: 0.8rem;
+  color:     var(--text3);
+}
+
+.footer-version {
+  font-size:   0.72rem;
+  font-family: var(--font-mono);
+  color:       var(--text3);
+  background:  var(--bg3);
+  padding:     0.15rem 0.5rem;
+  border-radius: 99px;
+  border:      1px solid var(--border);
+}
+
+/* ============================================================================
+   SOCIAL PAGE — community heading improvements
+   ============================================================================ */
+
+.community-head {
+  padding: 0.85rem 1rem;
+}
+
+/* Announcement bar already defined but ensure colour works in light mode */
+[data-theme="light"] .announcement-bar {
+  background: rgba(99,102,241,0.07);
+}
+
+/* ============================================================================
+   DIAGRAM WRAP — solid background always
+   ============================================================================ */
+
+.diagram-wrap {
+  background: var(--bg2);
+}
+
+/* In light mode, use a slightly tinted background */
+[data-theme="light"] .diagram-wrap {
+  background: #f8f9fa;
+}
+
+.diagram-wrap svg {
+  /* Ensure SVG never clips its own painted background */
+  overflow: visible;
+}
+
+/* ============================================================================
+   RESPONSIVE — papers
+   ============================================================================ */
+
+@media (max-width: 640px) {
+  .papers-grid {
+    grid-template-columns: 1fr;
+  }
+  .paper-actions {
+    flex-direction: column;
+  }
+  .paper-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+  .papers-subject-tabs {
+    gap: 0.25rem;
+  }
+  .papers-tab {
+    font-size: 0.78rem;
+    padding:   0.3rem 0.75rem;
+  }
+  .footer-inner {
+    flex-direction: column;
+    text-align:     center;
+    gap:            0.3rem;
+  }
+}
+
+/* ============================================================================
+   THREAD PLACEHOLDER + MISC POLISH
+   ============================================================================ */
+
+.thread-placeholder {
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  min-height:  120px;
+  color:       var(--text3);
+  font-size:   0.9rem;
+  border:      1px dashed var(--border2);
+  background:  transparent;
+}
+
+/* Make forum action bar sticky at top */
+.forum-actions-bar {
+  position:   sticky;
+  top:        0;
+  z-index:    5;
+  background: var(--card);
+  padding:    0.5rem 0;
+  margin:     -0.4rem -0.4rem 0.4rem;
+  padding:    0.6rem 0.78rem;
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* Improve reply box */
+.forum-reply-box {
+  margin-top:    1rem;
+  padding:       0.9rem;
+  background:    var(--bg3);
+  border-radius: var(--radius2);
+  border:        1px solid var(--border);
+}
+
+.forum-reply-box textarea {
+  width:         100%;
+  background:    var(--bg2);
+  border:        1px solid var(--border);
+  border-radius: var(--radius2);
+  color:         var(--text1);
+  padding:       0.55rem 0.75rem;
+  font-size:     0.9rem;
+  font-family:   inherit;
+  resize:        vertical;
+  min-height:    80px;
+  outline:       none;
+  transition:    border-color 0.15s;
+}
+.forum-reply-box textarea:focus { border-color: var(--accent); }
+
+.reply-actions {
+  margin-top: 0.5rem;
+  display:    flex;
+  gap:        0.5rem;
+}
+
+/* Improve forum reply cards */
+.forum-reply {
+  border-left:    3px solid var(--border2);
+  padding:        0.7rem 0.75rem;
+  margin-bottom:  0.65rem;
+  background:     var(--bg3);
+  border-radius:  0 var(--radius2) var(--radius2) 0;
+}
+.forum-reply:last-of-type { margin-bottom: 0; }
+
+.forum-reply-header {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+  margin-bottom: 0.3rem;
+}
+.forum-reply-header strong { font-size: 0.88rem; }
+.forum-reply-header small  { color: var(--text3); font-size: 0.75rem; }
+
+/* Subject badge colours in forums */
+.subject-badge.chem { background: rgba(249,115,22,.15); color: var(--chem); }
+.subject-badge.bio  { background: rgba(34,197,94,.15);  color: var(--bio);  }
+.subject-badge.phy  { background: rgba(129,140,248,.15);color: var(--phy);  }
+.subject-badge.general { background: var(--bg3); color: var(--text2); }

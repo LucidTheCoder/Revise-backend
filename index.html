@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23161b22'/><text y='22' x='5' font-size='20' font-family='serif' font-weight='700' fill='%23f97316'>R.</text></svg>">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="editor-styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
@@ -28,7 +29,7 @@
       </button>
       <div class="nav-links" id="nav-links">
         <button class="nav-btn ghost" data-route="past-papers">Past Papers</button>
-        <button class="nav-btn ghost" data-route="community">Community</button>
+        <button class="nav-btn ghost" data-route="community">Social</button>
         <button class="nav-btn ghost" data-route="editor" id="editor-nav-btn">Editor</button>
         <button class="nav-btn ghost" data-route="profile">Profile</button>
         <button class="nav-btn ghost admin-only-nav" data-route="admin" id="admin-nav-btn" style="display:none">Admin</button>
@@ -45,7 +46,7 @@
       <div class="container page-pad">
         <section class="hero card">
           <h1>Master your <strong>A Levels</strong> with confidence.</h1>
-          <p>Concise notes, worked examples, flashcards, quizzes, community support, and past papers across Chemistry, Biology, and Physics.</p>
+          <p>Notes, worked examples, flashcards, quizzes, community support, and past papers across Chemistry, Biology, and Physics.</p>
           <div class="hero-actions">
             <button class="btn btn-primary" data-route="subjects">Start Revising</button>
             <button class="btn btn-outline" data-route="past-papers">Open Past Papers</button>
@@ -119,18 +120,40 @@
       <div class="container page-pad">
         <div class="page-head">
           <h1>Past Papers</h1>
-          <p>Filter papers by subject and year, then launch revision by topic.</p>
+          <p>Cambridge AS Level past papers — organised by subject, year and component.</p>
         </div>
+
+        <!-- Subject tabs -->
+        <div class="papers-subject-tabs card card-sm" id="papers-subject-tabs">
+          <button class="papers-tab active" data-subject="all">All</button>
+          <button class="papers-tab" data-subject="chem">Chemistry</button>
+          <button class="papers-tab" data-subject="bio">Biology</button>
+          <button class="papers-tab" data-subject="phy">Physics</button>
+        </div>
+
+        <!-- Filters row -->
         <div class="papers-toolbar card card-sm">
-          <label>
-            Subject
-            <select id="paper-subject-filter"></select>
+          <label>Year
+            <select id="paper-year-filter"><option value="all">All years</option></select>
           </label>
-          <label>
-            Year
-            <select id="paper-year-filter"></select>
+          <label>Session
+            <select id="paper-session-filter">
+              <option value="all">All sessions</option>
+              <option value="May/June">May / June</option>
+              <option value="Oct/Nov">Oct / Nov</option>
+              <option value="Feb/Mar">Feb / Mar</option>
+            </select>
+          </label>
+          <label>Component
+            <select id="paper-component-filter">
+              <option value="all">All papers</option>
+              <option value="Paper 1">Paper 1 (MCQ)</option>
+              <option value="Paper 2">Paper 2 (Structured)</option>
+              <option value="Paper 3">Paper 3 (Practical)</option>
+            </select>
           </label>
         </div>
+
         <div id="past-paper-list" class="papers-grid"></div>
       </div>
     </section>
@@ -138,9 +161,8 @@
     <section class="view" id="view-community">
       <div class="community-layout">
         <div class="community-main">
-          <div class="community-head card card-sm">
-            <h2>Forums</h2>
-            <p>Ask content questions and share revision strategies.</p>
+          <div class="community-head card card-sm" style="display:flex;align-items:center;justify-content:space-between;gap:0.8rem;flex-wrap:wrap">
+            <div><h2 style="margin:0">Social</h2><p style="margin:0.15rem 0 0;color:var(--text2)">Ask questions, share strategies, and chat with other students.</p></div>
           </div>
           <div id="forum-list"></div>
           <div class="card" id="forum-thread"></div>
@@ -374,6 +396,14 @@
       document.body.appendChild(warning);
     })();
   </script>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand">Revise<strong>.</strong></span>
+      <span class="footer-copy">© 2025 Revise. All rights reserved.</span>
+      <span class="footer-version">v1.2.0</span>
+    </div>
+  </footer>
+
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script type="module" src="app.js"></script>
 </body>

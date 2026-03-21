@@ -5,6 +5,7 @@
 // Set API_BASE_URL to your backend server
 // Currently set to production Render deployment
 // ============================================================================
+const APP_VERSION  = "1.2.0";
 const API_BASE_URL = 'https://revise-backend-yp6e.onrender.com';
 
 // Determine if using backend API or local files
@@ -310,8 +311,8 @@ function buildTopicDiagramSvg(topic) {
     `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)}">
   <defs>
     <radialGradient id="rg${tid}" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" stop-color="${P.bg}"/>
-      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="0%" stop-color="${P.bg}" stop-opacity="1"/>
+      <stop offset="100%" stop-color="${P.bg}" stop-opacity="0.15"/>
     </radialGradient>
     <marker id="ah${tid}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
       <path d="M0,0 L7,3.5 L0,7Z" fill="${P.st}"/>
@@ -320,8 +321,9 @@ function buildTopicDiagramSvg(topic) {
       <path d="M0,0 L7,3.5 L0,7Z" fill="#8b949e"/>
     </marker>
   </defs>
+  <rect width="${W}" height="${H}" rx="18" fill="#161b22"/>
   <rect width="${W}" height="${H}" rx="18" fill="url(#rg${tid})"/>
-  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="18" fill="none" stroke="${P.st}" stroke-width="1.2"/>
+  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="18" fill="none" stroke="${P.st}" stroke-width="1"/>
   ${inner}
 </svg>`;
 
@@ -1665,6 +1667,8 @@ function renderHome() {
   const circumference = +(2 * Math.PI * r).toFixed(2);
   const dashOffset   = +(circumference * (1 - pctCapped / 100)).toFixed(2);
 
+  
+  const hasAnyActivity = state.weeklyMinutes.some(m => m > 0);
   goalEl.innerHTML = `
     <div class="wg-header">
       <div class="wg-ring-wrap">
@@ -1727,6 +1731,7 @@ function renderHome() {
         : `<button class="btn btn-primary btn-sm" onclick="App.go('subjects')">Browse Topics</button>`}
       <button class="btn btn-outline btn-sm" onclick="App.go('quiz',{subjectId:'${weakest ? weakest.id : "chem"}'})">Quick Quiz</button>
     </div>
+    ${!hasAnyActivity ? `<div class="wg-empty-tip">🚀 Start a topic today to kick off your streak!</div>` : ""}
   `;
 }
 
@@ -2372,51 +2377,109 @@ function renderFlashResult() {
 
   showToast("Flashcard session completed.");
 }
+// Active subject filter for past papers tab UI
+let _paperSubjectFilter = "all";
+
 function renderPastPapers() {
-  const subjectFilter = byId("paper-subject-filter");
-  const yearFilter = byId("paper-year-filter");
-
-  if (!subjectFilter.dataset.ready) {
-    subjectFilter.innerHTML = `<option value="all">All subjects</option>${state.subjects
-      .map((s) => `<option value="${s.id}">${escapeHtml(s.name)}</option>`)
-      .join("")}`;
-
-    const years = Array.from(new Set(state.pastPapers.map((paper) => paper.year))).sort((a, b) => b - a);
-    yearFilter.innerHTML = `<option value="all">All years</option>${years
-      .map((year) => `<option value="${year}">${year}</option>`)
-      .join("")}`;
-
-    subjectFilter.addEventListener("change", renderPastPapers);
-    yearFilter.addEventListener("change", renderPastPapers);
-    subjectFilter.dataset.ready = "1";
+  // Wire subject tabs once
+  const tabBar = byId("papers-subject-tabs");
+  if (tabBar && !tabBar.dataset.wired) {
+    tabBar.dataset.wired = "1";
+    tabBar.querySelectorAll(".papers-tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBar.querySelectorAll(".papers-tab").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        _paperSubjectFilter = btn.dataset.subject;
+        _applyPaperFilters();
+      });
+    });
   }
 
-  const subjectValue = subjectFilter.value || "all";
-  const yearValue = yearFilter.value || "all";
+  // Populate year dropdown once
+  const yearFilter = byId("paper-year-filter");
+  if (yearFilter && !yearFilter.dataset.ready) {
+    yearFilter.dataset.ready = "1";
+    const years = Array.from(new Set(state.pastPapers.map(p => p.year))).sort((a,b) => b-a);
+    yearFilter.innerHTML = `<option value="all">All years</option>${years.map(y => `<option value="${y}">${y}</option>`).join("")}`;
+    yearFilter.addEventListener("change", _applyPaperFilters);
+    byId("paper-session-filter")?.addEventListener("change", _applyPaperFilters);
+    byId("paper-component-filter")?.addEventListener("change", _applyPaperFilters);
+  }
 
-  const papers = state.pastPapers.filter((paper) => {
-    const subjectOk = subjectValue === "all" || paper.subject === subjectValue;
-    const yearOk = yearValue === "all" || String(paper.year) === yearValue;
-    return subjectOk && yearOk;
+  _applyPaperFilters();
+}
+
+function _applyPaperFilters() {
+  const year      = byId("paper-year-filter")?.value      || "all";
+  const session   = byId("paper-session-filter")?.value   || "all";
+  const component = byId("paper-component-filter")?.value || "all";
+
+  const papers = state.pastPapers.filter(p => {
+    if (_paperSubjectFilter !== "all" && p.subject !== _paperSubjectFilter) return false;
+    if (year      !== "all" && String(p.year)    !== year)      return false;
+    if (session   !== "all" && p.session         !== session)   return false;
+    if (component !== "all" && p.paper           !== component) return false;
+    return true;
   });
 
-  byId("past-paper-list").innerHTML = papers
-    .map((paper) => {
-      const subject = state.subjectMap.get(paper.subject);
-      return `
-      <div class="paper-card">
-        <h3>${escapeHtml(subject?.name || paper.subject)} ${paper.code} ${paper.paper} Variant ${paper.variant}</h3>
-        <p>${paper.session} ${paper.year} - ${escapeHtml(paper.title)}</p>
-        <p>Difficulty: ${escapeHtml(paper.difficulty)}</p>
-        <div style="margin-top:0.6rem;display:flex;gap:0.5rem;flex-wrap:wrap">
-          <a class="btn btn-outline" href="${escapeHtml(paper.downloadUrl)}" target="_blank" rel="noreferrer">Open PDF</a>
-          <button class="btn btn-primary" onclick="App.go('subject',{subjectId:'${paper.subject}'})">Revise Linked Topic</button>
-        </div>
-      </div>
-    `;
-    })
-    .join("");
+  const subjectOrder = ["chem","bio","phy"];
+  const subjectNames = {chem:"Chemistry (9701)", bio:"Biology (9700)", phy:"Physics (9702)"};
+  const subjectColors = {"chem":"var(--chem)", "bio":"var(--bio)", "phy":"var(--phy)"};
+
+  const grouped = {};
+  for (const p of papers) {
+    grouped[p.subject] = grouped[p.subject] || {};
+    grouped[p.subject][p.year] = grouped[p.subject][p.year] || [];
+    grouped[p.subject][p.year].push(p);
+  }
+
+  if (!papers.length) {
+    byId("past-paper-list").innerHTML = `<div class="paper-empty card"><p>No papers match your filters.</p></div>`;
+    return;
+  }
+
+  let html = "";
+  for (const subj of subjectOrder) {
+    if (!grouped[subj]) continue;
+    const color = subjectColors[subj];
+    html += `<div class="paper-subject-group">
+      <div class="paper-subject-heading">
+        <span style="color:${color};font-weight:700;font-size:1.05rem">${subjectNames[subj]}</span>
+      </div>`;
+
+    const years = Object.keys(grouped[subj]).sort((a,b) => b-a);
+    for (const yr of years) {
+      html += `<div class="paper-year-group"><h4 class="paper-year-label">${yr}</h4><div class="papers-grid">`;
+      for (const paper of grouped[subj][yr]) {
+        const hasUrl   = paper.downloadUrl && paper.downloadUrl !== "#";
+        const hasMsUrl = paper.msUrl       && paper.msUrl       !== "#";
+        const diffClass = paper.difficulty === "High" ? "diff-high" : paper.difficulty === "Low" ? "diff-low" : "diff-med";
+        html += `<div class="paper-card">
+          <div class="paper-card-top">
+            <span class="paper-session-label">${paper.session} ${paper.year}</span>
+            <span class="paper-diff ${diffClass}">${paper.difficulty}</span>
+          </div>
+          <h3 class="paper-title">${paper.paper} — Variant ${paper.variant}</h3>
+          <p class="paper-subtitle">${escapeHtml(paper.title)}</p>
+          <div class="paper-actions">
+            ${hasUrl
+              ? `<a class="btn btn-primary btn-sm" href="${escapeHtml(paper.downloadUrl)}" target="_blank" rel="noreferrer noopener">📄 Question Paper</a>`
+              : `<button class="btn btn-outline btn-sm" disabled title="Not yet available">Paper unavailable</button>`}
+            ${hasMsUrl
+              ? `<a class="btn btn-outline btn-sm" href="${escapeHtml(paper.msUrl)}" target="_blank" rel="noreferrer noopener">✓ Mark Scheme</a>`
+              : ""}
+            <button class="btn btn-ghost btn-sm" onclick="App.go('subject',{subjectId:'${paper.subject}'})">Revise Topics</button>
+          </div>
+        </div>`;
+      }
+      html += `</div></div>`;
+    }
+    html += `</div>`;
+  }
+
+  byId("past-paper-list").innerHTML = html;
 }
+
 
 // renderCommunity, renderChatSidebar, selectThread, selectChannel, sendChatMessage
 // are all replaced by the updated versions defined later in this file.
@@ -2554,7 +2617,7 @@ const aiChatHistory = {};
 
 function aiQuick(topicId, type) {
   const prompts = {
-    explain:  `Give me a clear, concise explanation of the key concepts in ${state.topics.get(topicId)?.title || topicId}. Use simple language and bullet points.`,
+    explain:  `Give me a clear explanation of the key concepts in ${state.topics.get(topicId)?.title || topicId}. Use simple language and bullet points.`,
     quiz:     `Give me 3 exam-style questions on ${state.topics.get(topicId)?.title || topicId} with mark scheme answers. Format as Q1, Q2, Q3.`,
     mistake:  `What are the most common mistakes students make on ${state.topics.get(topicId)?.title || topicId}? Give specific examples and how to avoid them.`,
     exam:     `Give me the top 5 exam tips for ${state.topics.get(topicId)?.title || topicId} specifically for Cambridge AS Level.`,
@@ -3284,7 +3347,10 @@ async function renderThreadDetail() {
   if (!forumThread) return;
 
   const id = state.selectedThreadId;
-  if (!id) { forumThread.innerHTML = ''; return; }
+  if (!id) {
+    forumThread.innerHTML = `<div class="card thread-placeholder"><p>👈 Select a thread to read it here.</p></div>`;
+    return;
+  }
 
   let thread = state.community.forumThreads.find(t => (t._id || t.id) === id);
 
@@ -3311,7 +3377,7 @@ async function renderThreadDetail() {
           <small>${t}</small>
           ${canDel ? `<button class="btn btn-outline btn-micro btn-danger" style="margin-left:auto" onclick="App.deleteReply('${id}','${r._id}')">Delete</button>` : ''}
         </div>
-        <p>${escapeHtml(r.body)}</p>
+        <p style="line-height:1.6;white-space:pre-wrap">${richText(r.body)}</p>
       </div>
     `;
   }).join('');
@@ -3335,7 +3401,7 @@ async function renderThreadDetail() {
 
   forumThread.innerHTML = `
     <h2>${escapeHtml(thread.title)}</h2>
-    <p style="margin:0.5rem 0;line-height:1.6">${escapeHtml(thread.body)}</p>
+    <p style="margin:0.5rem 0;line-height:1.6;white-space:pre-wrap">${richText(thread.body)}</p>
     <p style="color:var(--text2);font-size:0.82rem">Posted by @${escapeHtml(thread.author)} · ${thread.createdAt ? new Date(thread.createdAt).toLocaleDateString() : ''} · 👍 ${thread.upvotes || 0} · 👁 ${thread.views || 0}</p>
     <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
       <button class="btn btn-outline btn-sm" onclick="App.upvoteThread('${id}')">👍 Upvote</button>
