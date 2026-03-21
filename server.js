@@ -339,6 +339,25 @@ app.get('/api/past-papers', async (req, res, next) => {
 // ============================================================================
 
 /**
+ * GET /api/community
+ * Get complete community data (forum threads + chat channels)
+ */
+app.get('/api/community', async (req, res, next) => {
+  try {
+    const community = await loadJsonFile('community.json');
+    res.json({
+      success: true,
+      data: {
+        forumThreads: community.forumThreads || [],
+        chatChannels: community.chatChannels || []
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * GET /api/community/forum
  * Get all forum threads with optional filtering
  * Query: ?subject=chem&limit=10&sort=recent

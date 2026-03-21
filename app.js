@@ -431,7 +431,7 @@ async function fetchJson(path, apiOverride = null) {
       } else if (path === "data/past-papers.json") {
         url = `${API_BASE_URL}/api/past-papers`;
       } else if (path === "data/community.json") {
-        url = `${API_BASE_URL}/api/community/forum`;
+        url = `${API_BASE_URL}/api/community`;
       } else if (path.startsWith("data/topics/")) {
         // Extract subject and topic ID from path: data/topics/chem/atomic-structure.json
         const parts = path.replace("data/topics/", "").replace(".json", "").split("/");
