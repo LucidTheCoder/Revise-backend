@@ -86,7 +86,9 @@ async function initializeDatabase() {
 async function loadJsonFile(filename) {
   try {
     const filePath = path.join(__dirname, 'data', filename);
-    const data = await fs.readFile(filePath, 'utf-8');
+    let data = await fs.readFile(filePath, 'utf-8');
+    // Remove BOM if present
+    data = data.replace(/^\uFEFF/, '');
     return JSON.parse(data);
   } catch (error) {
     throw new Error(`Failed to load ${filename}: ${error.message}`);
@@ -95,14 +97,16 @@ async function loadJsonFile(filename) {
 
 /**
  * Load a topic file from the topics directory
- * @param {string} topicId - Topic identifier (e.g., 'atomic-structure')
+ * @param {string} topicId} - Topic identifier (e.g., 'atomic-structure')
  * @param {string} subject - Subject name (chem, bio, phy)
  * @returns {Promise<object>} Full topic data
  */
 async function loadTopic(topicId, subject) {
   const filename = `${topicId}.json`;
   const filePath = path.join(__dirname, 'data', 'topics', subject, filename);
-  const data = await fs.readFile(filePath, 'utf-8');
+  let data = await fs.readFile(filePath, 'utf-8');
+  // Remove BOM if present
+  data = data.replace(/^\uFEFF/, '');
   return JSON.parse(data);
 }
 
