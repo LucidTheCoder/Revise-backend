@@ -1,238 +1,206 @@
 {
-    "id": "group-17",
-    "subject": "chem",
-    "title": "Group 17",
-    "subtitle": "Group 17 with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 11",
-    "concept": [
-        "Group 17 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Halogens act as oxidising agents with reactivity changing down the group.",
-        "Halogen-halide displacement reactions show relative oxidising power."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Group 17 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Halogens act as oxidising agents with reactivity changing down the group.",
-                "Halogen-halide displacement reactions show relative oxidising power."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Group 17 ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Displacement reaction",
-            "body": "Reaction where a more reactive halogen displaces a less reactive halide ion from solution."
-        },
-        {
-            "term": "Halide ion",
-            "body": "Negative ion formed when a halogen gains one electron, such as Cl- or Br-."
-        },
-        {
-            "term": "Oxidising agent",
-            "body": "Species that gains electrons and causes oxidation of another species."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Group 17.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Group 17 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Halogens act as oxidising agents with reactivity changing down the group."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Group 17 reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Group 17?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Group 17 without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Group 17 questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Group 17?",
-            "a": "Group 17 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Displacement reaction.",
-            "a": "Reaction where a more reactive halogen displaces a less reactive halide ion from solution."
-        },
-        {
-            "q": "Define Halide ion.",
-            "a": "Negative ion formed when a halogen gains one electron, such as Cl- or Br-."
-        },
-        {
-            "q": "What exam strategy works best for Group 17?",
-            "a": "In Group 17 questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Group 17 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Halogens act as oxidising agents with reactivity changing down the group."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Halogen-halide displacement reactions show relative oxidising power."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Displacement reaction"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 11"
-        },
-        {
-            "label": "Key Formula",
-            "val": "↓ reactivity down group; X₂ + 2e^− → 2X^−"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Group 17: core principle",
-            "a": "Group 17 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Displacement reaction",
-            "a": "Reaction where a more reactive halogen displaces a less reactive halide ion from solution."
-        },
-        {
-            "q": "Halide ion",
-            "a": "Negative ion formed when a halogen gains one electron, such as Cl- or Br-."
-        },
-        {
-            "q": "Oxidising agent",
-            "a": "Species that gains electrons and causes oxidation of another species."
-        },
-        {
-            "q": "Group 17: common mistake",
-            "a": "Giving trends in Group 17 without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Group 17 questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Group 17 Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Displacement reaction?",
-                "opts": [
-                    "Reaction where a more reactive halogen displaces a less reactive halide ion from solution.",
-                    "Negative ion formed when a halogen gains one electron, such as Cl- or Br-.",
-                    "Species that gains electrons and causes oxidation of another species.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Displacement reaction."
-            },
-            {
-                "q": "Which statement about Group 17 is correct?",
-                "opts": [
-                    "Halogens act as oxidising agents with reactivity changing down the group.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Halide ion?",
-                "opts": [
-                    "Negative ion formed when a halogen gains one electron, such as Cl- or Br-.",
-                    "Reaction where a more reactive halogen displaces a less reactive halide ion from solution.",
-                    "Species that gains electrons and causes oxidation of another species.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Halide ion."
-            },
-            {
-                "q": "Which exam approach is most reliable for Group 17?",
-                "opts": [
-                    "In Group 17 questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Group 17?",
-                "opts": [
-                    "Halogen-halide displacement reactions show relative oxidising power.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "group-17",
+  "subject": "chem",
+  "title": "Group 17 (Halogens)",
+  "subtitle": "Properties, reactions and trends of the halogens.",
+  "concept": [
+    "Halogens become less reactive (weaker oxidising agents) down the group as electronegativity and electron affinity decrease.",
+    "Halogen displacement reactions demonstrate relative oxidising power; solvent extraction with cyclohexane identifies products.",
+    "Hydrogen halides (HX) dissolve in water to form hydrohalic acids; their thermal stability decreases down the group."
+  ],
+  "notes": [
+    {
+      "heading": "Physical Properties",
+      "items": [
+        "F\u2082: pale yellow gas. Cl\u2082: yellow-green gas. Br\u2082: orange-brown liquid. I\u2082: grey-black solid/purple vapour.",
+        "Boiling points increase down the group: larger molecules \u2192 stronger id-id intermolecular forces.",
+        "Electronegativity: F > Cl > Br > I (decreases down group).",
+        "Oxidising power (E\u00b0): F\u2082 > Cl\u2082 > Br\u2082 > I\u2082."
+      ]
+    },
+    {
+      "heading": "Reactions of Halogens",
+      "items": [
+        "With metals: 2Na + Cl\u2082 \u2192 2NaCl; Mg + Cl\u2082 \u2192 MgCl\u2082 (halides formed).",
+        "With water: Cl\u2082 + H\u2082O \u21cc HCl + HOCl (chloric(I) acid, weak acid, bleaching). I\u2082 very slightly soluble.",
+        "Disproportionation: Cl\u2082 + 2NaOH \u2192 NaCl + NaOCl + H\u2082O (bleach). Hot conc. NaOH: 3Cl\u2082 + 6NaOH \u2192 5NaCl + NaClO\u2083 + 3H\u2082O.",
+        "Displacement: Cl\u2082 + 2KBr \u2192 2KCl + Br\u2082; Cl\u2082 + 2KI \u2192 2KCl + I\u2082. Bromine displaces iodide but not chloride."
+      ]
+    },
+    {
+      "heading": "Hydrogen Halides",
+      "items": [
+        "HF, HCl, HBr, HI: all colourless gases; dissolve in water to form acids.",
+        "HF is a weak acid (H-bonds very strong); HCl, HBr, HI are strong acids.",
+        "Thermal stability: HF > HCl > HBr > HI (bond enthalpy decreases down group).",
+        "Reaction of NaX with H\u2082SO\u2084: NaCl + H\u2082SO\u2084 \u2192 NaHSO\u2084 + HCl (works for Cl only). NaBr + H\u2082SO\u2084 \u2192 HBr + SO\u2082 (HBr oxidised by H\u2082SO\u2084); NaI: HI + I\u2082 + H\u2082S (I\u207b is strong enough reducing agent to reduce H\u2082SO\u2084 to H\u2082S)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Disproportionation",
+      "body": "A reaction in which the same element is simultaneously oxidised and reduced."
+    },
+    {
+      "term": "Oxidising power",
+      "body": "The ability of a halogen to accept electrons (be reduced); decreases down Group 17."
+    },
+    {
+      "term": "Hydrogen halide thermal stability",
+      "body": "Decreases down Group 17 as the H\u2013X bond enthalpy decreases; HI decomposes most easily on heating."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Bromine water is added to potassium iodide solution, then cyclohexane is added and the mixture shaken. Describe and explain the observations.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Reaction",
+          "text": "Br\u2082 + 2KI \u2192 2KBr + I\u2082. Bromine (better oxidising agent) displaces iodide ions."
+        },
+        {
+          "n": 2,
+          "sub": "Aqueous layer",
+          "text": "Orange-brown Br\u2082 is decolourised; I\u2082 produced gives a brown colour to aqueous layer."
+        },
+        {
+          "n": 3,
+          "sub": "Cyclohexane layer",
+          "text": "I\u2082 is more soluble in non-polar cyclohexane \u2192 cyclohexane layer turns violet/purple."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Stating that bromine cannot displace chloride \u2014 correct! Bromine can only displace iodide (Br\u2082 is less reactive than Cl\u2082).",
+    "Forgetting to describe BOTH layers (aqueous and cyclohexane) in solvent extraction tests.",
+    "Confusing 'disproportionation' with 'displacement' \u2014 in disproportionation, the SAME element is both oxidised and reduced."
+  ],
+  "tips": [
+    "Cyclohexane layer colours: Cl\u2082 \u2192 pale yellow; Br\u2082 \u2192 orange; I\u2082 \u2192 violet/purple.",
+    "H\u2082SO\u2084 reactions: NaCl \u2192 only HCl gas (no redox); NaBr \u2192 HBr + SO\u2082 (Br\u207b reduces S); NaI \u2192 HI + S/SO\u2082/H\u2082S (I\u207b stronger reducer).",
+    "Thermal stability order: HF > HCl > HBr > HI \u2014 parallel to bond enthalpy order."
+  ],
+  "flashcards": [
+    {
+      "q": "State the trend in oxidising power of halogens.",
+      "a": "Decreases down the group: F\u2082 > Cl\u2082 > Br\u2082 > I\u2082 (electronegativity and electron affinity decrease)."
+    },
+    {
+      "q": "What is disproportionation?",
+      "a": "A reaction where the same element is simultaneously oxidised and reduced (e.g. Cl\u2082 in NaOH solution)."
+    },
+    {
+      "q": "What is the observation when Cl\u2082 is added to KI(aq) and then cyclohexane?",
+      "a": "Aqueous layer turns brown (I\u2082); cyclohexane (upper) layer turns violet/purple (I\u2082 more soluble in organic layer)."
+    },
+    {
+      "q": "Why is HI less thermally stable than HCl?",
+      "a": "The H\u2013I bond enthalpy is lower than H\u2013Cl; less energy is needed to break H\u2013I, so HI decomposes more easily on heating."
+    },
+    {
+      "q": "Why does NaI + H\u2082SO\u2084 produce H\u2082S but NaCl + H\u2082SO\u2084 does not?",
+      "a": "I\u207b is a stronger reducing agent than Cl\u207b; it can reduce H\u2082SO\u2084 all the way to H\u2082S. Cl\u207b cannot reduce H\u2082SO\u2084."
+    },
+    {
+      "q": "What forms when Cl\u2082 dissolves in water?",
+      "a": "HCl + HOCl (chloric(I) acid / hypochlorous acid); HOCl is a bleaching agent (oxidises dyes)."
+    }
+  ],
+  "quiz": {
+    "title": "Group 17 Quiz",
+    "questions": [
+      {
+        "q": "Which halogen is the strongest oxidising agent?",
+        "opts": [
+          "I\u2082",
+          "Br\u2082",
+          "Cl\u2082",
+          "F\u2082"
+        ],
+        "ans": 3,
+        "exp": "F\u2082 has the highest electronegativity and electron affinity \u2192 strongest oxidising agent; E\u00b0(F\u2082/F\u207b) = +2.87 V."
+      },
+      {
+        "q": "What is observed when bromine water is added to potassium chloride solution?",
+        "opts": [
+          "Cl\u2082 produced; solution turns yellow",
+          "No reaction \u2014 Br\u2082 cannot displace Cl\u207b",
+          "White precipitate forms",
+          "Brown precipitate of BrCl"
+        ],
+        "ans": 1,
+        "exp": "Br\u2082 is a weaker oxidising agent than Cl\u2082 and cannot displace Cl\u207b from solution \u2014 no reaction."
+      },
+      {
+        "q": "Cl\u2082 reacts with NaOH solution to give NaCl and NaOCl. What type of reaction is this?",
+        "opts": [
+          "Neutralisation",
+          "Displacement",
+          "Disproportionation",
+          "Substitution"
+        ],
+        "ans": 2,
+        "exp": "Disproportionation: Cl is oxidised (0 \u2192 +1 in NaOCl) and reduced (0 \u2192 \u22121 in NaCl) simultaneously."
+      },
+      {
+        "q": "NaI is reacted with concentrated H\u2082SO\u2084. What gas with characteristic smell is produced?",
+        "opts": [
+          "HI only",
+          "HI and H\u2082S (rotten egg smell)",
+          "Cl\u2082",
+          "SO\u2083"
+        ],
+        "ans": 1,
+        "exp": "I\u207b is a strong enough reducing agent to reduce H\u2082SO\u2084 all the way to H\u2082S (rotten eggs). HI is also produced initially."
+      },
+      {
+        "q": "Which colour does iodine give in cyclohexane?",
+        "opts": [
+          "Orange",
+          "Yellow",
+          "Pale green",
+          "Violet/purple"
+        ],
+        "ans": 3,
+        "exp": "I\u2082 dissolved in cyclohexane gives a characteristic violet/purple colour."
+      }
+    ]
+  },
+  "recall": [
+    "State and explain the trend in oxidising power of halogens.",
+    "Describe and explain the displacement reactions of halogens.",
+    "Describe the reactions of Na halides with H\u2082SO\u2084 and explain the differences.",
+    "Explain what disproportionation means and give an example.",
+    "Describe the solvent extraction test using cyclohexane."
+  ],
+  "summary": [
+    {
+      "label": "Oxidising power",
+      "value": "F\u2082 > Cl\u2082 > Br\u2082 > I\u2082"
+    },
+    {
+      "label": "Reducing power",
+      "value": "I\u207b > Br\u207b > Cl\u207b > F\u207b"
+    },
+    {
+      "label": "Displacement",
+      "value": "more reactive halogen displaces less reactive halide"
+    },
+    {
+      "label": "Cyclohexane colours",
+      "value": "Cl\u2082 pale yellow; Br\u2082 orange; I\u2082 violet"
+    },
+    {
+      "label": "Disproportionation",
+      "value": "Cl\u2082 + NaOH \u2192 NaCl + NaOCl (Cl oxidised and reduced)"
+    },
+    {
+      "label": "Thermal stability HX",
+      "value": "HF > HCl > HBr > HI"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 14"
 }

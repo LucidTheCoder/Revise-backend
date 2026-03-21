@@ -1,238 +1,233 @@
 {
-    "id": "measurements-uncertainties",
-    "subject": "phy",
-    "title": "Physical Quantities and Units",
-    "subtitle": "Physical Quantities and Units with model-based reasoning, equations, and exam application.",
-    "concept": [
-        "Physics depends on reliable measurement. Any measured value has uncertainty, and understanding this uncertainty is essential for evaluating experiment quality and conclusions.",
-        "Dimensional analysis and unit consistency allow quick checking of equation validity and numerical plausibility.",
-        "In Cambridge AS practical work, strong answers combine correct numerical processing with clear treatment of random and systematic errors."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Physics depends on reliable measurement. Any measured value has uncertainty, and understanding this uncertainty is essential for evaluating experiment quality and conclusions.",
-                "Dimensional analysis and unit consistency allow quick checking of equation validity and numerical plausibility.",
-                "In Cambridge AS practical work, strong answers combine correct numerical processing with clear treatment of random and systematic errors."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Physical Quantities and Units ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Absolute Uncertainty",
-            "body": "Estimated interval around a measured value within which true value is likely to lie."
-        },
-        {
-            "term": "Systematic Error",
-            "body": "Consistent bias in measurements causing all readings to be offset in one direction."
-        },
-        {
-            "term": "Precision",
-            "body": "Degree of consistency between repeated measurements."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Physical Quantities and Units.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Physics depends on reliable measurement. Any measured value has uncertainty, and understanding this uncertainty is essential for evaluating experiment quality and conclusions."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Dimensional analysis and unit consistency allow quick checking of equation validity and numerical plausibility."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Physical Quantities and Units reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Physical Quantities and Units?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Physical Quantities and Units without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Physical Quantities and Units, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Physical Quantities and Units?",
-            "a": "Physics depends on reliable measurement. Any measured value has uncertainty, and understanding this uncertainty is essential for evaluating experiment quality and conclusions."
-        },
-        {
-            "q": "Define Absolute Uncertainty.",
-            "a": "Estimated interval around a measured value within which true value is likely to lie."
-        },
-        {
-            "q": "Define Systematic Error.",
-            "a": "Consistent bias in measurements causing all readings to be offset in one direction."
-        },
-        {
-            "q": "What exam strategy works best for Physical Quantities and Units?",
-            "a": "For Physical Quantities and Units, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Physics depends on reliable measurement. Any measured value has uncertainty, and understanding this uncertainty is essential for evaluating experiment quality and conclusions."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Dimensional analysis and unit consistency allow quick checking of equation validity and numerical plausibility."
-        },
-        {
-            "label": "Exam Application",
-            "val": "In Cambridge AS practical work, strong answers combine correct numerical processing with clear treatment of random and systematic errors."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Absolute Uncertainty"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 1"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Δ%x = (Δx/x) × 100%; precision vs accuracy"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Physical Quantities and Units: core principle",
-            "a": "Physics depends on reliable measurement. Any measured value has uncertainty, and understanding this uncertainty is essential for evaluating experiment quality and conclusions."
-        },
-        {
-            "q": "Absolute Uncertainty",
-            "a": "Estimated interval around a measured value within which true value is likely to lie."
-        },
-        {
-            "q": "Systematic Error",
-            "a": "Consistent bias in measurements causing all readings to be offset in one direction."
-        },
-        {
-            "q": "Precision",
-            "a": "Degree of consistency between repeated measurements."
-        },
-        {
-            "q": "Physical Quantities and Units: common mistake",
-            "a": "Applying equations in Physical Quantities and Units without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Physical Quantities and Units, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Physical Quantities and Units Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Absolute Uncertainty?",
-                "opts": [
-                    "Estimated interval around a measured value within which true value is likely to lie.",
-                    "Consistent bias in measurements causing all readings to be offset in one direction.",
-                    "Degree of consistency between repeated measurements.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Absolute Uncertainty."
-            },
-            {
-                "q": "Which statement about Physical Quantities and Units is correct?",
-                "opts": [
-                    "Dimensional analysis and unit consistency allow quick checking of equation validity and numerical plausibility.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Systematic Error?",
-                "opts": [
-                    "Consistent bias in measurements causing all readings to be offset in one direction.",
-                    "Estimated interval around a measured value within which true value is likely to lie.",
-                    "Degree of consistency between repeated measurements.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Systematic Error."
-            },
-            {
-                "q": "Which exam approach is most reliable for Physical Quantities and Units?",
-                "opts": [
-                    "For Physical Quantities and Units, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Physical Quantities and Units?",
-                "opts": [
-                    "In Cambridge AS practical work, strong answers combine correct numerical processing with clear treatment of random and systematic errors.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "measurements-uncertainties",
+  "subject": "phy",
+  "title": "Measurements and Uncertainties",
+  "subtitle": "SI units, errors, uncertainties and significant figures.",
+  "concept": [
+    "All physical measurements have uncertainties; distinguishing random from systematic errors is essential.",
+    "Absolute uncertainty gives the size of the error in the same units as the measurement; percentage uncertainty allows comparison.",
+    "Results should be quoted to an appropriate number of significant figures consistent with the uncertainty."
+  ],
+  "notes": [
+    {
+      "heading": "SI Base Units",
+      "items": [
+        "Seven SI base units: metre (m), kilogram (kg), second (s), ampere (A), kelvin (K), mole (mol), candela (cd).",
+        "Derived units are combinations of base units: N = kg m s\u207b\u00b2, Pa = kg m\u207b\u00b9 s\u207b\u00b2, J = kg m\u00b2 s\u207b\u00b2, W = kg m\u00b2 s\u207b\u00b3.",
+        "Prefixes: nano(n) 10\u207b\u2079, micro(\u03bc) 10\u207b\u2076, milli(m) 10\u207b\u00b3, kilo(k) 10\u00b3, mega(M) 10\u2076, giga(G) 10\u2079."
+      ]
     },
-    "syllabusRef": "9702 AS Topic 1"
+    {
+      "heading": "Errors and Uncertainties",
+      "items": [
+        "Random error: unpredictable variations; affects precision; reduced by taking multiple readings and averaging.",
+        "Systematic error: consistent offset in one direction (e.g. calibration error, zero error); affects accuracy; not reduced by averaging.",
+        "Absolute uncertainty (\u0394x): half the range of repeated readings, or the instrument's smallest division / 2.",
+        "Percentage uncertainty: (\u0394x / x) \u00d7 100%."
+      ]
+    },
+    {
+      "heading": "Combining Uncertainties",
+      "items": [
+        "Add/subtract quantities: add absolute uncertainties.",
+        "Multiply/divide quantities: add percentage uncertainties.",
+        "Power n: multiply percentage uncertainty by n.",
+        "e.g. if A = x\u00b2 \u00d7 y/z: %\u0394A = 2(%\u0394x) + %\u0394y + %\u0394z."
+      ]
+    },
+    {
+      "heading": "Significant Figures",
+      "items": [
+        "Calculated answer should have same number of significant figures as the least precise measurement.",
+        "Uncertainty quoted to 1 or 2 significant figures; result quoted to match.",
+        "Best-fit line gradient: use the range from maximum to minimum gradient of realistic lines through the data."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Random error",
+      "body": "An unpredictable variation in repeated measurements; reduces precision but can be minimised by averaging multiple readings."
+    },
+    {
+      "term": "Systematic error",
+      "body": "A consistent error in one direction affecting all measurements; reduces accuracy; cannot be reduced by averaging."
+    },
+    {
+      "term": "Percentage uncertainty",
+      "body": "(Absolute uncertainty / measured value) \u00d7 100%; used when combining uncertainties in multiplied/divided quantities."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A ball's diameter is measured five times: 24.1, 24.3, 24.0, 24.2, 24.1 mm. Find the mean and uncertainty.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Mean",
+          "text": "Mean = (24.1+24.3+24.0+24.2+24.1)/5 = 24.14 \u2192 24.1 mm (3 s.f.)"
+        },
+        {
+          "n": 2,
+          "sub": "Uncertainty",
+          "text": "Range = 24.3 \u2212 24.0 = 0.3 mm; uncertainty = 0.3/2 = \u00b10.15 mm \u2248 \u00b10.2 mm"
+        },
+        {
+          "n": 3,
+          "sub": "Result",
+          "text": "d = 24.1 \u00b1 0.2 mm"
+        }
+      ]
+    },
+    {
+      "q": "v = 12.0 \u00b1 0.3 m s\u207b\u00b9; m = 2.50 \u00b1 0.05 kg. Find KE = \u00bdmv\u00b2 with uncertainty.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Calculate KE",
+          "text": "KE = 0.5 \u00d7 2.50 \u00d7 12.0\u00b2 = 0.5 \u00d7 2.50 \u00d7 144 = 180 J"
+        },
+        {
+          "n": 2,
+          "sub": "% uncertainties",
+          "text": "%\u0394v = (0.3/12.0)\u00d7100 = 2.5%; %\u0394m = (0.05/2.50)\u00d7100 = 2.0%. For v\u00b2: 2\u00d72.5% = 5.0%."
+        },
+        {
+          "n": 3,
+          "sub": "Total %\u0394",
+          "text": "%\u0394KE = 5.0 + 2.0 = 7.0%; \u0394KE = 0.07 \u00d7 180 = \u00b113 J \u2192 KE = 180 \u00b1 13 J"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Multiplying percentage uncertainty by 2 when squaring \u2014 this IS correct (power rule); forgetting to do so is the error.",
+    "Giving uncertainty to too many significant figures \u2014 uncertainty should be 1\u20132 s.f. maximum.",
+    "Confusing random error (affects precision) with systematic error (affects accuracy)."
+  ],
+  "tips": [
+    "Resolution of an instrument \u2260 its uncertainty; digital meters: uncertainty = \u00b11 in last digit; analogue: \u00b1half the smallest division.",
+    "For a graph: uncertainty in gradient = (max gradient \u2212 min gradient) / 2.",
+    "Accuracy: how close to true value (systematic). Precision: how reproducible (random)."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the difference between accuracy and precision?",
+      "a": "Accuracy: how close results are to the true value (affected by systematic errors). Precision: how reproducible/consistent results are (affected by random errors)."
+    },
+    {
+      "q": "How do you combine uncertainties when multiplying two quantities?",
+      "a": "Add the percentage uncertainties of each quantity."
+    },
+    {
+      "q": "What is a systematic error? Give an example.",
+      "a": "A consistent error in one direction: e.g. a balance that reads 0.5 g too high (zero error); not reduced by averaging."
+    },
+    {
+      "q": "How is percentage uncertainty calculated?",
+      "a": "% uncertainty = (absolute uncertainty / measured value) \u00d7 100%."
+    },
+    {
+      "q": "State the seven SI base units.",
+      "a": "Metre (m), kilogram (kg), second (s), ampere (A), kelvin (K), mole (mol), candela (cd)."
+    },
+    {
+      "q": "A length L = 5.0 \u00b1 0.2 m. What is the uncertainty in L\u00b2?",
+      "a": "% uncertainty in L = 4%; % uncertainty in L\u00b2 = 2 \u00d7 4% = 8%; \u0394L\u00b2 = 0.08 \u00d7 25 = \u00b12.0 m\u00b2."
+    }
+  ],
+  "quiz": {
+    "title": "Measurements Quiz",
+    "questions": [
+      {
+        "q": "Which type of error cannot be reduced by repeating measurements and averaging?",
+        "opts": [
+          "Random error",
+          "Zero error (systematic)",
+          "Both types",
+          "Parallax error"
+        ],
+        "ans": 1,
+        "exp": "Systematic errors shift all readings consistently; averaging repeated readings does not remove the offset."
+      },
+      {
+        "q": "A = x \u00d7 y\u00b2. If %\u0394x = 3% and %\u0394y = 4%, what is %\u0394A?",
+        "opts": [
+          "7%",
+          "11%",
+          "5%",
+          "9%"
+        ],
+        "ans": 1,
+        "exp": "%\u0394A = %\u0394x + 2\u00d7%\u0394y = 3 + 8 = 11%."
+      },
+      {
+        "q": "Five readings of resistance: 45, 47, 46, 48, 44 \u03a9. What is the uncertainty?",
+        "opts": [
+          "\u00b11 \u03a9",
+          "\u00b12 \u03a9",
+          "\u00b14 \u03a9",
+          "\u00b10.5 \u03a9"
+        ],
+        "ans": 1,
+        "exp": "Range = 48 \u2212 44 = 4 \u03a9; uncertainty = range/2 = \u00b12 \u03a9."
+      },
+      {
+        "q": "What does a small percentage uncertainty tell you?",
+        "opts": [
+          "The measurement is accurate",
+          "The measurement is precise (small random error relative to value)",
+          "There are no systematic errors",
+          "The instrument has good resolution"
+        ],
+        "ans": 1,
+        "exp": "Small percentage uncertainty means the absolute uncertainty is small relative to the measured value \u2014 the measurement is precise."
+      },
+      {
+        "q": "Which is a derived SI unit?",
+        "opts": [
+          "Ampere",
+          "Kilogram",
+          "Pascal",
+          "Kelvin"
+        ],
+        "ans": 2,
+        "exp": "Pascal (Pa) = N m\u207b\u00b2 = kg m\u207b\u00b9 s\u207b\u00b2 \u2014 derived from base units. The others are base units."
+      }
+    ]
+  },
+  "recall": [
+    "State the seven SI base units.",
+    "Distinguish between random and systematic errors.",
+    "Calculate absolute and percentage uncertainty from repeated readings.",
+    "Combine uncertainties for multiplication and powers.",
+    "Explain how to find uncertainty in a gradient from a graph."
+  ],
+  "summary": [
+    {
+      "label": "Random error",
+      "value": "affects precision; reduce by averaging"
+    },
+    {
+      "label": "Systematic error",
+      "value": "affects accuracy; not reduced by averaging"
+    },
+    {
+      "label": "Add/subtract",
+      "value": "add absolute uncertainties"
+    },
+    {
+      "label": "Multiply/divide",
+      "value": "add percentage uncertainties"
+    },
+    {
+      "label": "Power n",
+      "value": "multiply %\u0394 by n"
+    },
+    {
+      "label": "% uncertainty",
+      "value": "(\u0394x/x) \u00d7 100%"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 1"
 }

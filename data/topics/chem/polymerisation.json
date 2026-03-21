@@ -1,238 +1,207 @@
 {
-    "id": "polymerisation",
-    "subject": "chem",
-    "title": "Polymerisation",
-    "subtitle": "Polymerisation with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 20",
-    "concept": [
-        "Polymerisation explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Addition polymerisation joins unsaturated monomers without small molecule loss.",
-        "Condensation polymerisation forms links with elimination of small molecules."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Polymerisation explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Addition polymerisation joins unsaturated monomers without small molecule loss.",
-                "Condensation polymerisation forms links with elimination of small molecules."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Polymerisation ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Addition polymerisation",
-            "body": "Formation of a polymer by addition of unsaturated monomers without elimination of small molecules."
-        },
-        {
-            "term": "Condensation polymerisation",
-            "body": "Polymer formation in which monomers join and eliminate a small molecule such as water."
-        },
-        {
-            "term": "Repeating unit",
-            "body": "Smallest structural unit repeated along a polymer chain."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Polymerisation.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Polymerisation explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Addition polymerisation joins unsaturated monomers without small molecule loss."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Polymerisation reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Polymerisation?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Polymerisation without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Polymerisation questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Polymerisation?",
-            "a": "Polymerisation explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Addition polymerisation.",
-            "a": "Formation of a polymer by addition of unsaturated monomers without elimination of small molecules."
-        },
-        {
-            "q": "Define Condensation polymerisation.",
-            "a": "Polymer formation in which monomers join and eliminate a small molecule such as water."
-        },
-        {
-            "q": "What exam strategy works best for Polymerisation?",
-            "a": "In Polymerisation questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Polymerisation explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Addition polymerisation joins unsaturated monomers without small molecule loss."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Condensation polymerisation forms links with elimination of small molecules."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Addition polymerisation"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 20"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Addition: monomers + across C=C; Condensation: +byproduct"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Polymerisation: core principle",
-            "a": "Polymerisation explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Addition polymerisation",
-            "a": "Formation of a polymer by addition of unsaturated monomers without elimination of small molecules."
-        },
-        {
-            "q": "Condensation polymerisation",
-            "a": "Polymer formation in which monomers join and eliminate a small molecule such as water."
-        },
-        {
-            "q": "Repeating unit",
-            "a": "Smallest structural unit repeated along a polymer chain."
-        },
-        {
-            "q": "Polymerisation: common mistake",
-            "a": "Giving trends in Polymerisation without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Polymerisation questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Polymerisation Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Addition polymerisation?",
-                "opts": [
-                    "Formation of a polymer by addition of unsaturated monomers without elimination of small molecules.",
-                    "Polymer formation in which monomers join and eliminate a small molecule such as water.",
-                    "Smallest structural unit repeated along a polymer chain.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Addition polymerisation."
-            },
-            {
-                "q": "Which statement about Polymerisation is correct?",
-                "opts": [
-                    "Addition polymerisation joins unsaturated monomers without small molecule loss.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Condensation polymerisation?",
-                "opts": [
-                    "Polymer formation in which monomers join and eliminate a small molecule such as water.",
-                    "Formation of a polymer by addition of unsaturated monomers without elimination of small molecules.",
-                    "Smallest structural unit repeated along a polymer chain.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Condensation polymerisation."
-            },
-            {
-                "q": "Which exam approach is most reliable for Polymerisation?",
-                "opts": [
-                    "In Polymerisation questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Polymerisation?",
-                "opts": [
-                    "Condensation polymerisation forms links with elimination of small molecules.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "polymerisation",
+  "subject": "chem",
+  "title": "Polymerisation",
+  "subtitle": "Addition and condensation polymers, properties and disposal.",
+  "concept": [
+    "Addition polymers form when alkene monomers undergo addition reactions across their C=C bonds; no small molecule is lost.",
+    "Condensation polymers form when difunctional monomers join with loss of a small molecule (H\u2082O or HCl) at each step.",
+    "Polymer properties depend on chain length, branching, cross-linking and the forces between chains; disposal is an environmental concern."
+  ],
+  "notes": [
+    {
+      "heading": "Addition Polymerisation",
+      "items": [
+        "Monomers: alkenes (contain C=C). Each monomer's \u03c0 bond opens and joins to the chain.",
+        "Poly(ethene): \u2013(CH\u2082\u2013CH\u2082)\u2099\u2013. Poly(propene): \u2013(CH\u2082\u2013CHCH\u2083)\u2099\u2013. Poly(chloroethene) = PVC: \u2013(CH\u2082\u2013CHCl)\u2099\u2013. Poly(tetrafluoroethene) = PTFE: \u2013(CF\u2082\u2013CF\u2082)\u2099\u2013.",
+        "Low-density polyethylene (LDPE): branched chains \u2014 lower density, softer, lower MP.",
+        "High-density polyethylene (HDPE): linear chains (Ziegler\u2013Natta catalyst) \u2014 higher density, harder, higher MP.",
+        "Addition polymers are non-biodegradable."
+      ]
+    },
+    {
+      "heading": "Condensation Polymerisation",
+      "items": [
+        "Polyesters: diol + dicarboxylic acid \u2192 polyester + H\u2082O. e.g. Terylene (PET): ethane-1,2-diol + benzene-1,4-dicarboxylic acid.",
+        "Polyamides: diamine + dicarboxylic acid \u2192 polyamide + H\u2082O. e.g. Nylon-6,6: hexane-1,6-diamine + hexanedioic acid.",
+        "Linkage: polyester has \u2013COO\u2013 ester bond; polyamide has \u2013CONH\u2013 amide bond.",
+        "Proteins are natural polyamides; cellulose and starch are natural polyesters (glycosidic bonds, but technically not ester-linked in the way synthetic polyesters are)."
+      ]
+    },
+    {
+      "heading": "Polymer Properties and Disposal",
+      "items": [
+        "Chain length: longer chains \u2192 higher MP, stronger (more id-id forces).",
+        "Cross-linking: increases rigidity and resistance to solvents (e.g. vulcanised rubber, thermosetting plastics).",
+        "Disposal: landfill (non-biodegradable); incineration (CO\u2082/HCl from PVC \u2014 environmental concerns); recycling (code on containers); biodegradable polymers (e.g. polylactic acid from plant starch).",
+        "Hydrolysis of condensation polymers: polyesters and polyamides can be hydrolysed by acid or base (unlike addition polymers which are resistant to hydrolysis)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Addition polymer",
+      "body": "A polymer formed by repeated addition of alkene monomers across C=C double bonds; no small molecule is lost."
+    },
+    {
+      "term": "Condensation polymer",
+      "body": "A polymer formed by condensation reactions between difunctional monomers, with elimination of a small molecule (H\u2082O or HCl) at each step."
+    },
+    {
+      "term": "Monomer",
+      "body": "A small molecule that can undergo polymerisation to form a polymer."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Draw a section of nylon-6,6 and identify the amide link.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Monomers",
+          "text": "Hexane-1,6-diamine: H\u2082N(CH\u2082)\u2086NH\u2082; hexanedioic acid: HOOC(CH\u2082)\u2084COOH."
+        },
+        {
+          "n": 2,
+          "sub": "Condensation",
+          "text": "\u2013NH\u2082 + HOOC\u2013 \u2192 \u2013NH\u2013CO\u2013 + H\u2082O. One amide bond formed per monomer unit."
+        },
+        {
+          "n": 3,
+          "sub": "Repeat unit",
+          "text": "\u2013[NH\u2013(CH\u2082)\u2086\u2013NH\u2013CO\u2013(CH\u2082)\u2084\u2013CO]\u2099\u2013 The \u2013CO\u2013NH\u2013 is the amide link."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Drawing the repeat unit of an addition polymer without showing continuation brackets and subscript n.",
+    "Confusing the linkage in polyesters (\u2013COO\u2013) with polyamides (\u2013CONH\u2013).",
+    "Stating all polymers are non-biodegradable \u2014 condensation polymers CAN be hydrolysed; addition polymers cannot."
+  ],
+  "tips": [
+    "To write a repeat unit: find the section that repeats. For addition: open the C=C in the monomer and show \u2013[CH\u2082\u2013CHR]\u2099\u2013.",
+    "Nylon-6,6: two types of monomer (each with 6 carbons). Nylon-6: one monomer (caprolactam, ring-opening). Examiners may ask you to distinguish.",
+    "PVC produces toxic HCl when incinerated \u2014 this is why disposal is controversial."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the difference between addition and condensation polymerisation?",
+      "a": "Addition: alkene monomers add across C=C; no small molecule lost. Condensation: difunctional monomers join with loss of H\u2082O (or HCl) per bond formed."
+    },
+    {
+      "q": "What is the repeat unit of poly(propene)?",
+      "a": "\u2013(CH\u2082\u2013CHCH\u2083)\u2099\u2013 (formed from propene CH\u2082=CHCH\u2083)."
+    },
+    {
+      "q": "What bond links monomers in a polyamide?",
+      "a": "Amide bond: \u2013CO\u2013NH\u2013 (formed from \u2013COOH and \u2013NH\u2082 with loss of H\u2082O)."
+    },
+    {
+      "q": "Why can polyesters and polyamides be hydrolysed but poly(ethene) cannot?",
+      "a": "Polyesters and polyamides contain hydrolysable ester/amide bonds; poly(ethene) has only C\u2013C and C\u2013H bonds, which are resistant to hydrolysis."
+    },
+    {
+      "q": "What monomers form Terylene (PET)?",
+      "a": "Ethane-1,2-diol + benzene-1,4-dicarboxylic acid (condensation polymerisation)."
+    },
+    {
+      "q": "Why is incineration of PVC controversial?",
+      "a": "PVC contains chlorine; incineration produces toxic HCl gas and potentially dioxins."
+    }
+  ],
+  "quiz": {
+    "title": "Polymerisation Quiz",
+    "questions": [
+      {
+        "q": "Which monomer is used to make poly(chloroethene) (PVC)?",
+        "opts": [
+          "Chloroethane",
+          "1,2-dichloroethane",
+          "Chloroethene (vinyl chloride)",
+          "1,1-dichloroethene"
+        ],
+        "ans": 2,
+        "exp": "PVC is made by addition polymerisation of chloroethene (CH\u2082=CHCl)."
+      },
+      {
+        "q": "What type of bond is the linkage in a polyester?",
+        "opts": [
+          "Amide (\u2013CONH\u2013)",
+          "Ester (\u2013COO\u2013)",
+          "Ether (\u2013O\u2013)",
+          "Glycosidic"
+        ],
+        "ans": 1,
+        "exp": "Polyesters contain \u2013COO\u2013 ester linkages formed from a diol and a dicarboxylic acid with loss of H\u2082O."
+      },
+      {
+        "q": "Which polymer can be hydrolysed by acid or base?",
+        "opts": [
+          "Poly(ethene)",
+          "Poly(propene)",
+          "Nylon-6,6",
+          "Poly(tetrafluoroethene)"
+        ],
+        "ans": 2,
+        "exp": "Nylon-6,6 is a polyamide with hydrolysable amide bonds. Addition polymers (poly(ethene) etc.) cannot be hydrolysed."
+      },
+      {
+        "q": "What small molecule is lost in each step of condensation polymerisation between a diol and a diacid?",
+        "opts": [
+          "CO\u2082",
+          "HCl",
+          "H\u2082",
+          "H\u2082O"
+        ],
+        "ans": 3,
+        "exp": "Each ester bond formed between \u2013OH and \u2013COOH releases one water molecule."
+      },
+      {
+        "q": "HDPE has higher density and hardness than LDPE because:",
+        "opts": [
+          "It has more branches",
+          "It is made at higher temperature",
+          "Its chains are more linear, allowing closer packing",
+          "It has a different monomer"
+        ],
+        "ans": 2,
+        "exp": "HDPE has linear chains (Ziegler\u2013Natta catalyst) \u2192 closer packing \u2192 higher density and stronger intermolecular forces."
+      }
+    ]
+  },
+  "recall": [
+    "Distinguish between addition and condensation polymerisation.",
+    "Draw the repeat unit of poly(propene) and poly(chloroethene).",
+    "Write the equation for formation of nylon-6,6.",
+    "Explain how cross-linking affects polymer properties.",
+    "Explain why disposal of addition polymers is an environmental problem."
+  ],
+  "summary": [
+    {
+      "label": "Addition polymer",
+      "value": "alkene monomers; C=C opens; no small molecule lost"
+    },
+    {
+      "label": "Condensation polymer",
+      "value": "difunctional monomers; H\u2082O lost per bond"
+    },
+    {
+      "label": "Polyester link",
+      "value": "\u2013COO\u2013 (ester)"
+    },
+    {
+      "label": "Polyamide link",
+      "value": "\u2013CONH\u2013 (amide)"
+    },
+    {
+      "label": "PET monomers",
+      "value": "ethane-1,2-diol + benzene-1,4-diacid"
+    },
+    {
+      "label": "Nylon-6,6 monomers",
+      "value": "hexane-1,6-diamine + hexanedioic acid"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topics 13, 16"
 }

@@ -1,238 +1,221 @@
 {
-    "id": "enzymes",
-    "subject": "bio",
-    "title": "Enzymes",
-    "subtitle": "Enzymes with mechanism-focused explanation and exam-linked examples.",
-    "concept": [
-        "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states.",
-        "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects.",
-        "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states.",
-                "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects.",
-                "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Enzymes ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Active Site",
-            "body": "Region of an enzyme where substrate binding and catalysis occur."
-        },
-        {
-            "term": "Denaturation",
-            "body": "Loss of specific protein conformation, leading to reduced or lost biological activity."
-        },
-        {
-            "term": "Vmax",
-            "body": "Maximum reaction rate when all enzyme active sites are occupied by substrate."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Enzymes.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Enzymes reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Enzymes?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Enzymes outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Enzymes responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Enzymes?",
-            "a": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
-        },
-        {
-            "q": "Define Active Site.",
-            "a": "Region of an enzyme where substrate binding and catalysis occur."
-        },
-        {
-            "q": "Define Denaturation.",
-            "a": "Loss of specific protein conformation, leading to reduced or lost biological activity."
-        },
-        {
-            "q": "What exam strategy works best for Enzymes?",
-            "a": "In Enzymes responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Active Site"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 3"
-        },
-        {
-            "label": "Key Formula",
-            "val": "E_a reduced; Vmax = [ES]; Km = substrate affinity"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Enzymes: core principle",
-            "a": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
-        },
-        {
-            "q": "Active Site",
-            "a": "Region of an enzyme where substrate binding and catalysis occur."
-        },
-        {
-            "q": "Denaturation",
-            "a": "Loss of specific protein conformation, leading to reduced or lost biological activity."
-        },
-        {
-            "q": "Vmax",
-            "a": "Maximum reaction rate when all enzyme active sites are occupied by substrate."
-        },
-        {
-            "q": "Enzymes: common mistake",
-            "a": "Describing Enzymes outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Enzymes responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Enzymes Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Active Site?",
-                "opts": [
-                    "Region of an enzyme where substrate binding and catalysis occur.",
-                    "Loss of specific protein conformation, leading to reduced or lost biological activity.",
-                    "Maximum reaction rate when all enzyme active sites are occupied by substrate.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Active Site."
-            },
-            {
-                "q": "Which statement about Enzymes is correct?",
-                "opts": [
-                    "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Denaturation?",
-                "opts": [
-                    "Loss of specific protein conformation, leading to reduced or lost biological activity.",
-                    "Region of an enzyme where substrate binding and catalysis occur.",
-                    "Maximum reaction rate when all enzyme active sites are occupied by substrate.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Denaturation."
-            },
-            {
-                "q": "Which exam approach is most reliable for Enzymes?",
-                "opts": [
-                    "In Enzymes responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Enzymes?",
-                "opts": [
-                    "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "enzymes",
+  "subject": "bio",
+  "title": "Enzymes",
+  "subtitle": "Enzyme action, factors affecting rate, inhibition and immobilised enzymes.",
+  "concept": [
+    "Enzymes are globular proteins that act as biological catalysts \u2014 they lower activation energy by forming an enzyme-substrate complex at the active site.",
+    "The lock-and-key and induced fit models describe substrate binding; only substrates with a complementary shape bind.",
+    "Inhibitors reduce enzyme activity; competitive inhibitors compete for the active site, non-competitive inhibitors alter the active site shape."
+  ],
+  "notes": [
+    {
+      "heading": "Mechanism of Enzyme Action",
+      "items": [
+        "Active site: region of the enzyme with a specific 3D shape complementary to the substrate.",
+        "Lock-and-key: substrate fits active site exactly. Induced fit: active site changes shape slightly on binding substrate.",
+        "ES complex forms \u2192 products released \u2192 enzyme unchanged.",
+        "Enzymes lower Ea by straining bonds, bringing substrates together, and providing a reactive microenvironment."
+      ]
     },
-    "syllabusRef": "9700 AS Topic 3"
+    {
+      "heading": "Factors Affecting Rate",
+      "items": [
+        "Temperature: rate increases up to Topt (~37\u00b0C in humans); above Topt, enzyme denatures (H-bonds/other bonds disrupted \u2192 active site changes shape \u2192 substrate no longer fits).",
+        "pH: each enzyme has an optimum pH; change in pH alters ionisation of R-groups \u2192 alters active site shape.",
+        "Substrate concentration: rate increases as [S] increases until all active sites are saturated (Vmax); adding more substrate has no effect at Vmax.",
+        "Enzyme concentration: increasing [E] increases rate (more active sites), provided substrate is not limiting."
+      ]
+    },
+    {
+      "heading": "Inhibitors",
+      "items": [
+        "Competitive inhibitor: similar shape to substrate; occupies active site; blocks substrate binding; effect reduced by increasing [S].",
+        "Non-competitive inhibitor: binds to allosteric site; changes active site shape; substrate cannot bind even if [S] is increased; cannot be overcome by adding more substrate.",
+        "Irreversible inhibitors: bind permanently (e.g. nerve agents inhibiting acetylcholinesterase)."
+      ]
+    },
+    {
+      "heading": "Immobilised Enzymes",
+      "items": [
+        "Enzymes attached to an inert support (e.g. alginate beads, cellulose matrix).",
+        "Advantages: enzyme can be reused (cost-effective); product is not contaminated by enzyme; continuous processing possible.",
+        "Example: lactase immobilised to produce lactose-free milk; glucose isomerase to convert glucose to fructose."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Active site",
+      "body": "The region of an enzyme molecule with a specific 3D shape that binds the substrate to form an enzyme-substrate complex."
+    },
+    {
+      "term": "Induced fit",
+      "body": "Model of enzyme action where the active site changes shape slightly to fit the substrate more precisely upon binding."
+    },
+    {
+      "term": "Competitive inhibitor",
+      "body": "A molecule with a similar shape to the substrate that occupies the active site, preventing substrate binding. Effect can be overcome by increasing substrate concentration."
+    },
+    {
+      "term": "Non-competitive inhibitor",
+      "body": "A molecule that binds to an allosteric site on the enzyme, changing the shape of the active site so the substrate can no longer bind."
+    },
+    {
+      "term": "Denaturation",
+      "body": "Permanent change in 3D shape of an enzyme due to disruption of bonds maintaining tertiary structure; the enzyme loses its activity."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain the effect of increasing temperature beyond the optimum on enzyme activity.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Effect on molecules",
+          "text": "Above the optimum temperature, the increased kinetic energy causes the R-groups of amino acids to vibrate excessively."
+        },
+        {
+          "n": 2,
+          "sub": "Effect on structure",
+          "text": "The hydrogen bonds (and other non-covalent bonds) maintaining the tertiary structure are disrupted/broken."
+        },
+        {
+          "n": 3,
+          "sub": "Consequence",
+          "text": "The active site changes shape \u2014 it is no longer complementary to the substrate. The enzyme is denatured and substrate cannot bind, so the reaction rate falls to zero."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Saying temperature 'destroys the enzyme' \u2014 say it 'denatures' the enzyme and explain bond disruption.",
+    "Confusing competitive (active site, overcome by [S]) with non-competitive (allosteric site, not overcome by [S]).",
+    "Stating that above Vmax, adding more enzyme has no effect \u2014 it does if substrate is limiting."
+  ],
+  "tips": [
+    "For inhibitor questions: if increasing [S] restores activity \u2192 competitive; if not \u2192 non-competitive.",
+    "Denaturation: always state which bonds are disrupted (hydrogen bonds, ionic bonds), not 'all bonds broken'.",
+    "Immobilised enzymes: always give TWO advantages for full marks."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the induced fit model?",
+      "a": "The active site changes shape slightly on binding the substrate to achieve a better fit, forming the enzyme-substrate complex."
+    },
+    {
+      "q": "How does a competitive inhibitor work?",
+      "a": "It has a similar shape to the substrate and binds to the active site, blocking substrate entry. Effect is reduced by increasing [S]."
+    },
+    {
+      "q": "What happens to enzyme activity above the optimum temperature?",
+      "a": "Denaturation \u2014 H-bonds and other bonds in the tertiary structure break, the active site changes shape, and the substrate no longer fits."
+    },
+    {
+      "q": "What is Vmax?",
+      "a": "The maximum rate of an enzyme-catalysed reaction, achieved when all active sites are saturated with substrate."
+    },
+    {
+      "q": "Name two advantages of immobilised enzymes.",
+      "a": "(1) Enzyme can be reused (cost-effective). (2) Product is not contaminated by enzyme."
+    },
+    {
+      "q": "How does pH affect enzyme activity?",
+      "a": "Changes in pH alter ionisation of amino acid R-groups, disrupting bonds in the active site; each enzyme has an optimum pH."
+    }
+  ],
+  "quiz": {
+    "title": "Enzymes Quiz",
+    "questions": [
+      {
+        "q": "Which correctly describes a non-competitive inhibitor?",
+        "opts": [
+          "Binds active site; effect overcome by high [S]",
+          "Binds allosteric site; cannot be overcome by high [S]",
+          "Has same shape as substrate",
+          "Permanently denatures the enzyme"
+        ],
+        "ans": 1,
+        "exp": "Non-competitive inhibitors bind an allosteric site and change the active site shape; increasing [S] does not restore activity."
+      },
+      {
+        "q": "At Vmax, what is limiting enzyme activity?",
+        "opts": [
+          "Substrate concentration",
+          "Enzyme concentration (active site saturation)",
+          "Temperature",
+          "pH"
+        ],
+        "ans": 1,
+        "exp": "At Vmax all active sites are occupied \u2014 increasing substrate concentration further has no effect."
+      },
+      {
+        "q": "Which bonds are primarily disrupted when an enzyme is denatured by high temperature?",
+        "opts": [
+          "Peptide bonds",
+          "Covalent bonds only",
+          "Hydrogen bonds and other non-covalent bonds",
+          "Glycosidic bonds"
+        ],
+        "ans": 2,
+        "exp": "Denaturation disrupts hydrogen bonds and other non-covalent bonds maintaining tertiary structure \u2014 peptide bonds (primary structure) are not broken."
+      },
+      {
+        "q": "Lactase is immobilised in alginate beads. What is one advantage?",
+        "opts": [
+          "Increases reaction rate",
+          "Enzyme can be reused",
+          "Lowers substrate concentration needed",
+          "Eliminates the need for optimum pH"
+        ],
+        "ans": 1,
+        "exp": "Immobilised enzymes can be recovered and reused, making the process more cost-effective."
+      },
+      {
+        "q": "An inhibitor reduces enzyme activity. Adding more substrate fully restores the rate. What type of inhibitor is it?",
+        "opts": [
+          "Non-competitive",
+          "Irreversible",
+          "Competitive",
+          "Allosteric"
+        ],
+        "ans": 2,
+        "exp": "Competitive inhibitors compete for the active site; adding more substrate outcompetes the inhibitor and restores Vmax."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the induced fit model.",
+    "Explain how temperature affects enzyme activity, referring to bonds.",
+    "Compare competitive and non-competitive inhibition.",
+    "Explain why enzyme activity reaches a maximum (Vmax) as [S] increases.",
+    "State two uses of immobilised enzymes."
+  ],
+  "summary": [
+    {
+      "label": "Induced fit",
+      "value": "active site changes shape on substrate binding"
+    },
+    {
+      "label": "Competitive inhibitor",
+      "value": "active site; overcome by \u2191[S]"
+    },
+    {
+      "label": "Non-competitive",
+      "value": "allosteric site; not overcome by \u2191[S]"
+    },
+    {
+      "label": "High temp",
+      "value": "denatures enzyme (breaks H-bonds in tertiary structure)"
+    },
+    {
+      "label": "Vmax",
+      "value": "all active sites saturated"
+    },
+    {
+      "label": "Immobilised",
+      "value": "reusable, uncontaminated product"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 4"
 }

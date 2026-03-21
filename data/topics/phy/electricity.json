@@ -1,238 +1,229 @@
 {
-    "id": "electricity",
-    "subject": "phy",
-    "title": "Electricity",
-    "subtitle": "Electricity with model-based reasoning, equations, and exam application.",
-    "concept": [
-        "Electric circuits model energy transfer using charge flow and potential difference. Current describes charge rate, while potential difference describes energy transferred per unit charge.",
-        "Resistance links current and potential difference through material and geometric factors. Ohm law behavior applies to ohmic conductors under constant temperature conditions.",
-        "Circuit analysis combines conservation of charge and energy. Correct series-parallel reasoning is essential in AS calculations."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Electric circuits model energy transfer using charge flow and potential difference. Current describes charge rate, while potential difference describes energy transferred per unit charge.",
-                "Resistance links current and potential difference through material and geometric factors. Ohm law behavior applies to ohmic conductors under constant temperature conditions.",
-                "Circuit analysis combines conservation of charge and energy. Correct series-parallel reasoning is essential in AS calculations."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Electricity ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Current",
-            "body": "Rate of flow of electric charge."
-        },
-        {
-            "term": "Potential Difference",
-            "body": "Energy transferred per unit charge between two points in a circuit."
-        },
-        {
-            "term": "Ohmic Conductor",
-            "body": "Component that obeys V proportional to I at constant temperature."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Electricity.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Electric circuits model energy transfer using charge flow and potential difference. Current describes charge rate, while potential difference describes energy transferred per unit charge."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Resistance links current and potential difference through material and geometric factors. Ohm law behavior applies to ohmic conductors under constant temperature conditions."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Electricity reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Electricity?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Electricity without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Electricity, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Electricity?",
-            "a": "Electric circuits model energy transfer using charge flow and potential difference. Current describes charge rate, while potential difference describes energy transferred per unit charge."
-        },
-        {
-            "q": "Define Current.",
-            "a": "Rate of flow of electric charge."
-        },
-        {
-            "q": "Define Potential Difference.",
-            "a": "Energy transferred per unit charge between two points in a circuit."
-        },
-        {
-            "q": "What exam strategy works best for Electricity?",
-            "a": "For Electricity, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Electric circuits model energy transfer using charge flow and potential difference. Current describes charge rate, while potential difference describes energy transferred per unit charge."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Resistance links current and potential difference through material and geometric factors. Ohm law behavior applies to ohmic conductors under constant temperature conditions."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Circuit analysis combines conservation of charge and energy. Correct series-parallel reasoning is essential in AS calculations."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Current"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 9"
-        },
-        {
-            "label": "Key Formula",
-            "val": "V = W/Q; I = Q/t; R = V/I (Ohm)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Electricity: core principle",
-            "a": "Electric circuits model energy transfer using charge flow and potential difference. Current describes charge rate, while potential difference describes energy transferred per unit charge."
-        },
-        {
-            "q": "Current",
-            "a": "Rate of flow of electric charge."
-        },
-        {
-            "q": "Potential Difference",
-            "a": "Energy transferred per unit charge between two points in a circuit."
-        },
-        {
-            "q": "Ohmic Conductor",
-            "a": "Component that obeys V proportional to I at constant temperature."
-        },
-        {
-            "q": "Electricity: common mistake",
-            "a": "Applying equations in Electricity without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Electricity, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Electricity Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Current?",
-                "opts": [
-                    "Rate of flow of electric charge.",
-                    "Energy transferred per unit charge between two points in a circuit.",
-                    "Component that obeys V proportional to I at constant temperature.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Current."
-            },
-            {
-                "q": "Which statement about Electricity is correct?",
-                "opts": [
-                    "Resistance links current and potential difference through material and geometric factors. Ohm law behavior applies to ohmic conductors under constant temperature conditions.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Potential Difference?",
-                "opts": [
-                    "Energy transferred per unit charge between two points in a circuit.",
-                    "Rate of flow of electric charge.",
-                    "Component that obeys V proportional to I at constant temperature.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Potential Difference."
-            },
-            {
-                "q": "Which exam approach is most reliable for Electricity?",
-                "opts": [
-                    "For Electricity, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Electricity?",
-                "opts": [
-                    "Circuit analysis combines conservation of charge and energy. Correct series-parallel reasoning is essential in AS calculations.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "electricity",
+  "subject": "phy",
+  "title": "Electricity",
+  "subtitle": "Charge, current, potential difference, resistance and Ohm's law.",
+  "concept": [
+    "Electric current is the rate of flow of charge; conventional current flows from + to \u2212 (opposite to electron flow).",
+    "Potential difference is the energy transferred per unit charge; resistance is the ratio of p.d. to current.",
+    "Resistivity is a material property; resistance depends on resistivity, length and cross-sectional area: R = \u03c1L/A."
+  ],
+  "notes": [
+    {
+      "heading": "Charge and Current",
+      "items": [
+        "Charge Q = It (coulombs = amperes \u00d7 seconds).",
+        "Current I = \u0394Q/\u0394t; rate of flow of charge.",
+        "Electron drift velocity: I = nqvA (n = number density of charge carriers, q = charge on each, v = drift velocity, A = cross-sectional area).",
+        "Conventional current: + to \u2212; electron flow: \u2212 to +."
+      ]
     },
-    "syllabusRef": "9702 AS Topic 9"
+    {
+      "heading": "Potential Difference and EMF",
+      "items": [
+        "Potential difference (p.d.): energy transferred per unit charge between two points; V = W/Q; unit: volt (V = J C\u207b\u00b9).",
+        "EMF (\u03b5): work done per unit charge by the source in moving charge around the complete circuit.",
+        "Terminal p.d. = EMF \u2212 voltage drop across internal resistance: V = \u03b5 \u2212 Ir."
+      ]
+    },
+    {
+      "heading": "Resistance and Ohm's Law",
+      "items": [
+        "Resistance R = V/I; unit: ohm (\u03a9).",
+        "Ohm's law: V \u221d I at constant temperature \u2192 R is constant.",
+        "Ohmic conductor: straight line through origin on V\u2013I graph (e.g. metal wire at constant T).",
+        "Non-ohmic: filament lamp (R increases with T); diode (one-way flow); thermistor (R decreases with T); LDR (R decreases with light intensity).",
+        "Resistivity: R = \u03c1L/A (\u03c1 = resistivity in \u03a9 m; L = length; A = cross-sectional area). \u03c1 is a material property."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Electric current",
+      "body": "The rate of flow of electric charge: I = \u0394Q/\u0394t; unit: ampere (A)."
+    },
+    {
+      "term": "Potential difference",
+      "body": "The energy transferred per unit charge between two points: V = W/Q; unit: volt (V)."
+    },
+    {
+      "term": "Resistance",
+      "body": "The ratio of potential difference to current: R = V/I; unit: ohm (\u03a9)."
+    },
+    {
+      "term": "Resistivity",
+      "body": "A material property determining how strongly it opposes current flow: \u03c1 = RA/L; unit: \u03a9 m."
+    },
+    {
+      "term": "Ohm's law",
+      "body": "For an ohmic conductor at constant temperature, current is proportional to potential difference: V = IR."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A copper wire of length 2.0 m, diameter 0.50 mm, has resistivity 1.7\u00d710\u207b\u2078 \u03a9 m. Calculate its resistance.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Cross-sectional area",
+          "text": "r = 0.25 mm = 0.25\u00d710\u207b\u00b3 m; A = \u03c0r\u00b2 = \u03c0\u00d7(0.25\u00d710\u207b\u00b3)\u00b2 = 1.96\u00d710\u207b\u2077 m\u00b2"
+        },
+        {
+          "n": 2,
+          "sub": "R = \u03c1L/A",
+          "text": "R = (1.7\u00d710\u207b\u2078 \u00d7 2.0) / 1.96\u00d710\u207b\u2077 = 3.4\u00d710\u207b\u2078 / 1.96\u00d710\u207b\u2077"
+        },
+        {
+          "n": 3,
+          "sub": "Answer",
+          "text": "R = 0.173 \u03a9 \u2248 0.17 \u03a9"
+        }
+      ]
+    },
+    {
+      "q": "A cell of EMF 12 V and internal resistance 2 \u03a9 is connected to a 10 \u03a9 resistor. Find the terminal p.d.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Current",
+          "text": "I = \u03b5/(R+r) = 12/(10+2) = 1.0 A"
+        },
+        {
+          "n": 2,
+          "sub": "Terminal p.d.",
+          "text": "V = \u03b5 \u2212 Ir = 12 \u2212 1.0\u00d72 = 10 V"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing EMF (energy input per charge by source) with terminal p.d. (energy available to external circuit) \u2014 they differ by the internal resistance drop.",
+    "Using V = IR with the wrong V \u2014 use p.d. across the component, not EMF of the cell.",
+    "Forgetting that resistivity (\u03a9 m) is a material property; resistance (\u03a9) depends on dimensions."
+  ],
+  "tips": [
+    "I = nqvA: wire with larger area carries more current at same drift velocity; higher carrier density \u2192 faster drift at same I.",
+    "LDR and thermistor are both non-ohmic: R decreases when light/temperature increases.",
+    "Drift velocity is very slow (~mm s\u207b\u00b9) but electrical signal propagates at ~c."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the relationship between charge, current and time?",
+      "a": "Q = It (charge = current \u00d7 time)."
+    },
+    {
+      "q": "State the formula for drift velocity.",
+      "a": "I = nqvA (n = carrier density, q = charge, v = drift velocity, A = cross-sectional area)."
+    },
+    {
+      "q": "What is EMF?",
+      "a": "Electromotive force: the work done per unit charge by the source in driving charge around the whole circuit; measured in volts."
+    },
+    {
+      "q": "What is resistivity?",
+      "a": "\u03c1 = RA/L (\u03a9 m); a material property that determines how strongly a material opposes current flow."
+    },
+    {
+      "q": "How does resistance of a thermistor change with temperature?",
+      "a": "Decreases as temperature increases \u2014 thermistors are non-ohmic (negative temperature coefficient, NTC)."
+    },
+    {
+      "q": "What is terminal p.d.?",
+      "a": "The potential difference across the terminals of the cell: V = \u03b5 \u2212 Ir (EMF minus the internal resistance drop)."
+    }
+  ],
+  "quiz": {
+    "title": "Electricity Quiz",
+    "questions": [
+      {
+        "q": "A current of 2 A flows for 5 minutes. How much charge passes?",
+        "opts": [
+          "10 C",
+          "600 C",
+          "2.5 C",
+          "150 C"
+        ],
+        "ans": 1,
+        "exp": "Q = It = 2\u00d7(5\u00d760) = 2\u00d7300 = 600 C."
+      },
+      {
+        "q": "What does the gradient of a V\u2013I graph represent?",
+        "opts": [
+          "Conductance",
+          "Power",
+          "Resistance",
+          "Charge"
+        ],
+        "ans": 0,
+        "exp": "Gradient = \u0394V/\u0394I = resistance. (Conductance = 1/R = \u0394I/\u0394V = gradient of I\u2013V graph.)"
+      },
+      {
+        "q": "A 6 \u03a9 resistor is made from a material with \u03c1 = 3\u00d710\u207b\u2076 \u03a9 m, length 0.1 m. What is its area?",
+        "opts": [
+          "5\u00d710\u207b\u2078 m\u00b2",
+          "2\u00d710\u207b\u2076 m\u00b2",
+          "5\u00d710\u207b\u2077 m\u00b2",
+          "1.8\u00d710\u207b\u2075 m\u00b2"
+        ],
+        "ans": 0,
+        "exp": "A = \u03c1L/R = (3\u00d710\u207b\u2076\u00d70.1)/6 = 3\u00d710\u207b\u2077/6 = 5\u00d710\u207b\u2078 m\u00b2."
+      },
+      {
+        "q": "The terminal p.d. of a battery is less than its EMF because:",
+        "opts": [
+          "Charge is lost in the battery",
+          "Energy is dissipated in the internal resistance",
+          "The battery is faulty",
+          "External resistance is too high"
+        ],
+        "ans": 1,
+        "exp": "Terminal p.d. = \u03b5 \u2212 Ir; the difference (Ir) is the voltage drop across the internal resistance."
+      },
+      {
+        "q": "Which device has resistance that decreases as light intensity increases?",
+        "opts": [
+          "Thermistor",
+          "Filament lamp",
+          "LDR",
+          "Diode"
+        ],
+        "ans": 2,
+        "exp": "LDR (light-dependent resistor): more light \u2192 more electron-hole pairs \u2192 lower resistance."
+      }
+    ]
+  },
+  "recall": [
+    "Define current, potential difference and resistance in terms of energy and charge.",
+    "State Ohm's law and describe what an ohmic conductor looks like on a V\u2013I graph.",
+    "Explain the difference between EMF and terminal p.d.",
+    "Use R = \u03c1L/A to calculate resistance or resistivity.",
+    "Describe the V\u2013I characteristics of a filament lamp, diode and thermistor."
+  ],
+  "summary": [
+    {
+      "label": "Q = It",
+      "value": "charge = current \u00d7 time"
+    },
+    {
+      "label": "V = W/Q",
+      "value": "p.d. = energy per charge"
+    },
+    {
+      "label": "R = V/I",
+      "value": "resistance"
+    },
+    {
+      "label": "R = \u03c1L/A",
+      "value": "resistivity formula"
+    },
+    {
+      "label": "Terminal p.d.",
+      "value": "V = \u03b5 \u2212 Ir"
+    },
+    {
+      "label": "I = nqvA",
+      "value": "drift velocity equation"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 9"
 }

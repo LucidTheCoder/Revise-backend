@@ -1,238 +1,117 @@
 {
-    "id": "atomic-structure",
-    "subject": "chem",
-    "title": "Atomic Structure",
-    "subtitle": "Atomic Structure with core theory, reaction logic, and exam-focused application.",
-    "concept": [
-        "Atomic structure explains both why elements are different and why patterns appear in the periodic table. The number of protons sets element identity, while electron arrangement controls reactivity and bonding behavior.",
-        "At AS level, the key model is a dense positive nucleus with electrons arranged in shells and subshells. This model works because measured line spectra show electrons can only occupy discrete energy levels, not any random energy.",
-        "The practical reason this topic matters is prediction. If you can move between proton number, neutron number, electron configuration, and isotope notation, you can answer many linked questions in bonding, periodicity, and energetics."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Atomic structure explains both why elements are different and why patterns appear in the periodic table. The number of protons sets element identity, while electron arrangement controls reactivity and bonding behavior.",
-                "At AS level, the key model is a dense positive nucleus with electrons arranged in shells and subshells. This model works because measured line spectra show electrons can only occupy discrete energy levels, not any random energy.",
-                "The practical reason this topic matters is prediction. If you can move between proton number, neutron number, electron configuration, and isotope notation, you can answer many linked questions in bonding, periodicity, and energetics."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Atomic Structure ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Atomic Number",
-            "body": "The number of protons in the nucleus of an atom of an element."
-        },
-        {
-            "term": "Isotopes",
-            "body": "Atoms of the same element with the same number of protons but different numbers of neutrons."
-        },
-        {
-            "term": "Relative Atomic Mass",
-            "body": "Weighted mean mass of an atom of an element relative to one twelfth of the mass of a carbon-12 atom."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Atomic Structure.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Atomic structure explains both why elements are different and why patterns appear in the periodic table. The number of protons sets element identity, while electron arrangement controls reactivity and bonding behavior."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "At AS level, the key model is a dense positive nucleus with electrons arranged in shells and subshells. This model works because measured line spectra show electrons can only occupy discrete energy levels, not any random energy."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Atomic Structure reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Atomic Structure?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Atomic Structure without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Atomic Structure questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Atomic Structure?",
-            "a": "Atomic structure explains both why elements are different and why patterns appear in the periodic table. The number of protons sets element identity, while electron arrangement controls reactivity and bonding behavior."
-        },
-        {
-            "q": "Define Atomic Number.",
-            "a": "The number of protons in the nucleus of an atom of an element."
-        },
-        {
-            "q": "Define Isotopes.",
-            "a": "Atoms of the same element with the same number of protons but different numbers of neutrons."
-        },
-        {
-            "q": "What exam strategy works best for Atomic Structure?",
-            "a": "In Atomic Structure questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Atomic structure explains both why elements are different and why patterns appear in the periodic table. The number of protons sets element identity, while electron arrangement controls reactivity and bonding behavior."
-        },
-        {
-            "label": "Applied Model",
-            "val": "At AS level, the key model is a dense positive nucleus with electrons arranged in shells and subshells. This model works because measured line spectra show electrons can only occupy discrete energy levels, not any random energy."
-        },
-        {
-            "label": "Exam Application",
-            "val": "The practical reason this topic matters is prediction. If you can move between proton number, neutron number, electron configuration, and isotope notation, you can answer many linked questions in bonding, periodicity, and energetics."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Atomic Number"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 1"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Z = no. protons; A = p + n"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Atomic Structure: core principle",
-            "a": "Atomic structure explains both why elements are different and why patterns appear in the periodic table. The number of protons sets element identity, while electron arrangement controls reactivity and bonding behavior."
-        },
-        {
-            "q": "Atomic Number",
-            "a": "The number of protons in the nucleus of an atom of an element."
-        },
-        {
-            "q": "Isotopes",
-            "a": "Atoms of the same element with the same number of protons but different numbers of neutrons."
-        },
-        {
-            "q": "Relative Atomic Mass",
-            "a": "Weighted mean mass of an atom of an element relative to one twelfth of the mass of a carbon-12 atom."
-        },
-        {
-            "q": "Atomic Structure: common mistake",
-            "a": "Giving trends in Atomic Structure without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Atomic Structure questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Atomic Structure Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Atomic Number?",
-                "opts": [
-                    "The number of protons in the nucleus of an atom of an element.",
-                    "Atoms of the same element with the same number of protons but different numbers of neutrons.",
-                    "Weighted mean mass of an atom of an element relative to one twelfth of the mass of a carbon-12 atom.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Atomic Number."
-            },
-            {
-                "q": "Which statement about Atomic Structure is correct?",
-                "opts": [
-                    "At AS level, the key model is a dense positive nucleus with electrons arranged in shells and subshells. This model works because measured line spectra show electrons can only occupy discrete energy levels, not any random energy.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Isotopes?",
-                "opts": [
-                    "Atoms of the same element with the same number of protons but different numbers of neutrons.",
-                    "The number of protons in the nucleus of an atom of an element.",
-                    "Weighted mean mass of an atom of an element relative to one twelfth of the mass of a carbon-12 atom.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Isotopes."
-            },
-            {
-                "q": "Which exam approach is most reliable for Atomic Structure?",
-                "opts": [
-                    "In Atomic Structure questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Atomic Structure?",
-                "opts": [
-                    "The practical reason this topic matters is prediction. If you can move between proton number, neutron number, electron configuration, and isotope notation, you can answer many linked questions in bonding, periodicity, and energetics.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "atomic-structure",
+  "subject": "chem",
+  "title": "Atomic Structure",
+  "subtitle": "Protons, neutrons, electrons, isotopes and mass spectrometry.",
+  "concept": [
+    "Atoms consist of a dense positive nucleus (protons and neutrons) surrounded by electrons arranged in shells and subshells. The number of protons (atomic number) defines the element.",
+    "Isotopes are atoms of the same element with different numbers of neutrons. They have identical chemical properties but different masses.",
+    "Mass spectrometry measures relative atomic mass by ionising atoms, accelerating them through a magnetic field, and detecting relative abundance at each m/z value."
+  ],
+  "notes": [
+    {
+      "heading": "Subatomic Particles",
+      "items": [
+        "Proton: relative mass 1, charge +1, found in nucleus.",
+        "Neutron: relative mass 1, charge 0, found in nucleus.",
+        "Electron: relative mass 1/1836 (~0), charge -1, found in shells.",
+        "Mass number (A) = protons + neutrons. Atomic number (Z) = protons only."
+      ]
     },
-    "syllabusRef": "9701 AS Topic 1"
+    {
+      "heading": "Electron Configuration",
+      "items": [
+        "Shells are divided into subshells: s (max 2e), p (max 6e), d (max 10e).",
+        "Fill in order: 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p.",
+        "Cr and Cu are exceptions: [Ar] 3d5 4s1 and [Ar] 3d10 4s1 (half-filled/fully-filled d is more stable).",
+        "When writing ions, remove electrons from 4s before 3d."
+      ]
+    },
+    {
+      "heading": "Isotopes and RAM",
+      "items": [
+        "Relative atomic mass (Ar) = weighted mean mass relative to 1/12 mass of carbon-12.",
+        "Calculate Ar from mass spectrum: sum of (mass × % abundance) / 100.",
+        "Isotopes have same proton number but different neutron number — same chemistry, different physical properties."
+      ]
+    },
+    {
+      "heading": "Mass Spectrometry",
+      "items": [
+        "Steps: vaporisation → ionisation (electron bombardment, loses 1e to form M+) → acceleration → deflection in magnetic field → detection.",
+        "Lighter ions and more charged ions are deflected more.",
+        "The m/z axis gives mass of ion; y-axis gives relative abundance.",
+        "Molecular ion peak (M+) = highest m/z peak (ignoring isotope peaks). Fragmentation peaks appear at lower m/z."
+      ]
+    }
+  ],
+  "definitions": [
+    { "term": "Atomic number (Z)", "body": "The number of protons in the nucleus of an atom." },
+    { "term": "Mass number (A)", "body": "The total number of protons and neutrons in the nucleus." },
+    { "term": "Isotopes", "body": "Atoms of the same element with the same number of protons but different numbers of neutrons." },
+    { "term": "Relative atomic mass (Ar)", "body": "The weighted mean mass of an atom of an element relative to 1/12 the mass of a carbon-12 atom." },
+    { "term": "First ionisation energy", "body": "The energy required to remove one mole of electrons from one mole of gaseous atoms: X(g) → X+(g) + e−." }
+  ],
+  "workedExamples": [
+    {
+      "q": "Chlorine has two isotopes: Cl-35 (75.0%) and Cl-37 (25.0%). Calculate the relative atomic mass.",
+      "steps": [
+        { "n": 1, "sub": "Formula", "text": "Ar = Σ(mass × abundance) / 100" },
+        { "n": 2, "sub": "Substitute", "text": "Ar = (35 × 75.0 + 37 × 25.0) / 100 = (2625 + 925) / 100" },
+        { "n": 3, "sub": "Answer", "text": "Ar = 3550 / 100 = 35.5" }
+      ]
+    },
+    {
+      "q": "Write the full electron configuration of Fe2+.",
+      "steps": [
+        { "n": 1, "sub": "Neutral Fe (Z=26)", "text": "1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁶ 4s²" },
+        { "n": 2, "sub": "Remove 2 electrons from 4s first", "text": "Remove both 4s electrons." },
+        { "n": 3, "sub": "Fe2+ configuration", "text": "1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁶" }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Removing electrons from 3d instead of 4s when forming transition metal ions.",
+    "Confusing mass number with relative atomic mass (Ar is a weighted average, not a whole number).",
+    "Forgetting Cu and Cr have anomalous configurations due to extra stability of half-filled/full 3d."
+  ],
+  "tips": [
+    "In mass spectrometry questions, the tallest peak is the most abundant isotope — not necessarily the heaviest.",
+    "Always state the equation for first ionisation energy: X(g) → X+(g) + e−.",
+    "Successive ionisation energy data: a big jump between nth and (n+1)th IE means the element is in Group n."
+  ],
+  "flashcards": [
+    { "q": "What is the charge and mass of a proton?", "a": "Charge +1, relative mass 1." },
+    { "q": "What is the formula for relative atomic mass?", "a": "Ar = Σ(isotope mass × % abundance) / 100" },
+    { "q": "Why do Cr and Cu have anomalous electron configurations?", "a": "Half-filled (3d⁵) and fully-filled (3d¹⁰) subshells have extra stability, so one electron moves from 4s to 3d." },
+    { "q": "What are the four stages of mass spectrometry?", "a": "Ionisation → acceleration → deflection in magnetic field → detection." },
+    { "q": "What is first ionisation energy?", "a": "Energy to remove 1 mole of electrons from 1 mole of gaseous atoms: X(g) → X+(g) + e−." },
+    { "q": "What does a large jump in successive ionisation energies indicate?", "a": "The electron being removed is from a new, inner shell — reveals the group of the element." }
+  ],
+  "quiz": {
+    "title": "Atomic Structure Quiz",
+    "questions": [
+      { "q": "Bromine has isotopes Br-79 (50.7%) and Br-81 (49.3%). What is the Ar?", "opts": ["79.0","79.99","80.0","81.0"], "ans": 1, "exp": "Ar = (79×50.7 + 81×49.3)/100 = (4005.3+3993.3)/100 = 79.99" },
+      { "q": "Which subshells are filled before 3d?", "opts": ["1s 2s 2p 3s 3p 4s","1s 2s 2p 3s 3p 3d","1s 2s 2p 3s 3p","1s 2s 3s 2p 3p"], "ans": 0, "exp": "Order of filling: 1s, 2s, 2p, 3s, 3p, 4s, then 3d." },
+      { "q": "What is the electron configuration of Cu (Z=29)?", "opts": ["[Ar] 3d9 4s2","[Ar] 3d10 4s1","[Ar] 3d8 4s2","[Ar] 3d10 4s2"], "ans": 1, "exp": "Cu is anomalous: fully filled 3d10 with 4s1 is more stable than 3d9 4s2." },
+      { "q": "In mass spectrometry, which ions are deflected most in the magnetic field?", "opts": ["Heavy, singly charged","Light, highly charged","Heavy, highly charged","Light, singly charged"], "ans": 1, "exp": "Deflection increases with charge and decreases with mass — light, highly charged ions deflect most." },
+      { "q": "What does the molecular ion peak (M+) represent?", "opts": ["The most abundant fragment","The parent molecule minus one electron","The lightest fragment","A doubly charged ion"], "ans": 1, "exp": "M+ is the intact molecule that has lost one electron during ionisation — it appears at the highest m/z." }
+    ]
+  },
+  "recall": [
+    "State the relative mass and charge of a proton, neutron and electron.",
+    "Write the electron configuration of Fe²⁺.",
+    "Explain why successive ionisation energies increase.",
+    "Calculate Ar given two isotopes and their abundances.",
+    "Describe the four stages of a mass spectrometer."
+  ],
+  "summary": [
+    { "label": "Proton", "value": "mass 1, charge +1" },
+    { "label": "Neutron", "value": "mass 1, charge 0" },
+    { "label": "Electron", "value": "mass ~0, charge -1" },
+    { "label": "Ar formula", "value": "Σ(mass × %) / 100" },
+    { "label": "Cr config", "value": "[Ar] 3d5 4s1" },
+    { "label": "Cu config", "value": "[Ar] 3d10 4s1" }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 1"
 }

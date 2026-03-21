@@ -1,238 +1,219 @@
 {
-    "id": "genetics",
-    "subject": "bio",
-    "title": "Nucleic Acids, Genes and Inheritance",
-    "subtitle": "Nucleic Acids, Genes and Inheritance with mechanism-focused explanation and exam-linked examples.",
-    "concept": [
-        "Genetics explains how biological information is stored, copied, and passed to offspring. DNA sequence provides coded instructions that influence protein structure and therefore phenotype.",
-        "The semi-conservative mechanism of replication preserves information accuracy by using each parental strand as a template for a new complementary strand.",
-        "Inheritance questions test probability and reasoning. Correct use of genetic notation and clear genotype-to-phenotype links are essential."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Genetics explains how biological information is stored, copied, and passed to offspring. DNA sequence provides coded instructions that influence protein structure and therefore phenotype.",
-                "The semi-conservative mechanism of replication preserves information accuracy by using each parental strand as a template for a new complementary strand.",
-                "Inheritance questions test probability and reasoning. Correct use of genetic notation and clear genotype-to-phenotype links are essential."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Nucleic Acids, Genes and Inheritance ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Gene",
-            "body": "A length of DNA that codes for a specific polypeptide or functional RNA molecule."
-        },
-        {
-            "term": "Allele",
-            "body": "Alternative form of the same gene found at the same locus on homologous chromosomes."
-        },
-        {
-            "term": "Semi-conservative Replication",
-            "body": "Replication model where each new DNA molecule contains one parental strand and one newly synthesized strand."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Nucleic Acids, Genes and Inheritance.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Genetics explains how biological information is stored, copied, and passed to offspring. DNA sequence provides coded instructions that influence protein structure and therefore phenotype."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "The semi-conservative mechanism of replication preserves information accuracy by using each parental strand as a template for a new complementary strand."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Nucleic Acids, Genes and Inheritance reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Nucleic Acids, Genes and Inheritance?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Nucleic Acids, Genes and Inheritance outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Nucleic Acids, Genes and Inheritance responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Nucleic Acids, Genes and Inheritance?",
-            "a": "Genetics explains how biological information is stored, copied, and passed to offspring. DNA sequence provides coded instructions that influence protein structure and therefore phenotype."
-        },
-        {
-            "q": "Define Gene.",
-            "a": "A length of DNA that codes for a specific polypeptide or functional RNA molecule."
-        },
-        {
-            "q": "Define Allele.",
-            "a": "Alternative form of the same gene found at the same locus on homologous chromosomes."
-        },
-        {
-            "q": "What exam strategy works best for Nucleic Acids, Genes and Inheritance?",
-            "a": "In Nucleic Acids, Genes and Inheritance responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Genetics explains how biological information is stored, copied, and passed to offspring. DNA sequence provides coded instructions that influence protein structure and therefore phenotype."
-        },
-        {
-            "label": "Applied Model",
-            "val": "The semi-conservative mechanism of replication preserves information accuracy by using each parental strand as a template for a new complementary strand."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Inheritance questions test probability and reasoning. Correct use of genetic notation and clear genotype-to-phenotype links are essential."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Gene"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topics 6 and 11 links"
-        },
-        {
-            "label": "Key Formula",
-            "val": "p² + 2pq + q² = 1 (Hardy-Weinberg)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Nucleic Acids, Genes and Inheritance: core principle",
-            "a": "Genetics explains how biological information is stored, copied, and passed to offspring. DNA sequence provides coded instructions that influence protein structure and therefore phenotype."
-        },
-        {
-            "q": "Gene",
-            "a": "A length of DNA that codes for a specific polypeptide or functional RNA molecule."
-        },
-        {
-            "q": "Allele",
-            "a": "Alternative form of the same gene found at the same locus on homologous chromosomes."
-        },
-        {
-            "q": "Semi-conservative Replication",
-            "a": "Replication model where each new DNA molecule contains one parental strand and one newly synthesized strand."
-        },
-        {
-            "q": "Nucleic Acids, Genes and Inheritance: common mistake",
-            "a": "Describing Nucleic Acids, Genes and Inheritance outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Nucleic Acids, Genes and Inheritance responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Nucleic Acids, Genes and Inheritance Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Gene?",
-                "opts": [
-                    "A length of DNA that codes for a specific polypeptide or functional RNA molecule.",
-                    "Alternative form of the same gene found at the same locus on homologous chromosomes.",
-                    "Replication model where each new DNA molecule contains one parental strand and one newly synthesized strand.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Gene."
-            },
-            {
-                "q": "Which statement about Nucleic Acids, Genes and Inheritance is correct?",
-                "opts": [
-                    "The semi-conservative mechanism of replication preserves information accuracy by using each parental strand as a template for a new complementary strand.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Allele?",
-                "opts": [
-                    "Alternative form of the same gene found at the same locus on homologous chromosomes.",
-                    "A length of DNA that codes for a specific polypeptide or functional RNA molecule.",
-                    "Replication model where each new DNA molecule contains one parental strand and one newly synthesized strand.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Allele."
-            },
-            {
-                "q": "Which exam approach is most reliable for Nucleic Acids, Genes and Inheritance?",
-                "opts": [
-                    "In Nucleic Acids, Genes and Inheritance responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Nucleic Acids, Genes and Inheritance?",
-                "opts": [
-                    "Inheritance questions test probability and reasoning. Correct use of genetic notation and clear genotype-to-phenotype links are essential.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "genetics",
+  "subject": "bio",
+  "title": "Genetics",
+  "subtitle": "Inheritance patterns, monohybrid and dihybrid crosses, sex linkage.",
+  "concept": [
+    "Alleles are different versions of a gene; an organism is homozygous (two identical alleles) or heterozygous (two different alleles).",
+    "In a monohybrid cross, dominant alleles mask recessive ones; 3:1 ratio expected in F2 from two heterozygotes.",
+    "Sex-linked genes are carried on the X chromosome; males (XY) only have one copy and so are more likely to express recessive sex-linked conditions."
+  ],
+  "notes": [
+    {
+      "heading": "Key Definitions",
+      "items": [
+        "Gene: a sequence of DNA bases that codes for a polypeptide or functional RNA.",
+        "Allele: an alternative form of a gene at a specific locus.",
+        "Dominant: allele that is expressed in the phenotype even when heterozygous.",
+        "Recessive: allele only expressed in the phenotype when homozygous.",
+        "Codominance: both alleles are expressed simultaneously (e.g. ABO blood groups, sickle-cell trait)."
+      ]
     },
-    "syllabusRef": "9700 AS Topics 6 and 11 links"
+    {
+      "heading": "Monohybrid and Dihybrid Crosses",
+      "items": [
+        "Monohybrid: 1 gene, 2 alleles. Heterozygous \u00d7 heterozygous \u2192 3:1 (dominant:recessive).",
+        "Dihybrid: 2 genes on different chromosomes (independent assortment) \u2192 9:3:3:1 ratio from AaBb \u00d7 AaBb.",
+        "Chi-squared test: \u03c7\u00b2 = \u03a3(O\u2212E)\u00b2/E; compare with critical value at p = 0.05 to accept/reject null hypothesis."
+      ]
+    },
+    {
+      "heading": "Sex Linkage",
+      "items": [
+        "Most sex-linked genes are on the X chromosome (X-linked).",
+        "Males (XY): only one X chromosome, so a recessive X-linked allele is always expressed (hemizygous).",
+        "Female carriers: X^N X^n \u2014 not affected but can pass on allele.",
+        "Examples: colour blindness, haemophilia A.",
+        "Inheritance pattern: more males affected; no father-to-son transmission of X-linked trait."
+      ]
+    },
+    {
+      "heading": "Codominance and Multiple Alleles",
+      "items": [
+        "ABO blood groups: I^A and I^B are codominant; i is recessive. Three alleles but each person has only two.",
+        "Sickle cell: Hb^A Hb^S \u2014 heterozygotes produce both normal and sickle haemoglobin (sickle cell trait).",
+        "Incomplete dominance: heterozygotes show intermediate phenotype (e.g. Antirrhinum flower colour)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Locus",
+      "body": "The specific position of a gene on a chromosome."
+    },
+    {
+      "term": "Phenotype",
+      "body": "The observable characteristics of an organism, determined by its genotype and environment."
+    },
+    {
+      "term": "Codominance",
+      "body": "A situation where both alleles in a heterozygote are fully expressed in the phenotype."
+    },
+    {
+      "term": "Chi-squared (\u03c7\u00b2) test",
+      "body": "A statistical test used to determine whether observed results differ significantly from expected results."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A woman carrier of haemophilia (X^H X^h) has children with an unaffected man. Give the expected genotypic ratio of sons.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Cross",
+          "text": "Mother: X^H X^h \u00d7 Father: X^H Y"
+        },
+        {
+          "n": 2,
+          "sub": "Offspring",
+          "text": "X^H X^H (unaffected daughter), X^H X^h (carrier daughter), X^H Y (unaffected son), X^h Y (haemophiliac son)"
+        },
+        {
+          "n": 3,
+          "sub": "Sons",
+          "text": "1 X^H Y : 1 X^h Y \u2192 50% of sons are unaffected, 50% have haemophilia."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Writing genotypes without showing the X chromosome for sex-linked traits.",
+    "Confusing codominance (both alleles expressed) with incomplete dominance (intermediate phenotype).",
+    "Using 'genotype' and 'phenotype' interchangeably."
+  ],
+  "tips": [
+    "Always use a Punnett square and state the gametes clearly.",
+    "For sex-linked traits, write alleles as X^A or X^a to show they are on the X chromosome.",
+    "When the question says 'give the ratio', write it as numbers: e.g. 1:2:1, not fractions."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the expected phenotypic ratio in a dihybrid cross AaBb \u00d7 AaBb?",
+      "a": "9:3:3:1 (assuming independent assortment and complete dominance)."
+    },
+    {
+      "q": "Why are more males than females affected by X-linked recessive conditions?",
+      "a": "Males are hemizygous (only one X chromosome), so a single recessive allele is expressed; females need two copies."
+    },
+    {
+      "q": "What is codominance?",
+      "a": "Both alleles are fully expressed in the heterozygote \u2014 neither masks the other."
+    },
+    {
+      "q": "What does the chi-squared test determine?",
+      "a": "Whether observed results differ significantly from expected results \u2014 used to test if a ratio fits Mendelian expectations."
+    },
+    {
+      "q": "Give the blood group genotypes for a person with group AB.",
+      "a": "I^A I^B (codominant \u2014 both alleles expressed)."
+    },
+    {
+      "q": "What is a test cross?",
+      "a": "Crossing an organism with an unknown genotype with a homozygous recessive individual to determine the unknown genotype from the offspring ratio."
+    }
+  ],
+  "quiz": {
+    "title": "Genetics Quiz",
+    "questions": [
+      {
+        "q": "In a cross Aa \u00d7 Aa, what is the expected genotypic ratio?",
+        "opts": [
+          "1:2:1 (AA:Aa:aa)",
+          "3:1",
+          "1:1",
+          "All Aa"
+        ],
+        "ans": 0,
+        "exp": "Aa \u00d7 Aa: \u00bc AA : \u00bd Aa : \u00bc aa = 1:2:1 genotypic ratio; 3:1 phenotypic ratio."
+      },
+      {
+        "q": "A colour-blind father (X^b Y) and carrier mother (X^B X^b) have a daughter. What is the probability she is colour blind?",
+        "opts": [
+          "0%",
+          "25%",
+          "50%",
+          "100%"
+        ],
+        "ans": 2,
+        "exp": "Daughters: X^B X^b (carrier) or X^b X^b (colour blind) \u2192 50% of daughters are colour blind."
+      },
+      {
+        "q": "In ABO blood groups, I^A and I^B are best described as:",
+        "opts": [
+          "I^A dominant over I^B",
+          "Codominant",
+          "I^B recessive",
+          "Both recessive to i"
+        ],
+        "ans": 1,
+        "exp": "I^A and I^B are codominant \u2014 both are expressed fully in the AB phenotype."
+      },
+      {
+        "q": "A dihybrid cross AaBb \u00d7 AaBb gives 320 offspring. How many would be expected to show both dominant traits?",
+        "opts": [
+          "60",
+          "120",
+          "180",
+          "240"
+        ],
+        "ans": 2,
+        "exp": "9/16 show both dominant traits: 9/16 \u00d7 320 = 180."
+      },
+      {
+        "q": "Which ratio indicates independent assortment in a dihybrid cross?",
+        "opts": [
+          "3:1",
+          "1:1",
+          "9:3:3:1",
+          "1:2:1"
+        ],
+        "ans": 2,
+        "exp": "9:3:3:1 is the expected ratio from AaBb \u00d7 AaBb when genes assort independently (Mendel's second law)."
+      }
+    ]
+  },
+  "recall": [
+    "Define gene, allele, genotype, phenotype.",
+    "Carry out a dihybrid cross and predict the F2 ratio.",
+    "Explain why males are more likely to show X-linked recessive traits.",
+    "Describe codominance using ABO blood groups as an example.",
+    "Explain the purpose of a chi-squared test."
+  ],
+  "summary": [
+    {
+      "label": "Mono F2",
+      "value": "3:1 phenotypic"
+    },
+    {
+      "label": "Dihybrid F2",
+      "value": "9:3:3:1"
+    },
+    {
+      "label": "X-linked recessive",
+      "value": "males hemizygous \u2192 always expressed"
+    },
+    {
+      "label": "Codominance",
+      "value": "both alleles expressed in heterozygote"
+    },
+    {
+      "label": "\u03c7\u00b2 test",
+      "value": "\u03a3(O\u2212E)\u00b2/E; compare to critical value"
+    },
+    {
+      "label": "Test cross",
+      "value": "unknown \u00d7 homozygous recessive"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 16"
 }

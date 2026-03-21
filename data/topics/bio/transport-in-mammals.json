@@ -1,238 +1,212 @@
 {
-    "id": "transport-in-mammals",
-    "subject": "bio",
-    "title": "Transport in Mammals",
-    "subtitle": "Transport in Mammals with mechanism-focused explanation and exam-linked examples.",
-    "syllabusRef": "9700 AS Topic 8",
-    "concept": [
-        "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes.",
-        "Double circulation separates pulmonary and systemic blood flow.",
-        "Heart structure and cardiac cycle support directional pumping."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes.",
-                "Double circulation separates pulmonary and systemic blood flow.",
-                "Heart structure and cardiac cycle support directional pumping."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Transport in Mammals ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Double circulation",
-            "body": "Circulatory system where blood passes through the heart twice per complete circuit."
-        },
-        {
-            "term": "Cardiac cycle",
-            "body": "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat."
-        },
-        {
-            "term": "Capillary exchange",
-            "body": "Movement of substances between blood and tissues across capillary walls."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Transport in Mammals.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Double circulation separates pulmonary and systemic blood flow."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Transport in Mammals reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Transport in Mammals?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Transport in Mammals outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Transport in Mammals?",
-            "a": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Define Double circulation.",
-            "a": "Circulatory system where blood passes through the heart twice per complete circuit."
-        },
-        {
-            "q": "Define Cardiac cycle.",
-            "a": "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat."
-        },
-        {
-            "q": "What exam strategy works best for Transport in Mammals?",
-            "a": "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Double circulation separates pulmonary and systemic blood flow."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Heart structure and cardiac cycle support directional pumping."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Double circulation"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 8"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Q = ΔP/R (Poiseuille); Hb + O₂ ⇌ HbO₂"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Transport in Mammals: core principle",
-            "a": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Double circulation",
-            "a": "Circulatory system where blood passes through the heart twice per complete circuit."
-        },
-        {
-            "q": "Cardiac cycle",
-            "a": "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat."
-        },
-        {
-            "q": "Capillary exchange",
-            "a": "Movement of substances between blood and tissues across capillary walls."
-        },
-        {
-            "q": "Transport in Mammals: common mistake",
-            "a": "Describing Transport in Mammals outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Transport in Mammals Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Double circulation?",
-                "opts": [
-                    "Circulatory system where blood passes through the heart twice per complete circuit.",
-                    "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat.",
-                    "Movement of substances between blood and tissues across capillary walls.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Double circulation."
-            },
-            {
-                "q": "Which statement about Transport in Mammals is correct?",
-                "opts": [
-                    "Double circulation separates pulmonary and systemic blood flow.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Cardiac cycle?",
-                "opts": [
-                    "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat.",
-                    "Circulatory system where blood passes through the heart twice per complete circuit.",
-                    "Movement of substances between blood and tissues across capillary walls.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Cardiac cycle."
-            },
-            {
-                "q": "Which exam approach is most reliable for Transport in Mammals?",
-                "opts": [
-                    "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Transport in Mammals?",
-                "opts": [
-                    "Heart structure and cardiac cycle support directional pumping.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "transport-in-mammals",
+  "subject": "bio",
+  "title": "Transport in Mammals",
+  "subtitle": "Blood, blood vessels, heart structure and cardiac cycle.",
+  "concept": [
+    "The mammalian circulatory system is closed and double (pulmonary + systemic circuits), ensuring oxygenated and deoxygenated blood are kept separate.",
+    "The heart pumps blood by coordinated contraction; electrical impulses from the SAN control the cardiac cycle.",
+    "Haemoglobin loads and unloads O\u2082 based on partial pressure; the Bohr effect shifts the dissociation curve right in active tissues."
+  ],
+  "notes": [
+    {
+      "heading": "Blood Vessels",
+      "items": [
+        "Arteries: thick muscular/elastic walls; small lumen; carry blood away from heart at high pressure.",
+        "Veins: thin walls; large lumen; valves prevent backflow; carry blood to heart at low pressure.",
+        "Capillaries: walls one cell thick (squamous endothelium); exchange of materials with tissues by diffusion.",
+        "Tissue fluid: formed at arteriole end of capillaries (hydrostatic pressure > osmotic); returned at venule end or via lymph."
+      ]
+    },
+    {
+      "heading": "Heart Structure and Cardiac Cycle",
+      "items": [
+        "Right side: receives deoxygenated blood; pumps to lungs (pulmonary circuit).",
+        "Left side: receives oxygenated blood; pumps to body (systemic circuit). Left ventricle wall is thicker.",
+        "Valves: atrioventricular (tricuspid right, bicuspid/mitral left) \u2014 prevent backflow to atria; semilunar (pulmonary and aortic) \u2014 prevent backflow from arteries.",
+        "Cardiac cycle: diastole (relaxation, filling) \u2192 atrial systole \u2192 ventricular systole \u2192 diastole again.",
+        "SAN (sinoatrial node) \u2014 pacemaker; generates electrical impulse \u2192 spreads across atria (contraction) \u2192 delayed at AVN \u2192 down bundle of His \u2192 Purkinje fibres \u2192 ventricular contraction."
+      ]
+    },
+    {
+      "heading": "Haemoglobin and Oxygen Transport",
+      "items": [
+        "Haemoglobin (Hb): 4 polypeptide chains each with a haem group; each haem carries one O\u2082.",
+        "Oxyhaemoglobin: Hb + 4O\u2082 \u21cc HbO\u2088 (loaded in lungs; unloaded in tissues).",
+        "Oxygen dissociation curve: S-shaped (sigmoidal); cooperativity \u2014 binding of first O\u2082 makes subsequent binding easier.",
+        "Bohr effect: increased CO\u2082 \u2192 decreased pH \u2192 curve shifts right \u2192 Hb has lower affinity for O\u2082 \u2192 more O\u2082 released in active tissues.",
+        "Fetal haemoglobin: higher affinity for O\u2082 than adult Hb \u2192 loads O\u2082 from maternal haemoglobin across placenta."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Double circulation",
+      "body": "A circulatory system with two separate circuits: pulmonary (heart \u2192 lungs \u2192 heart) and systemic (heart \u2192 body \u2192 heart)."
+    },
+    {
+      "term": "Bohr effect",
+      "body": "The decrease in oxygen affinity of haemoglobin caused by an increase in CO\u2082 concentration (decrease in pH), shifting the oxygen dissociation curve to the right."
+    },
+    {
+      "term": "SAN (sinoatrial node)",
+      "body": "The heart's pacemaker \u2014 generates rhythmic electrical impulses that spread across the atria to initiate contraction."
+    },
+    {
+      "term": "Tissue fluid",
+      "body": "Fluid filtered from blood plasma at the arteriole end of capillaries; bathes cells and returns to blood or lymph at the venule end."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain the Bohr effect and its significance in exercising muscle.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "CO\u2082 production",
+          "text": "Exercising muscles produce CO\u2082 from aerobic respiration; CO\u2082 dissolves in blood, forming H\u2082CO\u2083 \u2192 H\u207a + HCO\u2083\u207b, lowering pH."
+        },
+        {
+          "n": 2,
+          "sub": "Effect on Hb",
+          "text": "H\u207a ions bind to haemoglobin, reducing its affinity for O\u2082 (allosteric effect) \u2014 the oxygen dissociation curve shifts to the right."
+        },
+        {
+          "n": 3,
+          "sub": "Result",
+          "text": "At the same pO\u2082, oxyhaemoglobin releases more O\u2082 to the tissues. This increases O\u2082 delivery exactly where demand is highest."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing atrial and ventricular systole \u2014 ventricles contract after atria; ventricles do the powerful pumping.",
+    "Describing the tricuspid valve as being on the left side \u2014 it is on the RIGHT side (between right atrium and right ventricle).",
+    "Forgetting that the Bohr effect INCREASES O\u2082 delivery to tissues (shifts curve right, not left)."
+  ],
+  "tips": [
+    "Left ventricle wall is thicker because it pumps blood to the entire systemic circuit at higher pressure.",
+    "Fetal Hb curve is to the LEFT of adult Hb \u2014 higher affinity (loads from maternal Hb at placenta).",
+    "Valve sounds: 'lub' = AV valves closing (ventricular systole); 'dub' = semilunar valves closing (diastole)."
+  ],
+  "flashcards": [
+    {
+      "q": "Why is the left ventricle wall thicker than the right?",
+      "a": "The left ventricle pumps blood around the entire systemic circuit at higher pressure; it needs a more muscular wall."
+    },
+    {
+      "q": "What is the Bohr effect?",
+      "a": "Increased CO\u2082 reduces Hb's affinity for O\u2082 (shifts dissociation curve right), increasing O\u2082 release in active tissues."
+    },
+    {
+      "q": "What is the role of the SAN?",
+      "a": "The sinoatrial node is the pacemaker \u2014 generates rhythmic electrical impulses that initiate atrial contraction and coordinate the cardiac cycle."
+    },
+    {
+      "q": "How is tissue fluid formed?",
+      "a": "At the arteriole end of capillaries, hydrostatic pressure exceeds osmotic pressure, forcing water and small solutes out of blood plasma into intercellular spaces."
+    },
+    {
+      "q": "Why does fetal haemoglobin have a higher affinity for O\u2082 than adult haemoglobin?",
+      "a": "Fetal Hb binds O\u2082 from maternal Hb at the placenta; its curve is left-shifted (higher affinity), so it can load O\u2082 at the pO\u2082 in the placenta."
+    },
+    {
+      "q": "What prevents backflow of blood from the aorta into the left ventricle?",
+      "a": "Semilunar (aortic) valves close when ventricular pressure drops below aortic pressure."
+    }
+  ],
+  "quiz": {
+    "title": "Transport in Mammals Quiz",
+    "questions": [
+      {
+        "q": "Which vessel carries oxygenated blood from the lungs to the heart?",
+        "opts": [
+          "Pulmonary artery",
+          "Pulmonary vein",
+          "Aorta",
+          "Vena cava"
+        ],
+        "ans": 1,
+        "exp": "Pulmonary veins carry oxygenated blood from the lungs to the left atrium."
+      },
+      {
+        "q": "The Bohr effect shifts the O\u2082 dissociation curve to the right. What does this mean?",
+        "opts": [
+          "Hb has higher affinity for O\u2082",
+          "More O\u2082 is loaded in lungs",
+          "More O\u2082 is released in tissues",
+          "Less CO\u2082 is produced"
+        ],
+        "ans": 2,
+        "exp": "Right shift = lower affinity at the same pO\u2082 = more O\u2082 unloaded in tissues where CO\u2082 is high."
+      },
+      {
+        "q": "What initiates the heartbeat?",
+        "opts": [
+          "AVN",
+          "Bundle of His",
+          "SAN",
+          "Purkinje fibres"
+        ],
+        "ans": 2,
+        "exp": "The SAN (sinoatrial node) in the right atrium generates the electrical impulse that starts each heartbeat."
+      },
+      {
+        "q": "What is the function of valves in veins?",
+        "opts": [
+          "Speed up blood flow",
+          "Prevent backflow of blood",
+          "Increase blood pressure",
+          "Absorb oxygen"
+        ],
+        "ans": 1,
+        "exp": "Venous valves prevent backflow \u2014 blood in veins is at low pressure, so valves are essential to ensure one-way flow."
+      },
+      {
+        "q": "At which end of a capillary is tissue fluid absorbed back into the blood?",
+        "opts": [
+          "Arteriole end",
+          "Venule end",
+          "Both ends equally",
+          "Neither \u2014 it enters lymph only"
+        ],
+        "ans": 1,
+        "exp": "At the venule end, osmotic pressure exceeds hydrostatic pressure, so tissue fluid is reabsorbed into the capillary."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the differences between arteries, veins and capillaries.",
+    "Explain the cardiac cycle and the role of the SAN.",
+    "Draw and explain an oxygen dissociation curve.",
+    "Explain the Bohr effect and its significance.",
+    "Describe how tissue fluid is formed and returned to circulation."
+  ],
+  "summary": [
+    {
+      "label": "Arteries",
+      "value": "away from heart; thick wall; high pressure"
+    },
+    {
+      "label": "Veins",
+      "value": "to heart; valves; low pressure"
+    },
+    {
+      "label": "Bohr effect",
+      "value": "\u2191CO\u2082 \u2192 \u2193pH \u2192 curve right \u2192 more O\u2082 released"
+    },
+    {
+      "label": "SAN",
+      "value": "pacemaker; initiates heartbeat"
+    },
+    {
+      "label": "Left ventricle",
+      "value": "thicker wall; systemic circuit"
+    },
+    {
+      "label": "Fetal Hb",
+      "value": "higher affinity; curve left of adult"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 8"
 }

@@ -1,238 +1,226 @@
 {
-    "id": "organic-basics",
-    "subject": "chem",
-    "title": "An Introduction to AS Level Organic Chemistry",
-    "subtitle": "An Introduction to AS Level Organic Chemistry with core theory, reaction logic, and exam-focused application.",
-    "concept": [
-        "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type.",
-        "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually.",
-        "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type.",
-                "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually.",
-                "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply An Introduction to AS Level Organic Chemistry ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Functional Group",
-            "body": "Specific atom or group in an organic molecule responsible for characteristic reactions."
-        },
-        {
-            "term": "Homologous Series",
-            "body": "Family of compounds with same functional group, same general formula, and similar chemical properties."
-        },
-        {
-            "term": "Isomer",
-            "body": "Compound with the same molecular formula as another compound but different arrangement of atoms."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of An Introduction to AS Level Organic Chemistry.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use An Introduction to AS Level Organic Chemistry reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for An Introduction to AS Level Organic Chemistry?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in An Introduction to AS Level Organic Chemistry without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of An Introduction to AS Level Organic Chemistry?",
-            "a": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
-        },
-        {
-            "q": "Define Functional Group.",
-            "a": "Specific atom or group in an organic molecule responsible for characteristic reactions."
-        },
-        {
-            "q": "Define Homologous Series.",
-            "a": "Family of compounds with same functional group, same general formula, and similar chemical properties."
-        },
-        {
-            "q": "What exam strategy works best for An Introduction to AS Level Organic Chemistry?",
-            "a": "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually."
-        },
-        {
-            "label": "Exam Application",
-            "val": "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Functional Group"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 13"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Alkanes: CₙH₂ₙ₊₂; Alkenes: CₙH₂ₙ; Alkynes: CₙH₂ₙ₋₂"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "An Introduction to AS Level Organic Chemistry: core principle",
-            "a": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
-        },
-        {
-            "q": "Functional Group",
-            "a": "Specific atom or group in an organic molecule responsible for characteristic reactions."
-        },
-        {
-            "q": "Homologous Series",
-            "a": "Family of compounds with same functional group, same general formula, and similar chemical properties."
-        },
-        {
-            "q": "Isomer",
-            "a": "Compound with the same molecular formula as another compound but different arrangement of atoms."
-        },
-        {
-            "q": "An Introduction to AS Level Organic Chemistry: common mistake",
-            "a": "Giving trends in An Introduction to AS Level Organic Chemistry without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "An Introduction to AS Level Organic Chemistry Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Functional Group?",
-                "opts": [
-                    "Specific atom or group in an organic molecule responsible for characteristic reactions.",
-                    "Family of compounds with same functional group, same general formula, and similar chemical properties.",
-                    "Compound with the same molecular formula as another compound but different arrangement of atoms.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Functional Group."
-            },
-            {
-                "q": "Which statement about An Introduction to AS Level Organic Chemistry is correct?",
-                "opts": [
-                    "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Homologous Series?",
-                "opts": [
-                    "Family of compounds with same functional group, same general formula, and similar chemical properties.",
-                    "Specific atom or group in an organic molecule responsible for characteristic reactions.",
-                    "Compound with the same molecular formula as another compound but different arrangement of atoms.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Homologous Series."
-            },
-            {
-                "q": "Which exam approach is most reliable for An Introduction to AS Level Organic Chemistry?",
-                "opts": [
-                    "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in An Introduction to AS Level Organic Chemistry?",
-                "opts": [
-                    "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "organic-basics",
+  "subject": "chem",
+  "title": "Organic Chemistry Basics",
+  "subtitle": "Nomenclature, isomerism, reaction types and reagents.",
+  "concept": [
+    "Organic molecules are named systematically using IUPAC rules based on longest carbon chain, functional groups, and substituents.",
+    "Structural isomers have the same molecular formula but different structural arrangements; stereoisomers have the same connectivity but different spatial arrangements.",
+    "Key reaction types: substitution, addition, elimination, hydrolysis, oxidation, reduction."
+  ],
+  "notes": [
+    {
+      "heading": "Naming Organic Compounds",
+      "items": [
+        "Identify the longest chain as the parent hydrocarbon; number from the end nearest the functional group.",
+        "Prefixes: meth-(1C), eth-(2C), prop-(3C), but-(4C), pent-(5C), hex-(6C).",
+        "Suffixes: -ane (alkane), -ene (alkene), -ol (alcohol), -al (aldehyde), -one (ketone), -oic acid (carboxylic acid).",
+        "Substituents: methyl, ethyl, chloro, bromo, nitro etc. \u2014 listed alphabetically before the parent name."
+      ]
     },
-    "syllabusRef": "9701 AS Topic 13"
+    {
+      "heading": "Isomerism",
+      "items": [
+        "Structural isomers: same molecular formula, different connectivity. Types: chain (different carbon skeleton), positional (functional group in different position), functional group (different functional group).",
+        "Stereoisomers: same connectivity, different spatial arrangement. Types: cis/trans (E/Z) and optical isomers.",
+        "E/Z isomerism: requires restricted rotation (C=C) and two different groups on each carbon of the double bond. Z (zusammen) = same side; E (entgegen) = opposite sides.",
+        "Optical isomers (enantiomers): molecule with a chiral centre (4 different groups on one carbon); non-superimposable mirror images; rotate plane-polarised light in opposite directions."
+      ]
+    },
+    {
+      "heading": "Reaction Types",
+      "items": [
+        "Substitution: atom/group replaced by another. Electrophilic substitution (benzene), free radical substitution (alkanes), nucleophilic substitution (halogenoalkanes).",
+        "Addition: two molecules join across a double bond (alkene reactions).",
+        "Elimination: small molecule removed to form a double bond (e.g. dehydration of alcohol to alkene).",
+        "Hydrolysis: bond broken by reaction with water (e.g. ester hydrolysis).",
+        "Oxidation: gain of O or loss of H (aldehydes oxidised to carboxylic acids; alcohols oxidised). Reduction: gain of H or loss of O (ketones/aldehydes reduced with NaBH\u2084 or LiAlH\u2084)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Chiral centre",
+      "body": "A carbon atom bonded to four different groups, giving rise to non-superimposable mirror image molecules (enantiomers)."
+    },
+    {
+      "term": "E/Z isomerism",
+      "body": "A type of stereoisomerism about a C=C double bond, where restricted rotation and different groups on each carbon give rise to E (opposite sides) and Z (same side) isomers."
+    },
+    {
+      "term": "Electrophile",
+      "body": "An electron-deficient species that accepts a lone pair of electrons from a nucleophile; attacks regions of high electron density."
+    },
+    {
+      "term": "Nucleophile",
+      "body": "An electron-rich species (lone pair or negative charge) that donates electrons to an electron-deficient atom."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Name the compound: CH\u2083CH(Cl)CH\u2082CH\u2083",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Longest chain",
+          "text": "4 carbons \u2192 butane parent"
+        },
+        {
+          "n": 2,
+          "sub": "Substituent position",
+          "text": "Cl on C2 (number from end nearest substituent)"
+        },
+        {
+          "n": 3,
+          "sub": "Name",
+          "text": "2-chlorobutane"
+        }
+      ]
+    },
+    {
+      "q": "Explain why but-2-ene shows E/Z isomerism but but-1-ene does not.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "But-2-ene",
+          "text": "CH\u2083CH=CHCH\u2083: C2 has CH\u2083 and H; C3 has CH\u2083 and H \u2192 two different groups on each carbon of C=C \u2192 E/Z isomerism exists."
+        },
+        {
+          "n": 2,
+          "sub": "But-1-ene",
+          "text": "CH\u2082=CHCH\u2082CH\u2083: C1 has two H atoms \u2192 both groups on C1 are identical \u2192 no E/Z isomerism."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Numbering the chain from the wrong end \u2014 always number to give the lowest locants to substituents/functional groups.",
+    "Forgetting that E/Z isomerism requires TWO DIFFERENT groups on EACH doubly-bonded carbon.",
+    "Confusing optical isomers with E/Z isomers \u2014 optical isomers require a chiral centre (4 different groups on one sp3 C)."
+  ],
+  "tips": [
+    "For naming: write out the full structural formula first, then identify the longest chain.",
+    "Enantiomers have identical physical and chemical properties except: they rotate plane-polarised light in opposite directions and react differently with other chiral molecules.",
+    "Learn the test for each functional group: carboxylic acid (Na\u2082CO\u2083 \u2014 CO\u2082 effervescence), aldehyde (Tollens' \u2014 silver mirror; Fehling's \u2014 brick red ppt), alkene (bromine water \u2014 decolourised)."
+  ],
+  "flashcards": [
+    {
+      "q": "What is a chiral centre?",
+      "a": "A carbon atom bonded to four different groups \u2014 produces non-superimposable mirror image molecules (enantiomers)."
+    },
+    {
+      "q": "What is the difference between E and Z isomers?",
+      "a": "E (entgegen): higher priority groups on opposite sides of C=C. Z (zusammen): higher priority groups on the same side."
+    },
+    {
+      "q": "What are the two conditions for E/Z isomerism?",
+      "a": "(1) Restricted rotation (usually a C=C bond). (2) Two different groups on each of the doubly-bonded carbons."
+    },
+    {
+      "q": "What is a nucleophile?",
+      "a": "An electron-rich species (lone pair or negative charge) that donates a pair of electrons to an electron-deficient atom."
+    },
+    {
+      "q": "What reaction type occurs when an alcohol loses water to form an alkene?",
+      "a": "Elimination (dehydration)."
+    },
+    {
+      "q": "How do enantiomers differ?",
+      "a": "They are non-superimposable mirror images; they rotate plane-polarised light by equal amounts in opposite directions; identical in all other physical/chemical properties."
+    }
+  ],
+  "quiz": {
+    "title": "Organic Basics Quiz",
+    "questions": [
+      {
+        "q": "What is the IUPAC name of CH\u2083CH\u2082CH(OH)CH\u2083?",
+        "opts": [
+          "Butan-1-ol",
+          "Butan-2-ol",
+          "2-methylpropan-1-ol",
+          "2-butanol"
+        ],
+        "ans": 1,
+        "exp": "Longest chain = 4C (butane); OH on C2 (numbered from end nearest OH) \u2192 butan-2-ol."
+      },
+      {
+        "q": "Which of these has a chiral centre?",
+        "opts": [
+          "CH\u2083CH\u2082CH\u2083",
+          "CH\u2083CH(Cl)CH\u2082CH\u2083",
+          "CH\u2082=CHCH\u2083",
+          "CHCl\u2083"
+        ],
+        "ans": 1,
+        "exp": "CH\u2083CH(Cl)CH\u2082CH\u2083: the C bearing Cl has 4 different groups (H, Cl, CH\u2083, CH\u2082CH\u2083) \u2192 chiral centre."
+      },
+      {
+        "q": "But-2-ene can exist as E and Z isomers. What condition makes this possible?",
+        "opts": [
+          "It has a chiral centre",
+          "C=C has restricted rotation and different groups on each carbon",
+          "It has an asymmetric carbon",
+          "It has more than one functional group"
+        ],
+        "ans": 1,
+        "exp": "E/Z isomerism requires restricted rotation (C=C) and two different groups on each carbon of the double bond."
+      },
+      {
+        "q": "Which reaction type best describes: CH\u2082=CH\u2082 + Br\u2082 \u2192 CH\u2082BrCH\u2082Br?",
+        "opts": [
+          "Substitution",
+          "Elimination",
+          "Addition",
+          "Hydrolysis"
+        ],
+        "ans": 2,
+        "exp": "Two molecules (ethene and Br\u2082) join across the double bond \u2014 electrophilic addition."
+      },
+      {
+        "q": "What is the relationship between enantiomers?",
+        "opts": [
+          "Same spatial arrangement",
+          "Non-superimposable mirror images",
+          "Different molecular formulae",
+          "They rotate plane-polarised light in the same direction"
+        ],
+        "ans": 1,
+        "exp": "Enantiomers are non-superimposable mirror images \u2014 they rotate plane-polarised light by equal amounts in opposite directions."
+      }
+    ]
+  },
+  "recall": [
+    "Apply IUPAC rules to name branched-chain alkanes and compounds with functional groups.",
+    "Distinguish between structural isomers and stereoisomers.",
+    "Explain the conditions required for E/Z isomerism.",
+    "Explain what a chiral centre is and give an example.",
+    "Define electrophile and nucleophile."
+  ],
+  "summary": [
+    {
+      "label": "Chain isomers",
+      "value": "different carbon skeleton"
+    },
+    {
+      "label": "Positional isomers",
+      "value": "functional group at different position"
+    },
+    {
+      "label": "E/Z",
+      "value": "restricted rotation + different groups on each C of C=C"
+    },
+    {
+      "label": "Chiral centre",
+      "value": "C with 4 different groups \u2192 enantiomers"
+    },
+    {
+      "label": "Addition",
+      "value": "join across double bond"
+    },
+    {
+      "label": "Elimination",
+      "value": "remove small molecule \u2192 double bond"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 12"
 }

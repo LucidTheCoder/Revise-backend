@@ -14,6 +14,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const fs = require('fs').promises;
 const path = require('path');
+const { register, login, getMe, authenticateToken, requireAdmin } = require('./auth');
+const db = require('./db');
+const { handleUpload, uploadAvatar, uploadTopicImage, uploadPdf, deleteFile } = require('./uploads');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -55,21 +58,12 @@ app.use((req, res, next) => {
  */
 async function initializeDatabase() {
   try {
-    console.log('📦 Loading data files...');
-    
-    // In production, replace this with actual database connection
-    // Example MongoDB:
-    // const mongoose = require('mongoose');
-    // await mongoose.connect(process.env.MONGODB_URI);
-    
-    // Example PostgreSQL:
-    // const { Pool } = require('pg');
-    // const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    
-    console.log('✅ Database ready (using JSON files)');
+    console.log('🔌 Connecting to MongoDB...');
+    await db.connectDB();
+    console.log('✅ Database ready (MongoDB)');
     return true;
   } catch (error) {
-    console.error('❌ Database connection failed:', error);
+    console.error('❌ Database connection failed:', error.message);
     process.exit(1);
   }
 }
@@ -109,6 +103,19 @@ async function loadTopic(topicId, subject) {
   data = data.replace(/^\uFEFF/, '');
   return JSON.parse(data);
 }
+
+// ============================================================================
+// ROUTES: AUTHENTICATION
+// ============================================================================
+
+// POST /api/auth/register — Body: { name, email, password } → { token, user }
+app.post('/api/auth/register', register);
+
+// POST /api/auth/login — Body: { email, password } → { token, user }
+app.post('/api/auth/login', login);
+
+// GET /api/auth/me — requires Authorization: Bearer <token>
+app.get('/api/auth/me', authenticateToken, getMe);
 
 // ============================================================================
 // ============================================================================
@@ -483,39 +490,6 @@ app.get('/api/community/chat/:channelId/messages', async (req, res, next) => {
 });
 
 // ============================================================================
-// IN-MEMORY USER DATA STORE
-// ============================================================================
-
-/**
- * In-memory user data storage
- * In production, this would be a database with persistent storage
- * For now, data persists during the server session
- */
-const users = {};
-
-function getOrCreateUser(userId = 'default-user') {
-  if (!users[userId]) {
-    users[userId] = {
-      userId,
-      createdAt: new Date().toISOString(),
-      progress: {}, // { topicId: { subject, confidence, isComplete, quizScore, completedAt } }
-      stats: {
-        totalTopicsCompleted: 0,
-        totalQuizzesCompleted: 0,
-        averageQuizScore: 0,
-        streak: 0,
-        xp: 0,
-        totalMinutesStudied: 0,
-        lastActiveAt: new Date().toISOString()
-      },
-      weakTopics: [], // Topics with low scores
-      learningPath: [] // Recommended topics based on performance
-    };
-  }
-  return users[userId];
-}
-
-// ============================================================================
 // ROUTES: USER PROGRESS
 // ============================================================================
 
@@ -524,55 +498,19 @@ function getOrCreateUser(userId = 'default-user') {
  * Save/update user progress for a topic
  * Body: { topicId, subject, confidence, isComplete, quizScore }
  */
-app.post('/api/user/progress', async (req, res, next) => {
+app.post('/api/user/progress', authenticateToken, async (req, res, next) => {
   try {
     const { topicId, subject, confidence, isComplete, quizScore } = req.body;
-    const userId = req.headers['x-user-id'] || 'default-user';
-    
+    const userId = req.user._id;
+
     if (!topicId || !subject) {
-      return res.status(400).json({
-        success: false,
-        error: 'topicId and subject are required'
-      });
+      return res.status(400).json({ success: false, error: 'topicId and subject are required' });
     }
-    
-    const user = getOrCreateUser(userId);
-    
-    // Save progress
-    user.progress[topicId] = {
-      topicId,
-      subject,
-      confidence: confidence ?? 0,
-      isComplete: isComplete ?? false,
-      quizScore: quizScore ?? null,
-      completedAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    
-    // Update stats if topic is complete
-    if (isComplete) {
-      if (!user.progress[topicId].wasComplete) {
-        user.stats.totalTopicsCompleted++;
-      }
-    }
-    
-    if (quizScore !== null && quizScore !== undefined) {
-      user.stats.totalQuizzesCompleted++;
-      // Update average score
-      const totalScore = Object.values(user.progress)
-        .filter(p => p.quizScore !== null)
-        .reduce((sum, p) => sum + p.quizScore, 0);
-      const count = Object.values(user.progress).filter(p => p.quizScore !== null).length;
-      user.stats.averageQuizScore = count > 0 ? totalScore / count : 0;
-    }
-    
-    user.stats.lastActiveAt = new Date().toISOString();
-    
-    res.json({
-      success: true,
-      message: 'Progress saved',
-      data: user.progress[topicId]
-    });
+
+    const progress = await db.upsertProgress(userId, { topicId, subject, confidence, isComplete, quizScore });
+    await db.recalculateStats(userId);
+
+    res.json({ success: true, message: 'Progress saved', data: progress });
   } catch (error) {
     next(error);
   }
@@ -582,18 +520,14 @@ app.post('/api/user/progress', async (req, res, next) => {
  * GET /api/user/progress
  * Get all user progress
  */
-app.get('/api/user/progress', async (req, res, next) => {
+app.get('/api/user/progress', authenticateToken, async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] || 'default-user';
-    const user = getOrCreateUser(userId);
-    
+    const userId = req.user._id;
+    const progress = await db.getAllProgress(userId);
+
     res.json({
       success: true,
-      data: {
-        progress: user.progress,
-        stats: user.stats,
-        totalProgressed: Object.keys(user.progress).length
-      }
+      data: { progress, totalProgressed: progress.length }
     });
   } catch (error) {
     next(error);
@@ -604,25 +538,17 @@ app.get('/api/user/progress', async (req, res, next) => {
  * GET /api/user/progress/:topicId
  * Get progress for specific topic
  */
-app.get('/api/user/progress/:topicId', async (req, res, next) => {
+app.get('/api/user/progress/:topicId', authenticateToken, async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] || 'default-user';
+    const userId = req.user._id;
     const { topicId } = req.params;
-    const user = getOrCreateUser(userId);
-    
-    const progress = user.progress[topicId];
+    const progress = await db.getProgress(userId, topicId);
+
     if (!progress) {
-      return res.status(404).json({
-        success: false,
-        error: 'No progress found for this topic',
-        topicId
-      });
+      return res.status(404).json({ success: false, error: 'No progress found for this topic', topicId });
     }
-    
-    res.json({
-      success: true,
-      data: progress
-    });
+
+    res.json({ success: true, data: progress });
   } catch (error) {
     next(error);
   }
@@ -636,35 +562,23 @@ app.get('/api/user/progress/:topicId', async (req, res, next) => {
  * GET /api/user/stats
  * Get user statistics and learning metrics
  */
-app.get('/api/user/stats', async (req, res, next) => {
+app.get('/api/user/stats', authenticateToken, async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] || 'default-user';
-    const user = getOrCreateUser(userId);
-    
-    // Calculate weak topics (average score < 60%)
-    const weakTopics = Object.entries(user.progress)
-      .filter(([_, p]) => p.quizScore !== null && p.quizScore < 60)
-      .map(([id, p]) => ({
-        topicId: id,
-        subject: p.subject,
-        score: p.quizScore,
-        confidence: p.confidence
-      }))
+    const userId = req.user._id;
+    const user = await db.findUserById(userId);
+    const allProgress = await db.getAllProgress(userId);
+
+    const weakTopics = allProgress
+      .filter(p => p.quizScore !== null && p.quizScore < 60)
+      .map(p => ({ topicId: p.topicId, subject: p.subject, score: p.quizScore, confidence: p.confidence }))
       .sort((a, b) => a.score - b.score);
-    
-    // Calculate completion rate
-    const completionRate = Object.keys(user.progress).length > 0
-      ? (Object.values(user.progress).filter(p => p.isComplete).length / Object.keys(user.progress).length) * 100
-      : 0;
-    
+
+    const completed = allProgress.filter(p => p.isComplete).length;
+    const completionRate = allProgress.length > 0 ? Math.round((completed / allProgress.length) * 100) : 0;
+
     res.json({
       success: true,
-      data: {
-        ...user.stats,
-        completionRate: Math.round(completionRate),
-        weakTopics,
-        topicsProgressed: Object.keys(user.progress).length
-      }
+      data: { ...user.stats.toObject(), completionRate, weakTopics, topicsProgressed: allProgress.length }
     });
   } catch (error) {
     next(error);
@@ -676,23 +590,14 @@ app.get('/api/user/stats', async (req, res, next) => {
  * Update user stats (XP, streak, study time)
  * Body: { xpGain, addToStreak, minutesStudied }
  */
-app.post('/api/user/stats/update', async (req, res, next) => {
+app.post('/api/user/stats/update', authenticateToken, async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] || 'default-user';
+    const userId = req.user._id;
     const { xpGain, addToStreak, minutesStudied } = req.body;
-    const user = getOrCreateUser(userId);
-    
-    if (xpGain) user.stats.xp += xpGain;
-    if (addToStreak) user.stats.streak += 1;
-    if (minutesStudied) user.stats.totalMinutesStudied += minutesStudied;
-    
-    user.stats.lastActiveAt = new Date().toISOString();
-    
-    res.json({
-      success: true,
-      message: 'Stats updated',
-      data: user.stats
-    });
+
+    const user = await db.incrementStats(userId, { xpGain, addToStreak, minutesStudied });
+
+    res.json({ success: true, message: 'Stats updated', data: user.stats });
   } catch (error) {
     next(error);
   }
@@ -702,50 +607,42 @@ app.post('/api/user/stats/update', async (req, res, next) => {
  * GET /api/user/analytics
  * Get detailed learning analytics
  */
-app.get('/api/user/analytics', async (req, res, next) => {
+app.get('/api/user/analytics', authenticateToken, async (req, res, next) => {
   try {
-    const userId = req.headers['x-user-id'] || 'default-user';
-    const user = getOrCreateUser(userId);
-    
-    // Group progress by subject
+    const userId = req.user._id;
+    const user = await db.findUserById(userId);
+    const allProgress = await db.getAllProgress(userId);
+
+    // Group by subject
     const bySubject = {};
-    Object.values(user.progress).forEach(p => {
+    allProgress.forEach(p => {
       if (!bySubject[p.subject]) {
-        bySubject[p.subject] = {
-          subject: p.subject,
-          topicsCompleted: 0,
-          averageScore: 0,
-          averageConfidence: 0,
-          topics: []
-        };
+        bySubject[p.subject] = { subject: p.subject, topicsCompleted: 0, averageScore: 0, averageConfidence: 0, topics: [] };
       }
       if (p.isComplete) bySubject[p.subject].topicsCompleted++;
-      bySubject[p.subject].topics.push({
-        topicId: p.topicId,
-        score: p.quizScore,
-        confidence: p.confidence
-      });
+      bySubject[p.subject].topics.push({ topicId: p.topicId, score: p.quizScore, confidence: p.confidence });
     });
-    
-    // Calculate averages by subject
-    Object.values(bySubject).forEach(subject => {
-      const scores = subject.topics.filter(t => t.score !== null).map(t => t.score);
-      const confidences = subject.topics.map(t => t.confidence);
-      subject.averageScore = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
-      subject.averageConfidence = confidences.length > 0 ? Math.round(confidences.reduce((a, b) => a + b, 0) / confidences.length) : 0;
+
+    Object.values(bySubject).forEach(s => {
+      const scores = s.topics.filter(t => t.score !== null).map(t => t.score);
+      const confs  = s.topics.map(t => t.confidence);
+      s.averageScore      = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+      s.averageConfidence = confs.length  ? Math.round(confs.reduce((a, b) => a + b, 0)  / confs.length)  : 0;
     });
-    
+
+    const sorted = Object.entries(bySubject).sort((a, b) => b[1].averageScore - a[1].averageScore);
+
     res.json({
       success: true,
       data: {
         bySubject,
         overallStats: user.stats,
         learningInsights: {
-          bestSubject: Object.entries(bySubject).sort((a, b) => b[1].averageScore - a[1].averageScore)[0]?.[0] || null,
-          needsWork: Object.entries(bySubject).sort((a, b) => a[1].averageScore - b[1].averageScore)[0]?.[0] || null,
-          confidenceLevel: user.stats.totalQuizzesCompleted > 0 ? 'Moderate' : 'Low'
-        }
-      }
+          bestSubject: sorted[0]?.[0] || null,
+          needsWork:   sorted[sorted.length - 1]?.[0] || null,
+          confidenceLevel: user.stats.totalQuizzesCompleted > 0 ? 'Moderate' : 'Low',
+        },
+      },
     });
   } catch (error) {
     next(error);
@@ -864,6 +761,45 @@ app.get('/api/topics/advanced-search', async (req, res, next) => {
 });
 
 // ============================================================================
+// ROUTES: FILE UPLOADS
+// ============================================================================
+
+app.post("/api/upload/avatar", authenticateToken, handleUpload(uploadAvatar), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ success: false, error: "No file uploaded." });
+    const url = req.file.path;
+    const publicId = req.file.filename;
+    const user = await db.findUserById(req.user._id);
+    if (user.avatarPublicId) await deleteFile(user.avatarPublicId, "image");
+    await db.updateUserAvatar(req.user._id, { url, publicId });
+    res.json({ success: true, message: "Avatar updated.", data: { url, publicId } });
+  } catch (err) { next(err); }
+});
+
+app.post("/api/upload/topic-image", authenticateToken, requireAdmin, handleUpload(uploadTopicImage), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ success: false, error: "No file uploaded." });
+    res.json({ success: true, message: "Topic image uploaded.", data: { url: req.file.path, publicId: req.file.filename } });
+  } catch (err) { next(err); }
+});
+
+app.post("/api/upload/pdf", authenticateToken, requireAdmin, handleUpload(uploadPdf), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ success: false, error: "No file uploaded." });
+    const { subject, year, session, title } = req.body;
+    res.status(201).json({ success: true, message: "PDF uploaded.", data: { url: req.file.path, publicId: req.file.filename, metadata: { subject, year, session, title } } });
+  } catch (err) { next(err); }
+});
+
+app.delete("/api/upload/:publicId", authenticateToken, requireAdmin, async (req, res, next) => {
+  try {
+    const resourceType = req.query.type === "raw" ? "raw" : "image";
+    await deleteFile(req.params.publicId, resourceType);
+    res.json({ success: true, message: "File deleted." });
+  } catch (err) { next(err); }
+});
+
+// ============================================================================
 // ROUTES: EDITOR (for topic creation/editing)
 // ============================================================================
 
@@ -871,21 +807,34 @@ app.get('/api/topics/advanced-search', async (req, res, next) => {
  * POST /api/topics
  * Create new topic (requires authentication and validation)
  */
-app.post('/api/topics', async (req, res, next) => {
+app.post('/api/topics', authenticateToken, requireAdmin, async (req, res, next) => {
   try {
     const { topicId, subject, data } = req.body;
-    
-    // TODO: Validate user permissions
-    // TODO: Save to database and file system
-    
+
+    if (!topicId || !subject || !data) {
+      return res.status(400).json({ success: false, error: 'topicId, subject, and data are required.' });
+    }
+
+    if (!['chem', 'bio', 'phy'].includes(subject)) {
+      return res.status(400).json({ success: false, error: 'subject must be chem, bio, or phy.' });
+    }
+
+    const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
+
+    // Check topic doesn't already exist
+    try {
+      await fs.access(filePath);
+      return res.status(409).json({ success: false, error: `Topic '${topicId}' already exists for subject '${subject}'.` });
+    } catch {
+      // File doesn't exist — good, we can create it
+    }
+
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+
     res.status(201).json({
       success: true,
-      message: 'Topic created',
-      data: {
-        topicId,
-        subject,
-        timestamp: new Date().toISOString()
-      }
+      message: 'Topic created.',
+      data: { topicId, subject, timestamp: new Date().toISOString() }
     });
   } catch (error) {
     next(error);
@@ -896,22 +845,34 @@ app.post('/api/topics', async (req, res, next) => {
  * PUT /api/topics/:topicId
  * Update existing topic (requires authentication)
  */
-app.put('/api/topics/:topicId', async (req, res, next) => {
+app.put('/api/topics/:topicId', authenticateToken, requireAdmin, async (req, res, next) => {
   try {
     const { topicId } = req.params;
     const { subject, data } = req.body;
-    
-    // TODO: Validate user permissions
-    // TODO: Update in database and file system
-    
+
+    if (!subject || !data) {
+      return res.status(400).json({ success: false, error: 'subject and data are required.' });
+    }
+
+    if (!['chem', 'bio', 'phy'].includes(subject)) {
+      return res.status(400).json({ success: false, error: 'subject must be chem, bio, or phy.' });
+    }
+
+    const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
+
+    // Make sure the topic actually exists before overwriting
+    try {
+      await fs.access(filePath);
+    } catch {
+      return res.status(404).json({ success: false, error: `Topic '${topicId}' not found for subject '${subject}'.` });
+    }
+
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+
     res.json({
       success: true,
-      message: 'Topic updated',
-      data: {
-        topicId,
-        subject,
-        timestamp: new Date().toISOString()
-      }
+      message: 'Topic updated.',
+      data: { topicId, subject, timestamp: new Date().toISOString() }
     });
   } catch (error) {
     next(error);
@@ -922,21 +883,29 @@ app.put('/api/topics/:topicId', async (req, res, next) => {
  * DELETE /api/topics/:topicId
  * Delete topic (requires authentication and admin role)
  */
-app.delete('/api/topics/:topicId', async (req, res, next) => {
+app.delete('/api/topics/:topicId', authenticateToken, requireAdmin, async (req, res, next) => {
   try {
     const { topicId } = req.params;
     const { subject } = req.query;
-    
-    // TODO: Verify admin permissions
-    // TODO: Delete from database and file system
-    
+
+    if (!subject || !['chem', 'bio', 'phy'].includes(subject)) {
+      return res.status(400).json({ success: false, error: 'Query param subject is required: chem, bio, or phy.' });
+    }
+
+    const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
+
+    try {
+      await fs.access(filePath);
+    } catch {
+      return res.status(404).json({ success: false, error: `Topic '${topicId}' not found for subject '${subject}'.` });
+    }
+
+    await fs.unlink(filePath);
+
     res.json({
       success: true,
-      message: 'Topic deleted',
-      data: {
-        topicId,
-        subject
-      }
+      message: 'Topic deleted.',
+      data: { topicId, subject, timestamp: new Date().toISOString() }
     });
   } catch (error) {
     next(error);

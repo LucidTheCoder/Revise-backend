@@ -1,238 +1,209 @@
 {
-    "id": "nitrogen-compounds",
-    "subject": "chem",
-    "title": "Nitrogen Compounds",
-    "subtitle": "Nitrogen Compounds with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 19",
-    "concept": [
-        "Nitrogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Amines behave as bases because of the nitrogen lone pair.",
-        "Preparation routes include substitution and reduction methods."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Nitrogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Amines behave as bases because of the nitrogen lone pair.",
-                "Preparation routes include substitution and reduction methods."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Nitrogen Compounds ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Amine",
-            "body": "Organic derivative of ammonia with one or more H atoms replaced by alkyl or aryl groups."
-        },
-        {
-            "term": "Amide",
-            "body": "Compound containing the -CONH2 or -CONR2 functional group."
-        },
-        {
-            "term": "Basicity",
-            "body": "Ability of a species to accept protons (H+) in acid-base reactions."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Nitrogen Compounds.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Nitrogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Amines behave as bases because of the nitrogen lone pair."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Nitrogen Compounds reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Nitrogen Compounds?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Nitrogen Compounds without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Nitrogen Compounds questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Nitrogen Compounds?",
-            "a": "Nitrogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Amine.",
-            "a": "Organic derivative of ammonia with one or more H atoms replaced by alkyl or aryl groups."
-        },
-        {
-            "q": "Define Amide.",
-            "a": "Compound containing the -CONH2 or -CONR2 functional group."
-        },
-        {
-            "q": "What exam strategy works best for Nitrogen Compounds?",
-            "a": "In Nitrogen Compounds questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Nitrogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Amines behave as bases because of the nitrogen lone pair."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Preparation routes include substitution and reduction methods."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Amine"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 19"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Primary: RNH₂; Secondary: R₂NH; Tertiary: R₃N"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Nitrogen Compounds: core principle",
-            "a": "Nitrogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Amine",
-            "a": "Organic derivative of ammonia with one or more H atoms replaced by alkyl or aryl groups."
-        },
-        {
-            "q": "Amide",
-            "a": "Compound containing the -CONH2 or -CONR2 functional group."
-        },
-        {
-            "q": "Basicity",
-            "a": "Ability of a species to accept protons (H+) in acid-base reactions."
-        },
-        {
-            "q": "Nitrogen Compounds: common mistake",
-            "a": "Giving trends in Nitrogen Compounds without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Nitrogen Compounds questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Nitrogen Compounds Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Amine?",
-                "opts": [
-                    "Organic derivative of ammonia with one or more H atoms replaced by alkyl or aryl groups.",
-                    "Compound containing the -CONH2 or -CONR2 functional group.",
-                    "Ability of a species to accept protons (H+) in acid-base reactions.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Amine."
-            },
-            {
-                "q": "Which statement about Nitrogen Compounds is correct?",
-                "opts": [
-                    "Amines behave as bases because of the nitrogen lone pair.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Amide?",
-                "opts": [
-                    "Compound containing the -CONH2 or -CONR2 functional group.",
-                    "Organic derivative of ammonia with one or more H atoms replaced by alkyl or aryl groups.",
-                    "Ability of a species to accept protons (H+) in acid-base reactions.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Amide."
-            },
-            {
-                "q": "Which exam approach is most reliable for Nitrogen Compounds?",
-                "opts": [
-                    "In Nitrogen Compounds questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Nitrogen Compounds?",
-                "opts": [
-                    "Preparation routes include substitution and reduction methods.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "nitrogen-compounds",
+  "subject": "chem",
+  "title": "Nitrogen Compounds",
+  "subtitle": "Amines, amides, amino acids and proteins.",
+  "concept": [
+    "Amines are derivatives of ammonia where H atoms are replaced by alkyl or aryl groups; they act as bases and nucleophiles.",
+    "Amino acids contain both \u2013NH\u2082 and \u2013COOH groups; they form zwitterions at the isoelectric point.",
+    "Proteins are polyamides formed by peptide bonds between amino acids; primary structure determines all higher order structure."
+  ],
+  "notes": [
+    {
+      "heading": "Amines",
+      "items": [
+        "Primary amine: R\u2013NH\u2082 (one alkyl group). Secondary: R\u2082NH. Tertiary: R\u2083N.",
+        "Basicity: lone pair on N accepts a proton. R\u2013NH\u2082 + H\u207a \u2192 R\u2013NH\u2083\u207a.",
+        "Arylamines (e.g. phenylamine, C\u2086H\u2085NH\u2082) are weaker bases than alkylamines \u2014 lone pair delocalised into benzene ring.",
+        "Alkylamines are stronger bases than NH\u2083 (alkyl groups donate electrons to N, increasing availability of lone pair).",
+        "Nucleophilicity: amines react with acyl chlorides to form amides (covered in carboxylic acids topic).",
+        "Preparation of primary amines: reduction of nitrile (R\u2013CN + 4[H] \u2192 R\u2013CH\u2082\u2013NH\u2082, using LiAlH\u2084 or H\u2082/Ni); or reduction of nitrobenzene (Sn/HCl) to give phenylamine."
+      ]
+    },
+    {
+      "heading": "Amino Acids",
+      "items": [
+        "General structure: H\u2082N\u2013CHR\u2013COOH (R = side chain).",
+        "Amphoteric: act as acid (\u2013COOH) or base (\u2013NH\u2082).",
+        "Zwitterion: at isoelectric point (pI), \u2013NH\u2083\u207a and \u2013COO\u207b groups present simultaneously; net charge = 0.",
+        "At low pH (acidic): \u2013NH\u2083\u207a predominates (positively charged). At high pH (basic): \u2013COO\u207b predominates (negatively charged).",
+        "Condensation reaction between \u2013NH\u2082 of one and \u2013COOH of another \u2192 peptide bond (\u2013CO\u2013NH\u2013) + H\u2082O."
+      ]
+    },
+    {
+      "heading": "Peptides and Proteins",
+      "items": [
+        "Dipeptide: 2 amino acids; polypeptide: many. Protein = functional polypeptide.",
+        "Primary structure: amino acid sequence.",
+        "Hydrolysis of peptide bond: HCl(aq) reflux \u2192 amino acids.",
+        "Chromatography (paper/TLC): Rf values identify amino acids from protein hydrolysate. Ninhydrin spray gives purple spots."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Zwitterion",
+      "body": "A molecule that carries both a positive and a negative charge simultaneously (at the isoelectric point); the net overall charge is zero."
+    },
+    {
+      "term": "Isoelectric point (pI)",
+      "body": "The pH at which an amino acid exists predominantly as a zwitterion with zero net charge."
+    },
+    {
+      "term": "Peptide bond",
+      "body": "The \u2013CO\u2013NH\u2013 bond formed by condensation reaction between the \u2013COOH of one amino acid and the \u2013NH\u2082 of another."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain why methylamine is a stronger base than ammonia.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Structure",
+          "text": "Methylamine: CH\u2083NH\u2082. The CH\u2083 group donates electrons to N (inductive effect), increasing electron density on N."
+        },
+        {
+          "n": 2,
+          "sub": "Effect on lone pair",
+          "text": "Greater electron density on N \u2192 lone pair more available \u2192 more readily donates to H\u207a."
+        },
+        {
+          "n": 3,
+          "sub": "Conclusion",
+          "text": "Methylamine has a higher Kb (lower pKb) than NH\u2083 \u2192 stronger base."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing primary, secondary, tertiary amines with primary/secondary/tertiary alcohols \u2014 amines are classified by groups on N, not on C.",
+    "Stating phenylamine is a stronger base than ethylamine \u2014 it is weaker (lone pair delocalised into ring).",
+    "Forgetting that the zwitterion has NO net charge, despite having charged groups."
+  ],
+  "tips": [
+    "Amine basicity order: 3\u00b0 > 2\u00b0 > 1\u00b0 > NH\u2083 > arylamine (in gas phase; in water, solvation effects mean 2\u00b0 often strongest).",
+    "Zwitterion at pI: draw with \u2013NH\u2083\u207a and \u2013COO\u207b.",
+    "Paper chromatography of amino acids: Rf = distance moved by spot / distance moved by solvent."
+  ],
+  "flashcards": [
+    {
+      "q": "Why is phenylamine a weaker base than ethylamine?",
+      "a": "The lone pair on N in phenylamine is delocalised into the benzene ring, making it less available to accept a proton."
+    },
+    {
+      "q": "What is a zwitterion?",
+      "a": "An amino acid with \u2013NH\u2083\u207a and \u2013COO\u207b groups; overall net charge = 0 at the isoelectric point."
+    },
+    {
+      "q": "How is a peptide bond formed?",
+      "a": "Condensation reaction between \u2013COOH of one amino acid and \u2013NH\u2082 of another, releasing water \u2192 \u2013CO\u2013NH\u2013."
+    },
+    {
+      "q": "How are amines prepared from nitriles?",
+      "a": "Reduction with LiAlH\u2084 (or H\u2082/Ni catalyst): R\u2013CN + 4[H] \u2192 R\u2013CH\u2082\u2013NH\u2082 (primary amine)."
+    },
+    {
+      "q": "What is the isoelectric point?",
+      "a": "The pH at which an amino acid exists as a zwitterion with zero net charge."
+    },
+    {
+      "q": "How are amino acids identified after protein hydrolysis?",
+      "a": "Paper/TLC chromatography followed by ninhydrin spray \u2192 purple spots; Rf values identify each amino acid."
+    }
+  ],
+  "quiz": {
+    "title": "Nitrogen Compounds Quiz",
+    "questions": [
+      {
+        "q": "Which is the strongest base?",
+        "opts": [
+          "Phenylamine",
+          "Ammonia",
+          "Ethylamine",
+          "Water"
+        ],
+        "ans": 2,
+        "exp": "Ethylamine (primary alkylamine): alkyl group increases electron density on N \u2192 stronger base than NH\u2083. Phenylamine is weakest (lone pair delocalised into ring)."
+      },
+      {
+        "q": "At the isoelectric point, an amino acid exists as:",
+        "opts": [
+          "A cation",
+          "An anion",
+          "A zwitterion",
+          "An uncharged molecule"
+        ],
+        "ans": 2,
+        "exp": "At pI, \u2013NH\u2083\u207a and \u2013COO\u207b are present simultaneously \u2014 the molecule is a zwitterion with zero net charge."
+      },
+      {
+        "q": "What bond links amino acids in a protein?",
+        "opts": [
+          "Ester bond",
+          "Glycosidic bond",
+          "Peptide bond",
+          "Phosphodiester bond"
+        ],
+        "ans": 2,
+        "exp": "The peptide bond (\u2013CO\u2013NH\u2013) is formed by condensation between \u2013COOH and \u2013NH\u2082 groups of adjacent amino acids."
+      },
+      {
+        "q": "Which reagent identifies amino acids on a chromatogram?",
+        "opts": [
+          "Benedict's",
+          "Iodine/KI",
+          "Ninhydrin",
+          "Biuret"
+        ],
+        "ans": 2,
+        "exp": "Ninhydrin spray produces purple spots where amino acids are present on paper/TLC chromatograms."
+      },
+      {
+        "q": "How does LiAlH\u2084 convert a nitrile to an amine?",
+        "opts": [
+          "Oxidation",
+          "Electrophilic addition",
+          "Reduction (provides H\u207b)",
+          "Hydrolysis"
+        ],
+        "ans": 2,
+        "exp": "LiAlH\u2084 provides H\u207b (hydride ions) to reduce the \u2013CN group to \u2013CH\u2082NH\u2082 \u2014 a four-hydrogen reduction."
+      }
+    ]
+  },
+  "recall": [
+    "Explain the difference in basicity between alkylamines, ammonia and arylamines.",
+    "Draw the zwitterion form of glycine.",
+    "Describe the formation and hydrolysis of a peptide bond.",
+    "Explain what the isoelectric point is.",
+    "Describe how to identify amino acids using chromatography."
+  ],
+  "summary": [
+    {
+      "label": "Amine basicity",
+      "value": "alkylamine > NH\u2083 > arylamine"
+    },
+    {
+      "label": "Phenylamine weak base",
+      "value": "lone pair delocalised into ring"
+    },
+    {
+      "label": "Zwitterion",
+      "value": "\u2013NH\u2083\u207a and \u2013COO\u207b; net charge = 0 at pI"
+    },
+    {
+      "label": "Peptide bond",
+      "value": "\u2013CO\u2013NH\u2013 formed by condensation"
+    },
+    {
+      "label": "Nitrile \u2192 amine",
+      "value": "LiAlH\u2084 reduction"
+    },
+    {
+      "label": "Ninhydrin",
+      "value": "purple spots \u2014 identifies amino acids"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 17"
 }

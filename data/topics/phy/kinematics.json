@@ -1,239 +1,213 @@
 {
-    "id": "kinematics",
-    "subject": "phy",
-    "title": "Kinematics",
-    "subtitle": "Kinematics with model-based reasoning, equations, and exam application.",
-    "concept": [
-        "Kinematics describes motion without analyzing forces. The focus is on displacement, velocity, acceleration, and time relationships.",
-        "For uniformly accelerated motion, SUVAT equations provide a complete mathematical toolkit. Choosing the equation that omits the unknown variable simplifies problem solving.",
-        "Graph interpretation is equally important. Gradients and areas connect algebraic equations to visual motion analysis."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Kinematics describes motion without analyzing forces. The focus is on displacement, velocity, acceleration, and time relationships.",
-                "For uniformly accelerated motion, SUVAT equations provide a complete mathematical toolkit. Choosing the equation that omits the unknown variable simplifies problem solving.",
-                "Graph interpretation is equally important. Gradients and areas connect algebraic equations to visual motion analysis."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Kinematics ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Displacement",
-            "body": "Distance moved in a specified direction from initial to final position."
-        },
-        {
-            "term": "Uniform Acceleration",
-            "body": "Constant acceleration where rate of change of velocity remains unchanged."
-        },
-        {
-            "term": "Projectile Motion",
-            "body": "Motion under gravity where horizontal and vertical components are treated independently."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Kinematics.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Kinematics describes motion without analyzing forces. The focus is on displacement, velocity, acceleration, and time relationships."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "For uniformly accelerated motion, SUVAT equations provide a complete mathematical toolkit. Choosing the equation that omits the unknown variable simplifies problem solving."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Kinematics reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Kinematics?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Kinematics without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Kinematics, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Kinematics?",
-            "a": "Kinematics describes motion without analyzing forces. The focus is on displacement, velocity, acceleration, and time relationships."
-        },
-        {
-            "q": "Define Displacement.",
-            "a": "Distance moved in a specified direction from initial to final position."
-        },
-        {
-            "q": "Define Uniform Acceleration.",
-            "a": "Constant acceleration where rate of change of velocity remains unchanged."
-        },
-        {
-            "q": "What exam strategy works best for Kinematics?",
-            "a": "For Kinematics, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Kinematics describes motion without analyzing forces. The focus is on displacement, velocity, acceleration, and time relationships."
-        },
-        {
-            "label": "Applied Model",
-            "val": "For uniformly accelerated motion, SUVAT equations provide a complete mathematical toolkit. Choosing the equation that omits the unknown variable simplifies problem solving."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Graph interpretation is equally important. Gradients and areas connect algebraic equations to visual motion analysis."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Displacement"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 2"
-        },
-        {
-            "label": "Key Formula",
-            "val": "v = u + at; s = ut + ½at²; v² = u² + 2as"
-        }
-    ],
-    "diagramSvg": "<svg viewBox='0 0 460 200' xmlns='http://www.w3.org/2000/svg'><rect x='18' y='18' width='424' height='164' rx='16' fill='rgba(129,140,248,0.10)' stroke='rgba(129,140,248,0.40)'/><text x='34' y='42' fill='#818cf8' font-size='14' font-family='DM Sans'>Velocity Time Graph</text><line x1='78' y1='148' x2='398' y2='148' stroke='#8b949e' stroke-width='2'/><line x1='78' y1='148' x2='78' y2='58' stroke='#8b949e' stroke-width='2'/><path d='M78 136 L148 118 L232 95 L316 70 L398 50' stroke='#00d4aa' stroke-width='3' fill='none'/><polygon points='78,148 398,50 398,148' fill='rgba(0,212,170,0.12)'/><text x='404' y='154' fill='#cdd9e5' font-size='12' font-family='DM Sans'>t</text><text x='66' y='54' fill='#cdd9e5' font-size='12' font-family='DM Sans'>v</text><text x='248' y='168' fill='#cdd9e5' font-size='12' font-family='DM Sans'>area = s, gradient = a = delta v / delta t</text></svg>",
-    "flashcards": [
-        {
-            "q": "Kinematics: core principle",
-            "a": "Kinematics describes motion without analyzing forces. The focus is on displacement, velocity, acceleration, and time relationships."
-        },
-        {
-            "q": "Displacement",
-            "a": "Distance moved in a specified direction from initial to final position."
-        },
-        {
-            "q": "Uniform Acceleration",
-            "a": "Constant acceleration where rate of change of velocity remains unchanged."
-        },
-        {
-            "q": "Projectile Motion",
-            "a": "Motion under gravity where horizontal and vertical components are treated independently."
-        },
-        {
-            "q": "Kinematics: common mistake",
-            "a": "Applying equations in Kinematics without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Kinematics, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Kinematics Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Displacement?",
-                "opts": [
-                    "Distance moved in a specified direction from initial to final position.",
-                    "Constant acceleration where rate of change of velocity remains unchanged.",
-                    "Motion under gravity where horizontal and vertical components are treated independently.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Displacement."
-            },
-            {
-                "q": "Which statement about Kinematics is correct?",
-                "opts": [
-                    "For uniformly accelerated motion, SUVAT equations provide a complete mathematical toolkit. Choosing the equation that omits the unknown variable simplifies problem solving.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Uniform Acceleration?",
-                "opts": [
-                    "Constant acceleration where rate of change of velocity remains unchanged.",
-                    "Distance moved in a specified direction from initial to final position.",
-                    "Motion under gravity where horizontal and vertical components are treated independently.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Uniform Acceleration."
-            },
-            {
-                "q": "Which exam approach is most reliable for Kinematics?",
-                "opts": [
-                    "For Kinematics, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Kinematics?",
-                "opts": [
-                    "Graph interpretation is equally important. Gradients and areas connect algebraic equations to visual motion analysis.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "kinematics",
+  "subject": "phy",
+  "title": "Kinematics",
+  "subtitle": "Displacement, velocity, acceleration and equations of motion.",
+  "concept": [
+    "Displacement, velocity and acceleration are vector quantities; distance and speed are scalars.",
+    "The five kinematic equations (SUVAT) apply to uniform (constant) acceleration only.",
+    "Graphs of motion: gradient of displacement\u2013time = velocity; gradient of velocity\u2013time = acceleration; area under v\u2013t graph = displacement."
+  ],
+  "notes": [
+    {
+      "heading": "Definitions",
+      "items": [
+        "Displacement (s): change in position; vector (direction matters).",
+        "Velocity (v): rate of change of displacement; v = \u0394s/\u0394t; vector.",
+        "Acceleration (a): rate of change of velocity; a = \u0394v/\u0394t; vector.",
+        "Speed and distance are scalar equivalents (magnitude only)."
+      ]
     },
-    "syllabusRef": "9702 AS Topic 2"
+    {
+      "heading": "SUVAT Equations",
+      "items": [
+        "v = u + at",
+        "s = ut + \u00bdat\u00b2",
+        "v\u00b2 = u\u00b2 + 2as",
+        "s = \u00bd(u + v)t",
+        "s = vt \u2212 \u00bdat\u00b2",
+        "Valid only for uniform (constant) acceleration; use g = 9.81 m s\u207b\u00b2 (or 10 m s\u207b\u00b2 if specified) for free fall."
+      ]
+    },
+    {
+      "heading": "Motion Graphs",
+      "items": [
+        "s\u2013t graph: gradient = instantaneous velocity; straight line = constant velocity; curve = acceleration.",
+        "v\u2013t graph: gradient = acceleration; area under curve = displacement; horizontal line = constant velocity.",
+        "a\u2013t graph: area under curve = change in velocity.",
+        "Free fall: parabolic s\u2013t curve; straight v\u2013t line with gradient g downward."
+      ]
+    },
+    {
+      "heading": "Projectile Motion",
+      "items": [
+        "Two independent components: horizontal (constant velocity, no acceleration) and vertical (constant acceleration = g downward).",
+        "Horizontal: x = v_x t. Vertical: use SUVAT with a = g = 9.81 m s\u207b\u00b2.",
+        "At maximum height: vertical velocity = 0.",
+        "Time of flight determined from vertical component; range from horizontal \u00d7 time."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Displacement",
+      "body": "The vector quantity representing change in position; has magnitude and direction."
+    },
+    {
+      "term": "Uniform acceleration",
+      "body": "Acceleration that is constant in both magnitude and direction; required for SUVAT equations to apply."
+    },
+    {
+      "term": "Projectile",
+      "body": "An object moving under gravity only; has constant horizontal velocity and constant downward acceleration g."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A ball is thrown horizontally at 15 m s\u207b\u00b9 from a cliff 45 m high. Find the time of flight and horizontal range. (g = 10 m s\u207b\u00b2)",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Vertical (free fall)",
+          "text": "s = ut + \u00bdat\u00b2; 45 = 0 + \u00bd\u00d710\u00d7t\u00b2; t\u00b2 = 9; t = 3.0 s"
+        },
+        {
+          "n": 2,
+          "sub": "Horizontal range",
+          "text": "x = v_x \u00d7 t = 15 \u00d7 3.0 = 45 m"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Applying SUVAT to non-uniform acceleration (e.g. air resistance present \u2014 use graphs instead).",
+    "Forgetting that at maximum height, the vertical velocity is zero (not horizontal).",
+    "Mixing up which direction is positive \u2014 always define positive direction first."
+  ],
+  "tips": [
+    "In projectile problems: resolve into horizontal (a=0) and vertical (a=g) components; treat them independently.",
+    "The gradient of a curved s\u2013t graph at a point = instantaneous velocity (draw tangent at that point).",
+    "Free fall: g acts downward; if upward is positive, a = \u22129.81 m s\u207b\u00b2."
+  ],
+  "flashcards": [
+    {
+      "q": "What are the five SUVAT equations?",
+      "a": "v=u+at; s=ut+\u00bdat\u00b2; v\u00b2=u\u00b2+2as; s=\u00bd(u+v)t; s=vt\u2212\u00bdat\u00b2"
+    },
+    {
+      "q": "What does the area under a v\u2013t graph represent?",
+      "a": "Displacement (the area between the line and the time axis)."
+    },
+    {
+      "q": "What is the velocity of a projectile at its highest point?",
+      "a": "The vertical component is zero; the horizontal component remains constant (equal to initial horizontal velocity)."
+    },
+    {
+      "q": "What is the gradient of a displacement\u2013time graph?",
+      "a": "Velocity (instantaneous velocity at a point = gradient of tangent to the curve)."
+    },
+    {
+      "q": "A car accelerates uniformly from rest to 20 m s\u207b\u00b9 in 4 s. What is its acceleration?",
+      "a": "a = (v\u2212u)/t = (20\u22120)/4 = 5 m s\u207b\u00b2"
+    },
+    {
+      "q": "What condition must hold for SUVAT equations to be valid?",
+      "a": "Acceleration must be uniform (constant in magnitude and direction)."
+    }
+  ],
+  "quiz": {
+    "title": "Kinematics Quiz",
+    "questions": [
+      {
+        "q": "A stone falls from rest. How far has it fallen after 3.0 s? (g = 10 m s\u207b\u00b2)",
+        "opts": [
+          "15 m",
+          "30 m",
+          "45 m",
+          "90 m"
+        ],
+        "ans": 2,
+        "exp": "s = ut + \u00bdat\u00b2 = 0 + \u00bd\u00d710\u00d79 = 45 m"
+      },
+      {
+        "q": "What does the gradient of a v\u2013t graph represent?",
+        "a": "Acceleration",
+        "opts": [
+          "Displacement",
+          "Speed",
+          "Acceleration",
+          "Distance"
+        ],
+        "ans": 2,
+        "exp": "Gradient of v\u2013t graph = \u0394v/\u0394t = acceleration."
+      },
+      {
+        "q": "A projectile is launched horizontally. Which statement is correct?",
+        "opts": [
+          "Horizontal velocity increases due to g",
+          "Vertical velocity is constant",
+          "Horizontal and vertical motions are independent",
+          "Air resistance is always negligible"
+        ],
+        "ans": 2,
+        "exp": "Horizontal and vertical motions are independent; horizontal velocity is constant (no horizontal force); vertical velocity increases due to g."
+      },
+      {
+        "q": "Which graph shows constant acceleration?",
+        "opts": [
+          "Straight line on s\u2013t",
+          "Curved line on s\u2013t",
+          "Horizontal line on v\u2013t",
+          "Straight line on a\u2013t"
+        ],
+        "ans": 1,
+        "exp": "On an s\u2013t graph, constant acceleration gives a parabolic (curved) shape; on a v\u2013t graph it gives a straight (non-horizontal) line."
+      },
+      {
+        "q": "v\u00b2 = u\u00b2 + 2as. A car with u = 0, a = 3 m s\u207b\u00b2, s = 24 m. Find v.",
+        "opts": [
+          "6 m s\u207b\u00b9",
+          "12 m s\u207b\u00b9",
+          "8 m s\u207b\u00b9",
+          "9 m s\u207b\u00b9"
+        ],
+        "ans": 1,
+        "exp": "v\u00b2 = 0 + 2\u00d73\u00d724 = 144; v = 12 m s\u207b\u00b9. Wait: ans=1. v=12."
+      }
+    ]
+  },
+  "recall": [
+    "State the five SUVAT equations.",
+    "Describe what each graph feature represents in s\u2013t and v\u2013t graphs.",
+    "Solve a projectile problem by resolving into horizontal and vertical components.",
+    "Distinguish between scalar and vector quantities.",
+    "Calculate displacement from a v\u2013t graph."
+  ],
+  "summary": [
+    {
+      "label": "v=u+at",
+      "value": "constant acceleration"
+    },
+    {
+      "label": "v\u00b2=u\u00b2+2as",
+      "value": "no time"
+    },
+    {
+      "label": "s=ut+\u00bdat\u00b2",
+      "value": "no final velocity"
+    },
+    {
+      "label": "v\u2013t gradient",
+      "value": "acceleration"
+    },
+    {
+      "label": "v\u2013t area",
+      "value": "displacement"
+    },
+    {
+      "label": "Projectile",
+      "value": "horizontal: const v; vertical: a=g"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 2"
 }

@@ -1,238 +1,212 @@
 {
-    "id": "dynamics",
-    "subject": "phy",
-    "title": "Dynamics",
-    "subtitle": "Dynamics with model-based reasoning, equations, and exam application.",
-    "concept": [
-        "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link.",
-        "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity.",
-        "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link.",
-                "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity.",
-                "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Dynamics ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Resultant Force",
-            "body": "Single force equivalent to vector sum of all forces acting on an object."
-        },
-        {
-            "term": "Momentum",
-            "body": "Product of mass and velocity of an object."
-        },
-        {
-            "term": "Impulse",
-            "body": "Change in momentum, equal to force multiplied by time interval."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Dynamics.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Dynamics reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Dynamics?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Dynamics without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Dynamics, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Dynamics?",
-            "a": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
-        },
-        {
-            "q": "Define Resultant Force.",
-            "a": "Single force equivalent to vector sum of all forces acting on an object."
-        },
-        {
-            "q": "Define Momentum.",
-            "a": "Product of mass and velocity of an object."
-        },
-        {
-            "q": "What exam strategy works best for Dynamics?",
-            "a": "For Dynamics, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Resultant Force"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 3"
-        },
-        {
-            "label": "Key Formula",
-            "val": "F = ma; p = mv; Δp = FΔt (impulse)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Dynamics: core principle",
-            "a": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
-        },
-        {
-            "q": "Resultant Force",
-            "a": "Single force equivalent to vector sum of all forces acting on an object."
-        },
-        {
-            "q": "Momentum",
-            "a": "Product of mass and velocity of an object."
-        },
-        {
-            "q": "Impulse",
-            "a": "Change in momentum, equal to force multiplied by time interval."
-        },
-        {
-            "q": "Dynamics: common mistake",
-            "a": "Applying equations in Dynamics without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Dynamics, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Dynamics Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Resultant Force?",
-                "opts": [
-                    "Single force equivalent to vector sum of all forces acting on an object.",
-                    "Product of mass and velocity of an object.",
-                    "Change in momentum, equal to force multiplied by time interval.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Resultant Force."
-            },
-            {
-                "q": "Which statement about Dynamics is correct?",
-                "opts": [
-                    "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Momentum?",
-                "opts": [
-                    "Product of mass and velocity of an object.",
-                    "Single force equivalent to vector sum of all forces acting on an object.",
-                    "Change in momentum, equal to force multiplied by time interval.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Momentum."
-            },
-            {
-                "q": "Which exam approach is most reliable for Dynamics?",
-                "opts": [
-                    "For Dynamics, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Dynamics?",
-                "opts": [
-                    "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "dynamics",
+  "subject": "phy",
+  "title": "Dynamics",
+  "subtitle": "Newton's laws, momentum, impulse and collisions.",
+  "concept": [
+    "Newton's three laws describe force, acceleration and their relationship; the second law gives F = ma (for constant mass).",
+    "Momentum (p = mv) is conserved in all collisions in a closed system; impulse equals change in momentum.",
+    "Elastic collisions conserve both momentum and kinetic energy; inelastic collisions conserve only momentum."
+  ],
+  "notes": [
+    {
+      "heading": "Newton's Laws",
+      "items": [
+        "1st law: an object remains at rest or constant velocity unless acted upon by a resultant force.",
+        "2nd law: F = ma (resultant force = mass \u00d7 acceleration); or F = \u0394p/\u0394t (rate of change of momentum).",
+        "3rd law: when body A exerts a force on body B, body B exerts an equal and opposite force on body A (action-reaction pair; same type of force, on different objects)."
+      ]
     },
-    "syllabusRef": "9702 AS Topic 3"
+    {
+      "heading": "Momentum and Impulse",
+      "items": [
+        "Momentum p = mv (kg m s\u207b\u00b9 = N s); vector quantity.",
+        "Impulse = F\u0394t = \u0394p (N s or kg m s\u207b\u00b9); equals area under F\u2013t graph.",
+        "Conservation of momentum: total momentum before = total momentum after (in a closed system with no external forces).",
+        "Newton's 2nd law: F = \u0394p/\u0394t = d(mv)/dt."
+      ]
+    },
+    {
+      "heading": "Collisions",
+      "items": [
+        "Elastic collision: KE conserved and momentum conserved. Uncommon in practice; billiard balls approximately elastic.",
+        "Inelastic collision: KE NOT conserved (converted to heat/sound/deformation); momentum IS conserved.",
+        "Perfectly inelastic: objects stick together after collision (maximum KE loss consistent with momentum conservation).",
+        "Explosion (reverse collision): total momentum = 0 if system starts at rest; objects move in opposite directions."
+      ]
+    },
+    {
+      "heading": "Newton's 3rd Law Pairs",
+      "items": [
+        "Must be: same type of force, same magnitude, opposite direction, acting on different objects.",
+        "NOT a 3rd law pair: weight (gravity on person) and normal reaction (surface on person) \u2014 different types of force on the SAME object (these are 1st law forces in equilibrium)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Momentum",
+      "body": "The product of mass and velocity: p = mv; a vector quantity; SI unit kg m s\u207b\u00b9."
+    },
+    {
+      "term": "Impulse",
+      "body": "The product of force and the time for which it acts: impulse = F\u0394t = \u0394p; equal to the area under a force\u2013time graph."
+    },
+    {
+      "term": "Conservation of momentum",
+      "body": "The total momentum of a closed system (no external forces) remains constant before and after an interaction."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A 1500 kg car travelling at 20 m s\u207b\u00b9 collides with a stationary 1000 kg car. They stick together. Find their common velocity and the KE lost.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Conservation of momentum",
+          "text": "1500\u00d720 + 1000\u00d70 = (1500+1000)\u00d7v; 30000 = 2500v; v = 12 m s\u207b\u00b9"
+        },
+        {
+          "n": 2,
+          "sub": "KE before",
+          "text": "\u00bd\u00d71500\u00d720\u00b2 = 300 000 J"
+        },
+        {
+          "n": 3,
+          "sub": "KE after",
+          "text": "\u00bd\u00d72500\u00d712\u00b2 = 180 000 J; \u0394KE = \u2212120 000 J (lost as heat/sound)"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Applying conservation of momentum when there IS an external force (e.g. friction) \u2014 the system is not closed.",
+    "Confusing Newton's 3rd law pairs (different objects) with equilibrium forces on ONE object (1st law).",
+    "Using KE = mv\u00b2 instead of \u00bdmv\u00b2."
+  ],
+  "tips": [
+    "Impulse = area under F\u2013t graph (important for variable forces).",
+    "In explosions, if total initial momentum = 0, calculate the velocity of one fragment and use conservation to find the other.",
+    "3rd law check: 'Object A pulls Object B'; 3rd law pair: 'Object B pulls Object A'. Same force type, same magnitude."
+  ],
+  "flashcards": [
+    {
+      "q": "State Newton's second law in terms of momentum.",
+      "a": "The resultant force equals the rate of change of momentum: F = \u0394p/\u0394t."
+    },
+    {
+      "q": "What is impulse and what does it equal?",
+      "a": "Impulse = F\u0394t = change in momentum (\u0394p). It equals the area under a force\u2013time graph."
+    },
+    {
+      "q": "Distinguish between elastic and inelastic collisions.",
+      "a": "Elastic: both momentum and KE conserved. Inelastic: only momentum conserved; KE is partially converted to other forms."
+    },
+    {
+      "q": "State the principle of conservation of momentum.",
+      "a": "Total momentum of a closed system remains constant, provided there is no resultant external force."
+    },
+    {
+      "q": "Two ice skaters push off from rest. Skater A (60 kg) moves at 3 m s\u207b\u00b9. Find velocity of skater B (40 kg).",
+      "a": "p before = 0; 0 = 60\u00d73 + 40\u00d7v_B; v_B = \u2212180/40 = \u22124.5 m s\u207b\u00b9 (opposite direction)."
+    },
+    {
+      "q": "What is a Newton's 3rd law pair?",
+      "a": "Equal and opposite forces of the same type acting on two different objects (e.g. gravity Earth pulls you; gravity you pulls Earth)."
+    }
+  ],
+  "quiz": {
+    "title": "Dynamics Quiz",
+    "questions": [
+      {
+        "q": "A 2 kg object accelerates at 5 m s\u207b\u00b2. What is the resultant force?",
+        "opts": [
+          "0.4 N",
+          "2.5 N",
+          "10 N",
+          "7 N"
+        ],
+        "ans": 2,
+        "exp": "F = ma = 2\u00d75 = 10 N."
+      },
+      {
+        "q": "Which is conserved in ALL collisions?",
+        "opts": [
+          "Kinetic energy",
+          "Momentum",
+          "Total energy only",
+          "Speed"
+        ],
+        "ans": 1,
+        "exp": "Momentum is always conserved in a closed system; KE is only conserved in elastic collisions."
+      },
+      {
+        "q": "A 5 N force acts for 3 s. What is the impulse?",
+        "opts": [
+          "15 N s",
+          "1.67 N s",
+          "8 N s",
+          "15 J"
+        ],
+        "ans": 0,
+        "exp": "Impulse = F\u0394t = 5\u00d73 = 15 N s (= 15 kg m s\u207b\u00b9)."
+      },
+      {
+        "q": "Two 1 kg balls collide head-on: ball 1 at +5 m s\u207b\u00b9, ball 2 at \u22123 m s\u207b\u00b9. What is total momentum before?",
+        "opts": [
+          "+8 kg m s\u207b\u00b9",
+          "+2 kg m s\u207b\u00b9",
+          "\u22122 kg m s\u207b\u00b9",
+          "0"
+        ],
+        "ans": 1,
+        "exp": "p = 1\u00d75 + 1\u00d7(\u22123) = 5 \u2212 3 = +2 kg m s\u207b\u00b9."
+      },
+      {
+        "q": "Identify the correct Newton's 3rd law pair for 'Earth pulls the Moon (gravity)':",
+        "opts": [
+          "Moon's weight and Moon's normal contact force",
+          "Moon pulls Earth (gravity)",
+          "Sun's gravity on Moon",
+          "Earth pushes Moon (contact)"
+        ],
+        "ans": 1,
+        "exp": "3rd law pair: same force type (gravity), same magnitude, opposite direction, on DIFFERENT objects \u2014 Moon pulls Earth gravitationally."
+      }
+    ]
+  },
+  "recall": [
+    "State Newton's three laws of motion.",
+    "Define momentum and state its SI units.",
+    "Apply conservation of momentum to collisions and explosions.",
+    "Distinguish between elastic and inelastic collisions.",
+    "Explain why momentum is conserved using Newton's laws."
+  ],
+  "summary": [
+    {
+      "label": "p = mv",
+      "value": "momentum; kg m s\u207b\u00b9"
+    },
+    {
+      "label": "F = \u0394p/\u0394t",
+      "value": "Newton's 2nd law"
+    },
+    {
+      "label": "Impulse",
+      "value": "F\u0394t = \u0394p = area under F\u2013t graph"
+    },
+    {
+      "label": "Conservation of p",
+      "value": "closed system; no external forces"
+    },
+    {
+      "label": "Elastic",
+      "value": "p and KE conserved"
+    },
+    {
+      "label": "Inelastic",
+      "value": "p conserved; KE not"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 3"
 }

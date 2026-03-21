@@ -1,238 +1,223 @@
 {
-    "id": "immunity",
-    "subject": "bio",
-    "title": "Immunity",
-    "subtitle": "Immunity with mechanism-focused explanation and exam-linked examples.",
-    "syllabusRef": "9700 AS Topic 11",
-    "concept": [
-        "Immunity links biological structure and process to function, adaptation, and measured outcomes.",
-        "Innate defences provide immediate non-specific protection.",
-        "Specific immunity involves lymphocyte activation and antibody production."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Immunity links biological structure and process to function, adaptation, and measured outcomes.",
-                "Innate defences provide immediate non-specific protection.",
-                "Specific immunity involves lymphocyte activation and antibody production."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Immunity ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Antigen",
-            "body": "Molecule recognized as foreign that triggers a specific immune response."
-        },
-        {
-            "term": "Antibody",
-            "body": "Protein produced by plasma cells that binds specifically to a complementary antigen."
-        },
-        {
-            "term": "Vaccination",
-            "body": "Administration of antigen to generate immune memory and reduce disease risk."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Immunity.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Innate defences provide immediate non-specific protection."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Immunity reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Immunity?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Immunity outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Immunity responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Immunity?",
-            "a": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Define Antigen.",
-            "a": "Molecule recognized as foreign that triggers a specific immune response."
-        },
-        {
-            "q": "Define Antibody.",
-            "a": "Protein produced by plasma cells that binds specifically to a complementary antigen."
-        },
-        {
-            "q": "What exam strategy works best for Immunity?",
-            "a": "In Immunity responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Innate defences provide immediate non-specific protection."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Specific immunity involves lymphocyte activation and antibody production."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Antigen"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 11"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Primary vs secondary; IgM → IgG antibodies"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Immunity: core principle",
-            "a": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Antigen",
-            "a": "Molecule recognized as foreign that triggers a specific immune response."
-        },
-        {
-            "q": "Antibody",
-            "a": "Protein produced by plasma cells that binds specifically to a complementary antigen."
-        },
-        {
-            "q": "Vaccination",
-            "a": "Administration of antigen to generate immune memory and reduce disease risk."
-        },
-        {
-            "q": "Immunity: common mistake",
-            "a": "Describing Immunity outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Immunity responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Immunity Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Antigen?",
-                "opts": [
-                    "Molecule recognized as foreign that triggers a specific immune response.",
-                    "Protein produced by plasma cells that binds specifically to a complementary antigen.",
-                    "Administration of antigen to generate immune memory and reduce disease risk.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Antigen."
-            },
-            {
-                "q": "Which statement about Immunity is correct?",
-                "opts": [
-                    "Innate defences provide immediate non-specific protection.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Antibody?",
-                "opts": [
-                    "Protein produced by plasma cells that binds specifically to a complementary antigen.",
-                    "Molecule recognized as foreign that triggers a specific immune response.",
-                    "Administration of antigen to generate immune memory and reduce disease risk.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Antibody."
-            },
-            {
-                "q": "Which exam approach is most reliable for Immunity?",
-                "opts": [
-                    "In Immunity responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Immunity?",
-                "opts": [
-                    "Specific immunity involves lymphocyte activation and antibody production.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "immunity",
+  "subject": "bio",
+  "title": "Immunity",
+  "subtitle": "Specific and non-specific immunity, antibodies, vaccines and HIV.",
+  "concept": [
+    "The immune system distinguishes self from non-self using antigens; non-specific defences are the first line; specific immunity involves lymphocytes.",
+    "B lymphocytes produce antibodies (humoral immunity); T lymphocytes destroy infected cells (cell-mediated immunity).",
+    "Vaccines provide active artificial immunity by introducing antigens to stimulate memory cell production without causing disease."
+  ],
+  "notes": [
+    {
+      "heading": "Non-Specific Defences",
+      "items": [
+        "Physical barriers: skin (keratin layer), mucus (traps pathogens), cilia (sweep mucus).",
+        "Chemical: lysozyme in tears/saliva; stomach acid (pH 1\u20132); sebum (lowers skin pH).",
+        "Phagocytosis: neutrophils and macrophages engulf pathogens via phagosomes \u2192 lysosomes fuse \u2192 hydrolytic enzymes digest pathogen.",
+        "Inflammation: histamine released by mast cells \u2192 vasodilation \u2192 more phagocytes to site."
+      ]
+    },
+    {
+      "heading": "Specific Immunity \u2014 Humoral",
+      "items": [
+        "B lymphocytes: each clone has unique surface antibodies complementary to one antigen.",
+        "Clonal selection: antigen binds to specific B cell \u2192 B cell activated (with T helper cell help) \u2192 clonal expansion.",
+        "Plasma cells: produce antibodies (>2000/second). Memory B cells: long-lived; rapid secondary response.",
+        "Antibody structure: two heavy chains + two light chains; Y-shaped; variable regions form antigen-binding sites (complementary to one antigen); constant regions determine antibody class."
+      ]
+    },
+    {
+      "heading": "Specific Immunity \u2014 Cell-Mediated",
+      "items": [
+        "T helper cells (CD4+): activated by antigen-presenting cells; release cytokines; stimulate B cells and cytotoxic T cells.",
+        "Cytotoxic T cells (CD8+): destroy cells displaying foreign antigen (infected cells, cancer cells, transplanted tissue).",
+        "T regulatory cells: suppress immune response once infection is cleared."
+      ]
+    },
+    {
+      "heading": "Vaccines and HIV",
+      "items": [
+        "Active immunity: body makes its own antibodies after exposure to antigen (natural: infection; artificial: vaccination).",
+        "Passive immunity: antibodies are transferred (natural: maternal IgG across placenta; artificial: injection of antibodies). Fast but short-lived (no memory cells).",
+        "HIV: attacks T helper cells (CD4+) \u2192 destroys cell-mediated immunity \u2192 AIDS (acquired immunodeficiency syndrome).",
+        "HIV structure: RNA virus with reverse transcriptase; envelope (lipid bilayer with glycoproteins); infects and destroys T helper cells.",
+        "Monoclonal antibodies: produced from a single B cell clone; identical antibodies for one specific antigen. Used in: pregnancy tests, cancer therapy (e.g. Herceptin), ELISA diagnostic tests."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Antigen",
+      "body": "A molecule (usually a protein or glycoprotein on cell surfaces) that stimulates an immune response."
+    },
+    {
+      "term": "Antibody",
+      "body": "A glycoprotein (immunoglobulin) produced by plasma cells that binds specifically to one antigen via its variable region."
+    },
+    {
+      "term": "Clonal selection",
+      "body": "The process by which an antigen selects and activates the B or T lymphocyte with a complementary receptor, which then proliferates."
+    },
+    {
+      "term": "Active immunity",
+      "body": "Immunity resulting from the production of antibodies and memory cells by the individual's own immune system following antigen exposure."
+    },
+    {
+      "term": "Passive immunity",
+      "body": "Immunity resulting from the transfer of ready-made antibodies into an individual; short-lived as no memory cells are produced."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain why a secondary immune response is faster and greater than the primary response.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Primary response",
+          "text": "On first exposure, antigen activates specific B cells via clonal selection \u2192 plasma cells produce antibodies (slow, 1\u20132 weeks to peak)."
+        },
+        {
+          "n": 2,
+          "sub": "Memory cells",
+          "text": "Long-lived memory B cells are also produced and persist after the infection clears."
+        },
+        {
+          "n": 3,
+          "sub": "Secondary response",
+          "text": "On re-exposure, the large clone of memory cells recognises the antigen immediately \u2192 rapid proliferation \u2192 high antibody levels within days \u2192 pathogen eliminated before symptoms develop."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing active and passive immunity \u2014 passive involves TRANSFERRED antibodies, no memory cells.",
+    "Describing all T cells as 'killing infected cells' \u2014 only cytotoxic T cells do this; T helper cells coordinate the response.",
+    "Stating vaccines contain weakened bacteria/viruses only \u2014 they can also contain inactivated toxins (toxoids), antigens, or mRNA."
+  ],
+  "tips": [
+    "HIV destroys T helper cells \u2192 impairs BOTH humoral (B cell activation) and cell-mediated responses.",
+    "Monoclonal antibodies exam questions often ask about ELISA \u2014 antibody binds antigen; enzyme-linked secondary antibody produces colour change.",
+    "For active vs passive: active = your own body makes antibodies; passive = given someone else's antibodies."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the difference between active and passive immunity?",
+      "a": "Active: own immune system produces antibodies + memory cells (long-lasting). Passive: antibodies transferred from another source (short-lived, no memory cells)."
+    },
+    {
+      "q": "What do plasma cells produce?",
+      "a": "Antibodies (immunoglobulins) \u2014 up to 2000 per second per plasma cell."
+    },
+    {
+      "q": "Why does HIV cause immunodeficiency?",
+      "a": "HIV infects and destroys T helper cells (CD4+), impairing both humoral and cell-mediated immunity."
+    },
+    {
+      "q": "Describe the structure of an antibody.",
+      "a": "Two heavy + two light polypeptide chains; Y-shaped; held by disulfide bonds; variable regions (antigen-binding site) are specific to one antigen; constant regions determine function."
+    },
+    {
+      "q": "What is clonal selection?",
+      "a": "An antigen binds to the B (or T) lymphocyte with the complementary receptor, activating it to proliferate and form a clone of identical cells."
+    },
+    {
+      "q": "Name two uses of monoclonal antibodies.",
+      "a": "Pregnancy tests (HCG detection); cancer therapy (e.g. Herceptin); ELISA diagnostic tests; drug targeting (any 2)."
+    }
+  ],
+  "quiz": {
+    "title": "Immunity Quiz",
+    "questions": [
+      {
+        "q": "Which cells produce antibodies?",
+        "opts": [
+          "T helper cells",
+          "Cytotoxic T cells",
+          "Plasma cells",
+          "Memory B cells"
+        ],
+        "ans": 2,
+        "exp": "Plasma cells (differentiated B cells) produce antibodies at high rates."
+      },
+      {
+        "q": "Passive immunity is short-lived because:",
+        "opts": [
+          "Antibodies are weak",
+          "No memory cells are produced",
+          "Antigens are not destroyed",
+          "T cells are not activated"
+        ],
+        "ans": 1,
+        "exp": "In passive immunity, ready-made antibodies are transferred \u2014 no memory cells form, so the protection fades as antibodies break down."
+      },
+      {
+        "q": "How does HIV impair the immune response?",
+        "opts": [
+          "Destroys B cells directly",
+          "Destroys cytotoxic T cells",
+          "Destroys T helper cells (CD4+)",
+          "Blocks antibody production only"
+        ],
+        "ans": 2,
+        "exp": "HIV targets T helper cells (CD4+); without these, both B cell activation and cytotoxic T cell responses are impaired."
+      },
+      {
+        "q": "What type of immunity does a vaccine provide?",
+        "opts": [
+          "Passive natural",
+          "Active artificial",
+          "Passive artificial",
+          "Active natural"
+        ],
+        "ans": 1,
+        "exp": "Vaccines introduce antigens artificially to stimulate the individual's own immune response \u2014 active artificial immunity."
+      },
+      {
+        "q": "Which cell directly kills virus-infected body cells?",
+        "opts": [
+          "B lymphocyte",
+          "T helper cell",
+          "Plasma cell",
+          "Cytotoxic T cell"
+        ],
+        "ans": 3,
+        "exp": "Cytotoxic T cells (CD8+) recognise and destroy cells displaying foreign antigen on MHC I."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the roles of B and T lymphocytes in immune responses.",
+    "Explain the difference between primary and secondary immune responses.",
+    "Compare active and passive immunity.",
+    "Explain how HIV causes AIDS.",
+    "Describe two uses of monoclonal antibodies."
+  ],
+  "summary": [
+    {
+      "label": "Plasma cells",
+      "value": "produce antibodies"
+    },
+    {
+      "label": "Memory cells",
+      "value": "rapid secondary response"
+    },
+    {
+      "label": "Active immunity",
+      "value": "own antibodies + memory cells"
+    },
+    {
+      "label": "Passive immunity",
+      "value": "transferred antibodies, no memory"
+    },
+    {
+      "label": "HIV target",
+      "value": "T helper cells (CD4+)"
+    },
+    {
+      "label": "Monoclonal Ab",
+      "value": "pregnancy tests, ELISA, cancer therapy"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 11"
 }

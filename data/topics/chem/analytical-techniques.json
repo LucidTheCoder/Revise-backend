@@ -1,238 +1,219 @@
 {
-    "id": "analytical-techniques",
-    "subject": "chem",
-    "title": "Analytical Techniques",
-    "subtitle": "Analytical Techniques with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 22",
-    "concept": [
-        "Analytical Techniques explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Infrared spectra identify functional groups from characteristic absorptions.",
-        "Mass spectra provide molecular ion and fragment evidence."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Analytical Techniques explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Infrared spectra identify functional groups from characteristic absorptions.",
-                "Mass spectra provide molecular ion and fragment evidence."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Analytical Techniques ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Infrared spectroscopy",
-            "body": "Technique that identifies bond types from absorption at characteristic infrared frequencies."
-        },
-        {
-            "term": "Mass spectrometry",
-            "body": "Technique that separates ions by mass-to-charge ratio to infer molecular and fragment masses."
-        },
-        {
-            "term": "Chromatography",
-            "body": "Technique for separating mixture components based on different partition between mobile and stationary phases."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Analytical Techniques.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Analytical Techniques explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Infrared spectra identify functional groups from characteristic absorptions."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Analytical Techniques reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Analytical Techniques?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Analytical Techniques without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Analytical Techniques questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Analytical Techniques?",
-            "a": "Analytical Techniques explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Infrared spectroscopy.",
-            "a": "Technique that identifies bond types from absorption at characteristic infrared frequencies."
-        },
-        {
-            "q": "Define Mass spectrometry.",
-            "a": "Technique that separates ions by mass-to-charge ratio to infer molecular and fragment masses."
-        },
-        {
-            "q": "What exam strategy works best for Analytical Techniques?",
-            "a": "In Analytical Techniques questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Analytical Techniques explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Infrared spectra identify functional groups from characteristic absorptions."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Mass spectra provide molecular ion and fragment evidence."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Infrared spectroscopy"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 22"
-        },
-        {
-            "label": "Key Formula",
-            "val": "MS: m/z ratio; IR: wavenumber (cm^−1); NMR: chemical shift (δ)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Analytical Techniques: core principle",
-            "a": "Analytical Techniques explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Infrared spectroscopy",
-            "a": "Technique that identifies bond types from absorption at characteristic infrared frequencies."
-        },
-        {
-            "q": "Mass spectrometry",
-            "a": "Technique that separates ions by mass-to-charge ratio to infer molecular and fragment masses."
-        },
-        {
-            "q": "Chromatography",
-            "a": "Technique for separating mixture components based on different partition between mobile and stationary phases."
-        },
-        {
-            "q": "Analytical Techniques: common mistake",
-            "a": "Giving trends in Analytical Techniques without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Analytical Techniques questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Analytical Techniques Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Infrared spectroscopy?",
-                "opts": [
-                    "Technique that identifies bond types from absorption at characteristic infrared frequencies.",
-                    "Technique that separates ions by mass-to-charge ratio to infer molecular and fragment masses.",
-                    "Technique for separating mixture components based on different partition between mobile and stationary phases.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Infrared spectroscopy."
-            },
-            {
-                "q": "Which statement about Analytical Techniques is correct?",
-                "opts": [
-                    "Infrared spectra identify functional groups from characteristic absorptions.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Mass spectrometry?",
-                "opts": [
-                    "Technique that separates ions by mass-to-charge ratio to infer molecular and fragment masses.",
-                    "Technique that identifies bond types from absorption at characteristic infrared frequencies.",
-                    "Technique for separating mixture components based on different partition between mobile and stationary phases.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Mass spectrometry."
-            },
-            {
-                "q": "Which exam approach is most reliable for Analytical Techniques?",
-                "opts": [
-                    "In Analytical Techniques questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Analytical Techniques?",
-                "opts": [
-                    "Mass spectra provide molecular ion and fragment evidence.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "analytical-techniques",
+  "subject": "chem",
+  "title": "Analytical Techniques",
+  "subtitle": "Mass spectrometry, IR spectroscopy, NMR and chromatography.",
+  "concept": [
+    "Mass spectrometry identifies molecular mass and fragments; IR spectroscopy identifies functional groups from characteristic absorption frequencies.",
+    "\u00b9H NMR reveals the environment of hydrogen atoms, enabling structural determination from chemical shift, splitting pattern and integration.",
+    "Chromatography separates mixtures; Rf values and retention times identify compounds."
+  ],
+  "notes": [
+    {
+      "heading": "Mass Spectrometry",
+      "items": [
+        "Molecular ion peak (M\u207a): highest m/z peak; gives relative molecular mass.",
+        "Fragmentation: bonds break to give characteristic fragment ions; helps identify structure.",
+        "Base peak: most abundant fragment (tallest peak).",
+        "Isotope peaks: M+1 (\u00b9\u00b3C) and M+2 (\u00b3\u2075Cl/\u00b3\u2077Cl) give isotope patterns.",
+        "High-resolution MS: measures exact molecular mass to identify molecular formula."
+      ]
+    },
+    {
+      "heading": "Infrared (IR) Spectroscopy",
+      "items": [
+        "C\u2013H stretch: ~2850\u20133000 cm\u207b\u00b9 (most organic compounds).",
+        "O\u2013H (alcohol): broad ~2500\u20133550 cm\u207b\u00b9.",
+        "O\u2013H (carboxylic acid): very broad 2500\u20133300 cm\u207b\u00b9.",
+        "N\u2013H (amine): ~3300\u20133500 cm\u207b\u00b9 (one or two peaks).",
+        "C=O (carbonyl): strong, sharp ~1680\u20131750 cm\u207b\u00b9. Aldehyde ~1720\u20131740; ketone ~1715; carboxylic acid ~1700\u20131725; ester ~1735\u20131750; amide ~1630\u20131680.",
+        "C\u2261N (nitrile): ~2200 cm\u207b\u00b9.",
+        "Fingerprint region (<1500 cm\u207b\u00b9): unique to each compound; used for identification."
+      ]
+    },
+    {
+      "heading": "\u00b9H NMR Spectroscopy",
+      "items": [
+        "Chemical shift (\u03b4, ppm): depends on electronic environment of H. TMS (tetramethylsilane) = reference (\u03b4 = 0).",
+        "Typical shifts: R\u2013CH\u2083 ~0.9; R\u2013CH\u2082\u2013R ~1.2; R\u2013CO\u2013CH\u2083 ~2.1; Ar\u2013H ~7.3; R\u2013CHO ~9\u201310; R\u2013COOH ~10\u201312.",
+        "Integration: peak area \u221d number of H in that environment.",
+        "Splitting (n+1 rule): a proton with n equivalent H neighbours splits into n+1 peaks. Singlet (no neighbours), doublet (1), triplet (2), quartet (3).",
+        "D\u2082O shake: replaces exchangeable OH/NH protons with D \u2192 peak disappears \u2192 confirms \u2013OH or \u2013NH."
+      ]
+    },
+    {
+      "heading": "Chromatography",
+      "items": [
+        "Rf = distance moved by spot / distance moved by solvent front.",
+        "Paper and TLC: identify compounds by Rf; compare with known standards; ninhydrin for amino acids.",
+        "GC (gas-liquid chromatography): volatile compounds; identifies by retention time; GC-MS combines separation with mass spectrometry for definitive identification."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Chemical shift (\u03b4)",
+      "body": "The position of an NMR peak in parts per million (ppm) relative to TMS; reflects the electronic environment of the hydrogen atom."
+    },
+    {
+      "term": "Fingerprint region",
+      "body": "The IR region below ~1500 cm\u207b\u00b9 containing a complex pattern of absorptions unique to each compound."
+    },
+    {
+      "term": "n+1 rule",
+      "body": "In \u00b9H NMR, a proton with n equivalent neighbouring H atoms appears as a split peak with n+1 lines (doublet, triplet, quartet etc.)."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "An IR spectrum shows a strong absorption at ~1715 cm\u207b\u00b9 and a broad absorption at 2500\u20133300 cm\u207b\u00b9. Identify the functional groups.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "C=O at 1715",
+          "text": "Strong, sharp absorption at ~1715 cm\u207b\u00b9 indicates a C=O stretch; 1715 is typical for a carboxylic acid."
+        },
+        {
+          "n": 2,
+          "sub": "Broad OH",
+          "text": "Broad absorption at 2500\u20133300 cm\u207b\u00b9 is characteristic of O\u2013H stretch in a carboxylic acid."
+        },
+        {
+          "n": 3,
+          "sub": "Conclusion",
+          "text": "Compound contains a carboxylic acid (\u2013COOH) group."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing the broad O\u2013H absorption of a carboxylic acid (2500\u20133300) with an alcohol O\u2013H (3200\u20133550 cm\u207b\u00b9); carboxylic acid O\u2013H is broader and extends to lower wavenumber.",
+    "Applying n+1 rule incorrectly: count only equivalent H atoms on adjacent carbons.",
+    "Forgetting that integration gives ratio of H atoms, not actual numbers."
+  ],
+  "tips": [
+    "IR: 'sharp and strong at ~1700\u20131750' = always a C=O; determine which type from position and other peaks.",
+    "NMR: a quartet (4 lines) means 3 adjacent H; a triplet (3 lines) means 2 adjacent H \u2014 classic ethyl group: quartet + triplet.",
+    "TMS is the NMR reference: inert, volatile, all 12 H equivalent \u2192 single sharp peak at \u03b4 0."
+  ],
+  "flashcards": [
+    {
+      "q": "What does the molecular ion peak in mass spectrometry tell you?",
+      "a": "The relative molecular mass (Mr) of the compound."
+    },
+    {
+      "q": "What IR absorption indicates a carboxylic acid?",
+      "a": "Broad O\u2013H absorption at 2500\u20133300 cm\u207b\u00b9 AND strong C=O absorption at ~1700\u20131725 cm\u207b\u00b9."
+    },
+    {
+      "q": "In \u00b9H NMR, what does a quartet (4 lines) indicate about neighbouring protons?",
+      "a": "3 equivalent neighbouring H atoms (n+1 rule: 3+1 = 4 lines)."
+    },
+    {
+      "q": "What is TMS and why is it used as an NMR reference?",
+      "a": "Tetramethylsilane Si(CH\u2083)\u2084: gives a single sharp peak at \u03b4 0 (assigned); all 12H equivalent; chemically inert; volatile (easily removed)."
+    },
+    {
+      "q": "How does D\u2082O shake help in \u00b9H NMR?",
+      "a": "Exchangeable protons (\u2013OH, \u2013NH) are replaced by D \u2192 the corresponding NMR peak disappears \u2192 confirms the presence of \u2013OH or \u2013NH."
+    },
+    {
+      "q": "What does a high m/z fragment at (M \u2013 15) in a mass spectrum suggest?",
+      "a": "Loss of CH\u2083 (mass 15) from the molecular ion \u2014 suggests a methyl group in the compound."
+    }
+  ],
+  "quiz": {
+    "title": "Analytical Techniques Quiz",
+    "questions": [
+      {
+        "q": "A compound shows a strong IR absorption at ~1735 cm\u207b\u00b9 but no broad O\u2013H absorption. What functional group is present?",
+        "opts": [
+          "Carboxylic acid",
+          "Ketone",
+          "Aldehyde",
+          "Ester"
+        ],
+        "ans": 3,
+        "exp": "Ester C=O absorbs at ~1735\u20131750 cm\u207b\u00b9; no O\u2013H stretch \u2014 consistent with ester (RCOOR')."
+      },
+      {
+        "q": "In \u00b9H NMR, the integration ratio of peaks is 3:2:1. What does this tell you?",
+        "opts": [
+          "3 types of carbon",
+          "3 types of H in ratio 3:2:1",
+          "The compound has 6 hydrogens total",
+          "3 sets of neighbouring H"
+        ],
+        "ans": 1,
+        "exp": "Integration gives the ratio of the number of H atoms in each environment \u2014 here, 3 H : 2 H : 1 H environments."
+      },
+      {
+        "q": "In a mass spectrum, what does the M+2 peak (roughly 1/3 intensity of M peak) suggest?",
+        "opts": [
+          "One nitrogen atom",
+          "One bromine atom",
+          "One chlorine atom",
+          "Two carbon atoms"
+        ],
+        "ans": 2,
+        "exp": "Chlorine has two isotopes \u00b3\u2075Cl (75%) and \u00b3\u2077Cl (25%), giving M and M+2 peaks in ratio ~3:1."
+      },
+      {
+        "q": "A \u00b9H NMR peak appears at \u03b4 ~9.5\u201310 ppm. What functional group does this suggest?",
+        "opts": [
+          "\u2013OH of alcohol",
+          "\u2013CH\u2083 of alkane",
+          "\u2013CHO of aldehyde",
+          "\u2013COOH of acid"
+        ],
+        "ans": 2,
+        "exp": "Aldehyde proton (\u2013CHO) resonates at \u03b4 ~9\u201310 ppm due to deshielding by the adjacent C=O."
+      },
+      {
+        "q": "What is Rf in chromatography?",
+        "opts": [
+          "Retention factor = distance of solvent / distance of spot",
+          "Relative frequency of a peak",
+          "Distance of spot / distance of solvent front",
+          "Rate of flow of mobile phase"
+        ],
+        "ans": 2,
+        "exp": "Rf = distance moved by compound spot / distance moved by solvent front. Values between 0 and 1."
+      }
+    ]
+  },
+  "recall": [
+    "Describe how a mass spectrum gives the molecular mass of a compound.",
+    "Identify functional groups from IR absorption positions.",
+    "Interpret a \u00b9H NMR spectrum (chemical shift, integration, splitting).",
+    "Explain the n+1 rule with an example.",
+    "Calculate Rf and explain its use in identifying compounds."
+  ],
+  "summary": [
+    {
+      "label": "M\u207a peak",
+      "value": "gives Mr"
+    },
+    {
+      "label": "C=O IR",
+      "value": "~1700\u20131750 cm\u207b\u00b9 (strong, sharp)"
+    },
+    {
+      "label": "O\u2013H acid IR",
+      "value": "broad 2500\u20133300 cm\u207b\u00b9"
+    },
+    {
+      "label": "NMR \u03b4 CHO",
+      "value": "~9\u201310 ppm"
+    },
+    {
+      "label": "n+1 rule",
+      "value": "n adjacent H \u2192 n+1 lines"
+    },
+    {
+      "label": "Rf",
+      "value": "spot distance / solvent front distance"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topics 1, 3, 13"
 }

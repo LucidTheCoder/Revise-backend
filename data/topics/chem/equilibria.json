@@ -1,238 +1,220 @@
 {
-    "id": "equilibria",
-    "subject": "chem",
-    "title": "Equilibria",
-    "subtitle": "Equilibria with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 7",
-    "concept": [
-        "Equilibria explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Dynamic equilibrium occurs in a closed system when forward and reverse rates are equal.",
-        "Kc is built from equilibrium concentrations with stoichiometric powers."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Equilibria explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Dynamic equilibrium occurs in a closed system when forward and reverse rates are equal.",
-                "Kc is built from equilibrium concentrations with stoichiometric powers."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Equilibria ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Dynamic equilibrium",
-            "body": "State in a closed system where forward and reverse reaction rates are equal."
-        },
-        {
-            "term": "Kc",
-            "body": "Equilibrium constant expressed using molar concentrations of products and reactants."
-        },
-        {
-            "term": "Le Chatelier principle",
-            "body": "A disturbed equilibrium shifts to oppose the imposed change."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Equilibria.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Equilibria explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Dynamic equilibrium occurs in a closed system when forward and reverse rates are equal."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Equilibria reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Equilibria?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Equilibria without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Equilibria questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Equilibria?",
-            "a": "Equilibria explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Dynamic equilibrium.",
-            "a": "State in a closed system where forward and reverse reaction rates are equal."
-        },
-        {
-            "q": "Define Kc.",
-            "a": "Equilibrium constant expressed using molar concentrations of products and reactants."
-        },
-        {
-            "q": "What exam strategy works best for Equilibria?",
-            "a": "In Equilibria questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Equilibria explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Dynamic equilibrium occurs in a closed system when forward and reverse rates are equal."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Kc is built from equilibrium concentrations with stoichiometric powers."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Dynamic equilibrium"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 7"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Kc = [C]^c[D]^d / [A]^a[B]^b; Ka × Kb = Kw = 10^−14 (25°C)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Equilibria: core principle",
-            "a": "Equilibria explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Dynamic equilibrium",
-            "a": "State in a closed system where forward and reverse reaction rates are equal."
-        },
-        {
-            "q": "Kc",
-            "a": "Equilibrium constant expressed using molar concentrations of products and reactants."
-        },
-        {
-            "q": "Le Chatelier principle",
-            "a": "A disturbed equilibrium shifts to oppose the imposed change."
-        },
-        {
-            "q": "Equilibria: common mistake",
-            "a": "Giving trends in Equilibria without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Equilibria questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Equilibria Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Dynamic equilibrium?",
-                "opts": [
-                    "State in a closed system where forward and reverse reaction rates are equal.",
-                    "Equilibrium constant expressed using molar concentrations of products and reactants.",
-                    "A disturbed equilibrium shifts to oppose the imposed change.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Dynamic equilibrium."
-            },
-            {
-                "q": "Which statement about Equilibria is correct?",
-                "opts": [
-                    "Dynamic equilibrium occurs in a closed system when forward and reverse rates are equal.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Kc?",
-                "opts": [
-                    "Equilibrium constant expressed using molar concentrations of products and reactants.",
-                    "State in a closed system where forward and reverse reaction rates are equal.",
-                    "A disturbed equilibrium shifts to oppose the imposed change.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Kc."
-            },
-            {
-                "q": "Which exam approach is most reliable for Equilibria?",
-                "opts": [
-                    "In Equilibria questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Equilibria?",
-                "opts": [
-                    "Kc is built from equilibrium concentrations with stoichiometric powers.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "equilibria",
+  "subject": "chem",
+  "title": "Equilibria",
+  "subtitle": "Dynamic equilibrium, Le Chatelier's principle and Kc.",
+  "concept": [
+    "A dynamic equilibrium is reached in a closed system when the forward and reverse rates are equal, and concentrations remain constant.",
+    "Le Chatelier's principle: if a system at equilibrium is subjected to a change, it responds to oppose that change.",
+    "The equilibrium constant Kc depends only on temperature; it is unaffected by concentration, pressure, or catalysts."
+  ],
+  "notes": [
+    {
+      "heading": "Le Chatelier's Principle",
+      "items": [
+        "Concentration: adding a reactant shifts equilibrium to the right (more product); removing product also shifts right.",
+        "Pressure (gas reactions): increasing pressure favours the side with fewer moles of gas.",
+        "Temperature: increasing T shifts equilibrium in the endothermic direction (\u0394H > 0 side). This changes the value of Kc.",
+        "Catalyst: no effect on equilibrium position or Kc \u2014 just speeds up reaching equilibrium."
+      ]
+    },
+    {
+      "heading": "Kc Expression",
+      "items": [
+        "For aA + bB \u21cc cC + dD: Kc = [C]^c[D]^d / [A]^a[B]^b",
+        "Only include species in solution or gas phase (not pure solids or liquids).",
+        "Units of Kc depend on the expression \u2014 check by substituting mol dm\u207b\u00b3.",
+        "Large Kc (>10\u2074): equilibrium lies far to the right (products favoured). Small Kc: reactants favoured."
+      ]
+    },
+    {
+      "heading": "Effect of Temperature on Kc",
+      "items": [
+        "Exothermic reaction (\u0394H < 0): increasing T decreases Kc (shifts to reactants).",
+        "Endothermic reaction (\u0394H > 0): increasing T increases Kc (shifts to products).",
+        "This is the only factor that changes the numerical value of Kc."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Dynamic equilibrium",
+      "body": "The state in a closed system where the rate of the forward reaction equals the rate of the reverse reaction, and the concentrations of reactants and products remain constant."
+    },
+    {
+      "term": "Le Chatelier's principle",
+      "body": "If a system at equilibrium is disturbed, it responds so as to oppose the change and restore equilibrium."
+    },
+    {
+      "term": "Kc",
+      "body": "The equilibrium constant in terms of concentrations; Kc = product of concentrations of products (raised to stoichiometric powers) divided by product of concentrations of reactants."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Write the Kc expression for N\u2082(g) + 3H\u2082(g) \u21cc 2NH\u2083(g) and give its units.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Write Kc",
+          "text": "Kc = [NH\u2083]\u00b2 / ([N\u2082][H\u2082]\u00b3)"
+        },
+        {
+          "n": 2,
+          "sub": "Units",
+          "text": "Units = (mol dm\u207b\u00b3)\u00b2 / [(mol dm\u207b\u00b3)(mol dm\u207b\u00b3)\u00b3] = mol\u207b\u00b2 dm\u2076"
+        }
+      ]
+    },
+    {
+      "q": "The Haber process is exothermic. Explain the effect of increasing temperature on yield and Kc.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Le Chatelier",
+          "text": "Increasing T favours the endothermic direction \u2014 the reverse reaction \u2014 shifting equilibrium to the left."
+        },
+        {
+          "n": 2,
+          "sub": "Effect on yield",
+          "text": "Yield of NH\u2083 decreases."
+        },
+        {
+          "n": 3,
+          "sub": "Effect on Kc",
+          "text": "Kc decreases (the equilibrium lies further to the reactant side at higher T)."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Including pure solids (e.g. CaCO\u2083) or pure liquids in the Kc expression.",
+    "Saying a catalyst shifts the equilibrium position \u2014 it does not.",
+    "Confusing the effect of temperature on equilibrium position with the effect on rate."
+  ],
+  "tips": [
+    "Always state which direction the equilibrium shifts AND the effect on yield/concentration.",
+    "For Kc units: if top power equals bottom power, Kc is dimensionless (no units).",
+    "Industrial compromise temperatures: high enough for acceptable rate, but Kc still reasonable."
+  ],
+  "flashcards": [
+    {
+      "q": "What is dynamic equilibrium?",
+      "a": "Forward and reverse rates are equal; concentrations are constant; the system is closed."
+    },
+    {
+      "q": "What is the only factor that changes the value of Kc?",
+      "a": "Temperature."
+    },
+    {
+      "q": "For an exothermic reaction, what happens to Kc when temperature increases?",
+      "a": "Kc decreases \u2014 equilibrium shifts to the endothermic (reverse) direction."
+    },
+    {
+      "q": "How does increasing pressure affect an equilibrium with fewer moles of gas on the right?",
+      "a": "Increases the yield of products \u2014 equilibrium shifts to the right (fewer moles of gas)."
+    },
+    {
+      "q": "Does a catalyst affect Kc or equilibrium position?",
+      "a": "No \u2014 a catalyst speeds up both forward and reverse rates equally; it does not change Kc or equilibrium position."
+    },
+    {
+      "q": "Write the Kc expression for H\u2082(g) + I\u2082(g) \u21cc 2HI(g).",
+      "a": "Kc = [HI]\u00b2 / ([H\u2082][I\u2082]) \u2014 dimensionless (mol dm\u207b\u00b3 cancel)."
+    }
+  ],
+  "quiz": {
+    "title": "Equilibria Quiz",
+    "questions": [
+      {
+        "q": "For N\u2082O\u2084(g) \u21cc 2NO\u2082(g), what happens when pressure is increased?",
+        "opts": [
+          "Equilibrium shifts right; more NO\u2082 formed",
+          "Equilibrium shifts left; more N\u2082O\u2084 formed",
+          "Kc increases",
+          "No change"
+        ],
+        "ans": 1,
+        "exp": "Increasing pressure favours fewer moles of gas \u2014 the left side (1 mol vs 2 mol), so N\u2082O\u2084 is favoured."
+      },
+      {
+        "q": "A reaction has Kc = 1\u00d710\u207b\u2078. What does this indicate?",
+        "opts": [
+          "Products are strongly favoured",
+          "Reactants are strongly favoured",
+          "Equal amounts of reactants and products",
+          "Reaction has not reached equilibrium"
+        ],
+        "ans": 1,
+        "exp": "Very small Kc means the equilibrium lies far to the left \u2014 reactants are strongly favoured."
+      },
+      {
+        "q": "Which correctly shows Kc for 2SO\u2082 + O\u2082 \u21cc 2SO\u2083?",
+        "opts": [
+          "[SO\u2082]\u00b2[O\u2082]/[SO\u2083]\u00b2",
+          "[SO\u2083]\u00b2/[SO\u2082]\u00b2[O\u2082]",
+          "[SO\u2083]/[SO\u2082][O\u2082]",
+          "[SO\u2082][O\u2082]/[SO\u2083]"
+        ],
+        "ans": 1,
+        "exp": "Kc = [SO\u2083]\u00b2 / ([SO\u2082]\u00b2[O\u2082]) \u2014 products over reactants, raised to stoichiometric powers."
+      },
+      {
+        "q": "An endothermic equilibrium is heated. What happens?",
+        "opts": [
+          "Kc decreases; yield of products falls",
+          "Kc increases; yield of products rises",
+          "Kc unchanged; rate increases only",
+          "Equilibrium shifts left"
+        ],
+        "ans": 1,
+        "exp": "Increasing T for an endothermic reaction shifts equilibrium right; Kc increases."
+      },
+      {
+        "q": "Why is a lower temperature not used in the Haber process despite giving higher Kc?",
+        "opts": [
+          "Lower T increases pressure",
+          "Rate would be too slow to be economical",
+          "Lower T favours reactants",
+          "Catalyst fails at low T"
+        ],
+        "ans": 1,
+        "exp": "Lower T gives higher equilibrium yield (Kc larger) but unacceptably slow rate \u2014 a compromise temperature ~450\u00b0C is used."
+      }
+    ]
+  },
+  "recall": [
+    "Define dynamic equilibrium.",
+    "State Le Chatelier's principle.",
+    "Write a Kc expression and determine its units.",
+    "Explain the industrial conditions for the Haber process using Le Chatelier's principle.",
+    "State which factor changes Kc and explain its effect for an exothermic reaction."
+  ],
+  "summary": [
+    {
+      "label": "Kc expression",
+      "value": "[products]^n / [reactants]^m"
+    },
+    {
+      "label": "Only T changes Kc",
+      "value": "exothermic: \u2191T \u2192 Kc\u2193"
+    },
+    {
+      "label": "Pressure",
+      "value": "favours fewer moles of gas"
+    },
+    {
+      "label": "Catalyst",
+      "value": "no effect on Kc or position"
+    },
+    {
+      "label": "Large Kc",
+      "value": "products favoured"
+    },
+    {
+      "label": "Small Kc",
+      "value": "reactants favoured"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 10"
 }

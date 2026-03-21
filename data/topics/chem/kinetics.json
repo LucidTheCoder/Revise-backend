@@ -1,238 +1,213 @@
 {
-    "id": "kinetics",
-    "subject": "chem",
-    "title": "Reaction Kinetics",
-    "subtitle": "Reaction Kinetics with core theory, reaction logic, and exam-focused application.",
-    "concept": [
-        "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates.",
-        "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation.",
-        "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates.",
-                "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation.",
-                "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Reaction Kinetics ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Rate of Reaction",
-            "body": "Change in concentration of reactant or product per unit time."
-        },
-        {
-            "term": "Activation Energy",
-            "body": "Minimum energy that colliding particles must have for reaction to occur."
-        },
-        {
-            "term": "Catalyst",
-            "body": "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Reaction Kinetics.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Reaction Kinetics reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Reaction Kinetics?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Reaction Kinetics without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Reaction Kinetics?",
-            "a": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
-        },
-        {
-            "q": "Define Rate of Reaction.",
-            "a": "Change in concentration of reactant or product per unit time."
-        },
-        {
-            "q": "Define Activation Energy.",
-            "a": "Minimum energy that colliding particles must have for reaction to occur."
-        },
-        {
-            "q": "What exam strategy works best for Reaction Kinetics?",
-            "a": "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Rate of Reaction"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 8"
-        },
-        {
-            "label": "Key Formula",
-            "val": "rate = k[A]^m[B]^n; ln[A] = ln[A]₀ − kt (1st order)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Reaction Kinetics: core principle",
-            "a": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
-        },
-        {
-            "q": "Rate of Reaction",
-            "a": "Change in concentration of reactant or product per unit time."
-        },
-        {
-            "q": "Activation Energy",
-            "a": "Minimum energy that colliding particles must have for reaction to occur."
-        },
-        {
-            "q": "Catalyst",
-            "a": "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall."
-        },
-        {
-            "q": "Reaction Kinetics: common mistake",
-            "a": "Giving trends in Reaction Kinetics without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Reaction Kinetics Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Rate of Reaction?",
-                "opts": [
-                    "Change in concentration of reactant or product per unit time.",
-                    "Minimum energy that colliding particles must have for reaction to occur.",
-                    "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Rate of Reaction."
-            },
-            {
-                "q": "Which statement about Reaction Kinetics is correct?",
-                "opts": [
-                    "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Activation Energy?",
-                "opts": [
-                    "Minimum energy that colliding particles must have for reaction to occur.",
-                    "Change in concentration of reactant or product per unit time.",
-                    "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Activation Energy."
-            },
-            {
-                "q": "Which exam approach is most reliable for Reaction Kinetics?",
-                "opts": [
-                    "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Reaction Kinetics?",
-                "opts": [
-                    "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "kinetics",
+  "subject": "chem",
+  "title": "Reaction Kinetics",
+  "subtitle": "Rate of reaction, activation energy and catalysis.",
+  "concept": [
+    "Reaction rate depends on collision frequency and collision energy \u2014 collisions must exceed the activation energy (Ea) to be successful.",
+    "Maxwell\u2013Boltzmann distribution shows the spread of molecular energies; only molecules to the right of Ea react.",
+    "Catalysts provide an alternative reaction pathway with lower Ea, increasing the proportion of successful collisions without being consumed."
+  ],
+  "notes": [
+    {
+      "heading": "Factors Affecting Rate",
+      "items": [
+        "Concentration: more particles per unit volume \u2192 more frequent collisions \u2192 faster rate.",
+        "Temperature: increases average kinetic energy AND fraction of molecules with E \u2265 Ea; even a 10\u00b0C rise roughly doubles rate.",
+        "Pressure (gases): equivalent to increasing concentration.",
+        "Surface area: more exposed particles available for collisions.",
+        "Catalyst: lowers Ea, increasing fraction of successful collisions."
+      ]
     },
-    "syllabusRef": "9701 AS Topic 8"
+    {
+      "heading": "Maxwell\u2013Boltzmann Distribution",
+      "items": [
+        "X-axis: kinetic energy. Y-axis: number of molecules (proportion) with that energy.",
+        "Area under curve = total number of molecules (constant).",
+        "Most probable energy is the peak; mean energy is slightly to the right.",
+        "Ea marked as a vertical line; area to the right = molecules that can react.",
+        "Higher T: curve flattens and shifts right; Ea line stays fixed; shaded area increases greatly.",
+        "Catalyst: lowers Ea to Ea'; shaded area increases without changing temperature."
+      ]
+    },
+    {
+      "heading": "Catalysis",
+      "items": [
+        "Homogeneous catalyst: same phase as reactants (e.g. H\u207a(aq) in ester hydrolysis).",
+        "Heterogeneous catalyst: different phase (e.g. Fe in Haber process; Pt/Rh in catalytic converters).",
+        "Catalysts increase rate but do not change \u0394H or the equilibrium position.",
+        "Autocatalysis: product of reaction acts as catalyst (e.g. Mn\u00b2\u207a in MnO\u2084\u207b + C\u2082O\u2084\u00b2\u207b reaction)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Rate of reaction",
+      "body": "Change in concentration of a reactant or product per unit time (mol dm\u207b\u00b3 s\u207b\u00b9)."
+    },
+    {
+      "term": "Activation energy (Ea)",
+      "body": "The minimum energy that colliding particles must have for a reaction to occur."
+    },
+    {
+      "term": "Maxwell\u2013Boltzmann distribution",
+      "body": "A graph showing the distribution of kinetic energies among molecules in a gas at a given temperature."
+    },
+    {
+      "term": "Catalyst",
+      "body": "A substance that increases the rate of a reaction by providing an alternative pathway of lower activation energy, without being consumed."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain, using the Maxwell\u2013Boltzmann distribution, why increasing temperature increases reaction rate.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Distribution change",
+          "text": "At higher T, the curve shifts to the right and becomes broader/flatter; the peak moves to higher energy."
+        },
+        {
+          "n": 2,
+          "sub": "Effect on Ea",
+          "text": "The activation energy Ea stays at the same position on the x-axis."
+        },
+        {
+          "n": 3,
+          "sub": "Conclusion",
+          "text": "A much greater proportion of molecules now have energy \u2265 Ea, so more collisions are successful per unit time \u2192 rate increases significantly."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Saying a catalyst 'lowers activation energy of the reaction' without specifying it provides an alternative pathway.",
+    "Drawing the Maxwell\u2013Boltzmann curve starting above zero on the y-axis (it must start at origin).",
+    "Confusing rate of reaction with extent of reaction \u2014 a catalyst changes rate but not equilibrium."
+  ],
+  "tips": [
+    "When drawing the effect of a catalyst on Maxwell\u2013Boltzmann: keep the curve identical, just move the Ea line to the left (lower Ea).",
+    "For temperature effect: redraw the curve (flatter, right-shifted), keep Ea fixed, shade the new larger area.",
+    "Rate units are mol dm\u207b\u00b3 s\u207b\u00b9 \u2014 always quote them."
+  ],
+  "flashcards": [
+    {
+      "q": "What two factors determine whether a collision is successful?",
+      "a": "The collision must have sufficient energy (\u2265 Ea) and the correct orientation."
+    },
+    {
+      "q": "How does a catalyst increase reaction rate?",
+      "a": "By providing an alternative pathway with a lower activation energy, increasing the fraction of molecules with sufficient energy."
+    },
+    {
+      "q": "What is the Maxwell\u2013Boltzmann distribution?",
+      "a": "A graph of the distribution of kinetic energies of molecules at a given temperature; area under curve = total molecules."
+    },
+    {
+      "q": "What happens to the Maxwell\u2013Boltzmann distribution at higher temperature?",
+      "a": "The curve flattens and shifts right (higher average energy); more molecules exceed Ea."
+    },
+    {
+      "q": "What is the difference between homogeneous and heterogeneous catalysts?",
+      "a": "Homogeneous: same phase as reactants. Heterogeneous: different phase."
+    },
+    {
+      "q": "Does a catalyst change \u0394H?",
+      "a": "No \u2014 a catalyst lowers Ea but does not change the enthalpy change of the reaction."
+    }
+  ],
+  "quiz": {
+    "title": "Kinetics Quiz",
+    "questions": [
+      {
+        "q": "Which correctly describes activation energy?",
+        "opts": [
+          "Energy released when bonds form",
+          "Minimum energy for a successful collision",
+          "Average kinetic energy of reactant molecules",
+          "Energy stored in chemical bonds"
+        ],
+        "ans": 1,
+        "exp": "Activation energy is the minimum energy that colliding particles must have for a reaction to occur."
+      },
+      {
+        "q": "How does increasing concentration increase rate?",
+        "opts": [
+          "Increases Ea",
+          "Increases proportion of molecules above Ea",
+          "Increases collision frequency",
+          "Provides alternative pathway"
+        ],
+        "ans": 2,
+        "exp": "More particles per unit volume \u2192 more frequent collisions."
+      },
+      {
+        "q": "A catalyst is added to a reaction. Which is NOT changed?",
+        "opts": [
+          "Activation energy",
+          "Rate of reaction",
+          "Enthalpy change (\u0394H)",
+          "Reaction pathway"
+        ],
+        "ans": 2,
+        "exp": "A catalyst lowers Ea and provides a new pathway, increasing rate \u2014 but \u0394H is unchanged."
+      },
+      {
+        "q": "On a Maxwell\u2013Boltzmann diagram, what does the area to the right of Ea represent?",
+        "opts": [
+          "Total molecules",
+          "Molecules with insufficient energy",
+          "Molecules with energy \u2265 Ea that can react",
+          "Most probable energy"
+        ],
+        "ans": 2,
+        "exp": "The shaded area to the right of the Ea line represents the fraction of molecules with enough energy to react."
+      },
+      {
+        "q": "Iron is used as a catalyst in the Haber process. What type of catalysis is this?",
+        "opts": [
+          "Homogeneous",
+          "Autocatalysis",
+          "Heterogeneous",
+          "Enzyme catalysis"
+        ],
+        "ans": 2,
+        "exp": "Iron (solid) is a different phase from the gaseous N\u2082 and H\u2082 reactants \u2014 heterogeneous catalysis."
+      }
+    ]
+  },
+  "recall": [
+    "Explain why increasing temperature increases rate using the Maxwell\u2013Boltzmann distribution.",
+    "Define activation energy.",
+    "Sketch the Maxwell\u2013Boltzmann distribution and show the effect of a catalyst.",
+    "Distinguish between homogeneous and heterogeneous catalysts.",
+    "State the units of rate of reaction."
+  ],
+  "summary": [
+    {
+      "label": "Rate units",
+      "value": "mol dm\u207b\u00b3 s\u207b\u00b9"
+    },
+    {
+      "label": "Higher T",
+      "value": "curve flattens, shifts right; more molecules \u2265 Ea"
+    },
+    {
+      "label": "Catalyst",
+      "value": "lower Ea, same curve; more molecules \u2265 Ea"
+    },
+    {
+      "label": "Concentration \u2191",
+      "value": "more frequent collisions"
+    },
+    {
+      "label": "Homogeneous",
+      "value": "same phase as reactants"
+    },
+    {
+      "label": "Heterogeneous",
+      "value": "different phase"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 9"
 }

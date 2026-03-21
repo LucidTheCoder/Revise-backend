@@ -1,238 +1,227 @@
 {
-    "id": "gas-exchange",
-    "subject": "bio",
-    "title": "Gas Exchange",
-    "subtitle": "Gas Exchange with mechanism-focused explanation and exam-linked examples.",
-    "syllabusRef": "9700 AS Topic 9",
-    "concept": [
-        "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes.",
-        "Gas exchange surfaces are adapted with large area and short diffusion distance.",
-        "Ventilation maintains steep diffusion gradients in lungs."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes.",
-                "Gas exchange surfaces are adapted with large area and short diffusion distance.",
-                "Ventilation maintains steep diffusion gradients in lungs."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Gas Exchange ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Diffusion gradient",
-            "body": "Difference in concentration or partial pressure that drives net diffusion."
-        },
-        {
-            "term": "Ventilation",
-            "body": "Movement of air into and out of the lungs."
-        },
-        {
-            "term": "Alveolus",
-            "body": "Tiny air sac in the lungs where gas exchange occurs between air and blood."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Gas Exchange.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Gas exchange surfaces are adapted with large area and short diffusion distance."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Gas Exchange reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Gas Exchange?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Gas Exchange outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Gas Exchange?",
-            "a": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Define Diffusion gradient.",
-            "a": "Difference in concentration or partial pressure that drives net diffusion."
-        },
-        {
-            "q": "Define Ventilation.",
-            "a": "Movement of air into and out of the lungs."
-        },
-        {
-            "q": "What exam strategy works best for Gas Exchange?",
-            "a": "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Gas exchange surfaces are adapted with large area and short diffusion distance."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Ventilation maintains steep diffusion gradients in lungs."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Diffusion gradient"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 9"
-        },
-        {
-            "label": "Key Formula",
-            "val": "V_E = f × T_v; A−V difference = uptake"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Gas Exchange: core principle",
-            "a": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Diffusion gradient",
-            "a": "Difference in concentration or partial pressure that drives net diffusion."
-        },
-        {
-            "q": "Ventilation",
-            "a": "Movement of air into and out of the lungs."
-        },
-        {
-            "q": "Alveolus",
-            "a": "Tiny air sac in the lungs where gas exchange occurs between air and blood."
-        },
-        {
-            "q": "Gas Exchange: common mistake",
-            "a": "Describing Gas Exchange outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Gas Exchange Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Diffusion gradient?",
-                "opts": [
-                    "Difference in concentration or partial pressure that drives net diffusion.",
-                    "Movement of air into and out of the lungs.",
-                    "Tiny air sac in the lungs where gas exchange occurs between air and blood.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Diffusion gradient."
-            },
-            {
-                "q": "Which statement about Gas Exchange is correct?",
-                "opts": [
-                    "Gas exchange surfaces are adapted with large area and short diffusion distance.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Ventilation?",
-                "opts": [
-                    "Movement of air into and out of the lungs.",
-                    "Difference in concentration or partial pressure that drives net diffusion.",
-                    "Tiny air sac in the lungs where gas exchange occurs between air and blood.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Ventilation."
-            },
-            {
-                "q": "Which exam approach is most reliable for Gas Exchange?",
-                "opts": [
-                    "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Gas Exchange?",
-                "opts": [
-                    "Ventilation maintains steep diffusion gradients in lungs.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "gas-exchange",
+  "subject": "bio",
+  "title": "Gas Exchange",
+  "subtitle": "Gas exchange surfaces in mammals, fish, insects and plants.",
+  "concept": [
+    "Efficient gas exchange requires: large surface area, thin surface, steep concentration gradient, and (in larger organisms) a ventilation mechanism.",
+    "Mammalian lungs maximise surface area with alveoli; the alveolar wall is one cell thick to minimise diffusion distance.",
+    "Insects use a tracheal system; fish use counter-current flow in gills; plants use stomata."
+  ],
+  "notes": [
+    {
+      "heading": "Features of Gas Exchange Surfaces",
+      "items": [
+        "Large surface area: increases rate of diffusion.",
+        "Thin: short diffusion pathway.",
+        "Moist: gases dissolve before diffusing.",
+        "Good blood supply / ventilation: maintains steep concentration gradient."
+      ]
+    },
+    {
+      "heading": "Mammalian Lungs",
+      "items": [
+        "Ventilation: intercostal muscles + diaphragm change thorax volume \u2192 pressure changes \u2192 air moves in/out.",
+        "Inspiration: external intercostals contract, diaphragm contracts and flattens \u2192 volume increases \u2192 pressure falls \u2192 air in.",
+        "Expiration: internal intercostals + elastic recoil \u2192 volume decreases \u2192 pressure rises \u2192 air out.",
+        "Alveoli: ~700 million; lined with surfactant (prevents collapse); surrounded by capillaries; one-cell-thick squamous epithelium.",
+        "Fick's law: rate of diffusion \u221d (surface area \u00d7 concentration difference) / thickness."
+      ]
+    },
+    {
+      "heading": "Fish Gills",
+      "items": [
+        "Lamellae on gill arches; secondary lamellae provide large SA.",
+        "Counter-current flow: blood and water flow in opposite directions \u2192 concentration gradient maintained across entire gill \u2192 greater O\u2082 extraction (~80%) vs parallel flow (~50%)."
+      ]
+    },
+    {
+      "heading": "Insects: Tracheal System",
+      "items": [
+        "Air enters through spiracles (can be opened/closed to reduce water loss).",
+        "Tracheae divide into tracheoles \u2192 carry O\u2082 directly to cells.",
+        "No haemoglobin needed; relies on diffusion (only efficient in small organisms).",
+        "Spiracles close during rest to reduce water loss."
+      ]
+    },
+    {
+      "heading": "Plants: Stomata",
+      "items": [
+        "CO\u2082 enters; O\u2082 and water vapour exit through stomata.",
+        "Guard cells: swell (turgid) to open stoma when water enters by osmosis; become flaccid to close.",
+        "Stomata usually open in daytime (photosynthesis demand); close at night and in water stress.",
+        "Xerophytes: thick cuticle, sunken stomata, rolled leaves, stomata on lower surface \u2014 reduce water loss."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Fick's law",
+      "body": "Rate of diffusion \u221d (surface area \u00d7 concentration difference) / diffusion distance."
+    },
+    {
+      "term": "Counter-current flow",
+      "body": "Blood and water flow in opposite directions across fish gills, maintaining a concentration gradient along the entire gill length."
+    },
+    {
+      "term": "Spiracle",
+      "body": "Small opening in the exoskeleton of an insect through which air enters the tracheal system."
+    },
+    {
+      "term": "Guard cell",
+      "body": "A pair of cells surrounding a stoma that control its opening and closing by changes in turgor."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain why counter-current flow in fish gills is more efficient than parallel flow.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Parallel flow",
+          "text": "Blood and water start with a large gradient, but as O\u2082 moves into blood and CO\u2082 moves out, the gradient narrows \u2014 equilibrium is reached and diffusion stops (~50% extraction)."
+        },
+        {
+          "n": 2,
+          "sub": "Counter-current flow",
+          "text": "Blood always encounters water that is richer in O\u2082 than itself; the gradient is maintained along the entire length."
+        },
+        {
+          "n": 3,
+          "sub": "Result",
+          "text": "O\u2082 continues to diffuse into the blood along the full length \u2192 ~80% extraction efficiency."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Describing counter-current as blood and water flowing in the same direction \u2014 they flow in OPPOSITE directions.",
+    "Forgetting that Fick's law requires surface area in the numerator AND distance in the denominator.",
+    "Stating insects use blood to carry O\u2082 \u2014 they don't; tracheoles carry O\u2082 directly to cells."
+  ],
+  "tips": [
+    "Counter-current maintains the gradient \u2014 draw arrows to show directions in exam questions.",
+    "Xerophyte adaptations: always link each feature to reduced water loss.",
+    "For alveoli: state wall is one cell thick (squamous epithelium) and surrounded by capillaries."
+  ],
+  "flashcards": [
+    {
+      "q": "State Fick's law.",
+      "a": "Rate of diffusion \u221d (surface area \u00d7 concentration difference) / diffusion distance."
+    },
+    {
+      "q": "How do guard cells open a stoma?",
+      "a": "Guard cells take up water by osmosis \u2192 become turgid \u2192 curved shape pulls stoma open."
+    },
+    {
+      "q": "Why is counter-current flow more efficient than parallel flow in fish gills?",
+      "a": "Counter-current maintains a concentration gradient along the entire gill length, allowing greater O\u2082 extraction (~80% vs ~50%)."
+    },
+    {
+      "q": "What is the role of surfactant in the alveoli?",
+      "a": "Reduces surface tension and prevents alveoli from collapsing during expiration."
+    },
+    {
+      "q": "How does an insect reduce water loss through spiracles?",
+      "a": "Spiracles can be closed (by valves) when gas exchange demand is low, reducing evaporation."
+    },
+    {
+      "q": "Name four features of an efficient gas exchange surface.",
+      "a": "Large surface area; thin surface; moist; maintained concentration gradient (ventilation/blood supply)."
+    }
+  ],
+  "quiz": {
+    "title": "Gas Exchange Quiz",
+    "questions": [
+      {
+        "q": "Which feature of alveoli minimises diffusion distance?",
+        "opts": [
+          "Many alveoli per lung",
+          "Surfactant lining",
+          "One-cell-thick squamous epithelium",
+          "Rich capillary supply"
+        ],
+        "ans": 2,
+        "exp": "The single-celled squamous epithelium means the diffusion distance is minimised \u2014 less than 0.5 \u03bcm."
+      },
+      {
+        "q": "In fish, what flow pattern maximises O\u2082 extraction?",
+        "opts": [
+          "Parallel flow",
+          "Counter-current flow",
+          "Tidal flow",
+          "Turbulent flow"
+        ],
+        "ans": 1,
+        "exp": "Counter-current flow (blood and water in opposite directions) maintains a gradient along the full gill length."
+      },
+      {
+        "q": "Which structure in insects controls entry of air and water loss?",
+        "opts": [
+          "Trachea",
+          "Tracheole",
+          "Spiracle",
+          "Haemolymph"
+        ],
+        "ans": 2,
+        "exp": "Spiracles are openings in the exoskeleton that can be opened or closed to regulate gas entry and water loss."
+      },
+      {
+        "q": "What causes a stoma to open?",
+        "opts": [
+          "Guard cells become flaccid",
+          "Guard cells become turgid and pull apart",
+          "CO\u2082 diffuses out",
+          "Stomatal pore fills with water"
+        ],
+        "ans": 1,
+        "exp": "Guard cells absorb water by osmosis \u2192 swell \u2192 become turgid \u2192 their curved shape pulls the pore open."
+      },
+      {
+        "q": "A xerophyte has sunken stomata. How does this reduce water loss?",
+        "opts": [
+          "Increases surface area",
+          "Creates a humid microclimate in the pit, reducing the water potential gradient",
+          "Blocks CO\u2082 entry",
+          "Speeds up gas exchange"
+        ],
+        "ans": 1,
+        "exp": "Sunken stomata trap humid air in a pit, reducing the water vapour concentration gradient \u2192 slower evaporation."
+      }
+    ]
+  },
+  "recall": [
+    "State Fick's law and explain each term.",
+    "Describe the mechanism of inspiration in mammals.",
+    "Explain counter-current flow in fish gills.",
+    "Describe how stomata open and close.",
+    "List three adaptations of a xerophyte and explain each."
+  ],
+  "summary": [
+    {
+      "label": "Fick's law",
+      "value": "rate \u221d SA \u00d7 \u0394conc / distance"
+    },
+    {
+      "label": "Alveoli",
+      "value": "squamous epithelium (1 cell thick), surfactant, capillary network"
+    },
+    {
+      "label": "Counter-current",
+      "value": "blood & water opposite directions; gradient maintained"
+    },
+    {
+      "label": "Spiracles",
+      "value": "insect \u2014 open/close to regulate gas and water"
+    },
+    {
+      "label": "Stomata open",
+      "value": "guard cells turgid"
+    },
+    {
+      "label": "Xerophyte",
+      "value": "sunken stomata, thick cuticle, rolled leaves"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 7"
 }

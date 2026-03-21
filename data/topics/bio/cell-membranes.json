@@ -1,239 +1,217 @@
 {
-    "id": "cell-membranes",
-    "subject": "bio",
-    "title": "Cell Membranes and Transport",
-    "subtitle": "Cell Membranes and Transport with mechanism-focused explanation and exam-linked examples.",
-    "concept": [
-        "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules.",
-        "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid.",
-        "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules.",
-                "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid.",
-                "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Cell Membranes and Transport ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Fluid Mosaic Model",
-            "body": "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions."
-        },
-        {
-            "term": "Facilitated Diffusion",
-            "body": "Passive movement of substances down concentration gradient via membrane proteins."
-        },
-        {
-            "term": "Active Transport",
-            "body": "Movement of substances against concentration gradient using ATP and carrier proteins."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Cell Membranes and Transport.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Cell Membranes and Transport reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Cell Membranes and Transport?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Cell Membranes and Transport outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Cell Membranes and Transport?",
-            "a": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
-        },
-        {
-            "q": "Define Fluid Mosaic Model.",
-            "a": "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions."
-        },
-        {
-            "q": "Define Facilitated Diffusion.",
-            "a": "Passive movement of substances down concentration gradient via membrane proteins."
-        },
-        {
-            "q": "What exam strategy works best for Cell Membranes and Transport?",
-            "a": "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
-        },
-        {
-            "label": "Applied Model",
-            "val": "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Fluid Mosaic Model"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 4"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Δψ = potential diff; Kd = dissociation const"
-        }
-    ],
-    "diagramSvg": "<svg viewBox='0 0 460 190' xmlns='http://www.w3.org/2000/svg'><rect x='18' y='18' width='424' height='154' rx='16' fill='rgba(34,197,94,0.08)' stroke='rgba(34,197,94,0.35)'/><text x='34' y='42' fill='#22c55e' font-size='14' font-family='DM Sans'>Fluid Mosaic Membrane</text><rect x='70' y='74' width='320' height='44' rx='20' fill='rgba(129,140,248,0.13)' stroke='rgba(129,140,248,0.45)'/><circle cx='98' cy='96' r='8' fill='rgba(249,115,22,0.42)'/><circle cx='124' cy='96' r='8' fill='rgba(249,115,22,0.42)'/><circle cx='150' cy='96' r='8' fill='rgba(249,115,22,0.42)'/><rect x='212' y='68' width='34' height='56' rx='10' fill='rgba(0,212,170,0.35)'/><path d='M84 56 H154' stroke='#cdd9e5' stroke-width='2' marker-end='url(#arrm)'/><text x='84' y='52' fill='#cdd9e5' font-size='12' font-family='DM Sans'>simple diffusion</text><text x='252' y='140' fill='#cdd9e5' font-size='12' font-family='DM Sans'>carrier channel</text><defs><marker id='arrm' markerWidth='6' markerHeight='6' refX='5' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='#cdd9e5'/></marker></defs></svg>",
-    "flashcards": [
-        {
-            "q": "Cell Membranes and Transport: core principle",
-            "a": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
-        },
-        {
-            "q": "Fluid Mosaic Model",
-            "a": "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions."
-        },
-        {
-            "q": "Facilitated Diffusion",
-            "a": "Passive movement of substances down concentration gradient via membrane proteins."
-        },
-        {
-            "q": "Active Transport",
-            "a": "Movement of substances against concentration gradient using ATP and carrier proteins."
-        },
-        {
-            "q": "Cell Membranes and Transport: common mistake",
-            "a": "Describing Cell Membranes and Transport outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Cell Membranes and Transport Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Fluid Mosaic Model?",
-                "opts": [
-                    "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions.",
-                    "Passive movement of substances down concentration gradient via membrane proteins.",
-                    "Movement of substances against concentration gradient using ATP and carrier proteins.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Fluid Mosaic Model."
-            },
-            {
-                "q": "Which statement about Cell Membranes and Transport is correct?",
-                "opts": [
-                    "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Facilitated Diffusion?",
-                "opts": [
-                    "Passive movement of substances down concentration gradient via membrane proteins.",
-                    "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions.",
-                    "Movement of substances against concentration gradient using ATP and carrier proteins.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Facilitated Diffusion."
-            },
-            {
-                "q": "Which exam approach is most reliable for Cell Membranes and Transport?",
-                "opts": [
-                    "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Cell Membranes and Transport?",
-                "opts": [
-                    "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "cell-membranes",
+  "subject": "bio",
+  "title": "Cell Membranes",
+  "subtitle": "Fluid mosaic model, membrane transport and osmosis.",
+  "concept": [
+    "The fluid mosaic model describes the cell membrane as a phospholipid bilayer with embedded proteins that move laterally.",
+    "Molecules cross membranes by passive transport (diffusion, facilitated diffusion, osmosis) or active transport \u2014 the last requires ATP.",
+    "Osmosis is the movement of water by diffusion through a partially permeable membrane from a region of higher water potential to lower water potential."
+  ],
+  "notes": [
+    {
+      "heading": "Fluid Mosaic Model",
+      "items": [
+        "Phospholipid bilayer: hydrophilic heads face outward (aqueous environment); hydrophobic tails face inward.",
+        "Intrinsic (integral) proteins: span the membrane; include channel proteins and carrier proteins.",
+        "Extrinsic (peripheral) proteins: on the surface; often involved in cell signalling.",
+        "Cholesterol: between phospholipid tails; regulates fluidity (prevents excess fluidity at high T and excess rigidity at low T).",
+        "Glycoproteins and glycolipids: carbohydrate chains attached to outer surface; cell signalling, cell recognition, immune response.",
+        "Fluid: phospholipids and proteins move laterally. Mosaic: proteins are scattered within the bilayer."
+      ]
     },
-    "syllabusRef": "9700 AS Topic 4"
+    {
+      "heading": "Membrane Transport",
+      "items": [
+        "Simple diffusion: non-polar/small molecules move down concentration gradient (O\u2082, CO\u2082, lipid-soluble substances). No protein needed.",
+        "Facilitated diffusion: polar/charged molecules move down concentration gradient via channel or carrier proteins. No ATP required.",
+        "Osmosis: water moves by diffusion from high to low water potential (\u03a8) through a partially permeable membrane.",
+        "Active transport: molecules move against concentration gradient via carrier proteins; requires ATP (from hydrolysis of ATP \u2192 ADP + P\u1d62); Na\u207a/K\u207a pump is the classic example.",
+        "Endocytosis / exocytosis: bulk transport of large molecules via membrane vesicles."
+      ]
+    },
+    {
+      "heading": "Water Potential",
+      "items": [
+        "Water potential (\u03a8) = solute potential (\u03a8s) + pressure potential (\u03a8p).",
+        "Pure water: \u03a8 = 0 (highest possible). Adding solutes: \u03a8s becomes negative, lowering \u03a8.",
+        "In animal cells: cells in hypertonic solution \u2192 crenation (shrink); hypotonic \u2192 lysis (burst).",
+        "In plant cells: hypertonic \u2192 plasmolysis (membrane pulls away from cell wall); hypotonic \u2192 turgid (cell wall prevents lysis)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Fluid mosaic model",
+      "body": "The model of membrane structure in which phospholipids form a bilayer with embedded proteins; both lipids and proteins can move laterally."
+    },
+    {
+      "term": "Osmosis",
+      "body": "The net movement of water molecules by diffusion from a region of higher water potential to a region of lower water potential through a partially permeable membrane."
+    },
+    {
+      "term": "Water potential (\u03a8)",
+      "body": "A measure of the tendency of water to move; pure water = 0; more negative = lower water potential; water moves from less negative to more negative \u03a8."
+    },
+    {
+      "term": "Active transport",
+      "body": "Movement of molecules against a concentration gradient across a membrane, requiring ATP and carrier proteins."
+    },
+    {
+      "term": "Plasmolysis",
+      "body": "The shrinkage of plant cell contents away from the cell wall when the cell is placed in a hypertonic solution."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain why a red blood cell bursts when placed in distilled water.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Water potential difference",
+          "text": "Distilled water has \u03a8 = 0; the cell contents have a lower (more negative) \u03a8 due to dissolved solutes."
+        },
+        {
+          "n": 2,
+          "sub": "Osmosis",
+          "text": "Water moves by osmosis down the \u03a8 gradient into the cell through the partially permeable membrane."
+        },
+        {
+          "n": 3,
+          "sub": "Result",
+          "text": "The cell swells; animal cells have no cell wall to resist pressure, so the membrane bursts (lysis/haemolysis)."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Describing osmosis as 'water moving from high to low concentration' \u2014 use water potential terminology: 'from high to low water potential'.",
+    "Confusing channel proteins (water/ions, passive) with carrier proteins (larger molecules, passive or active).",
+    "Stating that active transport uses 'energy' without specifying ATP."
+  ],
+  "tips": [
+    "Water always moves from less negative (higher) to more negative (lower) \u03a8.",
+    "Remember: cholesterol increases rigidity at high T and prevents rigidity at low T \u2014 it buffers fluidity.",
+    "In exam answers, state direction of movement AND the type of transport for full marks."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the function of cholesterol in the cell membrane?",
+      "a": "Regulates membrane fluidity \u2014 prevents excessive fluidity at high temperatures and excessive rigidity at low temperatures."
+    },
+    {
+      "q": "What is the difference between channel and carrier proteins?",
+      "a": "Channel proteins form pores for ions/water (passive only). Carrier proteins change shape to transport specific molecules (passive or active)."
+    },
+    {
+      "q": "What is water potential?",
+      "a": "A measure of the tendency of water to move; pure water = 0; solutions have negative \u03a8. Water moves from higher (less negative) to lower (more negative) \u03a8."
+    },
+    {
+      "q": "What is plasmolysis?",
+      "a": "When a plant cell is in a hypertonic solution, water leaves by osmosis and the plasma membrane pulls away from the cell wall."
+    },
+    {
+      "q": "Name two roles of glycoproteins in the cell membrane.",
+      "a": "Cell signalling / hormone receptor; cell recognition; immune response (any 2)."
+    },
+    {
+      "q": "How does active transport differ from facilitated diffusion?",
+      "a": "Active transport moves molecules AGAINST the concentration gradient and requires ATP; facilitated diffusion is passive (down the gradient, no ATP)."
+    }
+  ],
+  "quiz": {
+    "title": "Cell Membranes Quiz",
+    "questions": [
+      {
+        "q": "Which molecules pass through the phospholipid bilayer by simple diffusion?",
+        "opts": [
+          "Glucose",
+          "Na\u207a ions",
+          "O\u2082 and CO\u2082",
+          "Large proteins"
+        ],
+        "ans": 2,
+        "exp": "Small non-polar molecules like O\u2082 and CO\u2082 dissolve in and pass directly through the lipid bilayer."
+      },
+      {
+        "q": "A cell is placed in a solution with lower water potential than its cytoplasm. What happens?",
+        "opts": [
+          "Water enters the cell",
+          "Water leaves the cell",
+          "No net movement",
+          "Active transport of water occurs"
+        ],
+        "ans": 1,
+        "exp": "Water moves by osmosis from higher \u03a8 (cell) to lower \u03a8 (solution) \u2014 water leaves the cell."
+      },
+      {
+        "q": "What is the role of cholesterol in the membrane?",
+        "opts": [
+          "Active transport",
+          "Hormone receptor",
+          "Regulates membrane fluidity",
+          "Provides energy"
+        ],
+        "ans": 2,
+        "exp": "Cholesterol sits between fatty acid tails, preventing them packing too closely or being too fluid \u2014 it stabilises fluidity."
+      },
+      {
+        "q": "Active transport requires which of the following?",
+        "opts": [
+          "A concentration gradient",
+          "ATP and carrier proteins",
+          "Only channel proteins",
+          "No energy"
+        ],
+        "ans": 1,
+        "exp": "Active transport moves molecules against the gradient; this requires ATP (hydrolysed to ADP + P\u1d62) and specific carrier proteins."
+      },
+      {
+        "q": "What is the fluid mosaic model?",
+        "opts": [
+          "Membrane is a rigid layer of proteins",
+          "Phospholipid bilayer with mobile embedded proteins",
+          "Single layer of lipids with fixed proteins",
+          "Protein bilayer with lipid channels"
+        ],
+        "ans": 1,
+        "exp": "The fluid mosaic model: phospholipid bilayer with proteins that can move laterally within the bilayer (fluid = mobile; mosaic = variety of proteins)."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the fluid mosaic model.",
+    "Explain the difference between simple diffusion, facilitated diffusion and active transport.",
+    "Define water potential and explain the direction of osmosis.",
+    "Explain why plant cells do not burst in hypotonic solutions.",
+    "State the role of glycoproteins and cholesterol in the membrane."
+  ],
+  "summary": [
+    {
+      "label": "Simple diffusion",
+      "value": "non-polar, down gradient, no protein"
+    },
+    {
+      "label": "Facilitated diffusion",
+      "value": "polar/charged, down gradient, protein, no ATP"
+    },
+    {
+      "label": "Active transport",
+      "value": "against gradient, carrier protein, ATP"
+    },
+    {
+      "label": "Osmosis",
+      "value": "water from high \u03a8 to low \u03a8"
+    },
+    {
+      "label": "Cholesterol",
+      "value": "regulates fluidity"
+    },
+    {
+      "label": "Plasmolysis",
+      "value": "plant cell in hypertonic solution"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 5"
 }

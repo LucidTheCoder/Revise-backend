@@ -1,238 +1,213 @@
 {
-    "id": "nitrogen-sulfur",
-    "subject": "chem",
-    "title": "Nitrogen and Sulfur",
-    "subtitle": "Nitrogen and Sulfur with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 12",
-    "concept": [
-        "Nitrogen and Sulfur explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Ammonia production conditions are selected as a rate-yield compromise in the Haber process.",
-        "Nitrogen and sulfur oxides link chemistry to atmospheric pollution."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Nitrogen and Sulfur explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Ammonia production conditions are selected as a rate-yield compromise in the Haber process.",
-                "Nitrogen and sulfur oxides link chemistry to atmospheric pollution."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Nitrogen and Sulfur ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Haber process",
-            "body": "Industrial synthesis of ammonia from nitrogen and hydrogen using an iron catalyst."
-        },
-        {
-            "term": "Acid rain",
-            "body": "Rainwater with lowered pH due mainly to dissolved sulfur and nitrogen oxides."
-        },
-        {
-            "term": "Nitrogen oxide",
-            "body": "Oxide of nitrogen, such as NO or NO2, involved in atmospheric pollution and acid rain."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Nitrogen and Sulfur.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Nitrogen and Sulfur explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Ammonia production conditions are selected as a rate-yield compromise in the Haber process."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Nitrogen and Sulfur reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Nitrogen and Sulfur?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Nitrogen and Sulfur without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Nitrogen and Sulfur questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Nitrogen and Sulfur?",
-            "a": "Nitrogen and Sulfur explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Haber process.",
-            "a": "Industrial synthesis of ammonia from nitrogen and hydrogen using an iron catalyst."
-        },
-        {
-            "q": "Define Acid rain.",
-            "a": "Rainwater with lowered pH due mainly to dissolved sulfur and nitrogen oxides."
-        },
-        {
-            "q": "What exam strategy works best for Nitrogen and Sulfur?",
-            "a": "In Nitrogen and Sulfur questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Nitrogen and Sulfur explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Ammonia production conditions are selected as a rate-yield compromise in the Haber process."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Nitrogen and sulfur oxides link chemistry to atmospheric pollution."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Haber process"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 12"
-        },
-        {
-            "label": "Key Formula",
-            "val": "N: −3 to +5 oxidation states; S: −2 to +6"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Nitrogen and Sulfur: core principle",
-            "a": "Nitrogen and Sulfur explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Haber process",
-            "a": "Industrial synthesis of ammonia from nitrogen and hydrogen using an iron catalyst."
-        },
-        {
-            "q": "Acid rain",
-            "a": "Rainwater with lowered pH due mainly to dissolved sulfur and nitrogen oxides."
-        },
-        {
-            "q": "Nitrogen oxide",
-            "a": "Oxide of nitrogen, such as NO or NO2, involved in atmospheric pollution and acid rain."
-        },
-        {
-            "q": "Nitrogen and Sulfur: common mistake",
-            "a": "Giving trends in Nitrogen and Sulfur without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Nitrogen and Sulfur questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Nitrogen and Sulfur Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Haber process?",
-                "opts": [
-                    "Industrial synthesis of ammonia from nitrogen and hydrogen using an iron catalyst.",
-                    "Rainwater with lowered pH due mainly to dissolved sulfur and nitrogen oxides.",
-                    "Oxide of nitrogen, such as NO or NO2, involved in atmospheric pollution and acid rain.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Haber process."
-            },
-            {
-                "q": "Which statement about Nitrogen and Sulfur is correct?",
-                "opts": [
-                    "Ammonia production conditions are selected as a rate-yield compromise in the Haber process.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Acid rain?",
-                "opts": [
-                    "Rainwater with lowered pH due mainly to dissolved sulfur and nitrogen oxides.",
-                    "Industrial synthesis of ammonia from nitrogen and hydrogen using an iron catalyst.",
-                    "Oxide of nitrogen, such as NO or NO2, involved in atmospheric pollution and acid rain.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Acid rain."
-            },
-            {
-                "q": "Which exam approach is most reliable for Nitrogen and Sulfur?",
-                "opts": [
-                    "In Nitrogen and Sulfur questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Nitrogen and Sulfur?",
-                "opts": [
-                    "Nitrogen and sulfur oxides link chemistry to atmospheric pollution.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "nitrogen-sulfur",
+  "subject": "chem",
+  "title": "Nitrogen and Sulfur Chemistry",
+  "subtitle": "Nitrogen cycle, industrial chemistry, sulfur compounds and acid rain.",
+  "concept": [
+    "The Haber process makes ammonia from N\u2082 and H\u2082; conditions are a compromise between yield (lower T) and rate (higher T).",
+    "Nitric acid is made by the Ostwald process (catalytic oxidation of NH\u2083).",
+    "Sulfur dioxide and nitrogen oxides cause acid rain; their effects and control are important environmental topics."
+  ],
+  "notes": [
+    {
+      "heading": "Haber Process",
+      "items": [
+        "N\u2082(g) + 3H\u2082(g) \u21cc 2NH\u2083(g)  \u0394H = \u221292 kJ mol\u207b\u00b9 (exothermic).",
+        "Conditions: 450\u00b0C (compromise \u2014 lower T gives higher Kc but too slow; 450\u00b0C gives acceptable rate and ~15% yield), 200 atm pressure (favours fewer moles of gas \u2192 more NH\u2083; high P costly), Fe catalyst.",
+        "Ammonia liquefied and removed \u2192 equilibrium shifts right (Le Chatelier).",
+        "Uses: fertilisers, nitric acid, explosives."
+      ]
+    },
+    {
+      "heading": "Ostwald Process",
+      "items": [
+        "Step 1: 4NH\u2083 + 5O\u2082 \u2192 4NO + 6H\u2082O (Pt/Rh catalyst, ~900\u00b0C).",
+        "Step 2: 2NO + O\u2082 \u2192 2NO\u2082 (cooling).",
+        "Step 3: 3NO\u2082 + H\u2082O \u2192 2HNO\u2083 + NO (NO recycled).",
+        "Product: dilute nitric acid; concentrated by distillation."
+      ]
+    },
+    {
+      "heading": "Acid Rain",
+      "items": [
+        "SO\u2082 from burning fossil fuels (sulfur impurities) + H\u2082O \u2192 H\u2082SO\u2084 (sulfurous acid, then oxidised to sulfuric).",
+        "NO\u2093 from vehicle engines (high T, N\u2082 + O\u2082 \u2192 NO) + O\u2082/H\u2082O \u2192 HNO\u2083.",
+        "Effects: acidification of lakes/soils; damage to limestone/marble buildings; forest damage.",
+        "Control: flue gas desulfurisation (CaO/Ca(OH)\u2082 + SO\u2082 \u2192 CaSO\u2083/CaSO\u2084); catalytic converters (Pt/Rh/Pd \u2014 converts NO and CO to N\u2082 and CO\u2082); low-sulfur fuels."
+      ]
+    },
+    {
+      "heading": "Sulfur Chemistry",
+      "items": [
+        "SO\u2082: reducing agent (decolourises acidified KMnO\u2084); bleaching agent; food preservative (E220).",
+        "Contact process (H\u2082SO\u2084 manufacture): S + O\u2082 \u2192 SO\u2082; 2SO\u2082 + O\u2082 \u21cc 2SO\u2083 (V\u2082O\u2085 catalyst, 450\u00b0C, 1\u20132 atm); SO\u2083 + H\u2082SO\u2084 \u2192 H\u2082S\u2082O\u2087 (oleum); oleum + H\u2082O \u2192 H\u2082SO\u2084."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Haber process",
+      "body": "Industrial synthesis of ammonia: N\u2082(g) + 3H\u2082(g) \u21cc 2NH\u2083(g) using Fe catalyst at 450\u00b0C and 200 atm."
+    },
+    {
+      "term": "Acid rain",
+      "body": "Precipitation with pH below 5.6 due to dissolved SO\u2082 and NO\u2093 from burning fossil fuels and vehicle emissions."
+    },
+    {
+      "term": "Catalytic converter",
+      "body": "Device fitted to vehicle exhausts containing Pt, Rh or Pd catalysts that convert CO, hydrocarbons and NO\u2093 to CO\u2082, H\u2082O and N\u2082."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain why the Haber process uses 450\u00b0C rather than a lower temperature.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Thermodynamics",
+          "text": "The reaction is exothermic; Le Chatelier \u2192 lower T increases Kc (higher equilibrium yield of NH\u2083)."
+        },
+        {
+          "n": 2,
+          "sub": "Kinetics",
+          "text": "However, at lower temperatures, the rate of reaction is too slow to be economically viable, even with the Fe catalyst."
+        },
+        {
+          "n": 3,
+          "sub": "Compromise",
+          "text": "450\u00b0C is a compromise: Kc is lower (yield ~15%) but the reaction rate is fast enough for continuous industrial production. NH\u2083 is continuously removed to shift equilibrium right."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Saying a catalyst increases yield in the Haber process \u2014 it does not; it only speeds up reaching equilibrium.",
+    "Confusing the conditions for the Haber process (450\u00b0C, 200 atm, Fe) with the Contact process (450\u00b0C, 1\u20132 atm, V\u2082O\u2085).",
+    "Stating acid rain has pH below 7 \u2014 it must be below 5.6 (normal rain is already slightly acidic at ~5.6 due to CO\u2082)."
+  ],
+  "tips": [
+    "Haber conditions mnemonic: '450, 200, Fe' \u2014 temperature, pressure, catalyst.",
+    "For acid rain questions: name the gas (SO\u2082 or NO\u2093), its source, the acid formed, and one effect/control.",
+    "Contact process uses low pressure (1\u20132 atm) because the yield is already high at this pressure; higher P would be costly for little gain."
+  ],
+  "flashcards": [
+    {
+      "q": "State the conditions for the Haber process.",
+      "a": "450\u00b0C; 200 atm; iron (Fe) catalyst; ammonia continuously removed."
+    },
+    {
+      "q": "Why is 200 atm used in the Haber process?",
+      "a": "Fewer moles of gas on the right (2 vs 4) \u2014 high pressure shifts equilibrium toward NH\u2083 (Le Chatelier); increases yield and rate."
+    },
+    {
+      "q": "What causes acid rain?",
+      "a": "SO\u2082 (from burning sulfur-containing fuels) and NO\u2093 (from vehicle engines/lightning) dissolve in rainwater forming H\u2082SO\u2084 and HNO\u2083."
+    },
+    {
+      "q": "How do catalytic converters reduce pollution?",
+      "a": "Pt/Rh/Pd catalysts convert: 2CO + 2NO \u2192 2CO\u2082 + N\u2082; unburned hydrocarbons are oxidised to CO\u2082 + H\u2082O."
+    },
+    {
+      "q": "What is the role of V\u2082O\u2085 in the Contact process?",
+      "a": "Catalyst for the oxidation of SO\u2082 to SO\u2083: 2SO\u2082 + O\u2082 \u21cc 2SO\u2083."
+    },
+    {
+      "q": "Why isn't SO\u2083 absorbed directly into water in the Contact process?",
+      "a": "SO\u2083 + H\u2082O produces a corrosive acid mist that is hard to handle \u2014 SO\u2083 is first absorbed into concentrated H\u2082SO\u2084 to form oleum."
+    }
+  ],
+  "quiz": {
+    "title": "Nitrogen and Sulfur Quiz",
+    "questions": [
+      {
+        "q": "Why is a catalyst used in the Haber process?",
+        "opts": [
+          "To increase yield of NH\u2083",
+          "To increase Kc",
+          "To speed up reaching equilibrium",
+          "To reduce pressure needed"
+        ],
+        "ans": 2,
+        "exp": "A catalyst lowers activation energy and speeds up both forward and reverse reactions equally \u2014 equilibrium is reached faster but Kc (and yield) are unchanged."
+      },
+      {
+        "q": "What is the catalyst in the Haber process?",
+        "opts": [
+          "Vanadium(V) oxide",
+          "Platinum",
+          "Iron",
+          "Nickel"
+        ],
+        "ans": 2,
+        "exp": "The Haber process uses iron (Fe) as the heterogeneous catalyst."
+      },
+      {
+        "q": "Which gas from vehicle engines contributes to acid rain?",
+        "opts": [
+          "CO\u2082",
+          "SO\u2082",
+          "NO",
+          "H\u2082O"
+        ],
+        "ans": 2,
+        "exp": "Nitric oxide (NO) forms at high temperatures in engines (N\u2082 + O\u2082 \u2192 2NO); it is oxidised to NO\u2082 then dissolves in rainwater to form HNO\u2083."
+      },
+      {
+        "q": "What happens in flue gas desulfurisation?",
+        "opts": [
+          "SO\u2082 is converted to SO\u2083",
+          "CaO reacts with SO\u2082 to form CaSO\u2083",
+          "NO is removed by activated charcoal",
+          "CO\u2082 is captured in liquid ammonia"
+        ],
+        "ans": 1,
+        "exp": "Calcium oxide (or hydroxide) reacts with SO\u2082: CaO + SO\u2082 \u2192 CaSO\u2083, removing SO\u2082 from power station emissions."
+      },
+      {
+        "q": "In the Contact process, why is low pressure (1\u20132 atm) used rather than high pressure?",
+        "opts": [
+          "High pressure would lower yield",
+          "High pressure is not needed \u2014 yield is already high; high P is costly",
+          "V\u2082O\u2085 only works at low pressure",
+          "SO\u2083 is unstable at high pressure"
+        ],
+        "ans": 1,
+        "exp": "The equilibrium yield is already high at low pressure; high pressure equipment is expensive and the marginal gain in yield doesn't justify the cost."
+      }
+    ]
+  },
+  "recall": [
+    "State the conditions and equation for the Haber process.",
+    "Explain the industrial compromise temperature of 450\u00b0C.",
+    "Describe the Ostwald process for manufacturing nitric acid.",
+    "Explain the causes and effects of acid rain.",
+    "Describe two methods used to reduce acid rain."
+  ],
+  "summary": [
+    {
+      "label": "Haber process",
+      "value": "N\u2082+3H\u2082\u21cc2NH\u2083; 450\u00b0C, 200 atm, Fe"
+    },
+    {
+      "label": "Contact process",
+      "value": "2SO\u2082+O\u2082\u21cc2SO\u2083; 450\u00b0C, 1-2 atm, V\u2082O\u2085"
+    },
+    {
+      "label": "Acid rain",
+      "value": "SO\u2082+NO\u2093 \u2192 H\u2082SO\u2084/HNO\u2083; pH<5.6"
+    },
+    {
+      "label": "Catalytic converter",
+      "value": "Pt/Rh \u2014 CO+NO\u2192CO\u2082+N\u2082"
+    },
+    {
+      "label": "FGD",
+      "value": "CaO+SO\u2082\u2192CaSO\u2083"
+    },
+    {
+      "label": "Catalyst",
+      "value": "speeds rate; doesn't change Kc or yield"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topics 9, 10"
 }

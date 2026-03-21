@@ -1,238 +1,219 @@
 {
-    "id": "mitotic-cell-cycle",
-    "subject": "bio",
-    "title": "The Mitotic Cell Cycle",
-    "subtitle": "The Mitotic Cell Cycle with mechanism-focused explanation and exam-linked examples.",
-    "syllabusRef": "9700 AS Topic 5",
-    "concept": [
-        "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes.",
-        "The cell cycle includes interphase, mitosis, and cytokinesis.",
-        "Mitosis ensures genetically identical nuclei in daughter cells."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes.",
-                "The cell cycle includes interphase, mitosis, and cytokinesis.",
-                "Mitosis ensures genetically identical nuclei in daughter cells."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply The Mitotic Cell Cycle ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Mitosis",
-            "body": "Nuclear division producing two genetically identical nuclei."
-        },
-        {
-            "term": "Chromatid",
-            "body": "One of two identical copies of a replicated chromosome joined at the centromere."
-        },
-        {
-            "term": "Cytokinesis",
-            "body": "Division of cytoplasm to form separate daughter cells after nuclear division."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of The Mitotic Cell Cycle.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "The cell cycle includes interphase, mitosis, and cytokinesis."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use The Mitotic Cell Cycle reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for The Mitotic Cell Cycle?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing The Mitotic Cell Cycle outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of The Mitotic Cell Cycle?",
-            "a": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Define Mitosis.",
-            "a": "Nuclear division producing two genetically identical nuclei."
-        },
-        {
-            "q": "Define Chromatid.",
-            "a": "One of two identical copies of a replicated chromosome joined at the centromere."
-        },
-        {
-            "q": "What exam strategy works best for The Mitotic Cell Cycle?",
-            "a": "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "label": "Applied Model",
-            "val": "The cell cycle includes interphase, mitosis, and cytokinesis."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Mitosis ensures genetically identical nuclei in daughter cells."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Mitosis"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 5"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Prophase → Metaphase → Anaphase → Telophase"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "The Mitotic Cell Cycle: core principle",
-            "a": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Mitosis",
-            "a": "Nuclear division producing two genetically identical nuclei."
-        },
-        {
-            "q": "Chromatid",
-            "a": "One of two identical copies of a replicated chromosome joined at the centromere."
-        },
-        {
-            "q": "Cytokinesis",
-            "a": "Division of cytoplasm to form separate daughter cells after nuclear division."
-        },
-        {
-            "q": "The Mitotic Cell Cycle: common mistake",
-            "a": "Describing The Mitotic Cell Cycle outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "The Mitotic Cell Cycle Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Mitosis?",
-                "opts": [
-                    "Nuclear division producing two genetically identical nuclei.",
-                    "One of two identical copies of a replicated chromosome joined at the centromere.",
-                    "Division of cytoplasm to form separate daughter cells after nuclear division.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Mitosis."
-            },
-            {
-                "q": "Which statement about The Mitotic Cell Cycle is correct?",
-                "opts": [
-                    "The cell cycle includes interphase, mitosis, and cytokinesis.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Chromatid?",
-                "opts": [
-                    "One of two identical copies of a replicated chromosome joined at the centromere.",
-                    "Nuclear division producing two genetically identical nuclei.",
-                    "Division of cytoplasm to form separate daughter cells after nuclear division.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Chromatid."
-            },
-            {
-                "q": "Which exam approach is most reliable for The Mitotic Cell Cycle?",
-                "opts": [
-                    "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in The Mitotic Cell Cycle?",
-                "opts": [
-                    "Mitosis ensures genetically identical nuclei in daughter cells.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "mitotic-cell-cycle",
+  "subject": "bio",
+  "title": "Mitotic Cell Cycle",
+  "subtitle": "Cell cycle phases, mitosis, meiosis and cancer.",
+  "concept": [
+    "The cell cycle consists of interphase (G1, S, G2) followed by mitosis (PMAT) and cytokinesis; it produces two genetically identical daughter cells.",
+    "DNA replication occurs during the S phase of interphase, producing two identical double-stranded DNA molecules.",
+    "Cancer results from uncontrolled cell division due to mutations in genes that regulate the cell cycle."
+  ],
+  "notes": [
+    {
+      "heading": "Phases of the Cell Cycle",
+      "items": [
+        "G1 (Gap 1): cell grows; proteins and organelles are synthesised.",
+        "S (Synthesis): DNA replication; each chromosome is duplicated into two sister chromatids.",
+        "G2 (Gap 2): cell continues to grow; prepares for division; centrosomes replicate.",
+        "M (Mitotic) phase: mitosis + cytokinesis."
+      ]
+    },
+    {
+      "heading": "Stages of Mitosis (PMAT)",
+      "items": [
+        "Prophase: chromosomes condense; spindle forms from centrioles; nuclear envelope breaks down.",
+        "Metaphase: chromosomes align at the equator (metaphase plate); spindle fibres attach to centromeres.",
+        "Anaphase: centromeres split; sister chromatids pulled to opposite poles by spindle fibres.",
+        "Telophase: nuclear envelopes reform around each set of chromosomes; chromosomes decondense.",
+        "Cytokinesis: cytoplasm divides \u2014 cleavage furrow in animals; cell plate forms in plants."
+      ]
+    },
+    {
+      "heading": "Significance of Mitosis",
+      "items": [
+        "Produces two genetically identical diploid cells.",
+        "Used in: growth, repair, asexual reproduction.",
+        "Maintains chromosome number."
+      ]
+    },
+    {
+      "heading": "Cancer and the Cell Cycle",
+      "items": [
+        "Proto-oncogenes promote cell division; mutations \u2192 oncogenes (over-stimulate division).",
+        "Tumour suppressor genes (e.g. p53) halt division if DNA is damaged; mutations remove this brake.",
+        "Malignant tumours: cells invade surrounding tissue and metastasise.",
+        "Lifestyle factors: UV radiation, carcinogens (e.g. tobacco smoke), viral infection can cause mutations."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Mitosis",
+      "body": "Nuclear division producing two genetically identical diploid daughter cells from a single parent cell."
+    },
+    {
+      "term": "Centromere",
+      "body": "The region of a chromosome that holds two sister chromatids together and to which spindle fibres attach."
+    },
+    {
+      "term": "Proto-oncogene",
+      "body": "A normal gene that promotes cell growth and division; mutation converts it to an oncogene."
+    },
+    {
+      "term": "Tumour suppressor gene",
+      "body": "A gene that produces proteins which inhibit cell division or promote apoptosis; loss of function leads to uncontrolled division."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain what happens to DNA content during the S phase and anaphase of mitosis.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "S phase",
+          "text": "DNA replication occurs: each DNA molecule is copied semi-conservatively, doubling the DNA content."
+        },
+        {
+          "n": 2,
+          "sub": "Anaphase",
+          "text": "Centromeres split and spindle fibres pull sister chromatids to opposite poles \u2014 chromosome number doubles momentarily, but DNA content per cell stays the same until cytokinesis."
+        },
+        {
+          "n": 3,
+          "sub": "After cytokinesis",
+          "text": "Each daughter cell receives the original number of chromosomes; DNA content returns to the pre-S-phase level."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing chromatids (two copies of one chromosome, joined at centromere) with chromosomes.",
+    "Stating chromosomes replicate in prophase \u2014 replication occurs in S phase (interphase).",
+    "Forgetting cytokinesis is separate from mitosis (nuclear division)."
+  ],
+  "tips": [
+    "Learn PMAT: Prophase, Metaphase, Anaphase, Telophase \u2014 and one key event per stage.",
+    "In cancer questions: name specific genes (oncogene, tumour suppressor) and explain loss of control.",
+    "Mitosis vs meiosis: mitosis = 2 identical diploid cells; meiosis = 4 genetically different haploid cells."
+  ],
+  "flashcards": [
+    {
+      "q": "In which phase of the cell cycle does DNA replication occur?",
+      "a": "S phase (Synthesis phase) of interphase."
+    },
+    {
+      "q": "What happens in anaphase of mitosis?",
+      "a": "Centromeres split; spindle fibres pull sister chromatids to opposite poles of the cell."
+    },
+    {
+      "q": "What is the difference between a benign and malignant tumour?",
+      "a": "Benign: localised, does not invade. Malignant: invasive, can metastasise (spread to other tissues via blood/lymph)."
+    },
+    {
+      "q": "What is the role of a tumour suppressor gene?",
+      "a": "Produces proteins that slow or stop cell division, or trigger apoptosis when DNA is damaged."
+    },
+    {
+      "q": "What are sister chromatids?",
+      "a": "Two identical copies of a chromosome joined at the centromere, produced by DNA replication during S phase."
+    },
+    {
+      "q": "Name the stage of mitosis where chromosomes align at the equator.",
+      "a": "Metaphase."
+    }
+  ],
+  "quiz": {
+    "title": "Mitotic Cell Cycle Quiz",
+    "questions": [
+      {
+        "q": "At which stage do spindle fibres attach to centromeres?",
+        "opts": [
+          "Prophase",
+          "Metaphase",
+          "Anaphase",
+          "Telophase"
+        ],
+        "ans": 1,
+        "exp": "At metaphase, chromosomes align at the equatorial plate and spindle fibres attach to the centromeres."
+      },
+      {
+        "q": "A cell has 46 chromosomes at the start of mitosis. How many chromosomes does each daughter cell have?",
+        "opts": [
+          "23",
+          "46",
+          "92",
+          "48"
+        ],
+        "ans": 1,
+        "exp": "Mitosis maintains chromosome number \u2014 each daughter cell receives 46 chromosomes."
+      },
+      {
+        "q": "Which gene type promotes excessive cell division when mutated?",
+        "opts": [
+          "Tumour suppressor gene",
+          "Oncogene",
+          "Homeotic gene",
+          "Housekeeping gene"
+        ],
+        "ans": 1,
+        "exp": "Oncogenes are mutated proto-oncogenes that stimulate uncontrolled cell division."
+      },
+      {
+        "q": "What occurs during the S phase of interphase?",
+        "opts": [
+          "Protein synthesis only",
+          "Cell growth",
+          "DNA replication",
+          "Organelle division"
+        ],
+        "ans": 2,
+        "exp": "S = Synthesis phase; DNA is replicated semi-conservatively, producing two identical chromatids per chromosome."
+      },
+      {
+        "q": "A student observes a dividing cell with chromosomes moving to opposite poles. Which stage is this?",
+        "opts": [
+          "Prophase",
+          "Metaphase",
+          "Anaphase",
+          "Telophase"
+        ],
+        "ans": 2,
+        "exp": "Anaphase: centromeres split and chromatids are pulled to opposite poles by spindle fibres."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the stages of the cell cycle.",
+    "List the key events of each stage of mitosis.",
+    "Explain why DNA content changes during the cell cycle.",
+    "Explain how mutations in oncogenes lead to cancer.",
+    "Distinguish between mitosis and meiosis in terms of products."
+  ],
+  "summary": [
+    {
+      "label": "G1",
+      "value": "growth, protein synthesis"
+    },
+    {
+      "label": "S phase",
+      "value": "DNA replication"
+    },
+    {
+      "label": "G2",
+      "value": "growth, prep for division"
+    },
+    {
+      "label": "Metaphase",
+      "value": "chromosomes at equator"
+    },
+    {
+      "label": "Anaphase",
+      "value": "chromatids to poles"
+    },
+    {
+      "label": "Tumour suppressor",
+      "value": "halts division \u2014 loss causes cancer"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 6"
 }

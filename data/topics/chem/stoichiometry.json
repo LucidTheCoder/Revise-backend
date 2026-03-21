@@ -1,238 +1,104 @@
 {
-    "id": "stoichiometry",
-    "subject": "chem",
-    "title": "Atoms, Molecules and Stoichiometry",
-    "subtitle": "Atoms, Molecules and Stoichiometry with core theory, reaction logic, and exam-focused application.",
-    "concept": [
-        "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations.",
-        "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem.",
-        "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations.",
-                "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem.",
-                "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Atoms, Molecules and Stoichiometry ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Mole",
-            "body": "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12."
-        },
-        {
-            "term": "Molar Mass",
-            "body": "Mass of one mole of a substance, usually in g mol-1."
-        },
-        {
-            "term": "Empirical Formula",
-            "body": "Simplest whole-number ratio of atoms of each element in a compound."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Atoms, Molecules and Stoichiometry.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Atoms, Molecules and Stoichiometry reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Atoms, Molecules and Stoichiometry?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Atoms, Molecules and Stoichiometry without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Atoms, Molecules and Stoichiometry?",
-            "a": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
-        },
-        {
-            "q": "Define Mole.",
-            "a": "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12."
-        },
-        {
-            "q": "Define Molar Mass.",
-            "a": "Mass of one mole of a substance, usually in g mol-1."
-        },
-        {
-            "q": "What exam strategy works best for Atoms, Molecules and Stoichiometry?",
-            "a": "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
-        },
-        {
-            "label": "Applied Model",
-            "val": "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Mole"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 2"
-        },
-        {
-            "label": "Key Formula",
-            "val": "n = m/M; moles = c × V"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Atoms, Molecules and Stoichiometry: core principle",
-            "a": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
-        },
-        {
-            "q": "Mole",
-            "a": "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12."
-        },
-        {
-            "q": "Molar Mass",
-            "a": "Mass of one mole of a substance, usually in g mol-1."
-        },
-        {
-            "q": "Empirical Formula",
-            "a": "Simplest whole-number ratio of atoms of each element in a compound."
-        },
-        {
-            "q": "Atoms, Molecules and Stoichiometry: common mistake",
-            "a": "Giving trends in Atoms, Molecules and Stoichiometry without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Atoms, Molecules and Stoichiometry Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Mole?",
-                "opts": [
-                    "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12.",
-                    "Mass of one mole of a substance, usually in g mol-1.",
-                    "Simplest whole-number ratio of atoms of each element in a compound.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Mole."
-            },
-            {
-                "q": "Which statement about Atoms, Molecules and Stoichiometry is correct?",
-                "opts": [
-                    "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Molar Mass?",
-                "opts": [
-                    "Mass of one mole of a substance, usually in g mol-1.",
-                    "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12.",
-                    "Simplest whole-number ratio of atoms of each element in a compound.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Molar Mass."
-            },
-            {
-                "q": "Which exam approach is most reliable for Atoms, Molecules and Stoichiometry?",
-                "opts": [
-                    "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Atoms, Molecules and Stoichiometry?",
-                "opts": [
-                    "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "stoichiometry",
+  "subject": "chem",
+  "title": "Stoichiometry",
+  "subtitle": "Moles, empirical/molecular formulae, titrations and gas volumes.",
+  "concept": [
+    "The mole links macroscopic mass to the number of particles. One mole contains 6.02×10²³ particles (Avogadro's constant).",
+    "Balanced equations give molar ratios — the key tool for all stoichiometric calculations.",
+    "Concentration, gas volumes (using molar volume 24 dm³ at RTP) and titration data all convert to moles for calculation."
+  ],
+  "notes": [
+    { "heading": "Core Equations", "items": [
+        "n = m / Mr  (moles = mass / molar mass)",
+        "n = c × V  (moles = concentration × volume in dm³; divide cm³ by 1000)",
+        "At RTP (25°C, 1 atm): molar volume = 24.0 dm³ mol⁻¹, so n = V / 24",
+        "PV = nRT for non-RTP gas calculations (R = 8.31 J mol⁻¹ K⁻¹)"
+    ]},
+    { "heading": "Empirical and Molecular Formula", "items": [
+        "Empirical formula: simplest whole-number ratio of atoms.",
+        "To find: convert % composition to moles by dividing by Ar, then divide by smallest.",
+        "Molecular formula = (empirical formula) × n, where n = Mr(molecular) / Mr(empirical).",
+        "Combustion data: burn compound, collect CO₂ and H₂O, calculate C and H moles, then O by difference."
+    ]},
+    { "heading": "Titration Calculations", "items": [
+        "Standard solution: accurately known concentration, made from a primary standard (e.g. anhydrous Na₂CO₃).",
+        "Steps: moles of known solution → moles of unknown (using ratio from equation) → concentration or mass of unknown.",
+        "Back titration: add excess reagent A to sample, titrate excess A against B to find how much A reacted with sample."
+    ]},
+    { "heading": "Percentage Yield and Atom Economy", "items": [
+        "% yield = (actual moles / theoretical moles) × 100",
+        "Atom economy = (Mr of desired product / sum of Mr of all products) × 100",
+        "High atom economy = greener process (less waste)."
+    ]}
+  ],
+  "definitions": [
+    { "term": "Mole", "body": "The amount of substance containing 6.02×10²³ particles (Avogadro's constant)." },
+    { "term": "Molar mass", "body": "The mass of one mole of a substance, in g mol⁻¹; numerically equal to the relative molecular mass." },
+    { "term": "Empirical formula", "body": "The simplest whole-number ratio of atoms of each element in a compound." },
+    { "term": "Atom economy", "body": "The percentage of the total mass of reactants that becomes the desired product: (Mr desired product / ΣMr all products) × 100." },
+    { "term": "Standard solution", "body": "A solution of accurately known concentration, prepared from a primary standard." }
+  ],
+  "workedExamples": [
+    {
+      "q": "A compound contains 40.0% C, 6.7% H and 53.3% O by mass. Its Mr = 60. Find the molecular formula.",
+      "steps": [
+        { "n": 1, "sub": "Moles per 100 g", "text": "C: 40.0/12 = 3.33; H: 6.7/1 = 6.7; O: 53.3/16 = 3.33" },
+        { "n": 2, "sub": "Divide by smallest (3.33)", "text": "C:1, H:2, O:1 → empirical formula CH₂O, Mr = 30" },
+        { "n": 3, "sub": "Molecular formula", "text": "n = 60/30 = 2 → molecular formula C₂H₄O₂" }
+      ]
     },
-    "syllabusRef": "9701 AS Topic 2"
+    {
+      "q": "25.0 cm³ of H₂SO₄ requires 30.0 cm³ of 0.100 mol dm⁻³ NaOH to reach the endpoint. Find [H₂SO₄].",
+      "steps": [
+        { "n": 1, "sub": "Moles NaOH", "text": "n(NaOH) = 0.100 × 30.0/1000 = 3.00×10⁻³ mol" },
+        { "n": 2, "sub": "Moles H₂SO₄ (ratio 1:2)", "text": "H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O; n(H₂SO₄) = 3.00×10⁻³/2 = 1.50×10⁻³ mol" },
+        { "n": 3, "sub": "Concentration", "text": "c = n/V = 1.50×10⁻³ / (25.0/1000) = 0.0600 mol dm⁻³" }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Using cm³ instead of dm³ in concentration calculations — always divide cm³ by 1000.",
+    "Forgetting to use the molar ratio from the balanced equation before finding concentration.",
+    "Confusing empirical formula (simplest ratio) with molecular formula (actual number of atoms)."
+  ],
+  "tips": [
+    "Write out the full equation and mark the molar ratio before substituting numbers.",
+    "In combustion analysis, find C from CO₂ (1 mol CO₂ → 1 mol C), H from H₂O (1 mol H₂O → 2 mol H), then O by difference.",
+    "Atom economy favours reactions where only one product forms — addition reactions have 100% atom economy."
+  ],
+  "flashcards": [
+    { "q": "What is the molar volume of a gas at RTP?", "a": "24.0 dm³ mol⁻¹ (at 25°C, 1 atm)." },
+    { "q": "Formula for moles from concentration and volume?", "a": "n = c × V (V in dm³)" },
+    { "q": "How do you find oxygen in a combustion analysis?", "a": "Oxygen mass = sample mass − mass of C − mass of H (by difference)." },
+    { "q": "What is atom economy?", "a": "(Mr of desired product / ΣMr of all products) × 100" },
+    { "q": "What is a primary standard?", "a": "A stable, pure substance of known Mr used to make a standard solution, e.g. anhydrous Na₂CO₃." },
+    { "q": "What is the ideal gas equation?", "a": "PV = nRT, where R = 8.31 J mol⁻¹ K⁻¹." }
+  ],
+  "quiz": {
+    "title": "Stoichiometry Quiz",
+    "questions": [
+      { "q": "How many moles are in 11.0 g of CO₂ (Mr = 44)?", "opts": ["0.25 mol","0.50 mol","1.00 mol","2.00 mol"], "ans": 0, "exp": "n = m/Mr = 11.0/44 = 0.25 mol" },
+      { "q": "What volume does 0.5 mol of gas occupy at RTP?", "opts": ["12.0 dm³","24.0 dm³","48.0 dm³","22.4 dm³"], "ans": 0, "exp": "V = n × 24.0 = 0.5 × 24.0 = 12.0 dm³" },
+      { "q": "A compound is 75% C, 25% H by mass. What is the empirical formula?", "opts": ["CH₂","CH₃","CH₄","C₂H₅"], "ans": 2, "exp": "C: 75/12=6.25; H: 25/1=25. Ratio = 1:4 → CH₄" },
+      { "q": "What is the atom economy for the reaction A → B + C, where B is the desired product with Mr 40 and C has Mr 60?", "opts": ["40%","60%","67%","33%"], "ans": 0, "exp": "Atom economy = 40/(40+60) × 100 = 40%" },
+      { "q": "In a titration, 20.0 cm³ of 0.200 mol dm⁻³ NaOH neutralises HCl. If the equation is 1:1, what is [HCl] if 25.0 cm³ was used?", "opts": ["0.150 mol dm⁻³","0.160 mol dm⁻³","0.200 mol dm⁻³","0.250 mol dm⁻³"], "ans": 1, "exp": "n(NaOH)=0.200×0.020=4×10⁻³; n(HCl)=4×10⁻³; c=4×10⁻³/0.025=0.160 mol dm⁻³" }
+    ]
+  },
+  "recall": [
+    "Write the three key mole equations.",
+    "Calculate the empirical formula from percentage composition data.",
+    "Describe the steps of a titration calculation.",
+    "Explain the difference between percentage yield and atom economy.",
+    "State the molar volume of gas at RTP."
+  ],
+  "summary": [
+    { "label": "n = m/Mr", "value": "moles from mass" },
+    { "label": "n = cV", "value": "moles from concentration (V in dm³)" },
+    { "label": "RTP volume", "value": "24.0 dm³ mol⁻¹" },
+    { "label": "PV = nRT", "value": "R = 8.31 J mol⁻¹ K⁻¹" },
+    { "label": "% yield", "value": "(actual/theoretical) × 100" },
+    { "label": "Atom economy", "value": "(Mr desired / ΣMr all) × 100" }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 3"
 }

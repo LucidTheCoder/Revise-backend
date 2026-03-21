@@ -1,238 +1,240 @@
 {
-    "id": "superposition",
-    "subject": "phy",
-    "title": "Superposition",
-    "subtitle": "Superposition with model-based reasoning, equations, and exam application.",
-    "syllabusRef": "9702 AS Topic 8",
-    "concept": [
-        "Superposition uses physical models and measurable quantities to explain and predict system behavior.",
-        "Resultant displacement is the sum of individual wave displacements.",
-        "Constructive and destructive interference depend on phase relationship."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Superposition uses physical models and measurable quantities to explain and predict system behavior.",
-                "Resultant displacement is the sum of individual wave displacements.",
-                "Constructive and destructive interference depend on phase relationship."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Superposition ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Interference",
-            "body": "Combination of waves producing reinforcement or cancellation depending on phase difference."
-        },
-        {
-            "term": "Path difference",
-            "body": "Difference in distance traveled by two waves from source to a point."
-        },
-        {
-            "term": "Stationary wave",
-            "body": "Wave pattern with fixed nodes and antinodes formed by superposition of opposite-traveling waves."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Superposition.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Superposition uses physical models and measurable quantities to explain and predict system behavior."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Resultant displacement is the sum of individual wave displacements."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Superposition reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Superposition?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Superposition without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Superposition, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Superposition?",
-            "a": "Superposition uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Define Interference.",
-            "a": "Combination of waves producing reinforcement or cancellation depending on phase difference."
-        },
-        {
-            "q": "Define Path difference.",
-            "a": "Difference in distance traveled by two waves from source to a point."
-        },
-        {
-            "q": "What exam strategy works best for Superposition?",
-            "a": "For Superposition, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Superposition uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Resultant displacement is the sum of individual wave displacements."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Constructive and destructive interference depend on phase relationship."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Interference"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 8"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Constructive: Δφ = 0; Destructive: Δφ = π"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Superposition: core principle",
-            "a": "Superposition uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Interference",
-            "a": "Combination of waves producing reinforcement or cancellation depending on phase difference."
-        },
-        {
-            "q": "Path difference",
-            "a": "Difference in distance traveled by two waves from source to a point."
-        },
-        {
-            "q": "Stationary wave",
-            "a": "Wave pattern with fixed nodes and antinodes formed by superposition of opposite-traveling waves."
-        },
-        {
-            "q": "Superposition: common mistake",
-            "a": "Applying equations in Superposition without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Superposition, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Superposition Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Interference?",
-                "opts": [
-                    "Combination of waves producing reinforcement or cancellation depending on phase difference.",
-                    "Difference in distance traveled by two waves from source to a point.",
-                    "Wave pattern with fixed nodes and antinodes formed by superposition of opposite-traveling waves.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Interference."
-            },
-            {
-                "q": "Which statement about Superposition is correct?",
-                "opts": [
-                    "Resultant displacement is the sum of individual wave displacements.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Path difference?",
-                "opts": [
-                    "Difference in distance traveled by two waves from source to a point.",
-                    "Combination of waves producing reinforcement or cancellation depending on phase difference.",
-                    "Wave pattern with fixed nodes and antinodes formed by superposition of opposite-traveling waves.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Path difference."
-            },
-            {
-                "q": "Which exam approach is most reliable for Superposition?",
-                "opts": [
-                    "For Superposition, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Superposition?",
-                "opts": [
-                    "Constructive and destructive interference depend on phase relationship.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "superposition",
+  "subject": "phy",
+  "title": "Superposition",
+  "subtitle": "Interference, stationary waves and diffraction patterns.",
+  "concept": [
+    "The principle of superposition states that when waves overlap, the resultant displacement equals the algebraic sum of individual displacements.",
+    "Constructive interference occurs when waves are in phase; destructive when they are antiphase (\u03c0 out of phase).",
+    "Stationary (standing) waves form when two identical waves travel in opposite directions; they have nodes and antinodes."
+  ],
+  "notes": [
+    {
+      "heading": "Principle of Superposition",
+      "items": [
+        "Resultant displacement = sum of individual displacements at each point.",
+        "Coherent sources: same frequency and a constant phase difference \u2014 required for stable interference.",
+        "Constructive interference: path difference = n\u03bb (n = 0, 1, 2...); amplitude is maximum.",
+        "Destructive interference: path difference = (n + \u00bd)\u03bb; amplitude is zero."
+      ]
+    },
+    {
+      "heading": "Double Slit Interference (Young's)",
+      "items": [
+        "Fringe spacing: \u0394y = \u03bbD/d (\u03bb = wavelength, D = slit-to-screen distance, d = slit separation).",
+        "Bright fringes: constructive (path difference = n\u03bb). Dark fringes: destructive (path difference = (n+\u00bd)\u03bb).",
+        "Smaller \u03bb \u2192 narrower fringes; larger D \u2192 wider fringes; larger d \u2192 narrower fringes.",
+        "For microwaves/sound: larger \u0394y (easier to measure) due to larger \u03bb."
+      ]
+    },
+    {
+      "heading": "Stationary Waves",
+      "items": [
+        "Formed by superposition of two waves of equal frequency and amplitude travelling in opposite directions.",
+        "Nodes: points of zero amplitude (destructive interference). Antinodes: maximum amplitude.",
+        "Distance between adjacent nodes = \u03bb/2.",
+        "Fundamental (1st harmonic): \u00bd\u03bb fits in the string \u2192 \u03bb = 2L.",
+        "Harmonics: for string fixed at both ends: f_n = nv/2L where n = 1, 2, 3...",
+        "For open pipe: same formula. Closed pipe: only odd harmonics; f_n = nv/4L (n odd)."
+      ]
+    },
+    {
+      "heading": "Diffraction Grating",
+      "items": [
+        "d sin\u03b8 = n\u03bb (d = slit spacing, \u03b8 = angle of nth order maximum, n = order).",
+        "More slits \u2192 sharper, brighter maxima.",
+        "Grating equation: maximum order n_max = d/\u03bb (sin\u03b8 \u2264 1).",
+        "Used to measure wavelength of light precisely."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Principle of superposition",
+      "body": "When two or more waves overlap, the resultant displacement at any point is the algebraic sum of the individual displacements."
+    },
+    {
+      "term": "Coherent sources",
+      "body": "Sources with the same frequency and a constant (not necessarily zero) phase difference; required for stable interference patterns."
+    },
+    {
+      "term": "Node",
+      "body": "A point on a stationary wave where the amplitude is always zero; located at positions of permanent destructive interference."
+    },
+    {
+      "term": "Antinode",
+      "body": "A point on a stationary wave with maximum amplitude; located midway between adjacent nodes."
+    },
+    {
+      "term": "Fringe spacing",
+      "body": "Distance between adjacent bright (or dark) fringes in a double-slit experiment: \u0394y = \u03bbD/d."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "In Young's double-slit experiment, \u03bb = 590 nm, d = 0.50 mm, D = 2.0 m. Find the fringe spacing.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Convert",
+          "text": "\u03bb = 590\u00d710\u207b\u2079 m; d = 0.50\u00d710\u207b\u00b3 m"
+        },
+        {
+          "n": 2,
+          "sub": "Apply formula",
+          "text": "\u0394y = \u03bbD/d = (590\u00d710\u207b\u2079 \u00d7 2.0) / (0.50\u00d710\u207b\u00b3)"
+        },
+        {
+          "n": 3,
+          "sub": "Answer",
+          "text": "\u0394y = 1.18\u00d710\u207b\u2076 / 5.0\u00d710\u207b\u2074 = 2.36\u00d710\u207b\u00b3 m = 2.4 mm"
+        }
+      ]
+    },
+    {
+      "q": "A string of length 0.60 m vibrates in its fundamental mode. Waves travel at 240 m s\u207b\u00b9. Find the frequency.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Fundamental wavelength",
+          "text": "\u03bb = 2L = 2\u00d70.60 = 1.20 m"
+        },
+        {
+          "n": 2,
+          "sub": "Frequency",
+          "text": "f = v/\u03bb = 240/1.20 = 200 Hz"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing path difference (physical) with phase difference \u2014 path difference of \u03bb = phase difference of 2\u03c0 (360\u00b0).",
+    "Forgetting that adjacent nodes are \u03bb/2 apart (not \u03bb).",
+    "Using the wrong formula for closed vs open pipe harmonics."
+  ],
+  "tips": [
+    "Coherence is essential for stable fringes \u2014 two separate lamps don't interfere because they aren't coherent.",
+    "Grating: more orders are observable at smaller \u03bb or larger d. Check sin\u03b8 \u2264 1 for maximum order.",
+    "Stationary waves don't transfer energy; progressive (travelling) waves do."
+  ],
+  "flashcards": [
+    {
+      "q": "State the conditions for constructive and destructive interference.",
+      "a": "Constructive: path difference = n\u03bb (in phase). Destructive: path difference = (n+\u00bd)\u03bb (antiphase)."
+    },
+    {
+      "q": "What is the fringe spacing formula in Young's double-slit experiment?",
+      "a": "\u0394y = \u03bbD/d (wavelength \u00d7 screen distance / slit separation)."
+    },
+    {
+      "q": "What is the distance between adjacent nodes in a stationary wave?",
+      "a": "\u03bb/2 (half a wavelength)."
+    },
+    {
+      "q": "State the diffraction grating equation.",
+      "a": "d sin\u03b8 = n\u03bb (d = slit spacing, \u03b8 = angle of nth order maximum)."
+    },
+    {
+      "q": "What are coherent sources?",
+      "a": "Sources with the same frequency and a constant phase difference \u2014 needed for stable interference."
+    },
+    {
+      "q": "What is the fundamental frequency of a string of length L with wave speed v?",
+      "a": "f\u2081 = v/(2L) (one half-wavelength fits along the string)."
+    }
+  ],
+  "quiz": {
+    "title": "Superposition Quiz",
+    "questions": [
+      {
+        "q": "Two waves are in antiphase. What type of interference results?",
+        "opts": [
+          "Constructive",
+          "Destructive",
+          "No interference",
+          "Diffraction"
+        ],
+        "ans": 1,
+        "exp": "Antiphase (180\u00b0 or \u03c0 phase difference, path difference = \u03bb/2) \u2192 destructive interference \u2192 minimum amplitude."
+      },
+      {
+        "q": "In Young's double-slit: \u03bb is doubled, d is halved. What happens to fringe spacing?",
+        "opts": [
+          "Halved",
+          "Unchanged",
+          "Doubled",
+          "Quadrupled"
+        ],
+        "ans": 3,
+        "exp": "\u0394y = \u03bbD/d; if \u03bb\u21922\u03bb and d\u2192d/2: \u0394y = (2\u03bb)D/(d/2) = 4\u03bbD/d \u2192 quadrupled."
+      },
+      {
+        "q": "Adjacent nodes in a stationary wave are 0.15 m apart. What is the wavelength?",
+        "opts": [
+          "0.075 m",
+          "0.15 m",
+          "0.30 m",
+          "0.60 m"
+        ],
+        "ans": 2,
+        "exp": "Adjacent nodes = \u03bb/2; \u03bb = 2\u00d70.15 = 0.30 m."
+      },
+      {
+        "q": "A diffraction grating has d = 2\u00d710\u207b\u2076 m. For \u03bb = 500 nm, what is the maximum diffraction order?",
+        "opts": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "ans": 3,
+        "exp": "n_max = d/\u03bb = 2\u00d710\u207b\u2076/(500\u00d710\u207b\u2079) = 4. For n=4: sin\u03b8 = 4\u00d7500\u00d710\u207b\u2079/2\u00d710\u207b\u2076 = 1.0 \u2192 \u03b8=90\u00b0 (just possible)."
+      },
+      {
+        "q": "What type of sources are needed for a stable interference pattern?",
+        "opts": [
+          "Loud",
+          "Bright",
+          "Coherent",
+          "Monochromatic only"
+        ],
+        "ans": 2,
+        "exp": "Coherent sources (same frequency, constant phase difference) are required for a stable, observable interference pattern."
+      }
+    ]
+  },
+  "recall": [
+    "State the principle of superposition.",
+    "Explain the conditions for constructive and destructive interference.",
+    "Derive and apply the fringe spacing formula.",
+    "Describe the formation of stationary waves and identify nodes and antinodes.",
+    "Apply the diffraction grating equation."
+  ],
+  "summary": [
+    {
+      "label": "Constructive",
+      "value": "path diff = n\u03bb"
+    },
+    {
+      "label": "Destructive",
+      "value": "path diff = (n+\u00bd)\u03bb"
+    },
+    {
+      "label": "Fringe spacing",
+      "value": "\u0394y = \u03bbD/d"
+    },
+    {
+      "label": "Grating",
+      "value": "d sin\u03b8 = n\u03bb"
+    },
+    {
+      "label": "Nodes",
+      "value": "\u03bb/2 apart"
+    },
+    {
+      "label": "Fundamental",
+      "value": "f\u2081 = v/2L (string)"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 14"
 }

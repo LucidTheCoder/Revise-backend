@@ -1,238 +1,230 @@
 {
-    "id": "dc-circuits",
-    "subject": "phy",
-    "title": "D.C. Circuits",
-    "subtitle": "D.C. Circuits with model-based reasoning, equations, and exam application.",
-    "syllabusRef": "9702 AS Topic 10",
-    "concept": [
-        "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior.",
-        "Kirchhoff laws apply conservation of charge and energy in circuits.",
-        "Internal resistance causes terminal potential difference to vary with current."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior.",
-                "Kirchhoff laws apply conservation of charge and energy in circuits.",
-                "Internal resistance causes terminal potential difference to vary with current."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply D.C. Circuits ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Kirchhoff law",
-            "body": "Circuit laws for conservation of charge at junctions and energy around closed loops."
-        },
-        {
-            "term": "Internal resistance",
-            "body": "Resistance inside a source that causes terminal p.d. to decrease when current increases."
-        },
-        {
-            "term": "EMF",
-            "body": "Energy supplied by a source per unit charge passing through the source."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of D.C. Circuits.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Kirchhoff laws apply conservation of charge and energy in circuits."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use D.C. Circuits reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for D.C. Circuits?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in D.C. Circuits without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For D.C. Circuits, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of D.C. Circuits?",
-            "a": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Define Kirchhoff law.",
-            "a": "Circuit laws for conservation of charge at junctions and energy around closed loops."
-        },
-        {
-            "q": "Define Internal resistance.",
-            "a": "Resistance inside a source that causes terminal p.d. to decrease when current increases."
-        },
-        {
-            "q": "What exam strategy works best for D.C. Circuits?",
-            "a": "For D.C. Circuits, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Kirchhoff laws apply conservation of charge and energy in circuits."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Internal resistance causes terminal potential difference to vary with current."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Kirchhoff law"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 10"
-        },
-        {
-            "label": "Key Formula",
-            "val": "ε = I(R + r); P = I²R; V_T = Σ(V_drops)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "D.C. Circuits: core principle",
-            "a": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Kirchhoff law",
-            "a": "Circuit laws for conservation of charge at junctions and energy around closed loops."
-        },
-        {
-            "q": "Internal resistance",
-            "a": "Resistance inside a source that causes terminal p.d. to decrease when current increases."
-        },
-        {
-            "q": "EMF",
-            "a": "Energy supplied by a source per unit charge passing through the source."
-        },
-        {
-            "q": "D.C. Circuits: common mistake",
-            "a": "Applying equations in D.C. Circuits without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For D.C. Circuits, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "D.C. Circuits Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Kirchhoff law?",
-                "opts": [
-                    "Circuit laws for conservation of charge at junctions and energy around closed loops.",
-                    "Resistance inside a source that causes terminal p.d. to decrease when current increases.",
-                    "Energy supplied by a source per unit charge passing through the source.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Kirchhoff law."
-            },
-            {
-                "q": "Which statement about D.C. Circuits is correct?",
-                "opts": [
-                    "Kirchhoff laws apply conservation of charge and energy in circuits.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Internal resistance?",
-                "opts": [
-                    "Resistance inside a source that causes terminal p.d. to decrease when current increases.",
-                    "Circuit laws for conservation of charge at junctions and energy around closed loops.",
-                    "Energy supplied by a source per unit charge passing through the source.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Internal resistance."
-            },
-            {
-                "q": "Which exam approach is most reliable for D.C. Circuits?",
-                "opts": [
-                    "For D.C. Circuits, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in D.C. Circuits?",
-                "opts": [
-                    "Internal resistance causes terminal potential difference to vary with current.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "dc-circuits",
+  "subject": "phy",
+  "title": "DC Circuits",
+  "subtitle": "Kirchhoff's laws, series and parallel circuits, potential dividers.",
+  "concept": [
+    "Kirchhoff's first law (KCL): the sum of currents entering a junction equals the sum leaving \u2014 conservation of charge.",
+    "Kirchhoff's second law (KVL): the sum of EMFs around any closed loop equals the sum of p.d.s \u2014 conservation of energy.",
+    "A potential divider splits a supply voltage in proportion to the resistor values; it is the basis of sensor circuits."
+  ],
+  "notes": [
+    {
+      "heading": "Series and Parallel Circuits",
+      "items": [
+        "Series: same current; resistances add: R_total = R\u2081 + R\u2082 + ...",
+        "Parallel: same p.d.; reciprocals add: 1/R_total = 1/R\u2081 + 1/R\u2082 + ... (total R < smallest individual R).",
+        "Power dissipated: P = IV = I\u00b2R = V\u00b2/R.",
+        "In series: larger resistor gets larger p.d. In parallel: each branch has the same p.d."
+      ]
+    },
+    {
+      "heading": "Kirchhoff's Laws",
+      "items": [
+        "KCL (junction rule): \u03a3I_in = \u03a3I_out at any junction.",
+        "KVL (loop rule): \u03a3\u03b5 = \u03a3IR around any closed loop (sum of EMFs = sum of p.d. drops).",
+        "For a source with EMF \u03b5 and internal resistance r: \u03b5 = I(R + r) \u2192 V = \u03b5 \u2212 Ir.",
+        "Apply KVL by choosing a loop direction; EMF adds if traversed from \u2212 to +; subtract if traversed + to \u2212."
+      ]
+    },
+    {
+      "heading": "Potential Divider",
+      "items": [
+        "Two resistors R\u2081 and R\u2082 in series across a supply V_s.",
+        "Output across R\u2082: V_out = V_s \u00d7 R\u2082/(R\u2081 + R\u2082).",
+        "Sensor circuit: replace one resistor with a thermistor or LDR.",
+        "As temperature/light \u2191, thermistor/LDR resistance \u2193 \u2192 adjust R\u2082 formula.",
+        "Wheatstone bridge: balanced when R\u2081/R\u2082 = R\u2083/R\u2084 \u2192 no current through galvanometer."
+      ]
+    },
+    {
+      "heading": "Resistance Combinations",
+      "items": [
+        "Two equal resistors in parallel: R_total = R/2.",
+        "For n equal resistors in parallel: R_total = R/n.",
+        "Mixed networks: simplify step by step, replacing series/parallel groups with equivalents."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Kirchhoff's first law (KCL)",
+      "body": "At any junction in a circuit, the total current entering equals the total current leaving; conservation of charge."
+    },
+    {
+      "term": "Kirchhoff's second law (KVL)",
+      "body": "The sum of all EMFs in a closed loop equals the sum of all potential drops (IR): \u03a3\u03b5 = \u03a3IR; conservation of energy."
+    },
+    {
+      "term": "Potential divider",
+      "body": "Two resistors in series used to split a supply voltage; output voltage \u221d fraction of total resistance across output component."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Calculate the output voltage of a potential divider: V_s = 9 V, R\u2081 = 4 k\u03a9, R\u2082 = 2 k\u03a9.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Formula",
+          "text": "V_out = V_s \u00d7 R\u2082/(R\u2081+R\u2082) = 9 \u00d7 2/(4+2) = 9 \u00d7 2/6"
+        },
+        {
+          "n": 2,
+          "sub": "Answer",
+          "text": "V_out = 3 V"
+        }
+      ]
+    },
+    {
+      "q": "A 12 V battery (internal resistance 1 \u03a9) is connected to 5 \u03a9 and 7 \u03a9 in series. Find the p.d. across the 7 \u03a9 resistor.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Total resistance",
+          "text": "R_total = 5 + 7 + 1 (internal) = 13 \u03a9"
+        },
+        {
+          "n": 2,
+          "sub": "Current",
+          "text": "I = \u03b5 / R_total = 12/13 = 0.923 A"
+        },
+        {
+          "n": 3,
+          "sub": "V across 7 \u03a9",
+          "text": "V = IR = 0.923 \u00d7 7 = 6.46 V \u2248 6.5 V"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Forgetting to include internal resistance in the total resistance.",
+    "Using V = \u03b5 (full EMF) across external components \u2014 the terminal p.d. is \u03b5 \u2212 Ir.",
+    "Adding resistors in parallel using R_total = R\u2081 + R\u2082 \u2014 this is the series formula."
+  ],
+  "tips": [
+    "To find R_total for two parallel resistors: R = R\u2081R\u2082/(R\u2081+R\u2082) ('product over sum').",
+    "Potential divider: output is larger when the output resistor is larger relative to the other.",
+    "For sensor circuits with LDR: as light increases, R_LDR decreases \u2192 if R_LDR is R\u2082, V_out decreases."
+  ],
+  "flashcards": [
+    {
+      "q": "State Kirchhoff's first law.",
+      "a": "The sum of currents entering a junction equals the sum of currents leaving: \u03a3I_in = \u03a3I_out (conservation of charge)."
+    },
+    {
+      "q": "State Kirchhoff's second law.",
+      "a": "The sum of EMFs around any closed loop equals the sum of potential differences: \u03a3\u03b5 = \u03a3IR (conservation of energy)."
+    },
+    {
+      "q": "How are resistors combined in series?",
+      "a": "R_total = R\u2081 + R\u2082 + R\u2083 + ..."
+    },
+    {
+      "q": "How are resistors combined in parallel?",
+      "a": "1/R_total = 1/R\u2081 + 1/R\u2082 + ... (or R = R\u2081R\u2082/(R\u2081+R\u2082) for two resistors)."
+    },
+    {
+      "q": "State the potential divider formula.",
+      "a": "V_out = V_s \u00d7 R\u2082/(R\u2081+R\u2082), where V_out is the p.d. across R\u2082."
+    },
+    {
+      "q": "A battery has EMF 6 V and internal resistance 2 \u03a9. It delivers 1.5 A. What is the terminal p.d.?",
+      "a": "V = \u03b5 \u2212 Ir = 6 \u2212 1.5\u00d72 = 6 \u2212 3 = 3 V."
+    }
+  ],
+  "quiz": {
+    "title": "DC Circuits Quiz",
+    "questions": [
+      {
+        "q": "Three 6 \u03a9 resistors are in parallel. What is the combined resistance?",
+        "opts": [
+          "18 \u03a9",
+          "2 \u03a9",
+          "3 \u03a9",
+          "6 \u03a9"
+        ],
+        "ans": 1,
+        "exp": "For n equal resistors in parallel: R = R/n = 6/3 = 2 \u03a9."
+      },
+      {
+        "q": "In a potential divider with R\u2081 = 3 k\u03a9 and R\u2082 = 1 k\u03a9 across 8 V, what is V_out across R\u2082?",
+        "opts": [
+          "2 V",
+          "4 V",
+          "6 V",
+          "8 V"
+        ],
+        "ans": 0,
+        "exp": "V_out = 8 \u00d7 1/(3+1) = 8 \u00d7 0.25 = 2 V."
+      },
+      {
+        "q": "Kirchhoff's second law is based on conservation of:",
+        "opts": [
+          "Charge",
+          "Energy",
+          "Momentum",
+          "Mass"
+        ],
+        "ans": 1,
+        "exp": "KVL (sum of EMFs = sum of p.d.s around a loop) is a statement of conservation of energy."
+      },
+      {
+        "q": "A 10 \u03a9 and a 40 \u03a9 resistor are in parallel. What is their combined resistance?",
+        "opts": [
+          "50 \u03a9",
+          "8 \u03a9",
+          "25 \u03a9",
+          "4 \u03a9"
+        ],
+        "ans": 1,
+        "exp": "R = R\u2081R\u2082/(R\u2081+R\u2082) = 10\u00d740/(10+40) = 400/50 = 8 \u03a9."
+      },
+      {
+        "q": "Which statement is correct about resistors in series?",
+        "opts": [
+          "All have the same current",
+          "All have the same p.d.",
+          "Larger resistor has smaller p.d.",
+          "Total R is less than smallest R"
+        ],
+        "ans": 0,
+        "exp": "In series, the same current flows through all resistors; the p.d. is divided proportionally to resistance."
+      }
+    ]
+  },
+  "recall": [
+    "State Kirchhoff's two laws and the principles they represent.",
+    "Calculate equivalent resistance for series and parallel combinations.",
+    "Apply the potential divider formula.",
+    "Solve a circuit with EMF and internal resistance.",
+    "Explain how an LDR in a potential divider changes the output voltage as light changes."
+  ],
+  "summary": [
+    {
+      "label": "Series R",
+      "value": "R_total = R\u2081+R\u2082+..."
+    },
+    {
+      "label": "Parallel R",
+      "value": "1/R = 1/R\u2081+1/R\u2082+..."
+    },
+    {
+      "label": "KCL",
+      "value": "\u03a3I_in = \u03a3I_out (charge conservation)"
+    },
+    {
+      "label": "KVL",
+      "value": "\u03a3\u03b5 = \u03a3IR (energy conservation)"
+    },
+    {
+      "label": "Potential divider",
+      "value": "V_out = V_s \u00d7 R\u2082/(R\u2081+R\u2082)"
+    },
+    {
+      "label": "P = IV = I\u00b2R = V\u00b2/R",
+      "value": "power dissipated"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 10"
 }

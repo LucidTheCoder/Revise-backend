@@ -1,238 +1,244 @@
 {
-    "id": "particle-physics",
-    "subject": "phy",
-    "title": "Particle Physics",
-    "subtitle": "Particle Physics with model-based reasoning, equations, and exam application.",
-    "syllabusRef": "9702 AS Topic 11",
-    "concept": [
-        "Particle Physics uses physical models and measurable quantities to explain and predict system behavior.",
-        "Nuclear structure is described with nucleons and binding effects.",
-        "Radioactive decay is random for nuclei but predictable for large samples."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Particle Physics uses physical models and measurable quantities to explain and predict system behavior.",
-                "Nuclear structure is described with nucleons and binding effects.",
-                "Radioactive decay is random for nuclei but predictable for large samples."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Particle Physics ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Half-life",
-            "body": "Time for the number of undecayed nuclei or activity to fall to half its initial value."
-        },
-        {
-            "term": "Activity",
-            "body": "Number of nuclear decays per second, measured in becquerel (Bq)."
-        },
-        {
-            "term": "Binding energy",
-            "body": "Energy required to separate a nucleus completely into its individual nucleons."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Particle Physics.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Particle Physics uses physical models and measurable quantities to explain and predict system behavior."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Nuclear structure is described with nucleons and binding effects."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Particle Physics reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Particle Physics?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Particle Physics without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Particle Physics, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Particle Physics?",
-            "a": "Particle Physics uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Define Half-life.",
-            "a": "Time for the number of undecayed nuclei or activity to fall to half its initial value."
-        },
-        {
-            "q": "Define Activity.",
-            "a": "Number of nuclear decays per second, measured in becquerel (Bq)."
-        },
-        {
-            "q": "What exam strategy works best for Particle Physics?",
-            "a": "For Particle Physics, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Particle Physics uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Nuclear structure is described with nucleons and binding effects."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Radioactive decay is random for nuclei but predictable for large samples."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Half-life"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 11"
-        },
-        {
-            "label": "Key Formula",
-            "val": "E = hf; p = h/λ; binding energy = Δmc²"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Particle Physics: core principle",
-            "a": "Particle Physics uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Half-life",
-            "a": "Time for the number of undecayed nuclei or activity to fall to half its initial value."
-        },
-        {
-            "q": "Activity",
-            "a": "Number of nuclear decays per second, measured in becquerel (Bq)."
-        },
-        {
-            "q": "Binding energy",
-            "a": "Energy required to separate a nucleus completely into its individual nucleons."
-        },
-        {
-            "q": "Particle Physics: common mistake",
-            "a": "Applying equations in Particle Physics without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Particle Physics, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Particle Physics Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Half-life?",
-                "opts": [
-                    "Time for the number of undecayed nuclei or activity to fall to half its initial value.",
-                    "Number of nuclear decays per second, measured in becquerel (Bq).",
-                    "Energy required to separate a nucleus completely into its individual nucleons.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Half-life."
-            },
-            {
-                "q": "Which statement about Particle Physics is correct?",
-                "opts": [
-                    "Nuclear structure is described with nucleons and binding effects.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Activity?",
-                "opts": [
-                    "Number of nuclear decays per second, measured in becquerel (Bq).",
-                    "Time for the number of undecayed nuclei or activity to fall to half its initial value.",
-                    "Energy required to separate a nucleus completely into its individual nucleons.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Activity."
-            },
-            {
-                "q": "Which exam approach is most reliable for Particle Physics?",
-                "opts": [
-                    "For Particle Physics, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Particle Physics?",
-                "opts": [
-                    "Radioactive decay is random for nuclei but predictable for large samples.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "particle-physics",
+  "subject": "phy",
+  "title": "Particle Physics",
+  "subtitle": "Atomic nucleus, radioactive decay, nuclear equations and the Standard Model.",
+  "concept": [
+    "The nucleus contains protons and neutrons held together by the strong nuclear force, which overcomes electrostatic repulsion at short range.",
+    "Radioactive decay is a random, spontaneous process; alpha, beta and gamma radiation have different ionising power and penetration.",
+    "Matter and antimatter can be created and annihilated; the Standard Model classifies fundamental particles as quarks and leptons."
+  ],
+  "notes": [
+    {
+      "heading": "Nuclear Structure",
+      "items": [
+        "Nucleus: protons + neutrons (nucleons), radius ~10\u207b\u00b9\u2075 m (femtometre scale); held by strong nuclear force.",
+        "Strong nuclear force: attractive up to ~3 fm; repulsive below ~0.5 fm; acts equally on p and n; short range.",
+        "Nuclear density: very high (~10\u00b9\u2077 kg m\u207b\u00b3); approximately constant (independent of A).",
+        "Isotopes: same Z, different A (different number of neutrons)."
+      ]
+    },
+    {
+      "heading": "Radioactive Decay",
+      "items": [
+        "Alpha (\u03b1): \u2082\u2074He nucleus; charge +2; highly ionising; stopped by few cm of air or paper; deflected in fields.",
+        "Beta-minus (\u03b2\u207b): electron emitted; n \u2192 p + e\u207b + antineutrino; moderately ionising; stopped by few mm Al.",
+        "Beta-plus (\u03b2\u207a): positron emitted; p \u2192 n + e\u207a + neutrino; antimatter counterpart of \u03b2\u207b.",
+        "Gamma (\u03b3): EM radiation (high frequency photon); no charge or mass change; weakly ionising; attenuated by thick Pb or concrete.",
+        "Half-life (t\u2081/\u2082): time for activity (or number of undecayed nuclei) to halve; random and spontaneous."
+      ]
+    },
+    {
+      "heading": "Nuclear Equations",
+      "items": [
+        "Balancing: top number (mass number A, nucleon number) must balance; bottom number (Z, atomic number) must balance.",
+        "Alpha decay: A decreases by 4; Z decreases by 2.",
+        "Beta-minus: A unchanged; Z increases by 1 (n \u2192 p).",
+        "Gamma: A and Z both unchanged (nucleus loses energy only).",
+        "Positron emission (\u03b2\u207a): Z decreases by 1; A unchanged."
+      ]
+    },
+    {
+      "heading": "Standard Model and Particle Classification",
+      "items": [
+        "Hadrons: particles made of quarks (baryons: 3 quarks, e.g. proton, neutron; mesons: quark + antiquark).",
+        "Leptons: fundamental; not made of quarks; e.g. electron, muon, neutrino.",
+        "Quarks: up (u, charge +\u2154e), down (d, charge \u2212\u2153e). Proton = uud; neutron = udd.",
+        "Antiparticles: same mass, opposite charge/quantum numbers (e.g. positron = antielectron).",
+        "Pair production: \u03b3 \u2192 particle + antiparticle (energy \u2192 mass, E = mc\u00b2).",
+        "Annihilation: particle + antiparticle \u2192 2\u03b3 photons (mass \u2192 energy).",
+        "Conservation laws in particle interactions: charge, baryon number, lepton number (and energy-momentum)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Strong nuclear force",
+      "body": "The short-range force (attractive at ~1\u20133 fm, repulsive below ~0.5 fm) that holds nucleons together in the nucleus, overcoming electrostatic repulsion."
+    },
+    {
+      "term": "Half-life",
+      "body": "The time taken for the activity (or number of undecayed nuclei) of a radioactive sample to fall to half its initial value; constant for a given isotope."
+    },
+    {
+      "term": "Pair production",
+      "body": "A process where a high-energy photon converts into a particle\u2013antiparticle pair (e.g. \u03b3 \u2192 e\u207b + e\u207a); requires photon energy \u2265 2m_e c\u00b2."
+    },
+    {
+      "term": "Baryon number",
+      "body": "A conserved quantum number: baryons (proton, neutron) have B = +1; antibaryons B = \u22121; mesons and leptons B = 0."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Write the nuclear equation for beta-minus decay of carbon-14: \u00b9\u2074\u2086C \u2192 ?",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Beta-minus",
+          "text": "A beta-minus particle is \u208b\u2081\u2070e (an electron)."
+        },
+        {
+          "n": 2,
+          "sub": "Balance A",
+          "text": "14 = 14 + 0 \u2713"
+        },
+        {
+          "n": 3,
+          "sub": "Balance Z",
+          "text": "6 = Z + (\u22121) \u2192 Z = 7 \u2192 nitrogen-14"
+        },
+        {
+          "n": 4,
+          "sub": "Full equation",
+          "text": "\u00b9\u2074\u2086C \u2192 \u00b9\u2074\u2087N + \u2070\u208b\u2081e + \u03bd\u0304_e (antineutrino)"
+        }
+      ]
+    },
+    {
+      "q": "A radioactive sample has activity 800 Bq. After 6 hours its activity is 100 Bq. Find the half-life.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Number of halving",
+          "text": "800 \u2192 400 \u2192 200 \u2192 100: three halvings."
+        },
+        {
+          "n": 2,
+          "sub": "Half-life",
+          "text": "t\u2081/\u2082 = 6/3 = 2 hours"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Forgetting to include the antineutrino in \u03b2\u207b decay equations (exam boards often require it).",
+    "Confusing baryon number (quarks) with lepton number (leptons) \u2014 they are separately conserved.",
+    "Stating gamma decay changes the nucleus \u2014 gamma emission changes energy but not A or Z."
+  ],
+  "tips": [
+    "Quark composition: proton = uud (2\u00d7+\u2154 + 1\u00d7\u2212\u2153 = +1); neutron = udd (1\u00d7+\u2154 + 2\u00d7\u2212\u2153 = 0).",
+    "In \u03b2\u207b decay: d \u2192 u (quark level); in \u03b2\u207a: u \u2192 d.",
+    "Pair production minimum energy: E = 2m_e c\u00b2 = 2 \u00d7 (9.11\u00d710\u207b\u00b3\u00b9)(3\u00d710\u2078)\u00b2 = 1.64\u00d710\u207b\u00b9\u00b3 J = 1.02 MeV."
+  ],
+  "flashcards": [
+    {
+      "q": "What are the quark compositions of a proton and a neutron?",
+      "a": "Proton: uud. Neutron: udd."
+    },
+    {
+      "q": "What changes occur to A and Z in alpha decay?",
+      "a": "A decreases by 4; Z decreases by 2."
+    },
+    {
+      "q": "What is half-life?",
+      "a": "The time for the activity (or number of undecayed nuclei) to halve; it is constant for a given isotope."
+    },
+    {
+      "q": "Which is the most penetrating type of radiation?",
+      "a": "Gamma radiation \u2014 requires centimetres of lead or metres of concrete to be significantly attenuated."
+    },
+    {
+      "q": "State two conservation laws that apply in all particle interactions.",
+      "a": "Conservation of charge; conservation of baryon number; conservation of lepton number; conservation of energy-momentum (any 2)."
+    },
+    {
+      "q": "What is pair production?",
+      "a": "A high-energy photon converts into a particle\u2013antiparticle pair (e.g. electron + positron): \u03b3 \u2192 e\u207b + e\u207a."
+    }
+  ],
+  "quiz": {
+    "title": "Particle Physics Quiz",
+    "questions": [
+      {
+        "q": "What is the quark composition of a neutron?",
+        "opts": [
+          "uud",
+          "udd",
+          "ddd",
+          "uuu"
+        ],
+        "ans": 1,
+        "exp": "Neutron: udd (u=+\u2154e, d=\u2212\u2153e); total charge = +\u2154 \u2212 \u2153 \u2212 \u2153 = 0."
+      },
+      {
+        "q": "Which radiation is stopped by a thin sheet of paper?",
+        "opts": [
+          "Gamma",
+          "Beta-minus",
+          "Alpha",
+          "Neutrons"
+        ],
+        "ans": 2,
+        "exp": "Alpha particles are large and heavily charged; stopped by a few cm of air or a sheet of paper."
+      },
+      {
+        "q": "In \u03b2\u207b decay, which quark change occurs?",
+        "opts": [
+          "u \u2192 d",
+          "d \u2192 u",
+          "u \u2192 s",
+          "d \u2192 s"
+        ],
+        "ans": 1,
+        "exp": "In \u03b2\u207b decay (n\u2192p), a down quark changes to an up quark: d \u2192 u + e\u207b + \u03bd\u0304_e."
+      },
+      {
+        "q": "A sample's activity halves every 5 years. What fraction remains after 15 years?",
+        "opts": [
+          "1/4",
+          "1/8",
+          "1/16",
+          "1/2"
+        ],
+        "ans": 1,
+        "exp": "15 years = 3 half-lives; fraction = (\u00bd)\u00b3 = 1/8."
+      },
+      {
+        "q": "Which particles are classified as leptons?",
+        "opts": [
+          "Protons and neutrons",
+          "Quarks",
+          "Electrons and neutrinos",
+          "Mesons"
+        ],
+        "ans": 2,
+        "exp": "Leptons are fundamental particles not made of quarks: electrons, muons, taus, and their associated neutrinos."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the properties of alpha, beta and gamma radiation.",
+    "Write and balance nuclear decay equations.",
+    "State the quark composition of proton and neutron.",
+    "Explain pair production and annihilation.",
+    "Define half-life and use it to calculate remaining activity."
+  ],
+  "summary": [
+    {
+      "label": "Alpha",
+      "value": "\u2082\u2074He; A\u22124, Z\u22122; stopped by paper"
+    },
+    {
+      "label": "Beta-minus",
+      "value": "electron; A same, Z+1; stopped by Al"
+    },
+    {
+      "label": "Gamma",
+      "value": "photon; no A/Z change; stopped by Pb"
+    },
+    {
+      "label": "Half-life",
+      "value": "time for activity to halve"
+    },
+    {
+      "label": "Proton",
+      "value": "uud (+1)"
+    },
+    {
+      "label": "Neutron",
+      "value": "udd (0)"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 23"
 }

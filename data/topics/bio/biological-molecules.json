@@ -1,238 +1,212 @@
 {
-    "id": "biological-molecules",
-    "subject": "bio",
-    "title": "Biological Molecules",
-    "subtitle": "Biological Molecules with mechanism-focused explanation and exam-linked examples.",
-    "concept": [
-        "Biological molecules are built from recurring chemical units whose structure determines function. Small differences in bond type or side groups can create major biological effects.",
-        "Macromolecules form through condensation reactions and break down by hydrolysis. These reversible processes underpin digestion, synthesis, and metabolism.",
-        "In exams, high-scoring answers compare molecules in terms of structure, solubility, energy role, and functional significance in cells."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Biological molecules are built from recurring chemical units whose structure determines function. Small differences in bond type or side groups can create major biological effects.",
-                "Macromolecules form through condensation reactions and break down by hydrolysis. These reversible processes underpin digestion, synthesis, and metabolism.",
-                "In exams, high-scoring answers compare molecules in terms of structure, solubility, energy role, and functional significance in cells."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Biological Molecules ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Condensation Reaction",
-            "body": "Reaction joining molecules with removal of a water molecule."
-        },
-        {
-            "term": "Hydrolysis",
-            "body": "Breakdown reaction where water is used to split chemical bonds."
-        },
-        {
-            "term": "Peptide Bond",
-            "body": "Covalent bond formed between amino acids during protein synthesis."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Biological Molecules.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Biological molecules are built from recurring chemical units whose structure determines function. Small differences in bond type or side groups can create major biological effects."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Macromolecules form through condensation reactions and break down by hydrolysis. These reversible processes underpin digestion, synthesis, and metabolism."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Biological Molecules reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Biological Molecules?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Biological Molecules outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Biological Molecules responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Biological Molecules?",
-            "a": "Biological molecules are built from recurring chemical units whose structure determines function. Small differences in bond type or side groups can create major biological effects."
-        },
-        {
-            "q": "Define Condensation Reaction.",
-            "a": "Reaction joining molecules with removal of a water molecule."
-        },
-        {
-            "q": "Define Hydrolysis.",
-            "a": "Breakdown reaction where water is used to split chemical bonds."
-        },
-        {
-            "q": "What exam strategy works best for Biological Molecules?",
-            "a": "In Biological Molecules responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Biological molecules are built from recurring chemical units whose structure determines function. Small differences in bond type or side groups can create major biological effects."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Macromolecules form through condensation reactions and break down by hydrolysis. These reversible processes underpin digestion, synthesis, and metabolism."
-        },
-        {
-            "label": "Exam Application",
-            "val": "In exams, high-scoring answers compare molecules in terms of structure, solubility, energy role, and functional significance in cells."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Condensation Reaction"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 2"
-        },
-        {
-            "label": "Key Formula",
-            "val": "C, H, O, N, P basis; condensation: −H₂O"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Biological Molecules: core principle",
-            "a": "Biological molecules are built from recurring chemical units whose structure determines function. Small differences in bond type or side groups can create major biological effects."
-        },
-        {
-            "q": "Condensation Reaction",
-            "a": "Reaction joining molecules with removal of a water molecule."
-        },
-        {
-            "q": "Hydrolysis",
-            "a": "Breakdown reaction where water is used to split chemical bonds."
-        },
-        {
-            "q": "Peptide Bond",
-            "a": "Covalent bond formed between amino acids during protein synthesis."
-        },
-        {
-            "q": "Biological Molecules: common mistake",
-            "a": "Describing Biological Molecules outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Biological Molecules responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Biological Molecules Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Condensation Reaction?",
-                "opts": [
-                    "Reaction joining molecules with removal of a water molecule.",
-                    "Breakdown reaction where water is used to split chemical bonds.",
-                    "Covalent bond formed between amino acids during protein synthesis.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Condensation Reaction."
-            },
-            {
-                "q": "Which statement about Biological Molecules is correct?",
-                "opts": [
-                    "Macromolecules form through condensation reactions and break down by hydrolysis. These reversible processes underpin digestion, synthesis, and metabolism.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Hydrolysis?",
-                "opts": [
-                    "Breakdown reaction where water is used to split chemical bonds.",
-                    "Reaction joining molecules with removal of a water molecule.",
-                    "Covalent bond formed between amino acids during protein synthesis.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Hydrolysis."
-            },
-            {
-                "q": "Which exam approach is most reliable for Biological Molecules?",
-                "opts": [
-                    "In Biological Molecules responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Biological Molecules?",
-                "opts": [
-                    "In exams, high-scoring answers compare molecules in terms of structure, solubility, energy role, and functional significance in cells.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "biological-molecules",
+  "subject": "bio",
+  "title": "Biological Molecules",
+  "subtitle": "Carbohydrates, lipids, proteins, water and inorganic ions.",
+  "concept": [
+    "Biological molecules are built from monomers joined by condensation reactions; they are broken down by hydrolysis.",
+    "Proteins are polymers of amino acids joined by peptide bonds; their 3D shape is determined by their sequence and determines their function.",
+    "Water's unique properties (cohesion, high specific heat capacity, solvent ability) make it essential for life."
+  ],
+  "notes": [
+    {
+      "heading": "Carbohydrates",
+      "items": [
+        "Monosaccharides: hexoses (glucose, fructose, galactose) and pentoses (ribose, deoxyribose). \u03b1-glucose has OH on C1 pointing down; \u03b2-glucose points up.",
+        "Disaccharides: maltose (\u03b1-glucose + \u03b1-glucose, 1,4-glycosidic), sucrose (\u03b1-glucose + fructose), lactose (glucose + galactose).",
+        "Polysaccharides: starch (amylose \u2014 \u03b11,4; amylopectin \u2014 \u03b11,4 and \u03b11,6 branching); glycogen (highly branched, \u03b11,4 and \u03b11,6); cellulose (\u03b21,4 \u2014 alternating glucose units, H-bonds between chains give strength)."
+      ]
     },
-    "syllabusRef": "9700 AS Topic 2"
+    {
+      "heading": "Lipids",
+      "items": [
+        "Triglyceride: glycerol + 3 fatty acids joined by ester bonds (condensation). Saturated: no C=C double bonds; unsaturated: one or more C=C.",
+        "Phospholipid: glycerol + 2 fatty acids + phosphate group. Amphipathic \u2014 hydrophilic head (phosphate), hydrophobic tails (fatty acid chains); forms bilayer in cell membranes."
+      ]
+    },
+    {
+      "heading": "Proteins",
+      "items": [
+        "Amino acids linked by peptide bonds (condensation between \u2013NH\u2082 and \u2013COOH; water released).",
+        "Primary: amino acid sequence. Secondary: \u03b1-helix or \u03b2-pleated sheet (H-bonds). Tertiary: 3D shape (H-bonds, ionic bonds, disulfide bonds, hydrophobic interactions). Quaternary: two or more polypeptide chains.",
+        "Fibrous proteins (e.g. collagen, keratin): structural, insoluble, regular repeated sequence. Globular proteins (e.g. enzymes, haemoglobin): functional, soluble, irregular sequence folded into compact shape."
+      ]
+    },
+    {
+      "heading": "Water",
+      "items": [
+        "Polar molecule (\u03b4+ H, \u03b4\u2212 O); forms hydrogen bonds. Cohesion: water molecules stick to each other (surface tension, transpiration stream). High specific heat capacity: resists temperature change. Solvent: dissolves ions and polar molecules. Latent heat of vaporisation: evaporation cools surfaces."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Condensation reaction",
+      "body": "A reaction that joins two monomers, releasing a water molecule."
+    },
+    {
+      "term": "Peptide bond",
+      "body": "The bond formed between the \u2013NH\u2082 group of one amino acid and the \u2013COOH group of another, releasing water."
+    },
+    {
+      "term": "Denaturation",
+      "body": "Irreversible change in the 3D shape of a protein due to disruption of bonds maintaining tertiary structure; the primary structure remains intact."
+    },
+    {
+      "term": "Reducing sugar",
+      "body": "A sugar that can donate electrons to (reduce) an oxidising agent; includes all monosaccharides and some disaccharides (e.g. maltose, lactose); detected by Benedict's test (brick-red precipitate)."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain why cellulose is suitable for forming plant cell walls.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Structure",
+          "text": "Cellulose is a polysaccharide of \u03b2-glucose molecules linked by \u03b2-1,4-glycosidic bonds. The alternating orientation of \u03b2-glucose units allows straight, unbranched chains."
+        },
+        {
+          "n": 2,
+          "sub": "Bonding between chains",
+          "text": "Hydrogen bonds form between parallel chains, cross-linking them into microfibrils."
+        },
+        {
+          "n": 3,
+          "sub": "Function",
+          "text": "The high tensile strength of these microfibrils provides structural support and prevents cells from bursting (cell lysis) under osmotic pressure."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing \u03b1-glucose (OH down at C1) and \u03b2-glucose (OH up at C1).",
+    "Stating denaturation 'breaks the primary structure' \u2014 primary structure (peptide bonds) is unaffected; denaturation disrupts tertiary/secondary bonds.",
+    "Confusing condensation (joins monomers, releases H\u2082O) with hydrolysis (breaks polymers, uses H\u2082O)."
+  ],
+  "tips": [
+    "Learn the Benedict's test: reducing sugar \u2192 brick-red; non-reducing sugar (sucrose) \u2192 test with HCl first to hydrolyse, then retest.",
+    "Iodine/KI solution: starch \u2192 blue-black. Biuret reagent: protein \u2192 purple.",
+    "Emulsion test for lipids: dissolve in ethanol, add water \u2192 white emulsion."
+  ],
+  "flashcards": [
+    {
+      "q": "What bond joins amino acids together?",
+      "a": "Peptide bond (formed by condensation between \u2013NH\u2082 and \u2013COOH groups)."
+    },
+    {
+      "q": "What is the difference between \u03b1-glucose and \u03b2-glucose?",
+      "a": "\u03b1-glucose has the \u2013OH group on C1 pointing downward; \u03b2-glucose has it pointing upward."
+    },
+    {
+      "q": "What bonds stabilise the tertiary structure of a protein?",
+      "a": "Hydrogen bonds, ionic bonds, disulfide bonds (between cysteine residues), and hydrophobic interactions."
+    },
+    {
+      "q": "What is the reagent for testing for starch, and what is a positive result?",
+      "a": "Iodine/KI solution \u2014 positive: blue-black colour."
+    },
+    {
+      "q": "How are triglycerides formed?",
+      "a": "Glycerol + 3 fatty acids joined by 3 ester bonds via condensation reactions, releasing 3 water molecules."
+    },
+    {
+      "q": "Why is water a good solvent?",
+      "a": "Water is polar \u2014 the \u03b4+ and \u03b4\u2212 regions attract and surround ions and polar molecules, dispersing them in solution."
+    }
+  ],
+  "quiz": {
+    "title": "Biological Molecules Quiz",
+    "questions": [
+      {
+        "q": "What type of bond joins glucose monomers in cellulose?",
+        "opts": [
+          "\u03b1-1,4-glycosidic",
+          "\u03b2-1,4-glycosidic",
+          "Peptide bond",
+          "Ester bond"
+        ],
+        "ans": 1,
+        "exp": "Cellulose is formed by \u03b2-1,4-glycosidic bonds between \u03b2-glucose monomers."
+      },
+      {
+        "q": "Which test detects a reducing sugar?",
+        "opts": [
+          "Biuret",
+          "Iodine/KI",
+          "Benedict's",
+          "Emulsion test"
+        ],
+        "ans": 2,
+        "exp": "Benedict's reagent turns from blue to brick-red in the presence of a reducing sugar when heated."
+      },
+      {
+        "q": "At which level of protein structure are disulfide bonds found?",
+        "opts": [
+          "Primary",
+          "Secondary",
+          "Tertiary",
+          "Quaternary"
+        ],
+        "ans": 2,
+        "exp": "Disulfide bonds (between cysteine \u2013SH groups) contribute to the tertiary structure of proteins."
+      },
+      {
+        "q": "What molecule is released in a condensation reaction?",
+        "opts": [
+          "CO\u2082",
+          "NH\u2083",
+          "H\u2082O",
+          "O\u2082"
+        ],
+        "ans": 2,
+        "exp": "Condensation reactions join monomers with the release of water."
+      },
+      {
+        "q": "Why is glycogen more suitable than glucose for energy storage in animals?",
+        "opts": [
+          "Glycogen is more soluble",
+          "Glycogen is smaller",
+          "Glycogen is insoluble/compact and does not affect osmotic potential",
+          "Glycogen has more energy per gram"
+        ],
+        "ans": 2,
+        "exp": "Glycogen is an insoluble compact polymer \u2014 it does not affect osmotic potential and stores large amounts of glucose in a small volume."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the structure of a triglyceride and the bonds it contains.",
+    "Explain why cellulose forms strong fibres.",
+    "Describe four levels of protein structure.",
+    "Compare the structures of starch and cellulose.",
+    "State two properties of water that are important in living organisms and explain each."
+  ],
+  "summary": [
+    {
+      "label": "Condensation",
+      "value": "joins monomers, releases H\u2082O"
+    },
+    {
+      "label": "Peptide bond",
+      "value": "\u2013NH\u2082 + \u2013COOH \u2192 \u2013CO\u2013NH\u2013 + H\u2082O"
+    },
+    {
+      "label": "Cellulose",
+      "value": "\u03b2-1,4-glycosidic; H-bonds between chains"
+    },
+    {
+      "label": "Starch",
+      "value": "\u03b1-1,4 (amylose) + \u03b1-1,6 branching (amylopectin)"
+    },
+    {
+      "label": "Biuret",
+      "value": "protein \u2192 purple"
+    },
+    {
+      "label": "Benedict's",
+      "value": "reducing sugar \u2192 brick-red"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 2"
 }

@@ -1,238 +1,226 @@
 {
-    "id": "nucleic-acids-protein-synthesis",
-    "subject": "bio",
-    "title": "Nucleic Acids and Protein Synthesis",
-    "subtitle": "Nucleic Acids and Protein Synthesis with mechanism-focused explanation and exam-linked examples.",
-    "syllabusRef": "9700 AS Topic 6",
-    "concept": [
-        "Nucleic Acids and Protein Synthesis links biological structure and process to function, adaptation, and measured outcomes.",
-        "DNA and RNA structure supports information storage and expression.",
-        "Semi-conservative replication preserves genetic information across generations."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Nucleic Acids and Protein Synthesis links biological structure and process to function, adaptation, and measured outcomes.",
-                "DNA and RNA structure supports information storage and expression.",
-                "Semi-conservative replication preserves genetic information across generations."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Nucleic Acids and Protein Synthesis ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Replication",
-            "body": "Copying of DNA to produce two identical DNA molecules before cell division."
-        },
-        {
-            "term": "Transcription",
-            "body": "Synthesis of RNA from a DNA template by complementary base pairing."
-        },
-        {
-            "term": "Translation",
-            "body": "Assembly of a polypeptide on a ribosome using mRNA codons and tRNA anticodons."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Nucleic Acids and Protein Synthesis.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Nucleic Acids and Protein Synthesis links biological structure and process to function, adaptation, and measured outcomes."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "DNA and RNA structure supports information storage and expression."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Nucleic Acids and Protein Synthesis reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Nucleic Acids and Protein Synthesis?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Nucleic Acids and Protein Synthesis outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Nucleic Acids and Protein Synthesis responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Nucleic Acids and Protein Synthesis?",
-            "a": "Nucleic Acids and Protein Synthesis links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Define Replication.",
-            "a": "Copying of DNA to produce two identical DNA molecules before cell division."
-        },
-        {
-            "q": "Define Transcription.",
-            "a": "Synthesis of RNA from a DNA template by complementary base pairing."
-        },
-        {
-            "q": "What exam strategy works best for Nucleic Acids and Protein Synthesis?",
-            "a": "In Nucleic Acids and Protein Synthesis responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Nucleic Acids and Protein Synthesis links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "label": "Applied Model",
-            "val": "DNA and RNA structure supports information storage and expression."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Semi-conservative replication preserves genetic information across generations."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Replication"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 6"
-        },
-        {
-            "label": "Key Formula",
-            "val": "mRNA codon → tRNA anticodon (triplet code)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Nucleic Acids and Protein Synthesis: core principle",
-            "a": "Nucleic Acids and Protein Synthesis links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Replication",
-            "a": "Copying of DNA to produce two identical DNA molecules before cell division."
-        },
-        {
-            "q": "Transcription",
-            "a": "Synthesis of RNA from a DNA template by complementary base pairing."
-        },
-        {
-            "q": "Translation",
-            "a": "Assembly of a polypeptide on a ribosome using mRNA codons and tRNA anticodons."
-        },
-        {
-            "q": "Nucleic Acids and Protein Synthesis: common mistake",
-            "a": "Describing Nucleic Acids and Protein Synthesis outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Nucleic Acids and Protein Synthesis responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Nucleic Acids and Protein Synthesis Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Replication?",
-                "opts": [
-                    "Copying of DNA to produce two identical DNA molecules before cell division.",
-                    "Synthesis of RNA from a DNA template by complementary base pairing.",
-                    "Assembly of a polypeptide on a ribosome using mRNA codons and tRNA anticodons.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Replication."
-            },
-            {
-                "q": "Which statement about Nucleic Acids and Protein Synthesis is correct?",
-                "opts": [
-                    "DNA and RNA structure supports information storage and expression.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Transcription?",
-                "opts": [
-                    "Synthesis of RNA from a DNA template by complementary base pairing.",
-                    "Copying of DNA to produce two identical DNA molecules before cell division.",
-                    "Assembly of a polypeptide on a ribosome using mRNA codons and tRNA anticodons.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Transcription."
-            },
-            {
-                "q": "Which exam approach is most reliable for Nucleic Acids and Protein Synthesis?",
-                "opts": [
-                    "In Nucleic Acids and Protein Synthesis responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Nucleic Acids and Protein Synthesis?",
-                "opts": [
-                    "Semi-conservative replication preserves genetic information across generations.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "nucleic-acids-protein-synthesis",
+  "subject": "bio",
+  "title": "Nucleic Acids and Protein Synthesis",
+  "subtitle": "DNA structure, replication, transcription and translation.",
+  "concept": [
+    "DNA is a double helix of antiparallel polynucleotide strands held together by complementary base pairing (A\u2013T, G\u2013C).",
+    "DNA replication is semi-conservative: each new molecule contains one original and one new strand, confirmed by Meselson and Stahl.",
+    "Protein synthesis: transcription (DNA \u2192 mRNA in nucleus) then translation (mRNA \u2192 protein at ribosomes)."
+  ],
+  "notes": [
+    {
+      "heading": "DNA Structure",
+      "items": [
+        "Nucleotide: phosphate group + deoxyribose sugar + nitrogenous base.",
+        "Bases: adenine (A), thymine (T), guanine (G), cytosine (C). Purines (A, G) pair with pyrimidines (T, C).",
+        "A\u2013T: 2 hydrogen bonds. G\u2013C: 3 hydrogen bonds.",
+        "Strands are antiparallel: one runs 5'\u21923', the other 3'\u21925'.",
+        "Sugar-phosphate backbone held by covalent (phosphodiester) bonds."
+      ]
+    },
+    {
+      "heading": "DNA Replication (Semi-Conservative)",
+      "items": [
+        "Helicase unwinds the double helix and breaks H-bonds, separating the two strands.",
+        "Each strand acts as a template. DNA polymerase adds complementary nucleotides (5'\u21923' direction only).",
+        "Leading strand: synthesised continuously. Lagging strand: synthesised in Okazaki fragments.",
+        "Ligase joins Okazaki fragments.",
+        "Result: two identical double-stranded DNA molecules, each with one original and one new strand."
+      ]
+    },
+    {
+      "heading": "Transcription (Nucleus)",
+      "items": [
+        "RNA polymerase unwinds DNA at the promoter region.",
+        "Free RNA nucleotides form complementary base pairs with the template strand (T in DNA \u2192 A in RNA; A in DNA \u2192 U in RNA).",
+        "mRNA strand is synthesised 5'\u21923'. The other DNA strand (coding/sense strand) has the same sequence as the mRNA (with U replacing T).",
+        "Pre-mRNA is processed: introns removed (splicing), exons joined; 5' cap and poly-A tail added."
+      ]
+    },
+    {
+      "heading": "Translation (Ribosome)",
+      "items": [
+        "mRNA moves to ribosome (rough ER or cytoplasm).",
+        "tRNA carries specific amino acid (anticodon is complementary to mRNA codon).",
+        "Start codon: AUG (methionine). Stop codons: UAA, UAG, UGA.",
+        "Ribosome moves along mRNA; peptide bonds form between amino acids; polypeptide chain grows.",
+        "Protein folds into its 3D shape; may be modified in Golgi."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Semi-conservative replication",
+      "body": "Each new DNA molecule consists of one original (parental) strand and one newly synthesised strand."
+    },
+    {
+      "term": "Codon",
+      "body": "A sequence of three bases on mRNA that codes for a specific amino acid (or start/stop signal)."
+    },
+    {
+      "term": "Anticodon",
+      "body": "A sequence of three bases on tRNA that is complementary to a specific mRNA codon."
+    },
+    {
+      "term": "Transcription",
+      "body": "The process of synthesising mRNA from a DNA template in the nucleus."
+    },
+    {
+      "term": "Translation",
+      "body": "The process of synthesising a polypeptide from the information encoded in mRNA, occurring at ribosomes."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A DNA template strand reads 3'\u2013TAC GGA CTT\u20135'. Write the mRNA sequence and the amino acids coded (use AUG = Met, CCU = Pro, GAA = Glu).",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Write complementary mRNA",
+          "text": "Template 3'\u2013TAC GGA CTT\u20135' \u2192 mRNA 5'\u2013AUG CCU GAA\u20133'"
+        },
+        {
+          "n": 2,
+          "sub": "Codons",
+          "text": "AUG = Met; CCU = Pro; GAA = Glu"
+        },
+        {
+          "n": 3,
+          "sub": "Polypeptide",
+          "text": "Met \u2013 Pro \u2013 Glu"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing the template strand (used for transcription) with the coding strand (same sequence as mRNA but with T not U).",
+    "Forgetting that mRNA contains uracil (U) not thymine (T).",
+    "Describing replication as 'conservative' (both strands are new) \u2014 it is semi-conservative."
+  ],
+  "tips": [
+    "Meselson & Stahl: used \u00b9\u2075N (heavy) and \u00b9\u2074N (light) nitrogen in CsCl density gradient centrifugation to prove semi-conservative replication.",
+    "tRNA anticodon is complementary AND antiparallel to mRNA codon \u2014 check your base pairing carefully.",
+    "Remember: helicase unwinds; DNA polymerase builds; ligase joins."
+  ],
+  "flashcards": [
+    {
+      "q": "What base pairing rules apply in DNA?",
+      "a": "A pairs with T (2 H-bonds); G pairs with C (3 H-bonds). Antiparallel strands."
+    },
+    {
+      "q": "What is semi-conservative replication?",
+      "a": "Each daughter DNA molecule contains one original strand and one newly synthesised strand."
+    },
+    {
+      "q": "What does helicase do?",
+      "a": "Unwinds the DNA double helix by breaking hydrogen bonds between base pairs."
+    },
+    {
+      "q": "What is the start codon and what amino acid does it code for?",
+      "a": "AUG \u2014 codes for methionine (Met)."
+    },
+    {
+      "q": "What is the role of tRNA in translation?",
+      "a": "Carries a specific amino acid to the ribosome; its anticodon base-pairs with the complementary codon on mRNA."
+    },
+    {
+      "q": "In which direction does DNA polymerase synthesise DNA?",
+      "a": "5' to 3' only \u2014 new nucleotides are added to the 3' end of the growing strand."
+    }
+  ],
+  "quiz": {
+    "title": "Nucleic Acids Quiz",
+    "questions": [
+      {
+        "q": "Which enzyme joins Okazaki fragments during DNA replication?",
+        "opts": [
+          "Helicase",
+          "DNA polymerase",
+          "Ligase",
+          "RNA polymerase"
+        ],
+        "ans": 2,
+        "exp": "DNA ligase seals the gaps between Okazaki fragments on the lagging strand."
+      },
+      {
+        "q": "A DNA strand reads 3'-ATCGTA-5'. What is the mRNA sequence?",
+        "opts": [
+          "5'-UAGCAU-3'",
+          "5'-TAGCAT-3'",
+          "5'-AUCGUA-3'",
+          "3'-UAGCAU-5'"
+        ],
+        "ans": 0,
+        "exp": "Complementary RNA: A\u2192U, T\u2192A, C\u2192G, G\u2192C: 5'-UAGCAU-3'"
+      },
+      {
+        "q": "What is the role of RNA polymerase in transcription?",
+        "opts": [
+          "Joins amino acids",
+          "Synthesises mRNA from DNA template",
+          "Replicates DNA",
+          "Splices introns"
+        ],
+        "ans": 1,
+        "exp": "RNA polymerase synthesises mRNA by reading the template strand 3'\u21925' and building the RNA 5'\u21923'."
+      },
+      {
+        "q": "How many hydrogen bonds hold a G\u2013C base pair together?",
+        "opts": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "ans": 2,
+        "exp": "G\u2013C pairs have 3 hydrogen bonds; A\u2013T pairs have 2."
+      },
+      {
+        "q": "Where does translation occur?",
+        "opts": [
+          "Nucleus",
+          "Ribosome",
+          "Mitochondria only",
+          "Smooth ER"
+        ],
+        "ans": 1,
+        "exp": "Translation occurs at ribosomes \u2014 free in the cytoplasm or on the rough ER."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the structure of a DNA nucleotide.",
+    "Explain what is meant by semi-conservative replication.",
+    "Outline the process of transcription.",
+    "Explain the roles of mRNA, tRNA and rRNA in translation.",
+    "Describe the evidence from the Meselson-Stahl experiment."
+  ],
+  "summary": [
+    {
+      "label": "A\u2013T",
+      "value": "2 H-bonds"
+    },
+    {
+      "label": "G\u2013C",
+      "value": "3 H-bonds"
+    },
+    {
+      "label": "Helicase",
+      "value": "unwinds DNA"
+    },
+    {
+      "label": "DNA polymerase",
+      "value": "builds 5'\u21923'"
+    },
+    {
+      "label": "Ligase",
+      "value": "joins Okazaki fragments"
+    },
+    {
+      "label": "Start codon",
+      "value": "AUG (Met)"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 6"
 }

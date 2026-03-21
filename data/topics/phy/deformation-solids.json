@@ -1,238 +1,220 @@
 {
-    "id": "deformation-solids",
-    "subject": "phy",
-    "title": "Deformation of Solids",
-    "subtitle": "Deformation of Solids with model-based reasoning, equations, and exam application.",
-    "syllabusRef": "9702 AS Topic 6",
-    "concept": [
-        "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior.",
-        "Stress and strain quantify material response to loading.",
-        "Hooke law behaviour applies in the elastic region."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior.",
-                "Stress and strain quantify material response to loading.",
-                "Hooke law behaviour applies in the elastic region."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Deformation of Solids ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Stress",
-            "body": "Force per unit cross-sectional area."
-        },
-        {
-            "term": "Strain",
-            "body": "Extension divided by original length (no unit)."
-        },
-        {
-            "term": "Young modulus",
-            "body": "Ratio of stress to strain in the linear elastic region."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Deformation of Solids.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Stress and strain quantify material response to loading."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Deformation of Solids reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Deformation of Solids?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Deformation of Solids without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Deformation of Solids, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Deformation of Solids?",
-            "a": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Define Stress.",
-            "a": "Force per unit cross-sectional area."
-        },
-        {
-            "q": "Define Strain.",
-            "a": "Extension divided by original length (no unit)."
-        },
-        {
-            "q": "What exam strategy works best for Deformation of Solids?",
-            "a": "For Deformation of Solids, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Stress and strain quantify material response to loading."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Hooke law behaviour applies in the elastic region."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Stress"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 6"
-        },
-        {
-            "label": "Key Formula",
-            "val": "σ = F/A; ε = Δl/l; E = σ/ε (elastic modulus)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Deformation of Solids: core principle",
-            "a": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Stress",
-            "a": "Force per unit cross-sectional area."
-        },
-        {
-            "q": "Strain",
-            "a": "Extension divided by original length (no unit)."
-        },
-        {
-            "q": "Young modulus",
-            "a": "Ratio of stress to strain in the linear elastic region."
-        },
-        {
-            "q": "Deformation of Solids: common mistake",
-            "a": "Applying equations in Deformation of Solids without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Deformation of Solids, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Deformation of Solids Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Stress?",
-                "opts": [
-                    "Force per unit cross-sectional area.",
-                    "Extension divided by original length (no unit).",
-                    "Ratio of stress to strain in the linear elastic region.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Stress."
-            },
-            {
-                "q": "Which statement about Deformation of Solids is correct?",
-                "opts": [
-                    "Stress and strain quantify material response to loading.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Strain?",
-                "opts": [
-                    "Extension divided by original length (no unit).",
-                    "Force per unit cross-sectional area.",
-                    "Ratio of stress to strain in the linear elastic region.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Strain."
-            },
-            {
-                "q": "Which exam approach is most reliable for Deformation of Solids?",
-                "opts": [
-                    "For Deformation of Solids, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Deformation of Solids?",
-                "opts": [
-                    "Hooke law behaviour applies in the elastic region.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "deformation-solids",
+  "subject": "phy",
+  "title": "Deformation of Solids",
+  "subtitle": "Hooke's law, elastic/plastic behaviour, stress, strain and Young modulus.",
+  "concept": [
+    "Hooke's law: extension is proportional to force, up to the limit of proportionality; beyond the elastic limit, permanent deformation occurs.",
+    "Stress (\u03c3 = F/A) and strain (\u03b5 = e/L\u2080) are intensive quantities; the Young modulus E = \u03c3/\u03b5 is a material property.",
+    "The area under a force\u2013extension graph gives the elastic energy (strain energy) stored."
+  ],
+  "notes": [
+    {
+      "heading": "Hooke's Law",
+      "items": [
+        "F = ke (force = spring constant \u00d7 extension).",
+        "Spring constant k: stiffness in N m\u207b\u00b9 (or N mm\u207b\u00b9). Steeper gradient = stiffer spring.",
+        "Limit of proportionality: beyond this point, F \u221d e no longer holds.",
+        "Elastic limit: beyond this point, permanent (plastic) deformation occurs.",
+        "Elastic deformation: returns to original shape when force removed. Plastic: permanent change."
+      ]
+    },
+    {
+      "heading": "Stress, Strain and Young Modulus",
+      "items": [
+        "Stress \u03c3 = F/A (Pa = N m\u207b\u00b2); force per unit cross-sectional area.",
+        "Strain \u03b5 = e/L\u2080 (dimensionless); fractional extension.",
+        "Young modulus E = \u03c3/\u03b5 = (F/A)/(e/L\u2080) = FL\u2080/(Ae); units: Pa.",
+        "E is a material property (same for all samples of a material); k depends on dimensions.",
+        "Gradient of stress\u2013strain graph = E (in the linear Hooke's law region)."
+      ]
+    },
+    {
+      "heading": "Elastic Energy (Strain Energy)",
+      "items": [
+        "For Hooke's law material: E_el = \u00bdFe = \u00bdke\u00b2.",
+        "Graphically: area under F\u2013e graph up to that extension.",
+        "For loading and unloading: if material is elastic, the curves coincide. If plastic deformation: loading curve above unloading curve; area between curves = energy lost as heat (hysteresis)."
+      ]
+    },
+    {
+      "heading": "Stress-Strain Graphs",
+      "items": [
+        "Gradient = Young modulus (up to limit of proportionality).",
+        "Yield point: beyond elastic limit, large strain with small stress increase.",
+        "Ultimate tensile stress (UTS): maximum stress before fracture.",
+        "Ductile materials: large plastic region (e.g. copper, mild steel). Brittle: fracture before significant plastic deformation (e.g. glass, ceramics)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Hooke's law",
+      "body": "The extension of a spring (or wire) is proportional to the applied force, provided the limit of proportionality is not exceeded: F = ke."
+    },
+    {
+      "term": "Young modulus",
+      "body": "The ratio of tensile stress to tensile strain: E = \u03c3/\u03b5; units Pa; a material property independent of size and shape."
+    },
+    {
+      "term": "Elastic limit",
+      "body": "The maximum force (or stress) beyond which a material undergoes permanent deformation and will not return to its original dimensions."
+    },
+    {
+      "term": "Strain energy",
+      "body": "The energy stored in a deformed elastic material: E_el = \u00bdFe = \u00bdke\u00b2; equals the area under the F\u2013e graph."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A steel wire of length 2.00 m and cross-sectional area 1.00 \u00d7 10\u207b\u2076 m\u00b2 extends by 1.60 mm when a 100 N load is applied. Calculate the Young modulus.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Stress",
+          "text": "\u03c3 = F/A = 100 / 1.00\u00d710\u207b\u2076 = 1.00\u00d710\u2078 Pa"
+        },
+        {
+          "n": 2,
+          "sub": "Strain",
+          "text": "\u03b5 = e/L\u2080 = 1.60\u00d710\u207b\u00b3 / 2.00 = 8.00\u00d710\u207b\u2074"
+        },
+        {
+          "n": 3,
+          "sub": "Young modulus",
+          "text": "E = \u03c3/\u03b5 = 1.00\u00d710\u2078 / 8.00\u00d710\u207b\u2074 = 1.25\u00d710\u00b9\u00b9 Pa"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing the limit of proportionality (F \u221d e ends) with the elastic limit (permanent deformation begins) \u2014 they are close but not identical.",
+    "Using k (spring constant) when the question asks for E (Young modulus) \u2014 they are different quantities.",
+    "Forgetting the factor of \u00bd in strain energy: E_el = \u00bdFe, not Fe."
+  ],
+  "tips": [
+    "Young modulus calculation: write F, A, e, L\u2080 clearly, then calculate \u03c3 and \u03b5 before dividing.",
+    "Area under F\u2013e graph = strain energy; for a triangle (Hooke's law region): area = \u00bd \u00d7 base \u00d7 height = \u00bdFe.",
+    "Material vs shape: E is a material property; k depends on length and area (k = EA/L\u2080)."
+  ],
+  "flashcards": [
+    {
+      "q": "State Hooke's law.",
+      "a": "F = ke; extension is proportional to force, up to the limit of proportionality."
+    },
+    {
+      "q": "What is the Young modulus?",
+      "a": "E = \u03c3/\u03b5 = (F/A)/(e/L\u2080); units Pa; a material property relating stress to strain."
+    },
+    {
+      "q": "What is the strain energy stored in a spring at extension e?",
+      "a": "E_el = \u00bdke\u00b2 = \u00bdFe (area under the F\u2013e graph)."
+    },
+    {
+      "q": "What is the difference between elastic and plastic deformation?",
+      "a": "Elastic: material returns to original shape when force removed. Plastic: permanent deformation remains."
+    },
+    {
+      "q": "Define stress and strain.",
+      "a": "Stress \u03c3 = F/A (Pa); strain \u03b5 = e/L\u2080 (dimensionless)."
+    },
+    {
+      "q": "A material has a large plastic region on its stress\u2013strain graph. What type of material is it?",
+      "a": "Ductile (e.g. copper, mild steel) \u2014 can be drawn into wires or shaped without fracturing."
+    }
+  ],
+  "quiz": {
+    "title": "Deformation of Solids Quiz",
+    "questions": [
+      {
+        "q": "A spring with k = 400 N m\u207b\u00b9 extends by 0.05 m. What is the elastic energy stored?",
+        "opts": [
+          "1 J",
+          "0.5 J",
+          "10 J",
+          "20 J"
+        ],
+        "ans": 1,
+        "exp": "E = \u00bdke\u00b2 = \u00bd\u00d7400\u00d70.05\u00b2 = \u00bd\u00d7400\u00d70.0025 = 0.50 J. (ans = 1 corrected)"
+      },
+      {
+        "q": "What does the gradient of a stress\u2013strain graph give (in the linear region)?",
+        "opts": [
+          "Spring constant",
+          "Strain energy",
+          "Young modulus",
+          "Elastic limit"
+        ],
+        "ans": 2,
+        "exp": "Gradient = \u03c3/\u03b5 = Young modulus (in the linear/proportional region)."
+      },
+      {
+        "q": "Stress has the SI unit of:",
+        "opts": [
+          "N m",
+          "J",
+          "Pa (N m\u207b\u00b2)",
+          "kg m\u207b\u00b9"
+        ],
+        "ans": 2,
+        "exp": "Stress = force/area; units = N/m\u00b2 = Pascal (Pa)."
+      },
+      {
+        "q": "A material fractures without significant plastic deformation. What type is it?",
+        "opts": [
+          "Ductile",
+          "Malleable",
+          "Brittle",
+          "Elastic"
+        ],
+        "ans": 2,
+        "exp": "Brittle materials (e.g. glass, cast iron) fracture suddenly with little plastic deformation."
+      },
+      {
+        "q": "A wire of length L\u2080 and area A has Young modulus E. What is its spring constant k?",
+        "opts": [
+          "E\u00d7L\u2080/A",
+          "E\u00d7A/L\u2080",
+          "E/(A\u00d7L\u2080)",
+          "E\u00d7A\u00d7L\u2080"
+        ],
+        "ans": 1,
+        "exp": "From F = ke and E = FL\u2080/(Ae): k = F/e = EA/L\u2080."
+      }
+    ]
+  },
+  "recall": [
+    "State Hooke's law and identify the spring constant from a F\u2013e graph.",
+    "Define stress, strain and Young modulus and state their units.",
+    "Calculate the Young modulus from experimental data.",
+    "Calculate strain energy from the area under a F\u2013e graph.",
+    "Distinguish between elastic, plastic, ductile and brittle behaviour."
+  ],
+  "summary": [
+    {
+      "label": "Hooke's law",
+      "value": "F = ke (up to limit of proportionality)"
+    },
+    {
+      "label": "Stress",
+      "value": "\u03c3 = F/A (Pa)"
+    },
+    {
+      "label": "Strain",
+      "value": "\u03b5 = e/L\u2080 (dimensionless)"
+    },
+    {
+      "label": "Young modulus",
+      "value": "E = \u03c3/\u03b5 (Pa); material property"
+    },
+    {
+      "label": "Strain energy",
+      "value": "\u00bdFe = \u00bdke\u00b2"
+    },
+    {
+      "label": "Ductile vs brittle",
+      "value": "ductile: large plastic region; brittle: fractures early"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 6"
 }

@@ -1,238 +1,209 @@
 {
-    "id": "organic-synthesis",
-    "subject": "chem",
-    "title": "Organic Synthesis",
-    "subtitle": "Organic Synthesis with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 21",
-    "concept": [
-        "Organic Synthesis explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Synthetic routes are built around controlled functional-group interconversions.",
-        "Backward planning helps choose practical starting molecules."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Organic Synthesis explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Synthetic routes are built around controlled functional-group interconversions.",
-                "Backward planning helps choose practical starting molecules."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Organic Synthesis ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Synthetic route",
-            "body": "Planned sequence of reactions used to convert starting material to target product."
-        },
-        {
-            "term": "Interconversion",
-            "body": "Conversion of one functional group into another in a synthesis route."
-        },
-        {
-            "term": "Selectivity",
-            "body": "Preference of a reaction pathway for one product over alternatives."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Organic Synthesis.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Organic Synthesis explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Synthetic routes are built around controlled functional-group interconversions."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Organic Synthesis reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Organic Synthesis?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Organic Synthesis without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Organic Synthesis questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Organic Synthesis?",
-            "a": "Organic Synthesis explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Synthetic route.",
-            "a": "Planned sequence of reactions used to convert starting material to target product."
-        },
-        {
-            "q": "Define Interconversion.",
-            "a": "Conversion of one functional group into another in a synthesis route."
-        },
-        {
-            "q": "What exam strategy works best for Organic Synthesis?",
-            "a": "In Organic Synthesis questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Organic Synthesis explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Synthetic routes are built around controlled functional-group interconversions."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Backward planning helps choose practical starting molecules."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Synthetic route"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 21"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Multi-step planning; identify functional group transforms"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Organic Synthesis: core principle",
-            "a": "Organic Synthesis explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Synthetic route",
-            "a": "Planned sequence of reactions used to convert starting material to target product."
-        },
-        {
-            "q": "Interconversion",
-            "a": "Conversion of one functional group into another in a synthesis route."
-        },
-        {
-            "q": "Selectivity",
-            "a": "Preference of a reaction pathway for one product over alternatives."
-        },
-        {
-            "q": "Organic Synthesis: common mistake",
-            "a": "Giving trends in Organic Synthesis without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Organic Synthesis questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Organic Synthesis Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Synthetic route?",
-                "opts": [
-                    "Planned sequence of reactions used to convert starting material to target product.",
-                    "Conversion of one functional group into another in a synthesis route.",
-                    "Preference of a reaction pathway for one product over alternatives.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Synthetic route."
-            },
-            {
-                "q": "Which statement about Organic Synthesis is correct?",
-                "opts": [
-                    "Synthetic routes are built around controlled functional-group interconversions.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Interconversion?",
-                "opts": [
-                    "Conversion of one functional group into another in a synthesis route.",
-                    "Planned sequence of reactions used to convert starting material to target product.",
-                    "Preference of a reaction pathway for one product over alternatives.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Interconversion."
-            },
-            {
-                "q": "Which exam approach is most reliable for Organic Synthesis?",
-                "opts": [
-                    "In Organic Synthesis questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Organic Synthesis?",
-                "opts": [
-                    "Backward planning helps choose practical starting molecules.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "organic-synthesis",
+  "subject": "chem",
+  "title": "Organic Synthesis",
+  "subtitle": "Multi-step synthesis, functional group interconversion and planning routes.",
+  "concept": [
+    "Organic synthesis involves planning a series of reactions to convert a starting material to a target molecule, choosing appropriate reagents and conditions at each step.",
+    "Key transformations: alkene \u2192 halogenoalkane \u2192 alcohol \u2192 aldehyde/ketone \u2192 carboxylic acid \u2192 ester; nitrile \u2192 amine or carboxylic acid.",
+    "Purification and yield are important practical considerations."
+  ],
+  "notes": [
+    {
+      "heading": "Key Functional Group Conversions",
+      "items": [
+        "Alkane \u2192 halogenoalkane: UV light + halogen (free radical substitution).",
+        "Alkene \u2192 halogenoalkane: HX, room temp (electrophilic addition; Markovnikov).",
+        "Alkene \u2192 diol: cold KMnO\u2084 or H\u2082O/H\u2082SO\u2084 (acid).",
+        "Halogenoalkane \u2192 alcohol: NaOH(aq), warm.",
+        "Halogenoalkane \u2192 nitrile: NaCN/KCN, ethanol (+1C).",
+        "Halogenoalkane \u2192 amine: excess NH\u2083, sealed tube.",
+        "Primary alcohol \u2192 aldehyde: K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 + distil.",
+        "Primary alcohol \u2192 carboxylic acid: K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 + reflux.",
+        "Secondary alcohol \u2192 ketone: K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 + reflux.",
+        "Aldehyde/ketone \u2192 alcohol: NaBH\u2084.",
+        "Nitrile \u2192 amine: LiAlH\u2084; nitrile \u2192 carboxylic acid: HCl(aq) reflux or NaOH(aq) then acidify.",
+        "Carboxylic acid \u2192 ester: ROH + H\u2082SO\u2084 catalyst; acyl chloride + ROH (faster).",
+        "Acyl chloride \u2192 amide: NH\u2083 or amine."
+      ]
+    },
+    {
+      "heading": "Multi-Step Synthesis",
+      "items": [
+        "Work backwards from the target (retrosynthetic analysis): identify the last bond formed, then work back.",
+        "Consider: chain length, functional group, oxidation state, stereochemistry.",
+        "Write reagents and conditions for each step; account for intermediate purification."
+      ]
+    },
+    {
+      "heading": "Practical Considerations",
+      "items": [
+        "Yield: % yield = (actual moles / theoretical moles) \u00d7 100. Use excess of cheap reagent to improve yield.",
+        "Purity: distillation, recrystallisation, chromatography.",
+        "Test for purity: melting point (pure compound melts sharply at expected MP; impurities lower MP and broaden range)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Retrosynthetic analysis",
+      "body": "Working backwards from the target molecule to identify synthetic routes and starting materials."
+    },
+    {
+      "term": "Percentage yield",
+      "body": "(Actual moles of product / theoretical moles of product) \u00d7 100%."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Outline the conversion of bromoethane to ethylamine in two steps via a nitrile.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Step 1",
+          "text": "CH\u2083CH\u2082Br + NaCN (ethanol) \u2192 CH\u2083CH\u2082CN + NaBr (nucleophilic substitution \u2192 propanenitrile)."
+        },
+        {
+          "n": 2,
+          "sub": "Step 2",
+          "text": "CH\u2083CH\u2082CN + 4[H] (LiAlH\u2084, then H\u2082O) \u2192 CH\u2083CH\u2082CH\u2082NH\u2082 (propylamine) \u2014 reduction of nitrile."
+        },
+        {
+          "n": 3,
+          "sub": "Note",
+          "text": "This sequence extends the chain by one carbon AND introduces \u2013NH\u2082."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Losing track of carbon chain length \u2014 always count C atoms in reactant and product.",
+    "Using the wrong oxidation state conditions \u2014 distil for aldehyde, reflux for carboxylic acid.",
+    "Forgetting that NaCN increases the chain length by 1 carbon."
+  ],
+  "tips": [
+    "Learn the 'ladder' of oxidation states: alkane \u2192 (UV/X\u2082) halogenoalkane \u2192 (NaOH aq) alcohol \u2192 (Cr\u2082O\u2087\u00b2\u207b) aldehyde \u2192 carboxylic acid.",
+    "For each step: state (i) reagent, (ii) conditions/solvent, (iii) type of reaction.",
+    "A nitrile route: halogenoalkane \u2192 nitrile (+1C) \u2192 amine (LiAlH\u2084) OR carboxylic acid (HCl reflux or NaOH then acid)."
+  ],
+  "flashcards": [
+    {
+      "q": "What reagent converts an aldehyde to a primary alcohol?",
+      "a": "NaBH\u2084 (sodium borohydride) in aqueous/ethanol \u2014 nucleophilic addition/reduction."
+    },
+    {
+      "q": "How do you increase the carbon chain length by one carbon from a halogenoalkane?",
+      "a": "React with NaCN (in ethanol) \u2192 nitrile (RCN); the nitrile has one more carbon than the halogenoalkane."
+    },
+    {
+      "q": "What is retrosynthetic analysis?",
+      "a": "Working backwards from the target molecule to identify the starting material and reagents for each step."
+    },
+    {
+      "q": "What conditions convert a nitrile to a carboxylic acid?",
+      "a": "Reflux with HCl(aq) (or NaOH(aq), then acidify) \u2192 RCOOH + NH\u2084\u207a (or NH\u2083)."
+    },
+    {
+      "q": "How do you test purity of an organic solid?",
+      "a": "Measure the melting point: pure substance melts sharply at the expected temperature; impurities lower and broaden the melting point range."
+    },
+    {
+      "q": "What is the reagent for converting a carboxylic acid to an ester without a catalyst?",
+      "a": "Use an acyl chloride + alcohol (no catalyst needed \u2014 faster than esterification with H\u2082SO\u2084)."
+    }
+  ],
+  "quiz": {
+    "title": "Organic Synthesis Quiz",
+    "questions": [
+      {
+        "q": "What reagents convert CH\u2083CH\u2082Br to CH\u2083CH\u2082OH?",
+        "opts": [
+          "NaCN, ethanol",
+          "KOH, ethanol, hot",
+          "NaOH(aq), warm",
+          "NH\u2083, sealed tube"
+        ],
+        "ans": 2,
+        "exp": "Warm aqueous NaOH: nucleophilic substitution replacing Br\u207b with OH\u207b \u2192 alcohol."
+      },
+      {
+        "q": "How would you convert ethanol to ethanoic acid in one step?",
+        "opts": [
+          "K\u2082Cr\u2082O\u2087/H\u2082SO\u2084, distil",
+          "K\u2082Cr\u2082O\u2087/H\u2082SO\u2084, reflux",
+          "NaBH\u2084",
+          "HCl(aq), reflux"
+        ],
+        "ans": 1,
+        "exp": "Refluxing ethanol with acidified K\u2082Cr\u2082O\u2087 oxidises first to ethanal, then further to ethanoic acid."
+      },
+      {
+        "q": "A student wants to make butanenitrile from 1-bromopropane. What reagent is needed?",
+        "opts": [
+          "NaOH(aq)",
+          "NH\u2083, sealed",
+          "LiAlH\u2084",
+          "NaCN, ethanol"
+        ],
+        "ans": 3,
+        "exp": "NaCN in ethanol: 1-bromopropane (3C) + CN\u207b \u2192 butanenitrile (4C) + Br\u207b."
+      },
+      {
+        "q": "Which sequence converts propan-1-ol to propan-1-amine?",
+        "opts": [
+          "Oxidise then react with NH\u2083",
+          "Reflux with NaOH",
+          "Dehydrate then react with NH\u2083",
+          "Oxidise to acid, then react with PCl\u2085, then NH\u2083"
+        ],
+        "ans": 3,
+        "exp": "propan-1-ol \u2192 propanoic acid (reflux, Cr\u2082O\u2087\u00b2\u207b) \u2192 propanoyl chloride (PCl\u2085) \u2192 propanamide (NH\u2083) \u2192 propylamine (LiAlH\u2084)."
+      },
+      {
+        "q": "What is % yield if 3.6 g of product is obtained when 6.0 g is theoretically possible?",
+        "opts": [
+          "40%",
+          "60%",
+          "75%",
+          "167%"
+        ],
+        "ans": 1,
+        "exp": "% yield = (3.6/6.0) \u00d7 100 = 60%."
+      }
+    ]
+  },
+  "recall": [
+    "List four functional group interconversions you can perform starting from a halogenoalkane.",
+    "Describe how to extend a carbon chain by one using the nitrile route.",
+    "Explain what retrosynthetic analysis involves.",
+    "Calculate % yield from actual and theoretical masses.",
+    "Describe how to test the purity of an organic product."
+  ],
+  "summary": [
+    {
+      "label": "Halogenoalkane \u2192 alcohol",
+      "value": "NaOH(aq), warm"
+    },
+    {
+      "label": "Halogenoalkane \u2192 nitrile",
+      "value": "NaCN, ethanol (+1C)"
+    },
+    {
+      "label": "Halogenoalkane \u2192 amine",
+      "value": "excess NH\u2083, sealed tube"
+    },
+    {
+      "label": "1\u00b0 alcohol \u2192 aldehyde",
+      "value": "Cr\u2082O\u2087\u00b2\u207b/H\u2082SO\u2084, distil"
+    },
+    {
+      "label": "Aldehyde \u2192 1\u00b0 alcohol",
+      "value": "NaBH\u2084"
+    },
+    {
+      "label": "% yield",
+      "value": "(actual/theoretical) \u00d7 100"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topics 13\u201317"
 }

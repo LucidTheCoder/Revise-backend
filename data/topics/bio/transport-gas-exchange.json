@@ -1,238 +1,222 @@
 {
-    "id": "transport-gas-exchange",
-    "subject": "bio",
-    "title": "Transport and Gas Exchange",
-    "subtitle": "Transport and Gas Exchange with mechanism-focused explanation and exam-linked examples.",
-    "concept": [
-        "Transport systems overcome diffusion limits in multicellular organisms by moving materials over long distances quickly. Specialized tissues and pressure gradients enable controlled bulk flow.",
-        "In plants, xylem and phloem perform different transport roles. In mammals, blood circulation and ventilation work together to deliver oxygen and remove carbon dioxide.",
-        "Gas exchange surfaces are designed for diffusion efficiency: large surface area, short diffusion pathway, and maintained concentration gradients."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Transport systems overcome diffusion limits in multicellular organisms by moving materials over long distances quickly. Specialized tissues and pressure gradients enable controlled bulk flow.",
-                "In plants, xylem and phloem perform different transport roles. In mammals, blood circulation and ventilation work together to deliver oxygen and remove carbon dioxide.",
-                "Gas exchange surfaces are designed for diffusion efficiency: large surface area, short diffusion pathway, and maintained concentration gradients."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Transport and Gas Exchange ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Transpiration",
-            "body": "Loss of water vapor from plant surfaces, mainly through stomata."
-        },
-        {
-            "term": "Translocation",
-            "body": "Movement of assimilates in phloem from source regions to sink regions."
-        },
-        {
-            "term": "Ventilation",
-            "body": "Movement of air into and out of the lungs."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Transport and Gas Exchange.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Transport systems overcome diffusion limits in multicellular organisms by moving materials over long distances quickly. Specialized tissues and pressure gradients enable controlled bulk flow."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "In plants, xylem and phloem perform different transport roles. In mammals, blood circulation and ventilation work together to deliver oxygen and remove carbon dioxide."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Transport and Gas Exchange reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Transport and Gas Exchange?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Transport and Gas Exchange outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Transport and Gas Exchange responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Transport and Gas Exchange?",
-            "a": "Transport systems overcome diffusion limits in multicellular organisms by moving materials over long distances quickly. Specialized tissues and pressure gradients enable controlled bulk flow."
-        },
-        {
-            "q": "Define Transpiration.",
-            "a": "Loss of water vapor from plant surfaces, mainly through stomata."
-        },
-        {
-            "q": "Define Translocation.",
-            "a": "Movement of assimilates in phloem from source regions to sink regions."
-        },
-        {
-            "q": "What exam strategy works best for Transport and Gas Exchange?",
-            "a": "In Transport and Gas Exchange responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Transport systems overcome diffusion limits in multicellular organisms by moving materials over long distances quickly. Specialized tissues and pressure gradients enable controlled bulk flow."
-        },
-        {
-            "label": "Applied Model",
-            "val": "In plants, xylem and phloem perform different transport roles. In mammals, blood circulation and ventilation work together to deliver oxygen and remove carbon dioxide."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Gas exchange surfaces are designed for diffusion efficiency: large surface area, short diffusion pathway, and maintained concentration gradients."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Transpiration"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topics 7 to 9"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Haemoglobin saturation curve; cooperative binding"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Transport and Gas Exchange: core principle",
-            "a": "Transport systems overcome diffusion limits in multicellular organisms by moving materials over long distances quickly. Specialized tissues and pressure gradients enable controlled bulk flow."
-        },
-        {
-            "q": "Transpiration",
-            "a": "Loss of water vapor from plant surfaces, mainly through stomata."
-        },
-        {
-            "q": "Translocation",
-            "a": "Movement of assimilates in phloem from source regions to sink regions."
-        },
-        {
-            "q": "Ventilation",
-            "a": "Movement of air into and out of the lungs."
-        },
-        {
-            "q": "Transport and Gas Exchange: common mistake",
-            "a": "Describing Transport and Gas Exchange outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Transport and Gas Exchange responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Transport and Gas Exchange Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Transpiration?",
-                "opts": [
-                    "Loss of water vapor from plant surfaces, mainly through stomata.",
-                    "Movement of assimilates in phloem from source regions to sink regions.",
-                    "Movement of air into and out of the lungs.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Transpiration."
-            },
-            {
-                "q": "Which statement about Transport and Gas Exchange is correct?",
-                "opts": [
-                    "In plants, xylem and phloem perform different transport roles. In mammals, blood circulation and ventilation work together to deliver oxygen and remove carbon dioxide.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Translocation?",
-                "opts": [
-                    "Movement of assimilates in phloem from source regions to sink regions.",
-                    "Loss of water vapor from plant surfaces, mainly through stomata.",
-                    "Movement of air into and out of the lungs.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Translocation."
-            },
-            {
-                "q": "Which exam approach is most reliable for Transport and Gas Exchange?",
-                "opts": [
-                    "In Transport and Gas Exchange responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Transport and Gas Exchange?",
-                "opts": [
-                    "Gas exchange surfaces are designed for diffusion efficiency: large surface area, short diffusion pathway, and maintained concentration gradients.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "transport-gas-exchange",
+  "subject": "bio",
+  "title": "Transport and Gas Exchange",
+  "subtitle": "Integrating gas exchange, blood transport and circulatory adaptations.",
+  "concept": [
+    "CO\u2082 is transported mainly as hydrogencarbonate ions (HCO\u2083\u207b) in plasma; O\u2082 is transported mainly by haemoglobin in red blood cells.",
+    "The chloride shift maintains electrical neutrality as HCO\u2083\u207b leaves red blood cells.",
+    "Adaptations of red blood cells \u2014 biconcave disc shape, no nucleus, packed with Hb \u2014 maximise O\u2082 carrying capacity."
+  ],
+  "notes": [
+    {
+      "heading": "Oxygen Transport",
+      "items": [
+        "98.5% O\u2082 is carried as oxyhaemoglobin inside red blood cells; 1.5% dissolved in plasma.",
+        "Each haemoglobin molecule carries up to 4 O\u2082; loading in lungs (high pO\u2082); unloading in tissues (low pO\u2082).",
+        "Cooperativity: first O\u2082 binding changes Hb shape \u2192 easier for 2nd, 3rd, 4th O\u2082 to bind \u2192 S-shaped dissociation curve."
+      ]
     },
-    "syllabusRef": "9700 AS Topics 7 to 9"
+    {
+      "heading": "CO\u2082 Transport",
+      "items": [
+        "~70% as HCO\u2083\u207b in plasma: CO\u2082 + H\u2082O \u2192 H\u2082CO\u2083 \u2192 H\u207a + HCO\u2083\u207b (catalysed by carbonic anhydrase in RBCs). HCO\u2083\u207b exits RBC into plasma; Cl\u207b enters (chloride shift) to maintain charge balance.",
+        "~23% as carbaminohaemoglobin (CO\u2082 bound to amino groups of Hb).",
+        "~7% dissolved in plasma."
+      ]
+    },
+    {
+      "heading": "Red Blood Cell Adaptations",
+      "items": [
+        "Biconcave disc: large surface area : volume ratio for rapid O\u2082 diffusion; flexible to squeeze through capillaries.",
+        "No nucleus: more space for haemoglobin (~280 million Hb per RBC).",
+        "No mitochondria: RBCs respire anaerobically \u2192 don't use the O\u2082 they carry.",
+        "Short lifespan (~120 days): replaced by new RBCs from bone marrow."
+      ]
+    },
+    {
+      "heading": "Adaptations in Other Organisms",
+      "items": [
+        "Llamas/alpacas: Hb with higher O\u2082 affinity at altitude (lower pO\u2082).",
+        "Diving mammals (e.g. seals): higher myoglobin content in muscles; higher blood volume; store O\u2082 for extended dives.",
+        "Insects: use tracheal system; no blood O\u2082 transport.",
+        "Fish: gills; counter-current exchange (covered in gas exchange topic)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Chloride shift",
+      "body": "The movement of Cl\u207b ions into red blood cells to replace HCO\u2083\u207b ions that have moved into plasma, maintaining electrical neutrality."
+    },
+    {
+      "term": "Carbonic anhydrase",
+      "body": "An enzyme in red blood cells that catalyses the reversible reaction CO\u2082 + H\u2082O \u21cc H\u2082CO\u2083."
+    },
+    {
+      "term": "Carbaminohaemoglobin",
+      "body": "Haemoglobin with CO\u2082 bound to its amino groups (~23% of CO\u2082 transport)."
+    },
+    {
+      "term": "Cooperativity",
+      "body": "The property of haemoglobin whereby binding of one O\u2082 molecule increases the affinity for subsequent O\u2082 molecules, producing an S-shaped dissociation curve."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain how CO\u2082 produced by respiring muscle cells is transported to the lungs.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Entry into RBC",
+          "text": "CO\u2082 diffuses from muscle cells into plasma, then into red blood cells."
+        },
+        {
+          "n": 2,
+          "sub": "Conversion",
+          "text": "Inside RBCs, carbonic anhydrase catalyses: CO\u2082 + H\u2082O \u2192 H\u2082CO\u2083 \u2192 H\u207a + HCO\u2083\u207b."
+        },
+        {
+          "n": 3,
+          "sub": "HCO\u2083\u207b transport",
+          "text": "HCO\u2083\u207b diffuses out of RBCs into plasma; Cl\u207b moves in (chloride shift) to maintain electrical neutrality."
+        },
+        {
+          "n": 4,
+          "sub": "At lungs",
+          "text": "Low CO\u2082 in alveoli reverses the reaction; CO\u2082 diffuses into alveoli and is exhaled. H\u207a binds back to Hb."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Forgetting that carbonic anhydrase is inside red blood cells (not plasma).",
+    "Stating CO\u2082 is mostly carried dissolved in plasma \u2014 70% is as HCO\u2083\u207b, not dissolved.",
+    "Forgetting the chloride shift is needed to maintain electrical neutrality after HCO\u2083\u207b leaves the RBC."
+  ],
+  "tips": [
+    "The Bohr effect links CO\u2082 transport to O\u2082 unloading: high CO\u2082 \u2192 low pH \u2192 Hb releases O\u2082 (right shift of curve).",
+    "Remember the proportions: ~70% HCO\u2083\u207b, ~23% carbaminoHb, ~7% dissolved.",
+    "RBC has no nucleus \u2192 more Hb. No mitochondria \u2192 doesn't consume O\u2082 it carries (uses anaerobic respiration)."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the chloride shift?",
+      "a": "Cl\u207b moves into RBCs to replace HCO\u2083\u207b leaving into plasma, maintaining electrical neutrality."
+    },
+    {
+      "q": "What percentage of CO\u2082 is carried as hydrogencarbonate ions?",
+      "a": "~70% as HCO\u2083\u207b in plasma."
+    },
+    {
+      "q": "Why do red blood cells have no nucleus?",
+      "a": "To maximise space for haemoglobin, increasing O\u2082 carrying capacity."
+    },
+    {
+      "q": "What does carbonic anhydrase do?",
+      "a": "Catalyses CO\u2082 + H\u2082O \u21cc H\u2082CO\u2083 inside red blood cells \u2014 speeding up CO\u2082 transport."
+    },
+    {
+      "q": "What shape are red blood cells and what is the advantage?",
+      "a": "Biconcave disc \u2014 large surface area : volume ratio for rapid O\u2082 diffusion; flexible for squeezing through capillaries."
+    },
+    {
+      "q": "What is cooperativity in haemoglobin?",
+      "a": "Binding of the first O\u2082 increases Hb's affinity for the next, producing the S-shaped dissociation curve."
+    }
+  ],
+  "quiz": {
+    "title": "Transport and Gas Exchange Quiz",
+    "questions": [
+      {
+        "q": "What proportion of CO\u2082 is transported as HCO\u2083\u207b?",
+        "opts": [
+          "7%",
+          "23%",
+          "70%",
+          "98.5%"
+        ],
+        "ans": 2,
+        "exp": "About 70% of CO\u2082 is transported as hydrogencarbonate ions in plasma."
+      },
+      {
+        "q": "Why do red blood cells lack mitochondria?",
+        "opts": [
+          "To reduce cell mass",
+          "So they don't consume the O\u2082 they carry (use anaerobic respiration)",
+          "To increase surface area",
+          "Because they don't need energy"
+        ],
+        "ans": 1,
+        "exp": "RBCs produce ATP anaerobically \u2014 having no mitochondria means the O\u2082 they carry is available for delivery to tissues."
+      },
+      {
+        "q": "The chloride shift involves:",
+        "opts": [
+          "H\u207a entering RBCs",
+          "Cl\u207b entering RBCs as HCO\u2083\u207b leaves",
+          "HCO\u2083\u207b entering RBCs",
+          "CO\u2082 leaving RBCs"
+        ],
+        "ans": 1,
+        "exp": "As HCO\u2083\u207b leaves RBCs into plasma, Cl\u207b moves in to maintain electrical neutrality \u2014 this is the chloride shift."
+      },
+      {
+        "q": "Which enzyme catalyses CO\u2082 + H\u2082O \u21cc H\u2082CO\u2083 in red blood cells?",
+        "opts": [
+          "Haemoglobin",
+          "Carbonic anhydrase",
+          "Catalase",
+          "Amylase"
+        ],
+        "ans": 1,
+        "exp": "Carbonic anhydrase in RBCs dramatically speeds up this reversible reaction."
+      },
+      {
+        "q": "What does the S-shape of the oxygen dissociation curve indicate?",
+        "opts": [
+          "Hb has constant affinity for O\u2082",
+          "Cooperativity \u2014 each O\u2082 bound increases affinity for next",
+          "O\u2082 dissociates in a linear fashion",
+          "Hb is fully saturated at all pO\u2082"
+        ],
+        "ans": 1,
+        "exp": "Cooperativity causes the S-shape: after the first O\u2082 binds, affinity increases, so the curve rises steeply, then levels off at saturation."
+      }
+    ]
+  },
+  "recall": [
+    "Describe three ways CO\u2082 is transported in blood and their proportions.",
+    "Explain the chloride shift.",
+    "Describe the adaptations of red blood cells for O\u2082 transport.",
+    "Explain cooperativity in haemoglobin.",
+    "Explain how the Bohr effect links CO\u2082 production to O\u2082 delivery."
+  ],
+  "summary": [
+    {
+      "label": "O\u2082 transport",
+      "value": "98.5% as oxyHb; 1.5% dissolved"
+    },
+    {
+      "label": "CO\u2082 transport",
+      "value": "70% HCO\u2083\u207b; 23% carbaminoHb; 7% dissolved"
+    },
+    {
+      "label": "Chloride shift",
+      "value": "Cl\u207b in, HCO\u2083\u207b out \u2014 electrical neutrality"
+    },
+    {
+      "label": "Carbonic anhydrase",
+      "value": "CO\u2082 + H\u2082O \u21cc H\u2082CO\u2083 (inside RBC)"
+    },
+    {
+      "label": "RBC adaptations",
+      "value": "biconcave; no nucleus; no mitochondria"
+    },
+    {
+      "label": "Cooperativity",
+      "value": "S-shaped dissociation curve"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topics 7 & 8"
 }

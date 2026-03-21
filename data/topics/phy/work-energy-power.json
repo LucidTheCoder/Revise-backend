@@ -1,238 +1,233 @@
 {
-    "id": "work-energy-power",
-    "subject": "phy",
-    "title": "Work, Energy and Power",
-    "subtitle": "Work, Energy and Power with model-based reasoning, equations, and exam application.",
-    "syllabusRef": "9702 AS Topic 5",
-    "concept": [
-        "Work, Energy and Power uses physical models and measurable quantities to explain and predict system behavior.",
-        "Work done is energy transfer by a force through displacement.",
-        "Energy conservation links kinetic, potential, and other energy stores."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Work, Energy and Power uses physical models and measurable quantities to explain and predict system behavior.",
-                "Work done is energy transfer by a force through displacement.",
-                "Energy conservation links kinetic, potential, and other energy stores."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Work, Energy and Power ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Work done",
-            "body": "Energy transferred when a force acts through a displacement in its direction."
-        },
-        {
-            "term": "Power",
-            "body": "Rate of energy transfer or work done, measured in watts."
-        },
-        {
-            "term": "Efficiency",
-            "body": "Ratio of useful output energy or power to total input energy or power."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Work, Energy and Power.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Work, Energy and Power uses physical models and measurable quantities to explain and predict system behavior."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Work done is energy transfer by a force through displacement."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Work, Energy and Power reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Work, Energy and Power?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Work, Energy and Power without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Work, Energy and Power, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Work, Energy and Power?",
-            "a": "Work, Energy and Power uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Define Work done.",
-            "a": "Energy transferred when a force acts through a displacement in its direction."
-        },
-        {
-            "q": "Define Power.",
-            "a": "Rate of energy transfer or work done, measured in watts."
-        },
-        {
-            "q": "What exam strategy works best for Work, Energy and Power?",
-            "a": "For Work, Energy and Power, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Work, Energy and Power uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Work done is energy transfer by a force through displacement."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Energy conservation links kinetic, potential, and other energy stores."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Work done"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 5"
-        },
-        {
-            "label": "Key Formula",
-            "val": "W = ΔE; P = W/t; η = W_out/W_in"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Work, Energy and Power: core principle",
-            "a": "Work, Energy and Power uses physical models and measurable quantities to explain and predict system behavior."
-        },
-        {
-            "q": "Work done",
-            "a": "Energy transferred when a force acts through a displacement in its direction."
-        },
-        {
-            "q": "Power",
-            "a": "Rate of energy transfer or work done, measured in watts."
-        },
-        {
-            "q": "Efficiency",
-            "a": "Ratio of useful output energy or power to total input energy or power."
-        },
-        {
-            "q": "Work, Energy and Power: common mistake",
-            "a": "Applying equations in Work, Energy and Power without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Work, Energy and Power, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Work, Energy and Power Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Work done?",
-                "opts": [
-                    "Energy transferred when a force acts through a displacement in its direction.",
-                    "Rate of energy transfer or work done, measured in watts.",
-                    "Ratio of useful output energy or power to total input energy or power.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Work done."
-            },
-            {
-                "q": "Which statement about Work, Energy and Power is correct?",
-                "opts": [
-                    "Work done is energy transfer by a force through displacement.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Power?",
-                "opts": [
-                    "Rate of energy transfer or work done, measured in watts.",
-                    "Energy transferred when a force acts through a displacement in its direction.",
-                    "Ratio of useful output energy or power to total input energy or power.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Power."
-            },
-            {
-                "q": "Which exam approach is most reliable for Work, Energy and Power?",
-                "opts": [
-                    "For Work, Energy and Power, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Work, Energy and Power?",
-                "opts": [
-                    "Energy conservation links kinetic, potential, and other energy stores.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "work-energy-power",
+  "subject": "phy",
+  "title": "Work, Energy and Power",
+  "subtitle": "Work done, kinetic and potential energy, efficiency and power.",
+  "concept": [
+    "Work is done when a force causes displacement in the direction of the force: W = Fs cos\u03b8.",
+    "The work-energy theorem states that the net work done on an object equals its change in kinetic energy.",
+    "Energy is conserved in all processes; power is the rate of doing work or transferring energy."
+  ],
+  "notes": [
+    {
+      "heading": "Work Done",
+      "items": [
+        "W = Fs cos\u03b8 (F = force, s = displacement, \u03b8 = angle between force and displacement).",
+        "No work is done if force is perpendicular to displacement (e.g. centripetal force).",
+        "Work done by gas: W = p\u0394V (constant pressure).",
+        "Area under a F\u2013s graph = work done."
+      ]
+    },
+    {
+      "heading": "Energy",
+      "items": [
+        "Kinetic energy: Ek = \u00bdmv\u00b2.",
+        "Gravitational PE: Ep = mgh (h = height above reference level).",
+        "Elastic PE: E = \u00bdkx\u00b2 (Hooke's law spring).",
+        "Work-energy theorem: net work done = \u0394Ek = \u00bdmv\u00b2 \u2212 \u00bdmu\u00b2.",
+        "Conservation of energy: total energy in a closed system is constant; energy converts between forms."
+      ]
+    },
+    {
+      "heading": "Power",
+      "items": [
+        "Power P = W/t = \u0394E/\u0394t; SI unit: watt (W = J s\u207b\u00b9).",
+        "P = Fv (for a constant force and velocity; e.g. vehicle at terminal velocity: P = Fv where F = driving force).",
+        "At terminal velocity: driving force = resistive force; P = Fv (no acceleration)."
+      ]
+    },
+    {
+      "heading": "Efficiency",
+      "items": [
+        "Efficiency = useful output power / total input power = useful energy output / total energy input.",
+        "Expressed as a fraction or percentage: \u03b7 = (P_out / P_in) \u00d7 100%.",
+        "No real machine is 100% efficient (energy dissipated as heat/sound/vibration)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Work done",
+      "body": "W = Fs cos\u03b8; work is done when a force has a component in the direction of displacement; units: joule (J)."
+    },
+    {
+      "term": "Work-energy theorem",
+      "body": "The net work done on an object equals its change in kinetic energy: W_net = \u0394Ek."
+    },
+    {
+      "term": "Power",
+      "body": "The rate of doing work or transferring energy: P = W/t = \u0394E/\u0394t; SI unit: watt (W)."
+    },
+    {
+      "term": "Efficiency",
+      "body": "The ratio of useful output energy (or power) to total input energy (or power); always \u2264 1 (or \u2264 100%)."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A car of mass 1200 kg accelerates from 10 m s\u207b\u00b9 to 30 m s\u207b\u00b9. Calculate the work done by the engine (assume no friction).",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Work-energy theorem",
+          "text": "W = \u0394Ek = \u00bdmv\u00b2 \u2212 \u00bdmu\u00b2"
+        },
+        {
+          "n": 2,
+          "sub": "Substitute",
+          "text": "W = \u00bd\u00d71200\u00d730\u00b2 \u2212 \u00bd\u00d71200\u00d710\u00b2 = 540 000 \u2212 60 000 = 480 000 J"
+        },
+        {
+          "n": 3,
+          "sub": "Answer",
+          "text": "W = 480 kJ"
+        }
+      ]
+    },
+    {
+      "q": "A pump lifts 50 kg of water 8 m every minute. Calculate its minimum power output. (g = 10 m s\u207b\u00b2)",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Work done per minute",
+          "text": "W = mgh = 50\u00d710\u00d78 = 4000 J"
+        },
+        {
+          "n": 2,
+          "sub": "Power",
+          "text": "P = W/t = 4000/60 = 66.7 W"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Forgetting the cos\u03b8 factor in W = Fs cos\u03b8 when force and displacement are not parallel.",
+    "Confusing power (W = J s\u207b\u00b9) with energy (J).",
+    "Using P = Fv for the wrong quantity \u2014 at terminal velocity, F = resistive force, not net force."
+  ],
+  "tips": [
+    "W = Fs cos\u03b8: if the angle is 90\u00b0, cos90\u00b0 = 0, so no work is done (e.g. centripetal force, normal reaction).",
+    "At terminal velocity: acceleration = 0, so driving force = total resistive force; P = Fv gives engine power.",
+    "Efficiency < 100% always \u2014 energy is always lost to surroundings, usually as thermal energy."
+  ],
+  "flashcards": [
+    {
+      "q": "State the formula for work done by a force at an angle.",
+      "a": "W = Fs cos\u03b8 (F = force, s = displacement, \u03b8 = angle between force and displacement)."
+    },
+    {
+      "q": "State the work-energy theorem.",
+      "a": "Net work done on a body = change in its kinetic energy: W_net = \u0394Ek = \u00bdmv\u00b2 \u2212 \u00bdmu\u00b2."
+    },
+    {
+      "q": "What is the formula for power in terms of force and velocity?",
+      "a": "P = Fv (watts, when F in N and v in m s\u207b\u00b9)."
+    },
+    {
+      "q": "What is efficiency?",
+      "a": "Efficiency = useful output power / input power (or useful output energy / input energy); expressed as fraction or %."
+    },
+    {
+      "q": "A spring with k = 200 N m\u207b\u00b9 is compressed by 0.05 m. What is the elastic PE stored?",
+      "a": "E = \u00bdkx\u00b2 = \u00bd\u00d7200\u00d70.05\u00b2 = \u00bd\u00d7200\u00d70.0025 = 0.25 J"
+    },
+    {
+      "q": "Why does a centripetal force do no work?",
+      "a": "The centripetal force is always perpendicular to the velocity (and displacement), so \u03b8 = 90\u00b0 and cos90\u00b0 = 0 \u2192 W = 0."
+    }
+  ],
+  "quiz": {
+    "title": "Work, Energy and Power Quiz",
+    "questions": [
+      {
+        "q": "A 5 N force moves an object 4 m at 60\u00b0 to the force. How much work is done?",
+        "opts": [
+          "10 J",
+          "17.3 J",
+          "20 J",
+          "8.7 J"
+        ],
+        "ans": 0,
+        "exp": "W = Fs cos\u03b8 = 5\u00d74\u00d7cos60\u00b0 = 20\u00d70.5 = 10 J."
+      },
+      {
+        "q": "A 2 kg ball falls from rest through 5 m (g = 10 m s\u207b\u00b2). What is its speed at the bottom?",
+        "opts": [
+          "5 m s\u207b\u00b9",
+          "10 m s\u207b\u00b9",
+          "7 m s\u207b\u00b9",
+          "50 m s\u207b\u00b9"
+        ],
+        "ans": 1,
+        "exp": "Energy conservation: \u00bdmv\u00b2 = mgh; v\u00b2 = 2gh = 2\u00d710\u00d75 = 100; v = 10 m s\u207b\u00b9."
+      },
+      {
+        "q": "A motor has input power 500 W and lifts a mass at 200 W useful output. What is its efficiency?",
+        "opts": [
+          "20%",
+          "40%",
+          "60%",
+          "25%"
+        ],
+        "ans": 1,
+        "exp": "Efficiency = 200/500 = 0.40 = 40%."
+      },
+      {
+        "q": "A car travels at constant 20 m s\u207b\u00b9 against a resistive force of 600 N. What engine power is needed?",
+        "opts": [
+          "30 W",
+          "12 000 W",
+          "600 W",
+          "30 kJ"
+        ],
+        "ans": 1,
+        "exp": "P = Fv = 600\u00d720 = 12 000 W = 12 kW. At terminal velocity, driving force equals resistive force."
+      },
+      {
+        "q": "What does the area under a force\u2013displacement graph represent?",
+        "opts": [
+          "Power",
+          "Momentum",
+          "Impulse",
+          "Work done"
+        ],
+        "ans": 3,
+        "exp": "Area under F\u2013s graph = \u222bF ds = work done."
+      }
+    ]
+  },
+  "recall": [
+    "Calculate work done using W = Fs cos\u03b8.",
+    "Apply the work-energy theorem to find speed changes.",
+    "Calculate power from work done or from P = Fv.",
+    "Calculate efficiency given input and output power.",
+    "Explain why no work is done by a centripetal force."
+  ],
+  "summary": [
+    {
+      "label": "W = Fscos\u03b8",
+      "value": "\u03b8 = angle between F and s"
+    },
+    {
+      "label": "Ek = \u00bdmv\u00b2",
+      "value": "kinetic energy"
+    },
+    {
+      "label": "Ep = mgh",
+      "value": "gravitational PE"
+    },
+    {
+      "label": "Work-energy thm",
+      "value": "W_net = \u0394Ek"
+    },
+    {
+      "label": "P = W/t = Fv",
+      "value": "power"
+    },
+    {
+      "label": "Efficiency",
+      "value": "useful output / input (\u00d7100%)"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 4"
 }

@@ -1,238 +1,236 @@
 {
-    "id": "energetics",
-    "subject": "chem",
-    "title": "Chemical Energetics",
-    "subtitle": "Chemical Energetics with core theory, reaction logic, and exam-focused application.",
-    "concept": [
-        "Energetics tracks energy transfer during chemical change. The sign and magnitude of enthalpy change determine whether a process releases energy to surroundings or absorbs energy from them.",
-        "At constant pressure, delta H measures heat transferred. Exothermic reactions have negative delta H because products are at lower enthalpy than reactants.",
-        "The deeper exam skill is using pathway independence. Hess law allows indirect calculations when direct measurement is difficult or impossible."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Energetics tracks energy transfer during chemical change. The sign and magnitude of enthalpy change determine whether a process releases energy to surroundings or absorbs energy from them.",
-                "At constant pressure, delta H measures heat transferred. Exothermic reactions have negative delta H because products are at lower enthalpy than reactants.",
-                "The deeper exam skill is using pathway independence. Hess law allows indirect calculations when direct measurement is difficult or impossible."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Chemical Energetics ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Standard Enthalpy Change",
-            "body": "Enthalpy change when reaction occurs under standard conditions with all species in standard states."
-        },
-        {
-            "term": "Activation Energy",
-            "body": "Minimum energy that reacting particles need in order for a reaction to occur."
-        },
-        {
-            "term": "Hess Law",
-            "body": "The enthalpy change for a reaction is the same regardless of pathway between the same initial and final states."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Chemical Energetics.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Energetics tracks energy transfer during chemical change. The sign and magnitude of enthalpy change determine whether a process releases energy to surroundings or absorbs energy from them."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "At constant pressure, delta H measures heat transferred. Exothermic reactions have negative delta H because products are at lower enthalpy than reactants."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Chemical Energetics reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Chemical Energetics?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Chemical Energetics without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Chemical Energetics questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Chemical Energetics?",
-            "a": "Energetics tracks energy transfer during chemical change. The sign and magnitude of enthalpy change determine whether a process releases energy to surroundings or absorbs energy from them."
-        },
-        {
-            "q": "Define Standard Enthalpy Change.",
-            "a": "Enthalpy change when reaction occurs under standard conditions with all species in standard states."
-        },
-        {
-            "q": "Define Activation Energy.",
-            "a": "Minimum energy that reacting particles need in order for a reaction to occur."
-        },
-        {
-            "q": "What exam strategy works best for Chemical Energetics?",
-            "a": "In Chemical Energetics questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Energetics tracks energy transfer during chemical change. The sign and magnitude of enthalpy change determine whether a process releases energy to surroundings or absorbs energy from them."
-        },
-        {
-            "label": "Applied Model",
-            "val": "At constant pressure, delta H measures heat transferred. Exothermic reactions have negative delta H because products are at lower enthalpy than reactants."
-        },
-        {
-            "label": "Exam Application",
-            "val": "The deeper exam skill is using pathway independence. Hess law allows indirect calculations when direct measurement is difficult or impossible."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Standard Enthalpy Change"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 5"
-        },
-        {
-            "label": "Key Formula",
-            "val": "ΔH = Σ(ΔfH products) − Σ(ΔfH reactants); q = mcΔT"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Chemical Energetics: core principle",
-            "a": "Energetics tracks energy transfer during chemical change. The sign and magnitude of enthalpy change determine whether a process releases energy to surroundings or absorbs energy from them."
-        },
-        {
-            "q": "Standard Enthalpy Change",
-            "a": "Enthalpy change when reaction occurs under standard conditions with all species in standard states."
-        },
-        {
-            "q": "Activation Energy",
-            "a": "Minimum energy that reacting particles need in order for a reaction to occur."
-        },
-        {
-            "q": "Hess Law",
-            "a": "The enthalpy change for a reaction is the same regardless of pathway between the same initial and final states."
-        },
-        {
-            "q": "Chemical Energetics: common mistake",
-            "a": "Giving trends in Chemical Energetics without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Chemical Energetics questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Chemical Energetics Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Standard Enthalpy Change?",
-                "opts": [
-                    "Enthalpy change when reaction occurs under standard conditions with all species in standard states.",
-                    "Minimum energy that reacting particles need in order for a reaction to occur.",
-                    "The enthalpy change for a reaction is the same regardless of pathway between the same initial and final states.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Standard Enthalpy Change."
-            },
-            {
-                "q": "Which statement about Chemical Energetics is correct?",
-                "opts": [
-                    "At constant pressure, delta H measures heat transferred. Exothermic reactions have negative delta H because products are at lower enthalpy than reactants.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Activation Energy?",
-                "opts": [
-                    "Minimum energy that reacting particles need in order for a reaction to occur.",
-                    "Enthalpy change when reaction occurs under standard conditions with all species in standard states.",
-                    "The enthalpy change for a reaction is the same regardless of pathway between the same initial and final states.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Activation Energy."
-            },
-            {
-                "q": "Which exam approach is most reliable for Chemical Energetics?",
-                "opts": [
-                    "In Chemical Energetics questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Chemical Energetics?",
-                "opts": [
-                    "The deeper exam skill is using pathway independence. Hess law allows indirect calculations when direct measurement is difficult or impossible.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "energetics",
+  "subject": "chem",
+  "title": "Energetics",
+  "subtitle": "Enthalpy changes, Hess's law and bond energies.",
+  "concept": [
+    "Enthalpy change (\u0394H) measures heat energy exchanged at constant pressure. Exothermic reactions release heat (\u0394H < 0); endothermic absorb it (\u0394H > 0).",
+    "Hess's law: total enthalpy change is independent of route taken \u2014 only depends on initial and final states.",
+    "Bond enthalpy calculations estimate \u0394H from energy needed to break bonds (endothermic) minus energy released forming bonds (exothermic)."
+  ],
+  "notes": [
+    {
+      "heading": "Standard Enthalpy Definitions",
+      "items": [
+        "\u0394Hf\u00b0: enthalpy change when 1 mol of compound forms from its elements in standard states at 298 K, 100 kPa.",
+        "\u0394Hc\u00b0: enthalpy change when 1 mol of substance burns completely in O\u2082 under standard conditions.",
+        "\u0394Hneut\u00b0: enthalpy change when 1 mol of water forms from neutralisation under standard conditions (~\u221257 kJ mol\u207b\u00b9 for strong acid + strong base).",
+        "\u0394Hat\u00b0: enthalpy change when 1 mol of gaseous atoms forms from the element in its standard state."
+      ]
     },
-    "syllabusRef": "9701 AS Topic 5"
+    {
+      "heading": "Hess's Law",
+      "items": [
+        "\u0394H(reaction) = \u03a3\u0394Hf\u00b0(products) \u2212 \u03a3\u0394Hf\u00b0(reactants)",
+        "Or use a cycle: \u0394H\u2081 = \u0394H\u2082 + \u0394H\u2083 (going via an alternative route).",
+        "Combustion cycle: \u0394Hreaction = \u03a3\u0394Hc\u00b0(reactants) \u2212 \u03a3\u0394Hc\u00b0(products) (note reversed sign vs formation)."
+      ]
+    },
+    {
+      "heading": "Bond Enthalpies",
+      "items": [
+        "\u0394H = \u03a3(bonds broken) \u2212 \u03a3(bonds formed)",
+        "Breaking bonds: endothermic (+). Forming bonds: exothermic (\u2212).",
+        "Mean bond enthalpies are averages \u2014 give approximate answers, unlike Hess's law cycles which use precise thermodynamic data."
+      ]
+    },
+    {
+      "heading": "Calorimetry",
+      "items": [
+        "q = mc\u0394T, where m = mass of solution (g), c = 4.18 J g\u207b\u00b9 K\u207b\u00b9, \u0394T = temperature change.",
+        "\u0394H = \u2212q/n (negative sign: if solution warms, reaction is exothermic).",
+        "Errors: heat loss to surroundings, incomplete combustion, assuming solution density = 1 g cm\u207b\u00b3."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Exothermic",
+      "body": "Reaction where energy is released to the surroundings; \u0394H is negative."
+    },
+    {
+      "term": "Standard enthalpy of formation (\u0394Hf\u00b0)",
+      "body": "Enthalpy change when 1 mol of a compound is formed from its constituent elements in their standard states at 298 K."
+    },
+    {
+      "term": "Hess's law",
+      "body": "The total enthalpy change for a reaction is independent of the route taken, provided initial and final conditions are the same."
+    },
+    {
+      "term": "Mean bond enthalpy",
+      "body": "The average energy required to break one mole of a given bond in the gaseous phase, averaged over many different compounds."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Calculate \u0394H for C(s) + 2H\u2082(g) \u2192 CH\u2084(g) using \u0394Hc\u00b0: C = \u2212393, H\u2082 = \u2212286, CH\u2084 = \u2212890 kJ mol\u207b\u00b9.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Combustion cycle formula",
+          "text": "\u0394Hf\u00b0 = \u03a3\u0394Hc\u00b0(elements) \u2212 \u0394Hc\u00b0(product)"
+        },
+        {
+          "n": 2,
+          "sub": "Substitute",
+          "text": "\u0394Hf\u00b0 = [\u2212393 + 2(\u2212286)] \u2212 (\u2212890) = [\u2212965] + 890"
+        },
+        {
+          "n": 3,
+          "sub": "Answer",
+          "text": "\u0394Hf\u00b0(CH\u2084) = \u221275 kJ mol\u207b\u00b9"
+        }
+      ]
+    },
+    {
+      "q": "In a calorimetry experiment, 50 cm\u00b3 of 1.0 mol dm\u207b\u00b3 HCl is mixed with 50 cm\u00b3 of 1.0 mol dm\u207b\u00b3 NaOH. Temperature rises by 6.8\u00b0C. Calculate \u0394Hneut.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "q",
+          "text": "q = mc\u0394T = 100 \u00d7 4.18 \u00d7 6.8 = 2842 J = 2.842 kJ"
+        },
+        {
+          "n": 2,
+          "sub": "Moles of water",
+          "text": "n(H\u2082O) = 0.050 \u00d7 1.0 = 0.05 mol"
+        },
+        {
+          "n": 3,
+          "sub": "\u0394H per mole",
+          "text": "\u0394Hneut = \u22122.842/0.05 = \u221256.8 kJ mol\u207b\u00b9"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Using \u0394Hc\u00b0 formula without reversing the sign for products in a Hess combustion cycle.",
+    "Forgetting the negative sign in \u0394H = \u2212q/n for calorimetry.",
+    "Using bond enthalpies for ionic or aqueous reactions \u2014 they only apply to gaseous covalent species."
+  ],
+  "tips": [
+    "Label every arrow on a Hess cycle with the correct sign and value before arithmetic.",
+    "In bond enthalpy questions, always draw out the full structural formula to count bonds correctly.",
+    "q = mc\u0394T: m is the mass of the solution (usually the total volume in g), not the mass of the solute."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the formula for calorimetry?",
+      "a": "q = mc\u0394T (m in g, c = 4.18 J g\u207b\u00b9 K\u207b\u00b9, \u0394T in \u00b0C or K)"
+    },
+    {
+      "q": "What is Hess's law?",
+      "a": "The total enthalpy change of a reaction is independent of the route taken."
+    },
+    {
+      "q": "How do you calculate \u0394H from bond enthalpies?",
+      "a": "\u0394H = \u03a3(bonds broken) \u2212 \u03a3(bonds formed); breaking is +, forming is \u2212."
+    },
+    {
+      "q": "State the standard condition for enthalpy measurements.",
+      "a": "298 K (25\u00b0C) and 100 kPa, with all substances in their standard states."
+    },
+    {
+      "q": "What sign does \u0394H have for an exothermic reaction?",
+      "a": "Negative (\u0394H < 0) \u2014 energy is released to surroundings."
+    },
+    {
+      "q": "Why are bond enthalpy calculations less accurate than Hess's law cycles?",
+      "a": "Mean bond enthalpies are averages across many compounds; Hess's law uses precise experimental values."
+    }
+  ],
+  "quiz": {
+    "title": "Energetics Quiz",
+    "questions": [
+      {
+        "q": "\u0394Hf\u00b0 for CO\u2082 is \u2212394 kJ mol\u207b\u00b9. What does this mean?",
+        "opts": [
+          "1 mol CO\u2082 releases 394 kJ when burned",
+          "1 mol CO\u2082 forms from C(s)+O\u2082(g) releasing 394 kJ",
+          "1 mol CO\u2082 decomposes releasing 394 kJ",
+          "1 mol CO releases 394 kJ when oxidised"
+        ],
+        "ans": 1,
+        "exp": "Standard enthalpy of formation: 1 mol of product forms from elements in standard states, releasing 394 kJ."
+      },
+      {
+        "q": "50 g of water heats by 8\u00b0C. What is q?",
+        "opts": [
+          "1672 J",
+          "2090 J",
+          "400 J",
+          "836 J"
+        ],
+        "ans": 0,
+        "exp": "q = 50 \u00d7 4.18 \u00d7 8 = 1672 J"
+      },
+      {
+        "q": "\u0394H for A\u2192B = +50 kJ; \u0394H for A\u2192C = \u221230 kJ. What is \u0394H for B\u2192C?",
+        "opts": [
+          "+80 kJ",
+          "+20 kJ",
+          "\u221280 kJ",
+          "\u221220 kJ"
+        ],
+        "ans": 2,
+        "exp": "B\u2192C = \u0394H(A\u2192C) \u2212 \u0394H(A\u2192B) = \u221230 \u2212 50 = \u221280 kJ"
+      },
+      {
+        "q": "Which statement about bond enthalpies is correct?",
+        "opts": [
+          "Breaking bonds is exothermic",
+          "Forming bonds is endothermic",
+          "Bond enthalpies are exact values for each molecule",
+          "Mean bond enthalpies are averages over many compounds"
+        ],
+        "ans": 3,
+        "exp": "Mean bond enthalpies are averages \u2014 they give approximate, not exact, \u0394H values."
+      },
+      {
+        "q": "The enthalpy of neutralisation for strong acid + strong base is approximately:",
+        "opts": [
+          "\u221257 kJ mol\u207b\u00b9",
+          "\u2212394 kJ mol\u207b\u00b9",
+          "+57 kJ mol\u207b\u00b9",
+          "\u2212286 kJ mol\u207b\u00b9"
+        ],
+        "ans": 0,
+        "exp": "Strong acid + strong base: H\u207a(aq) + OH\u207b(aq) \u2192 H\u2082O(l); \u0394H \u2248 \u221257 kJ mol\u207b\u00b9."
+      }
+    ]
+  },
+  "recall": [
+    "Define standard enthalpy of formation and combustion.",
+    "State Hess's law.",
+    "Calculate \u0394H using the bond enthalpy method.",
+    "Describe a calorimetry experiment and calculate \u0394Hneut.",
+    "Explain why bond enthalpy calculations give approximate values."
+  ],
+  "summary": [
+    {
+      "label": "q = mc\u0394T",
+      "value": "heat from calorimetry"
+    },
+    {
+      "label": "\u0394H = \u2212q/n",
+      "value": "enthalpy per mole"
+    },
+    {
+      "label": "Hess formation",
+      "value": "\u03a3\u0394Hf\u00b0(products) \u2212 \u03a3\u0394Hf\u00b0(reactants)"
+    },
+    {
+      "label": "Bond enthalpy",
+      "value": "\u03a3broken \u2212 \u03a3formed"
+    },
+    {
+      "label": "Exothermic",
+      "value": "\u0394H < 0"
+    },
+    {
+      "label": "Endothermic",
+      "value": "\u0394H > 0"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 11"
 }

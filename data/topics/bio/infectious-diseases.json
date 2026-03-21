@@ -1,238 +1,222 @@
 {
-    "id": "infectious-diseases",
-    "subject": "bio",
-    "title": "Infectious Diseases",
-    "subtitle": "Infectious Diseases with mechanism-focused explanation and exam-linked examples.",
-    "syllabusRef": "9700 AS Topic 10",
-    "concept": [
-        "Infectious Diseases links biological structure and process to function, adaptation, and measured outcomes.",
-        "Pathogens include bacteria, viruses, fungi, and protoctists.",
-        "Transmission pathways can be direct, indirect, and vector mediated."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Infectious Diseases links biological structure and process to function, adaptation, and measured outcomes.",
-                "Pathogens include bacteria, viruses, fungi, and protoctists.",
-                "Transmission pathways can be direct, indirect, and vector mediated."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Infectious Diseases ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Pathogen",
-            "body": "Disease-causing microorganism or biological agent."
-        },
-        {
-            "term": "Transmission",
-            "body": "Transfer of a pathogen between hosts or from environment to host."
-        },
-        {
-            "term": "Control measure",
-            "body": "Action used to reduce disease transmission, such as vaccination, sanitation, or vector control."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Infectious Diseases.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Infectious Diseases links biological structure and process to function, adaptation, and measured outcomes."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Pathogens include bacteria, viruses, fungi, and protoctists."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Infectious Diseases reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Infectious Diseases?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Infectious Diseases outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Infectious Diseases responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Infectious Diseases?",
-            "a": "Infectious Diseases links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Define Pathogen.",
-            "a": "Disease-causing microorganism or biological agent."
-        },
-        {
-            "q": "Define Transmission.",
-            "a": "Transfer of a pathogen between hosts or from environment to host."
-        },
-        {
-            "q": "What exam strategy works best for Infectious Diseases?",
-            "a": "In Infectious Diseases responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Infectious Diseases links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Pathogens include bacteria, viruses, fungi, and protoctists."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Transmission pathways can be direct, indirect, and vector mediated."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Pathogen"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 10"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Pathogen → transmission → infection → immunity"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Infectious Diseases: core principle",
-            "a": "Infectious Diseases links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Pathogen",
-            "a": "Disease-causing microorganism or biological agent."
-        },
-        {
-            "q": "Transmission",
-            "a": "Transfer of a pathogen between hosts or from environment to host."
-        },
-        {
-            "q": "Control measure",
-            "a": "Action used to reduce disease transmission, such as vaccination, sanitation, or vector control."
-        },
-        {
-            "q": "Infectious Diseases: common mistake",
-            "a": "Describing Infectious Diseases outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Infectious Diseases responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Infectious Diseases Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Pathogen?",
-                "opts": [
-                    "Disease-causing microorganism or biological agent.",
-                    "Transfer of a pathogen between hosts or from environment to host.",
-                    "Action used to reduce disease transmission, such as vaccination, sanitation, or vector control.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Pathogen."
-            },
-            {
-                "q": "Which statement about Infectious Diseases is correct?",
-                "opts": [
-                    "Pathogens include bacteria, viruses, fungi, and protoctists.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Transmission?",
-                "opts": [
-                    "Transfer of a pathogen between hosts or from environment to host.",
-                    "Disease-causing microorganism or biological agent.",
-                    "Action used to reduce disease transmission, such as vaccination, sanitation, or vector control.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Transmission."
-            },
-            {
-                "q": "Which exam approach is most reliable for Infectious Diseases?",
-                "opts": [
-                    "In Infectious Diseases responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Infectious Diseases?",
-                "opts": [
-                    "Transmission pathways can be direct, indirect, and vector mediated.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "infectious-diseases",
+  "subject": "bio",
+  "title": "Infectious Diseases",
+  "subtitle": "Pathogens, transmission, control and global health.",
+  "concept": [
+    "Pathogens include bacteria, viruses, fungi and protoctists; each causes disease by different mechanisms.",
+    "Transmission can be direct or indirect; breaking the chain of transmission is key to controlling infectious diseases.",
+    "Global efforts (WHO, vaccines, antibiotics) have reduced mortality but drug resistance and emerging diseases remain challenges."
+  ],
+  "notes": [
+    {
+      "heading": "Types of Pathogen",
+      "items": [
+        "Bacteria: prokaryotes; some produce toxins (e.g. Vibrio cholerae produces cholera toxin; Mycobacterium tuberculosis causes TB).",
+        "Viruses: non-cellular; hijack host cell machinery to replicate; e.g. HIV, influenza, measles.",
+        "Fungi: e.g. Candida (thrush); Tinea (athlete's foot). Can produce spores for transmission.",
+        "Protoctists: eukaryotic; e.g. Plasmodium (malaria \u2014 transmitted by Anopheles mosquito \u2014 female vector)."
+      ]
+    },
+    {
+      "heading": "Transmission",
+      "items": [
+        "Direct contact: physical touch (e.g. STIs), droplets (TB, influenza, COVID-19).",
+        "Indirect: vectors (mosquito \u2192 malaria), contaminated water (cholera, typhoid), contaminated food, fomites (contaminated surfaces).",
+        "Cholera: Vibrio cholerae in contaminated water \u2192 toxin causes Cl\u207b secretion into intestine lumen \u2192 osmotic water loss \u2192 severe diarrhoea.",
+        "TB: Mycobacterium tuberculosis; airborne droplets; can be latent; BCG vaccine provides protection.",
+        "Malaria: Plasmodium falciparum (most dangerous); female Anopheles mosquito vector; infects liver and RBCs."
+      ]
+    },
+    {
+      "heading": "Control Measures",
+      "items": [
+        "Vaccination (herd immunity: when enough of population is immune, spread is halted even among unvaccinated).",
+        "Antibiotics: effective against bacteria; not viruses. Antibiotic resistance: mutations in bacteria; selection pressure from misuse.",
+        "Insecticides / bed nets: malaria control.",
+        "Water treatment and sanitation: cholera control.",
+        "Quarantine and contact tracing: limiting direct transmission.",
+        "WHO: coordinates global health responses; monitors disease outbreaks."
+      ]
+    },
+    {
+      "heading": "Drug Resistance",
+      "items": [
+        "Antibiotic resistance arises by natural selection: random mutation \u2192 resistant bacterium \u2192 selective advantage \u2192 spreads.",
+        "MRSA: methicillin-resistant Staphylococcus aureus \u2014 hospital-acquired.",
+        "Multi-drug resistant TB (MDR-TB): requires longer, more toxic treatment.",
+        "Strategies: complete courses of antibiotics; rotate antibiotic types; prescribe only when necessary."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Pathogen",
+      "body": "A microorganism or agent that causes disease."
+    },
+    {
+      "term": "Vector",
+      "body": "An organism that transmits a pathogen from one host to another without itself being the cause of disease."
+    },
+    {
+      "term": "Herd immunity",
+      "body": "Indirect protection of unvaccinated individuals when a sufficient proportion of the population is immune, reducing pathogen transmission."
+    },
+    {
+      "term": "Antibiotic resistance",
+      "body": "The ability of bacteria to survive exposure to antibiotics due to mutations; arises through natural selection under antibiotic selective pressure."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain how antibiotic resistance arises in a bacterial population.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Mutation",
+          "text": "A random mutation in a bacterium's DNA produces a change that confers resistance to the antibiotic (e.g. altered target protein, enzyme that breaks down the antibiotic)."
+        },
+        {
+          "n": 2,
+          "sub": "Selection",
+          "text": "When antibiotics are used, non-resistant bacteria are killed; the resistant bacterium survives and reproduces (natural selection \u2014 antibiotic is the selection pressure)."
+        },
+        {
+          "n": 3,
+          "sub": "Spread",
+          "text": "The resistant bacterium passes on its resistance gene to daughter cells (vertical transmission) and to other bacteria (horizontal gene transfer via plasmids). The resistant strain spreads."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Stating antibiotics kill viruses \u2014 antibiotics only work on bacteria (target bacterial cell walls, ribosomes, etc.).",
+    "Describing the mosquito as the 'cause' of malaria \u2014 the mosquito is the vector; Plasmodium is the pathogen.",
+    "Confusing herd immunity (indirect protection) with direct immunity from vaccination."
+  ],
+  "tips": [
+    "For malaria questions: female Anopheles mosquito is the vector; Plasmodium is the protoctist pathogen.",
+    "Cholera mechanism: toxin \u2192 Cl\u207b out of epithelial cells \u2192 water follows by osmosis \u2192 diarrhoea.",
+    "Link antibiotic resistance to natural selection \u2014 use the correct terminology: variation, selection pressure, survival, reproduction, inheritance."
+  ],
+  "flashcards": [
+    {
+      "q": "What type of pathogen causes malaria, and how is it transmitted?",
+      "a": "Plasmodium (a protoctist); transmitted by the bite of an infected female Anopheles mosquito."
+    },
+    {
+      "q": "Why are antibiotics ineffective against viral infections?",
+      "a": "Antibiotics target bacterial structures (e.g. cell wall, 70S ribosome) that viruses do not have \u2014 viruses use host cell machinery."
+    },
+    {
+      "q": "What is herd immunity?",
+      "a": "When a high enough proportion of the population is immune to a disease, transmission is reduced enough to protect even unvaccinated individuals."
+    },
+    {
+      "q": "How does Vibrio cholerae cause diarrhoea?",
+      "a": "Cholera toxin causes Cl\u207b ions to be secreted into the intestinal lumen; water follows by osmosis \u2192 massive watery diarrhoea \u2192 dehydration."
+    },
+    {
+      "q": "Describe how antibiotic resistance spreads between bacteria.",
+      "a": "Via plasmid transfer (horizontal gene transfer / conjugation) or vertically by binary fission; selection pressure from antibiotic use favours resistant strains."
+    },
+    {
+      "q": "What is the BCG vaccine and what does it protect against?",
+      "a": "BCG (Bacillus Calmette\u2013Gu\u00e9rin) is a live attenuated vaccine that provides protection against tuberculosis (TB)."
+    }
+  ],
+  "quiz": {
+    "title": "Infectious Diseases Quiz",
+    "questions": [
+      {
+        "q": "Which pathogen causes malaria?",
+        "opts": [
+          "Vibrio cholerae",
+          "Mycobacterium tuberculosis",
+          "Plasmodium falciparum",
+          "Tinea"
+        ],
+        "ans": 2,
+        "exp": "Malaria is caused by the protoctist Plasmodium \u2014 most dangerous species is P. falciparum."
+      },
+      {
+        "q": "How is cholera transmitted?",
+        "opts": [
+          "Insect bite",
+          "Airborne droplets",
+          "Contaminated water",
+          "Direct skin contact"
+        ],
+        "ans": 2,
+        "exp": "Cholera is spread via water contaminated with Vibrio cholerae \u2014 a faecal-oral route."
+      },
+      {
+        "q": "Why should a full course of antibiotics be completed?",
+        "opts": [
+          "To avoid side effects",
+          "To prevent re-infection",
+          "To ensure all bacteria are killed, reducing chance of resistance developing",
+          "To boost immunity"
+        ],
+        "ans": 2,
+        "exp": "Stopping early leaves the most resistant bacteria alive to reproduce and spread."
+      },
+      {
+        "q": "What is the role of the female Anopheles mosquito in malaria?",
+        "opts": [
+          "It is the primary host",
+          "It is the pathogen",
+          "It is the vector that transmits Plasmodium",
+          "It produces the malaria toxin"
+        ],
+        "ans": 2,
+        "exp": "The female Anopheles mosquito is the vector \u2014 it transmits Plasmodium when it takes a blood meal."
+      },
+      {
+        "q": "What is MRSA?",
+        "opts": [
+          "A viral infection resistant to antivirals",
+          "A bacterium resistant to methicillin/many antibiotics",
+          "A drug used to treat TB",
+          "A protoctist causing skin infections"
+        ],
+        "ans": 1,
+        "exp": "MRSA (methicillin-resistant Staphylococcus aureus) is a bacterium that has developed resistance to many antibiotics, common in healthcare settings."
+      }
+    ]
+  },
+  "recall": [
+    "Compare the structures of bacteria, viruses and protoctists as pathogens.",
+    "Explain how cholera causes diarrhoea at the cellular level.",
+    "Describe the transmission of TB and the control measures used.",
+    "Explain antibiotic resistance using natural selection.",
+    "Define herd immunity and explain its importance."
+  ],
+  "summary": [
+    {
+      "label": "Malaria",
+      "value": "Plasmodium; female Anopheles vector"
+    },
+    {
+      "label": "Cholera",
+      "value": "Vibrio cholerae; contaminated water; Cl\u207b secretion \u2192 osmotic diarrhoea"
+    },
+    {
+      "label": "TB",
+      "value": "M. tuberculosis; airborne droplets; BCG vaccine"
+    },
+    {
+      "label": "Antibiotic resistance",
+      "value": "mutation + selection pressure \u2192 spread"
+    },
+    {
+      "label": "Herd immunity",
+      "value": "% immune \u2192 breaks chain of transmission"
+    },
+    {
+      "label": "Antibiotics",
+      "value": "bacteria only \u2014 not viruses"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 11"
 }

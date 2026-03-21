@@ -1,238 +1,216 @@
 {
-    "id": "carboxylic-acids-derivatives",
-    "subject": "chem",
-    "title": "Carboxylic Acids and Derivatives",
-    "subtitle": "Carboxylic Acids and Derivatives with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 18",
-    "concept": [
-        "Carboxylic Acids and Derivatives explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Carboxylic acids show weak acidity and characteristic acid reactions.",
-        "Esterification is a reversible reaction between acids and alcohols."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Carboxylic Acids and Derivatives explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Carboxylic acids show weak acidity and characteristic acid reactions.",
-                "Esterification is a reversible reaction between acids and alcohols."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Carboxylic Acids and Derivatives ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Carboxylic acid",
-            "body": "Organic compound containing the -COOH functional group."
-        },
-        {
-            "term": "Esterification",
-            "body": "Reaction of a carboxylic acid with an alcohol to form an ester and water."
-        },
-        {
-            "term": "Acyl derivative",
-            "body": "A compound derived from a carboxylic acid where the -OH is replaced by another group."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Carboxylic Acids and Derivatives.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Carboxylic Acids and Derivatives explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Carboxylic acids show weak acidity and characteristic acid reactions."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Carboxylic Acids and Derivatives reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Carboxylic Acids and Derivatives?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Carboxylic Acids and Derivatives without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Carboxylic Acids and Derivatives questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Carboxylic Acids and Derivatives?",
-            "a": "Carboxylic Acids and Derivatives explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Carboxylic acid.",
-            "a": "Organic compound containing the -COOH functional group."
-        },
-        {
-            "q": "Define Esterification.",
-            "a": "Reaction of a carboxylic acid with an alcohol to form an ester and water."
-        },
-        {
-            "q": "What exam strategy works best for Carboxylic Acids and Derivatives?",
-            "a": "In Carboxylic Acids and Derivatives questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Carboxylic Acids and Derivatives explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Carboxylic acids show weak acidity and characteristic acid reactions."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Esterification is a reversible reaction between acids and alcohols."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Carboxylic acid"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 18"
-        },
-        {
-            "label": "Key Formula",
-            "val": "R−COOH; R−COO^−; R−CO−NR₂"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Carboxylic Acids and Derivatives: core principle",
-            "a": "Carboxylic Acids and Derivatives explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Carboxylic acid",
-            "a": "Organic compound containing the -COOH functional group."
-        },
-        {
-            "q": "Esterification",
-            "a": "Reaction of a carboxylic acid with an alcohol to form an ester and water."
-        },
-        {
-            "q": "Acyl derivative",
-            "a": "A compound derived from a carboxylic acid where the -OH is replaced by another group."
-        },
-        {
-            "q": "Carboxylic Acids and Derivatives: common mistake",
-            "a": "Giving trends in Carboxylic Acids and Derivatives without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Carboxylic Acids and Derivatives questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Carboxylic Acids and Derivatives Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Carboxylic acid?",
-                "opts": [
-                    "Organic compound containing the -COOH functional group.",
-                    "Reaction of a carboxylic acid with an alcohol to form an ester and water.",
-                    "A compound derived from a carboxylic acid where the -OH is replaced by another group.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Carboxylic acid."
-            },
-            {
-                "q": "Which statement about Carboxylic Acids and Derivatives is correct?",
-                "opts": [
-                    "Carboxylic acids show weak acidity and characteristic acid reactions.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Esterification?",
-                "opts": [
-                    "Reaction of a carboxylic acid with an alcohol to form an ester and water.",
-                    "Organic compound containing the -COOH functional group.",
-                    "A compound derived from a carboxylic acid where the -OH is replaced by another group.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Esterification."
-            },
-            {
-                "q": "Which exam approach is most reliable for Carboxylic Acids and Derivatives?",
-                "opts": [
-                    "In Carboxylic Acids and Derivatives questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Carboxylic Acids and Derivatives?",
-                "opts": [
-                    "Esterification is a reversible reaction between acids and alcohols.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "carboxylic-acids-derivatives",
+  "subject": "chem",
+  "title": "Carboxylic Acids and Derivatives",
+  "subtitle": "Carboxylic acids, acyl chlorides, esters and amides.",
+  "concept": [
+    "Carboxylic acids (\u2013COOH) are weak acids; they react with bases, carbonates and alcohols.",
+    "Acyl chlorides are more reactive than carboxylic acids; they react vigorously with water, alcohols, and amines without needing a catalyst.",
+    "Esters and amides are formed by substitution of the OH or Cl of the carbonyl-containing group."
+  ],
+  "notes": [
+    {
+      "heading": "Carboxylic Acids",
+      "items": [
+        "Weak acids: partially dissociate in water. pKa ~4\u20135 for simple carboxylic acids.",
+        "React with Na\u2082CO\u2083/NaHCO\u2083: RCOOH + Na\u2082CO\u2083 \u2192 RCOONa + H\u2082O + CO\u2082 (effervescence \u2014 test for carboxylic acid; aldehydes/ketones do not react with Na\u2082CO\u2083).",
+        "Esterification: RCOOH + R'OH \u21cc RCOOR' + H\u2082O (H\u2082SO\u2084 catalyst, reversible).",
+        "Reduction: RCOOH + LiAlH\u2084 \u2192 RCH\u2082OH (primary alcohol)."
+      ]
+    },
+    {
+      "heading": "Acyl Chlorides",
+      "items": [
+        "Prepared from carboxylic acid + PCl\u2085 (or SOCl\u2082).",
+        "More reactive than carboxylic acids (better leaving group Cl\u207b vs OH\u207b).",
+        "With water: RCOCl + H\u2082O \u2192 RCOOH + HCl (steamy fumes of HCl).",
+        "With alcohol: RCOCl + R'OH \u2192 RCOOR' + HCl (ester formed, no catalyst needed, fast).",
+        "With ammonia: RCOCl + 2NH\u2083 \u2192 RCONH\u2082 + NH\u2084Cl (primary amide).",
+        "With primary amine: RCOCl + RNH\u2082 \u2192 RCONHR + HCl (secondary amide)."
+      ]
+    },
+    {
+      "heading": "Esters",
+      "items": [
+        "Hydrolysis (acid): RCOOR' + H\u2082O \u21cc RCOOH + R'OH (reversible; H\u207a catalyst).",
+        "Hydrolysis (base/saponification): RCOOR' + NaOH \u2192 RCOONa + R'OH (irreversible \u2192 drives to completion).",
+        "Polyesters: e.g. Terylene (PET) from benzene-1,4-dicarboxylic acid + ethane-1,2-diol.",
+        "Biodiesel: transesterification of vegetable oil triglycerides with methanol."
+      ]
+    },
+    {
+      "heading": "Amides",
+      "items": [
+        "Contain \u2013CONH\u2082 (primary), \u2013CONHR (secondary), \u2013CONR\u2082 (tertiary) group.",
+        "Polyamides: nylon \u2014 condensation polymer; e.g. nylon-6,6 from hexanediamine + hexanedioic acid.",
+        "Hydrolysis of amide: heat with HCl(aq) \u2192 carboxylic acid + ammonium salt; or NaOH(aq) \u2192 carboxylate + amine."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Acyl chloride",
+      "body": "A carboxylic acid derivative with \u2013COCl group; more reactive than the parent acid due to the better leaving group (Cl\u207b)."
+    },
+    {
+      "term": "Saponification",
+      "body": "Base hydrolysis of an ester using NaOH; irreversible \u2014 produces a carboxylate salt and an alcohol."
+    },
+    {
+      "term": "Condensation polymer",
+      "body": "A polymer formed by repeated condensation reactions, with loss of a small molecule (usually H\u2082O or HCl) at each step."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Describe how to make ethyl ethanoate from ethanoyl chloride and explain why no catalyst is needed.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Reaction",
+          "text": "CH\u2083COCl + C\u2082H\u2085OH \u2192 CH\u2083COOC\u2082H\u2085 + HCl"
+        },
+        {
+          "n": 2,
+          "sub": "Why no catalyst",
+          "text": "Cl\u207b is a much better leaving group than OH\u207b \u2014 the reaction proceeds rapidly without needing acid catalysis."
+        },
+        {
+          "n": 3,
+          "sub": "Observation",
+          "text": "Vigorous reaction; steamy fumes of HCl produced; ester formed (fruity smell)."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing acid hydrolysis (reversible) with base hydrolysis (irreversible) of esters.",
+    "Using Na\u2082CO\u2083 to test for aldehydes/ketones \u2014 only carboxylic acids give CO\u2082 effervescence with Na\u2082CO\u2083.",
+    "Forgetting that acyl chlorides react violently with water (not like carboxylic acids which need a catalyst for esterification)."
+  ],
+  "tips": [
+    "Acyl chloride reactions are faster and don't need a catalyst \u2014 use when you need to make an ester or amide efficiently.",
+    "Saponification (NaOH hydrolysis) is irreversible \u2014 produces RCOONa (sodium salt), not carboxylic acid.",
+    "Polyester or polyamide? Diol + diacid \u2192 polyester (ester link \u2013COO\u2013); diamine + diacid \u2192 polyamide (amide link \u2013CONH\u2013)."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the test for a carboxylic acid?",
+      "a": "Add Na\u2082CO\u2083 (or NaHCO\u2083): carboxylic acid gives effervescence (CO\u2082). Aldehydes and ketones do not react."
+    },
+    {
+      "q": "What is the product of ethanoyl chloride reacting with ethanol?",
+      "a": "Ethyl ethanoate (an ester) + HCl (steamy fumes)."
+    },
+    {
+      "q": "Why is base hydrolysis of an ester irreversible?",
+      "a": "NaOH is consumed; the carboxylate salt (RCOO\u207b) formed cannot reverse the reaction under these conditions."
+    },
+    {
+      "q": "What is saponification?",
+      "a": "Base (NaOH) hydrolysis of an ester \u2192 carboxylate salt + alcohol. Used industrially to make soap from fats."
+    },
+    {
+      "q": "What monomers are used to make nylon-6,6?",
+      "a": "Hexane-1,6-diamine + hexanedioic acid (condensation polymerisation with loss of H\u2082O)."
+    },
+    {
+      "q": "How does an acyl chloride react with ammonia?",
+      "a": "RCOCl + 2NH\u2083 \u2192 RCONH\u2082 (amide) + NH\u2084Cl. One NH\u2083 reacts; the other neutralises HCl."
+    }
+  ],
+  "quiz": {
+    "title": "Carboxylic Acids Quiz",
+    "questions": [
+      {
+        "q": "Which reagent distinguishes a carboxylic acid from an aldehyde?",
+        "opts": [
+          "NaBH\u2084",
+          "Tollens' reagent",
+          "Na\u2082CO\u2083(aq)",
+          "2,4-DNPH"
+        ],
+        "ans": 2,
+        "exp": "Na\u2082CO\u2083 reacts with carboxylic acids (CO\u2082 effervescence); aldehydes do not react with Na\u2082CO\u2083."
+      },
+      {
+        "q": "What is the product of base hydrolysis (NaOH) of ethyl ethanoate?",
+        "opts": [
+          "Ethanoic acid + ethanol",
+          "Sodium ethanoate + ethanol",
+          "Ethyl sodium + water",
+          "Sodium ethanoate + ethene"
+        ],
+        "ans": 1,
+        "exp": "Saponification: CH\u2083COOC\u2082H\u2085 + NaOH \u2192 CH\u2083COONa + C\u2082H\u2085OH (irreversible)."
+      },
+      {
+        "q": "Which is more reactive toward nucleophilic addition-elimination?",
+        "opts": [
+          "Ethanoic acid",
+          "Ethyl ethanoate",
+          "Ethanoyl chloride",
+          "Ethanol"
+        ],
+        "ans": 2,
+        "exp": "Acyl chlorides (\u2013COCl) are more reactive than carboxylic acids or esters because Cl\u207b is a much better leaving group."
+      },
+      {
+        "q": "What small molecule is lost in forming a polyamide?",
+        "opts": [
+          "CO\u2082",
+          "HCl",
+          "H\u2082O",
+          "NH\u2083"
+        ],
+        "ans": 2,
+        "exp": "Polyamide (nylon) is formed by condensation of diamine and diacid \u2014 water is lost at each step."
+      },
+      {
+        "q": "Hydrolysis of an ester using HCl(aq) is:",
+        "opts": [
+          "Irreversible",
+          "Reversible",
+          "Does not occur",
+          "Gives an amide"
+        ],
+        "ans": 1,
+        "exp": "Acid hydrolysis of esters is reversible (equilibrium); base hydrolysis (saponification) is irreversible."
+      }
+    ]
+  },
+  "recall": [
+    "Describe reactions of carboxylic acids with Na\u2082CO\u2083, alcohols and LiAlH\u2084.",
+    "Explain why acyl chlorides are more reactive than carboxylic acids.",
+    "Describe the preparation of an ester from an acyl chloride.",
+    "Compare acid and base hydrolysis of esters.",
+    "Describe the formation of nylon-6,6 as a condensation polymer."
+  ],
+  "summary": [
+    {
+      "label": "RCOOH + Na\u2082CO\u2083",
+      "value": "CO\u2082 effervescence (test)"
+    },
+    {
+      "label": "Acyl chloride + ROH",
+      "value": "ester + HCl (no catalyst)"
+    },
+    {
+      "label": "Acyl chloride + NH\u2083",
+      "value": "amide + NH\u2084Cl"
+    },
+    {
+      "label": "Ester + NaOH",
+      "value": "saponification (irreversible) \u2192 RCOONa + ROH"
+    },
+    {
+      "label": "Polyamide",
+      "value": "diamine + diacid \u2192 nylon (\u2013CONH\u2013)"
+    },
+    {
+      "label": "Polyester",
+      "value": "diol + diacid \u2192 e.g. PET (\u2013COO\u2013)"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 16"
 }

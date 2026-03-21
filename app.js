@@ -1,4 +1,4 @@
-﻿
+
 // ============================================================================
 // BACKEND API CONFIGURATION
 // ============================================================================
@@ -33,6 +33,100 @@ const state = {
 const doneStorageKey = "revise.doneTopics";
 const quizStorageKey = "revise.quizScores";
 const confidenceStorageKey = "revise.topicConfidence";
+const authTokenKey = "revise.authToken";
+const authUserKey  = "revise.authUser";
+
+const auth = {
+  get token() { return localStorage.getItem(authTokenKey); },
+  get user()  { try { return JSON.parse(localStorage.getItem(authUserKey)); } catch { return null; } },
+  set(token, user) { localStorage.setItem(authTokenKey, token); localStorage.setItem(authUserKey, JSON.stringify(user)); },
+  clear() { localStorage.removeItem(authTokenKey); localStorage.removeItem(authUserKey); },
+  get isLoggedIn() { return !!this.token; },
+};
+
+function authHeaders(extra = {}) {
+  const h = { "Content-Type": "application/json", ...extra };
+  if (auth.token) h["Authorization"] = "Bearer " + auth.token;
+  return h;
+}
+
+function injectAuthModal() {
+  if (document.getElementById("auth-modal")) return;
+  const el = document.createElement("div");
+  el.id = "auth-modal";
+  el.className = "auth-modal-overlay";
+  el.innerHTML = '<div class="auth-modal-box card"><button class="auth-modal-close" id="auth-modal-close">&times;</button><div id="auth-tab-login"><h2>Sign In</h2><p class="auth-sub">Welcome back — your progress awaits.</p><label>Email<input type="email" id="login-email" placeholder="you@example.com"></label><label>Password<input type="password" id="login-password" placeholder="••••••••"></label><div class="auth-error" id="login-error"></div><button class="btn btn-primary auth-submit" id="login-submit">Sign In</button><p class="auth-switch">No account? <button class="link-btn" id="switch-to-register">Create one</button></p></div><div id="auth-tab-register" style="display:none"><h2>Create Account</h2><p class="auth-sub">Join Revise and track your progress.</p><label>Name<input type="text" id="register-name" placeholder="Your name"></label><label>Email<input type="email" id="register-email" placeholder="you@example.com"></label><label>Password<input type="password" id="register-password" placeholder="Min. 8 characters"></label><div class="auth-error" id="register-error"></div><button class="btn btn-primary auth-submit" id="register-submit">Create Account</button><p class="auth-switch">Have an account? <button class="link-btn" id="switch-to-login">Sign in</button></p></div></div>';
+  document.body.appendChild(el);
+  document.getElementById("auth-modal-close").addEventListener("click", closeAuthModal);
+  el.addEventListener("click", (e) => { if (e.target === el) closeAuthModal(); });
+  document.getElementById("switch-to-register").addEventListener("click", () => { document.getElementById("auth-tab-login").style.display="none"; document.getElementById("auth-tab-register").style.display=""; });
+  document.getElementById("switch-to-login").addEventListener("click", () => { document.getElementById("auth-tab-register").style.display="none"; document.getElementById("auth-tab-login").style.display=""; });
+  document.getElementById("login-submit").addEventListener("click", handleLogin);
+  document.getElementById("register-submit").addEventListener("click", handleRegister);
+}
+
+function openAuthModal(tab) {
+  injectAuthModal();
+  const m = document.getElementById("auth-modal");
+  m.classList.add("open");
+  document.getElementById("auth-tab-login").style.display    = tab === "register" ? "none" : "";
+  document.getElementById("auth-tab-register").style.display = tab === "register" ? "" : "none";
+}
+
+function closeAuthModal() { const m = document.getElementById("auth-modal"); if (m) m.classList.remove("open"); }
+
+async function handleLogin() {
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+  const errEl = document.getElementById("login-error");
+  errEl.textContent = "";
+  if (!email || !password) { errEl.textContent = "Please fill in all fields."; return; }
+  const btn = document.getElementById("login-submit");
+  btn.textContent = "Signing in…"; btn.disabled = true;
+  try {
+    const res = await fetch(API_BASE_URL + "/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
+    const data = await res.json();
+    if (!res.ok) { errEl.textContent = data.error || "Login failed."; return; }
+    auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
+    showToast("Welcome back, " + data.user.name.split(" ")[0] + "!");
+  } catch { errEl.textContent = "Network error."; }
+  finally { btn.textContent = "Sign In"; btn.disabled = false; }
+}
+
+async function handleRegister() {
+  const name = document.getElementById("register-name").value.trim();
+  const email = document.getElementById("register-email").value.trim();
+  const password = document.getElementById("register-password").value;
+  const errEl = document.getElementById("register-error");
+  errEl.textContent = "";
+  if (!name || !email || !password) { errEl.textContent = "Please fill in all fields."; return; }
+  if (password.length < 8) { errEl.textContent = "Password must be at least 8 characters."; return; }
+  const btn = document.getElementById("register-submit");
+  btn.textContent = "Creating…"; btn.disabled = true;
+  try {
+    const res = await fetch(API_BASE_URL + "/api/auth/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, email, password }) });
+    const data = await res.json();
+    if (!res.ok) { errEl.textContent = data.error || "Registration failed."; return; }
+    auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
+    showToast("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
+  } catch { errEl.textContent = "Network error."; }
+  finally { btn.textContent = "Create Account"; btn.disabled = false; }
+}
+
+function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
+
+function updateNavForAuth() {
+  const btn = byId("signin-btn"); if (!btn) return;
+  if (auth.isLoggedIn) {
+    btn.textContent = auth.user?.name?.split(" ")[0] || "Account";
+    btn.title = "Click to sign out";
+    btn.onclick = () => { if (confirm("Sign out?")) handleSignOut(); };
+  } else {
+    btn.textContent = "Sign In"; btn.title = "";
+    btn.onclick = () => openAuthModal("login");
+  }
+}
+
 
 function byId(id) {
   return document.getElementById(id);
@@ -626,10 +720,7 @@ async function saveProgressToBackend(topicId, quizScore, confidence) {
     const subject = state.currentSubject || 'chem';
     const response = await fetch(`${API_BASE_URL}/api/user/progress`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-user-id': localStorage.getItem('userId') || 'default-user'
-      },
+      headers: authHeaders(),
       body: JSON.stringify({
         topicId,
         subject,
@@ -656,10 +747,7 @@ async function updateStatsOnBackend(xpGain, minutesStudied = 0) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/user/stats/update`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-user-id': localStorage.getItem('userId') || 'default-user'
-      },
+      headers: authHeaders(),
       body: JSON.stringify({
         xpGain,
         addToStreak: 1,
@@ -684,9 +772,7 @@ async function loadUserAnalytics() {
   
   try {
     const response = await fetch(`${API_BASE_URL}/api/user/analytics`, {
-      headers: {
-        'x-user-id': localStorage.getItem('userId') || 'default-user'
-      }
+      headers: authHeaders(),
     });
     
     if (response.ok) {
@@ -707,9 +793,7 @@ async function getTopicProgressFromBackend(topicId) {
   
   try {
     const response = await fetch(`${API_BASE_URL}/api/user/progress/${topicId}`, {
-      headers: {
-        'x-user-id': localStorage.getItem('userId') || 'default-user'
-      }
+      headers: authHeaders(),
     });
     
     if (response.ok) {
@@ -1608,6 +1692,22 @@ function renderProfile() {
     ? Math.round(avgQuiz.reduce((sum, item) => sum + item.scorePct, 0) / avgQuiz.length)
     : 0;
 
+  // Update profile identity from auth
+  const user = auth.user;
+  const avatarEl = byId("profile-avatar");
+  const nameEl   = byId("profile-name");
+  const emailEl  = byId("profile-email");
+  if (user) {
+    const initials = user.name.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2);
+    if (avatarEl) avatarEl.textContent = initials;
+    if (nameEl)   nameEl.textContent   = user.name;
+    if (emailEl)  emailEl.textContent  = user.email;
+  } else {
+    if (avatarEl) avatarEl.textContent = "?";
+    if (nameEl)   nameEl.textContent   = "Sign in to view profile";
+    if (emailEl)  emailEl.textContent  = "";
+  }
+
   byId("profile-topics").textContent = `${overall.done}/${overall.total}`;
   byId("profile-avg").textContent = `${avgScore}%`;
   byId("profile-xp").textContent = state.xp.toLocaleString();
@@ -1902,7 +2002,7 @@ function bindBaseEvents() {
     });
   });
 
-  byId("signin-btn").addEventListener("click", () => showToast("Signed in as Alex S."));
+  updateNavForAuth();
   byId("theme-toggle").addEventListener("click", toggleTheme);
   byId("chat-send").addEventListener("click", sendChatMessage);
   byId("chat-input").addEventListener("keydown", (event) => {
@@ -1932,6 +2032,7 @@ async function init() {
     state.particleSystem = createParticleSystem();
     await loadData();
     bindBaseEvents();
+    updateNavForAuth();
     byId("streak-count").textContent = String(state.streak);
     go("home");
   } catch (error) {

@@ -1,238 +1,218 @@
 {
-    "id": "forces-energy",
-    "subject": "phy",
-    "title": "Forces, Density and Pressure",
-    "subtitle": "Forces, Density and Pressure with model-based reasoning, equations, and exam application.",
-    "concept": [
-        "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer.",
-        "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots.",
-        "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer.",
-                "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots.",
-                "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Forces, Density and Pressure ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Moment",
-            "body": "Turning effect of a force about a pivot, given by force times perpendicular distance."
-        },
-        {
-            "term": "Pressure",
-            "body": "Normal force per unit area acting on a surface."
-        },
-        {
-            "term": "Efficiency",
-            "body": "Ratio of useful output energy or power to total input energy or power."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Forces, Density and Pressure.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Forces, Density and Pressure reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Forces, Density and Pressure?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Forces, Density and Pressure without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Forces, Density and Pressure, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Forces, Density and Pressure?",
-            "a": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
-        },
-        {
-            "q": "Define Moment.",
-            "a": "Turning effect of a force about a pivot, given by force times perpendicular distance."
-        },
-        {
-            "q": "Define Pressure.",
-            "a": "Normal force per unit area acting on a surface."
-        },
-        {
-            "q": "What exam strategy works best for Forces, Density and Pressure?",
-            "a": "For Forces, Density and Pressure, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Moment"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 4"
-        },
-        {
-            "label": "Key Formula",
-            "val": "W = Fs; E_k = ½mv²; E_p = mgh"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Forces, Density and Pressure: core principle",
-            "a": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
-        },
-        {
-            "q": "Moment",
-            "a": "Turning effect of a force about a pivot, given by force times perpendicular distance."
-        },
-        {
-            "q": "Pressure",
-            "a": "Normal force per unit area acting on a surface."
-        },
-        {
-            "q": "Efficiency",
-            "a": "Ratio of useful output energy or power to total input energy or power."
-        },
-        {
-            "q": "Forces, Density and Pressure: common mistake",
-            "a": "Applying equations in Forces, Density and Pressure without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Forces, Density and Pressure, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Forces, Density and Pressure Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Moment?",
-                "opts": [
-                    "Turning effect of a force about a pivot, given by force times perpendicular distance.",
-                    "Normal force per unit area acting on a surface.",
-                    "Ratio of useful output energy or power to total input energy or power.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Moment."
-            },
-            {
-                "q": "Which statement about Forces, Density and Pressure is correct?",
-                "opts": [
-                    "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Pressure?",
-                "opts": [
-                    "Normal force per unit area acting on a surface.",
-                    "Turning effect of a force about a pivot, given by force times perpendicular distance.",
-                    "Ratio of useful output energy or power to total input energy or power.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Pressure."
-            },
-            {
-                "q": "Which exam approach is most reliable for Forces, Density and Pressure?",
-                "opts": [
-                    "For Forces, Density and Pressure, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Forces, Density and Pressure?",
-                "opts": [
-                    "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "forces-energy",
+  "subject": "phy",
+  "title": "Forces and Equilibrium",
+  "subtitle": "Moments, couples, equilibrium and centre of gravity.",
+  "concept": [
+    "A body is in equilibrium when the resultant force and resultant torque (moment) are both zero.",
+    "The moment of a force about a point equals force \u00d7 perpendicular distance; a couple is a pair of equal, opposite, parallel forces.",
+    "The centre of gravity is the single point at which the entire weight of a body appears to act."
+  ],
+  "notes": [
+    {
+      "heading": "Moments and Torques",
+      "items": [
+        "Moment = F \u00d7 d\u22a5 (force \u00d7 perpendicular distance from pivot); units: N m.",
+        "Principle of moments: for equilibrium, sum of clockwise moments = sum of anticlockwise moments.",
+        "Couple: two equal, opposite, parallel forces separated by distance d; torque of couple = F \u00d7 d (constant regardless of pivot chosen).",
+        "Torque \u2260 moment of single force (torque of couple is independent of pivot)."
+      ]
     },
-    "syllabusRef": "9702 AS Topic 4"
+    {
+      "heading": "Equilibrium Conditions",
+      "items": [
+        "Translational equilibrium: \u03a3F = 0 in all directions (\u03a3 horizontal = 0; \u03a3 vertical = 0).",
+        "Rotational equilibrium: \u03a3\u03c4 = 0 about any point.",
+        "To solve: resolve forces into components; choose a convenient pivot to eliminate unknown forces (put pivot at unknown force).",
+        "Three-force rule: if three non-parallel forces are in equilibrium, they must meet at a single point."
+      ]
+    },
+    {
+      "heading": "Centre of Gravity",
+      "items": [
+        "The point at which the weight of the object acts; coincides with centre of mass for uniform gravitational fields.",
+        "For regular shapes: at geometric centre.",
+        "To find experimentally: suspend object from two different points and draw plumb lines; intersection = CoG.",
+        "Stability: lower CoG and wider base \u2192 more stable; object topples if CoG moves outside base of support."
+      ]
+    },
+    {
+      "heading": "Resolving Forces",
+      "items": [
+        "Any force F at angle \u03b8 to horizontal: horizontal component = F cos\u03b8; vertical component = F sin\u03b8.",
+        "Triangle/parallelogram of forces: find resultant or equilibrant graphically.",
+        "Lami's theorem (3 forces in equilibrium): F\u2081/sin \u03b1\u2081 = F\u2082/sin \u03b1\u2082 = F\u2083/sin \u03b1\u2083 (where \u03b1 is the angle OPPOSITE the force)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Moment of a force",
+      "body": "The product of a force and the perpendicular distance from the line of action of the force to the pivot: M = F \u00d7 d\u22a5."
+    },
+    {
+      "term": "Couple",
+      "body": "A pair of equal, opposite, parallel forces that produce rotation without translation; torque = F \u00d7 d."
+    },
+    {
+      "term": "Centre of gravity",
+      "body": "The point at which the entire weight of a body can be considered to act."
+    },
+    {
+      "term": "Principle of moments",
+      "body": "For a body in rotational equilibrium, the sum of clockwise moments equals the sum of anticlockwise moments about any point."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "A uniform 4.0 m beam of weight 200 N is supported at each end. A 300 N load sits 1.0 m from the left end. Find the reactions at each support.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Moments about left support",
+          "text": "Clockwise: 300\u00d71.0 + 200\u00d72.0 = 300 + 400 = 700 N m. Anticlockwise: R_right \u00d7 4.0."
+        },
+        {
+          "n": 2,
+          "sub": "Solve R_right",
+          "text": "R_right = 700/4.0 = 175 N"
+        },
+        {
+          "n": 3,
+          "sub": "Vertical equilibrium",
+          "text": "R_left + R_right = 300 + 200 = 500; R_left = 500 \u2212 175 = 325 N"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Using the distance along the beam rather than the perpendicular distance from the pivot to the line of action of the force.",
+    "Forgetting to include the weight of the beam itself (acting at its centre) in moment calculations.",
+    "Confusing a couple (two forces, no net force) with a single force."
+  ],
+  "tips": [
+    "To find an unknown support force: take moments about the other support \u2014 the unknown at your chosen pivot has zero moment.",
+    "A beam problem always needs: (1) \u03a3F = 0 vertically AND (2) \u03a3\u03c4 = 0 about one point.",
+    "Torque of a couple = F \u00d7 d (not F \u00d7 d from any pivot, but that is one way to calculate it \u2014 the result is the same from any point)."
+  ],
+  "flashcards": [
+    {
+      "q": "State the two conditions for equilibrium.",
+      "a": "(1) \u03a3F = 0 in all directions. (2) \u03a3\u03c4 = 0 about any point."
+    },
+    {
+      "q": "What is the torque of a couple?",
+      "a": "Torque = F \u00d7 d, where F is one of the equal forces and d is the perpendicular distance between them."
+    },
+    {
+      "q": "What is the principle of moments?",
+      "a": "For rotational equilibrium: sum of clockwise moments = sum of anticlockwise moments about any point."
+    },
+    {
+      "q": "How do you locate the centre of gravity of an irregular shape experimentally?",
+      "a": "Suspend from two different points; draw plumb lines from each suspension point; the CoG is at the intersection."
+    },
+    {
+      "q": "A force of 20 N acts at 30\u00b0 to horizontal. What are its components?",
+      "a": "Horizontal: 20 cos30\u00b0 = 17.3 N; Vertical: 20 sin30\u00b0 = 10.0 N."
+    },
+    {
+      "q": "What is a couple?",
+      "a": "Two equal, opposite, parallel forces acting on a body; they produce pure rotation (no net translational force)."
+    }
+  ],
+  "quiz": {
+    "title": "Forces and Equilibrium Quiz",
+    "questions": [
+      {
+        "q": "A 10 N force acts at a perpendicular distance of 0.5 m from a pivot. What is the moment?",
+        "opts": [
+          "5 N m",
+          "20 N m",
+          "0.05 N m",
+          "50 N m"
+        ],
+        "ans": 0,
+        "exp": "Moment = F \u00d7 d = 10 \u00d7 0.5 = 5 N m."
+      },
+      {
+        "q": "For a body in equilibrium, which conditions must BOTH be satisfied?",
+        "opts": [
+          "Only \u03a3F = 0",
+          "Only \u03a3\u03c4 = 0",
+          "\u03a3F = 0 and \u03a3\u03c4 = 0",
+          "Speed is constant"
+        ],
+        "ans": 2,
+        "exp": "Both conditions are required: no resultant force (translational) AND no resultant torque (rotational)."
+      },
+      {
+        "q": "A 6 N and a 6 N equal, opposite, parallel force act 0.4 m apart. What is the couple's torque?",
+        "opts": [
+          "0 N m",
+          "2.4 N m",
+          "12 N m",
+          "1.2 N m"
+        ],
+        "ans": 1,
+        "exp": "Torque of couple = F \u00d7 d = 6 \u00d7 0.4 = 2.4 N m."
+      },
+      {
+        "q": "Which change would make a standing object MORE stable?",
+        "opts": [
+          "Raise its centre of gravity",
+          "Narrow its base",
+          "Lower its centre of gravity",
+          "Increase its weight only"
+        ],
+        "ans": 2,
+        "exp": "Lowering the CoG and widening the base both increase stability; it is harder to topple an object with a low CoG."
+      },
+      {
+        "q": "A uniform beam of weight 100 N is 2 m long, supported at both ends. Where does each support reaction act?",
+        "opts": [
+          "Both 50 N at ends",
+          "100 N at left, 0 at right",
+          "25 N and 75 N",
+          "Depends on load position"
+        ],
+        "ans": 0,
+        "exp": "For a uniform beam with no additional load, symmetry means each support provides 50 N (half the weight)."
+      }
+    ]
+  },
+  "recall": [
+    "State the two conditions for equilibrium.",
+    "Explain how to solve a moments problem with two supports.",
+    "Define a couple and calculate its torque.",
+    "Explain how the position of the centre of gravity affects stability.",
+    "Resolve a force at an angle into horizontal and vertical components."
+  ],
+  "summary": [
+    {
+      "label": "Moment",
+      "value": "F \u00d7 d\u22a5"
+    },
+    {
+      "label": "Couple torque",
+      "value": "F \u00d7 d (constant, independent of pivot)"
+    },
+    {
+      "label": "Equilibrium",
+      "value": "\u03a3F=0 AND \u03a3\u03c4=0"
+    },
+    {
+      "label": "CoG",
+      "value": "weight appears to act here"
+    },
+    {
+      "label": "Stability",
+      "value": "lower CoG + wider base"
+    },
+    {
+      "label": "Principle of moments",
+      "value": "\u03a3clock = \u03a3anti-clock"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 3"
 }

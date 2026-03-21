@@ -1,238 +1,230 @@
 {
-    "id": "periodicity",
-    "subject": "chem",
-    "title": "The Periodic Table: Chemical Periodicity",
-    "subtitle": "The Periodic Table: Chemical Periodicity with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 9",
-    "concept": [
-        "The Periodic Table: Chemical Periodicity explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Periodic trends reflect effective nuclear charge, shielding, and atomic structure changes.",
-        "First ionisation energy patterns are explained by attraction and sub-level effects."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "The Periodic Table: Chemical Periodicity explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Periodic trends reflect effective nuclear charge, shielding, and atomic structure changes.",
-                "First ionisation energy patterns are explained by attraction and sub-level effects."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply The Periodic Table: Chemical Periodicity ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Ionisation energy",
-            "body": "Energy needed to remove an electron from a gaseous atom or ion."
-        },
-        {
-            "term": "Shielding",
-            "body": "Reduction in nuclear attraction on outer electrons due to inner-shell electrons."
-        },
-        {
-            "term": "Periodic trend",
-            "body": "Predictable variation in properties across a period due to changing atomic structure."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of The Periodic Table: Chemical Periodicity.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "The Periodic Table: Chemical Periodicity explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Periodic trends reflect effective nuclear charge, shielding, and atomic structure changes."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use The Periodic Table: Chemical Periodicity reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for The Periodic Table: Chemical Periodicity?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in The Periodic Table: Chemical Periodicity without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In The Periodic Table: Chemical Periodicity questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of The Periodic Table: Chemical Periodicity?",
-            "a": "The Periodic Table: Chemical Periodicity explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Ionisation energy.",
-            "a": "Energy needed to remove an electron from a gaseous atom or ion."
-        },
-        {
-            "q": "Define Shielding.",
-            "a": "Reduction in nuclear attraction on outer electrons due to inner-shell electrons."
-        },
-        {
-            "q": "What exam strategy works best for The Periodic Table: Chemical Periodicity?",
-            "a": "In The Periodic Table: Chemical Periodicity questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "The Periodic Table: Chemical Periodicity explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Periodic trends reflect effective nuclear charge, shielding, and atomic structure changes."
-        },
-        {
-            "label": "Exam Application",
-            "val": "First ionisation energy patterns are explained by attraction and sub-level effects."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Ionisation energy"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 9"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Atomic radius ↑ down group; IE ↑ across period"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "The Periodic Table: Chemical Periodicity: core principle",
-            "a": "The Periodic Table: Chemical Periodicity explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Ionisation energy",
-            "a": "Energy needed to remove an electron from a gaseous atom or ion."
-        },
-        {
-            "q": "Shielding",
-            "a": "Reduction in nuclear attraction on outer electrons due to inner-shell electrons."
-        },
-        {
-            "q": "Periodic trend",
-            "a": "Predictable variation in properties across a period due to changing atomic structure."
-        },
-        {
-            "q": "The Periodic Table: Chemical Periodicity: common mistake",
-            "a": "Giving trends in The Periodic Table: Chemical Periodicity without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In The Periodic Table: Chemical Periodicity questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "The Periodic Table: Chemical Periodicity Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Ionisation energy?",
-                "opts": [
-                    "Energy needed to remove an electron from a gaseous atom or ion.",
-                    "Reduction in nuclear attraction on outer electrons due to inner-shell electrons.",
-                    "Predictable variation in properties across a period due to changing atomic structure.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Ionisation energy."
-            },
-            {
-                "q": "Which statement about The Periodic Table: Chemical Periodicity is correct?",
-                "opts": [
-                    "Periodic trends reflect effective nuclear charge, shielding, and atomic structure changes.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Shielding?",
-                "opts": [
-                    "Reduction in nuclear attraction on outer electrons due to inner-shell electrons.",
-                    "Energy needed to remove an electron from a gaseous atom or ion.",
-                    "Predictable variation in properties across a period due to changing atomic structure.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Shielding."
-            },
-            {
-                "q": "Which exam approach is most reliable for The Periodic Table: Chemical Periodicity?",
-                "opts": [
-                    "In The Periodic Table: Chemical Periodicity questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in The Periodic Table: Chemical Periodicity?",
-                "opts": [
-                    "First ionisation energy patterns are explained by attraction and sub-level effects.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "periodicity",
+  "subject": "chem",
+  "title": "Periodicity",
+  "subtitle": "Trends across Period 3 and down Group 2 and Group 17.",
+  "concept": [
+    "Physical and chemical properties show repeating (periodic) trends as atomic number increases, reflecting changes in electronic structure.",
+    "Across Period 3: atomic radius decreases, first IE increases (with dips at Mg\u2192Al and P\u2192S), electronegativity increases, metallic character decreases.",
+    "Melting points across Period 3 reflect bonding type: metals (Na\u2013Al) then giant covalent (Si) then simple molecular (P\u2084, S\u2088, Cl\u2082, Ar)."
+  ],
+  "notes": [
+    {
+      "heading": "Trends Across Period 3",
+      "items": [
+        "Atomic radius: decreases left to right (same shell; increasing nuclear charge pulls electrons in).",
+        "First IE: generally increases (more protons); dip Na\u2192Mg normal; dip Al: 3p electron easier to remove than 3s; dip S: paired 3p electron easier to remove.",
+        "Electronegativity: increases across period (more protons, same shielding).",
+        "Melting points: Na\u2013Al have metallic bonding (moderate MP); Si has giant covalent (very high MP ~1410\u00b0C); P\u2084, S\u2088, Cl\u2082 simple molecular (low MP); Ar monatomic (very low MP)."
+      ]
+    },
+    {
+      "heading": "Group 2 Trends",
+      "items": [
+        "Atomic/ionic radius increases down group; first IE decreases; electronegativity decreases.",
+        "Reactivity increases down group (easier to lose the 2 outer electrons).",
+        "Mg burns in air; Ca reacts with cold water; Ba reacts vigorously.",
+        "Group 2 oxides and hydroxides are bases: MgO + H\u2082SO\u2084 \u2192 MgSO\u2084 + H\u2082O.",
+        "Solubility of Group 2 sulfates decreases down group (MgSO\u2084 soluble; BaSO\u2084 insoluble \u2014 used in barium meal test).",
+        "Solubility of Group 2 hydroxides increases down group (Mg(OH)\u2082 sparingly soluble; Ba(OH)\u2082 soluble)."
+      ]
+    },
+    {
+      "heading": "Group 17 Trends",
+      "items": [
+        "Atomic radius increases; electronegativity decreases; first IE decreases down group.",
+        "Volatility decreases (stronger id-id forces as molecules get larger).",
+        "Cl\u2082 is yellow-green gas; Br\u2082 is orange-brown liquid; I\u2082 is grey-black solid.",
+        "Reactivity (oxidising power) decreases down group: Cl\u2082 > Br\u2082 > I\u2082.",
+        "Halogen displacement: a more reactive halogen displaces a less reactive one from its halide solution (e.g. Cl\u2082 + 2KBr \u2192 2KCl + Br\u2082).",
+        "Halide reducing power increases down group: I\u207b > Br\u207b > Cl\u207b."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "First ionisation energy",
+      "body": "The energy to remove one mole of electrons from one mole of gaseous atoms."
+    },
+    {
+      "term": "Electronegativity",
+      "body": "The ability of an atom to attract the bonding electron pair in a covalent bond."
+    },
+    {
+      "term": "Halogen displacement",
+      "body": "A more reactive halogen oxidises a halide ion of a less reactive halogen, displacing it from solution."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain why the first IE of sulfur is less than that of phosphorus.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Configuration",
+          "text": "P: [Ne] 3s\u00b2 3p\u00b3 (half-filled 3p, one electron per orbital). S: [Ne] 3s\u00b2 3p\u2074 (one 3p orbital has a paired electron)."
+        },
+        {
+          "n": 2,
+          "sub": "Reason",
+          "text": "The paired electron in S experiences extra electron-electron repulsion in the same orbital."
+        },
+        {
+          "n": 3,
+          "sub": "Conclusion",
+          "text": "This repulsion makes the paired electron easier to remove, so IE of S < IE of P."
+        }
+      ]
+    },
+    {
+      "q": "Cl\u2082 is bubbled into aqueous NaI. Describe and explain what is observed.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Reaction",
+          "text": "Cl\u2082 + 2NaI \u2192 2NaCl + I\u2082 (or Cl\u2082 + 2I\u207b \u2192 2Cl\u207b + I\u2082)"
+        },
+        {
+          "n": 2,
+          "sub": "Observation",
+          "text": "Solution turns brown/orange (I\u2082 formed in solution); add cyclohexane: lower layer turns violet/purple (I\u2082 dissolves in non-polar solvent)."
+        },
+        {
+          "n": 3,
+          "sub": "Explanation",
+          "text": "Cl\u2082 is a stronger oxidising agent than I\u2082; it oxidises I\u207b to I\u2082 and is itself reduced to Cl\u207b."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing the dip in IE at Al (3p < 3s) with the dip at S (paired 3p electron).",
+    "Stating Group 2 hydroxide solubility decreases down group \u2014 it increases (Ba(OH)\u2082 is most soluble).",
+    "Forgetting to account for id-id forces when explaining trends in Group 17 boiling points."
+  ],
+  "tips": [
+    "For halogen displacement: use cyclohexane (or hexane) to confirm identity \u2014 Cl\u2082 gives pale yellow, Br\u2082 gives orange, I\u2082 gives violet.",
+    "Solubility trends: 'Group 2 sulfates become less soluble; hydroxides become more soluble' down the group.",
+    "Always explain IE anomalies by reference to electron configuration."
+  ],
+  "flashcards": [
+    {
+      "q": "Why does atomic radius decrease across Period 3?",
+      "a": "Nuclear charge increases but electrons are in the same shell (same shielding), so electrons are pulled closer."
+    },
+    {
+      "q": "Why is the first IE of Al lower than Mg?",
+      "a": "Al loses a 3p electron (higher energy than 3s), which is easier to remove than the 3s electron of Mg."
+    },
+    {
+      "q": "Which Group 2 sulfate is insoluble?",
+      "a": "BaSO\u2084 (used in barium meal X-rays)."
+    },
+    {
+      "q": "What is observed when Cl\u2082 is added to KBr(aq)?",
+      "a": "Solution turns orange-brown \u2014 Br\u2082 is displaced; Cl\u2082 oxidises Br\u207b to Br\u2082."
+    },
+    {
+      "q": "How does the oxidising power of halogens change down Group 17?",
+      "a": "Decreases \u2014 Cl\u2082 > Br\u2082 > I\u2082 (electronegativity and electron affinity decrease)."
+    },
+    {
+      "q": "What type of structure does silicon have, and why is its MP so high?",
+      "a": "Giant covalent lattice; many strong covalent bonds must be broken to melt it."
+    }
+  ],
+  "quiz": {
+    "title": "Periodicity Quiz",
+    "questions": [
+      {
+        "q": "Which element in Period 3 has the highest melting point?",
+        "opts": [
+          "Na",
+          "Al",
+          "Si",
+          "S"
+        ],
+        "ans": 2,
+        "exp": "Si has a giant covalent structure with many strong Si\u2013Si bonds \u2014 very high MP (~1410\u00b0C)."
+      },
+      {
+        "q": "Why is the IE of S lower than that of P?",
+        "opts": [
+          "S has more protons",
+          "S has a paired 3p electron that is easier to remove",
+          "S is smaller",
+          "S has fewer electrons"
+        ],
+        "ans": 1,
+        "exp": "The paired 3p electron in S experiences extra repulsion, making it easier to remove than P's half-filled 3p orbitals."
+      },
+      {
+        "q": "Which Group 2 hydroxide is most soluble?",
+        "opts": [
+          "Mg(OH)\u2082",
+          "Ca(OH)\u2082",
+          "Sr(OH)\u2082",
+          "Ba(OH)\u2082"
+        ],
+        "ans": 3,
+        "exp": "Solubility of Group 2 hydroxides increases down the group \u2014 Ba(OH)\u2082 is the most soluble."
+      },
+      {
+        "q": "What colour does iodine give in cyclohexane?",
+        "opts": [
+          "Pale yellow",
+          "Orange",
+          "Violet/purple",
+          "Brown"
+        ],
+        "ans": 2,
+        "exp": "I\u2082 dissolves in non-polar cyclohexane to give a characteristic violet/purple colour."
+      },
+      {
+        "q": "Why does reactivity increase down Group 2?",
+        "opts": [
+          "Atomic radius decreases",
+          "Ionisation energy increases",
+          "Ionisation energy decreases \u2014 easier to lose 2e\u207b",
+          "Electronegativity increases"
+        ],
+        "ans": 2,
+        "exp": "Larger atoms: outer electrons are further from nucleus and more shielded \u2192 lower IE \u2192 easier to form M\u00b2\u207a."
+      }
+    ]
+  },
+  "recall": [
+    "Explain the trend in first IE across Period 3, including the two dips.",
+    "State and explain trends in Group 2: reactivity, solubility of sulfates and hydroxides.",
+    "Describe and explain halogen displacement reactions with test for each halogen.",
+    "Explain the variation in melting points across Period 3.",
+    "Explain why Group 17 boiling points increase down the group."
+  ],
+  "summary": [
+    {
+      "label": "IE across Period 3",
+      "value": "generally \u2191; dip Al (3p<3s); dip S (paired 3p)"
+    },
+    {
+      "label": "Gp 2 sulfates",
+      "value": "solubility \u2193 down group; BaSO\u2084 insoluble"
+    },
+    {
+      "label": "Gp 2 hydroxides",
+      "value": "solubility \u2191 down group"
+    },
+    {
+      "label": "Halogen oxidising power",
+      "value": "Cl\u2082 > Br\u2082 > I\u2082"
+    },
+    {
+      "label": "Halide reducing power",
+      "value": "I\u207b > Br\u207b > Cl\u207b"
+    },
+    {
+      "label": "Si MP",
+      "value": "highest in Period 3 \u2014 giant covalent"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topics 8, 14, 15"
 }

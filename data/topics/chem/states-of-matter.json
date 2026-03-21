@@ -1,238 +1,213 @@
 {
-    "id": "states-of-matter",
-    "subject": "chem",
-    "title": "States of Matter",
-    "subtitle": "States of Matter with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 4",
-    "concept": [
-        "States of Matter explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Particle spacing and force strength explain differences between solid, liquid, and gas states.",
-        "Gas pressure arises from particle collisions with container walls."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "States of Matter explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Particle spacing and force strength explain differences between solid, liquid, and gas states.",
-                "Gas pressure arises from particle collisions with container walls."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply States of Matter ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Intermolecular force",
-            "body": "Attractive force between molecules, such as London, dipole-dipole, or hydrogen bonding."
-        },
-        {
-            "term": "Ideal gas equation",
-            "body": "Equation pV = nRT relating pressure, volume, amount, and temperature for an ideal gas."
-        },
-        {
-            "term": "Gas pressure",
-            "body": "Force per unit area exerted by gas molecules colliding with container walls."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of States of Matter.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "States of Matter explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Particle spacing and force strength explain differences between solid, liquid, and gas states."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use States of Matter reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for States of Matter?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in States of Matter without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In States of Matter questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of States of Matter?",
-            "a": "States of Matter explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Intermolecular force.",
-            "a": "Attractive force between molecules, such as London, dipole-dipole, or hydrogen bonding."
-        },
-        {
-            "q": "Define Ideal gas equation.",
-            "a": "Equation pV = nRT relating pressure, volume, amount, and temperature for an ideal gas."
-        },
-        {
-            "q": "What exam strategy works best for States of Matter?",
-            "a": "In States of Matter questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "States of Matter explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Particle spacing and force strength explain differences between solid, liquid, and gas states."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Gas pressure arises from particle collisions with container walls."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Intermolecular force"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 4"
-        },
-        {
-            "label": "Key Formula",
-            "val": "pV = nRT; E_k ∝ T (absolute)"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "States of Matter: core principle",
-            "a": "States of Matter explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Intermolecular force",
-            "a": "Attractive force between molecules, such as London, dipole-dipole, or hydrogen bonding."
-        },
-        {
-            "q": "Ideal gas equation",
-            "a": "Equation pV = nRT relating pressure, volume, amount, and temperature for an ideal gas."
-        },
-        {
-            "q": "Gas pressure",
-            "a": "Force per unit area exerted by gas molecules colliding with container walls."
-        },
-        {
-            "q": "States of Matter: common mistake",
-            "a": "Giving trends in States of Matter without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In States of Matter questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "States of Matter Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Intermolecular force?",
-                "opts": [
-                    "Attractive force between molecules, such as London, dipole-dipole, or hydrogen bonding.",
-                    "Equation pV = nRT relating pressure, volume, amount, and temperature for an ideal gas.",
-                    "Force per unit area exerted by gas molecules colliding with container walls.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Intermolecular force."
-            },
-            {
-                "q": "Which statement about States of Matter is correct?",
-                "opts": [
-                    "Particle spacing and force strength explain differences between solid, liquid, and gas states.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Ideal gas equation?",
-                "opts": [
-                    "Equation pV = nRT relating pressure, volume, amount, and temperature for an ideal gas.",
-                    "Attractive force between molecules, such as London, dipole-dipole, or hydrogen bonding.",
-                    "Force per unit area exerted by gas molecules colliding with container walls.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Ideal gas equation."
-            },
-            {
-                "q": "Which exam approach is most reliable for States of Matter?",
-                "opts": [
-                    "In States of Matter questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in States of Matter?",
-                "opts": [
-                    "Gas pressure arises from particle collisions with container walls.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "states-of-matter",
+  "subject": "chem",
+  "title": "States of Matter",
+  "subtitle": "Ideal gases, kinetic theory, and intermolecular forces in liquids and solids.",
+  "concept": [
+    "The kinetic theory of gases assumes ideal gas behaviour: negligible particle volume, no intermolecular forces, elastic collisions.",
+    "PV = nRT relates pressure, volume, moles and temperature for an ideal gas. Real gases deviate at high pressure and low temperature.",
+    "Intermolecular forces determine the physical state and properties of substances."
+  ],
+  "notes": [
+    {
+      "heading": "Kinetic Theory of Gases",
+      "items": [
+        "Assumptions: gas particles have negligible volume; no intermolecular forces; all collisions are perfectly elastic; average KE \u221d absolute temperature (K).",
+        "Pressure arises from collisions of gas particles with container walls.",
+        "Increasing T: particles move faster \u2192 more frequent, more forceful collisions \u2192 higher pressure (at constant V).",
+        "Increasing V: particles travel further between collisions \u2192 fewer collisions per unit area \u2192 lower pressure (at constant T)."
+      ]
+    },
+    {
+      "heading": "Gas Laws",
+      "items": [
+        "Boyle's law: P \u221d 1/V at constant T and n. (PV = constant)",
+        "Charles's law: V \u221d T at constant P and n. (V/T = constant, T in Kelvin)",
+        "Ideal gas equation: PV = nRT (P in Pa, V in m\u00b3, T in K, R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9). Or: PV = nRT gives V in dm\u00b3 if P in kPa."
+      ]
+    },
+    {
+      "heading": "Real vs Ideal Gases",
+      "items": [
+        "Real gases deviate at high pressure (particle volume becomes significant) and low temperature (intermolecular forces significant).",
+        "Real gas volumes < ideal at high P (particles take up space); > ideal at moderate P (intermolecular attractions pull particles together less than expected).",
+        "Noble gases and H\u2082 at room T and pressure: closest to ideal behaviour."
+      ]
+    },
+    {
+      "heading": "Intermolecular Forces and States",
+      "items": [
+        "Solid: particles in fixed positions; vibrate only; strongest intermolecular forces.",
+        "Liquid: particles can flow; moderate intermolecular forces; definite volume but no fixed shape.",
+        "Gas: particles far apart; move freely; intermolecular forces negligible; no fixed shape or volume.",
+        "Melting and boiling involve overcoming intermolecular forces (NOT breaking covalent/ionic bonds in most cases)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Ideal gas",
+      "body": "A gas that obeys PV = nRT under all conditions; assumes negligible particle volume and no intermolecular forces."
+    },
+    {
+      "term": "Boyle's law",
+      "body": "At constant temperature and amount, the pressure of an ideal gas is inversely proportional to its volume: PV = constant."
+    },
+    {
+      "term": "Charles's law",
+      "body": "At constant pressure and amount, the volume of an ideal gas is proportional to its absolute temperature: V/T = constant."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Calculate the pressure exerted by 0.500 mol of gas in a 10.0 dm\u00b3 container at 300 K.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Convert units",
+          "text": "V = 10.0 dm\u00b3 = 10.0 \u00d7 10\u207b\u00b3 m\u00b3 = 0.0100 m\u00b3; T = 300 K; R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9"
+        },
+        {
+          "n": 2,
+          "sub": "PV = nRT \u2192 P = nRT/V",
+          "text": "P = (0.500 \u00d7 8.31 \u00d7 300) / 0.0100"
+        },
+        {
+          "n": 3,
+          "sub": "Answer",
+          "text": "P = 1246.5 / 0.0100 = 124 650 Pa \u2248 1.25 \u00d7 10\u2075 Pa"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Using temperature in \u00b0C instead of Kelvin in gas law calculations \u2014 always convert: K = \u00b0C + 273.",
+    "Using dm\u00b3 in the ideal gas equation when the equation requires m\u00b3 (unless using P in kPa).",
+    "Stating that melting a covalent solid breaks covalent bonds \u2014 for simple molecular solids, only intermolecular forces are overcome."
+  ],
+  "tips": [
+    "Convert to SI units first: Pa (pressure), m\u00b3 (volume), K (temperature).",
+    "To avoid unit confusion: PV = nRT in Pa and m\u00b3, OR PV = nRT in kPa and dm\u00b3 (same R value works in kPa\u00b7dm\u00b3).",
+    "Real gas deviations: remember 'high P and low T' favour real-gas behaviour."
+  ],
+  "flashcards": [
+    {
+      "q": "State the ideal gas equation.",
+      "a": "PV = nRT (P in Pa, V in m\u00b3, T in K, R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9)"
+    },
+    {
+      "q": "What are two conditions where real gases deviate most from ideal behaviour?",
+      "a": "High pressure (particle volume significant) and low temperature (intermolecular forces significant)."
+    },
+    {
+      "q": "State Boyle's law.",
+      "a": "At constant temperature, pressure is inversely proportional to volume: PV = constant."
+    },
+    {
+      "q": "What is the kinetic theory assumption about molecular collisions?",
+      "a": "All collisions are perfectly elastic (no kinetic energy is lost)."
+    },
+    {
+      "q": "What happens to gas pressure if volume is halved at constant temperature?",
+      "a": "Pressure doubles (Boyle's law: P \u221d 1/V)."
+    },
+    {
+      "q": "Convert 27\u00b0C to Kelvin.",
+      "a": "27 + 273 = 300 K"
+    }
+  ],
+  "quiz": {
+    "title": "States of Matter Quiz",
+    "questions": [
+      {
+        "q": "What volume (m\u00b3) does 2.00 mol of ideal gas occupy at 100 kPa and 27\u00b0C?",
+        "opts": [
+          "0.0249 m\u00b3",
+          "0.0499 m\u00b3",
+          "24.9 m\u00b3",
+          "4.99 \u00d7 10\u207b\u00b3 m\u00b3"
+        ],
+        "ans": 0,
+        "exp": "V = nRT/P = (2\u00d78.31\u00d7300)/100000 = 0.04986 m\u00b3 \u2248 0.0499 m\u00b3"
+      },
+      {
+        "q": "A gas is at 2.0 \u00d7 10\u2075 Pa and 4.0 dm\u00b3. If volume halves at constant T, what is the new pressure?",
+        "opts": [
+          "1.0 \u00d7 10\u2075 Pa",
+          "2.0 \u00d7 10\u2075 Pa",
+          "4.0 \u00d7 10\u2075 Pa",
+          "8.0 \u00d7 10\u2075 Pa"
+        ],
+        "ans": 2,
+        "exp": "Boyle's law: P\u2081V\u2081 = P\u2082V\u2082; P\u2082 = (2\u00d710\u2075 \u00d7 4.0)/2.0 = 4.0 \u00d7 10\u2075 Pa."
+      },
+      {
+        "q": "Under which conditions does a real gas deviate most from ideal behaviour?",
+        "opts": [
+          "Low pressure, high temperature",
+          "High pressure, low temperature",
+          "Low pressure, low temperature",
+          "High pressure, high temperature"
+        ],
+        "ans": 1,
+        "exp": "At high P, particle volumes matter; at low T, intermolecular forces become significant."
+      },
+      {
+        "q": "What is the relationship between average kinetic energy and temperature?",
+        "opts": [
+          "KE \u221d T\u00b2",
+          "KE \u221d \u221aT",
+          "Average KE \u221d absolute temperature (T in K)",
+          "KE is independent of temperature"
+        ],
+        "ans": 2,
+        "exp": "A fundamental assumption of kinetic theory: average molecular KE is proportional to absolute temperature."
+      },
+      {
+        "q": "Which correctly states Charles's law?",
+        "opts": [
+          "V \u221d P at constant T",
+          "V \u221d 1/T at constant P",
+          "V/T = constant at constant P (T in K)",
+          "PV = constant"
+        ],
+        "ans": 2,
+        "exp": "Charles's law: at constant pressure, V is proportional to absolute temperature."
+      }
+    ]
+  },
+  "recall": [
+    "State the assumptions of the kinetic theory.",
+    "State and use the ideal gas equation.",
+    "Explain why real gases deviate from ideal at high pressure.",
+    "Use Boyle's and Charles's law to solve problems.",
+    "Explain the difference between gas, liquid and solid in terms of particle arrangement and forces."
+  ],
+  "summary": [
+    {
+      "label": "PV=nRT",
+      "value": "P(Pa), V(m\u00b3), T(K), R=8.31"
+    },
+    {
+      "label": "Boyle's",
+      "value": "PV=const (const T)"
+    },
+    {
+      "label": "Charles's",
+      "value": "V/T=const (const P, T in K)"
+    },
+    {
+      "label": "Real gas deviates",
+      "value": "high P (volume) + low T (forces)"
+    },
+    {
+      "label": "KE",
+      "value": "\u221d absolute temperature"
+    },
+    {
+      "label": "Molar volume RTP",
+      "value": "24.0 dm\u00b3 mol\u207b\u00b9"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 2"
 }

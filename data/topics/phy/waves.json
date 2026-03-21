@@ -1,238 +1,224 @@
 {
-    "id": "waves",
-    "subject": "phy",
-    "title": "Waves",
-    "subtitle": "Waves with model-based reasoning, equations, and exam application.",
-    "concept": [
-        "Waves transfer energy and information without net transfer of matter. Understanding wave parameters allows quantitative prediction of wave behavior in many physical systems.",
-        "The wave equation v = f lambda links speed, frequency, and wavelength. Changing medium usually changes speed and wavelength while source frequency remains fixed.",
-        "Interference and stationary waves arise from superposition. These patterns are central to both qualitative and calculation-based AS questions."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Waves transfer energy and information without net transfer of matter. Understanding wave parameters allows quantitative prediction of wave behavior in many physical systems.",
-                "The wave equation v = f lambda links speed, frequency, and wavelength. Changing medium usually changes speed and wavelength while source frequency remains fixed.",
-                "Interference and stationary waves arise from superposition. These patterns are central to both qualitative and calculation-based AS questions."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Waves ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Start with the governing equation and rearrange symbolically before substitution.",
-                "Keep unit conversions explicit and check final units for consistency.",
-                "State assumptions and sign conventions when interpreting graphs or circuits."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Frequency",
-            "body": "Number of complete oscillations passing a point per second."
-        },
-        {
-            "term": "Refraction",
-            "body": "Change in direction of a wave due to speed change on entering another medium."
-        },
-        {
-            "term": "Node",
-            "body": "Point on a stationary wave where displacement is always zero."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Waves.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Waves transfer energy and information without net transfer of matter. Understanding wave parameters allows quantitative prediction of wave behavior in many physical systems."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "The wave equation v = f lambda links speed, frequency, and wavelength. Changing medium usually changes speed and wavelength while source frequency remains fixed."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Waves reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Waves?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Applying equations in Waves without defining variables and units first.",
-        "Substituting numbers before rearranging equations.",
-        "Ignoring direction, sign conventions, or vector nature of quantities."
-    ],
-    "tips": [
-        "For Waves, annotate known values and units before choosing an equation.",
-        "Use a quick estimate to check if your magnitude is sensible.",
-        "In graph questions, explain both gradient and intercept meaning when needed."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Waves?",
-            "a": "Waves transfer energy and information without net transfer of matter. Understanding wave parameters allows quantitative prediction of wave behavior in many physical systems."
-        },
-        {
-            "q": "Define Frequency.",
-            "a": "Number of complete oscillations passing a point per second."
-        },
-        {
-            "q": "Define Refraction.",
-            "a": "Change in direction of a wave due to speed change on entering another medium."
-        },
-        {
-            "q": "What exam strategy works best for Waves?",
-            "a": "For Waves, annotate known values and units before choosing an equation."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Waves transfer energy and information without net transfer of matter. Understanding wave parameters allows quantitative prediction of wave behavior in many physical systems."
-        },
-        {
-            "label": "Applied Model",
-            "val": "The wave equation v = f lambda links speed, frequency, and wavelength. Changing medium usually changes speed and wavelength while source frequency remains fixed."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Interference and stationary waves arise from superposition. These patterns are central to both qualitative and calculation-based AS questions."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Frequency"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9702 AS Topic 7"
-        },
-        {
-            "label": "Key Formula",
-            "val": "λ = v/f; I ∝ A²; Δφ = 2πΔx/λ"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Waves: core principle",
-            "a": "Waves transfer energy and information without net transfer of matter. Understanding wave parameters allows quantitative prediction of wave behavior in many physical systems."
-        },
-        {
-            "q": "Frequency",
-            "a": "Number of complete oscillations passing a point per second."
-        },
-        {
-            "q": "Refraction",
-            "a": "Change in direction of a wave due to speed change on entering another medium."
-        },
-        {
-            "q": "Node",
-            "a": "Point on a stationary wave where displacement is always zero."
-        },
-        {
-            "q": "Waves: common mistake",
-            "a": "Applying equations in Waves without defining variables and units first."
-        },
-        {
-            "q": "PHY exam tip",
-            "a": "For Waves, annotate known values and units before choosing an equation."
-        }
-    ],
-    "quiz": {
-        "title": "Waves Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Frequency?",
-                "opts": [
-                    "Number of complete oscillations passing a point per second.",
-                    "Change in direction of a wave due to speed change on entering another medium.",
-                    "Point on a stationary wave where displacement is always zero.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Frequency."
-            },
-            {
-                "q": "Which statement about Waves is correct?",
-                "opts": [
-                    "The wave equation v = f lambda links speed, frequency, and wavelength. Changing medium usually changes speed and wavelength while source frequency remains fixed.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Refraction?",
-                "opts": [
-                    "Change in direction of a wave due to speed change on entering another medium.",
-                    "Number of complete oscillations passing a point per second.",
-                    "Point on a stationary wave where displacement is always zero.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Refraction."
-            },
-            {
-                "q": "Which exam approach is most reliable for Waves?",
-                "opts": [
-                    "For Waves, annotate known values and units before choosing an equation.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Waves?",
-                "opts": [
-                    "Interference and stationary waves arise from superposition. These patterns are central to both qualitative and calculation-based AS questions.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "waves",
+  "subject": "phy",
+  "title": "Waves",
+  "subtitle": "Wave properties, types, speed and the electromagnetic spectrum.",
+  "concept": [
+    "Waves transfer energy without transferring matter; transverse waves have oscillations perpendicular to propagation, longitudinal waves have oscillations parallel.",
+    "Wave speed v = f\u03bb; the frequency of a wave is determined by its source, while wavelength changes when speed changes (e.g. refraction).",
+    "The electromagnetic spectrum spans radio waves to gamma rays; all travel at 3\u00d710\u2078 m s\u207b\u00b9 in a vacuum."
+  ],
+  "notes": [
+    {
+      "heading": "Wave Properties",
+      "items": [
+        "Amplitude (A): maximum displacement from equilibrium.",
+        "Frequency (f): oscillations per second; Hz.",
+        "Period (T): time for one complete oscillation; T = 1/f.",
+        "Wavelength (\u03bb): distance between two successive in-phase points (e.g. crest to crest).",
+        "Wave speed: v = f\u03bb.",
+        "Phase difference: measured in degrees or radians; two points \u03bb apart are in phase (0\u00b0 or 2\u03c0); \u03bb/2 apart are antiphase (180\u00b0 or \u03c0)."
+      ]
     },
-    "syllabusRef": "9702 AS Topic 7"
+    {
+      "heading": "Transverse and Longitudinal Waves",
+      "items": [
+        "Transverse: oscillations \u22a5 to propagation direction; e.g. EM waves, water waves, S-waves (seismic).",
+        "Longitudinal: oscillations \u2225 to propagation direction; compressions and rarefactions; e.g. sound, P-waves (seismic).",
+        "Polarisation: only transverse waves can be polarised; oscillations restricted to one plane."
+      ]
+    },
+    {
+      "heading": "Reflection, Refraction, Diffraction",
+      "items": [
+        "Reflection: angle of incidence = angle of reflection (both measured from normal).",
+        "Refraction: wave changes speed (and wavelength) at a boundary; frequency stays constant; n = c/v = sin \u03b8\u2081/sin \u03b8\u2082 (Snell's law).",
+        "Total internal reflection: occurs when angle of incidence \u2265 critical angle (sin c = 1/n). Used in optical fibres.",
+        "Diffraction: spreading of waves around obstacles or through gaps; most significant when gap \u2248 \u03bb."
+      ]
+    },
+    {
+      "heading": "Electromagnetic Spectrum",
+      "items": [
+        "Order (increasing frequency/decreasing wavelength): radio \u2192 microwave \u2192 infrared \u2192 visible \u2192 UV \u2192 X-ray \u2192 gamma.",
+        "All EM waves: transverse; travel at c = 3\u00d710\u2078 m s\u207b\u00b9 in vacuum; can be polarised.",
+        "Uses: radio (broadcasting), microwave (communications, cooking), IR (thermal imaging), visible (sight), UV (fluorescence, sterilisation), X-rays (medical imaging), gamma (cancer treatment, sterilisation)."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Wavelength",
+      "body": "The distance between two successive points that are in phase (e.g. crest to crest); symbol \u03bb; unit: metre."
+    },
+    {
+      "term": "Polarisation",
+      "body": "The restriction of transverse wave oscillations to a single plane; only transverse waves can be polarised."
+    },
+    {
+      "term": "Critical angle",
+      "body": "The angle of incidence at which the refracted ray travels along the boundary (angle of refraction = 90\u00b0); beyond this angle, total internal reflection occurs."
+    },
+    {
+      "term": "Diffraction",
+      "body": "The spreading of a wave as it passes through a gap or around an obstacle; most pronounced when the gap width \u2248 wavelength."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Light travels from glass (n = 1.5) to air. Find the critical angle.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Formula",
+          "text": "sin c = 1/n = 1/1.5 = 0.667"
+        },
+        {
+          "n": 2,
+          "sub": "Solve",
+          "text": "c = sin\u207b\u00b9(0.667) = 41.8\u00b0 \u2248 42\u00b0"
+        }
+      ]
+    },
+    {
+      "q": "A sound wave of frequency 440 Hz travels at 340 m s\u207b\u00b9. Find its wavelength.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "v = f\u03bb",
+          "text": "\u03bb = v/f = 340/440 = 0.773 m \u2248 0.77 m"
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Confusing frequency (stays constant at a boundary) with wavelength (changes at a boundary during refraction).",
+    "Applying polarisation to longitudinal waves \u2014 only transverse waves can be polarised.",
+    "Using the wrong formula for critical angle: sin c = 1/n (only when going from medium of refractive index n to air/vacuum)."
+  ],
+  "tips": [
+    "At a refractive boundary: f = constant; v and \u03bb both change. Remember 'frequency is fixed by the source'.",
+    "Polarisation evidence for transverse nature: if a wave can be polarised \u2192 must be transverse.",
+    "Diffraction: wider gap \u2192 less diffraction. Wavelength closer to gap size \u2192 more diffraction."
+  ],
+  "flashcards": [
+    {
+      "q": "State the wave equation.",
+      "a": "v = f\u03bb (wave speed = frequency \u00d7 wavelength)."
+    },
+    {
+      "q": "What is the critical angle and when does total internal reflection occur?",
+      "a": "Critical angle c: sin c = 1/n. TIR occurs when angle of incidence \u2265 c (light going from denser to less dense medium)."
+    },
+    {
+      "q": "What quantity stays constant when a wave refracts at a boundary?",
+      "a": "Frequency stays constant; speed and wavelength both change."
+    },
+    {
+      "q": "Why can only transverse waves be polarised?",
+      "a": "Polarisation restricts oscillations to one plane. Longitudinal wave oscillations are parallel to propagation \u2014 there is only one direction, so no polarisation is possible."
+    },
+    {
+      "q": "State the order of the electromagnetic spectrum from lowest to highest frequency.",
+      "a": "Radio \u2192 microwave \u2192 infrared \u2192 visible \u2192 ultraviolet \u2192 X-ray \u2192 gamma ray."
+    },
+    {
+      "q": "When is diffraction most significant?",
+      "a": "When the gap width is approximately equal to the wavelength of the wave."
+    }
+  ],
+  "quiz": {
+    "title": "Waves Quiz",
+    "questions": [
+      {
+        "q": "A wave has frequency 200 Hz and wavelength 1.5 m. What is its speed?",
+        "opts": [
+          "133 m s\u207b\u00b9",
+          "300 m s\u207b\u00b9",
+          "133 m s\u207b\u00b9",
+          "1.5 m s\u207b\u00b9"
+        ],
+        "ans": 1,
+        "exp": "v = f\u03bb = 200\u00d71.5 = 300 m s\u207b\u00b9."
+      },
+      {
+        "q": "Which waves CANNOT be polarised?",
+        "opts": [
+          "Light",
+          "Radio waves",
+          "Sound",
+          "X-rays"
+        ],
+        "ans": 2,
+        "exp": "Sound is a longitudinal wave \u2014 oscillations are parallel to propagation direction; polarisation is only possible for transverse waves."
+      },
+      {
+        "q": "Light enters a medium and slows down. What happens to its wavelength?",
+        "opts": [
+          "Increases",
+          "Decreases",
+          "Stays the same",
+          "Doubles"
+        ],
+        "ans": 1,
+        "exp": "v = f\u03bb; frequency is constant; if v decreases, \u03bb must also decrease proportionally."
+      },
+      {
+        "q": "What is the condition for total internal reflection?",
+        "opts": [
+          "Angle of incidence < critical angle",
+          "Angle of incidence = angle of refraction",
+          "Angle of incidence \u2265 critical angle, going from denser to less dense medium",
+          "Wave speed is zero"
+        ],
+        "ans": 2,
+        "exp": "TIR occurs when light hits a boundary (from denser to less dense medium) at an angle \u2265 the critical angle."
+      },
+      {
+        "q": "Which part of the EM spectrum has the shortest wavelength?",
+        "opts": [
+          "Radio",
+          "Infrared",
+          "X-ray",
+          "Gamma ray"
+        ],
+        "ans": 3,
+        "exp": "Gamma rays have the highest frequency and shortest wavelength in the EM spectrum."
+      }
+    ]
+  },
+  "recall": [
+    "State and apply the wave equation.",
+    "Describe transverse and longitudinal waves with examples.",
+    "Explain what happens to frequency, wavelength and speed at a refractive boundary.",
+    "Derive the formula for critical angle and calculate it.",
+    "Explain why polarisation is evidence that light is a transverse wave."
+  ],
+  "summary": [
+    {
+      "label": "v = f\u03bb",
+      "value": "wave equation"
+    },
+    {
+      "label": "Transverse",
+      "value": "oscillation \u22a5 propagation; can polarise"
+    },
+    {
+      "label": "Longitudinal",
+      "value": "oscillation \u2225 propagation; cannot polarise"
+    },
+    {
+      "label": "Refraction",
+      "value": "f constant; v and \u03bb change"
+    },
+    {
+      "label": "Critical angle",
+      "value": "sin c = 1/n"
+    },
+    {
+      "label": "Diffraction max",
+      "value": "gap \u2248 wavelength"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Physics 9702, Topic 13"
 }

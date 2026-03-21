@@ -1,238 +1,213 @@
 {
-    "id": "halogen-compounds",
-    "subject": "chem",
-    "title": "Halogen Compounds",
-    "subtitle": "Halogen Compounds with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 15",
-    "concept": [
-        "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Haloalkanes react by nucleophilic substitution with different reagents.",
-        "Rate differences can be explained by carbon-halogen bond strength."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Haloalkanes react by nucleophilic substitution with different reagents.",
-                "Rate differences can be explained by carbon-halogen bond strength."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Halogen Compounds ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Haloalkane",
-            "body": "Alkane derivative in which one or more H atoms are replaced by halogen atoms."
-        },
-        {
-            "term": "Nucleophilic substitution",
-            "body": "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon."
-        },
-        {
-            "term": "Elimination",
-            "body": "Reaction in which atoms or groups are removed to form a multiple bond."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Halogen Compounds.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Haloalkanes react by nucleophilic substitution with different reagents."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Halogen Compounds reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Halogen Compounds?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Halogen Compounds without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Halogen Compounds?",
-            "a": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Haloalkane.",
-            "a": "Alkane derivative in which one or more H atoms are replaced by halogen atoms."
-        },
-        {
-            "q": "Define Nucleophilic substitution.",
-            "a": "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon."
-        },
-        {
-            "q": "What exam strategy works best for Halogen Compounds?",
-            "a": "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Haloalkanes react by nucleophilic substitution with different reagents."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Rate differences can be explained by carbon-halogen bond strength."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Haloalkane"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 15"
-        },
-        {
-            "label": "Key Formula",
-            "val": "SN1 vs SN2 mechanism; E1 vs E2 elimination"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Halogen Compounds: core principle",
-            "a": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Haloalkane",
-            "a": "Alkane derivative in which one or more H atoms are replaced by halogen atoms."
-        },
-        {
-            "q": "Nucleophilic substitution",
-            "a": "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon."
-        },
-        {
-            "q": "Elimination",
-            "a": "Reaction in which atoms or groups are removed to form a multiple bond."
-        },
-        {
-            "q": "Halogen Compounds: common mistake",
-            "a": "Giving trends in Halogen Compounds without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Halogen Compounds Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Haloalkane?",
-                "opts": [
-                    "Alkane derivative in which one or more H atoms are replaced by halogen atoms.",
-                    "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon.",
-                    "Reaction in which atoms or groups are removed to form a multiple bond.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Haloalkane."
-            },
-            {
-                "q": "Which statement about Halogen Compounds is correct?",
-                "opts": [
-                    "Haloalkanes react by nucleophilic substitution with different reagents.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Nucleophilic substitution?",
-                "opts": [
-                    "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon.",
-                    "Alkane derivative in which one or more H atoms are replaced by halogen atoms.",
-                    "Reaction in which atoms or groups are removed to form a multiple bond.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Nucleophilic substitution."
-            },
-            {
-                "q": "Which exam approach is most reliable for Halogen Compounds?",
-                "opts": [
-                    "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Halogen Compounds?",
-                "opts": [
-                    "Rate differences can be explained by carbon-halogen bond strength.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "halogen-compounds",
+  "subject": "chem",
+  "title": "Halogenoalkanes",
+  "subtitle": "Nucleophilic substitution, elimination, reactivity trends.",
+  "concept": [
+    "Halogenoalkanes undergo nucleophilic substitution because the C\u2013X bond is polar (C\u03b4+\u2013X\u03b4\u2212) making carbon susceptible to nucleophilic attack.",
+    "Reactivity increases down Group 17 (C\u2013I bonds break most easily) despite C\u2013F being the most polar.",
+    "Elimination competes with substitution; high temperature and concentrated base (ethanolic KOH) favour elimination."
+  ],
+  "notes": [
+    {
+      "heading": "Nucleophilic Substitution (SN)",
+      "items": [
+        "C\u2013X bond is polar: carbon is \u03b4+; nucleophile attacks carbon.",
+        "With NaOH(aq): R\u2013X + OH\u207b \u2192 R\u2013OH + X\u207b (substitution; forms alcohol).",
+        "With NaCN (ethanol solvent): R\u2013X + CN\u207b \u2192 R\u2013CN + X\u207b (forms nitrile; chain length increases by 1C).",
+        "With NH\u2083 (excess, sealed tube): R\u2013X + NH\u2083 \u2192 R\u2013NH\u2082 + HX (forms primary amine).",
+        "With NaOH(aq)/AgNO\u2083(aq): after hydrolysis, Ag\u207a + X\u207b \u2192 AgX precipitate \u2014 used to compare reactivity."
+      ]
+    },
+    {
+      "heading": "Reactivity Trend of C\u2013X Bonds",
+      "items": [
+        "Bond enthalpy: C\u2013F > C\u2013Cl > C\u2013Br > C\u2013I (decreasing strength down group).",
+        "Reactivity: C\u2013I > C\u2013Br > C\u2013Cl > C\u2013F (weaker bond = easier to break = faster reaction).",
+        "C\u2013F is very strong and essentially unreactive in nucleophilic substitution.",
+        "AgNO\u2083 test: Cl\u207b \u2192 white ppt (AgCl); Br\u207b \u2192 cream ppt (AgBr); I\u207b \u2192 yellow ppt (AgI) \u2014 solubility in dilute and conc. ammonia distinguishes them."
+      ]
+    },
+    {
+      "heading": "Elimination",
+      "items": [
+        "Competing reaction with NaOH \u2014 rate of substitution vs elimination depends on conditions.",
+        "Ethanolic KOH, hot: elimination \u2192 alkene + HX.",
+        "Aqueous NaOH, warm: substitution \u2192 alcohol.",
+        "Primary halogenoalkanes: mainly substitution. Tertiary: mainly elimination (steric hindrance prevents nucleophilic attack)."
+      ]
+    },
+    {
+      "heading": "Environmental Concerns",
+      "items": [
+        "CFCs (chlorofluorocarbons): very unreactive in troposphere; rise to stratosphere; UV breaks C\u2013Cl bond \u2192 Cl\u2022 radicals that catalyse O\u2083 decomposition (ozone depletion).",
+        "HCFCs and HFCs: replacements \u2014 break down in troposphere before reaching stratosphere."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Nucleophilic substitution",
+      "body": "A reaction in which a nucleophile replaces an atom or group (usually a halide leaving group) at a carbon atom."
+    },
+    {
+      "term": "Leaving group",
+      "body": "An atom or group that departs with its bonding electrons during a substitution reaction; halide ions are good leaving groups."
+    },
+    {
+      "term": "Elimination",
+      "body": "A reaction in which a small molecule (e.g. HX) is removed from an organic molecule to form a double bond."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Predict and explain whether 1-bromopropane or 1-iodopropane undergoes nucleophilic substitution more rapidly with NaOH(aq).",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Bond enthalpies",
+          "text": "C\u2013I bond enthalpy (~238 kJ mol\u207b\u00b9) < C\u2013Br bond enthalpy (~290 kJ mol\u207b\u00b9)."
+        },
+        {
+          "n": 2,
+          "sub": "Rate determining step",
+          "text": "The C\u2013X bond must break in the rate-determining step. A weaker bond is easier to break."
+        },
+        {
+          "n": 3,
+          "sub": "Conclusion",
+          "text": "1-Iodopropane reacts faster because the C\u2013I bond is weaker and breaks more easily, even though C\u2013I is less polar than C\u2013Br."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Saying C\u2013F is most reactive because it is most polar \u2014 C\u2013F is so strong it barely reacts; bond enthalpy dominates over polarity for reactivity.",
+    "Using aqueous KOH for elimination \u2014 it must be ethanolic KOH (hot) to favour elimination.",
+    "Forgetting that nucleophilic substitution with NaCN increases the carbon chain length by 1."
+  ],
+  "tips": [
+    "Silver nitrate test after hydrolysis: warm with AgNO\u2083(aq): Cl \u2192 white AgCl; Br \u2192 cream AgBr; I \u2192 yellow AgI. Add NH\u2083: AgCl dissolves in dilute; AgBr only in concentrated; AgI insoluble in both.",
+    "Conditions summary: NaOH(aq) warm \u2192 substitution (alcohol); KOH ethanolic hot \u2192 elimination (alkene); NH\u2083 excess sealed \u2192 amine; NaCN ethanol \u2192 nitrile."
+  ],
+  "flashcards": [
+    {
+      "q": "Why does C\u2013I react faster in nucleophilic substitution than C\u2013F, despite C\u2013F being more polar?",
+      "a": "Bond enthalpy is more important than polarity \u2014 C\u2013I is much weaker than C\u2013F, so the rate-determining step (C\u2013X bond breaking) is faster for C\u2013I."
+    },
+    {
+      "q": "What product forms when a halogenoalkane reacts with NaCN in ethanol?",
+      "a": "A nitrile (R\u2013CN); the carbon chain length increases by one carbon atom."
+    },
+    {
+      "q": "What conditions favour elimination over substitution in halogenoalkanes?",
+      "a": "Hot, concentrated ethanolic KOH (vs warm aqueous NaOH for substitution)."
+    },
+    {
+      "q": "Describe the AgNO\u2083 test for halide ions.",
+      "a": "Add AgNO\u2083(aq) after hydrolysis: Cl\u207b \u2192 white AgCl; Br\u207b \u2192 cream AgBr; I\u207b \u2192 yellow AgI. Test with NH\u2083 to confirm: AgCl dissolves in dilute NH\u2083; AgBr in concentrated; AgI is insoluble in both."
+    },
+    {
+      "q": "Why do CFCs cause ozone depletion?",
+      "a": "In the stratosphere, UV breaks C\u2013Cl bonds \u2192 Cl\u2022 radicals. Cl\u2022 catalyses: O\u2083 \u2192 O\u2082 (each Cl\u2022 can destroy thousands of O\u2083 molecules)."
+    },
+    {
+      "q": "What is formed when a halogenoalkane reacts with excess NH\u2083?",
+      "a": "A primary amine (R\u2013NH\u2082)."
+    }
+  ],
+  "quiz": {
+    "title": "Halogenoalkanes Quiz",
+    "questions": [
+      {
+        "q": "Which product forms when 1-bromobutane reacts with warm aqueous NaOH?",
+        "opts": [
+          "Butan-1-amine",
+          "But-1-ene",
+          "Butan-1-ol",
+          "Butanenitrile"
+        ],
+        "ans": 2,
+        "exp": "Warm aqueous NaOH = nucleophilic substitution: R\u2013Br + OH\u207b \u2192 R\u2013OH (butan-1-ol) + Br\u207b."
+      },
+      {
+        "q": "Which halogenoalkane reacts fastest in nucleophilic substitution?",
+        "opts": [
+          "Chloroethane",
+          "Bromoethane",
+          "Fluoroethane",
+          "Iodoethane"
+        ],
+        "ans": 3,
+        "exp": "C\u2013I has the lowest bond enthalpy \u2192 breaks most easily \u2192 fastest nucleophilic substitution."
+      },
+      {
+        "q": "What is the observation when AgNO\u2083(aq) is added to a hydrolysed sample of 1-chloroethane?",
+        "opts": [
+          "Yellow precipitate",
+          "Cream precipitate",
+          "White precipitate",
+          "No precipitate"
+        ],
+        "ans": 2,
+        "exp": "Cl\u207b ions give a white AgCl precipitate with Ag\u207a."
+      },
+      {
+        "q": "Which conditions give an alkene from a halogenoalkane?",
+        "opts": [
+          "NaOH(aq), warm",
+          "KOH in ethanol, hot",
+          "NH\u2083, sealed tube",
+          "NaCN in ethanol"
+        ],
+        "ans": 1,
+        "exp": "Ethanolic KOH (hot) favours elimination \u2192 HX removed \u2192 alkene formed."
+      },
+      {
+        "q": "What is produced when CH\u2083CH\u2082Br reacts with NaCN in ethanol?",
+        "opts": [
+          "Propan-1-ol",
+          "Propanenitrile",
+          "Ethanamine",
+          "Ethanol"
+        ],
+        "ans": 1,
+        "exp": "NaCN substitutes CN\u207b for Br\u207b: CH\u2083CH\u2082Br + CN\u207b \u2192 CH\u2083CH\u2082CN (propanenitrile) + Br\u207b. Chain length increases by 1C."
+      }
+    ]
+  },
+  "recall": [
+    "Explain why C\u2013I reacts faster in nucleophilic substitution than C\u2013F.",
+    "Describe the conditions and products for four nucleophilic substitution reactions of halogenoalkanes.",
+    "Explain how conditions determine whether substitution or elimination occurs.",
+    "Describe the AgNO\u2083 test for halide ions.",
+    "Explain how CFCs deplete the ozone layer."
+  ],
+  "summary": [
+    {
+      "label": "NaOH(aq) warm",
+      "value": "substitution \u2192 alcohol"
+    },
+    {
+      "label": "KOH(ethanolic) hot",
+      "value": "elimination \u2192 alkene"
+    },
+    {
+      "label": "NaCN(ethanol)",
+      "value": "substitution \u2192 nitrile (+1C)"
+    },
+    {
+      "label": "NH\u2083 excess",
+      "value": "substitution \u2192 amine"
+    },
+    {
+      "label": "Reactivity",
+      "value": "C\u2013I > C\u2013Br > C\u2013Cl > C\u2013F (bond enthalpy)"
+    },
+    {
+      "label": "AgNO\u2083 test",
+      "value": "Cl\u2192white; Br\u2192cream; I\u2192yellow"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 15"
 }

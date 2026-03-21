@@ -1,238 +1,203 @@
 {
-    "id": "group-2",
-    "subject": "chem",
-    "title": "Group 2",
-    "subtitle": "Group 2 with core theory, reaction logic, and exam-focused application.",
-    "syllabusRef": "9701 AS Topic 10",
-    "concept": [
-        "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-        "Group 2 elements show increasing reactivity down the group.",
-        "Hydroxide and sulfate trends are explained by solubility and ionic size changes."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
-                "Group 2 elements show increasing reactivity down the group.",
-                "Hydroxide and sulfate trends are explained by solubility and ionic size changes."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Group 2 ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "State reagents, conditions, and balanced equations where relevant.",
-                "Use correct state symbols, units, and sign conventions in calculations.",
-                "Link each observation to particle-level or structural explanation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Thermal stability",
-            "body": "Resistance of a compound to decomposition on heating."
-        },
-        {
-            "term": "Hydroxide trend",
-            "body": "Trend in Group 2 hydroxide solubility, generally increasing down the group."
-        },
-        {
-            "term": "Group trend",
-            "body": "Systematic change in properties down a group due to electronic structure changes."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Group 2.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Group 2 elements show increasing reactivity down the group."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Group 2 reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Group 2?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Giving trends in Group 2 without molecular or ionic explanation.",
-        "Forgetting state symbols or conditions in reaction equations.",
-        "Using values without checking units or significant figures."
-    ],
-    "tips": [
-        "In Group 2 questions, write one clear chemical point per sentence and support it with evidence.",
-        "Memorize required conditions alongside each key reaction type.",
-        "Check whether your final answer is chemically realistic."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Group 2?",
-            "a": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Define Thermal stability.",
-            "a": "Resistance of a compound to decomposition on heating."
-        },
-        {
-            "q": "Define Hydroxide trend.",
-            "a": "Trend in Group 2 hydroxide solubility, generally increasing down the group."
-        },
-        {
-            "q": "What exam strategy works best for Group 2?",
-            "a": "In Group 2 questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Group 2 elements show increasing reactivity down the group."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Hydroxide and sulfate trends are explained by solubility and ionic size changes."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Thermal stability"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9701 AS Topic 10"
-        },
-        {
-            "label": "Key Formula",
-            "val": "↑ reactivity down group; M → M^2+ + 2e^−"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Group 2: core principle",
-            "a": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
-        },
-        {
-            "q": "Thermal stability",
-            "a": "Resistance of a compound to decomposition on heating."
-        },
-        {
-            "q": "Hydroxide trend",
-            "a": "Trend in Group 2 hydroxide solubility, generally increasing down the group."
-        },
-        {
-            "q": "Group trend",
-            "a": "Systematic change in properties down a group due to electronic structure changes."
-        },
-        {
-            "q": "Group 2: common mistake",
-            "a": "Giving trends in Group 2 without molecular or ionic explanation."
-        },
-        {
-            "q": "CHEM exam tip",
-            "a": "In Group 2 questions, write one clear chemical point per sentence and support it with evidence."
-        }
-    ],
-    "quiz": {
-        "title": "Group 2 Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Thermal stability?",
-                "opts": [
-                    "Resistance of a compound to decomposition on heating.",
-                    "Trend in Group 2 hydroxide solubility, generally increasing down the group.",
-                    "Systematic change in properties down a group due to electronic structure changes.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Thermal stability."
-            },
-            {
-                "q": "Which statement about Group 2 is correct?",
-                "opts": [
-                    "Group 2 elements show increasing reactivity down the group.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Hydroxide trend?",
-                "opts": [
-                    "Trend in Group 2 hydroxide solubility, generally increasing down the group.",
-                    "Resistance of a compound to decomposition on heating.",
-                    "Systematic change in properties down a group due to electronic structure changes.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Hydroxide trend."
-            },
-            {
-                "q": "Which exam approach is most reliable for Group 2?",
-                "opts": [
-                    "In Group 2 questions, write one clear chemical point per sentence and support it with evidence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Group 2?",
-                "opts": [
-                    "Hydroxide and sulfate trends are explained by solubility and ionic size changes.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "group-2",
+  "subject": "chem",
+  "title": "Group 2",
+  "subtitle": "Reactions, trends and uses of Group 2 elements and compounds.",
+  "concept": [
+    "Group 2 elements (Mg, Ca, Sr, Ba) lose 2 electrons to form M\u00b2\u207a ions; reactivity increases down the group as IE decreases.",
+    "Group 2 oxides and hydroxides are bases; they neutralise acids and are used industrially.",
+    "Solubility trends: sulfates become less soluble down the group; hydroxides become more soluble."
+  ],
+  "notes": [
+    {
+      "heading": "Reactions of Group 2 Metals",
+      "items": [
+        "Reaction with oxygen: 2M + O\u2082 \u2192 2MO (burns brightly; Mg burns intensely white).",
+        "Reaction with water: Mg reacts slowly with hot water/steam (MgO + H\u2082); Ca, Sr, Ba react with cold water \u2192 M(OH)\u2082 + H\u2082.",
+        "Reaction with dilute acid: M + H\u2082SO\u2084 \u2192 MSO\u2084 + H\u2082 (MgSO\u2084 soluble; CaSO\u2084 sparingly soluble \u2014 may slow reaction due to insoluble layer).",
+        "Ca reacts more vigorously than Mg \u2014 lower IE, metal is more easily oxidised."
+      ]
+    },
+    {
+      "heading": "Oxides and Hydroxides",
+      "items": [
+        "All Group 2 oxides are basic: MO + H\u2082O \u2192 M(OH)\u2082 (CaO + H\u2082O \u2192 Ca(OH)\u2082, exothermic \u2014 quicklime/slaked lime).",
+        "MgO: refractory material (very high MP ~2852\u00b0C); used in furnace linings.",
+        "Ca(OH)\u2082: used to neutralise acidic soil, treat sewage, make glass.",
+        "CaCO\u2083 (limestone): quarried; heated to give CaO (lime) \u2014 used in steelmaking and pH control of soil.",
+        "Thermal decomposition: MCO\u2083 \u2192 MO + CO\u2082. Ease of decomposition decreases down the group (higher T needed for BaCO\u2083)."
+      ]
+    },
+    {
+      "heading": "Solubility Trends",
+      "items": [
+        "Group 2 sulfates: MgSO\u2084 (soluble) \u2192 CaSO\u2084 (sparingly) \u2192 SrSO\u2084 (insoluble) \u2192 BaSO\u2084 (insoluble). Solubility decreases down the group.",
+        "Group 2 hydroxides: Mg(OH)\u2082 (sparingly soluble) \u2192 Ca(OH)\u2082 (slightly) \u2192 Ba(OH)\u2082 (soluble). Solubility increases down the group.",
+        "BaSO\u2084: used in barium meal (X-ray contrast agent) \u2014 insoluble so not absorbed; opaque to X-rays.",
+        "Test for SO\u2084\u00b2\u207b ions: add BaCl\u2082(aq) acidified with HCl \u2192 white precipitate of BaSO\u2084 (HCl prevents carbonate/sulfite interference)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Thermal decomposition",
+      "body": "A reaction in which a compound breaks down when heated into simpler substances."
+    },
+    {
+      "term": "Solubility trend in Group 2",
+      "body": "Sulfates become less soluble down Group 2; hydroxides become more soluble down Group 2."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain the trend in reactivity of Group 2 metals with water down the group.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Reactivity",
+          "text": "Ca reacts vigorously with cold water; Mg only reacts with hot water/steam. Reactivity increases Ca > Mg."
+        },
+        {
+          "n": 2,
+          "sub": "Explanation",
+          "text": "Down the group, atomic radius increases and shielding increases \u2192 outer electrons further from nucleus \u2192 lower first and second IE."
+        },
+        {
+          "n": 3,
+          "sub": "Conclusion",
+          "text": "Easier to lose the 2 outer electrons \u2192 more reactive metal \u2192 reacts more readily with water."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Saying Group 2 hydroxide solubility decreases down the group \u2014 it increases (Ba(OH)\u2082 is most soluble).",
+    "Using dilute HNO\u2083 instead of HCl when testing for sulfate \u2014 HNO\u2083 is an oxidising acid that can interfere.",
+    "Confusing quicklime (CaO) with slaked lime (Ca(OH)\u2082)."
+  ],
+  "tips": [
+    "Barium meal uses BaSO\u2084 \u2014 INSOLUBLE, not absorbed \u2192 safe to ingest; BaCl\u2082 would be toxic.",
+    "Thermal stability of carbonates: increases down group (more difficult to decompose BaCO\u2083 than MgCO\u2083).",
+    "Flame colours: Mg (no characteristic); Ca (brick red); Sr (crimson); Ba (pale green)."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the trend in solubility of Group 2 hydroxides down the group?",
+      "a": "Solubility increases \u2014 Mg(OH)\u2082 is sparingly soluble; Ba(OH)\u2082 is soluble."
+    },
+    {
+      "q": "Why is BaSO\u2084 used in barium meals (X-ray imaging)?",
+      "a": "BaSO\u2084 is insoluble and not absorbed through the gut (non-toxic); it is opaque to X-rays, showing up the digestive tract."
+    },
+    {
+      "q": "Write the equation for thermal decomposition of calcium carbonate.",
+      "a": "CaCO\u2083(s) \u2192 CaO(s) + CO\u2082(g)"
+    },
+    {
+      "q": "Why does reactivity of Group 2 metals increase down the group?",
+      "a": "Atomic radius increases; outer electrons are more shielded and further from nucleus \u2192 lower IE \u2192 easier to lose 2e\u207b."
+    },
+    {
+      "q": "What is the test for sulfate ions?",
+      "a": "Add BaCl\u2082(aq) acidified with HCl \u2192 white precipitate of BaSO\u2084 (insoluble)."
+    },
+    {
+      "q": "What is the trend in Group 2 sulfate solubility?",
+      "a": "Decreases down the group: MgSO\u2084 soluble; BaSO\u2084 insoluble."
+    }
+  ],
+  "quiz": {
+    "title": "Group 2 Quiz",
+    "questions": [
+      {
+        "q": "Which Group 2 hydroxide is most soluble?",
+        "opts": [
+          "Mg(OH)\u2082",
+          "Ca(OH)\u2082",
+          "Sr(OH)\u2082",
+          "Ba(OH)\u2082"
+        ],
+        "ans": 3,
+        "exp": "Solubility of Group 2 hydroxides increases down the group \u2014 Ba(OH)\u2082 is the most soluble."
+      },
+      {
+        "q": "What is formed when CaO reacts with water?",
+        "opts": [
+          "CaCO\u2083",
+          "CaSO\u2084",
+          "Ca(OH)\u2082",
+          "CaCl\u2082"
+        ],
+        "ans": 2,
+        "exp": "CaO (quicklime) + H\u2082O \u2192 Ca(OH)\u2082 (slaked lime); exothermic reaction."
+      },
+      {
+        "q": "The trend in thermal stability of Group 2 carbonates down the group is:",
+        "opts": [
+          "Decreases",
+          "Increases",
+          "No trend",
+          "Depends on pressure"
+        ],
+        "ans": 1,
+        "exp": "Thermal stability increases down the group \u2014 BaCO\u2083 requires higher temperatures to decompose than MgCO\u2083."
+      },
+      {
+        "q": "How is sulfate ion confirmed in solution?",
+        "opts": [
+          "Add AgNO\u2083(aq)",
+          "Add BaCl\u2082(aq) acidified with HCl \u2192 white precipitate",
+          "Add NaOH(aq)",
+          "Add litmus paper"
+        ],
+        "ans": 1,
+        "exp": "BaCl\u2082 + SO\u2084\u00b2\u207b \u2192 BaSO\u2084 (white precipitate); acidified with HCl to remove interfering CO\u2083\u00b2\u207b and SO\u2083\u00b2\u207b."
+      },
+      {
+        "q": "Why does barium sulfate (not barium chloride) used in X-ray imaging?",
+        "opts": [
+          "BaSO\u2084 is more opaque to X-rays",
+          "BaSO\u2084 is insoluble and non-toxic; BaCl\u2082 is soluble and toxic",
+          "BaCl\u2082 does not absorb X-rays",
+          "BaSO\u2084 dissolves slowly in the stomach"
+        ],
+        "ans": 1,
+        "exp": "BaSO\u2084 is insoluble \u2014 not absorbed into the bloodstream, so it's non-toxic. BaCl\u2082 is soluble and would be toxic."
+      }
+    ]
+  },
+  "recall": [
+    "State the trend in reactivity of Group 2 metals and explain it.",
+    "Describe the reactions of Group 2 metals with oxygen and water.",
+    "Compare the solubility trends of Group 2 sulfates and hydroxides.",
+    "Explain the use of BaSO\u2084 in barium meals.",
+    "Describe the industrial uses of CaO and Ca(OH)\u2082."
+  ],
+  "summary": [
+    {
+      "label": "Reactivity",
+      "value": "increases down group (\u2193 IE)"
+    },
+    {
+      "label": "Hydroxide solubility",
+      "value": "\u2191 down group; Ba(OH)\u2082 most soluble"
+    },
+    {
+      "label": "Sulfate solubility",
+      "value": "\u2193 down group; BaSO\u2084 insoluble"
+    },
+    {
+      "label": "Thermal stability",
+      "value": "\u2191 down group (BaCO\u2083 hardest to decompose)"
+    },
+    {
+      "label": "Barium meal",
+      "value": "BaSO\u2084 \u2014 insoluble, safe, X-ray opaque"
+    },
+    {
+      "label": "SO\u2084\u00b2\u207b test",
+      "value": "BaCl\u2082(aq)/HCl \u2192 white BaSO\u2084 ppt"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 13"
 }

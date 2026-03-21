@@ -1,238 +1,231 @@
 {
-    "id": "transport-in-plants",
-    "subject": "bio",
-    "title": "Transport in Plants",
-    "subtitle": "Transport in Plants with mechanism-focused explanation and exam-linked examples.",
-    "syllabusRef": "9700 AS Topic 7",
-    "concept": [
-        "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes.",
-        "Xylem and phloem are specialised for different transport roles.",
-        "Transpiration and cohesion-tension explain water movement in xylem."
-    ],
-    "notes": [
-        {
-            "heading": "Key Ideas",
-            "items": [
-                "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes.",
-                "Xylem and phloem are specialised for different transport roles.",
-                "Transpiration and cohesion-tension explain water movement in xylem."
-            ]
-        },
-        {
-            "heading": "Application",
-            "items": [
-                "Apply Transport in Plants ideas using data, observations, or equations from the question.",
-                "Use quantitative or observational evidence to support each scientific claim.",
-                "Link model assumptions to what the question data actually shows."
-            ]
-        },
-        {
-            "heading": "Exam Focus",
-            "items": [
-                "Use precise biological vocabulary and link structure to function.",
-                "When describing processes, write steps in sequence and include cause-effect links.",
-                "For practical questions, name the variable, method, and expected observation."
-            ]
-        }
-    ],
-    "definitions": [
-        {
-            "term": "Transpiration",
-            "body": "Loss of water vapor from plant surfaces, mainly through stomata."
-        },
-        {
-            "term": "Xylem",
-            "body": "Lignified plant tissue that transports water and mineral ions from roots to leaves."
-        },
-        {
-            "term": "Translocation",
-            "body": "Movement of assimilates in phloem from source regions to sink regions."
-        }
-    ],
-    "workedExamples": [
-        {
-            "q": "Explain one core application of Transport in Plants.",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Identify",
-                    "text": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
-                },
-                {
-                    "n": 2,
-                    "sub": "Apply",
-                    "text": "Xylem and phloem are specialised for different transport roles."
-                },
-                {
-                    "n": 3,
-                    "sub": "Conclude",
-                    "text": "Use Transport in Plants reasoning to reach a direct, evidence-based conclusion."
-                }
-            ]
-        },
-        {
-            "q": "How should you structure a full-mark exam response for Transport in Plants?",
-            "steps": [
-                {
-                    "n": 1,
-                    "sub": "Principle",
-                    "text": "State the governing principle and define key terms before calculation or evaluation."
-                },
-                {
-                    "n": 2,
-                    "sub": "Evidence",
-                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
-                },
-                {
-                    "n": 3,
-                    "sub": "Judgement",
-                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
-                }
-            ]
-        }
-    ],
-    "mistakes": [
-        "Describing Transport in Plants outcomes without explaining mechanism.",
-        "Using vague terms instead of exam vocabulary.",
-        "Ignoring the link between structure and function."
-    ],
-    "tips": [
-        "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence.",
-        "Use named examples when they strengthen your explanation.",
-        "In compare questions, write paired contrasts for faster marking."
-    ],
-    "recall": [
-        {
-            "q": "What is the core principle of Transport in Plants?",
-            "a": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Define Transpiration.",
-            "a": "Loss of water vapor from plant surfaces, mainly through stomata."
-        },
-        {
-            "q": "Define Xylem.",
-            "a": "Lignified plant tissue that transports water and mineral ions from roots to leaves."
-        },
-        {
-            "q": "What exam strategy works best for Transport in Plants?",
-            "a": "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "summary": [
-        {
-            "label": "Core Principle",
-            "val": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "label": "Applied Model",
-            "val": "Xylem and phloem are specialised for different transport roles."
-        },
-        {
-            "label": "Exam Application",
-            "val": "Transpiration and cohesion-tension explain water movement in xylem."
-        },
-        {
-            "label": "Key Definition",
-            "val": "Transpiration"
-        },
-        {
-            "label": "Focus Area",
-            "val": "Key Ideas"
-        },
-        {
-            "label": "Syllabus Ref",
-            "val": "9700 AS Topic 7"
-        },
-        {
-            "label": "Key Formula",
-            "val": "Ψ_soil < Ψ_root < Ψ_leaf; xylem/phloem transport"
-        }
-    ],
-    "flashcards": [
-        {
-            "q": "Transport in Plants: core principle",
-            "a": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
-        },
-        {
-            "q": "Transpiration",
-            "a": "Loss of water vapor from plant surfaces, mainly through stomata."
-        },
-        {
-            "q": "Xylem",
-            "a": "Lignified plant tissue that transports water and mineral ions from roots to leaves."
-        },
-        {
-            "q": "Translocation",
-            "a": "Movement of assimilates in phloem from source regions to sink regions."
-        },
-        {
-            "q": "Transport in Plants: common mistake",
-            "a": "Describing Transport in Plants outcomes without explaining mechanism."
-        },
-        {
-            "q": "BIO exam tip",
-            "a": "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence."
-        }
-    ],
-    "quiz": {
-        "title": "Transport in Plants Quiz",
-        "questions": [
-            {
-                "q": "Which definition best matches Transpiration?",
-                "opts": [
-                    "Loss of water vapor from plant surfaces, mainly through stomata.",
-                    "Lignified plant tissue that transports water and mineral ions from roots to leaves.",
-                    "Movement of assimilates in phloem from source regions to sink regions.",
-                    "It only applies to isolated practical tasks and not to theory explanations."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Transpiration."
-            },
-            {
-                "q": "Which statement about Transport in Plants is correct?",
-                "opts": [
-                    "Xylem and phloem are specialised for different transport roles.",
-                    "The topic can be answered accurately without evidence or scientific terminology.",
-                    "The same rule applies in every condition without exception.",
-                    "Units and sign conventions are optional in high-mark responses."
-                ],
-                "ans": 0,
-                "exp": "This statement reflects the core scientific model used in this topic."
-            },
-            {
-                "q": "Which definition best matches Xylem?",
-                "opts": [
-                    "Lignified plant tissue that transports water and mineral ions from roots to leaves.",
-                    "Loss of water vapor from plant surfaces, mainly through stomata.",
-                    "Movement of assimilates in phloem from source regions to sink regions.",
-                    "It describes an unrelated process from another part of the syllabus."
-                ],
-                "ans": 0,
-                "exp": "This is the correct definition of Xylem."
-            },
-            {
-                "q": "Which exam approach is most reliable for Transport in Plants?",
-                "opts": [
-                    "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence.",
-                    "Write conclusions first and omit method steps to save time.",
-                    "Use everyday wording and avoid topic-specific terms.",
-                    "Skip evidence and rely on memorized phrases only."
-                ],
-                "ans": 0,
-                "exp": "The best answers combine clear scientific logic with precise terminology."
-            },
-            {
-                "q": "Which statement best supports exam application in Transport in Plants?",
-                "opts": [
-                    "Transpiration and cohesion-tension explain water movement in xylem.",
-                    "Application questions are solved by definitions alone without mechanism or data.",
-                    "No interpretation is needed if one keyword is identified.",
-                    "The topic has no connection to practical observations or calculations."
-                ],
-                "ans": 0,
-                "exp": "This statement correctly links concept understanding to exam application."
-            }
-        ]
+  "id": "transport-in-plants",
+  "subject": "bio",
+  "title": "Transport in Plants",
+  "subtitle": "Xylem, phloem, transpiration and translocation.",
+  "concept": [
+    "Water moves up the plant from roots to leaves by the cohesion-tension mechanism: transpiration pulls water up xylem vessels as a continuous column.",
+    "Sucrose and other organic solutes are transported in phloem by mass flow from source to sink.",
+    "Transpiration rate is affected by light, temperature, humidity, wind speed, and the number and position of stomata."
+  ],
+  "notes": [
+    {
+      "heading": "Xylem",
+      "items": [
+        "Transports water and mineral ions from roots to shoots. One-way flow.",
+        "Xylem vessels: dead cells at maturity; lignified walls (waterproof and strengthened); no cross walls; form continuous tubes.",
+        "Water entry into roots: moves by osmosis from soil water (high \u03a8) into root hair cells (low \u03a8), then across cortex via apoplast, symplast or vacuolar pathways, then into xylem.",
+        "Apoplast: cell wall pathway (no membranes crossed; blocked by Casparian strip in endodermis \u2014 forces water through symplast here to control mineral uptake)."
+      ]
+    },
+    {
+      "heading": "Cohesion-Tension Mechanism",
+      "items": [
+        "Transpiration: water evaporates from mesophyll cells \u2192 diffuses out through stomata.",
+        "This creates a tension (negative pressure) at the top of the xylem, pulling water up.",
+        "Cohesion: water molecules stick to each other (H-bonds) \u2014 maintain continuous column.",
+        "Adhesion: water sticks to xylem walls.",
+        "Root pressure: active pumping of ions into xylem lowers \u03a8 \u2192 water enters by osmosis \u2014 contributes to upward movement."
+      ]
+    },
+    {
+      "heading": "Phloem and Translocation",
+      "items": [
+        "Transports sucrose (and amino acids) from source (e.g. leaves, storage organs) to sink (e.g. roots, growing tips, fruits).",
+        "Phloem tissue: sieve tube elements (living, no nucleus) + companion cells (have nucleus; provide metabolic support via plasmodesmata).",
+        "Mass flow hypothesis: active loading of sucrose into phloem at source lowers \u03a8 \u2192 water enters from xylem \u2192 increased hydrostatic pressure \u2192 mass flow of solution toward sink \u2192 sucrose unloaded \u2192 water returns to xylem."
+      ]
+    },
+    {
+      "heading": "Transpiration",
+      "items": [
+        "Factors increasing rate: higher temperature, lower humidity, higher wind speed, more light (stomata open), larger leaf surface area.",
+        "Potometer: measures uptake of water (as a proxy for transpiration); capillary tube with air bubble measures distance moved per unit time.",
+        "Adaptations to reduce transpiration: thick waxy cuticle, sunken stomata, rolled leaves, fewer stomata, CAM metabolism (stomata open at night)."
+      ]
     }
+  ],
+  "definitions": [
+    {
+      "term": "Transpiration",
+      "body": "The loss of water vapour from the aerial parts of a plant, mainly through stomata."
+    },
+    {
+      "term": "Cohesion-tension mechanism",
+      "body": "The mechanism by which water is pulled up through xylem by the tension created by transpiration, maintained by cohesion between water molecules."
+    },
+    {
+      "term": "Translocation",
+      "body": "The transport of organic solutes (mainly sucrose) through the phloem from source to sink."
+    },
+    {
+      "term": "Apoplast pathway",
+      "body": "Water movement through plant cell walls without crossing membranes; blocked at the endodermis by the Casparian strip."
+    },
+    {
+      "term": "Source (phloem)",
+      "body": "An organ that produces or releases sucrose into the phloem (e.g. photosynthesising leaf)."
+    },
+    {
+      "term": "Sink (phloem)",
+      "body": "An organ that uses or stores sucrose from the phloem (e.g. growing root tip, developing fruit)."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Explain how water moves from the soil into the xylem of a root.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Osmosis into root hair",
+          "text": "Soil water has a higher water potential than root hair cell cytoplasm \u2192 water enters by osmosis."
+        },
+        {
+          "n": 2,
+          "sub": "Across the cortex",
+          "text": "Water moves across the cortex via apoplast (through cell walls) and symplast (through cytoplasm via plasmodesmata) pathways down a \u03a8 gradient."
+        },
+        {
+          "n": 3,
+          "sub": "Casparian strip",
+          "text": "At the endodermis, the Casparian strip blocks the apoplast pathway \u2192 water is forced through the symplast \u2192 cell membranes control which minerals enter the xylem."
+        },
+        {
+          "n": 4,
+          "sub": "Into xylem",
+          "text": "Water enters xylem vessels (lowest \u03a8 in root due to mineral accumulation and transpiration pull)."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Describing phloem as transporting only sugars \u2014 it also transports amino acids, hormones and other organic solutes.",
+    "Stating xylem cells are living \u2014 mature xylem vessels are dead (no cytoplasm or nucleus).",
+    "Confusing apoplast (cell wall, no membrane crossing) with symplast (cytoplasm, crosses membranes via plasmodesmata)."
+  ],
+  "tips": [
+    "A potometer measures water UPTAKE, not transpiration directly \u2014 some water is used for photosynthesis/growth.",
+    "For the Casparian strip: its role is to force water through the symplast so cells can REGULATE mineral uptake \u2014 don't just say 'it blocks water'.",
+    "Mass flow evidence: aphid stylus experiment \u2014 aphids insert stylets into phloem; sap exudes under pressure, confirming mass flow."
+  ],
+  "flashcards": [
+    {
+      "q": "What is the cohesion-tension mechanism?",
+      "a": "Transpiration creates tension at the top of the xylem; cohesion between water molecules maintains a continuous column that is pulled upward."
+    },
+    {
+      "q": "What is the role of the Casparian strip?",
+      "a": "A waterproof band in endodermis cell walls that blocks the apoplast pathway, forcing water through the symplast so minerals can be controlled."
+    },
+    {
+      "q": "What is translocation?",
+      "a": "Movement of organic solutes (mainly sucrose) through phloem from source to sink by mass flow."
+    },
+    {
+      "q": "How does sucrose move from source to phloem (loading)?",
+      "a": "Sucrose is actively transported into phloem companion cells at the source; it lowers \u03a8, water enters by osmosis, raising hydrostatic pressure to drive mass flow."
+    },
+    {
+      "q": "Name three factors that increase transpiration rate.",
+      "a": "Higher temperature; lower humidity; higher wind speed; more light (stomata open); larger leaf area (any 3)."
+    },
+    {
+      "q": "Why do xylem vessels have lignified walls?",
+      "a": "Lignin is waterproof (prevents leakage) and provides structural support, preventing the vessel from collapsing under the tension created during transpiration."
+    }
+  ],
+  "quiz": {
+    "title": "Transport in Plants Quiz",
+    "questions": [
+      {
+        "q": "What drives water movement up xylem according to cohesion-tension?",
+        "opts": [
+          "Root pressure only",
+          "Active pumping by xylem cells",
+          "Tension created by transpiration + cohesion of water",
+          "Osmotic pressure of leaves"
+        ],
+        "ans": 2,
+        "exp": "Transpiration creates a tension (negative pressure) at the top; cohesion holds the water column together \u2014 no ATP needed."
+      },
+      {
+        "q": "Where is sucrose loaded into phloem?",
+        "opts": [
+          "Sink",
+          "Source",
+          "Endodermis",
+          "Xylem"
+        ],
+        "ans": 1,
+        "exp": "Sucrose is actively loaded at the source (e.g. leaf) into sieve tubes, creating a high solute concentration and driving mass flow."
+      },
+      {
+        "q": "What is measured by a potometer?",
+        "opts": [
+          "Rate of transpiration directly",
+          "Rate of photosynthesis",
+          "Rate of water uptake (as a proxy for transpiration)",
+          "Rate of sucrose loading"
+        ],
+        "ans": 2,
+        "exp": "A potometer measures the rate of water uptake by a cut shoot \u2014 this is used as an estimate of transpiration rate."
+      },
+      {
+        "q": "What blocks the apoplast pathway in the endodermis?",
+        "opts": [
+          "Lignin",
+          "Cellulose",
+          "Casparian strip",
+          "Plasmodesmata"
+        ],
+        "ans": 2,
+        "exp": "The Casparian strip is a waterproof band of suberin in endodermis cell walls that blocks the apoplast, forcing water through the symplast."
+      },
+      {
+        "q": "Which cells in phloem have no nucleus at maturity?",
+        "opts": [
+          "Companion cells",
+          "Sieve tube elements",
+          "Parenchyma",
+          "Guard cells"
+        ],
+        "ans": 1,
+        "exp": "Sieve tube elements lose their nucleus (and most organelles) at maturity; they depend on companion cells for metabolic support."
+      }
+    ]
+  },
+  "recall": [
+    "Describe the cohesion-tension mechanism of water transport.",
+    "Explain the role of the Casparian strip.",
+    "Describe the mass flow hypothesis for phloem translocation.",
+    "Explain how a potometer is used to measure transpiration rate.",
+    "List four adaptations to reduce water loss in xerophytes."
+  ],
+  "summary": [
+    {
+      "label": "Xylem",
+      "value": "dead cells; lignified; water + minerals; one-way"
+    },
+    {
+      "label": "Cohesion-tension",
+      "value": "transpiration pull; H-bond cohesion"
+    },
+    {
+      "label": "Casparian strip",
+      "value": "blocks apoplast; controls mineral entry to xylem"
+    },
+    {
+      "label": "Phloem",
+      "value": "sieve tubes + companion cells; source\u2192sink"
+    },
+    {
+      "label": "Mass flow",
+      "value": "active loading \u2192 \u2191 hydrostatic pressure \u2192 flow"
+    },
+    {
+      "label": "Potometer",
+      "value": "measures water uptake (proxy for transpiration)"
+    }
+  ],
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 8"
 }
