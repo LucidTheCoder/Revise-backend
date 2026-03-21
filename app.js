@@ -1922,8 +1922,8 @@ function renderTopicView(topicId) {
     .map(
       (item) => `
       <div class="summary-item">
-        <strong>${richText(item.label)}</strong>
-        <span>${richText(item.val)}</span>
+        <strong class="summary-label">${escapeHtml(item.label || item.term || "")}</strong>
+        <span class="summary-value">${escapeHtml(item.value || item.val || "")}</span>
       </div>
     `
     )
@@ -2459,6 +2459,27 @@ async function uploadAvatar(input) {
   finally { if (btn) btn.textContent = '✎'; input.value = ''; }
 }
 
+
+function resetProgress() {
+  if (!confirm('This will clear all local progress, quiz history, confidence ratings, and study minutes. This cannot be undone.\n\nAre you sure?')) return;
+  // Clear all local storage progress keys
+  [doneStorageKey, quizStorageKey, confidenceStorageKey, weeklyMinutesKey, weeklyMinutesWeekKey, streakKey, streakDateKey, lastVisitedKey].forEach(k => localStorage.removeItem(k));
+  // Reset in-memory state
+  state.streak        = 0;
+  state.xp            = 0;
+  state.weeklyMinutes = [0,0,0,0,0,0,0];
+  for (const subject of state.subjects) {
+    for (const unit of subject.units) {
+      for (const topic of unit.topics) { topic.done = false; }
+    }
+  }
+  const countEl = byId('streak-count');
+  if (countEl) countEl.textContent = '0';
+  showToast('Local progress cleared.');
+  renderProfile();
+  renderHome();
+}
+
 function renderProfile() {
   const overall  = totalProgress();
   const avgQuiz  = quizHistory();
@@ -2519,12 +2540,12 @@ function renderProfile() {
     })
     .join("");
 
-  if (!user) {
-    byId("profile-progress").innerHTML += `
-      <div class="card card-sm" style="margin-top:1rem;text-align:center;color:var(--text2)">
-        <p style="margin:0.25rem 0">Progress is tracked locally. <button class="link-btn" onclick="App.openAuthModal('register')">Create an account</button> to save it to the cloud.</p>
-      </div>`;
-  }
+  // Reset progress button — always visible
+  byId("profile-progress").innerHTML += `
+    <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)">
+      ${!user ? `<p style="color:var(--text2);font-size:0.85rem;margin-bottom:0.65rem">Progress is tracked locally. <button class="link-btn" onclick="App.openAuthModal('register')">Create an account</button> to save it to the cloud.</p>` : ''}
+      <button class="btn btn-outline btn-danger btn-sm" onclick="App.resetProgress()">Reset Local Progress</button>
+    </div>`;
 }
 // ── AI Study Coach ────────────────────────────────────────────────────────────
 
@@ -3992,6 +4013,7 @@ const App = {
   markTopicDone,
   dismissSpacedRep,
   uploadAvatar,
+  resetProgress,
   selectQuizAnswer,
   nextQuizQuestion,
   flipFlash,

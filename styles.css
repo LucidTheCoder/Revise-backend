@@ -1064,34 +1064,55 @@ p {
 }
 
 .summary-item {
-  border: 1.5px solid var(--border2);
+  border: 1px solid var(--border2);
   border-radius: var(--radius2);
-  padding: 1.1rem;
-  background: linear-gradient(135deg, var(--bg3), var(--bg2));
-  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  padding: 0.75rem 0.9rem;
+  background: color-mix(in srgb, var(--bg3), var(--card) 30%);
+  transition: transform 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
-.summary-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
+.summary-item:hover { transform: translateY(-2px); }
 
-.summary-item strong {
+/* The label (e.g. "n = m/Mᵣ") — plain text, no math rendering */
+.summary-label {
   display: block;
-  font-size: 0.75rem;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.6rem;
-}
-
-.summary-item span {
-  display: block;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--text);
+  font-size: 0.82rem;
   font-family: var(--font-mono);
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  /* Prevent any inline-flex children from breaking layout */
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+/* Strip math formatting inside summary labels — show as plain text */
+.summary-label .math-eq,
+.summary-label .math-frac,
+.summary-label .math-var,
+.summary-label .math-top,
+.summary-label .math-bottom {
+  display: inline !important;
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
+  font-style: inherit !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+}
+.summary-label .math-top::after { content: "/"; }
+
+/* The value (description text) */
+.summary-value {
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text2);
+  font-weight: 400;
 }
 
 .ai-panel textarea {
@@ -2425,34 +2446,6 @@ body { font-size: 15px; line-height: 1.65; }
 .alert-warn strong   { color: var(--warn); }
 
 /* ── Summary sheet ──────────────────────────────────────────────────── */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.85rem;
-}
-.summary-item {
-  border: 1px solid var(--border2);
-  border-radius: var(--radius2);
-  padding: 0.9rem 1rem;
-  background: color-mix(in srgb, var(--bg3), var(--card) 20%);
-  transition: transform 0.15s ease;
-}
-.summary-item:hover { transform: translateY(-2px); }
-.summary-item strong {
-  display: block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--accent);
-  margin-bottom: 0.45rem;
-}
-.summary-item span {
-  font-size: 0.92rem;
-  line-height: 1.55;
-  color: var(--text);
-  font-family: var(--font-mono);
-}
 
 /* ── Topic head section nav pills ───────────────────────────────────── */
 .section-nav { gap: 0.35rem; }
