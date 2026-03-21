@@ -115,17 +115,7 @@ async function handleRegister() {
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
 
-function updateNavForAuth() {
-  const btn = byId("signin-btn"); if (!btn) return;
-  if (auth.isLoggedIn) {
-    btn.textContent = auth.user?.name?.split(" ")[0] || "Account";
-    btn.title = "Click to sign out";
-    btn.onclick = () => { if (confirm("Sign out?")) handleSignOut(); };
-  } else {
-    btn.textContent = "Sign In"; btn.title = "";
-    btn.onclick = () => openAuthModal("login");
-  }
-}
+// updateNavForAuth is defined in the new section below
 
 
 function byId(id) {
@@ -838,25 +828,7 @@ function setActiveView(viewName) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function go(viewName, payload = {}) {
-  setActiveView(viewName);
-
-  if (viewName === "home") renderHome();
-  if (viewName === "subjects") renderSubjectSelection();
-  if (viewName === "subject") renderSubjectView(payload.subjectId || state.currentSubject);
-  if (viewName === "topic") renderTopicView(payload.topicId || state.currentTopic);
-  if (viewName === "quiz") startQuiz(payload);
-  if (viewName === "flash") startFlashcards(payload);
-  if (viewName === "past-papers") renderPastPapers();
-  if (viewName === "community") renderCommunity();
-  if (viewName === "profile") renderProfile();
-  if (viewName === "editor") {
-    byId("editor-subject-select").value = "";
-    byId("editor-topics-list").innerHTML = "";
-    byId("editor-title").textContent = "Select a topic to edit";
-    byId("editor-json").value = "";
-  }
-}
+// go() is defined in the new section below
 function renderHome() {
   const statsEl = byId("home-stats");
   const continueEl = byId("continue-list");
@@ -1610,105 +1582,8 @@ function renderPastPapers() {
     .join("");
 }
 
-function renderCommunity() {
-  const forumList = byId("forum-list");
-  const forumThread = byId("forum-thread");
-
-  const forumItemsHtml = state.community.forumThreads
-    .map((thread) => {
-      const subject = state.subjectMap.get(thread.subject);
-      const activeClass = thread.id === state.selectedThreadId ? "active" : "";
-      return `
-      <button class="forum-item ${activeClass}" onclick="App.selectThread('${thread.id}')">
-        <h3>${escapeHtml(thread.title)}</h3>
-        <p>${escapeHtml(thread.body)}</p>
-        <div class="forum-meta">
-          <span>${escapeHtml(subject?.name || thread.subject)}</span>
-          <span>@${escapeHtml(thread.author)}</span>
-          <span>${thread.replies} replies</span>
-          <span>${escapeHtml(thread.lastActive)}</span>
-        </div>
-      </button>
-    `;
-    })
-    .join("");
-  forumList.innerHTML = `
-    <div class="forum-list-shell card">
-      <div class="forum-stack">
-        ${forumItemsHtml}
-      </div>
-    </div>
-  `;
-
-  const activeThread = state.community.forumThreads.find((thread) => thread.id === state.selectedThreadId);
-  if (activeThread) {
-    forumThread.innerHTML = `
-      <h2>${escapeHtml(activeThread.title)}</h2>
-      <p style="margin:0.5rem 0">${escapeHtml(activeThread.body)}</p>
-      <p style="color:var(--text2)">Posted by @${escapeHtml(activeThread.author)} | ${activeThread.replies} replies | ${escapeHtml(activeThread.lastActive)}</p>
-      <div style="margin-top:0.8rem;display:flex;gap:0.6rem;flex-wrap:wrap">
-        <button class="btn btn-outline" onclick="App.showToast('Thread bookmarked')">Bookmark Thread</button>
-        <button class="btn btn-primary" onclick="App.showToast('Reply box can be wired to your backend API')">Reply</button>
-      </div>
-    `;
-  }
-
-  renderChatSidebar();
-}
-
-function renderChatSidebar() {
-  byId("chat-channel-list").innerHTML = state.community.chatChannels
-    .map(
-      (channel) => `
-      <button class="chat-channel-btn ${channel.id === state.selectedChannelId ? "active" : ""}" onclick="App.selectChannel('${channel.id}')">
-        # ${escapeHtml(channel.name)}
-      </button>
-    `
-    )
-    .join("");
-
-  const channel = state.community.chatChannels.find((item) => item.id === state.selectedChannelId);
-  const messages = channel?.messages || [];
-
-  byId("chat-messages").innerHTML = messages
-    .map(
-      (message) => `
-      <div class="chat-message">
-        <strong>${escapeHtml(message.user)}</strong>
-        <small>${escapeHtml(message.time)}</small>
-        <p>${escapeHtml(message.text)}</p>
-      </div>
-    `
-    )
-    .join("");
-}
-
-function selectThread(threadId) {
-  state.selectedThreadId = threadId;
-  renderCommunity();
-}
-
-function selectChannel(channelId) {
-  state.selectedChannelId = channelId;
-  renderChatSidebar();
-}
-
-function sendChatMessage() {
-  const input = byId("chat-input");
-  const text = input.value.trim();
-  if (!text) return;
-
-  const channel = state.community.chatChannels.find((item) => item.id === state.selectedChannelId);
-  if (!channel) return;
-
-  const now = new Date();
-  const hh = String(now.getHours()).padStart(2, "0");
-  const mm = String(now.getMinutes()).padStart(2, "0");
-  channel.messages.push({ user: "you", time: `${hh}:${mm}`, text });
-
-  input.value = "";
-  renderChatSidebar();
-}
+// renderCommunity, renderChatSidebar, selectThread, selectChannel, sendChatMessage
+// are all replaced by the updated versions defined later in this file.
 
 function renderProfile() {
   const overall = totalProgress();
@@ -2020,23 +1895,7 @@ function openFromSearch(subjectId, topicId) {
   go("topic", { topicId });
 }
 
-function bindBaseEvents() {
-  document.querySelectorAll("[data-route]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const route = button.getAttribute("data-route");
-      go(route);
-    });
-  });
-
-  updateNavForAuth();
-  byId("theme-toggle").addEventListener("click", toggleTheme);
-  byId("chat-send").addEventListener("click", sendChatMessage);
-  byId("chat-input").addEventListener("keydown", (event) => {
-    if (event.key === "Enter") sendChatMessage();
-  });
-
-  bindSearch();
-}
+// bindBaseEvents is defined in the new section below
 
 function showDataLoadError(error) {
   const container = byId("view-home");
@@ -2116,58 +1975,14 @@ function openTopicInEditor(topicId) {
   byId("editor-delete-btn").style.display = "inline-flex";
 }
 
-function saveTopic() {
-  if (!editorState.currentTopic) return;
-
-  try {
-    const jsonStr = byId("editor-json").value;
-    const parsed = JSON.parse(jsonStr);
-
-    // Update in-memory topic
-    state.topics.set(editorState.currentTopic, parsed);
-
-    showToast("Topic saved (in-memory only - add backend endpoint to persist)");
-    editorState.originalJson = jsonStr;
-
-    // Refresh the topic view if it's currently being viewed
-    if (state.currentView === "topic" && state.currentTopic === editorState.currentTopic) {
-      renderTopicView(editorState.currentTopic);
-    }
-  } catch (error) {
-    showToast(`Error: ${error.message}`);
-  }
-}
+// saveTopic is defined in the new section below
 
 function cancelEdit() {
   byId("editor-json").value = editorState.originalJson || "";
   showToast("Changes discarded");
 }
 
-function deleteCurrentTopic() {
-  if (!editorState.currentTopic || !confirm("Really delete this topic? This action cannot be undone.")) return;
-
-  state.topics.delete(editorState.currentTopic);
-  
-  // Remove from unit.topics arrays
-  for (const subject of state.subjects) {
-    for (const unit of subject.units) {
-      const index = unit.topics.findIndex((t) => t.id === editorState.currentTopic);
-      if (index >= 0) {
-        unit.topics.splice(index, 1);
-      }
-    }
-  }
-
-  editorState.currentTopic = null;
-  byId("editor-title").textContent = "Select a topic to edit";
-  byId("editor-json").value = "";
-  byId("editor-save-btn").style.display = "none";
-  byId("editor-cancel-btn").style.display = "none";
-  byId("editor-delete-btn").style.display = "none";
-
-  loadEditorSubject(editorState.currentSubject);
-  showToast("Topic deleted");
-}
+// deleteCurrentTopic is defined in the new section below
 
 function createNewTopic() {
   if (!editorState.currentSubject) {
@@ -2218,6 +2033,883 @@ function showEditorHelp() {
   showToast("Editor Help: Edit JSON to modify topic properties. Save sends to backend. Delete removes from system.");
 }
 
+// ============================================================================
+// REAL-TIME CHAT — Socket.io client
+// ============================================================================
+
+let socket = null;
+let typingTimer = null;
+let currentChannelUserCount = 0;
+
+function initSocket() {
+  if (socket) return;
+  try {
+    socket = io(API_BASE_URL, { transports: ['websocket', 'polling'] });
+
+    socket.on('connect', () => {
+      console.log('[Socket] connected:', socket.id);
+      const offBanner = byId('chat-offline-banner');
+      if (offBanner) offBanner.classList.remove('show');
+      const dot = byId('chat-status-dot');
+      if (dot) dot.classList.add('connected');
+      // Rejoin current channel if any
+      if (state.selectedChannelId) joinSocketChannel(state.selectedChannelId);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('[Socket] disconnected');
+      const offBanner = byId('chat-offline-banner');
+      if (offBanner) offBanner.classList.add('show');
+      const dot = byId('chat-status-dot');
+      if (dot) dot.classList.remove('connected');
+    });
+
+    socket.on('new_message', (msg) => {
+      // Add message to the active channel's live view
+      if (msg.channelId !== state.selectedChannelId) return;
+      appendChatMessage(msg);
+      scrollChatToBottom();
+    });
+
+    socket.on('channel_users', (count) => {
+      currentChannelUserCount = count;
+      const el = byId('chat-user-count');
+      if (el) el.textContent = `${count} online`;
+    });
+
+    socket.on('user_typing', ({ author }) => {
+      const el = byId('chat-typing-indicator');
+      if (!el) return;
+      el.textContent = `${author} is typing…`;
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => { el.textContent = ''; }, 2500);
+    });
+
+  } catch (e) {
+    console.warn('[Socket] init failed:', e.message);
+  }
+}
+
+function joinSocketChannel(channelId) {
+  if (!socket || !socket.connected) return;
+  socket.emit('join_channel', {
+    channelId,
+    user: auth.user?.name || 'Anonymous',
+  });
+}
+
+function leaveSocketChannel(channelId) {
+  if (!socket || !socket.connected) return;
+  socket.emit('leave_channel', { channelId });
+}
+
+function appendChatMessage(msg) {
+  const container = byId('chat-messages');
+  if (!container) return;
+  const d = document.createElement('div');
+  d.className = 'chat-message';
+  const time = msg.createdAt
+    ? new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    : '';
+  d.innerHTML = `
+    <strong>${escapeHtml(msg.author)}</strong>
+    <span class="msg-time">${time}</span>
+    <p>${escapeHtml(msg.text)}</p>
+  `;
+  container.appendChild(d);
+}
+
+function scrollChatToBottom() {
+  const el = byId('chat-messages');
+  if (el) el.scrollTop = el.scrollHeight;
+}
+
+// ============================================================================
+// CHAT — updated render & send
+// ============================================================================
+
+async function renderChatSidebar() {
+  // Channel list
+  byId('chat-channel-list').innerHTML = state.community.chatChannels
+    .map(ch => `
+      <button class="chat-channel-btn ${ch.id === state.selectedChannelId ? 'active' : ''}"
+              onclick="App.selectChannel('${ch.id}')">
+        # ${escapeHtml(ch.name)}
+      </button>
+    `).join('');
+
+  // Load messages from API
+  const container = byId('chat-messages');
+  if (!container) return;
+  container.innerHTML = '<p style="color:var(--text2);padding:0.5rem;font-size:0.8rem">Loading messages…</p>';
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/community/chat/${state.selectedChannelId}/messages?limit=100`);
+    const data = await res.json();
+    const messages = data.data || [];
+    container.innerHTML = '';
+    messages.forEach(m => appendChatMessage(m));
+    scrollChatToBottom();
+  } catch {
+    container.innerHTML = '<p style="color:var(--text2);padding:0.5rem;font-size:0.8rem">Could not load messages.</p>';
+  }
+}
+
+async function sendChatMessage() {
+  if (!auth.isLoggedIn) { showToast('Sign in to send messages'); openAuthModal('login'); return; }
+  const input = byId('chat-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  if (socket && socket.connected) {
+    socket.emit('send_message', {
+      channelId: state.selectedChannelId,
+      text,
+      author: auth.user?.name,
+      token:  auth.token,
+    });
+  } else {
+    // Fallback: REST
+    try {
+      await fetch(`${API_BASE_URL}/api/community/chat/messages`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ channelId: state.selectedChannelId, text }),
+      });
+    } catch { showToast('Failed to send message'); }
+  }
+}
+
+function emitTyping() {
+  if (!socket || !socket.connected || !auth.isLoggedIn) return;
+  socket.emit('typing', { channelId: state.selectedChannelId, author: auth.user?.name || 'Someone' });
+}
+
+// ============================================================================
+// FORUM — updated render with real data + new thread support
+// ============================================================================
+
+async function renderCommunity() {
+  // Reload threads from API
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/community/forum?sort=pinned&limit=50`);
+    const data = await res.json();
+    if (data.success) state.community.forumThreads = data.data;
+  } catch { /* use cached */ }
+
+  const forumList   = byId('forum-list');
+  const forumThread = byId('forum-thread');
+
+  // Build thread list
+  const forumItemsHtml = state.community.forumThreads.map(thread => {
+    const subject     = state.subjectMap.get(thread.subject);
+    const activeClass = thread.id === state.selectedThreadId || thread._id === state.selectedThreadId ? 'active' : '';
+    const id          = thread._id || thread.id;
+    const pinnedBadge = thread.pinned ? '<span class="thread-badge pinned">📌 Pinned</span>' : '';
+    const lockedBadge = thread.locked ? '<span class="thread-badge locked">🔒 Locked</span>' : '';
+    return `
+      <button class="forum-item ${activeClass}" onclick="App.selectThread('${id}')">
+        <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.25rem">
+          <h3 style="margin:0;flex:1">${escapeHtml(thread.title)}</h3>
+          ${pinnedBadge}${lockedBadge}
+        </div>
+        <p>${escapeHtml((thread.body || '').slice(0, 120))}${thread.body?.length > 120 ? '…' : ''}</p>
+        <div class="forum-meta">
+          <span class="subject-badge ${thread.subject}">${escapeHtml(subject?.name || thread.subject)}</span>
+          <span>@${escapeHtml(thread.author)}</span>
+          <span>${(thread.replies?.length || thread.replyCount || 0)} replies</span>
+          <span>👍 ${thread.upvotes || 0}</span>
+        </div>
+      </button>
+    `;
+  }).join('');
+
+  const isLoggedIn = auth.isLoggedIn;
+  forumList.innerHTML = `
+    <div class="forum-list-shell card">
+      <div class="forum-actions-bar">
+        <button class="btn btn-primary btn-sm" onclick="App.openNewThreadModal()">+ New Thread</button>
+        <select style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text1);padding:0.3rem 0.6rem;font-size:0.8rem" onchange="App.filterForumBySubject(this.value)">
+          <option value="">All Subjects</option>
+          <option value="general">General</option>
+          <option value="chem">Chemistry</option>
+          <option value="bio">Biology</option>
+          <option value="phy">Physics</option>
+        </select>
+      </div>
+      <div class="forum-stack">
+        ${forumItemsHtml || '<p style="color:var(--text2);padding:1rem">No threads yet. Be the first!</p>'}
+      </div>
+    </div>
+  `;
+
+  // Render selected thread detail
+  await renderThreadDetail();
+
+  // Chat sidebar
+  await renderChatSidebar();
+
+  // Socket
+  initSocket();
+  if (state.selectedChannelId) joinSocketChannel(state.selectedChannelId);
+}
+
+async function renderThreadDetail() {
+  const forumThread = byId('forum-thread');
+  if (!forumThread) return;
+
+  const id = state.selectedThreadId;
+  if (!id) { forumThread.innerHTML = ''; return; }
+
+  let thread = state.community.forumThreads.find(t => (t._id || t.id) === id);
+
+  // Fetch full thread from API to get replies
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/community/forum/${id}`);
+    const data = await res.json();
+    if (data.success) thread = data.data;
+  } catch { /* use cached */ }
+
+  if (!thread) { forumThread.innerHTML = ''; return; }
+
+  const isAdmin  = auth.user?.role === 'admin';
+  const isAuthor = auth.user?.name === thread.author;
+  const replies  = thread.replies || [];
+
+  const repliesHtml = replies.map(r => {
+    const t    = r.createdAt ? new Date(r.createdAt).toLocaleDateString() : '';
+    const canDel = auth.isLoggedIn && (isAdmin || auth.user?.name === r.author);
+    return `
+      <div class="forum-reply">
+        <div class="forum-reply-header">
+          <strong>${escapeHtml(r.author)}</strong>
+          <small>${t}</small>
+          ${canDel ? `<button class="btn btn-outline btn-micro btn-danger" style="margin-left:auto" onclick="App.deleteReply('${id}','${r._id}')">Delete</button>` : ''}
+        </div>
+        <p>${escapeHtml(r.body)}</p>
+      </div>
+    `;
+  }).join('');
+
+  const adminActions = isAdmin ? `
+    <button class="btn btn-outline btn-sm" onclick="App.adminPinThread('${id}', ${!thread.pinned})">${thread.pinned ? '📌 Unpin' : '📌 Pin'}</button>
+    <button class="btn btn-outline btn-sm" onclick="App.adminLockThread('${id}', ${!thread.locked})">${thread.locked ? '🔓 Unlock' : '🔒 Lock'}</button>
+  ` : '';
+
+  const deleteBtn = (isAdmin || isAuthor) ? `<button class="btn btn-outline btn-sm btn-danger" onclick="App.deleteThread('${id}')">Delete Thread</button>` : '';
+
+  const replyBox = auth.isLoggedIn && !thread.locked ? `
+    <div class="forum-reply-box">
+      <textarea id="reply-input" placeholder="Write a reply…" rows="3" maxlength="2000"></textarea>
+      <div class="reply-actions">
+        <button class="btn btn-primary btn-sm" onclick="App.submitReply('${id}')">Post Reply</button>
+      </div>
+    </div>
+  ` : auth.isLoggedIn && thread.locked ? `<p style="color:var(--text2);font-size:0.85rem;margin-top:0.75rem">🔒 This thread is locked.</p>`
+    : `<p style="color:var(--text2);font-size:0.85rem;margin-top:0.75rem"><button class="link-btn" onclick="App.openAuthModal('login')">Sign in</button> to reply.</p>`;
+
+  forumThread.innerHTML = `
+    <h2>${escapeHtml(thread.title)}</h2>
+    <p style="margin:0.5rem 0;line-height:1.6">${escapeHtml(thread.body)}</p>
+    <p style="color:var(--text2);font-size:0.82rem">Posted by @${escapeHtml(thread.author)} · ${thread.createdAt ? new Date(thread.createdAt).toLocaleDateString() : ''} · 👍 ${thread.upvotes || 0} · 👁 ${thread.views || 0}</p>
+    <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
+      <button class="btn btn-outline btn-sm" onclick="App.upvoteThread('${id}')">👍 Upvote</button>
+      ${adminActions}
+      ${deleteBtn}
+    </div>
+    <div style="margin-top:1.25rem">
+      <h4 style="margin-bottom:0.5rem">${replies.length} ${replies.length === 1 ? 'Reply' : 'Replies'}</h4>
+      ${repliesHtml}
+    </div>
+    ${replyBox}
+  `;
+}
+
+async function selectThread(threadId) {
+  state.selectedThreadId = threadId;
+  await renderThreadDetail();
+  // Update active state in list
+  document.querySelectorAll('.forum-item').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick')?.includes(threadId));
+  });
+}
+
+async function selectChannel(channelId) {
+  if (state.selectedChannelId) leaveSocketChannel(state.selectedChannelId);
+  state.selectedChannelId = channelId;
+  joinSocketChannel(channelId);
+  await renderChatSidebar();
+}
+
+async function submitReply(threadId) {
+  if (!auth.isLoggedIn) { openAuthModal('login'); return; }
+  const input = byId('reply-input');
+  const body  = input?.value.trim();
+  if (!body) { showToast('Write something first'); return; }
+
+  const btn = document.querySelector('.forum-reply-box .btn-primary');
+  if (btn) { btn.textContent = 'Posting…'; btn.disabled = true; }
+
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/community/forum/${threadId}/replies`, {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify({ body }),
+    });
+    const data = await res.json();
+    if (!res.ok) { showToast(data.error || 'Failed to post reply'); return; }
+    showToast('Reply posted!');
+    await renderThreadDetail();
+  } catch { showToast('Network error'); }
+  finally { if (btn) { btn.textContent = 'Post Reply'; btn.disabled = false; } }
+}
+
+async function deleteReply(threadId, replyId) {
+  if (!confirm('Delete this reply?')) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/community/forum/${threadId}/replies/${replyId}`, {
+      method: 'DELETE', headers: authHeaders(),
+    });
+    if (res.ok) { showToast('Reply deleted'); await renderThreadDetail(); }
+    else showToast('Failed to delete reply');
+  } catch { showToast('Network error'); }
+}
+
+async function deleteThread(threadId) {
+  if (!confirm('Delete this thread? This cannot be undone.')) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/community/forum/${threadId}`, {
+      method: 'DELETE', headers: authHeaders(),
+    });
+    if (res.ok) {
+      showToast('Thread deleted');
+      state.community.forumThreads = state.community.forumThreads.filter(t => (t._id || t.id) !== threadId);
+      state.selectedThreadId = null;
+      await renderCommunity();
+    } else showToast('Failed to delete thread');
+  } catch { showToast('Network error'); }
+}
+
+async function upvoteThread(threadId) {
+  if (!auth.isLoggedIn) { openAuthModal('login'); return; }
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/community/forum/${threadId}/upvote`, {
+      method: 'POST', headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showToast(`👍 ${data.upvotes} upvotes`);
+      await renderThreadDetail();
+    }
+  } catch { showToast('Network error'); }
+}
+
+async function filterForumBySubject(subject) {
+  try {
+    const url = subject
+      ? `${API_BASE_URL}/api/community/forum?subject=${subject}&sort=pinned`
+      : `${API_BASE_URL}/api/community/forum?sort=pinned`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    if (data.success) {
+      state.community.forumThreads = data.data;
+      state.selectedThreadId = data.data[0]?._id || data.data[0]?.id || null;
+      await renderCommunity();
+    }
+  } catch { showToast('Failed to filter'); }
+}
+
+// ============================================================================
+// NEW THREAD MODAL
+// ============================================================================
+
+function openNewThreadModal() {
+  if (!auth.isLoggedIn) { openAuthModal('login'); return; }
+  let modal = byId('new-thread-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id        = 'new-thread-modal';
+    modal.className = 'new-thread-modal-overlay';
+    modal.innerHTML = `
+      <div class="new-thread-modal">
+        <h3>New Thread</h3>
+        <label>Title
+          <input type="text" id="ntm-title" maxlength="200" placeholder="What's your question?">
+        </label>
+        <label>Subject
+          <select id="ntm-subject">
+            <option value="general">General</option>
+            <option value="chem">Chemistry</option>
+            <option value="bio">Biology</option>
+            <option value="phy">Physics</option>
+          </select>
+        </label>
+        <label>Body
+          <textarea id="ntm-body" rows="6" maxlength="5000" placeholder="Describe your question or topic…"></textarea>
+        </label>
+        <div id="ntm-error" class="auth-error"></div>
+        <div style="display:flex;gap:0.6rem">
+          <button class="btn btn-primary" onclick="App.submitNewThread()">Post Thread</button>
+          <button class="btn btn-outline" onclick="App.closeNewThreadModal()">Cancel</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeNewThreadModal(); });
+  }
+  modal.classList.add('open');
+  setTimeout(() => byId('ntm-title')?.focus(), 50);
+}
+
+function closeNewThreadModal() {
+  const m = byId('new-thread-modal');
+  if (m) m.classList.remove('open');
+}
+
+async function submitNewThread() {
+  const title   = byId('ntm-title')?.value.trim();
+  const subject = byId('ntm-subject')?.value;
+  const body    = byId('ntm-body')?.value.trim();
+  const errEl   = byId('ntm-error');
+  if (errEl) errEl.textContent = '';
+
+  if (!title || !body) { if (errEl) errEl.textContent = 'Title and body are required.'; return; }
+
+  const btn = document.querySelector('#new-thread-modal .btn-primary');
+  if (btn) { btn.textContent = 'Posting…'; btn.disabled = true; }
+
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/community/forum`, {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify({ title, subject, body }),
+    });
+    const data = await res.json();
+    if (!res.ok) { if (errEl) errEl.textContent = data.error || 'Failed to post.'; return; }
+    showToast('Thread posted!');
+    closeNewThreadModal();
+    state.selectedThreadId = data.data._id;
+    await renderCommunity();
+  } catch { if (errEl) errEl.textContent = 'Network error.'; }
+  finally { if (btn) { btn.textContent = 'Post Thread'; btn.disabled = false; } }
+}
+
+// ============================================================================
+// ADMIN PANEL
+// ============================================================================
+
+let adminData = { users: [], threads: [] };
+
+async function renderAdmin() {
+  if (!auth.isLoggedIn || auth.user?.role !== 'admin') {
+    showToast('Admin access required');
+    go('home');
+    return;
+  }
+  switchAdminTab('dashboard');
+  await loadAdminStats();
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.toggle('active', p.id === `admin-tab-${tab}`));
+
+  if (tab === 'users')   loadAdminUsers();
+  if (tab === 'forum')   loadAdminForum();
+  if (tab === 'pages')   { /* prompt user to pick subject */ }
+  if (tab === 'dashboard') loadAdminStats();
+}
+
+async function loadAdminStats() {
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/admin/stats`, { headers: authHeaders() });
+    const data = await res.json();
+    if (!data.success) return;
+    const s = data.data;
+    const setText = (id, val) => { const el = byId(id); if (el) el.textContent = val; };
+    setText('astat-users',    s.totalUsers);
+    setText('astat-threads',  s.totalThreads);
+    setText('astat-messages', s.totalMessages);
+    setText('astat-admins',   s.adminCount);
+
+    // Recent users
+    const ru = byId('admin-recent-users');
+    if (ru) ru.innerHTML = (s.recentUsers || []).map(u => `
+      <div class="admin-recent-item">
+        <div><strong>${escapeHtml(u.name)}</strong><br><small>${escapeHtml(u.email)}</small></div>
+        <small>${new Date(u.createdAt).toLocaleDateString()}</small>
+      </div>`).join('') || '<p style="color:var(--text2);font-size:0.85rem">No users yet.</p>';
+
+    // Recent threads
+    const rt = byId('admin-recent-threads');
+    if (rt) rt.innerHTML = (s.recentThreads || []).map(t => `
+      <div class="admin-recent-item">
+        <div><strong>${escapeHtml(t.title.slice(0, 50))}${t.title.length > 50 ? '…' : ''}</strong><br><small>by ${escapeHtml(t.author)} · ${t.subject}</small></div>
+        <small>${new Date(t.createdAt).toLocaleDateString()}</small>
+      </div>`).join('') || '<p style="color:var(--text2);font-size:0.85rem">No threads yet.</p>';
+  } catch (e) { showToast('Failed to load stats'); }
+}
+
+async function loadAdminUsers() {
+  const tbody = byId('admin-users-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text2);text-align:center;padding:1rem">Loading…</td></tr>';
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/admin/users`, { headers: authHeaders() });
+    const data = await res.json();
+    if (!data.success) { tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444">Error: ${escapeHtml(data.error)}</td></tr>`; return; }
+    adminData.users = data.data;
+    renderAdminUsersTable(adminData.users);
+  } catch { tbody.innerHTML = '<tr><td colspan="5" style="color:#ef4444">Network error</td></tr>'; }
+}
+
+function renderAdminUsersTable(users) {
+  const tbody = byId('admin-users-tbody');
+  if (!tbody) return;
+  if (!users.length) { tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text2);text-align:center;padding:1rem">No users found.</td></tr>'; return; }
+  tbody.innerHTML = users.map(u => {
+    const isSelf  = u._id === auth.user?._id;
+    const isAdmin = u.role === 'admin';
+    const isBanned = u.banned;
+    const roleBadge = `<span class="role-badge ${u.role}">${u.role}</span>${isBanned ? ' <span class="role-badge banned">banned</span>' : ''}`;
+    const actions = isSelf ? '<em style="color:var(--text2);font-size:0.8rem">You</em>' : `
+      <div class="action-cell">
+        <button class="btn btn-outline btn-micro" onclick="App.toggleUserRole('${u._id}','${u.role}')">${isAdmin ? 'Demote' : 'Make Admin'}</button>
+        <button class="btn btn-outline btn-micro ${isBanned ? '' : 'btn-danger'}" onclick="App.toggleUserBan('${u._id}',${!isBanned})">${isBanned ? 'Unban' : 'Ban'}</button>
+        <button class="btn btn-danger btn-micro" onclick="App.adminDeleteUser('${u._id}','${escapeHtml(u.name)}')">Delete</button>
+      </div>`;
+    return `<tr>
+      <td><strong>${escapeHtml(u.name)}</strong></td>
+      <td style="color:var(--text2)">${escapeHtml(u.email)}</td>
+      <td>${roleBadge}</td>
+      <td style="color:var(--text2);font-size:0.8rem">${new Date(u.createdAt).toLocaleDateString()}</td>
+      <td>${actions}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterAdminUsers(q) {
+  const filtered = q
+    ? adminData.users.filter(u => u.name.toLowerCase().includes(q.toLowerCase()) || u.email.toLowerCase().includes(q.toLowerCase()))
+    : adminData.users;
+  renderAdminUsersTable(filtered);
+}
+
+async function toggleUserRole(userId, currentRole) {
+  const newRole = currentRole === 'admin' ? 'student' : 'admin';
+  if (!confirm(`Set user to ${newRole}?`)) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/users/${userId}/role`, {
+      method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ role: newRole }),
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); loadAdminUsers(); }
+    else showToast(data.error || 'Failed');
+  } catch { showToast('Network error'); }
+}
+
+async function toggleUserBan(userId, banned) {
+  if (!confirm(banned ? 'Ban this user?' : 'Unban this user?')) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/users/${userId}/ban`, {
+      method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ banned }),
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); loadAdminUsers(); }
+    else showToast(data.error || 'Failed');
+  } catch { showToast('Network error'); }
+}
+
+async function adminDeleteUser(userId, name) {
+  if (!confirm(`Permanently delete user "${name}"? This cannot be undone.`)) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/users/${userId}`, {
+      method: 'DELETE', headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (res.ok) { showToast('User deleted'); loadAdminUsers(); }
+    else showToast(data.error || 'Failed');
+  } catch { showToast('Network error'); }
+}
+
+async function loadAdminForum() {
+  const tbody = byId('admin-forum-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text2);text-align:center;padding:1rem">Loading…</td></tr>';
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/admin/forum`, { headers: authHeaders() });
+    const data = await res.json();
+    if (!data.success) { tbody.innerHTML = `<tr><td colspan="6" style="color:#ef4444">Error: ${escapeHtml(data.error)}</td></tr>`; return; }
+    adminData.threads = data.data;
+    renderAdminForumTable(adminData.threads);
+  } catch { tbody.innerHTML = '<tr><td colspan="6" style="color:#ef4444">Network error</td></tr>'; }
+}
+
+function renderAdminForumTable(threads) {
+  const tbody = byId('admin-forum-tbody');
+  if (!tbody) return;
+  if (!threads.length) { tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text2);text-align:center;padding:1rem">No threads.</td></tr>'; return; }
+  tbody.innerHTML = threads.map(t => {
+    const id      = t._id;
+    const status  = [
+      t.pinned ? '<span class="thread-badge pinned">📌 Pinned</span>' : '',
+      t.locked ? '<span class="thread-badge locked">🔒 Locked</span>' : '',
+    ].filter(Boolean).join(' ') || '<span style="color:var(--text2);font-size:0.8rem">Normal</span>';
+    return `<tr>
+      <td><strong>${escapeHtml(t.title.slice(0,60))}${t.title.length>60?'…':''}</strong></td>
+      <td><span class="subject-badge ${t.subject}">${t.subject}</span></td>
+      <td style="color:var(--text2)">${escapeHtml(t.author)}</td>
+      <td style="text-align:center">${t.replies?.length || 0}</td>
+      <td>${status}</td>
+      <td>
+        <div class="action-cell">
+          <button class="btn btn-outline btn-micro" onclick="App.adminPinThread('${id}',${!t.pinned})">${t.pinned?'Unpin':'Pin'}</button>
+          <button class="btn btn-outline btn-micro" onclick="App.adminLockThread('${id}',${!t.locked})">${t.locked?'Unlock':'Lock'}</button>
+          <button class="btn btn-danger btn-micro" onclick="App.adminDeleteThread('${id}')">Delete</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterAdminThreads(q) {
+  const filtered = q
+    ? adminData.threads.filter(t => t.title.toLowerCase().includes(q.toLowerCase()) || t.author.toLowerCase().includes(q.toLowerCase()))
+    : adminData.threads;
+  renderAdminForumTable(filtered);
+}
+
+async function adminPinThread(threadId, pinned) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/forum/${threadId}/pin`, {
+      method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ pinned }),
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); loadAdminForum(); if (state.currentView === 'community') renderCommunity(); }
+    else showToast(data.error || 'Failed');
+  } catch { showToast('Network error'); }
+}
+
+async function adminLockThread(threadId, locked) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/forum/${threadId}/lock`, {
+      method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ locked }),
+    });
+    const data = await res.json();
+    if (res.ok) { showToast(data.message); loadAdminForum(); if (state.currentView === 'community') renderCommunity(); }
+    else showToast(data.error || 'Failed');
+  } catch { showToast('Network error'); }
+}
+
+async function adminDeleteThread(threadId) {
+  if (!confirm('Delete this thread?')) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/forum/${threadId}`, {
+      method: 'DELETE', headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (res.ok) { showToast('Thread deleted'); loadAdminForum(); }
+    else showToast(data.error || 'Failed');
+  } catch { showToast('Network error'); }
+}
+
+// Admin: create thread from admin panel
+async function adminCreateThread() {
+  const title   = byId('nt-title')?.value.trim();
+  const subject = byId('nt-subject')?.value;
+  const body    = byId('nt-body')?.value.trim();
+  const pinned  = byId('nt-pin')?.checked;
+  const errEl   = byId('nt-error');
+  if (errEl) errEl.textContent = '';
+
+  if (!title || !body) { if (errEl) errEl.textContent = 'Title and body are required.'; return; }
+
+  const btn = document.querySelector('#admin-tab-newthread .btn-primary');
+  if (btn) { btn.textContent = 'Posting…'; btn.disabled = true; }
+
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/community/forum`, {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify({ title, subject, body }),
+    });
+    const data = await res.json();
+    if (!res.ok) { if (errEl) errEl.textContent = data.error || 'Failed.'; return; }
+
+    // Pin if checkbox is checked
+    if (pinned && data.data?._id) {
+      await fetch(`${API_BASE_URL}/api/admin/forum/${data.data._id}/pin`, {
+        method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ pinned: true }),
+      });
+    }
+
+    showToast('Thread created!');
+    if (byId('nt-title'))  byId('nt-title').value  = '';
+    if (byId('nt-body'))   byId('nt-body').value   = '';
+    if (byId('nt-pin'))    byId('nt-pin').checked  = false;
+    switchAdminTab('forum');
+  } catch { if (errEl) errEl.textContent = 'Network error.'; }
+  finally { if (btn) { btn.textContent = 'Create Thread'; btn.disabled = false; } }
+}
+
+// Admin: load topic list
+function loadAdminTopicList(subjectId) {
+  const container = byId('admin-topic-list');
+  if (!container || !subjectId) return;
+  const subject = state.subjectMap.get(subjectId);
+  if (!subject) { container.innerHTML = '<p style="color:var(--text2)">Subject not found.</p>'; return; }
+  const allTopics = subject.units.flatMap(u => u.topics.map(t => ({ ...t, unitName: u.name })));
+  if (!allTopics.length) { container.innerHTML = '<p style="color:var(--text2)">No topics in this subject.</p>'; return; }
+  container.innerHTML = allTopics.map(t => `
+    <div class="admin-topic-card">
+      <strong>${escapeHtml(t.name)}</strong>
+      <small>${escapeHtml(t.unitName)}</small>
+      <small style="opacity:0.6">${escapeHtml(t.id)}</small>
+      <div class="card-actions">
+        <button class="btn btn-outline btn-micro" onclick="App.goToTopicEditor('${subjectId}','${t.id}')">Edit</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function goToTopicEditor(subjectId, topicId) {
+  go('editor');
+  setTimeout(() => {
+    const sel = byId('editor-subject-select');
+    if (sel) { sel.value = subjectId; loadEditorSubject(subjectId); }
+    setTimeout(() => openTopicInEditor(topicId), 100);
+  }, 50);
+}
+
+// ============================================================================
+// EDITOR: wire save to backend API
+// ============================================================================
+
+async function saveTopic() {
+  if (!editorState.currentTopic) return;
+  try {
+    const jsonStr = byId('editor-json').value;
+    const parsed  = JSON.parse(jsonStr);
+
+    // If logged in as admin, persist to server
+    if (auth.isLoggedIn && auth.user?.role === 'admin' && editorState.currentSubject) {
+      const res = await fetch(`${API_BASE_URL}/api/topics/${editorState.currentTopic}`, {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify({ subject: editorState.currentSubject, data: parsed }),
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(`Save error: ${data.error}`); return; }
+      showToast('Topic saved to server ✓');
+    } else {
+      showToast('Topic saved (in-memory — sign in as admin to persist)');
+    }
+
+    state.topics.set(editorState.currentTopic, parsed);
+    editorState.originalJson = jsonStr;
+    if (state.currentView === 'topic' && state.currentTopic === editorState.currentTopic) {
+      renderTopicView(editorState.currentTopic);
+    }
+  } catch (error) {
+    showToast(`Error: ${error.message}`);
+  }
+}
+
+async function deleteCurrentTopic() {
+  if (!editorState.currentTopic || !confirm('Really delete this topic? This cannot be undone.')) return;
+
+  // If admin, delete from server
+  if (auth.isLoggedIn && auth.user?.role === 'admin' && editorState.currentSubject) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/topics/${editorState.currentTopic}?subject=${editorState.currentSubject}`, {
+        method: 'DELETE', headers: authHeaders(),
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(`Delete error: ${data.error}`); return; }
+    } catch { showToast('Network error'); return; }
+  }
+
+  state.topics.delete(editorState.currentTopic);
+  for (const subject of state.subjects) {
+    for (const unit of subject.units) {
+      const i = unit.topics.findIndex(t => t.id === editorState.currentTopic);
+      if (i >= 0) unit.topics.splice(i, 1);
+    }
+  }
+
+  editorState.currentTopic = null;
+  byId('editor-title').textContent   = 'Select a topic to edit';
+  byId('editor-json').value          = '';
+  byId('editor-save-btn').style.display   = 'none';
+  byId('editor-cancel-btn').style.display = 'none';
+  byId('editor-delete-btn').style.display = 'none';
+
+  loadEditorSubject(editorState.currentSubject);
+  showToast('Topic deleted');
+}
+
+// ============================================================================
+// NAV — show Admin button for admins
+// ============================================================================
+
+function updateNavForAuth() {
+  const btn = byId('signin-btn'); if (!btn) return;
+  const adminBtn = byId('admin-nav-btn');
+  if (auth.isLoggedIn) {
+    btn.textContent = auth.user?.name?.split(' ')[0] || 'Account';
+    btn.title       = 'Click to sign out';
+    btn.onclick     = () => { if (confirm('Sign out?')) handleSignOut(); };
+    if (adminBtn) adminBtn.style.display = auth.user?.role === 'admin' ? '' : 'none';
+  } else {
+    btn.textContent = 'Sign In'; btn.title = '';
+    btn.onclick     = () => openAuthModal('login');
+    if (adminBtn) adminBtn.style.display = 'none';
+  }
+}
+
+// ============================================================================
+// go() — add admin route
+// ============================================================================
+
+function go(viewName, payload = {}) {
+  setActiveView(viewName);
+  if (viewName === 'home')        renderHome();
+  if (viewName === 'subjects')    renderSubjectSelection();
+  if (viewName === 'subject')     renderSubjectView(payload.subjectId || state.currentSubject);
+  if (viewName === 'topic')       renderTopicView(payload.topicId || state.currentTopic);
+  if (viewName === 'quiz')        startQuiz(payload);
+  if (viewName === 'flash')       startFlashcards(payload);
+  if (viewName === 'past-papers') renderPastPapers();
+  if (viewName === 'community')   renderCommunity();
+  if (viewName === 'profile')     renderProfile();
+  if (viewName === 'admin')       renderAdmin();
+  if (viewName === 'editor') {
+    byId('editor-subject-select').value = '';
+    byId('editor-topics-list').innerHTML = '';
+    byId('editor-title').textContent    = 'Select a topic to edit';
+    byId('editor-json').value           = '';
+  }
+}
+
+// ============================================================================
+// bindBaseEvents — add typing emitter + new route listener
+// ============================================================================
+
+function bindBaseEvents() {
+  document.querySelectorAll('[data-route]').forEach(button => {
+    button.addEventListener('click', () => go(button.getAttribute('data-route')));
+  });
+
+  updateNavForAuth();
+  byId('theme-toggle').addEventListener('click', toggleTheme);
+  byId('chat-send').addEventListener('click', sendChatMessage);
+  byId('chat-input').addEventListener('keydown', event => {
+    if (event.key === 'Enter') sendChatMessage();
+    else emitTyping();
+  });
+
+  bindSearch();
+}
+
+// ============================================================================
+// APP EXPORT
+// ============================================================================
+
 const App = {
   go,
   scrollToSection,
@@ -2233,6 +2925,7 @@ const App = {
   askAi,
   showToast,
   openFromSearch,
+  // Editor
   loadEditorSubject,
   openTopicInEditor,
   saveTopic,
@@ -2240,6 +2933,30 @@ const App = {
   deleteCurrentTopic,
   createNewTopic,
   showEditorHelp,
+  // Forum
+  openNewThreadModal,
+  closeNewThreadModal,
+  submitNewThread,
+  submitReply,
+  deleteReply,
+  deleteThread,
+  upvoteThread,
+  filterForumBySubject,
+  // Admin
+  switchAdminTab,
+  loadAdminTopicList,
+  filterAdminUsers,
+  filterAdminThreads,
+  toggleUserRole,
+  toggleUserBan,
+  adminDeleteUser,
+  adminPinThread,
+  adminLockThread,
+  adminDeleteThread,
+  adminCreateThread,
+  goToTopicEditor,
+  // Auth modal (expose so inline HTML can call it)
+  openAuthModal,
 };
 
 window.App = App;

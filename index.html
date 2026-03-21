@@ -30,6 +30,7 @@
       <button class="nav-btn ghost" data-route="community">Community</button>
       <button class="nav-btn ghost" data-route="editor">Editor</button>
       <button class="nav-btn ghost" data-route="profile">Profile</button>
+      <button class="nav-btn ghost admin-only-nav" data-route="admin" id="admin-nav-btn" style="display:none">Admin</button>
       <button class="nav-btn solid" id="signin-btn">Sign In</button>
     </div>
   </nav>
@@ -134,7 +135,13 @@
             <div id="chat-channel-list"></div>
           </div>
           <div class="card chat-panel">
+            <div class="chat-status-bar">
+              <div class="chat-status-dot" id="chat-status-dot"></div>
+              <span id="chat-user-count"></span>
+              <div id="chat-offline-banner" class="offline-banner">Disconnected — reconnecting…</div>
+            </div>
             <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-typing" id="chat-typing-indicator"></div>
             <div class="chat-compose">
               <input id="chat-input" type="text" placeholder="Send a message">
               <button class="btn btn-primary" id="chat-send">Send</button>
@@ -200,6 +207,126 @@
         </div>
       </div>
     </section>
+
+    <!-- ═══════════════════ ADMIN PANEL ═══════════════════ -->
+    <section class="view" id="view-admin">
+      <div class="container page-pad">
+        <div class="page-head">
+          <h1>⚙ Admin Panel</h1>
+          <p>Manage users, forum threads, and site content.</p>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="admin-tabs card card-sm">
+          <button class="admin-tab active" data-tab="dashboard" onclick="App.switchAdminTab('dashboard')">Dashboard</button>
+          <button class="admin-tab" data-tab="users"     onclick="App.switchAdminTab('users')">Users</button>
+          <button class="admin-tab" data-tab="forum"     onclick="App.switchAdminTab('forum')">Forum</button>
+          <button class="admin-tab" data-tab="pages"     onclick="App.switchAdminTab('pages')">Pages / Topics</button>
+          <button class="admin-tab" data-tab="newthread" onclick="App.switchAdminTab('newthread')">New Thread</button>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="admin-panel active" id="admin-tab-dashboard">
+          <div class="admin-stats-grid" id="admin-stats-grid">
+            <div class="card admin-stat-card"><span class="stat-label">Total Users</span><strong class="stat-val" id="astat-users">—</strong></div>
+            <div class="card admin-stat-card"><span class="stat-label">Forum Threads</span><strong class="stat-val" id="astat-threads">—</strong></div>
+            <div class="card admin-stat-card"><span class="stat-label">Chat Messages</span><strong class="stat-val" id="astat-messages">—</strong></div>
+            <div class="card admin-stat-card"><span class="stat-label">Admins</span><strong class="stat-val" id="astat-admins">—</strong></div>
+          </div>
+          <div class="admin-recent-grid">
+            <div class="card">
+              <h3>Recent Users</h3>
+              <div id="admin-recent-users"></div>
+            </div>
+            <div class="card">
+              <h3>Recent Threads</h3>
+              <div id="admin-recent-threads"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users -->
+        <div class="admin-panel" id="admin-tab-users">
+          <div class="card">
+            <div class="admin-panel-head">
+              <h3>All Users</h3>
+              <input class="admin-search" type="text" id="admin-user-search" placeholder="Search users..." oninput="App.filterAdminUsers(this.value)">
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="admin-users-table">
+                <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead>
+                <tbody id="admin-users-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forum -->
+        <div class="admin-panel" id="admin-tab-forum">
+          <div class="card">
+            <div class="admin-panel-head">
+              <h3>Forum Threads</h3>
+              <input class="admin-search" type="text" id="admin-forum-search" placeholder="Search threads..." oninput="App.filterAdminThreads(this.value)">
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table" id="admin-forum-table">
+                <thead><tr><th>Title</th><th>Subject</th><th>Author</th><th>Replies</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="admin-forum-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pages / Topics -->
+        <div class="admin-panel" id="admin-tab-pages">
+          <div class="card">
+            <h3>Topic Files</h3>
+            <p style="color:var(--text2);margin-bottom:1rem">Manage topic JSON files. Use the Topic Editor for editing content.</p>
+            <div class="editor-toolbar" style="margin-bottom:1rem">
+              <select id="admin-pages-subject" onchange="App.loadAdminTopicList(this.value)">
+                <option value="">Select subject...</option>
+                <option value="chem">Chemistry</option>
+                <option value="bio">Biology</option>
+                <option value="phy">Physics</option>
+              </select>
+            </div>
+            <div id="admin-topic-list" class="admin-topic-grid"></div>
+          </div>
+        </div>
+
+        <!-- New Thread -->
+        <div class="admin-panel" id="admin-tab-newthread">
+          <div class="card" style="max-width:640px">
+            <h3>Create Forum Thread</h3>
+            <div class="admin-form">
+              <label>Title
+                <input type="text" id="nt-title" maxlength="200" placeholder="Thread title...">
+              </label>
+              <label>Subject
+                <select id="nt-subject">
+                  <option value="general">General</option>
+                  <option value="chem">Chemistry</option>
+                  <option value="bio">Biology</option>
+                  <option value="phy">Physics</option>
+                </select>
+              </label>
+              <label>Body
+                <textarea id="nt-body" rows="8" maxlength="5000" placeholder="Thread body..."></textarea>
+              </label>
+              <div style="display:flex;gap:0.6rem;align-items:center">
+                <button class="btn btn-primary" onclick="App.adminCreateThread()">Create Thread</button>
+                <label style="display:flex;align-items:center;gap:0.4rem;font-weight:400;cursor:pointer">
+                  <input type="checkbox" id="nt-pin"> Pin thread
+                </label>
+              </div>
+              <div id="nt-error" class="auth-error" style="margin-top:0.5rem"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <div id="toast-root"></div>
@@ -227,6 +354,7 @@
       document.body.appendChild(warning);
     })();
   </script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

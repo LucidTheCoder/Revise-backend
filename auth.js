@@ -157,4 +157,22 @@ function getMe(req, res) {
   return res.json({ success: true, user: req.user });
 }
 
-module.exports = { register, login, getMe, authenticateToken, requireAdmin };
+/**
+ * optionalAuth — like authenticateToken but doesn't fail if no token.
+ * Sets req.user if a valid token is present, otherwise leaves it undefined.
+ */
+async function optionalAuth(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.startsWith('Bearer ')
+    ? authHeader.slice(7)
+    : null;
+  if (!token) return next();
+  try {
+    const payload = verifyToken(token);
+    const user    = await db.findUserById(payload.sub);
+    if (user) req.user = sanitizeUser(user);
+  } catch { /* ignore */ }
+  next();
+}
+
+module.exports = { register, login, getMe, authenticateToken, requireAdmin, optionalAuth };
