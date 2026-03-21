@@ -276,774 +276,829 @@ function setTopicConfidence(topicId, level) {
 }
 
 function buildTopicDiagramSvg(topic) {
-  // ── Helpers ───────────────────────────────────────────────────────────
-  const tid = (topic.id || "").toLowerCase();
+  const tid = (topic.id  || "").toLowerCase();
   const sub = (topic.subject || "chem");
 
-  // Colour palette per subject
-  const palette = {
-    chem: { accent:"#f97316", stroke:"rgba(249,115,22,0.7)", fill:"rgba(249,115,22,0.18)", bg:"rgba(249,115,22,0.07)", glow:"rgba(249,115,22,0.12)", line:"rgba(249,115,22,0.55)", text:"#f97316" },
-    bio:  { accent:"#22c55e", stroke:"rgba(34,197,94,0.7)",  fill:"rgba(34,197,94,0.18)",  bg:"rgba(34,197,94,0.07)",  glow:"rgba(34,197,94,0.12)",  line:"rgba(34,197,94,0.55)",  text:"#22c55e" },
-    phy:  { accent:"#818cf8", stroke:"rgba(129,140,248,0.7)",fill:"rgba(129,140,248,0.18)",bg:"rgba(129,140,248,0.07)",glow:"rgba(129,140,248,0.12)",line:"rgba(129,140,248,0.55)", text:"#818cf8" },
+  // ── Palette ─────────────────────────────────────────────────────────
+  const PAL = {
+    chem:{ac:"#f97316",st:"rgba(249,115,22,.7)",fi:"rgba(249,115,22,.2)",bg:"rgba(249,115,22,.08)",li:"rgba(249,115,22,.5)"},
+    bio: {ac:"#22c55e",st:"rgba(34,197,94,.7)",  fi:"rgba(34,197,94,.2)", bg:"rgba(34,197,94,.08)", li:"rgba(34,197,94,.5)"},
+    phy: {ac:"#818cf8",st:"rgba(129,140,248,.7)",fi:"rgba(129,140,248,.2)",bg:"rgba(129,140,248,.08)",li:"rgba(129,140,248,.5)"},
   };
-  const P = palette[sub] || palette.chem;
+  const P = PAL[sub] || PAL.chem;
 
-  // Shared SVG wrapper
+  // Viewbox: 700 × 260. Title at y=32. Usable space: y 46–252.
   const W = 700, H = 260;
-  const wrap = (inner, ariaLabel) =>
-    `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(ariaLabel || topic.title)}">
+
+  const wrap = (inner) =>
+    `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)}">
   <defs>
-    <radialGradient id="bg-${tid}" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" stop-color="${P.glow}"/>
+    <radialGradient id="rg${tid}" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="${P.bg}"/>
       <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
     </radialGradient>
-    <marker id="arr-${tid}" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6 Z" fill="${P.stroke}"/>
+    <marker id="ah${tid}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7Z" fill="${P.st}"/>
     </marker>
-    <marker id="arr2-${tid}" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    <marker id="ag${tid}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7Z" fill="#8b949e"/>
     </marker>
   </defs>
-  <rect width="${W}" height="${H}" rx="20" fill="url(#bg-${tid})"/>
-  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="20" fill="none" stroke="${P.stroke}" stroke-width="1.2"/>
+  <rect width="${W}" height="${H}" rx="18" fill="url(#rg${tid})"/>
+  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="18" fill="none" stroke="${P.st}" stroke-width="1.2"/>
   ${inner}
 </svg>`;
 
-  // Hexagon polygon at (cx,cy) with radius r
-  const hex = (cx, cy, r) => {
-    const pts = [];
-    for (let i = 0; i < 6; i++) {
-      const a = Math.PI / 180 * (60 * i - 30);
-      pts.push(`${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`);
-    }
+  // Flat-top hexagon centred at (cx,cy) with outer radius r
+  const hexPts = (cx,cy,r) => {
+    const pts=[];
+    for(let i=0;i<6;i++){const a=Math.PI/3*i;pts.push(`${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`);}
     return pts.join(" ");
   };
+  const H6  = (cx,cy,r,fi,st)  => `<polygon points="${hexPts(cx,cy,r)}" fill="${fi}" stroke="${st}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  const HT  = (cx,cy,lines,sz=11) => {
+    if(!Array.isArray(lines))lines=[lines];
+    const lh=sz*1.35, tot=lines.length*lh;
+    const y0=cy - tot/2 + lh*0.78;
+    return lines.map((l,i)=>`<text x="${cx}" y="${(y0+i*lh).toFixed(1)}" text-anchor="middle" dominant-baseline="auto" fill="#e6edf3" font-size="${sz}" font-family="DM Sans" font-weight="500">${escapeXml(String(l||""))}</text>`).join("");
+  };
+  const TT  = (t) => `<text x="22" y="30" fill="${P.ac}" font-size="12.5" font-family="DM Sans" font-weight="700" letter-spacing=".3">${escapeXml(t)}</text>`;
+  const LN  = (x1,y1,x2,y2,col,w=1.8,dash="") => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col||P.li}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:""}/>`; 
+  const AR  = (x1,y1,x2,y2,col) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col||P.li}" stroke-width="1.8" stroke-linecap="round" marker-end="url(#ah${tid})"/>`;
+  const LB  = (x,y,t,col,sz=9.5,a="middle") => `<text x="${x}" y="${y}" text-anchor="${a}" fill="${col||"#8b949e"}" font-size="${sz}" font-family="DM Sans">${escapeXml(String(t||""))}</text>`;
+  const CRV = (d,col,w=2) => `<path d="${d}" fill="none" stroke="${col||P.li}" stroke-width="${w}" stroke-linecap="round"/>`;
 
-  // Draw a hexagon node
-  const hexNode = (cx, cy, r, fillColor, strokeColor) =>
-    `<polygon points="${hex(cx,cy,r)}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="1.6"/>`;
-
-  // Auto-sizing label inside a hex
-  const hexLabel = (cx, cy, lines, size=11) => {
-    if (!Array.isArray(lines)) lines = [lines];
-    const lineH = size * 1.4;
-    const totalH = lines.length * lineH;
-    const startY = cy - totalH / 2 + lineH * 0.75;
-    return lines.map((l, i) =>
-      `<text x="${cx}" y="${startY + i * lineH}" text-anchor="middle" fill="#e6edf3" font-size="${size}" font-family="DM Sans" font-weight="500">${escapeXml(String(l || ""))}</text>`
-    ).join("");
+  // Helper: hub-and-spoke layout for N satellite hexes around a centre hex
+  // Returns {cx,cy} positions: [0]=centre, [1..N]=satellites
+  const spoke = (cx,cy,r,n,startAngle=0) => {
+    const pos=[{cx,cy}];
+    for(let i=0;i<n;i++){
+      const a=(startAngle + i*(360/n))*Math.PI/180;
+      pos.push({cx:cx+r*Math.cos(a), cy:cy+r*Math.sin(a)});
+    }
+    return pos;
   };
 
-  // Section title
-  const title = (txt) =>
-    `<text x="28" y="32" fill="${P.accent}" font-size="13" font-family="DM Sans" font-weight="700" letter-spacing="0.3">${escapeXml(txt)}</text>`;
+  // ════════════════════════════════════════════════════════════════════
+  //  CHEMISTRY
+  // ════════════════════════════════════════════════════════════════════
+  if(sub==="chem"){
 
-  // Connecting lines
-  const line  = (x1,y1,x2,y2, col, w=2, dash="") =>
-    `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col||P.line}" stroke-width="${w}" stroke-linecap="round"${dash?` stroke-dasharray="${dash}"`:""}/>`;
-  const arrow = (x1,y1,x2,y2, col) =>
-    `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col||P.line}" stroke-width="2" stroke-linecap="round" marker-end="url(#arr-${tid})"/>`;
-  const curve = (d, col, w=2) =>
-    `<path d="${d}" fill="none" stroke="${col||P.line}" stroke-width="${w}" stroke-linecap="round"/>`;
-  const label = (x,y,txt,col,size=10.5,anchor="middle") =>
-    `<text x="${x}" y="${y}" text-anchor="${anchor}" fill="${col||"#8b949e"}" font-size="${size}" font-family="DM Sans">${escapeXml(String(txt||""))}</text>`;
-
-  // ══════════════════════════════════════════════════════════════════════
-  // CHEMISTRY TOPICS
-  // ══════════════════════════════════════════════════════════════════════
-
-  if (sub === "chem") {
-
-    // Atomic Structure — electron shell diagram + subshell blocks
-    if (tid.includes("atomic-structure") || tid.includes("atomic_structure")) {
-      const nucleus = hexNode(120, 140, 34, "rgba(249,115,22,0.30)", P.stroke);
+    // Atomic structure
+    if(tid.includes("atomic-structure")){
+      // Shell diagram left; property hex grid right
       return wrap(`
-        ${title("Atomic Structure")}
-        ${nucleus}
-        ${hexLabel(120, 140, ["nucleus", "p⁺ n⁰"], 11)}
-        <circle cx="120" cy="140" r="58" fill="none" stroke="${P.line}" stroke-width="1.3" stroke-dasharray="4 3"/>
-        <circle cx="120" cy="140" r="82" fill="none" stroke="${P.line}" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
-        <circle cx="120" cy="82" r="6" fill="${P.accent}"/>
-        <circle cx="178" cy="140" r="6" fill="${P.accent}"/>
-        <circle cx="120" cy="198" r="6" fill="${P.accent}"/>
-        <circle cx="62"  cy="140" r="6" fill="${P.accent}"/>
-        ${label(120, 77, "e⁻", P.accent, 10)}
-        ${label(190, 143, "e⁻", P.accent, 10)}
-        ${line(230,60, 690,60, P.line, 1, "2 3")}
-        ${hexNode(310, 105, 34, P.fill, P.stroke)}
-        ${hexLabel(310, 105, ["1s²2s²","2p⁶  …"], 10)}
-        ${hexNode(460, 105, 34, P.fill, P.stroke)}
-        ${hexLabel(460, 105, ["Isotopes","same Z", "diff A"], 9)}
-        ${hexNode(610, 105, 34, P.fill, P.stroke)}
-        ${hexLabel(610, 105, ["Ionisation","Energy"], 10)}
-        ${hexNode(310, 180, 34, P.fill, P.stroke)}
-        ${hexLabel(310, 180, ["Orbital","shapes"], 10)}
-        ${hexNode(460, 180, 34, P.fill, P.stroke)}
-        ${hexLabel(460, 180, ["E shells","n=1,2,3…"], 10)}
-        ${hexNode(610, 180, 34, P.fill, P.stroke)}
-        ${hexLabel(610, 180, ["Aufbau","principle"], 10)}
-        ${line(310,71, 310,61, "#8b949e",1)} ${line(460,71, 460,61, "#8b949e",1)} ${line(610,71, 610,61, "#8b949e",1)}
-        ${line(310,146, 310,146, P.line, 0)}
-        ${line(280,105, 260,105, P.line, 1, "3 2")} ${line(280,180, 260,180, P.line, 1, "3 2")}
+        ${TT("Atomic Structure")}
+        ${H6(130,150,38,P.fi,P.st)} ${HT(130,150,["nucleus","p⁺ n⁰"],10.5)}
+        <circle cx="130" cy="150" r="60" fill="none" stroke="${P.li}" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <circle cx="130" cy="150" r="86" fill="none" stroke="${P.li}" stroke-width="1" stroke-dasharray="3 4" opacity=".6"/>
+        <circle cx="130" cy="90"  r="5.5" fill="${P.ac}"/>
+        <circle cx="190" cy="150" r="5.5" fill="${P.ac}"/>
+        <circle cx="130" cy="210" r="5.5" fill="${P.ac}"/>
+        <circle cx="70"  cy="150" r="5.5" fill="${P.ac}"/>
+        ${LB(130,85,"e⁻",P.ac,9)} ${LB(197,153,"e⁻",P.ac,9)} ${LB(130,222,"e⁻",P.ac,9)} ${LB(63,153,"e⁻",P.ac,9)}
+        ${LN(235,55,680,55,P.li,1,"2 3")}
+        ${H6(310,100,32,P.fi,P.st)} ${HT(310,100,["1s²2s²","2p⁶…"],9.5)}
+        ${H6(460,100,32,P.fi,P.st)} ${HT(460,100,["Isotopes","same Z,diff A"],8.5)}
+        ${H6(610,100,32,P.fi,P.st)} ${HT(610,100,["1st IE","definition"],9)}
+        ${H6(310,185,32,P.fi,P.st)} ${HT(310,185,["Orbitals","s p d f"],9.5)}
+        ${H6(460,185,32,P.fi,P.st)} ${HT(460,185,["Aufbau","Hund Pauli"],8.5)}
+        ${H6(610,185,32,P.fi,P.st)} ${HT(610,185,["Successive","IE trend"],9)}
+        ${LN(310,67,310,55,P.li,1)} ${LN(460,67,460,55,P.li,1)} ${LN(610,67,610,55,P.li,1)}
+        ${LN(310,153,310,218,P.li,1,"3 2")} ${LN(460,153,460,218,P.li,1,"3 2")} ${LN(610,153,610,218,P.li,1,"3 2")}
+        ${LB(350,46,"Electron Configuration",P.ac,9)}
+        ${LB(540,46,"Isotopes & Ionisation",P.ac,9)}
       `);
     }
 
-    // Stoichiometry — mole wheel
-    if (tid.includes("stoichiometry")) {
+    // Stoichiometry — mole conversion wheel
+    if(tid.includes("stoichiometry")){
+      const sp=spoke(350,148,95,4,-45);
       return wrap(`
-        ${title("Stoichiometry — The Mole")}
-        ${hexNode(350, 140, 44, "rgba(249,115,22,0.25)", P.stroke)}
-        ${hexLabel(350, 140, ["Mole","(n)"], 13)}
-        ${hexNode(200, 80,  32, P.fill, P.stroke)}  ${hexLabel(200, 80,  ["mass","÷ Mᵣ"], 10)}
-        ${hexNode(500, 80,  32, P.fill, P.stroke)}  ${hexLabel(500, 80,  ["volume","at STP"], 10)}
-        ${hexNode(200, 200, 32, P.fill, P.stroke)}  ${hexLabel(200, 200, ["conc","× vol"], 10)}
-        ${hexNode(500, 200, 32, P.fill, P.stroke)}  ${hexLabel(500, 200, ["particles","× Nₐ"], 10)}
-        ${hexNode(90,  140, 28, "rgba(249,115,22,0.10)", P.stroke)} ${hexLabel(90,140,["Mᵣ"],10)}
-        ${hexNode(610, 140, 28, "rgba(249,115,22,0.10)", P.stroke)} ${hexLabel(610,140,["Nₐ"],10)}
-        ${arrow(228,91,318,126, P.line)} ${arrow(472,91,382,126, P.line)}
-        ${arrow(228,189,318,154, P.line)} ${arrow(472,189,382,154, P.line)}
-        ${line(118,140, 168,140, P.line, 1, "3 2")} ${line(532,140, 582,140, P.line, 1, "3 2")}
-        ${label(270,76,"n = m/Mᵣ","#8b949e",9)} ${label(440,76,"n = V/24","#8b949e",9)}
-        ${label(265,215,"n = cv","#8b949e",9)}  ${label(438,215,"n = N/Nₐ","#8b949e",9)}
+        ${TT("Stoichiometry — The Mole")}
+        ${H6(sp[0].cx,sp[0].cy,42,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Mole","n"],14)}
+        ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["mass","n = m / Mᵣ"],9)}
+        ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["volume","n = V / 24"],9)}
+        ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["particles","n = N / Nₐ"],9)}
+        ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["conc × vol","n = c × V"],9)}
+        ${AR(sp[0].cx,sp[0].cy,sp[1].cx+36,sp[1].cy-2,P.li)}
+        ${AR(sp[0].cx,sp[0].cy,sp[2].cx+2,sp[2].cy-36,P.li)}
+        ${AR(sp[0].cx,sp[0].cy,sp[3].cx-36,sp[3].cy+2,P.li)}
+        ${AR(sp[0].cx,sp[0].cy,sp[4].cx-2,sp[4].cy+36,P.li)}
+        ${H6(100,148,26,"rgba(249,115,22,.1)",P.st)} ${HT(100,148,["Mᵣ"],11)}
+        ${H6(600,148,26,"rgba(249,115,22,.1)",P.st)} ${HT(600,148,["Nₐ"],11)}
+        ${LN(128,148,260,148,P.li,1,"3 2")} ${LN(440,148,574,148,P.li,1,"3 2")}
       `);
     }
 
-    // Chemical Bonding
-    if (tid.includes("chemical-bonding") || tid.includes("bonding")) {
+    // Chemical bonding
+    if(tid.includes("chemical-bonding")){
+      const sp=spoke(350,148,96,4,-45);
       return wrap(`
-        ${title("Chemical Bonding")}
-        ${hexNode(350, 135, 40, "rgba(249,115,22,0.22)", P.stroke)}
-        ${hexLabel(350, 135, ["Bond","Types"], 12)}
-        ${hexNode(180, 80,  34, P.fill, P.stroke)} ${hexLabel(180, 80,  ["Ionic","δ+ δ−"], 10)}
-        ${hexNode(520, 80,  34, P.fill, P.stroke)} ${hexLabel(520, 80,  ["Covalent","shared e⁻"], 10)}
-        ${hexNode(180, 190, 34, P.fill, P.stroke)} ${hexLabel(180, 190, ["Metallic","e⁻ sea"], 10)}
-        ${hexNode(520, 190, 34, P.fill, P.stroke)} ${hexLabel(520, 190, ["Dative","lone pair"], 10)}
-        ${hexNode(90,  135, 30, P.fill, P.stroke)} ${hexLabel(90,  135, ["Giant","lattice"], 9)}
-        ${hexNode(610, 135, 30, P.fill, P.stroke)} ${hexLabel(610, 135, ["VSEPR","shapes"], 9)}
-        ${line(214,91,314,122,P.line)} ${line(486,91,386,122,P.line)}
-        ${line(214,179,314,148,P.line)} ${line(486,179,386,148,P.line)}
-        ${line(120,135,196,135,P.line,1,"3 2")} ${line(504,135,580,135,P.line,1,"3 2")}
-        ${label(245,68,"electron transfer","#8b949e",8.5)} ${label(450,68,"electrons shared","#8b949e",8.5)}
+        ${TT("Chemical Bonding")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Bond","Types"],12)}
+        ${H6(sp[1].cx,sp[1].cy,34,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Ionic","e⁻ transfer"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,34,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Covalent","shared e⁻"],9.5)}
+        ${H6(sp[3].cx,sp[3].cy,34,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Metallic","e⁻ sea"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,34,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Dative","lone pair"],9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,148,28,P.fi,P.st)}  ${HT(90,148,["Giant","lattice"],8.5)}
+        ${H6(610,148,28,P.fi,P.st)} ${HT(610,148,["VSEPR","shapes"],8.5)}
+        ${LN(124,148,200,148,P.li,1,"3 2")} ${LN(500,148,582,148,P.li,1,"3 2")}
       `);
     }
 
-    // Energetics / Thermodynamics
-    if (tid.includes("energetics") || tid.includes("thermochem")) {
+    // Energetics — enthalpy profiles
+    // Layout: exo profile left (x 60-340), endo profile right (x 380-650)
+    // Reference baseline y=205; profile heights above it
+    if(tid.includes("energetics")){
+      const BY=205, EXH=90, ENH=60; // baseline y, exo height, endo height drop
       return wrap(`
-        ${title("Energetics — Enthalpy")}
-        <rect x="60" y="170" width="580" height="2" rx="1" fill="${P.line}" opacity="0.4"/>
-        <rect x="60" y="170" width="580" height="50" rx="4" fill="${P.fill}" opacity="0.3"/>
-        ${label(350,198,"Reactants + Products (reference line)","#8b949e",9)}
-        <path d="M120,170 L120,100 L260,100" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M260,100 L400,100 L400,170" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 3"/>
-        <path d="M460,170 L460,75 L600,75 L600,170" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
-        ${hexNode(190, 100, 28, P.fill, P.stroke)} ${hexLabel(190,100,["Exo","ΔH<0"],10)}
-        ${hexNode(530, 75,  28, "rgba(129,140,248,0.2)", "rgba(129,140,248,0.7)")} ${hexLabel(530,75,["Endo","ΔH>0"],10)}
-        ${hexNode(350, 60,  26, P.fill, P.stroke)} ${hexLabel(350,60,["Eₐ","activ."],9)}
-        ${arrow(280,60,324,60,P.line)}
-        ${label(120,94,"start","#8b949e",8.5)} ${label(600,92,"start","#8b949e",8.5)}
-        ${label(400,93,"end","#8b949e",8.5)}  ${label(460,69,"end","#8b949e",8.5)}
-        ${line(260,100, 350,86, P.line, 1, "2 2")}
+        ${TT("Energetics — Enthalpy")}
+        ${LB(350,248,"← exothermic (ΔH < 0)     endothermic (ΔH > 0) →","#8b949e",8.5)}
+        <rect x="55" y="${BY}" width="590" height="3" rx="1" fill="${P.li}" opacity=".35"/>
+        <rect x="55" y="${BY+3}" width="590" height="28" fill="${P.fi}" opacity=".25" rx="0"/>
+        ${LB(350,223,"reference baseline","#8b949e",8.5)}
+        <path d="M80,${BY} L80,${BY-EXH} L250,${BY-EXH} L250,${BY}" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M250,${BY-EXH} L310,${BY-EXH}" fill="none" stroke="${P.ac}" stroke-width="1.5" stroke-dasharray="5 4" opacity=".6"/>
+        <path d="M380,${BY} L380,${BY-ENH-40} L560,${BY-ENH-40} L560,${BY}" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        ${H6(165,BY-EXH,28,"rgba(249,115,22,.25)",P.st)} ${HT(165,BY-EXH,["Exo","ΔH<0"],10)}
+        ${H6(470,BY-ENH-40,28,"rgba(129,140,248,.25)","rgba(129,140,248,.7)")} ${HT(470,BY-ENH-40,["Endo","ΔH>0"],10)}
+        ${H6(310,BY-EXH-42,26,P.fi,P.st)} ${HT(310,BY-EXH-42,["Eₐ"],12)}
+        ${AR(270,BY-EXH-42,288,BY-EXH-42,P.li)}
+        ${LB(80,BY-EXH-8,"start","#8b949e",8)} ${LB(250,BY-EXH-8,"end","#8b949e",8)}
+        ${LB(380,BY-ENH-50,"start","#8b949e",8)} ${LB(560,BY-ENH-50,"end","#8b949e",8)}
+        ${LN(250,BY-EXH,310,BY-EXH-28,P.li,1,"3 3")}
       `);
     }
 
     // Kinetics
-    if (tid.includes("kinetics")) {
+    if(tid.includes("kinetics")){
+      const sp=spoke(295,152,86,4,0);
       return wrap(`
-        ${title("Reaction Kinetics")}
-        ${hexNode(120, 135, 36, P.fill, P.stroke)} ${hexLabel(120,135,["Rate","factors"],11)}
-        ${hexNode(270, 85,  30, P.fill, P.stroke)} ${hexLabel(270,85,["Temp","↑ rate"],10)}
-        ${hexNode(270, 185, 30, P.fill, P.stroke)} ${hexLabel(270,185,["Conc","↑ rate"],10)}
-        ${hexNode(420, 85,  30, P.fill, P.stroke)} ${hexLabel(420,85,["Surface","area"],10)}
-        ${hexNode(420, 185, 30, P.fill, P.stroke)} ${hexLabel(420,185,["Catalyst","↓ Eₐ"],10)}
-        ${hexNode(570, 135, 36, P.fill, P.stroke)} ${hexLabel(570,135,["Maxwell-","Boltzmann"],9)}
-        ${line(156,135,240,135,P.line)} ${line(300,91,390,91,P.line,1,"3 2")} ${line(300,179,390,179,P.line,1,"3 2")}
-        ${line(450,95,539,120,P.line)} ${line(450,175,539,150,P.line)}
-        <path d="M590,195 Q620,155 610,130 Q600,105 580,110" fill="none" stroke="${P.accent}" stroke-width="2"/>
-        ${label(632,150,"f(E)","#8b949e",9)} ${label(592,118,"Eₐ","#8b949e",8.5)}
+        ${TT("Reaction Kinetics")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Rate","Factors"],12)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Temp","↑ rate"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Conc","↑ rate"],9.5)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Surface","Area"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Catalyst","↓ Eₐ"],9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        <rect x="480" y="55" width="185" height="180" rx="12" fill="${P.bg}" stroke="${P.st}" stroke-width="1.2"/>
+        ${LB(572,75,"Maxwell-Boltzmann",P.ac,9)}
+        <path d="M495,218 Q510,175 530,148 Q560,110 590,100 Q620,95 650,105 Q665,112 655,130" fill="none" stroke="${P.ac}" stroke-width="2.2" stroke-linecap="round"/>
+        ${LB(635,130,"Eₐ","#8b949e",8.5)} ${LN(635,132,635,218,P.li,1,"3 3")}
+        ${LB(572,235,"f(E)  →  energy","#8b949e",8)}
+        ${LN(384,152,450,152,P.li,1,"3 2")}
       `);
     }
 
     // Equilibria
-    if (tid.includes("equilibria") || tid.includes("equilibrium")) {
+    if(tid.includes("equilibria")){
       return wrap(`
-        ${title("Chemical Equilibria")}
-        ${hexNode(190, 135, 40, P.fill, P.stroke)} ${hexLabel(190,135,["Forward","reaction"],11)}
-        ${hexNode(510, 135, 40, P.fill, P.stroke)} ${hexLabel(510,135,["Reverse","reaction"],11)}
-        ${arrow(234,120, 466,120, P.accent)} ${arrow(466,150, 234,150, "#818cf8")}
-        ${label(350,113,"kf","#f97316",9)} ${label(350,165,"kr","#818cf8",9)}
-        ${hexNode(350, 55,  28, P.fill, P.stroke)} ${hexLabel(350,55,["Kc","= [P]/[R]"],9.5)}
-        ${hexNode(100, 60,  26, P.fill, P.stroke)} ${hexLabel(100,60,["Le","Chatelier"],9)}
-        ${hexNode(600, 60,  26, P.fill, P.stroke)} ${hexLabel(600,60,["Kp","= pᵅpᵝ…"],9)}
-        ${hexNode(100, 210, 26, P.fill, P.stroke)} ${hexLabel(100,210,["Haber","Process"],9)}
-        ${hexNode(600, 210, 26, P.fill, P.stroke)} ${hexLabel(600,210,["Contact","Process"],9)}
-        ${line(350,83,350,95,P.line,1,"3 2")} ${line(120,86,150,100,P.line,1,"3 2")}
-        ${line(580,86,560,100,P.line,1,"3 2")}
+        ${TT("Chemical Equilibria")}
+        ${H6(180,148,38,P.fi,P.st)} ${HT(180,148,["Reactants"],11)}
+        ${H6(520,148,38,P.fi,P.st)} ${HT(520,148,["Products"],11)}
+        ${AR(225,135,475,135,P.ac)} ${LB(350,128,"kf  (forward)",P.ac,9)}
+        ${AR(475,161,225,161,"#818cf8")} ${LB(350,175,"kr  (reverse)","#818cf8",9)}
+        ${H6(350,80, 28,P.fi,P.st)} ${HT(350,80, ["Kc","[P]/[R]"],9.5)}
+        ${H6(100,80, 28,P.fi,P.st)} ${HT(100,80, ["Le","Chatelier"],9)}
+        ${H6(600,80, 28,P.fi,P.st)} ${HT(600,80, ["Kp","partial p"],9.5)}
+        ${H6(100,220,28,P.fi,P.st)} ${HT(100,220,["Haber","Process"],9)}
+        ${H6(600,220,28,P.fi,P.st)} ${HT(600,220,["Contact","Process"],9)}
+        ${H6(350,220,28,P.fi,P.st)} ${HT(350,220,["Dynamic","Equil."],9)}
+        ${LN(180,110,180,90,P.li,1,"3 2")} ${LN(180,90,122,85,P.li,1,"3 2")} ${LN(180,90,324,83,P.li,1,"3 2")}
+        ${LN(520,110,520,90,P.li,1,"3 2")} ${LN(520,90,578,85,P.li,1,"3 2")}
+        ${LN(100,108,100,192,P.li,1,"3 2")} ${LN(600,108,600,192,P.li,1,"3 2")} ${LN(350,108,350,192,P.li,1,"3 2")}
       `);
     }
 
     // Electrochemistry
-    if (tid.includes("electrochem")) {
+    if(tid.includes("electrochem")){
       return wrap(`
-        ${title("Electrochemistry")}
-        <rect x="70" y="100" width="240" height="110" rx="14" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.4"/>
-        <rect x="390" y="100" width="240" height="110" rx="14" fill="rgba(129,140,248,0.14)" stroke="rgba(129,140,248,0.6)" stroke-width="1.4"/>
-        ${label(190,124,"Anode (−) oxidation","#f97316",10)} ${label(510,124,"Cathode (+) reduction","#818cf8",10)}
-        <line x1="310" y1="155" x2="390" y2="155" stroke="#8b949e" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
-        ${label(350,152,"salt bridge","#8b949e",8.5)}
-        <path d="M190,100 L190,70 L510,70 L510,100" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M340,70 L360,70" fill="none" stroke="${P.accent}" stroke-width="4"/>
-        ${label(350,64,"e⁻ flow","#f97316",9)}
-        ${hexNode(190,170,22,P.fill,P.stroke)} ${hexLabel(190,170,["M→Mⁿ⁺","+ ne⁻"],8.5)}
-        ${hexNode(510,170,22,"rgba(129,140,248,0.2)","rgba(129,140,248,0.7)")} ${hexLabel(510,170,["Mⁿ⁺+ne⁻","→M"],8.5)}
-        ${hexNode(350,220,28,P.fill,P.stroke)} ${hexLabel(350,220,["EMF = E°cathode","− E°anode"],8.5)}
+        ${TT("Electrochemistry")}
+        <rect x="60" y="90" width="245" height="115" rx="12" fill="${P.fi}" stroke="${P.st}" stroke-width="1.4"/>
+        <rect x="395" y="90" width="245" height="115" rx="12" fill="rgba(129,140,248,.15)" stroke="rgba(129,140,248,.65)" stroke-width="1.4"/>
+        ${LB(182,112,"Anode (−)  oxidation",P.ac,9.5)} ${LB(518,112,"Cathode (+)  reduction","#818cf8",9.5)}
+        ${LB(182,148,"M → Mⁿ⁺ + ne⁻","#e6edf3",9.5)} ${LB(518,148,"Mⁿ⁺ + ne⁻ → M","#e6edf3",9.5)}
+        <rect x="301" y="138" width="98" height="18" rx="6" fill="${P.bg}" stroke="${P.li}"/>
+        ${LB(350,151,"salt bridge","#8b949e",8.5)}
+        <path d="M182,90 L182,62 L518,62 L518,90" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="330" y="55" width="40" height="10" rx="2" fill="${P.ac}"/>
+        ${LB(350,52,"e⁻ →",P.ac,9)}
+        ${H6(182,215,24,P.fi,P.st)} ${HT(182,215,["Oxidation","State"],8.5)}
+        ${H6(350,215,24,P.fi,P.st)} ${HT(350,215,["E°cell","= E°cat−E°an"],8)}
+        ${H6(518,215,24,"rgba(129,140,248,.2)","rgba(129,140,248,.65)")} ${HT(518,215,["Reduction","State"],8.5)}
+        ${LN(182,195,182,205,P.li,1)} ${LN(350,190,350,205,P.li,1)} ${LN(518,195,518,205,P.li,1)}
       `);
     }
 
-    // Organic basics + any other organic
-    if (tid.includes("organic") || tid.includes("hydrocarbons") || tid.includes("alkene") || tid.includes("alkane")) {
+    // Organic / hydrocarbons
+    if(tid.includes("organic")||tid.includes("hydrocarbons")){
+      const xs=[80,210,340,470,600], y1=100, y2=190;
       return wrap(`
-        ${title("Organic Chemistry — Homologous Series")}
-        ${hexNode(120,135, 36, P.fill, P.stroke)} ${hexLabel(120,135,["Alkanes","CₙH₂ₙ₊₂"],10)}
-        ${hexNode(270,80,  30, P.fill, P.stroke)} ${hexLabel(270,80, ["Alkenes","CₙH₂ₙ"],10)}
-        ${hexNode(270,190, 30, P.fill, P.stroke)} ${hexLabel(270,190,["Arenes","benzene"],10)}
-        ${hexNode(420,80,  30, P.fill, P.stroke)} ${hexLabel(420,80, ["Alcohols","−OH"],10)}
-        ${hexNode(420,190, 30, P.fill, P.stroke)} ${hexLabel(420,190,["Carbonyls","C=O"],10)}
-        ${hexNode(570,135, 36, P.fill, P.stroke)} ${hexLabel(570,135,["Carboxyl","−COOH"],10)}
-        ${line(156,120,240,95,P.line)} ${line(156,150,240,175,P.line)}
-        ${line(300,80,390,80,P.line,1,"3 2")} ${line(300,190,390,190,P.line,1,"3 2")}
-        ${line(450,90,539,118,P.line)} ${line(450,180,539,152,P.line)}
-        <path d="M320,130 L360,130 M360,120 L360,140" stroke="${P.accent}" stroke-width="2" stroke-linecap="round"/>
-        ${label(348,118,"C=C",P.accent,9)}
+        ${TT("Organic Chemistry — Functional Groups")}
+        ${H6(xs[0],y1,34,P.fi,P.st)} ${HT(xs[0],y1,["Alkanes","CₙH₂ₙ₊₂"],9.5)}
+        ${H6(xs[1],y1,34,P.fi,P.st)} ${HT(xs[1],y1,["Alkenes","CₙH₂ₙ"],9.5)}
+        ${H6(xs[2],y1,34,P.fi,P.st)} ${HT(xs[2],y1,["Alcohols","–OH"],9.5)}
+        ${H6(xs[3],y1,34,P.fi,P.st)} ${HT(xs[3],y1,["Carbonyls","C=O"],9.5)}
+        ${H6(xs[4],y1,34,P.fi,P.st)} ${HT(xs[4],y1,["Carboxyl","–COOH"],9.5)}
+        ${H6(xs[0],y2,28,P.fi,P.st)} ${HT(xs[0],y2,["Subst.","reaction"],8.5)}
+        ${H6(xs[1],y2,28,P.fi,P.st)} ${HT(xs[1],y2,["Add.","reaction"],8.5)}
+        ${H6(xs[2],y2,28,P.fi,P.st)} ${HT(xs[2],y2,["Oxidation","Esterific."],8.5)}
+        ${H6(xs[3],y2,28,P.fi,P.st)} ${HT(xs[3],y2,["Reduc.","Nucleoph."],8.5)}
+        ${H6(xs[4],y2,28,P.fi,P.st)} ${HT(xs[4],y2,["Ester","Acyl Cl."],8.5)}
+        ${xs.map(x=>`${LN(x,134,x,162,P.li)}`).join("")}
+        ${AR(xs[0]+34,y1,xs[1]-34,y1,P.li)} ${AR(xs[1]+34,y1,xs[2]-34,y1,P.li)}
+        ${AR(xs[2]+34,y1,xs[3]-34,y1,P.li)} ${AR(xs[3]+34,y1,xs[4]-34,y1,P.li)}
       `);
     }
 
-    if (tid.includes("halogen") || tid.includes("halogen-compounds")) {
+    // Halogen compounds
+    if(tid.includes("halogen")){
+      const sp=spoke(350,148,94,4,-45);
       return wrap(`
-        ${title("Halogen Compounds")}
-        ${hexNode(350,130,40,P.fill,P.stroke)} ${hexLabel(350,130,["C–X","bond"],13)}
-        ${hexNode(170,75, 32,P.fill,P.stroke)} ${hexLabel(170,75, ["Nucleo-","philic sub"],9.5)}
-        ${hexNode(530,75, 32,P.fill,P.stroke)} ${hexLabel(530,75, ["Eliminat-","ion"],9.5)}
-        ${hexNode(170,185,32,P.fill,P.stroke)} ${hexLabel(170,185,["SN1","tertiary"],10)}
-        ${hexNode(530,185,32,P.fill,P.stroke)} ${hexLabel(530,185,["SN2","primary"],10)}
-        ${hexNode(90, 130,26,P.fill,P.stroke)} ${hexLabel(90, 130,["F Cl","Br I"],9.5)}
-        ${hexNode(610,130,26,P.fill,P.stroke)} ${hexLabel(610,130,["Reactiv-","ity↑"],9.5)}
-        ${line(202,86,314,119,P.line)} ${line(498,86,386,119,P.line)}
-        ${line(202,174,314,141,P.line)} ${line(498,174,386,141,P.line)}
-        ${line(116,130,192,130,P.line,1,"3 2")} ${line(508,130,584,130,P.line,1,"3 2")}
+        ${TT("Halogen Compounds")}
+        ${H6(sp[0].cx,sp[0].cy,36,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["C–X","Bond"],13)}
+        ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["SN1","tertiary"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["SN2","primary"],9.5)}
+        ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Elim-","ination"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Nucleo-","phile Nu⁻"],9)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(88,148,26,P.fi,P.st)}  ${HT(88,148,["F Cl","Br I"],9.5)}
+        ${H6(612,148,26,P.fi,P.st)} ${HT(612,148,["Reactiv.","F<Cl<Br<I"],8)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,586,148,P.li,1,"3 2")}
       `);
     }
 
     // Periodicity
-    if (tid.includes("periodicity") || tid.includes("period-3")) {
+    if(tid.includes("periodicity")){
+      const els=["Na","Mg","Al","Si","P","S","Cl","Ar"];
+      const xs=els.map((_,i)=>78+i*78);
       return wrap(`
-        ${title("Periodicity — Period 3")}
-        <rect x="52" y="80" width="596" height="50" rx="10" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.2"/>
-        ${["Na","Mg","Al","Si","P","S","Cl","Ar"].map((el,i) => {
-          const cx = 90 + i * 76;
-          return `${hexNode(cx,180,28,P.fill,P.stroke)}${hexLabel(cx,180,[el],13)}`;
-        }).join("")}
-        ${label(90,72,"metallic →","#8b949e",9,"start")} ${label(610,72,"→ non-metallic","#8b949e",9,"end")}
-        ${label(350,115,"Atomic radius decreases →","#8b949e",9)}
-        ${label(350,130,"Ionisation energy increases (with exceptions) →","#8b949e",8.5)}
-        ${[90,166,242,318,394,470,546,622].map((x,i) =>
-          `<line x1="${x}" y1="152" x2="${x}" y2="162" stroke="${P.line}" stroke-width="1.5"/>`
-        ).join("")}
+        ${TT("Periodicity — Period 3")}
+        <rect x="50" y="60" width="602" height="34" rx="8" fill="${P.fi}" stroke="${P.st}" stroke-width="1.2"/>
+        ${LB(350,83,"Atomic radius ↓     IE (generally) ↑     Electronegativity ↑",P.ac,8.5)}
+        ${els.map((el,i)=>`${H6(xs[i],165,30,P.fi,P.st)}${HT(xs[i],165,[el],14)}`).join("")}
+        ${xs.map((x,i)=>`${LN(x,100,x,133,P.li,1.2)}`).join("")}
+        ${LB(78,220,"metal",P.ac,8.5,"start")} ${LB(390,220,"metalloid","#8b949e",8.5)} ${LB(622,220,"non-metal",P.ac,8.5,"end")}
+        ${LB(350,240,"Group 1→8: properties change systematically across the period","#8b949e",8.5)}
+        <path d="M78,220 L622,220" stroke="${P.li}" stroke-width="1" stroke-dasharray="3 3"/>
       `);
     }
 
-    // Group 2 / Group 17
-    if (tid.includes("group-2")) {
+    // Group 2
+    if(tid.includes("group-2")){
+      const els=["Be","Mg","Ca","Sr","Ba","Ra"];
+      const xs=els.map((_,i)=>80+i*108);
       return wrap(`
-        ${title("Group 2 — Alkaline Earth Metals")}
-        ${["Be","Mg","Ca","Sr","Ba","Ra"].map((el,i) => {
-          const cx = 90 + i * 104;
-          const r  = 22 + i*2;
-          return `${hexNode(cx,120,r,"rgba(249,115,22,0.15)",P.stroke)}${hexLabel(cx,120,[el],12)}`;
-        }).join("")}
-        <path d="M90,150 Q194,175 298,165 Q402,155 506,170 Q558,178 610,185" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
-        ${label(350,205,"Reactivity with H₂O increases down group","#8b949e",9.5)}
-        ${label(120,210,"↑ IE","#8b949e",9)} ${label(580,210,"↓ IE","#8b949e",9)}
-        <line x1="60" y1="148" x2="648" y2="148" stroke="${P.line}" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+        ${TT("Group 2 — Alkaline Earth Metals")}
+        ${els.map((el,i)=>`${H6(xs[i],115,28+i*2,"rgba(249,115,22,.15)",P.st)}${HT(xs[i],115,[el],13)}`).join("")}
+        ${LN(60,148,648,148,P.li,1,"3 4")} 
+        <path d="M80,155 Q188,180 296,172 Q404,164 512,178 Q570,186 620,196" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
+        ${LB(350,215,"Reactivity with O₂ and H₂O increases down group","#8b949e",9.5)}
+        ${LB(80,230,"IE ↑","#8b949e",9,"start")} ${LB(620,230,"IE ↓","#8b949e",9,"end")}
+        ${LB(350,245,"Thermal decomposition of carbonates: harder down group","#8b949e",8.5)}
       `);
     }
 
-    if (tid.includes("group-17") || tid.includes("halogens")) {
+    // Group 17
+    if(tid.includes("group-17")){
+      const data=[["F","pale yellow gas"],["Cl","yellow-green gas"],["Br","red-brown liquid"],["I","grey-black solid"]];
+      const xs=[110,260,440,590];
       return wrap(`
-        ${title("Group 17 — The Halogens")}
-        ${[["F","pale yellow"],["Cl","green gas"],["Br","red-brn liq"],["I","grey solid"]].map(([el,state],i) => {
-          const cx = 120 + i * 152;
-          return `${hexNode(cx,100,36,"rgba(249,115,22,0.15)",P.stroke)}
-                  ${hexLabel(cx,100,[el],16)}
-                  ${label(cx,152,state,"#8b949e",8.5)}`;
-        }).join("")}
-        <path d="M120,136 Q272,160 424,150 Q500,146 576,140" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
-        ${label(350,185,"Oxidising power decreases down group","#8b949e",9.5)}
-        ${label(350,200,"Boiling point increases down group","#8b949e",9.5)}
-        <line x1="60" y1="136" x2="640" y2="136" stroke="${P.line}" stroke-width="1" stroke-dasharray="3 4" opacity="0.4"/>
+        ${TT("Group 17 — The Halogens")}
+        ${data.map(([el,st],i)=>`${H6(xs[i],110,36,"rgba(249,115,22,.16)",P.st)}${HT(xs[i],110,[el],17)}${LB(xs[i],162,st,"#8b949e",8.5)}`).join("")}
+        <path d="M110,142 Q260,168 440,155 Q515,150 590,145" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
+        ${LN(60,142,648,142,P.li,1,"3 4")}
+        ${LB(350,195,"Oxidising power: F > Cl > Br > I","#8b949e",9.5)}
+        ${LB(350,213,"Boiling point increases down the group","#8b949e",9.5)}
+        ${LB(350,231,"Reactivity with H₂: F > Cl > Br > I","#8b949e",9.5)}
       `);
     }
 
-    // Carbonyl / Carboxylic / Nitrogen
-    if (tid.includes("carbonyl")) {
+    // Carbonyl compounds
+    if(tid.includes("carbonyl")){
       return wrap(`
-        ${title("Carbonyl Compounds")}
-        ${hexNode(180,130,36,P.fill,P.stroke)} ${hexLabel(180,130,["Aldehydes","R–CHO"],10)}
-        ${hexNode(350,80, 30,P.fill,P.stroke)} ${hexLabel(350,80, ["Nucleophilic","Addition"],9.5)}
-        ${hexNode(520,130,36,P.fill,P.stroke)} ${hexLabel(520,130,["Ketones","R–CO–R"],10)}
-        ${hexNode(180,210,30,P.fill,P.stroke)} ${hexLabel(180,210,["2,4-DNPH","orange ppt"],9)}
-        ${hexNode(350,195,30,P.fill,P.stroke)} ${hexLabel(350,195,["Tollens'","silver mirr"],9)}
-        ${hexNode(520,210,30,P.fill,P.stroke)} ${hexLabel(520,210,["Fehling's","brick red"],9)}
-        <text x="265" y="82" text-anchor="middle" fill="${P.accent}" font-size="22" font-family="DM Sans" font-weight="300">C=O</text>
-        ${line(216,130,320,130,P.line)} ${line(380,130,484,130,P.line)}
-        ${line(180,166,180,180,P.line)} ${line(350,110,350,165,P.line)} ${line(520,166,520,180,P.line)}
+        ${TT("Carbonyl Compounds")}
+        ${H6(175,120,34,P.fi,P.st)} ${HT(175,120,["Aldehydes","R–CHO"],10)}
+        ${H6(350,85, 30,P.fi,P.st)} ${HT(350,85, ["Nucleophilic","Addition"],9.5)}
+        ${H6(525,120,34,P.fi,P.st)} ${HT(525,120,["Ketones","R–CO–R"],10)}
+        ${H6(140,210,28,P.fi,P.st)} ${HT(140,210,["2,4-DNPH","orange ppt"],8.5)}
+        ${H6(280,210,28,P.fi,P.st)} ${HT(280,210,["Tollens'","silver mirror"],8.5)}
+        ${H6(420,210,28,P.fi,P.st)} ${HT(420,210,["Fehling's","brick red"],8.5)}
+        ${H6(560,210,28,P.fi,P.st)} ${HT(560,210,["NaBH₄","reduction"],8.5)}
+        ${LN(175,86,175,100,P.li,1,"3 2")} ${LN(525,86,525,100,P.li,1,"3 2")}
+        ${LN(209,111,320,91,P.li)} ${LN(491,111,380,91,P.li)}
+        ${LN(175,154,175,182,P.li)} ${LN(280,182,280,154,P.li,1,"3 2")} ${LN(420,182,420,154,P.li,1,"3 2")} ${LN(525,154,525,182,P.li)}
+        ${LB(350,53,"C=O group",P.ac,12)}
       `);
     }
 
-    if (tid.includes("nitrogen") || tid.includes("amines") || tid.includes("amino")) {
+    // Nitrogen compounds
+    if(tid.includes("nitrogen")){
+      const sp=spoke(320,148,90,4,-45);
       return wrap(`
-        ${title("Nitrogen Compounds")}
-        ${hexNode(120,135,36,P.fill,P.stroke)} ${hexLabel(120,135,["Amines","–NH₂"],12)}
-        ${hexNode(290,85, 30,P.fill,P.stroke)} ${hexLabel(290,85, ["Primary","R–NH₂"],10)}
-        ${hexNode(290,185,30,P.fill,P.stroke)} ${hexLabel(290,185,["Secondary","R₂NH"],10)}
-        ${hexNode(460,85, 30,P.fill,P.stroke)} ${hexLabel(460,85, ["Amides","–CONH₂"],10)}
-        ${hexNode(460,185,30,P.fill,P.stroke)} ${hexLabel(460,185,["Amino","acids"],10)}
-        ${hexNode(600,135,30,P.fill,P.stroke)} ${hexLabel(600,135,["Peptide","bonds"],10)}
-        ${line(156,120,260,98, P.line)} ${line(156,150,260,172,P.line)}
-        ${line(320,85, 430,85, P.line,1,"3 2")} ${line(320,185,430,185,P.line,1,"3 2")}
-        ${line(490,90, 570,118,P.line)} ${line(490,180,570,152,P.line)}
+        ${TT("Nitrogen Compounds")}
+        ${H6(sp[0].cx,sp[0].cy,36,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Amines","–NH₂"],12)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Primary","R–NH₂"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Secondary","R₂NH"],9.5)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Amides","–CONH₂"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Amino","Acids"],9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(565,100,34,P.fi,P.st)} ${HT(565,100,["Peptide","–CO–NH–"],9.5)}
+        ${H6(565,200,34,P.fi,P.st)} ${HT(565,200,["Diazonium","salts"],9.5)}
+        ${LN(488,148,531,120,P.li,1,"3 2")} ${LN(488,148,531,176,P.li,1,"3 2")}
       `);
     }
 
-    // States of matter / Gases
-    if (tid.includes("states") || tid.includes("gases")) {
+    // Carboxylic acids
+    if(tid.includes("carboxylic")){
+      const sp=spoke(350,148,90,4,-45);
       return wrap(`
-        ${title("States of Matter")}
-        ${hexNode(160,130,46,P.fill,P.stroke)} ${hexLabel(160,130,["Solid","ordered"],11)}
-        ${hexNode(350,130,46,P.fill,P.stroke)} ${hexLabel(350,130,["Liquid","flowing"],11)}
-        ${hexNode(540,130,46,P.fill,P.stroke)} ${hexLabel(540,130,["Gas","random"],11)}
-        ${arrow(206,115,304,115,P.accent)} ${label(255,108,"melting","#8b949e",8.5)}
-        ${arrow(406,115,494,115,P.accent)} ${label(450,108,"vaporise","#8b949e",8.5)}
-        ${arrow(494,145,404,145,"#818cf8")} ${label(449,158,"condense","#8b949e",8.5)}
-        ${arrow(302,145,208,145,"#818cf8")} ${label(255,158,"freezing","#8b949e",8.5)}
-        ${hexNode(160,210,22,P.fill,P.stroke)} ${hexLabel(160,210,["pV=nRT"],9)}
-        ${hexNode(350,210,22,P.fill,P.stroke)} ${hexLabel(350,210,["intermolec","forces"],8.5)}
-        ${hexNode(540,210,22,P.fill,P.stroke)} ${hexLabel(540,210,["ideal gas","laws"],8.5)}
+        ${TT("Carboxylic Acids & Derivatives")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["–COOH"],12)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Acyl","Chloride"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Ester","R–COO–R"],9.5)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Amide","–CONH₂"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Anhydride","R–CO–O–CO"],9)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["PCl₅","→ acyl Cl"],8)}
+        ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Sapon-","ification"],8.5)}
+        ${LN(118,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
       `);
     }
 
-    // Generic chem fallback — hexagonal network
-    const chemLabels = [
-      ...(topic.definitions||[]).map(d=>d.term),
-      ...(topic.notes||[]).map(n=>n.heading),
-    ].filter(Boolean).filter(l=>l.length>2).slice(0,6);
-    while (chemLabels.length < 6) chemLabels.push(["Reaction","Equation","Mechanism","Structure","Property","Analysis"][chemLabels.length]);
-    const chemHexPos = [[350,130,40],[175,85,30],[525,85,30],[175,180,30],[525,180,30],[350,50,24]];
-    return wrap(`
-      ${title(topic.title)}
-      ${chemHexPos.map(([cx,cy,r],i)=>`${hexNode(cx,cy,r,i===0?P.fill+"":P.fill,P.stroke)}${hexLabel(cx,cy,[chemLabels[i]],i===0?11:9.5)}`).join("")}
-      ${line(350,90,350,72,P.line,1,"3 2")}
-      ${line(215,97,314,120,P.line)} ${line(485,97,386,120,P.line)}
-      ${line(215,168,314,140,P.line)} ${line(485,168,386,140,P.line)}
-    `);
+    // Hydroxy compounds (alcohols)
+    if(tid.includes("hydroxy")){
+      const sp=spoke(350,148,90,5,-90);
+      return wrap(`
+        ${TT("Hydroxy Compounds — Alcohols")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["–OH","Alcohol"],12)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Primary","1°  R–CH₂OH"],8.5)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Oxidation","→ aldehyde"],8.5)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Esterific.","+ acid"],8.5)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Dehydr.","→ alkene"],8.5)}
+        ${H6(sp[5].cx,sp[5].cy,30,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Substitut.","→ halogen"],8.5)}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+      `);
+    }
+
+    // Analytical techniques
+    if(tid.includes("analytical")){
+      const cols=[
+        ["Mass Spec","M/z ratio","Mol. formula"],
+        ["IR Spec","fingerprint","C=O ~1700"],
+        ["NMR","chem. shift δ","splitting"],
+        ["Chromat.","Rf value","separation"],
+      ];
+      const xs=[100,250,450,600];
+      return wrap(`
+        ${TT("Analytical Techniques")}
+        ${cols.map(([h,l1,l2],i)=>`
+          ${H6(xs[i],110,40,P.fi,P.st)}${HT(xs[i],110,[h],9.5)}
+          ${H6(xs[i],195,28,P.fi,P.st)}${HT(xs[i],195,[l1,l2],8.2)}
+          ${LN(xs[i],150,xs[i],167,P.li)}
+        `).join("")}
+        ${AR(140,110,210,110,P.li)} ${AR(290,110,410,110,P.li)} ${AR(490,110,560,110,P.li)}
+        ${LB(350,245,"Used to determine molecular formula, structure and purity","#8b949e",8.5)}
+      `);
+    }
+
+    // Polymerisation
+    if(tid.includes("polymer")){
+      return wrap(`
+        ${TT("Polymerisation")}
+        ${H6(175,120,36,P.fi,P.st)} ${HT(175,120,["Addition","Polymer."],10.5)}
+        ${H6(525,120,36,P.fi,P.st)} ${HT(525,120,["Condensation","Polymer."],9.5)}
+        ${H6(90, 210,28,P.fi,P.st)} ${HT(90, 210,["Alkene","monomer"],8.5)}
+        ${H6(200,210,28,P.fi,P.st)} ${HT(200,210,["Poly-","ethene"],8.5)}
+        ${H6(400,210,28,P.fi,P.st)} ${HT(400,210,["Polyester","–COO–"],8.5)}
+        ${H6(510,210,28,P.fi,P.st)} ${HT(510,210,["Polyamide","–CONH–"],8.5)}
+        ${H6(620,210,28,P.fi,P.st)} ${HT(620,210,["H₂O","by-product"],8.5)}
+        ${H6(350,70, 26,P.fi,P.st)} ${HT(350,70, ["No","by-product"],8.5)}
+        ${LN(175,84,175,70,P.li,1,"3 2")} ${LN(175,70,324,70,P.li,1,"3 2")}
+        ${LN(525,84,525,70,P.li,1,"3 2")} ${LN(525,70,376,70,P.li,1,"3 2")}
+        ${LN(175,156,175,182,P.li)} ${LN(90,182,90,196,P.li)} ${LN(200,182,200,196,P.li)}
+        ${LN(525,156,525,182,P.li)} ${LN(400,182,400,196,P.li)} ${LN(510,182,510,196,P.li)} ${LN(620,182,620,196,P.li)}
+        ${AR(211,120,489,120,P.ac)} ${LB(350,113,"no by-product        small molecule lost",P.ac,8.5)}
+      `);
+    }
+
+    // States of matter
+    if(tid.includes("states")){
+      const states=[["Solid","ordered\nlattice",110],["Liquid","flowing\nrandom",350],["Gas","random\nhigh KE",590]];
+      return wrap(`
+        ${TT("States of Matter")}
+        ${states.map(([s,d,x])=>`${H6(x,128,44,P.fi,P.st)}${HT(x,128,[s],13)}`).join("")}
+        ${AR(160,115,300,115,P.ac)} ${LB(230,108,"melting / dissolve",P.ac,8.5)}
+        ${AR(400,115,540,115,P.ac)} ${LB(470,108,"boiling / vapour.",P.ac,8.5)}
+        ${AR(540,142,400,142,"#818cf8")} ${LB(470,158,"condensation","#818cf8",8.5)}
+        ${AR(298,142,162,142,"#818cf8")} ${LB(230,158,"freezing","#818cf8",8.5)}
+        ${H6(110,215,26,P.fi,P.st)} ${HT(110,215,["Strong","IMF"],8.5)}
+        ${H6(350,215,26,P.fi,P.st)} ${HT(350,215,["pV = nRT","ideal gas"],9)}
+        ${H6(590,215,26,P.fi,P.st)} ${HT(590,215,["Weak","IMF"],8.5)}
+        ${LN(110,172,110,189,P.li,1,"3 2")} ${LN(350,172,350,189,P.li,1,"3 2")} ${LN(590,172,590,189,P.li,1,"3 2")}
+      `);
+    }
+
+    // Chem fallback
+    {
+      const labs=[(topic.definitions||[]).map(d=>d.term),(topic.notes||[]).map(n=>n.heading)].flat().filter(l=>l&&l.length>2).slice(0,5);
+      while(labs.length<5)labs.push(["Reaction","Structure","Property","Mechanism","Equation"][labs.length]);
+      const sp=spoke(350,148,96,5,-90);
+      return wrap(`
+        ${TT(topic.title)}
+        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:30,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+      `);
+    }
   }
 
-  // ══════════════════════════════════════════════════════════════════════
-  // BIOLOGY TOPICS
-  // ══════════════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════
+  //  BIOLOGY
+  // ════════════════════════════════════════════════════════════════════
+  if(sub==="bio"){
 
-  if (sub === "bio") {
-
-    // Cell Structure
-    if (tid.includes("cell-structure") || tid.includes("cell_structure")) {
+    if(tid.includes("cell-structure")){
       return wrap(`
-        ${title("Cell Structure")}
-        <ellipse cx="350" cy="135" rx="180" ry="90" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.5"/>
-        <ellipse cx="350" cy="135" rx="60" ry="38" fill="rgba(34,197,94,0.30)" stroke="${P.stroke}" stroke-width="1.8"/>
-        ${label(350,138,"Nucleus","#e6edf3",10)}
-        ${hexNode(120,85, 26,P.fill,P.stroke)} ${hexLabel(120,85, ["Mitoch-","ondria"],9)}
-        ${hexNode(120,185,26,P.fill,P.stroke)} ${hexLabel(120,185,["ER","rough/smth"],8.5)}
-        ${hexNode(580,85, 26,P.fill,P.stroke)} ${hexLabel(580,85, ["Golgi","apparatus"],9)}
-        ${hexNode(580,185,26,P.fill,P.stroke)} ${hexLabel(580,185,["Ribosome","80S/70S"],8.5)}
-        ${hexNode(350,210,24,P.fill,P.stroke)} ${hexLabel(350,210,["Vacuole"],9)}
-        ${line(146,95,196,108,P.line,1,"3 2")} ${line(146,175,196,162,P.line,1,"3 2")}
-        ${line(554,95,504,108,P.line,1,"3 2")} ${line(554,175,504,162,P.line,1,"3 2")}
+        ${TT("Cell Structure")}
+        <ellipse cx="350" cy="148" rx="185" ry="90" fill="${P.fi}" stroke="${P.st}" stroke-width="1.5"/>
+        <ellipse cx="350" cy="148" rx="58" ry="38" fill="rgba(34,197,94,.30)" stroke="${P.st}" stroke-width="1.8"/>
+        ${LB(350,152,"Nucleus","#e6edf3",10.5)}
+        ${H6(100,78, 28,P.fi,P.st)} ${HT(100,78, ["Mito-","chondria"],9)}
+        ${H6(100,218,28,P.fi,P.st)} ${HT(100,218,["Rough","ER"],9)}
+        ${H6(600,78, 28,P.fi,P.st)} ${HT(600,78, ["Golgi","apparatus"],9)}
+        ${H6(600,218,28,P.fi,P.st)} ${HT(600,218,["Ribosome","80S/70S"],8.5)}
+        ${H6(350,58, 24,P.fi,P.st)} ${HT(350,58, ["Cell","membrane"],8.5)}
+        ${H6(350,240,24,P.fi,P.st)} ${HT(350,240,["Vacuole","(plant)"],8.5)}
+        ${LN(128,88, 180,110,P.li,1,"3 2")} ${LN(128,208,180,186,P.li,1,"3 2")}
+        ${LN(572,88, 520,110,P.li,1,"3 2")} ${LN(572,208,520,186,P.li,1,"3 2")}
       `);
     }
 
-    // Cell Membranes / Transport
-    if (tid.includes("cell-membrane") || tid.includes("membrane")) {
+    if(tid.includes("cell-membrane")||tid.includes("membrane")){
       return wrap(`
-        ${title("Cell Membranes — Fluid Mosaic")}
-        <rect x="60" y="115" width="580" height="60" rx="0" fill="${P.fill}" stroke="none"/>
-        <rect x="60" y="110" width="580" height="10" rx="5" fill="${P.accent}" opacity="0.5"/>
-        <rect x="60" y="165" width="580" height="10" rx="5" fill="${P.accent}" opacity="0.5"/>
-        ${label(350,145,"Phospholipid bilayer","#e6edf3",10)}
-        ${[100,200,300,400,500,600].map(x=>
-          `<line x1="${x}" y1="110" x2="${x-8}" y2="165" stroke="${P.accent}" stroke-width="1.5" opacity="0.3"/>`
-        ).join("")}
-        ${hexNode(130,80, 26,P.fill,P.stroke)} ${hexLabel(130,80, ["Channel","protein"],9)}
-        ${hexNode(280,80, 26,P.fill,P.stroke)} ${hexLabel(280,80, ["Carrier","protein"],9)}
-        ${hexNode(430,80, 26,P.fill,P.stroke)} ${hexLabel(430,80, ["Glyco-","protein"],9)}
-        ${hexNode(580,80, 26,P.fill,P.stroke)} ${hexLabel(580,80, ["Cholest-","erol"],9)}
-        ${hexNode(200,205,26,P.fill,P.stroke)} ${hexLabel(200,205,["Osmosis","H₂O"],9)}
-        ${hexNode(350,205,26,P.fill,P.stroke)} ${hexLabel(350,205,["Diffusion","passive"],9)}
-        ${hexNode(500,205,26,P.fill,P.stroke)} ${hexLabel(500,205,["Active","transport"],9)}
-        ${[130,280,430,580].map(x=>`<line x1="${x}" y1="106" x2="${x}" y2="92" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="3 2"/>`).join("")}
-        ${[200,350,500].map(x=>`<line x1="${x}" y1="179" x2="${x}" y2="193" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="3 2"/>`).join("")}
+        ${TT("Cell Membranes — Fluid Mosaic Model")}
+        <rect x="55"  y="118" width="590" height="14" rx="5" fill="${P.ac}" opacity=".4"/>
+        <rect x="55"  y="162" width="590" height="14" rx="5" fill="${P.ac}" opacity=".4"/>
+        <rect x="55"  y="132" width="590" height="30" fill="${P.fi}" opacity=".18"/>
+        ${LB(350,152,"phospholipid bilayer","#e6edf3",9.5)}
+        ${H6(110,90, 28,P.fi,P.st)} ${HT(110,90, ["Channel","protein"],8.5)}
+        ${H6(260,90, 28,P.fi,P.st)} ${HT(260,90, ["Carrier","protein"],8.5)}
+        ${H6(440,90, 28,P.fi,P.st)} ${HT(440,90, ["Glyco-","protein"],8.5)}
+        ${H6(590,90, 28,P.fi,P.st)} ${HT(590,90, ["Cholest-","erol"],8.5)}
+        ${H6(140,210,28,P.fi,P.st)} ${HT(140,210,["Osmosis","↓ ψ"],9)}
+        ${H6(300,210,28,P.fi,P.st)} ${HT(300,210,["Diffusion","passive"],9)}
+        ${H6(460,210,28,P.fi,P.st)} ${HT(460,210,["Active","transport"],9)}
+        ${H6(590,210,28,P.fi,P.st)} ${HT(590,210,["Co-trans-","port"],8.5)}
+        ${[110,260,440,590].map(x=>`${LN(x,118,x,104,P.li,1.2)}`).join("")}
+        ${[140,300,460,590].map(x=>`${LN(x,176,x,182,P.li,1.2)}`).join("")}
       `);
     }
 
-    // Biological Molecules
-    if (tid.includes("biological-molecule") || tid.includes("bio-molecule")) {
+    if(tid.includes("biological-molecule")){
+      const sp=spoke(350,145,96,4,-45);
       return wrap(`
-        ${title("Biological Molecules")}
-        ${hexNode(350,120,40,P.fill,P.stroke)} ${hexLabel(350,120,["Monomers","→ Polymers"],10)}
-        ${hexNode(160,75, 34,P.fill,P.stroke)} ${hexLabel(160,75, ["Carbo-","hydrates"],10)}
-        ${hexNode(540,75, 34,P.fill,P.stroke)} ${hexLabel(540,75, ["Proteins","AA chains"],10)}
-        ${hexNode(160,195,34,P.fill,P.stroke)} ${hexLabel(160,195,["Lipids","fatty acid"],10)}
-        ${hexNode(540,195,34,P.fill,P.stroke)} ${hexLabel(540,195,["Nucleic","Acids"],10)}
-        ${hexNode(90, 135,24,P.fill,P.stroke)} ${hexLabel(90, 135,["glucose","C₆H₁₂O₆"],8.5)}
-        ${hexNode(610,135,24,P.fill,P.stroke)} ${hexLabel(610,135,["DNA","RNA"],9)}
-        ${line(194,86,310,110,P.line)} ${line(506,86,390,110,P.line)}
-        ${line(194,184,310,130,P.line)} ${line(506,184,390,130,P.line)}
-        ${line(114,135,160,135,P.line,1,"3 2")} ${line(540,135,586,135,P.line,1,"3 2")}
-        ${label(240,68,"condensation →","#8b949e",8.5)} ${label(460,68,"peptide bond","#8b949e",8.5)}
+        ${TT("Biological Molecules")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Monomers","→ Polymers"],9.5)}
+        ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Carbo-","hydrates"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Proteins","amino acids"],9)}
+        ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Lipids","fatty acid"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Nucleic","Acids"],9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,145,26,P.fi,P.st)}  ${HT(90,145,["glucose","starch"],8.5)}
+        ${H6(610,145,26,P.fi,P.st)} ${HT(610,145,["DNA","RNA"],9)}
+        ${LN(118,145,220,145,P.li,1,"3 2")} ${LN(480,145,584,145,P.li,1,"3 2")}
       `);
     }
 
-    // Enzymes
-    if (tid.includes("enzyme")) {
+    if(tid.includes("enzyme")){
       return wrap(`
-        ${title("Enzymes — Catalysis")}
-        <path d="M200,100 Q240,55 280,100 Q320,145 280,180 Q240,215 200,180 Q160,145 200,100Z" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.8"/>
-        ${label(240,142,"Active","#e6edf3",10)} ${label(240,155,"site","#e6edf3",10)}
-        <path d="M260,130 Q290,115 315,130 Q290,150 260,130Z" fill="${P.accent}" opacity="0.5"/>
-        ${label(290,135,"S","#e6edf3",11)}
-        ${hexNode(460,100,30,P.fill,P.stroke)} ${hexLabel(460,100,["Lock & key","model"],9.5)}
-        ${hexNode(600,100,30,P.fill,P.stroke)} ${hexLabel(600,100,["Induced","fit model"],9.5)}
-        ${hexNode(460,195,30,P.fill,P.stroke)} ${hexLabel(460,195,["Inhibitors","comp/non"],9.5)}
-        ${hexNode(600,195,30,P.fill,P.stroke)} ${hexLabel(600,195,["Temp &","pH effect"],9.5)}
-        ${line(280,140,430,105,P.line,1,"3 2")} ${line(280,155,430,190,P.line,1,"3 2")}
-        ${line(490,100,570,100,P.line,1,"2 2")} ${line(490,195,570,195,P.line,1,"2 2")}
-        ${label(80,230,"E + S ⇌ ES → E + P",P.accent,10.5,"start")}
+        ${TT("Enzymes")}
+        <path d="M190,90 Q225,52 265,90 Q305,130 265,168 Q225,206 190,168 Q155,130 190,90Z" fill="${P.fi}" stroke="${P.st}" stroke-width="1.8"/>
+        ${LB(228,138,"Active","#e6edf3",10)} ${LB(228,152,"site","#e6edf3",10)}
+        <path d="M256,126 Q278,112 298,126 Q278,146 256,126Z" fill="${P.ac}" opacity=".55"/>
+        ${LB(277,132,"S","#e6edf3",12)}
+        ${H6(450,82, 30,P.fi,P.st)} ${HT(450,82, ["Lock &","Key"],9.5)}
+        ${H6(590,82, 30,P.fi,P.st)} ${HT(590,82, ["Induced","Fit"],9.5)}
+        ${H6(450,175,30,P.fi,P.st)} ${HT(450,175,["Compet.","inhibitor"],9)}
+        ${H6(590,175,30,P.fi,P.st)} ${HT(590,175,["Non-comp.","inhibitor"],9)}
+        ${H6(350,55, 26,P.fi,P.st)} ${HT(350,55, ["Specificity"],8.5)}
+        ${H6(350,242,26,P.fi,P.st)} ${HT(350,242,["Temp/pH","denat."],8.5)}
+        ${AR(270,130,420,90,P.li)} ${AR(270,145,420,175,P.li)}
+        ${LN(450,52,450,62,P.li,1,"3 2")} ${LN(590,112,590,145,P.li,1,"2 2")}
+        ${LN(450,112,450,145,P.li,1,"2 2")}
+        ${LB(80,248,"E + S ⇌ ES → E + P",P.ac,10,"start")}
       `);
     }
 
-    // Gas Exchange / Transport
-    if (tid.includes("gas-exchange") || tid.includes("transport-gas")) {
+    if(tid.includes("gas-exchange")||tid.includes("transport-gas")){
+      const sp=spoke(350,148,92,4,-45);
       return wrap(`
-        ${title("Gas Exchange")}
-        ${hexNode(175,110,40,P.fill,P.stroke)} ${hexLabel(175,110,["Alveoli","features"],11)}
-        ${hexNode(350,80, 28,P.fill,P.stroke)} ${hexLabel(350,80, ["Large SA","thin wall"],9.5)}
-        ${hexNode(525,110,40,P.fill,P.stroke)} ${hexLabel(525,110,["Fick's","Law"],12)}
-        ${hexNode(175,210,28,P.fill,P.stroke)} ${hexLabel(175,210,["Ventilat-","ion mech"],9.5)}
-        ${hexNode(350,200,28,P.fill,P.stroke)} ${hexLabel(350,200,["Conc.","gradient"],9.5)}
-        ${hexNode(525,210,28,P.fill,P.stroke)} ${hexLabel(525,210,["Diffusion","rate"],9.5)}
-        ${arrow(215,110,321,110,P.line)} ${arrow(379,110,485,110,P.line)}
-        ${line(175,150,175,182,P.line,1,"3 2")} ${line(350,108,350,172,P.line)} ${line(525,150,525,182,P.line,1,"3 2")}
-        ${label(350,50,"rate = (SA × conc. diff.) / thickness",P.accent,9.5)}
+        ${TT("Gas Exchange")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Fick's","Law"],13)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Large","surf. area"],9)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Thin","membrane"],9)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Conc.","gradient"],9)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Ventil-","ation"],9)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Alveoli"],8.5)}
+        ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Gill","lamella"],8.5)}
+        ${LN(118,148,222,148,P.li,1,"3 2")} ${LN(478,148,584,148,P.li,1,"3 2")}
+        ${LB(350,46,"Rate = (SA × conc. diff.) ÷ thickness",P.ac,9.5)}
       `);
     }
 
-    // Genetics / DNA
-    if (tid.includes("genetics") || tid.includes("nucleic") || tid.includes("dna") || tid.includes("gene")) {
+    if(tid.includes("genetics")||tid.includes("nucleic")){
       return wrap(`
-        ${title("Genetics & DNA")}
-        <path d="M200,60 Q240,100 200,140 Q160,180 200,220" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M240,60 Q200,100 240,140 Q280,180 240,220" fill="none" stroke="${P.accent}" stroke-width="2.5" stroke-linecap="round"/>
-        ${[80,105,130,155,180].map(y=>`<line x1="200" y1="${y}" x2="240" y2="${y}" stroke="${P.line}" stroke-width="2" opacity="0.7"/>`).join("")}
-        ${label(220,240,"DNA double helix","#8b949e",8.5)}
-        ${hexNode(420,80, 30,P.fill,P.stroke)} ${hexLabel(420,80, ["Codons","triplet"],10)}
-        ${hexNode(570,80, 30,P.fill,P.stroke)} ${hexLabel(570,80, ["mRNA","transcr."],10)}
-        ${hexNode(420,145,30,P.fill,P.stroke)} ${hexLabel(420,145,["tRNA","transl."],10)}
-        ${hexNode(570,145,30,P.fill,P.stroke)} ${hexLabel(570,145,["Ribosome","protein"],10)}
-        ${hexNode(420,210,30,P.fill,P.stroke)} ${hexLabel(420,210,["Alleles","dominant"],10)}
-        ${hexNode(570,210,30,P.fill,P.stroke)} ${hexLabel(570,210,["Punnett","square"],10)}
-        ${line(310,80,390,80,P.line,1,"3 2")} ${line(310,145,390,145,P.line,1,"3 2")} ${line(310,210,390,210,P.line,1,"3 2")}
-        ${line(450,80,540,80,P.line,1,"2 2")} ${line(450,145,540,145,P.line,1,"2 2")} ${line(450,210,540,210,P.line,1,"2 2")}
+        ${TT("Genetics & Nucleic Acids")}
+        <path d="M195,55 Q232,95 195,135 Q158,175 195,215" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M235,55 Q198,95 235,135 Q272,175 235,215" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
+        ${[70,95,120,145,170,195].map(y=>`${LN(195,y,235,y,P.li,1.8)}`).join("")}
+        ${LB(215,238,"DNA double helix","#8b949e",8.5)}
+        ${H6(430,75, 30,P.fi,P.st)} ${HT(430,75, ["Codons","triplet code"],9)}
+        ${H6(580,75, 30,P.fi,P.st)} ${HT(580,75, ["mRNA","transcription"],8.5)}
+        ${H6(430,148,30,P.fi,P.st)} ${HT(430,148,["tRNA","translation"],9.5)}
+        ${H6(580,148,30,P.fi,P.st)} ${HT(580,148,["Ribosome","protein"],9)}
+        ${H6(430,220,30,P.fi,P.st)} ${HT(430,220,["Alleles","dom./rec."],9)}
+        ${H6(580,220,30,P.fi,P.st)} ${HT(580,220,["Punnett","square"],9)}
+        ${LN(305,75, 400,75, P.li,1,"3 2")} ${LN(305,148,400,148,P.li,1,"3 2")} ${LN(305,220,400,220,P.li,1,"3 2")}
+        ${LN(460,75, 550,75, P.li,1,"2 2")} ${LN(460,148,550,148,P.li,1,"2 2")} ${LN(460,220,550,220,P.li,1,"2 2")}
       `);
     }
 
-    // Cell cycle / Mitosis
-    if (tid.includes("mitosis") || tid.includes("cell-cycle") || tid.includes("meiosis")) {
+    if(tid.includes("mitotic")||tid.includes("cell-cycle")){
       return wrap(`
-        ${title("Mitotic Cell Cycle")}
-        <circle cx="350" cy="135" r="90" fill="none" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="5 4"/>
-        ${[["G1","DNA","synthesis",-60],["S","Replic-","ation",0],["G2","Check-","point",60],["M","Mitosis","PMAT",130]].map(([ph,l1,l2,angle])=>{
-          const rad = (angle - 90) * Math.PI / 180;
-          const cx = 350 + 88 * Math.cos(rad);
-          const cy = 135 + 88 * Math.sin(rad);
-          return `${hexNode(cx,cy,28,P.fill,P.stroke)}${hexLabel(cx,cy,[ph,l1],9.5)}`;
-        }).join("")}
-        ${hexNode(350,135,36,"rgba(34,197,94,0.30)",P.stroke)} ${hexLabel(350,135,["Cell","Cycle"],11)}
-        ${hexNode(580,80, 26,P.fill,P.stroke)} ${hexLabel(580,80, ["PMAT","stages"],9)}
-        ${hexNode(580,190,26,P.fill,P.stroke)} ${hexLabel(580,190,["Checkpt","control"],9)}
-        ${line(350,45,350,35,P.line,1,"3 2")}
+        ${TT("Mitotic Cell Cycle")}
+        <circle cx="350" cy="148" r="88" fill="none" stroke="${P.li}" stroke-width="1.4" stroke-dasharray="5 4"/>
+        ${H6(350,55, 28,P.fi,P.st)} ${HT(350,55, ["G1","growth"],9.5)}
+        ${H6(444,100,28,P.fi,P.st)} ${HT(444,100,["S","DNA rep."],9.5)}
+        ${H6(444,196,28,P.fi,P.st)} ${HT(444,196,["G2","check"],9.5)}
+        ${H6(350,238,28,P.fi,P.st)} ${HT(350,238,["M","PMAT"],9.5)}
+        ${H6(256,196,28,P.fi,P.st)} ${HT(256,196,["Cyto-","kinesis"],9)}
+        ${H6(256,100,28,P.fi,P.st)} ${HT(256,100,["Interp-","hase"],9)}
+        ${H6(350,148,36,"rgba(34,197,94,.3)",P.st)} ${HT(350,148,["Cell","Cycle"],11)}
+        ${H6(590,90, 28,P.fi,P.st)} ${HT(590,90, ["Checkpt","p53 gene"],8.5)}
+        ${H6(590,210,28,P.fi,P.st)} ${HT(590,210,["Cancer","uncontrolled"],8)}
+        ${LN(474,105,562,100,P.li,1,"3 2")} ${LN(474,191,562,205,P.li,1,"3 2")}
       `);
     }
 
-    // Immunity
-    if (tid.includes("immun")) {
+    if(tid.includes("immun")){
+      const sp=spoke(350,148,94,4,-45);
       return wrap(`
-        ${title("Immunity")}
-        ${hexNode(120,100,36,P.fill,P.stroke)} ${hexLabel(120,100,["Non-","specific"],11)}
-        ${hexNode(120,190,36,P.fill,P.stroke)} ${hexLabel(120,190,["Specific","immunity"],11)}
-        ${hexNode(310,80, 30,P.fill,P.stroke)} ${hexLabel(310,80, ["Phago-","cytosis"],9.5)}
-        ${hexNode(310,165,30,P.fill,P.stroke)} ${hexLabel(310,165,["B cells","antibodies"],9.5)}
-        ${hexNode(480,80, 30,P.fill,P.stroke)} ${hexLabel(480,80, ["T cells","cytotoxic"],9.5)}
-        ${hexNode(480,165,30,P.fill,P.stroke)} ${hexLabel(480,165,["Memory","cells"],9.5)}
-        ${hexNode(620,130,30,P.fill,P.stroke)} ${hexLabel(620,130,["Vaccine","immunity"],9.5)}
-        ${line(156,100,280,88,P.line)} ${line(156,190,280,170,P.line)}
-        ${line(340,80,450,80,P.line,1,"2 2")} ${line(340,165,450,165,P.line,1,"2 2")}
-        ${line(510,90,590,118,P.line)} ${line(510,175,590,142,P.line)}
-        ${label(540,60,"Ag + Ab →","#8b949e",8.5)}
+        ${TT("Immunity")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Specific","Immunity"],10.5)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["B cells","antibodies"],9)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["T cells","cytotoxic"],9)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Memory","cells"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Vaccines","herd immun."],8.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,148,28,P.fi,P.st)}  ${HT(90,148,["Phago-","cytosis"],9)}
+        ${H6(610,148,28,P.fi,P.st)} ${HT(610,148,["Clonal","selection"],8.5)}
+        ${LN(118,148,220,148,P.li,1,"3 2")} ${LN(480,148,582,148,P.li,1,"3 2")}
+        ${LB(350,48,"Antigen → lymphocyte activation → antibody / cytotoxic response",P.ac,8.5)}
       `);
     }
 
-    // Transport in mammals
-    if (tid.includes("transport-in-mammals") || tid.includes("heart") || tid.includes("circulation")) {
+    if(tid.includes("transport-in-mammals")){
       return wrap(`
-        ${title("Transport in Mammals")}
-        <path d="M310,90 Q315,60 350,75 Q385,60 390,90 Q415,115 390,145 Q370,165 350,180 Q330,165 310,145 Q285,115 310,90Z" fill="${P.fill}" stroke="${P.stroke}" stroke-width="2"/>
-        ${label(350,130,"Heart","#e6edf3",11)}
-        ${hexNode(145,80, 28,P.fill,P.stroke)} ${hexLabel(145,80, ["Pulmon-","ary circ."],9)}
-        ${hexNode(145,190,28,P.fill,P.stroke)} ${hexLabel(145,190,["Systemic","circ."],9.5)}
-        ${hexNode(555,80, 28,P.fill,P.stroke)} ${hexLabel(555,80, ["Arteries","thick wall"],9)}
-        ${hexNode(555,190,28,P.fill,P.stroke)} ${hexLabel(555,190,["Veins","valves"],9.5)}
-        ${hexNode(350,50, 26,P.fill,P.stroke)} ${hexLabel(350,50, ["Double","circ."],9.5)}
-        ${hexNode(350,220,26,P.fill,P.stroke)} ${hexLabel(350,220,["Capillaries","exchange"],9)}
-        ${arrow(173,88,290,98,P.line)} ${arrow(173,182,290,155,P.line)}
-        ${arrow(410,98,527,88,P.line)} ${arrow(410,162,527,178,P.line)}
-        ${line(350,76,350,62,P.line,1,"3 2")} ${line(350,180,350,208,P.line,1,"3 2")}
+        ${TT("Transport in Mammals")}
+        <path d="M312,82 Q316,54 350,68 Q384,54 388,82 Q415,108 388,138 Q369,158 350,172 Q331,158 312,138 Q285,108 312,82Z" fill="${P.fi}" stroke="${P.st}" stroke-width="2"/>
+        ${LB(350,125,"Heart","#e6edf3",11)}
+        ${H6(130,75, 30,P.fi,P.st)} ${HT(130,75, ["Pulmon-","ary circ."],9)}
+        ${H6(130,222,30,P.fi,P.st)} ${HT(130,222,["Systemic","circ."],9.5)}
+        ${H6(570,75, 30,P.fi,P.st)} ${HT(570,75, ["Arteries","thick wall"],8.5)}
+        ${H6(570,222,30,P.fi,P.st)} ${HT(570,222,["Veins","valves"],9.5)}
+        ${H6(350,48, 26,P.fi,P.st)} ${HT(350,48, ["Double","circulation"],8.5)}
+        ${H6(350,240,26,P.fi,P.st)} ${HT(350,240,["Capillaries","exchange"],8.5)}
+        ${AR(160,82, 298,96, P.li)} ${AR(160,215,298,158,P.li)}
+        ${AR(402,96, 540,82, P.li)} ${AR(402,158,540,215,P.li)}
+        ${LN(350,74, 350,62,P.li,1,"3 2")} ${LN(350,172,350,228,P.li,1,"3 2")}
       `);
     }
 
-    // Transport in plants
-    if (tid.includes("transport-in-plants") || tid.includes("xylem") || tid.includes("phloem")) {
+    if(tid.includes("transport-in-plants")){
       return wrap(`
-        ${title("Transport in Plants")}
-        <rect x="240" y="55" width="40" height="170" rx="8" fill="${P.fill}" stroke="${P.stroke}" stroke-width="1.6"/>
-        <rect x="310" y="55" width="40" height="170" rx="8" fill="rgba(34,197,94,0.10)" stroke="${P.stroke}" stroke-width="1.6"/>
-        ${label(260,46,"Xylem","#22c55e",9)} ${label(330,46,"Phloem","#22c55e",9)}
-        ${[70,95,120,145,170,195].map(y=>`<line x1="240" y1="${y}" x2="280" y2="${y}" stroke="${P.accent}" stroke-width="1.2" opacity="0.5"/>`).join("")}
-        <path d="M330,65 L330,210" stroke="${P.line}" stroke-width="1.5" stroke-dasharray="5 4"/>
-        ${hexNode(120,80, 30,P.fill,P.stroke)} ${hexLabel(120,80, ["Cohesion","tension"],9.5)}
-        ${hexNode(120,190,30,P.fill,P.stroke)} ${hexLabel(120,190,["Root hair","uptake"],9.5)}
-        ${hexNode(520,80, 30,P.fill,P.stroke)} ${hexLabel(520,80, ["Source","to sink"],9.5)}
-        ${hexNode(520,190,30,P.fill,P.stroke)} ${hexLabel(520,190,["Transpir-","ation"],9.5)}
-        ${hexNode(600,135,26,P.fill,P.stroke)} ${hexLabel(600,135,["Stomata","guard cells"],8.5)}
-        ${arrow(150,80,238,100,P.line)} ${arrow(150,190,238,180,P.line)}
-        ${arrow(352,100,490,88,P.line)} ${arrow(352,170,490,178,P.line)}
-        ${line(550,100,576,120,P.line,1,"3 2")} ${line(550,170,576,150,P.line,1,"3 2")}
+        ${TT("Transport in Plants")}
+        <rect x="240" y="52" width="44" height="178" rx="8" fill="${P.fi}" stroke="${P.st}" stroke-width="1.6"/>
+        <rect x="312" y="52" width="44" height="178" rx="8" fill="rgba(34,197,94,.10)" stroke="${P.st}" stroke-width="1.6"/>
+        ${LB(262,44,"Xylem",P.ac,9)} ${LB(334,44,"Phloem",P.ac,9)}
+        ${[68,92,116,140,164,188].map(y=>`${LN(240,y,284,y,P.ac,1,"5 4")}`).join("")}
+        ${LN(334,52,334,230,P.li,1.2,"5 4")}
+        ${H6(115,80, 30,P.fi,P.st)} ${HT(115,80, ["Cohesion","tension"],9)}
+        ${H6(115,200,30,P.fi,P.st)} ${HT(115,200,["Root hair","active up."],8.5)}
+        ${H6(540,80, 30,P.fi,P.st)} ${HT(540,80, ["Source","to sink"],9.5)}
+        ${H6(540,200,30,P.fi,P.st)} ${HT(540,200,["Transpir-","ation"],9)}
+        ${H6(620,140,26,P.fi,P.st)} ${HT(620,140,["Stomata","guard cells"],8.5)}
+        ${AR(145,80, 238,100,P.li)} ${AR(145,200,238,180,P.li)}
+        ${AR(356,95, 510,88, P.li)} ${AR(356,175,510,192,P.li)}
+        ${LN(566,110,598,128,P.li,1,"3 2")} ${LN(566,170,598,152,P.li,1,"3 2")}
       `);
     }
 
-    // Infectious diseases
-    if (tid.includes("infectious") || tid.includes("pathogen")) {
+    if(tid.includes("infectious")){
+      const sp=spoke(350,148,95,4,-45);
       return wrap(`
-        ${title("Infectious Diseases")}
-        ${hexNode(350,110,40,P.fill,P.stroke)} ${hexLabel(350,110,["Pathogens"],13)}
-        ${hexNode(155,75, 32,P.fill,P.stroke)} ${hexLabel(155,75, ["Bacteria","prokaryote"],9.5)}
-        ${hexNode(545,75, 32,P.fill,P.stroke)} ${hexLabel(545,75, ["Viruses","non-living"],9.5)}
-        ${hexNode(155,185,32,P.fill,P.stroke)} ${hexLabel(155,185,["Fungi","eukaryote"],9.5)}
-        ${hexNode(545,185,32,P.fill,P.stroke)} ${hexLabel(545,185,["Parasites","vectors"],9.5)}
-        ${hexNode(350,210,28,P.fill,P.stroke)} ${hexLabel(350,210,["Transmission","droplet/direct"],9)}
-        ${hexNode(90, 130,24,P.fill,P.stroke)} ${hexLabel(90, 130,["Antibiotics"],8.5)}
-        ${hexNode(610,130,24,P.fill,P.stroke)} ${hexLabel(610,130,["Resistance"],8.5)}
-        ${line(187,86,314,110,P.line)} ${line(513,86,386,110,P.line)}
-        ${line(187,174,314,120,P.line)} ${line(513,174,386,120,P.line)}
-        ${line(350,150,350,182,P.line,1,"3 2")}
-        ${line(114,130,140,130,P.line,1,"3 2")} ${line(560,130,586,130,P.line,1,"3 2")}
+        ${TT("Infectious Diseases")}
+        ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Patho-","gens"],12)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Bacteria","prokaryote"],8.5)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Viruses","non-living"],8.5)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Fungi","eukaryote"],9)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Parasites","vectors"],9)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Antibiotics"],8)}
+        ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Resistance"],8)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
+        ${LB(350,46,"Transmission: direct, droplet, vector, faecal-oral",P.ac,9)}
       `);
     }
 
-    // Generic bio fallback
-    const bioLabels = [
-      ...(topic.definitions||[]).map(d=>d.term),
-      ...(topic.notes||[]).map(n=>n.heading),
-    ].filter(Boolean).filter(l=>l.length>2).slice(0,5);
-    while (bioLabels.length < 5) bioLabels.push(["Structure","Function","Process","Regulation","Adaptation"][bioLabels.length]);
-    return wrap(`
-      ${title(topic.title)}
-      ${hexNode(350,125,40,P.fill,P.stroke)} ${hexLabel(350,125,[bioLabels[0]],10)}
-      ${hexNode(175,80, 30,P.fill,P.stroke)} ${hexLabel(175,80, [bioLabels[1]],9.5)}
-      ${hexNode(525,80, 30,P.fill,P.stroke)} ${hexLabel(525,80, [bioLabels[2]],9.5)}
-      ${hexNode(175,185,30,P.fill,P.stroke)} ${hexLabel(175,185,[bioLabels[3]],9.5)}
-      ${hexNode(525,185,30,P.fill,P.stroke)} ${hexLabel(525,185,[bioLabels[4]],9.5)}
-      ${line(205,90,314,115,P.line)} ${line(495,90,386,115,P.line)}
-      ${line(205,175,314,135,P.line)} ${line(495,175,386,135,P.line)}
-    `);
+    // Bio fallback
+    {
+      const labs=[(topic.definitions||[]).map(d=>d.term),(topic.notes||[]).map(n=>n.heading)].flat().filter(l=>l&&l.length>2).slice(0,5);
+      while(labs.length<5)labs.push(["Structure","Function","Process","Regulation","Adaptation"][labs.length]);
+      const sp=spoke(350,148,95,5,-90);
+      return wrap(`
+        ${TT(topic.title)}
+        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+      `);
+    }
   }
 
-  // ══════════════════════════════════════════════════════════════════════
-  // PHYSICS TOPICS
-  // ══════════════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════
+  //  PHYSICS
+  // ════════════════════════════════════════════════════════════════════
+  if(sub==="phy"){
 
-  if (sub === "phy") {
-
-    // Kinematics
-    if (tid.includes("kinematics") || tid.includes("suvat") || tid.includes("motion")) {
+    if(tid.includes("kinematics")){
+      const AX=58, AY=218, BX=658, BY=218, TY=58;
       return wrap(`
-        ${title("Kinematics — SUVAT")}
-        <rect x="60" y="170" width="580" height="1.5" rx="1" fill="${P.line}" opacity="0.5"/>
-        <line x1="60" y1="60" x2="60" y2="178" stroke="${P.line}" stroke-width="1.5" opacity="0.5"/>
-        <path d="M60,170 Q160,80 260,140 Q360,200 460,90 Q510,60 640,50" fill="none" stroke="${P.accent}" stroke-width="3" stroke-linecap="round"/>
-        ${label(648,52,"v","#818cf8",11)} ${label(45,168,"0","#8b949e",9)} ${label(648,180,"t","#8b949e",10)}
-        ${label(160,65,"gradient = a","#8b949e",8.5)} ${label(400,215,"area = s","#8b949e",8.5)}
-        ${hexNode(200,50,26,P.fill,P.stroke)} ${hexLabel(200,50,["v = u + at"],9)}
-        ${hexNode(400,50,26,P.fill,P.stroke)} ${hexLabel(400,50,["s = ut + ½at²"],8.5)}
-        ${hexNode(580,130,26,P.fill,P.stroke)} ${hexLabel(580,130,["v² = u² + 2as"],8.5)}
-        ${line(200,76,200,88,P.line,1,"3 2")} ${line(400,76,400,88,P.line,1,"3 2")}
+        ${TT("Kinematics — SUVAT")}
+        ${LN(AX,AY,BX,AY,"#8b949e",1.5)}
+        ${LN(AX,AY,AX,TY,"#8b949e",1.5)}
+        <path d="M${AX},${AY} Q158,155 258,168 Q358,180 458,108 Q508,78 ${BX},62" fill="none" stroke="${P.ac}" stroke-width="3" stroke-linecap="round"/>
+        ${LB(660,62,"v",P.ac,11,"start")} ${LB(AX-8,TY,"","#8b949e",9)} ${LB(660,225,"t","#8b949e",10,"start")}
+        ${LB(40,AY,"0","#8b949e",9)} ${LB(200,140,"gradient = a","#8b949e",8.5)} ${LB(480,215,"area under = s","#8b949e",8.5)}
+        ${H6(200,58,26,P.fi,P.st)} ${HT(200,58,["v=u+at"],9.5)}
+        ${H6(370,50,26,P.fi,P.st)} ${HT(370,50,["s=ut+½at²"],8.5)}
+        ${H6(550,58,26,P.fi,P.st)} ${HT(550,58,["v²=u²+2as"],8.5)}
+        ${LN(200,84,200,95,P.li,1,"3 2")} ${LN(370,76,370,95,P.li,1,"3 2")} ${LN(550,84,550,95,P.li,1,"3 2")}
+        ${LB(38,58,"v",P.ac,10)}
       `);
     }
 
-    // Dynamics / Forces / Newton
-    if (tid.includes("dynamics") || tid.includes("forces") || tid.includes("newton")) {
+    if(tid.includes("dynamics")||tid.includes("forces-energy")){
+      const sp=spoke(350,148,94,5,-90);
       return wrap(`
-        ${title("Dynamics — Newton's Laws")}
-        ${hexNode(350,120,44,P.fill,P.stroke)} ${hexLabel(350,120,["F = ma"],14)}
-        ${hexNode(160,75, 34,P.fill,P.stroke)} ${hexLabel(160,75, ["1st Law","inertia"],11)}
-        ${hexNode(540,75, 34,P.fill,P.stroke)} ${hexLabel(540,75, ["3rd Law","action-reaction"],9)}
-        ${hexNode(160,190,34,P.fill,P.stroke)} ${hexLabel(160,190,["Friction","μ = F/N"],11)}
-        ${hexNode(540,190,34,P.fill,P.stroke)} ${hexLabel(540,190,["Momentum","p = mv"],11)}
-        ${hexNode(350,220,26,P.fill,P.stroke)} ${hexLabel(350,220,["Impulse","FΔt = Δp"],10)}
-        ${line(194,86,310,114,P.line)} ${line(506,86,390,114,P.line)}
-        ${line(194,179,310,126,P.line)} ${line(506,179,390,126,P.line)}
-        ${line(350,164,350,194,P.line,1,"3 2")}
+        ${TT("Dynamics — Newton's Laws")}
+        ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["F = ma"],14)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["1st Law","inertia"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["3rd Law","equal &","opp."],9)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Friction","μ = F/N"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Momentum","p = mv"],9.5)}
+        ${H6(sp[5].cx,sp[5].cy,30,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Weight","W = mg"],9.5)}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Impulse","FΔt=Δp"],8.5)}
+        ${LN(116,148,222,148,P.li,1,"3 2")}
       `);
     }
 
-    // Work / Energy / Power
-    if (tid.includes("work-energy") || tid.includes("energy") || tid.includes("power")) {
+    if(tid.includes("work-energy-power")||tid.includes("work-energy")){
+      const sp=spoke(350,148,94,4,-45);
       return wrap(`
-        ${title("Work, Energy & Power")}
-        ${hexNode(350,115,40,P.fill,P.stroke)} ${hexLabel(350,115,["Energy","conservation"],10)}
-        ${hexNode(160,70, 32,P.fill,P.stroke)} ${hexLabel(160,70, ["KE","½mv²"],12)}
-        ${hexNode(540,70, 32,P.fill,P.stroke)} ${hexLabel(540,70, ["GPE","mgh"],12)}
-        ${hexNode(160,185,32,P.fill,P.stroke)} ${hexLabel(160,185,["Work","W = Fs cosθ"],9.5)}
-        ${hexNode(540,185,32,P.fill,P.stroke)} ${hexLabel(540,185,["Power","P = Fv"],11)}
-        ${hexNode(350,210,26,P.fill,P.stroke)} ${hexLabel(350,210,["Efficiency","%"],10)}
-        ${arrow(192,80,314,108,P.line)} ${arrow(508,80,386,108,P.line)}
-        ${line(192,174,314,122,P.line)} ${line(508,174,386,122,P.line)}
-        ${line(350,155,350,184,P.line,1,"3 2")}
-        ${label(260,45,"KE ↔ GPE",P.accent,9.5)}
+        ${TT("Work, Energy & Power")}
+        ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Energy","conserv."],11)}
+        ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["KE","½mv²"],12)}
+        ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["GPE","mgh"],12)}
+        ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Work","Fs cosθ"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Power","P = Fv"],9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Effic.","useful/total"],8)}
+        ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Elastic","PE = ½kx²"],8)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
+        ${LB(350,46,"KE ↔ GPE  (conservation of energy)",P.ac,9.5)}
       `);
     }
 
-    // Waves
-    if (tid.includes("wave") || tid.includes("superposition")) {
+    if(tid.includes("wave")||tid.includes("superposition")){
       return wrap(`
-        ${title("Waves & Superposition")}
-        <path d="M60,135 Q100,75 140,135 Q180,195 220,135 Q260,75 300,135 Q340,195 380,135 Q420,75 460,135 Q500,195 540,135 Q580,75 620,135" fill="none" stroke="${P.accent}" stroke-width="3" stroke-linecap="round"/>
-        ${label(340,75,"amplitude A","#8b949e",8.5)} ${label(200,215,"λ (wavelength)","#8b949e",8.5)}
-        <line x1="120" y1="75" x2="120" y2="195" stroke="${P.line}" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.5"/>
-        <line x1="220" y1="75" x2="220" y2="195" stroke="${P.line}" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.5"/>
-        ${hexNode(160,228,24,P.fill,P.stroke)} ${hexLabel(160,228,["v = fλ"],9.5)}
-        ${hexNode(350,228,24,P.fill,P.stroke)} ${hexLabel(350,228,["T = 1/f"],9.5)}
-        ${hexNode(540,228,24,P.fill,P.stroke)} ${hexLabel(540,228,["I ∝ A²"],9.5)}
-        ${label(140,60,"A","#818cf8",11)}
-        ${curve(`M60,135 L60,50`, P.line, 1)}
-        ${label(66,48,"A","#8b949e",9)}
+        ${TT("Waves & Superposition")}
+        <path d="M52,148 Q92,78 132,148 Q172,218 212,148 Q252,78 292,148 Q332,218 372,148 Q412,78 452,148 Q492,218 532,148 Q572,78 612,148" fill="none" stroke="${P.ac}" stroke-width="2.8" stroke-linecap="round"/>
+        ${LN(52,148,52,55,"#8b949e",1.2)} ${LN(132,148,132,55,"#8b949e",1.2)}
+        ${LN(52,148,648,148,"#8b949e",1,"4 3")}
+        <path d="M52,55 L132,55" stroke="${P.li}" stroke-width="1.5" stroke-dasharray="3 3"/>
+        ${LB(92,50,"λ = wavelength",P.ac,9)}
+        ${LB(52,80,"A","#e6edf3",10,"start")}
+        ${H6(90,220, 24,P.fi,P.st)} ${HT(90,220, ["v = fλ"],9.5)}
+        ${H6(260,220,24,P.fi,P.st)} ${HT(260,220,["T = 1/f"],9.5)}
+        ${H6(430,220,24,P.fi,P.st)} ${HT(430,220,["I ∝ A²"],9.5)}
+        ${H6(600,220,24,P.fi,P.st)} ${HT(600,220,["Refract.","n = sin i"],8.5)}
+        ${LB(350,44,"transverse (EM) vs longitudinal (sound)","#8b949e",8.5)}
       `);
     }
 
-    // Electricity / Circuits
-    if (tid.includes("electric") || tid.includes("dc-circuit") || tid.includes("circuit")) {
+    if(tid.includes("electric")||tid.includes("dc-circuit")){
+      const sp=spoke(350,148,94,4,-45);
       return wrap(`
-        ${title("Electricity & Circuits")}
-        ${hexNode(350,120,40,P.fill,P.stroke)} ${hexLabel(350,120,["Ohm's","V = IR"],13)}
-        ${hexNode(165,75, 32,P.fill,P.stroke)} ${hexLabel(165,75, ["Series","Σ R = R₁+R₂"],9)}
-        ${hexNode(535,75, 32,P.fill,P.stroke)} ${hexLabel(535,75, ["Parallel","1/R = Σ1/Rₙ"],9)}
-        ${hexNode(165,190,32,P.fill,P.stroke)} ${hexLabel(165,190,["Power","P = IV = I²R"],9)}
-        ${hexNode(535,190,32,P.fill,P.stroke)} ${hexLabel(535,190,["EMF","ε = I(R+r)"],11)}
-        ${hexNode(90, 130,26,P.fill,P.stroke)} ${hexLabel(90, 130,["Q = It","charge"],9)}
-        ${hexNode(610,130,26,P.fill,P.stroke)} ${hexLabel(610,130,["Kirchhoff","laws"],9)}
-        ${line(197,86,314,110,P.line)} ${line(503,86,386,110,P.line)}
-        ${line(197,179,314,130,P.line)} ${line(503,179,386,130,P.line)}
-        ${line(116,130,152,130,P.line,1,"3 2")} ${line(548,130,584,130,P.line,1,"3 2")}
+        ${TT("Electricity & Circuits")}
+        ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["V = IR","Ohm's"],12)}
+        ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Series","ΣR = R₁+R₂"],8.5)}
+        ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Parallel","1/R=Σ1/Rₙ"],8.5)}
+        ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Power","P=IV=I²R"],9)}
+        ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["EMF","ε=I(R+r)"],9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Q = It","charge"],8.5)}
+        ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Kirchhoff","I & V laws"],8)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
       `);
     }
 
-    // Particle Physics / Quantum
-    if (tid.includes("particle") || tid.includes("quantum") || tid.includes("photon") || tid.includes("nuclear")) {
+    if(tid.includes("particle")){
+      const sp=spoke(350,148,95,5,-90);
       return wrap(`
-        ${title("Particle Physics")}
-        ${hexNode(350,115,42,P.fill,P.stroke)} ${hexLabel(350,115,["Standard","Model"],11)}
-        ${hexNode(155,70, 32,P.fill,P.stroke)} ${hexLabel(155,70, ["Quarks","u d s c b t"],9.5)}
-        ${hexNode(545,70, 32,P.fill,P.stroke)} ${hexLabel(545,70, ["Leptons","e μ τ ν"],9.5)}
-        ${hexNode(155,185,32,P.fill,P.stroke)} ${hexLabel(155,185,["Bosons","force carriers"],9.5)}
-        ${hexNode(545,185,32,P.fill,P.stroke)} ${hexLabel(545,185,["Antimat-","ter"],9.5)}
-        ${hexNode(350,205,26,P.fill,P.stroke)} ${hexLabel(350,205,["E = hf","photoelectric"],9)}
-        ${hexNode(90, 125,24,P.fill,P.stroke)} ${hexLabel(90, 125,["Hadrons"],8.5)}
-        ${hexNode(610,125,24,P.fill,P.stroke)} ${hexLabel(610,125,["Feynman"],8.5)}
-        ${line(187,81,314,108,P.line)} ${line(513,81,386,108,P.line)}
-        ${line(187,174,314,122,P.line)} ${line(513,174,386,122,P.line)}
-        ${line(350,157,350,179,P.line,1,"3 2")}
-        ${line(114,125,144,120,P.line,1,"3 2")} ${line(556,125,586,120,P.line,1,"3 2")}
+        ${TT("Particle Physics")}
+        ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Standard","Model"],11)}
+        ${H6(sp[1].cx,sp[1].cy,28,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Quarks","u d s c b t"],8.5)}
+        ${H6(sp[2].cx,sp[2].cy,28,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Leptons","e⁻ μ τ ν"],9)}
+        ${H6(sp[3].cx,sp[3].cy,28,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Bosons","force carr."],8.5)}
+        ${H6(sp[4].cx,sp[4].cy,28,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Antimat-","ter"],9.5)}
+        ${H6(sp[5].cx,sp[5].cy,28,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Hadrons","baryon/meson"],8)}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${H6(90,148,24,P.fi,P.st)}  ${HT(90,148,["E=hf","photon"],8.5)}
+        ${LN(114,148,222,148,P.li,1,"3 2")}
+        ${LB(350,46,"Conservation laws: charge, baryon no., lepton no.",P.ac,8.5)}
       `);
     }
 
-    // Deformation of Solids
-    if (tid.includes("deformation") || tid.includes("stress") || tid.includes("strain") || tid.includes("young")) {
+    if(tid.includes("deformation")){
       return wrap(`
-        ${title("Deformation of Solids")}
-        <path d="M120,180 L200,180 L200,80 M200,80 Q240,45 280,80 L280,180 L360,180" fill="none" stroke="${P.accent}" stroke-width="3" stroke-linecap="round"/>
-        ${label(200,60,"stress σ","#8b949e",8.5,"middle")} ${label(340,195,"strain ε","#8b949e",8.5,"middle")}
-        ${label(145,155,"elastic","#22c55e",8.5,"middle")}
-        ${label(250,90,"plastic","#f97316",8.5,"middle")}
-        ${hexNode(470,80, 30,P.fill,P.stroke)} ${hexLabel(470,80, ["E = σ/ε","Young mod"],9.5)}
-        ${hexNode(620,80, 28,P.fill,P.stroke)} ${hexLabel(620,80, ["Elastic","limit"],9.5)}
-        ${hexNode(470,180,30,P.fill,P.stroke)} ${hexLabel(470,180,["Hooke's","F = kx"],10)}
-        ${hexNode(620,180,28,P.fill,P.stroke)} ${hexLabel(620,180,["UTS","fracture"],9.5)}
-        ${line(440,80,400,80,P.line,1,"3 2")} ${line(440,180,380,180,P.line,1,"3 2")}
-        ${line(470,110,470,150,P.line,1,"2 2")} ${line(620,108,620,152,P.line,1,"2 2")}
+        ${TT("Deformation of Solids")}
+        ${LN(110,220,110,60,"#8b949e",1.5)} ${LN(110,220,650,220,"#8b949e",1.5)}
+        <path d="M110,220 L210,220 L210,130 Q240,80 280,110 L400,220" fill="none" stroke="${P.ac}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        ${LB(155,232,"elastic","#22c55e",9)} ${LB(310,232,"plastic","#f97316",9)}
+        ${LN(210,130,210,220,"#8b949e",1,"3 3")}
+        ${LB(213,142,"elastic limit","#8b949e",8.5,"start")}
+        ${LB(118,55,"stress σ","#8b949e",9,"start")} ${LB(640,228,"strain ε","#8b949e",9,"end")}
+        ${H6(510,90, 34,P.fi,P.st)} ${HT(510,90, ["Young","E = σ/ε"],10)}
+        ${H6(620,90, 30,P.fi,P.st)} ${HT(620,90, ["Elastic","limit"],9.5)}
+        ${H6(510,180,34,P.fi,P.st)} ${HT(510,180,["Hooke's","F = kx"],10)}
+        ${H6(620,180,30,P.fi,P.st)} ${HT(620,180,["UTS","fracture"],9.5)}
+        ${LN(480,90, 420,100,P.li,1,"3 2")} ${LN(480,180,420,190,P.li,1,"3 2")}
+        ${LN(510,124,510,146,P.li,1,"2 2")} ${LN(620,120,620,150,P.li,1,"2 2")}
       `);
     }
 
-    // Measurements / Uncertainties
-    if (tid.includes("measurement") || tid.includes("uncertainty") || tid.includes("error")) {
+    if(tid.includes("measurement")){
+      const sp=spoke(350,148,95,5,-90);
       return wrap(`
-        ${title("Measurements & Uncertainties")}
-        ${hexNode(350,115,40,P.fill,P.stroke)} ${hexLabel(350,115,["Uncertainty","analysis"],10)}
-        ${hexNode(160,70, 32,P.fill,P.stroke)} ${hexLabel(160,70, ["Random","errors"],10)}
-        ${hexNode(540,70, 32,P.fill,P.stroke)} ${hexLabel(540,70, ["Systematic","errors"],9.5)}
-        ${hexNode(160,190,32,P.fill,P.stroke)} ${hexLabel(160,190,["Absolute","Δx"],11)}
-        ${hexNode(540,190,32,P.fill,P.stroke)} ${hexLabel(540,190,["% uncert.","Δx/x × 100"],9)}
-        ${hexNode(90, 130,26,P.fill,P.stroke)} ${hexLabel(90, 130,["Precision","repeat"],9)}
-        ${hexNode(610,130,26,P.fill,P.stroke)} ${hexLabel(610,130,["Accuracy","calibrate"],9)}
-        ${line(192,81,314,108,P.line)} ${line(508,81,386,108,P.line)}
-        ${line(192,179,314,122,P.line)} ${line(508,179,386,122,P.line)}
-        ${line(116,130,152,130,P.line,1,"3 2")} ${line(548,130,584,130,P.line,1,"3 2")}
-        ${label(260,44,"add Δx for + and −","#8b949e",8.5)} ${label(468,44,"add % for × and ÷","#8b949e",8.5)}
+        ${TT("Measurements & Uncertainties")}
+        ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Uncert-","ainty"],11)}
+        ${H6(sp[1].cx,sp[1].cy,28,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Random","scatter"],9.5)}
+        ${H6(sp[2].cx,sp[2].cy,28,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Systematic","zero err."],8.5)}
+        ${H6(sp[3].cx,sp[3].cy,28,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Absolute","± Δx"],9.5)}
+        ${H6(sp[4].cx,sp[4].cy,28,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["% uncert.","Δx/x×100"],8.5)}
+        ${H6(sp[5].cx,sp[5].cy,28,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Precision","repeat"],9.5)}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${H6(90,148,24,P.fi,P.st)}  ${HT(90,148,["Accuracy","calibrate"],7.5)}
+        ${LN(114,148,222,148,P.li,1,"3 2")}
+        ${LB(350,46,"Add Δx for + and −;  add %Δx for × and ÷",P.ac,9)}
       `);
     }
 
-    // Generic physics fallback
-    const phyLabels = [
-      ...(topic.definitions||[]).map(d=>d.term),
-      ...(topic.notes||[]).map(n=>n.heading),
-    ].filter(Boolean).filter(l=>l.length>2).slice(0,5);
-    while (phyLabels.length < 5) phyLabels.push(["Equation","Principle","Law","Graph","SI Units"][phyLabels.length]);
-    return wrap(`
-      ${title(topic.title)}
-      ${hexNode(350,120,40,P.fill,P.stroke)} ${hexLabel(350,120,[phyLabels[0]],10)}
-      ${hexNode(170,75, 30,P.fill,P.stroke)} ${hexLabel(170,75, [phyLabels[1]],9.5)}
-      ${hexNode(530,75, 30,P.fill,P.stroke)} ${hexLabel(530,75, [phyLabels[2]],9.5)}
-      ${hexNode(170,185,30,P.fill,P.stroke)} ${hexLabel(170,185,[phyLabels[3]],9.5)}
-      ${hexNode(530,185,30,P.fill,P.stroke)} ${hexLabel(530,185,[phyLabels[4]],9.5)}
-      ${line(200,86,314,112,P.line)} ${line(500,86,386,112,P.line)}
-      ${line(200,174,314,128,P.line)} ${line(500,174,386,128,P.line)}
-    `);
+    // Phy fallback
+    {
+      const labs=[(topic.definitions||[]).map(d=>d.term),(topic.notes||[]).map(n=>n.heading)].flat().filter(l=>l&&l.length>2).slice(0,5);
+      while(labs.length<5)labs.push(["Equation","Principle","Law","Graph","SI Units"][labs.length]);
+      const sp=spoke(350,148,95,5,-90);
+      return wrap(`
+        ${TT(topic.title)}
+        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+      `);
+    }
   }
 
   // Ultimate fallback
+  const sp=spoke(350,148,95,5,-90);
   return wrap(`
-    ${title(topic.title)}
-    ${hexNode(350,130,40,P.fill,P.stroke)} ${hexLabel(350,130,[topic.title.split(" ").slice(0,2).join(" ")],10)}
+    ${TT(topic.title)}
+    ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:"—"],i===0?11:9)}`).join("")}
+    ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
   `);
 }
-
 
 function fallbackDiagramSvg(topic) {
   if (topic.subject === "chem") {
@@ -1375,24 +1430,22 @@ function pushQuizScore(scorePct) {
  */
 async function saveProgressToBackend(topicId, quizScore, confidence) {
   if (!USE_BACKEND || !topicId) return;
-  
+  if (!auth.isLoggedIn) return; // never save if not logged in
+
   try {
-    const subject = state.currentSubject || 'chem';
+    const subject = state.topics.get(topicId)?.subject || state.currentSubject || 'chem';
     const response = await fetch(`${API_BASE_URL}/api/user/progress`, {
       method: 'POST',
       headers: authHeaders(),
       body: JSON.stringify({
         topicId,
         subject,
-        confidence: confidence ?? 75,
+        confidence: typeof confidence === 'number' ? confidence : 0,
         isComplete: true,
-        quizScore: quizScore ?? null
+        quizScore: typeof quizScore === 'number' ? quizScore : null,
       })
     });
-    
-    if (response.ok) {
-      console.log('✅ Progress saved to backend');
-    }
+    if (response.ok) console.log('✅ Progress saved to backend');
   } catch (error) {
     console.warn('Backend progress save failed:', error);
   }
@@ -1403,22 +1456,19 @@ async function saveProgressToBackend(topicId, quizScore, confidence) {
  */
 async function updateStatsOnBackend(xpGain, minutesStudied = 0) {
   if (!USE_BACKEND) return;
-  
+  if (!auth.isLoggedIn) return; // never update stats if not logged in
+
   try {
     const response = await fetch(`${API_BASE_URL}/api/user/stats/update`, {
       method: 'POST',
       headers: authHeaders(),
       body: JSON.stringify({
         xpGain,
-        addToStreak: 1,
-        minutesStudied
+        addToStreak: true,
+        minutesStudied,
       })
     });
-    
-    if (response.ok) {
-      const data = await response.json();
-      console.log('✅ Stats updated on backend');
-    }
+    if (response.ok) console.log('✅ Stats updated on backend');
   } catch (error) {
     console.warn('Backend stats update failed:', error);
   }
@@ -1428,41 +1478,20 @@ async function updateStatsOnBackend(xpGain, minutesStudied = 0) {
  * Load user analytics from backend
  */
 async function loadUserAnalytics() {
-  if (!USE_BACKEND) return null;
-  
+  if (!USE_BACKEND || !auth.isLoggedIn) return null;
   try {
-    const response = await fetch(`${API_BASE_URL}/api/user/analytics`, {
-      headers: authHeaders(),
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return data.data;
-    }
-  } catch (error) {
-    console.warn('Backend analytics load failed:', error);
-  }
+    const r = await fetch(`${API_BASE_URL}/api/user/analytics`, { headers: authHeaders() });
+    if (r.ok) return (await r.json()).data;
+  } catch (e) { console.warn('Analytics load failed:', e); }
   return null;
 }
 
-/**
- * Get user progress for a specific topic
- */
 async function getTopicProgressFromBackend(topicId) {
-  if (!USE_BACKEND) return null;
-  
+  if (!USE_BACKEND || !auth.isLoggedIn) return null;
   try {
-    const response = await fetch(`${API_BASE_URL}/api/user/progress/${topicId}`, {
-      headers: authHeaders(),
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return data.data;
-    }
-  } catch (error) {
-    console.warn('Failed to get topic progress:', error);
-  }
+    const r = await fetch(`${API_BASE_URL}/api/user/progress/${topicId}`, { headers: authHeaders() });
+    if (r.ok) return (await r.json()).data;
+  } catch (e) { console.warn('Topic progress load failed:', e); }
   return null;
 }
 
@@ -1927,14 +1956,31 @@ function renderTopicView(topicId) {
     </section>
 
     <section class="section-block ai-panel card topic-panel">
-      <h2>AI Study Coach (Beta)</h2>
-      <p class="topic-note">Ask for step-by-step help on this topic. Connect your backend endpoint to enable live tutoring.</p>
-      <textarea id="ai-prompt" placeholder="Example: Can you test me with 3 exam-style questions on this topic?"></textarea>
-      <div class="ai-actions">
-        <button class="btn btn-primary" onclick="App.askAi('${topic.id}')">Ask AI</button>
-        <button class="btn btn-outline" onclick="App.go('past-papers')">Open Past Papers for Practice</button>
+      <div class="ai-panel-header">
+        <div class="ai-panel-title">
+          <span class="ai-icon">✦</span>
+          <h2>AI Study Coach</h2>
+        </div>
+        ${auth.isLoggedIn ? `<div class="ai-quick-btns">
+          <button class="pill-btn ai-quick" onclick="App.aiQuick('${topic.id}','explain')">Explain this</button>
+          <button class="pill-btn ai-quick" onclick="App.aiQuick('${topic.id}','quiz')">Test me</button>
+          <button class="pill-btn ai-quick" onclick="App.aiQuick('${topic.id}','mistake')">Common mistakes</button>
+          <button class="pill-btn ai-quick" onclick="App.aiQuick('${topic.id}','exam')">Exam tips</button>
+        </div>` : ''}
       </div>
-      <div class="ai-answer" id="ai-answer">No request sent yet.</div>
+      ${auth.isLoggedIn ? `
+      <div class="ai-chat-history" id="ai-chat-history"></div>
+      <div class="ai-compose">
+        <textarea id="ai-prompt" placeholder="Ask anything about ${escapeHtml(topic.title)}…" rows="2"></textarea>
+        <button class="btn btn-primary" id="ai-send-btn" onclick="App.askAi('${topic.id}')">
+          <span class="ai-send-icon">↑</span>
+        </button>
+      </div>` : `
+      <div class="ai-signin-gate">
+        <p>Sign in to unlock the AI Study Coach — get instant explanations, practice questions, and exam tips for every topic.</p>
+        <button class="btn btn-primary" onclick="App.openAuthModal('login')">Sign In to Use AI</button>
+        <button class="btn btn-outline" onclick="App.openAuthModal('register')">Create Free Account</button>
+      </div>`}
     </section>
   `;
 }
@@ -2349,40 +2395,119 @@ function renderProfile() {
       </div>`;
   }
 }
-async function askAi(topicId) {
-  const promptEl = byId("ai-prompt");
-  const answerEl = byId("ai-answer");
-  const prompt = promptEl.value.trim();
-  if (!prompt) {
-    answerEl.textContent = "Add a question first.";
-    return;
-  }
+// ── AI Study Coach ────────────────────────────────────────────────────────────
 
-  answerEl.textContent = "Generating response...";
+// Per-topic chat history stored in memory (cleared on navigation)
+const aiChatHistory = {};
+
+function aiQuick(topicId, type) {
+  const prompts = {
+    explain:  `Give me a clear, concise explanation of the key concepts in ${state.topics.get(topicId)?.title || topicId}. Use simple language and bullet points.`,
+    quiz:     `Give me 3 exam-style questions on ${state.topics.get(topicId)?.title || topicId} with mark scheme answers. Format as Q1, Q2, Q3.`,
+    mistake:  `What are the most common mistakes students make on ${state.topics.get(topicId)?.title || topicId}? Give specific examples and how to avoid them.`,
+    exam:     `Give me the top 5 exam tips for ${state.topics.get(topicId)?.title || topicId} specifically for Cambridge AS Level.`,
+  };
+  const input = byId('ai-prompt');
+  if (input) input.value = prompts[type] || '';
+  askAi(topicId);
+}
+
+async function askAi(topicId) {
+  const promptEl = byId('ai-prompt');
+  const histEl   = byId('ai-chat-history');
+  const sendBtn  = byId('ai-send-btn');
+  if (!promptEl || !histEl) return;
+
+  const userText = promptEl.value.trim();
+  if (!userText) { showToast('Type a question first'); return; }
+
+  // Append user bubble
+  if (!aiChatHistory[topicId]) aiChatHistory[topicId] = [];
+  aiChatHistory[topicId].push({ role: 'user', text: userText });
+  promptEl.value = '';
+  renderAiChat(topicId);
+
+  // Show loading bubble
+  const loadingId = `ai-loading-${Date.now()}`;
+  const loadingDiv = document.createElement('div');
+  loadingDiv.className = 'ai-bubble ai-bubble-assistant ai-bubble-loading';
+  loadingDiv.id = loadingId;
+  loadingDiv.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span>';
+  histEl.appendChild(loadingDiv);
+  histEl.scrollTop = histEl.scrollHeight;
+
+  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '…'; }
 
   try {
-    const topic = state.topics.get(topicId);
-    const response = await fetch("/api/ai-tutor", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const topic   = state.topics.get(topicId);
+    const context = buildAiContext(topic);
+
+    const res = await fetch(`${API_BASE_URL}/api/ai-tutor`, {
+      method:  'POST',
+      headers: authHeaders(),
+      body:    JSON.stringify({
         topicId,
-        topicTitle: topic?.title || topicId,
-        subjectId: topic?.subject || state.currentSubject,
-        prompt,
+        topicTitle:   topic?.title || topicId,
+        subjectId:    topic?.subject || state.currentSubject,
+        context,
+        prompt:       userText,
+        history:      aiChatHistory[topicId].slice(-8), // send last 8 turns for context
       }),
     });
 
-    if (!response.ok) {
-      throw new Error("AI endpoint unavailable");
-    }
+    const data = await res.json();
+    loadingDiv.remove();
 
-    const body = await response.json();
-    answerEl.textContent = body.answer || "No answer returned.";
-  } catch {
-    answerEl.textContent =
-      "AI endpoint is not configured yet. Add a backend route POST /api/ai-tutor that calls your model API and returns {answer}.";
+    if (!res.ok) {
+      const errText = data.error || `Server error ${res.status}`;
+      aiChatHistory[topicId].push({ role: 'error', text: errText });
+    } else {
+      aiChatHistory[topicId].push({ role: 'assistant', text: data.answer });
+    }
+  } catch (err) {
+    loadingDiv.remove();
+    aiChatHistory[topicId].push({ role: 'error', text: 'Network error — check your connection and try again.' });
   }
+
+  if (sendBtn) { sendBtn.disabled = false; sendBtn.innerHTML = '<span class="ai-send-icon">↑</span>'; }
+  renderAiChat(topicId);
+}
+
+function buildAiContext(topic) {
+  if (!topic) return '';
+  const parts = [];
+  if (topic.concept?.length) parts.push('Concepts: ' + topic.concept.slice(0,2).join(' '));
+  if (topic.definitions?.length) parts.push('Key terms: ' + topic.definitions.slice(0,4).map(d => `${d.term}: ${d.body}`).join('; '));
+  if (topic.notes?.length) parts.push('Notes sections: ' + topic.notes.slice(0,3).map(n => n.heading).join(', '));
+  if (topic.tips?.length) parts.push('Exam tips: ' + topic.tips.slice(0,2).join('; '));
+  return parts.join('\n').slice(0, 1200);
+}
+
+function renderAiChat(topicId) {
+  const histEl = byId('ai-chat-history');
+  if (!histEl) return;
+  const history = aiChatHistory[topicId] || [];
+  if (!history.length) { histEl.innerHTML = '<p class="ai-empty">Ask anything about this topic — I\'ll help you understand, practise, or prepare for exams.</p>'; return; }
+  histEl.innerHTML = history.map(msg => {
+    if (msg.role === 'user') {
+      return `<div class="ai-bubble ai-bubble-user"><p>${escapeHtml(msg.text)}</p></div>`;
+    }
+    if (msg.role === 'error') {
+      return `<div class="ai-bubble ai-bubble-error"><p>⚠ ${escapeHtml(msg.text)}</p></div>`;
+    }
+    // assistant — render markdown-lite (bold, code, bullet points)
+    const html = msg.text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/`([^`]+)`/g,'<code>$1</code>')
+      .replace(/^#{1,3}\s+(.+)$/gm,'<strong>$1</strong>')
+      .replace(/^\*\s+(.+)$/gm,'• $1')
+      .replace(/^-\s+(.+)$/gm,'• $1')
+      .replace(/\n{2,}/g,'</p><p>')
+      .replace(/\n/g,'<br>');
+    return `<div class="ai-bubble ai-bubble-assistant"><p>${html}</p></div>`;
+  }).join('');
+  histEl.scrollTop = histEl.scrollHeight;
 }
 
 function showToast(message) {
@@ -3645,6 +3770,7 @@ const App = {
   selectThread,
   selectChannel,
   askAi,
+  aiQuick,
   showToast,
   openFromSearch,
   // Editor

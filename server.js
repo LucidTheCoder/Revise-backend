@@ -543,6 +543,172 @@ app.delete('/api/topics/:topicId', authenticateToken, requireAdmin, async (req, 
 });
 
 // ============================================================================
+// ROUTES: AI STUDY COACH
+// ============================================================================
+
+/**
+ * POST /api/ai-tutor
+ * Body: { topicId, topicTitle, subjectId, context, prompt, history }
+ *
+ * Supports three providers chosen by AI_PROVIDER env var:
+ *   "openai"    → uses OPENAI_API_KEY
+ *   "gemini"    → uses GEMINI_API_KEY
+ *   "claude"    → uses ANTHROPIC_API_KEY   (default)
+ *
+ * Set AI_PROVIDER and the matching key in your Render environment variables.
+ */
+app.post('/api/ai-tutor', async (req, res, next) => {
+  try {
+    const { topicTitle, subjectId, context, prompt, history = [] } = req.body;
+
+    if (!prompt || !prompt.trim()) {
+      return res.status(400).json({ success: false, error: 'prompt is required' });
+    }
+
+    const provider = (process.env.AI_PROVIDER || 'claude').toLowerCase();
+
+    // Build system prompt
+    const systemPrompt = [
+      `You are an expert Cambridge AS Level tutor specialising in ${subjectId === 'chem' ? 'Chemistry' : subjectId === 'bio' ? 'Biology' : subjectId === 'phy' ? 'Physics' : 'Science'}.`,
+      `The student is currently studying: "${topicTitle}".`,
+      context ? `Here is relevant content from the study notes:\n${context}` : '',
+      'Guidelines:',
+      '- Be clear, concise and accurate. Use Cambridge A Level terminology.',
+      '- For equations use plain text notation (e.g. H2SO4, delta-H).',
+      '- When giving exam tips, reference Cambridge mark scheme language.',
+      '- If asked for questions, provide mark scheme answers too.',
+      '- Keep responses focused and under 400 words unless a longer answer is genuinely needed.',
+    ].filter(Boolean).join('\n');
+
+    let answer = '';
+
+    // ── Claude (Anthropic) ────────────────────────────────────────────
+    if (provider === 'claude') {
+      const apiKey = process.env.ANTHROPIC_API_KEY;
+      if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add ANTHROPIC_API_KEY in Render environment variables.' });
+
+      const messages = [
+        ...history.filter(m => m.role === 'user' || m.role === 'assistant').map(m => ({
+          role: m.role,
+          content: m.text,
+        })),
+        { role: 'user', content: prompt },
+      ];
+
+      const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: process.env.AI_MODEL || 'claude-haiku-4-5-20251001',
+          max_tokens: 1024,
+          system: systemPrompt,
+          messages,
+        }),
+      });
+
+      if (!claudeRes.ok) {
+        const err = await claudeRes.json().catch(() => ({}));
+        throw new Error(err.error?.message || `Anthropic API error ${claudeRes.status}`);
+      }
+      const claudeData = await claudeRes.json();
+      answer = claudeData.content?.[0]?.text || '';
+    }
+
+    // ── OpenAI ────────────────────────────────────────────────────────
+    else if (provider === 'openai') {
+      const apiKey = process.env.OPENAI_API_KEY;
+      if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENAI_API_KEY in Render environment variables.' });
+
+      const messages = [
+        { role: 'system', content: systemPrompt },
+        ...history.filter(m => m.role === 'user' || m.role === 'assistant').map(m => ({
+          role: m.role,
+          content: m.text,
+        })),
+        { role: 'user', content: prompt },
+      ];
+
+      const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: process.env.AI_MODEL || 'gpt-4o-mini',
+          max_tokens: 1024,
+          messages,
+        }),
+      });
+
+      if (!openaiRes.ok) {
+        const err = await openaiRes.json().catch(() => ({}));
+        throw new Error(err.error?.message || `OpenAI API error ${openaiRes.status}`);
+      }
+      const openaiData = await openaiRes.json();
+      answer = openaiData.choices?.[0]?.message?.content || '';
+    }
+
+    // ── Gemini ────────────────────────────────────────────────────────
+    else if (provider === 'gemini') {
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add GEMINI_API_KEY in Render environment variables.' });
+
+      // Build Gemini contents array (system goes in as first user turn)
+      const contents = [];
+      if (history.length) {
+        history.filter(m => m.role === 'user' || m.role === 'assistant').forEach(m => {
+          contents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.text }] });
+        });
+      }
+      contents.push({ role: 'user', parts: [{ text: prompt }] });
+
+      const model = process.env.AI_MODEL || 'gemini-1.5-flash';
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents,
+            generationConfig: { maxOutputTokens: 1024 },
+          }),
+        }
+      );
+
+      if (!geminiRes.ok) {
+        const err = await geminiRes.json().catch(() => ({}));
+        throw new Error(err.error?.message || `Gemini API error ${geminiRes.status}`);
+      }
+      const geminiData = await geminiRes.json();
+      answer = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    else {
+      return res.status(503).json({ success: false, error: `Unknown AI_PROVIDER "${provider}". Use "claude", "openai", or "gemini".` });
+    }
+
+    if (!answer) throw new Error('Empty response from AI provider');
+
+    res.json({ success: true, answer: answer.trim() });
+  } catch (error) {
+    console.error('AI tutor error:', error.message);
+    // Return user-friendly error, not 500
+    res.status(503).json({
+      success: false,
+      error: error.message.includes('API key') || error.message.includes('configured')
+        ? error.message
+        : 'The AI tutor is temporarily unavailable. Please try again in a moment.',
+    });
+  }
+});
+
+// ============================================================================
 // ROUTES: FILE UPLOADS
 // ============================================================================
 
