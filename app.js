@@ -3,12 +3,9 @@
 // BACKEND API CONFIGURATION
 // ============================================================================
 // Set API_BASE_URL to your backend server
-// Examples:
-//   - Local: 'http://localhost:5000'
-//   - Production: 'https://study-platform-api.onrender.com'
-//   - Empty string: Uses local JSON files (default)
+// Currently set to production Render deployment
 // ============================================================================
-const API_BASE_URL = ''; // Change to your backend URL for production
+const API_BASE_URL = 'https://revise-backend-yp6e.onrender.com';
 
 // Determine if using backend API or local files
 const USE_BACKEND = !!API_BASE_URL;
