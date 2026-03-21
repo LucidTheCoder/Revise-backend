@@ -1,0 +1,238 @@
+{
+    "id": "gas-exchange",
+    "subject": "bio",
+    "title": "Gas Exchange",
+    "subtitle": "Gas Exchange with mechanism-focused explanation and exam-linked examples.",
+    "syllabusRef": "9700 AS Topic 9",
+    "concept": [
+        "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes.",
+        "Gas exchange surfaces are adapted with large area and short diffusion distance.",
+        "Ventilation maintains steep diffusion gradients in lungs."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes.",
+                "Gas exchange surfaces are adapted with large area and short diffusion distance.",
+                "Ventilation maintains steep diffusion gradients in lungs."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Gas Exchange ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Diffusion gradient",
+            "body": "Difference in concentration or partial pressure that drives net diffusion."
+        },
+        {
+            "term": "Ventilation",
+            "body": "Movement of air into and out of the lungs."
+        },
+        {
+            "term": "Alveolus",
+            "body": "Tiny air sac in the lungs where gas exchange occurs between air and blood."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Gas Exchange.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Gas exchange surfaces are adapted with large area and short diffusion distance."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Gas Exchange reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Gas Exchange?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing Gas Exchange outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Gas Exchange?",
+            "a": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Define Diffusion gradient.",
+            "a": "Difference in concentration or partial pressure that drives net diffusion."
+        },
+        {
+            "q": "Define Ventilation.",
+            "a": "Movement of air into and out of the lungs."
+        },
+        {
+            "q": "What exam strategy works best for Gas Exchange?",
+            "a": "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Gas exchange surfaces are adapted with large area and short diffusion distance."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Ventilation maintains steep diffusion gradients in lungs."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Diffusion gradient"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 9"
+        },
+        {
+            "label": "Key Formula",
+            "val": "V_E = f × T_v; A−V difference = uptake"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Gas Exchange: core principle",
+            "a": "Gas Exchange links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Diffusion gradient",
+            "a": "Difference in concentration or partial pressure that drives net diffusion."
+        },
+        {
+            "q": "Ventilation",
+            "a": "Movement of air into and out of the lungs."
+        },
+        {
+            "q": "Alveolus",
+            "a": "Tiny air sac in the lungs where gas exchange occurs between air and blood."
+        },
+        {
+            "q": "Gas Exchange: common mistake",
+            "a": "Describing Gas Exchange outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "Gas Exchange Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Diffusion gradient?",
+                "opts": [
+                    "Difference in concentration or partial pressure that drives net diffusion.",
+                    "Movement of air into and out of the lungs.",
+                    "Tiny air sac in the lungs where gas exchange occurs between air and blood.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Diffusion gradient."
+            },
+            {
+                "q": "Which statement about Gas Exchange is correct?",
+                "opts": [
+                    "Gas exchange surfaces are adapted with large area and short diffusion distance.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Ventilation?",
+                "opts": [
+                    "Movement of air into and out of the lungs.",
+                    "Difference in concentration or partial pressure that drives net diffusion.",
+                    "Tiny air sac in the lungs where gas exchange occurs between air and blood.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Ventilation."
+            },
+            {
+                "q": "Which exam approach is most reliable for Gas Exchange?",
+                "opts": [
+                    "In Gas Exchange responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Gas Exchange?",
+                "opts": [
+                    "Ventilation maintains steep diffusion gradients in lungs.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

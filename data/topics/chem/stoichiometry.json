@@ -1,0 +1,238 @@
+{
+    "id": "stoichiometry",
+    "subject": "chem",
+    "title": "Atoms, Molecules and Stoichiometry",
+    "subtitle": "Atoms, Molecules and Stoichiometry with core theory, reaction logic, and exam-focused application.",
+    "concept": [
+        "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations.",
+        "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem.",
+        "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations.",
+                "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem.",
+                "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Atoms, Molecules and Stoichiometry ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "State reagents, conditions, and balanced equations where relevant.",
+                "Use correct state symbols, units, and sign conventions in calculations.",
+                "Link each observation to particle-level or structural explanation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Mole",
+            "body": "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12."
+        },
+        {
+            "term": "Molar Mass",
+            "body": "Mass of one mole of a substance, usually in g mol-1."
+        },
+        {
+            "term": "Empirical Formula",
+            "body": "Simplest whole-number ratio of atoms of each element in a compound."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Atoms, Molecules and Stoichiometry.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Atoms, Molecules and Stoichiometry reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Atoms, Molecules and Stoichiometry?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Giving trends in Atoms, Molecules and Stoichiometry without molecular or ionic explanation.",
+        "Forgetting state symbols or conditions in reaction equations.",
+        "Using values without checking units or significant figures."
+    ],
+    "tips": [
+        "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence.",
+        "Memorize required conditions alongside each key reaction type.",
+        "Check whether your final answer is chemically realistic."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Atoms, Molecules and Stoichiometry?",
+            "a": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
+        },
+        {
+            "q": "Define Mole.",
+            "a": "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12."
+        },
+        {
+            "q": "Define Molar Mass.",
+            "a": "Mass of one mole of a substance, usually in g mol-1."
+        },
+        {
+            "q": "What exam strategy works best for Atoms, Molecules and Stoichiometry?",
+            "a": "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
+        },
+        {
+            "label": "Applied Model",
+            "val": "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Mole"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9701 AS Topic 2"
+        },
+        {
+            "label": "Key Formula",
+            "val": "n = m/M; moles = c × V"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Atoms, Molecules and Stoichiometry: core principle",
+            "a": "Stoichiometry connects chemical equations to measurable quantities. Balanced equations give particle ratios, and the mole converts those ratios into masses, volumes, and concentrations."
+        },
+        {
+            "q": "Mole",
+            "a": "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12."
+        },
+        {
+            "q": "Molar Mass",
+            "a": "Mass of one mole of a substance, usually in g mol-1."
+        },
+        {
+            "q": "Empirical Formula",
+            "a": "Simplest whole-number ratio of atoms of each element in a compound."
+        },
+        {
+            "q": "Atoms, Molecules and Stoichiometry: common mistake",
+            "a": "Giving trends in Atoms, Molecules and Stoichiometry without molecular or ionic explanation."
+        },
+        {
+            "q": "CHEM exam tip",
+            "a": "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "quiz": {
+        "title": "Atoms, Molecules and Stoichiometry Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Mole?",
+                "opts": [
+                    "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12.",
+                    "Mass of one mole of a substance, usually in g mol-1.",
+                    "Simplest whole-number ratio of atoms of each element in a compound.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Mole."
+            },
+            {
+                "q": "Which statement about Atoms, Molecules and Stoichiometry is correct?",
+                "opts": [
+                    "This works because one mole of any substance contains the same number of particles. Once everything is converted to moles, reaction math becomes a ratio problem.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Molar Mass?",
+                "opts": [
+                    "Mass of one mole of a substance, usually in g mol-1.",
+                    "Amount of substance containing as many entities as atoms in exactly 12 g of carbon-12.",
+                    "Simplest whole-number ratio of atoms of each element in a compound.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Molar Mass."
+            },
+            {
+                "q": "Which exam approach is most reliable for Atoms, Molecules and Stoichiometry?",
+                "opts": [
+                    "In Atoms, Molecules and Stoichiometry questions, write one clear chemical point per sentence and support it with evidence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Atoms, Molecules and Stoichiometry?",
+                "opts": [
+                    "Exam success in this topic comes from disciplined unit handling. Most errors come from skipping conversions, especially cm3 to dm3 and formula mass calculations.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9701 AS Topic 2"
+}

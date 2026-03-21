@@ -1,0 +1,57 @@
+﻿{
+  "forumThreads": [
+    {
+      "id": "f1",
+      "subject": "chem",
+      "title": "How do you memorize organic reaction conditions quickly?",
+      "author": "maya_s",
+      "replies": 18,
+      "lastActive": "2h ago",
+      "body": "I keep mixing up hydration, oxidation and substitution conditions. Looking for a method that works under timed conditions."
+    },
+    {
+      "id": "f2",
+      "subject": "phy",
+      "title": "Projectile motion sign conventions",
+      "author": "james_k",
+      "replies": 11,
+      "lastActive": "5h ago",
+      "body": "When I take upward as positive, I still lose marks in vertical SUVAT questions. Can someone share a checklist?"
+    },
+    {
+      "id": "f3",
+      "subject": "bio",
+      "title": "Best sequence for revising transport and gas exchange",
+      "author": "priya_n",
+      "replies": 9,
+      "lastActive": "1d ago",
+      "body": "Should I do xylem/phloem first or alveoli and ventilation first if my exam is close?"
+    }
+  ],
+  "chatChannels": [
+    {
+      "id": "general",
+      "name": "General",
+      "messages": [
+        { "user": "alex", "time": "09:12", "text": "Study sprint in 10 minutes. Anyone joining?" },
+        { "user": "maya", "time": "09:13", "text": "I am in. Starting with stoichiometry." }
+      ]
+    },
+    {
+      "id": "chem-help",
+      "name": "Chem Help",
+      "messages": [
+        { "user": "jordan", "time": "08:41", "text": "Tip: write the ionic equation first before balancing electrons." },
+        { "user": "alex", "time": "08:44", "text": "That fixed my redox mistakes. Thanks." }
+      ]
+    },
+    {
+      "id": "exam-planning",
+      "name": "Exam Planning",
+      "messages": [
+        { "user": "priya", "time": "07:28", "text": "I use 40 min topical notes + 20 min past paper blocks." },
+        { "user": "sam", "time": "07:31", "text": "Same. Also logging weak-question tags helps." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+{
+    "id": "deformation-solids",
+    "subject": "phy",
+    "title": "Deformation of Solids",
+    "subtitle": "Deformation of Solids with model-based reasoning, equations, and exam application.",
+    "syllabusRef": "9702 AS Topic 6",
+    "concept": [
+        "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior.",
+        "Stress and strain quantify material response to loading.",
+        "Hooke law behaviour applies in the elastic region."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior.",
+                "Stress and strain quantify material response to loading.",
+                "Hooke law behaviour applies in the elastic region."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Deformation of Solids ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Start with the governing equation and rearrange symbolically before substitution.",
+                "Keep unit conversions explicit and check final units for consistency.",
+                "State assumptions and sign conventions when interpreting graphs or circuits."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Stress",
+            "body": "Force per unit cross-sectional area."
+        },
+        {
+            "term": "Strain",
+            "body": "Extension divided by original length (no unit)."
+        },
+        {
+            "term": "Young modulus",
+            "body": "Ratio of stress to strain in the linear elastic region."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Deformation of Solids.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Stress and strain quantify material response to loading."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Deformation of Solids reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Deformation of Solids?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Applying equations in Deformation of Solids without defining variables and units first.",
+        "Substituting numbers before rearranging equations.",
+        "Ignoring direction, sign conventions, or vector nature of quantities."
+    ],
+    "tips": [
+        "For Deformation of Solids, annotate known values and units before choosing an equation.",
+        "Use a quick estimate to check if your magnitude is sensible.",
+        "In graph questions, explain both gradient and intercept meaning when needed."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Deformation of Solids?",
+            "a": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
+        },
+        {
+            "q": "Define Stress.",
+            "a": "Force per unit cross-sectional area."
+        },
+        {
+            "q": "Define Strain.",
+            "a": "Extension divided by original length (no unit)."
+        },
+        {
+            "q": "What exam strategy works best for Deformation of Solids?",
+            "a": "For Deformation of Solids, annotate known values and units before choosing an equation."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Stress and strain quantify material response to loading."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Hooke law behaviour applies in the elastic region."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Stress"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9702 AS Topic 6"
+        },
+        {
+            "label": "Key Formula",
+            "val": "σ = F/A; ε = Δl/l; E = σ/ε (elastic modulus)"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Deformation of Solids: core principle",
+            "a": "Deformation of Solids uses physical models and measurable quantities to explain and predict system behavior."
+        },
+        {
+            "q": "Stress",
+            "a": "Force per unit cross-sectional area."
+        },
+        {
+            "q": "Strain",
+            "a": "Extension divided by original length (no unit)."
+        },
+        {
+            "q": "Young modulus",
+            "a": "Ratio of stress to strain in the linear elastic region."
+        },
+        {
+            "q": "Deformation of Solids: common mistake",
+            "a": "Applying equations in Deformation of Solids without defining variables and units first."
+        },
+        {
+            "q": "PHY exam tip",
+            "a": "For Deformation of Solids, annotate known values and units before choosing an equation."
+        }
+    ],
+    "quiz": {
+        "title": "Deformation of Solids Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Stress?",
+                "opts": [
+                    "Force per unit cross-sectional area.",
+                    "Extension divided by original length (no unit).",
+                    "Ratio of stress to strain in the linear elastic region.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Stress."
+            },
+            {
+                "q": "Which statement about Deformation of Solids is correct?",
+                "opts": [
+                    "Stress and strain quantify material response to loading.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Strain?",
+                "opts": [
+                    "Extension divided by original length (no unit).",
+                    "Force per unit cross-sectional area.",
+                    "Ratio of stress to strain in the linear elastic region.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Strain."
+            },
+            {
+                "q": "Which exam approach is most reliable for Deformation of Solids?",
+                "opts": [
+                    "For Deformation of Solids, annotate known values and units before choosing an equation.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Deformation of Solids?",
+                "opts": [
+                    "Hooke law behaviour applies in the elastic region.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

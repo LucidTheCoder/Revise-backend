@@ -1,0 +1,72 @@
+﻿{
+  "id": "topic-id",
+  "subject": "chem|bio|phy",
+  "title": "Topic Title",
+  "subtitle": "One-line topic summary",
+  "concept": [
+    "Paragraph 1 explaining the core idea.",
+    "Paragraph 2 that explains why the concept works.",
+    "Paragraph 3 that links concept to exam application."
+  ],
+  "notes": [
+    {
+      "heading": "Section Heading",
+      "items": [
+        "Bullet point with explanation, not just keyword.",
+        "Second bullet point with context and exam use."
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "term": "Key term",
+      "body": "Precise exam-ready definition."
+    }
+  ],
+  "workedExamples": [
+    {
+      "q": "Question prompt",
+      "steps": [
+        { "n": 1, "sub": "Identify", "text": "List known values and units." },
+        { "n": 2, "sub": "Method", "text": "Choose equation and substitute." },
+        { "n": 3, "sub": "Answer", "text": "State final value with units." }
+      ]
+    }
+  ],
+  "mistakes": [
+    "Frequent misconception with correction."
+  ],
+  "tips": [
+    "Exam tip that improves marks quickly."
+  ],
+  "recall": [
+    {
+      "q": "Recall question",
+      "a": "Short model answer"
+    }
+  ],
+  "summary": [
+    {
+      "label": "Formula or Key Idea",
+      "val": "Compact reminder"
+    }
+  ],
+  "diagramSvg": "<svg viewBox='0 0 420 160' xmlns='http://www.w3.org/2000/svg'><rect x='14' y='14' width='392' height='132' rx='12' fill='rgba(0,212,170,0.1)' stroke='rgba(0,212,170,0.35)'/><text x='28' y='42' fill='#00d4aa' font-size='14' font-family='DM Sans'>Topic Diagram Template</text><text x='28' y='76' fill='#cdd9e5' font-size='12' font-family='DM Sans'>Use scientific symbols where relevant: Δ, δ+, δ−, μm, ±</text></svg>",
+  "flashcards": [
+    {
+      "q": "Flashcard question",
+      "a": "Flashcard answer"
+    }
+  ],
+  "quiz": {
+    "title": "Topic Quiz",
+    "questions": [
+      {
+        "q": "MCQ question",
+        "opts": ["Option A", "Option B", "Option C", "Option D"],
+        "ans": 0,
+        "exp": "Why the correct option is right."
+      }
+    ]
+  }
+}

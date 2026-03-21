@@ -1,0 +1,238 @@
+{
+    "id": "halogen-compounds",
+    "subject": "chem",
+    "title": "Halogen Compounds",
+    "subtitle": "Halogen Compounds with core theory, reaction logic, and exam-focused application.",
+    "syllabusRef": "9701 AS Topic 15",
+    "concept": [
+        "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
+        "Haloalkanes react by nucleophilic substitution with different reagents.",
+        "Rate differences can be explained by carbon-halogen bond strength."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
+                "Haloalkanes react by nucleophilic substitution with different reagents.",
+                "Rate differences can be explained by carbon-halogen bond strength."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Halogen Compounds ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "State reagents, conditions, and balanced equations where relevant.",
+                "Use correct state symbols, units, and sign conventions in calculations.",
+                "Link each observation to particle-level or structural explanation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Haloalkane",
+            "body": "Alkane derivative in which one or more H atoms are replaced by halogen atoms."
+        },
+        {
+            "term": "Nucleophilic substitution",
+            "body": "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon."
+        },
+        {
+            "term": "Elimination",
+            "body": "Reaction in which atoms or groups are removed to form a multiple bond."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Halogen Compounds.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Haloalkanes react by nucleophilic substitution with different reagents."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Halogen Compounds reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Halogen Compounds?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Giving trends in Halogen Compounds without molecular or ionic explanation.",
+        "Forgetting state symbols or conditions in reaction equations.",
+        "Using values without checking units or significant figures."
+    ],
+    "tips": [
+        "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence.",
+        "Memorize required conditions alongside each key reaction type.",
+        "Check whether your final answer is chemically realistic."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Halogen Compounds?",
+            "a": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+        },
+        {
+            "q": "Define Haloalkane.",
+            "a": "Alkane derivative in which one or more H atoms are replaced by halogen atoms."
+        },
+        {
+            "q": "Define Nucleophilic substitution.",
+            "a": "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon."
+        },
+        {
+            "q": "What exam strategy works best for Halogen Compounds?",
+            "a": "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Haloalkanes react by nucleophilic substitution with different reagents."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Rate differences can be explained by carbon-halogen bond strength."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Haloalkane"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9701 AS Topic 15"
+        },
+        {
+            "label": "Key Formula",
+            "val": "SN1 vs SN2 mechanism; E1 vs E2 elimination"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Halogen Compounds: core principle",
+            "a": "Halogen Compounds explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+        },
+        {
+            "q": "Haloalkane",
+            "a": "Alkane derivative in which one or more H atoms are replaced by halogen atoms."
+        },
+        {
+            "q": "Nucleophilic substitution",
+            "a": "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon."
+        },
+        {
+            "q": "Elimination",
+            "a": "Reaction in which atoms or groups are removed to form a multiple bond."
+        },
+        {
+            "q": "Halogen Compounds: common mistake",
+            "a": "Giving trends in Halogen Compounds without molecular or ionic explanation."
+        },
+        {
+            "q": "CHEM exam tip",
+            "a": "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "quiz": {
+        "title": "Halogen Compounds Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Haloalkane?",
+                "opts": [
+                    "Alkane derivative in which one or more H atoms are replaced by halogen atoms.",
+                    "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon.",
+                    "Reaction in which atoms or groups are removed to form a multiple bond.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Haloalkane."
+            },
+            {
+                "q": "Which statement about Halogen Compounds is correct?",
+                "opts": [
+                    "Haloalkanes react by nucleophilic substitution with different reagents.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Nucleophilic substitution?",
+                "opts": [
+                    "Reaction where a nucleophile replaces a leaving group at an electrophilic carbon.",
+                    "Alkane derivative in which one or more H atoms are replaced by halogen atoms.",
+                    "Reaction in which atoms or groups are removed to form a multiple bond.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Nucleophilic substitution."
+            },
+            {
+                "q": "Which exam approach is most reliable for Halogen Compounds?",
+                "opts": [
+                    "In Halogen Compounds questions, write one clear chemical point per sentence and support it with evidence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Halogen Compounds?",
+                "opts": [
+                    "Rate differences can be explained by carbon-halogen bond strength.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

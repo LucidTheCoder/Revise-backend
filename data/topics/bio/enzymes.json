@@ -1,0 +1,238 @@
+{
+    "id": "enzymes",
+    "subject": "bio",
+    "title": "Enzymes",
+    "subtitle": "Enzymes with mechanism-focused explanation and exam-linked examples.",
+    "concept": [
+        "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states.",
+        "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects.",
+        "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states.",
+                "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects.",
+                "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Enzymes ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Active Site",
+            "body": "Region of an enzyme where substrate binding and catalysis occur."
+        },
+        {
+            "term": "Denaturation",
+            "body": "Loss of specific protein conformation, leading to reduced or lost biological activity."
+        },
+        {
+            "term": "Vmax",
+            "body": "Maximum reaction rate when all enzyme active sites are occupied by substrate."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Enzymes.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Enzymes reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Enzymes?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing Enzymes outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In Enzymes responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Enzymes?",
+            "a": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
+        },
+        {
+            "q": "Define Active Site.",
+            "a": "Region of an enzyme where substrate binding and catalysis occur."
+        },
+        {
+            "q": "Define Denaturation.",
+            "a": "Loss of specific protein conformation, leading to reduced or lost biological activity."
+        },
+        {
+            "q": "What exam strategy works best for Enzymes?",
+            "a": "In Enzymes responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Active Site"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 3"
+        },
+        {
+            "label": "Key Formula",
+            "val": "E_a reduced; Vmax = [ES]; Km = substrate affinity"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Enzymes: core principle",
+            "a": "Enzymes are globular proteins that accelerate reactions by lowering activation energy while remaining chemically unchanged overall. Their catalytic action is possible because the active site stabilizes transition states."
+        },
+        {
+            "q": "Active Site",
+            "a": "Region of an enzyme where substrate binding and catalysis occur."
+        },
+        {
+            "q": "Denaturation",
+            "a": "Loss of specific protein conformation, leading to reduced or lost biological activity."
+        },
+        {
+            "q": "Vmax",
+            "a": "Maximum reaction rate when all enzyme active sites are occupied by substrate."
+        },
+        {
+            "q": "Enzymes: common mistake",
+            "a": "Describing Enzymes outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In Enzymes responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "Enzymes Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Active Site?",
+                "opts": [
+                    "Region of an enzyme where substrate binding and catalysis occur.",
+                    "Loss of specific protein conformation, leading to reduced or lost biological activity.",
+                    "Maximum reaction rate when all enzyme active sites are occupied by substrate.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Active Site."
+            },
+            {
+                "q": "Which statement about Enzymes is correct?",
+                "opts": [
+                    "Rate behavior reflects both molecular motion and active site interactions. Environmental conditions affect enzyme conformation, so rate changes are often due to structure changes as much as collision effects.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Denaturation?",
+                "opts": [
+                    "Loss of specific protein conformation, leading to reduced or lost biological activity.",
+                    "Region of an enzyme where substrate binding and catalysis occur.",
+                    "Maximum reaction rate when all enzyme active sites are occupied by substrate.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Denaturation."
+            },
+            {
+                "q": "Which exam approach is most reliable for Enzymes?",
+                "opts": [
+                    "In Enzymes responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Enzymes?",
+                "opts": [
+                    "Exam questions require precise language about active site shape, enzyme-substrate complex formation, and how temperature, pH, and inhibitors alter reaction pathways.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9700 AS Topic 3"
+}

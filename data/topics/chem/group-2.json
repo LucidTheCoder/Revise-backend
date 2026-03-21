@@ -1,0 +1,238 @@
+{
+    "id": "group-2",
+    "subject": "chem",
+    "title": "Group 2",
+    "subtitle": "Group 2 with core theory, reaction logic, and exam-focused application.",
+    "syllabusRef": "9701 AS Topic 10",
+    "concept": [
+        "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
+        "Group 2 elements show increasing reactivity down the group.",
+        "Hydroxide and sulfate trends are explained by solubility and ionic size changes."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry.",
+                "Group 2 elements show increasing reactivity down the group.",
+                "Hydroxide and sulfate trends are explained by solubility and ionic size changes."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Group 2 ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "State reagents, conditions, and balanced equations where relevant.",
+                "Use correct state symbols, units, and sign conventions in calculations.",
+                "Link each observation to particle-level or structural explanation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Thermal stability",
+            "body": "Resistance of a compound to decomposition on heating."
+        },
+        {
+            "term": "Hydroxide trend",
+            "body": "Trend in Group 2 hydroxide solubility, generally increasing down the group."
+        },
+        {
+            "term": "Group trend",
+            "body": "Systematic change in properties down a group due to electronic structure changes."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Group 2.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Group 2 elements show increasing reactivity down the group."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Group 2 reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Group 2?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Giving trends in Group 2 without molecular or ionic explanation.",
+        "Forgetting state symbols or conditions in reaction equations.",
+        "Using values without checking units or significant figures."
+    ],
+    "tips": [
+        "In Group 2 questions, write one clear chemical point per sentence and support it with evidence.",
+        "Memorize required conditions alongside each key reaction type.",
+        "Check whether your final answer is chemically realistic."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Group 2?",
+            "a": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+        },
+        {
+            "q": "Define Thermal stability.",
+            "a": "Resistance of a compound to decomposition on heating."
+        },
+        {
+            "q": "Define Hydroxide trend.",
+            "a": "Trend in Group 2 hydroxide solubility, generally increasing down the group."
+        },
+        {
+            "q": "What exam strategy works best for Group 2?",
+            "a": "In Group 2 questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Group 2 elements show increasing reactivity down the group."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Hydroxide and sulfate trends are explained by solubility and ionic size changes."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Thermal stability"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9701 AS Topic 10"
+        },
+        {
+            "label": "Key Formula",
+            "val": "↑ reactivity down group; M → M^2+ + 2e^−"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Group 2: core principle",
+            "a": "Group 2 explains how structure, bonding, and energetics determine observable chemical behavior in AS chemistry."
+        },
+        {
+            "q": "Thermal stability",
+            "a": "Resistance of a compound to decomposition on heating."
+        },
+        {
+            "q": "Hydroxide trend",
+            "a": "Trend in Group 2 hydroxide solubility, generally increasing down the group."
+        },
+        {
+            "q": "Group trend",
+            "a": "Systematic change in properties down a group due to electronic structure changes."
+        },
+        {
+            "q": "Group 2: common mistake",
+            "a": "Giving trends in Group 2 without molecular or ionic explanation."
+        },
+        {
+            "q": "CHEM exam tip",
+            "a": "In Group 2 questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "quiz": {
+        "title": "Group 2 Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Thermal stability?",
+                "opts": [
+                    "Resistance of a compound to decomposition on heating.",
+                    "Trend in Group 2 hydroxide solubility, generally increasing down the group.",
+                    "Systematic change in properties down a group due to electronic structure changes.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Thermal stability."
+            },
+            {
+                "q": "Which statement about Group 2 is correct?",
+                "opts": [
+                    "Group 2 elements show increasing reactivity down the group.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Hydroxide trend?",
+                "opts": [
+                    "Trend in Group 2 hydroxide solubility, generally increasing down the group.",
+                    "Resistance of a compound to decomposition on heating.",
+                    "Systematic change in properties down a group due to electronic structure changes.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Hydroxide trend."
+            },
+            {
+                "q": "Which exam approach is most reliable for Group 2?",
+                "opts": [
+                    "In Group 2 questions, write one clear chemical point per sentence and support it with evidence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Group 2?",
+                "opts": [
+                    "Hydroxide and sulfate trends are explained by solubility and ionic size changes.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

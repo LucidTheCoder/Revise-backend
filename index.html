@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revise. - Cambridge AS Level Study Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="editor-styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+</head>
+<body>
+  <canvas id="ambient-particles" aria-hidden="true"></canvas>
+  <nav class="nav" id="main-nav">
+    <button class="nav-logo" data-route="home">Revise<span>.</span></button>
+    <div class="nav-search">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="text" id="search-input" placeholder="Search topics, concepts..." autocomplete="off">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <div class="nav-right">
+      <button class="nav-chip" id="streak-display">Streak <span id="streak-count">3</span></button>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <svg id="theme-icon" width="15" height="15" fill="none" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="nav-btn ghost" data-route="past-papers">Past Papers</button>
+      <button class="nav-btn ghost" data-route="community">Community</button>
+      <button class="nav-btn ghost" data-route="editor">Editor</button>
+      <button class="nav-btn ghost" data-route="profile">Profile</button>
+      <button class="nav-btn solid" id="signin-btn">Sign In</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="view active" id="view-home">
+      <div class="container page-pad">
+        <section class="hero card">
+          <h1>Master your <strong>A Levels</strong> with confidence.</h1>
+          <p>Concise notes, worked examples, flashcards, quizzes, community support, and past papers across Chemistry, Biology, and Physics.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-route="subjects">Start Revising</button>
+            <button class="btn btn-outline" data-route="past-papers">Open Past Papers</button>
+          </div>
+        </section>
+
+        <section class="stats-row" id="home-stats"></section>
+
+        <section class="home-grid">
+          <div class="card">
+            <div class="section-title-row">
+              <h2>Continue Learning</h2>
+            </div>
+            <div id="continue-list"></div>
+            <div id="recent-activity"></div>
+          </div>
+          <div class="card">
+            <div class="section-title-row">
+              <h2>Weekly Goal</h2>
+            </div>
+            <div id="weekly-goal"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="view-subjects">
+      <div class="container page-pad">
+        <div class="page-head">
+          <h1>Choose Your Subject</h1>
+          <p>Step 1: pick a subject. Step 2: choose a topic. Step 3: start revising.</p>
+        </div>
+        <div class="grid-3" id="subject-select-grid"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-subject">
+      <div class="subject-layout">
+        <aside class="sidebar" id="subject-sidebar"></aside>
+        <div class="subject-main" id="subject-main"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-topic">
+      <div class="subject-layout">
+        <aside class="sidebar" id="topic-sidebar"></aside>
+        <article class="topic-main" id="topic-main"></article>
+      </div>
+    </section>
+
+    <section class="view" id="view-quiz">
+      <div class="quiz-wrap" id="quiz-content"></div>
+    </section>
+
+    <section class="view" id="view-flash">
+      <div class="flash-wrap" id="flash-content"></div>
+    </section>
+
+    <section class="view" id="view-past-papers">
+      <div class="container page-pad">
+        <div class="page-head">
+          <h1>Past Papers</h1>
+          <p>Filter papers by subject and year, then launch revision by topic.</p>
+        </div>
+        <div class="papers-toolbar card card-sm">
+          <label>
+            Subject
+            <select id="paper-subject-filter"></select>
+          </label>
+          <label>
+            Year
+            <select id="paper-year-filter"></select>
+          </label>
+        </div>
+        <div id="past-paper-list" class="papers-grid"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-community">
+      <div class="community-layout">
+        <div class="community-main">
+          <div class="community-head card card-sm">
+            <h2>Forums</h2>
+            <p>Ask content questions and share revision strategies.</p>
+          </div>
+          <div id="forum-list"></div>
+          <div class="card" id="forum-thread"></div>
+        </div>
+        <aside class="chat-sidebar">
+          <div class="card card-sm">
+            <h3>Chat Channels</h3>
+            <div id="chat-channel-list"></div>
+          </div>
+          <div class="card chat-panel">
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-compose">
+              <input id="chat-input" type="text" placeholder="Send a message">
+              <button class="btn btn-primary" id="chat-send">Send</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="view" id="view-profile">
+      <div class="container page-pad">
+        <div class="profile-grid">
+          <div class="card profile-card">
+            <div class="avatar">AS</div>
+            <h2>Alex Sterling</h2>
+            <p>@alex_sterling</p>
+            <div class="profile-metrics">
+              <div class="metric"><span>Topics done</span><strong id="profile-topics">0</strong></div>
+              <div class="metric"><span>Quiz average</span><strong id="profile-avg">0%</strong></div>
+              <div class="metric"><span>Total XP</span><strong id="profile-xp">0</strong></div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Progress by Subject</h2>
+            <div id="profile-progress"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-editor">
+      <div class="container page-pad">
+        <div class="page-head">
+          <h1>Topic Editor</h1>
+          <p>Add, remove, or edit topics using JSON markup.</p>
+          <button class="btn btn-primary" onclick="App.showEditorHelp()">Help</button>
+        </div>
+        <div class="editor-toolbar card card-sm">
+          <select id="editor-subject-select" onchange="App.loadEditorSubject(this.value)">
+            <option value="">Select subject...</option>
+            <option value="chem">Chemistry</option>
+            <option value="bio">Biology</option>
+            <option value="phy">Physics</option>
+          </select>
+          <button class="btn btn-outline" onclick="App.createNewTopic()">+ New Topic</button>
+        </div>
+        <div class="editor-grid">
+          <div class="editor-list card">
+            <h3>Topics</h3>
+            <div id="editor-topics-list"></div>
+          </div>
+          <div class="editor-main card">
+            <div class="editor-header">
+              <h3 id="editor-title">Select a topic to edit</h3>
+              <button class="btn btn-outline btn-sm" id="editor-delete-btn" onclick="App.deleteCurrentTopic()" style="display:none;">Delete Topic</button>
+            </div>
+            <textarea id="editor-json" placeholder="Topic JSON will appear here..." rows="30"></textarea>
+            <div class="editor-actions">
+              <button class="btn btn-primary" id="editor-save-btn" onclick="App.saveTopic()" style="display:none;">Save Changes</button>
+              <button class="btn btn-outline" id="editor-cancel-btn" onclick="App.cancelEdit()" style="display:none;">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast-root"></div>
+  <script>
+    (function () {
+      if (window.location.protocol !== "file:") return;
+      var warning = document.createElement("div");
+      warning.style.cssText = [
+        "position:fixed",
+        "left:12px",
+        "right:12px",
+        "bottom:12px",
+        "z-index:9999",
+        "padding:12px 14px",
+        "border-radius:10px",
+        "border:1px solid #f59e0b",
+        "background:#111827",
+        "color:#f3f4f6",
+        "font:13px/1.5 DM Sans,system-ui,sans-serif"
+      ].join(";");
+      warning.innerHTML =
+        "<strong>Local file mode detected.</strong> " +
+        "This app must run over <code>http://localhost</code> to load <code>app.js</code> and JSON data. " +
+        "Run <code>powershell -ExecutionPolicy Bypass -File .\\\\serve.ps1</code> from this folder, then open <code>http://localhost:5500</code>.";
+      document.body.appendChild(warning);
+    })();
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

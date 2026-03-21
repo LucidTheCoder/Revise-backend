@@ -1,0 +1,238 @@
+{
+    "id": "dc-circuits",
+    "subject": "phy",
+    "title": "D.C. Circuits",
+    "subtitle": "D.C. Circuits with model-based reasoning, equations, and exam application.",
+    "syllabusRef": "9702 AS Topic 10",
+    "concept": [
+        "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior.",
+        "Kirchhoff laws apply conservation of charge and energy in circuits.",
+        "Internal resistance causes terminal potential difference to vary with current."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior.",
+                "Kirchhoff laws apply conservation of charge and energy in circuits.",
+                "Internal resistance causes terminal potential difference to vary with current."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply D.C. Circuits ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Start with the governing equation and rearrange symbolically before substitution.",
+                "Keep unit conversions explicit and check final units for consistency.",
+                "State assumptions and sign conventions when interpreting graphs or circuits."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Kirchhoff law",
+            "body": "Circuit laws for conservation of charge at junctions and energy around closed loops."
+        },
+        {
+            "term": "Internal resistance",
+            "body": "Resistance inside a source that causes terminal p.d. to decrease when current increases."
+        },
+        {
+            "term": "EMF",
+            "body": "Energy supplied by a source per unit charge passing through the source."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of D.C. Circuits.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Kirchhoff laws apply conservation of charge and energy in circuits."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use D.C. Circuits reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for D.C. Circuits?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Applying equations in D.C. Circuits without defining variables and units first.",
+        "Substituting numbers before rearranging equations.",
+        "Ignoring direction, sign conventions, or vector nature of quantities."
+    ],
+    "tips": [
+        "For D.C. Circuits, annotate known values and units before choosing an equation.",
+        "Use a quick estimate to check if your magnitude is sensible.",
+        "In graph questions, explain both gradient and intercept meaning when needed."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of D.C. Circuits?",
+            "a": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
+        },
+        {
+            "q": "Define Kirchhoff law.",
+            "a": "Circuit laws for conservation of charge at junctions and energy around closed loops."
+        },
+        {
+            "q": "Define Internal resistance.",
+            "a": "Resistance inside a source that causes terminal p.d. to decrease when current increases."
+        },
+        {
+            "q": "What exam strategy works best for D.C. Circuits?",
+            "a": "For D.C. Circuits, annotate known values and units before choosing an equation."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Kirchhoff laws apply conservation of charge and energy in circuits."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Internal resistance causes terminal potential difference to vary with current."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Kirchhoff law"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9702 AS Topic 10"
+        },
+        {
+            "label": "Key Formula",
+            "val": "ε = I(R + r); P = I²R; V_T = Σ(V_drops)"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "D.C. Circuits: core principle",
+            "a": "D.C. Circuits uses physical models and measurable quantities to explain and predict system behavior."
+        },
+        {
+            "q": "Kirchhoff law",
+            "a": "Circuit laws for conservation of charge at junctions and energy around closed loops."
+        },
+        {
+            "q": "Internal resistance",
+            "a": "Resistance inside a source that causes terminal p.d. to decrease when current increases."
+        },
+        {
+            "q": "EMF",
+            "a": "Energy supplied by a source per unit charge passing through the source."
+        },
+        {
+            "q": "D.C. Circuits: common mistake",
+            "a": "Applying equations in D.C. Circuits without defining variables and units first."
+        },
+        {
+            "q": "PHY exam tip",
+            "a": "For D.C. Circuits, annotate known values and units before choosing an equation."
+        }
+    ],
+    "quiz": {
+        "title": "D.C. Circuits Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Kirchhoff law?",
+                "opts": [
+                    "Circuit laws for conservation of charge at junctions and energy around closed loops.",
+                    "Resistance inside a source that causes terminal p.d. to decrease when current increases.",
+                    "Energy supplied by a source per unit charge passing through the source.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Kirchhoff law."
+            },
+            {
+                "q": "Which statement about D.C. Circuits is correct?",
+                "opts": [
+                    "Kirchhoff laws apply conservation of charge and energy in circuits.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Internal resistance?",
+                "opts": [
+                    "Resistance inside a source that causes terminal p.d. to decrease when current increases.",
+                    "Circuit laws for conservation of charge at junctions and energy around closed loops.",
+                    "Energy supplied by a source per unit charge passing through the source.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Internal resistance."
+            },
+            {
+                "q": "Which exam approach is most reliable for D.C. Circuits?",
+                "opts": [
+                    "For D.C. Circuits, annotate known values and units before choosing an equation.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in D.C. Circuits?",
+                "opts": [
+                    "Internal resistance causes terminal potential difference to vary with current.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

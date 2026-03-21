@@ -1,0 +1,238 @@
+{
+    "id": "transport-in-plants",
+    "subject": "bio",
+    "title": "Transport in Plants",
+    "subtitle": "Transport in Plants with mechanism-focused explanation and exam-linked examples.",
+    "syllabusRef": "9700 AS Topic 7",
+    "concept": [
+        "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes.",
+        "Xylem and phloem are specialised for different transport roles.",
+        "Transpiration and cohesion-tension explain water movement in xylem."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes.",
+                "Xylem and phloem are specialised for different transport roles.",
+                "Transpiration and cohesion-tension explain water movement in xylem."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Transport in Plants ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Transpiration",
+            "body": "Loss of water vapor from plant surfaces, mainly through stomata."
+        },
+        {
+            "term": "Xylem",
+            "body": "Lignified plant tissue that transports water and mineral ions from roots to leaves."
+        },
+        {
+            "term": "Translocation",
+            "body": "Movement of assimilates in phloem from source regions to sink regions."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Transport in Plants.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Xylem and phloem are specialised for different transport roles."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Transport in Plants reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Transport in Plants?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing Transport in Plants outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Transport in Plants?",
+            "a": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Define Transpiration.",
+            "a": "Loss of water vapor from plant surfaces, mainly through stomata."
+        },
+        {
+            "q": "Define Xylem.",
+            "a": "Lignified plant tissue that transports water and mineral ions from roots to leaves."
+        },
+        {
+            "q": "What exam strategy works best for Transport in Plants?",
+            "a": "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Xylem and phloem are specialised for different transport roles."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Transpiration and cohesion-tension explain water movement in xylem."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Transpiration"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 7"
+        },
+        {
+            "label": "Key Formula",
+            "val": "Ψ_soil < Ψ_root < Ψ_leaf; xylem/phloem transport"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Transport in Plants: core principle",
+            "a": "Transport in Plants links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Transpiration",
+            "a": "Loss of water vapor from plant surfaces, mainly through stomata."
+        },
+        {
+            "q": "Xylem",
+            "a": "Lignified plant tissue that transports water and mineral ions from roots to leaves."
+        },
+        {
+            "q": "Translocation",
+            "a": "Movement of assimilates in phloem from source regions to sink regions."
+        },
+        {
+            "q": "Transport in Plants: common mistake",
+            "a": "Describing Transport in Plants outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "Transport in Plants Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Transpiration?",
+                "opts": [
+                    "Loss of water vapor from plant surfaces, mainly through stomata.",
+                    "Lignified plant tissue that transports water and mineral ions from roots to leaves.",
+                    "Movement of assimilates in phloem from source regions to sink regions.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Transpiration."
+            },
+            {
+                "q": "Which statement about Transport in Plants is correct?",
+                "opts": [
+                    "Xylem and phloem are specialised for different transport roles.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Xylem?",
+                "opts": [
+                    "Lignified plant tissue that transports water and mineral ions from roots to leaves.",
+                    "Loss of water vapor from plant surfaces, mainly through stomata.",
+                    "Movement of assimilates in phloem from source regions to sink regions.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Xylem."
+            },
+            {
+                "q": "Which exam approach is most reliable for Transport in Plants?",
+                "opts": [
+                    "In Transport in Plants responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Transport in Plants?",
+                "opts": [
+                    "Transpiration and cohesion-tension explain water movement in xylem.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

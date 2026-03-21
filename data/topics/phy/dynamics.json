@@ -1,0 +1,238 @@
+{
+    "id": "dynamics",
+    "subject": "phy",
+    "title": "Dynamics",
+    "subtitle": "Dynamics with model-based reasoning, equations, and exam application.",
+    "concept": [
+        "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link.",
+        "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity.",
+        "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link.",
+                "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity.",
+                "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Dynamics ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Start with the governing equation and rearrange symbolically before substitution.",
+                "Keep unit conversions explicit and check final units for consistency.",
+                "State assumptions and sign conventions when interpreting graphs or circuits."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Resultant Force",
+            "body": "Single force equivalent to vector sum of all forces acting on an object."
+        },
+        {
+            "term": "Momentum",
+            "body": "Product of mass and velocity of an object."
+        },
+        {
+            "term": "Impulse",
+            "body": "Change in momentum, equal to force multiplied by time interval."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Dynamics.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Dynamics reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Dynamics?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Applying equations in Dynamics without defining variables and units first.",
+        "Substituting numbers before rearranging equations.",
+        "Ignoring direction, sign conventions, or vector nature of quantities."
+    ],
+    "tips": [
+        "For Dynamics, annotate known values and units before choosing an equation.",
+        "Use a quick estimate to check if your magnitude is sensible.",
+        "In graph questions, explain both gradient and intercept meaning when needed."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Dynamics?",
+            "a": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
+        },
+        {
+            "q": "Define Resultant Force.",
+            "a": "Single force equivalent to vector sum of all forces acting on an object."
+        },
+        {
+            "q": "Define Momentum.",
+            "a": "Product of mass and velocity of an object."
+        },
+        {
+            "q": "What exam strategy works best for Dynamics?",
+            "a": "For Dynamics, annotate known values and units before choosing an equation."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Resultant Force"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9702 AS Topic 3"
+        },
+        {
+            "label": "Key Formula",
+            "val": "F = ma; p = mv; Δp = FΔt (impulse)"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Dynamics: core principle",
+            "a": "Dynamics explains why motion changes by linking force to acceleration. Newton laws provide the conceptual and mathematical framework for this link."
+        },
+        {
+            "q": "Resultant Force",
+            "a": "Single force equivalent to vector sum of all forces acting on an object."
+        },
+        {
+            "q": "Momentum",
+            "a": "Product of mass and velocity of an object."
+        },
+        {
+            "q": "Impulse",
+            "a": "Change in momentum, equal to force multiplied by time interval."
+        },
+        {
+            "q": "Dynamics: common mistake",
+            "a": "Applying equations in Dynamics without defining variables and units first."
+        },
+        {
+            "q": "PHY exam tip",
+            "a": "For Dynamics, annotate known values and units before choosing an equation."
+        }
+    ],
+    "quiz": {
+        "title": "Dynamics Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Resultant Force?",
+                "opts": [
+                    "Single force equivalent to vector sum of all forces acting on an object.",
+                    "Product of mass and velocity of an object.",
+                    "Change in momentum, equal to force multiplied by time interval.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Resultant Force."
+            },
+            {
+                "q": "Which statement about Dynamics is correct?",
+                "opts": [
+                    "Resultant force determines acceleration direction and magnitude through F = ma. Balanced forces produce zero acceleration, not necessarily zero velocity.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Momentum?",
+                "opts": [
+                    "Product of mass and velocity of an object.",
+                    "Single force equivalent to vector sum of all forces acting on an object.",
+                    "Change in momentum, equal to force multiplied by time interval.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Momentum."
+            },
+            {
+                "q": "Which exam approach is most reliable for Dynamics?",
+                "opts": [
+                    "For Dynamics, annotate known values and units before choosing an equation.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Dynamics?",
+                "opts": [
+                    "Momentum ideas extend dynamics to collisions and explosions, where conservation principles simplify complex interactions.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9702 AS Topic 3"
+}

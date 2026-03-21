@@ -1,0 +1,128 @@
+/* Editor Styles */
+
+.editor-toolbar {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  align-items: center;
+}
+
+.editor-toolbar select {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+.editor-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1rem;
+}
+
+.editor-list {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.editor-list h3 {
+  margin-bottom: 0.8rem;
+  color: var(--text);
+}
+
+.editor-topic-item {
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg3);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editor-topic-item:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--bg3), var(--accentbg) 40%);
+}
+
+.editor-topic-item.active {
+  border-color: var(--accent);
+  background: var(--accentbg);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.editor-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-header h3 {
+  margin: 0;
+  color: var(--text);
+}
+
+#editor-json {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  background: var(--bg3);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  resize: none;
+  overflow-y: auto;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.btn-sm {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 1000px) {
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .editor-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-height: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .editor-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .editor-toolbar select,
+  .editor-toolbar .btn {
+    width: 100%;
+  }
+  
+  .editor-list {
+    grid-template-columns: 1fr;
+  }
+}

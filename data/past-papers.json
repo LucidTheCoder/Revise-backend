@@ -1,0 +1,76 @@
+﻿{
+  "papers": [
+    {
+      "id": "chem-9701-2025-mj-p12",
+      "subject": "chem",
+      "code": "9701",
+      "year": 2025,
+      "session": "May/June",
+      "paper": "Paper 1",
+      "variant": "12",
+      "title": "Multiple Choice",
+      "difficulty": "Medium",
+      "downloadUrl": "#"
+    },
+    {
+      "id": "chem-9701-2024-on-p22",
+      "subject": "chem",
+      "code": "9701",
+      "year": 2024,
+      "session": "Oct/Nov",
+      "paper": "Paper 2",
+      "variant": "22",
+      "title": "AS Structured Questions",
+      "difficulty": "High",
+      "downloadUrl": "#"
+    },
+    {
+      "id": "bio-9700-2025-mj-p12",
+      "subject": "bio",
+      "code": "9700",
+      "year": 2025,
+      "session": "May/June",
+      "paper": "Paper 1",
+      "variant": "12",
+      "title": "Multiple Choice",
+      "difficulty": "Medium",
+      "downloadUrl": "#"
+    },
+    {
+      "id": "bio-9700-2024-on-p22",
+      "subject": "bio",
+      "code": "9700",
+      "year": 2024,
+      "session": "Oct/Nov",
+      "paper": "Paper 2",
+      "variant": "22",
+      "title": "AS Structured Questions",
+      "difficulty": "High",
+      "downloadUrl": "#"
+    },
+    {
+      "id": "phy-9702-2025-mj-p12",
+      "subject": "phy",
+      "code": "9702",
+      "year": 2025,
+      "session": "May/June",
+      "paper": "Paper 1",
+      "variant": "12",
+      "title": "Multiple Choice",
+      "difficulty": "Medium",
+      "downloadUrl": "#"
+    },
+    {
+      "id": "phy-9702-2024-on-p22",
+      "subject": "phy",
+      "code": "9702",
+      "year": 2024,
+      "session": "Oct/Nov",
+      "paper": "Paper 2",
+      "variant": "22",
+      "title": "AS Structured Questions",
+      "difficulty": "High",
+      "downloadUrl": "#"
+    }
+  ]
+}

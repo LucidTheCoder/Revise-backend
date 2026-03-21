@@ -1,0 +1,238 @@
+{
+    "id": "immunity",
+    "subject": "bio",
+    "title": "Immunity",
+    "subtitle": "Immunity with mechanism-focused explanation and exam-linked examples.",
+    "syllabusRef": "9700 AS Topic 11",
+    "concept": [
+        "Immunity links biological structure and process to function, adaptation, and measured outcomes.",
+        "Innate defences provide immediate non-specific protection.",
+        "Specific immunity involves lymphocyte activation and antibody production."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Immunity links biological structure and process to function, adaptation, and measured outcomes.",
+                "Innate defences provide immediate non-specific protection.",
+                "Specific immunity involves lymphocyte activation and antibody production."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Immunity ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Antigen",
+            "body": "Molecule recognized as foreign that triggers a specific immune response."
+        },
+        {
+            "term": "Antibody",
+            "body": "Protein produced by plasma cells that binds specifically to a complementary antigen."
+        },
+        {
+            "term": "Vaccination",
+            "body": "Administration of antigen to generate immune memory and reduce disease risk."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Immunity.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Innate defences provide immediate non-specific protection."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Immunity reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Immunity?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing Immunity outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In Immunity responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Immunity?",
+            "a": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Define Antigen.",
+            "a": "Molecule recognized as foreign that triggers a specific immune response."
+        },
+        {
+            "q": "Define Antibody.",
+            "a": "Protein produced by plasma cells that binds specifically to a complementary antigen."
+        },
+        {
+            "q": "What exam strategy works best for Immunity?",
+            "a": "In Immunity responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Innate defences provide immediate non-specific protection."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Specific immunity involves lymphocyte activation and antibody production."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Antigen"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 11"
+        },
+        {
+            "label": "Key Formula",
+            "val": "Primary vs secondary; IgM → IgG antibodies"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Immunity: core principle",
+            "a": "Immunity links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Antigen",
+            "a": "Molecule recognized as foreign that triggers a specific immune response."
+        },
+        {
+            "q": "Antibody",
+            "a": "Protein produced by plasma cells that binds specifically to a complementary antigen."
+        },
+        {
+            "q": "Vaccination",
+            "a": "Administration of antigen to generate immune memory and reduce disease risk."
+        },
+        {
+            "q": "Immunity: common mistake",
+            "a": "Describing Immunity outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In Immunity responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "Immunity Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Antigen?",
+                "opts": [
+                    "Molecule recognized as foreign that triggers a specific immune response.",
+                    "Protein produced by plasma cells that binds specifically to a complementary antigen.",
+                    "Administration of antigen to generate immune memory and reduce disease risk.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Antigen."
+            },
+            {
+                "q": "Which statement about Immunity is correct?",
+                "opts": [
+                    "Innate defences provide immediate non-specific protection.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Antibody?",
+                "opts": [
+                    "Protein produced by plasma cells that binds specifically to a complementary antigen.",
+                    "Molecule recognized as foreign that triggers a specific immune response.",
+                    "Administration of antigen to generate immune memory and reduce disease risk.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Antibody."
+            },
+            {
+                "q": "Which exam approach is most reliable for Immunity?",
+                "opts": [
+                    "In Immunity responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Immunity?",
+                "opts": [
+                    "Specific immunity involves lymphocyte activation and antibody production.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

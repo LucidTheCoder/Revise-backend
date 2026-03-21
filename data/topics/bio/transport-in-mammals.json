@@ -1,0 +1,238 @@
+{
+    "id": "transport-in-mammals",
+    "subject": "bio",
+    "title": "Transport in Mammals",
+    "subtitle": "Transport in Mammals with mechanism-focused explanation and exam-linked examples.",
+    "syllabusRef": "9700 AS Topic 8",
+    "concept": [
+        "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes.",
+        "Double circulation separates pulmonary and systemic blood flow.",
+        "Heart structure and cardiac cycle support directional pumping."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes.",
+                "Double circulation separates pulmonary and systemic blood flow.",
+                "Heart structure and cardiac cycle support directional pumping."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Transport in Mammals ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Double circulation",
+            "body": "Circulatory system where blood passes through the heart twice per complete circuit."
+        },
+        {
+            "term": "Cardiac cycle",
+            "body": "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat."
+        },
+        {
+            "term": "Capillary exchange",
+            "body": "Movement of substances between blood and tissues across capillary walls."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Transport in Mammals.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Double circulation separates pulmonary and systemic blood flow."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Transport in Mammals reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Transport in Mammals?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing Transport in Mammals outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Transport in Mammals?",
+            "a": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Define Double circulation.",
+            "a": "Circulatory system where blood passes through the heart twice per complete circuit."
+        },
+        {
+            "q": "Define Cardiac cycle.",
+            "a": "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat."
+        },
+        {
+            "q": "What exam strategy works best for Transport in Mammals?",
+            "a": "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Double circulation separates pulmonary and systemic blood flow."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Heart structure and cardiac cycle support directional pumping."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Double circulation"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 8"
+        },
+        {
+            "label": "Key Formula",
+            "val": "Q = ΔP/R (Poiseuille); Hb + O₂ ⇌ HbO₂"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Transport in Mammals: core principle",
+            "a": "Transport in Mammals links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Double circulation",
+            "a": "Circulatory system where blood passes through the heart twice per complete circuit."
+        },
+        {
+            "q": "Cardiac cycle",
+            "a": "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat."
+        },
+        {
+            "q": "Capillary exchange",
+            "a": "Movement of substances between blood and tissues across capillary walls."
+        },
+        {
+            "q": "Transport in Mammals: common mistake",
+            "a": "Describing Transport in Mammals outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "Transport in Mammals Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Double circulation?",
+                "opts": [
+                    "Circulatory system where blood passes through the heart twice per complete circuit.",
+                    "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat.",
+                    "Movement of substances between blood and tissues across capillary walls.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Double circulation."
+            },
+            {
+                "q": "Which statement about Transport in Mammals is correct?",
+                "opts": [
+                    "Double circulation separates pulmonary and systemic blood flow.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Cardiac cycle?",
+                "opts": [
+                    "Sequence of atrial systole, ventricular systole, and diastole in one heartbeat.",
+                    "Circulatory system where blood passes through the heart twice per complete circuit.",
+                    "Movement of substances between blood and tissues across capillary walls.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Cardiac cycle."
+            },
+            {
+                "q": "Which exam approach is most reliable for Transport in Mammals?",
+                "opts": [
+                    "In Transport in Mammals responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Transport in Mammals?",
+                "opts": [
+                    "Heart structure and cardiac cycle support directional pumping.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

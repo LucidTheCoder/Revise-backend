@@ -1,0 +1,239 @@
+{
+    "id": "cell-membranes",
+    "subject": "bio",
+    "title": "Cell Membranes and Transport",
+    "subtitle": "Cell Membranes and Transport with mechanism-focused explanation and exam-linked examples.",
+    "concept": [
+        "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules.",
+        "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid.",
+        "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules.",
+                "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid.",
+                "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Cell Membranes and Transport ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Fluid Mosaic Model",
+            "body": "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions."
+        },
+        {
+            "term": "Facilitated Diffusion",
+            "body": "Passive movement of substances down concentration gradient via membrane proteins."
+        },
+        {
+            "term": "Active Transport",
+            "body": "Movement of substances against concentration gradient using ATP and carrier proteins."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Cell Membranes and Transport.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Cell Membranes and Transport reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Cell Membranes and Transport?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing Cell Membranes and Transport outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Cell Membranes and Transport?",
+            "a": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
+        },
+        {
+            "q": "Define Fluid Mosaic Model.",
+            "a": "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions."
+        },
+        {
+            "q": "Define Facilitated Diffusion.",
+            "a": "Passive movement of substances down concentration gradient via membrane proteins."
+        },
+        {
+            "q": "What exam strategy works best for Cell Membranes and Transport?",
+            "a": "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
+        },
+        {
+            "label": "Applied Model",
+            "val": "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Fluid Mosaic Model"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 4"
+        },
+        {
+            "label": "Key Formula",
+            "val": "Δψ = potential diff; Kd = dissociation const"
+        }
+    ],
+    "diagramSvg": "<svg viewBox='0 0 460 190' xmlns='http://www.w3.org/2000/svg'><rect x='18' y='18' width='424' height='154' rx='16' fill='rgba(34,197,94,0.08)' stroke='rgba(34,197,94,0.35)'/><text x='34' y='42' fill='#22c55e' font-size='14' font-family='DM Sans'>Fluid Mosaic Membrane</text><rect x='70' y='74' width='320' height='44' rx='20' fill='rgba(129,140,248,0.13)' stroke='rgba(129,140,248,0.45)'/><circle cx='98' cy='96' r='8' fill='rgba(249,115,22,0.42)'/><circle cx='124' cy='96' r='8' fill='rgba(249,115,22,0.42)'/><circle cx='150' cy='96' r='8' fill='rgba(249,115,22,0.42)'/><rect x='212' y='68' width='34' height='56' rx='10' fill='rgba(0,212,170,0.35)'/><path d='M84 56 H154' stroke='#cdd9e5' stroke-width='2' marker-end='url(#arrm)'/><text x='84' y='52' fill='#cdd9e5' font-size='12' font-family='DM Sans'>simple diffusion</text><text x='252' y='140' fill='#cdd9e5' font-size='12' font-family='DM Sans'>carrier channel</text><defs><marker id='arrm' markerWidth='6' markerHeight='6' refX='5' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6 Z' fill='#cdd9e5'/></marker></defs></svg>",
+    "flashcards": [
+        {
+            "q": "Cell Membranes and Transport: core principle",
+            "a": "Cell membranes are selectively permeable barriers that regulate exchange between cell and environment. The phospholipid bilayer creates a hydrophobic core that limits passage of polar molecules."
+        },
+        {
+            "q": "Fluid Mosaic Model",
+            "a": "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions."
+        },
+        {
+            "q": "Facilitated Diffusion",
+            "a": "Passive movement of substances down concentration gradient via membrane proteins."
+        },
+        {
+            "q": "Active Transport",
+            "a": "Movement of substances against concentration gradient using ATP and carrier proteins."
+        },
+        {
+            "q": "Cell Membranes and Transport: common mistake",
+            "a": "Describing Cell Membranes and Transport outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "Cell Membranes and Transport Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Fluid Mosaic Model?",
+                "opts": [
+                    "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions.",
+                    "Passive movement of substances down concentration gradient via membrane proteins.",
+                    "Movement of substances against concentration gradient using ATP and carrier proteins.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Fluid Mosaic Model."
+            },
+            {
+                "q": "Which statement about Cell Membranes and Transport is correct?",
+                "opts": [
+                    "The fluid mosaic model explains both structure and behavior. Lipids and proteins can move laterally, making membranes dynamic rather than rigid.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Facilitated Diffusion?",
+                "opts": [
+                    "Passive movement of substances down concentration gradient via membrane proteins.",
+                    "Model of membrane as a fluid phospholipid bilayer with embedded proteins of different functions.",
+                    "Movement of substances against concentration gradient using ATP and carrier proteins.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Facilitated Diffusion."
+            },
+            {
+                "q": "Which exam approach is most reliable for Cell Membranes and Transport?",
+                "opts": [
+                    "In Cell Membranes and Transport responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Cell Membranes and Transport?",
+                "opts": [
+                    "Transport processes are driven by gradients and energy availability. Understanding when ATP is required is central to exam questions.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9700 AS Topic 4"
+}

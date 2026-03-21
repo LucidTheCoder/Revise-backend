@@ -1,0 +1,238 @@
+{
+    "id": "forces-energy",
+    "subject": "phy",
+    "title": "Forces, Density and Pressure",
+    "subtitle": "Forces, Density and Pressure with model-based reasoning, equations, and exam application.",
+    "concept": [
+        "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer.",
+        "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots.",
+        "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer.",
+                "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots.",
+                "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Forces, Density and Pressure ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Start with the governing equation and rearrange symbolically before substitution.",
+                "Keep unit conversions explicit and check final units for consistency.",
+                "State assumptions and sign conventions when interpreting graphs or circuits."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Moment",
+            "body": "Turning effect of a force about a pivot, given by force times perpendicular distance."
+        },
+        {
+            "term": "Pressure",
+            "body": "Normal force per unit area acting on a surface."
+        },
+        {
+            "term": "Efficiency",
+            "body": "Ratio of useful output energy or power to total input energy or power."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Forces, Density and Pressure.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Forces, Density and Pressure reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Forces, Density and Pressure?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Applying equations in Forces, Density and Pressure without defining variables and units first.",
+        "Substituting numbers before rearranging equations.",
+        "Ignoring direction, sign conventions, or vector nature of quantities."
+    ],
+    "tips": [
+        "For Forces, Density and Pressure, annotate known values and units before choosing an equation.",
+        "Use a quick estimate to check if your magnitude is sensible.",
+        "In graph questions, explain both gradient and intercept meaning when needed."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Forces, Density and Pressure?",
+            "a": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
+        },
+        {
+            "q": "Define Moment.",
+            "a": "Turning effect of a force about a pivot, given by force times perpendicular distance."
+        },
+        {
+            "q": "Define Pressure.",
+            "a": "Normal force per unit area acting on a surface."
+        },
+        {
+            "q": "What exam strategy works best for Forces, Density and Pressure?",
+            "a": "For Forces, Density and Pressure, annotate known values and units before choosing an equation."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Moment"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9702 AS Topic 4"
+        },
+        {
+            "label": "Key Formula",
+            "val": "W = Fs; E_k = ½mv²; E_p = mgh"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Forces, Density and Pressure: core principle",
+            "a": "This topic links force effects to both translational and rotational behavior, then connects mechanical work to energy transfer."
+        },
+        {
+            "q": "Moment",
+            "a": "Turning effect of a force about a pivot, given by force times perpendicular distance."
+        },
+        {
+            "q": "Pressure",
+            "a": "Normal force per unit area acting on a surface."
+        },
+        {
+            "q": "Efficiency",
+            "a": "Ratio of useful output energy or power to total input energy or power."
+        },
+        {
+            "q": "Forces, Density and Pressure: common mistake",
+            "a": "Applying equations in Forces, Density and Pressure without defining variables and units first."
+        },
+        {
+            "q": "PHY exam tip",
+            "a": "For Forces, Density and Pressure, annotate known values and units before choosing an equation."
+        }
+    ],
+    "quiz": {
+        "title": "Forces, Density and Pressure Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Moment?",
+                "opts": [
+                    "Turning effect of a force about a pivot, given by force times perpendicular distance.",
+                    "Normal force per unit area acting on a surface.",
+                    "Ratio of useful output energy or power to total input energy or power.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Moment."
+            },
+            {
+                "q": "Which statement about Forces, Density and Pressure is correct?",
+                "opts": [
+                    "Pressure and density models explain fluid behavior and buoyancy, while moments describe turning effects around pivots.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Pressure?",
+                "opts": [
+                    "Normal force per unit area acting on a surface.",
+                    "Turning effect of a force about a pivot, given by force times perpendicular distance.",
+                    "Ratio of useful output energy or power to total input energy or power.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Pressure."
+            },
+            {
+                "q": "Which exam approach is most reliable for Forces, Density and Pressure?",
+                "opts": [
+                    "For Forces, Density and Pressure, annotate known values and units before choosing an equation.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Forces, Density and Pressure?",
+                "opts": [
+                    "Energy methods are powerful because they avoid unnecessary force detail and often solve problems faster.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9702 AS Topic 4"
+}

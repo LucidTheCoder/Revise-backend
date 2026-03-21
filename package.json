@@ -1,0 +1,35 @@
+{
+  "name": "study-platform-backend",
+  "version": "1.0.0",
+  "description": "Express.js backend for Study Platform - Production-ready for Render deployment",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "backend",
+    "study",
+    "learning",
+    "render",
+    "production"
+  ],
+  "author": "Study Platform Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

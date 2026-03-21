@@ -1,0 +1,238 @@
+{
+    "id": "mitotic-cell-cycle",
+    "subject": "bio",
+    "title": "The Mitotic Cell Cycle",
+    "subtitle": "The Mitotic Cell Cycle with mechanism-focused explanation and exam-linked examples.",
+    "syllabusRef": "9700 AS Topic 5",
+    "concept": [
+        "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes.",
+        "The cell cycle includes interphase, mitosis, and cytokinesis.",
+        "Mitosis ensures genetically identical nuclei in daughter cells."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes.",
+                "The cell cycle includes interphase, mitosis, and cytokinesis.",
+                "Mitosis ensures genetically identical nuclei in daughter cells."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply The Mitotic Cell Cycle ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Mitosis",
+            "body": "Nuclear division producing two genetically identical nuclei."
+        },
+        {
+            "term": "Chromatid",
+            "body": "One of two identical copies of a replicated chromosome joined at the centromere."
+        },
+        {
+            "term": "Cytokinesis",
+            "body": "Division of cytoplasm to form separate daughter cells after nuclear division."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of The Mitotic Cell Cycle.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "The cell cycle includes interphase, mitosis, and cytokinesis."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use The Mitotic Cell Cycle reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for The Mitotic Cell Cycle?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing The Mitotic Cell Cycle outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of The Mitotic Cell Cycle?",
+            "a": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Define Mitosis.",
+            "a": "Nuclear division producing two genetically identical nuclei."
+        },
+        {
+            "q": "Define Chromatid.",
+            "a": "One of two identical copies of a replicated chromosome joined at the centromere."
+        },
+        {
+            "q": "What exam strategy works best for The Mitotic Cell Cycle?",
+            "a": "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "label": "Applied Model",
+            "val": "The cell cycle includes interphase, mitosis, and cytokinesis."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Mitosis ensures genetically identical nuclei in daughter cells."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Mitosis"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 5"
+        },
+        {
+            "label": "Key Formula",
+            "val": "Prophase → Metaphase → Anaphase → Telophase"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "The Mitotic Cell Cycle: core principle",
+            "a": "The Mitotic Cell Cycle links biological structure and process to function, adaptation, and measured outcomes."
+        },
+        {
+            "q": "Mitosis",
+            "a": "Nuclear division producing two genetically identical nuclei."
+        },
+        {
+            "q": "Chromatid",
+            "a": "One of two identical copies of a replicated chromosome joined at the centromere."
+        },
+        {
+            "q": "Cytokinesis",
+            "a": "Division of cytoplasm to form separate daughter cells after nuclear division."
+        },
+        {
+            "q": "The Mitotic Cell Cycle: common mistake",
+            "a": "Describing The Mitotic Cell Cycle outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "The Mitotic Cell Cycle Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Mitosis?",
+                "opts": [
+                    "Nuclear division producing two genetically identical nuclei.",
+                    "One of two identical copies of a replicated chromosome joined at the centromere.",
+                    "Division of cytoplasm to form separate daughter cells after nuclear division.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Mitosis."
+            },
+            {
+                "q": "Which statement about The Mitotic Cell Cycle is correct?",
+                "opts": [
+                    "The cell cycle includes interphase, mitosis, and cytokinesis.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Chromatid?",
+                "opts": [
+                    "One of two identical copies of a replicated chromosome joined at the centromere.",
+                    "Nuclear division producing two genetically identical nuclei.",
+                    "Division of cytoplasm to form separate daughter cells after nuclear division.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Chromatid."
+            },
+            {
+                "q": "Which exam approach is most reliable for The Mitotic Cell Cycle?",
+                "opts": [
+                    "In The Mitotic Cell Cycle responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in The Mitotic Cell Cycle?",
+                "opts": [
+                    "Mitosis ensures genetically identical nuclei in daughter cells.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    }
+}

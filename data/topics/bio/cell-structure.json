@@ -1,0 +1,238 @@
+{
+    "id": "cell-structure",
+    "subject": "bio",
+    "title": "Cell Structure",
+    "subtitle": "Cell Structure with mechanism-focused explanation and exam-linked examples.",
+    "concept": [
+        "Cell structure links biological function to physical organization. Compartmentalization in eukaryotes allows specialized reactions to occur efficiently at the same time.",
+        "Prokaryotic cells are smaller and simpler, with no membrane-bound nucleus. Their structure suits rapid replication and metabolic flexibility.",
+        "Exam questions often combine structural comparison, organelle function, and microscope interpretation. Clear terminology is essential for full marks."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Cell structure links biological function to physical organization. Compartmentalization in eukaryotes allows specialized reactions to occur efficiently at the same time.",
+                "Prokaryotic cells are smaller and simpler, with no membrane-bound nucleus. Their structure suits rapid replication and metabolic flexibility.",
+                "Exam questions often combine structural comparison, organelle function, and microscope interpretation. Clear terminology is essential for full marks."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Cell Structure ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "Use precise biological vocabulary and link structure to function.",
+                "When describing processes, write steps in sequence and include cause-effect links.",
+                "For practical questions, name the variable, method, and expected observation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Organelle",
+            "body": "Specialized structure within a cell performing a specific function."
+        },
+        {
+            "term": "Magnification",
+            "body": "Image size divided by actual size."
+        },
+        {
+            "term": "Resolution",
+            "body": "Minimum distance at which two points can be seen as separate."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Cell Structure.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Cell structure links biological function to physical organization. Compartmentalization in eukaryotes allows specialized reactions to occur efficiently at the same time."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Prokaryotic cells are smaller and simpler, with no membrane-bound nucleus. Their structure suits rapid replication and metabolic flexibility."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Cell Structure reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Cell Structure?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Describing Cell Structure outcomes without explaining mechanism.",
+        "Using vague terms instead of exam vocabulary.",
+        "Ignoring the link between structure and function."
+    ],
+    "tips": [
+        "In Cell Structure responses, structure answers as point, biological reason, and linked consequence.",
+        "Use named examples when they strengthen your explanation.",
+        "In compare questions, write paired contrasts for faster marking."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Cell Structure?",
+            "a": "Cell structure links biological function to physical organization. Compartmentalization in eukaryotes allows specialized reactions to occur efficiently at the same time."
+        },
+        {
+            "q": "Define Organelle.",
+            "a": "Specialized structure within a cell performing a specific function."
+        },
+        {
+            "q": "Define Magnification.",
+            "a": "Image size divided by actual size."
+        },
+        {
+            "q": "What exam strategy works best for Cell Structure?",
+            "a": "In Cell Structure responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Cell structure links biological function to physical organization. Compartmentalization in eukaryotes allows specialized reactions to occur efficiently at the same time."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Prokaryotic cells are smaller and simpler, with no membrane-bound nucleus. Their structure suits rapid replication and metabolic flexibility."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Exam questions often combine structural comparison, organelle function, and microscope interpretation. Clear terminology is essential for full marks."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Organelle"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9700 AS Topic 1"
+        },
+        {
+            "label": "Key Formula",
+            "val": "SA:V ratio ∝ efficiency; prokaryotic vs eukaryotic"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Cell Structure: core principle",
+            "a": "Cell structure links biological function to physical organization. Compartmentalization in eukaryotes allows specialized reactions to occur efficiently at the same time."
+        },
+        {
+            "q": "Organelle",
+            "a": "Specialized structure within a cell performing a specific function."
+        },
+        {
+            "q": "Magnification",
+            "a": "Image size divided by actual size."
+        },
+        {
+            "q": "Resolution",
+            "a": "Minimum distance at which two points can be seen as separate."
+        },
+        {
+            "q": "Cell Structure: common mistake",
+            "a": "Describing Cell Structure outcomes without explaining mechanism."
+        },
+        {
+            "q": "BIO exam tip",
+            "a": "In Cell Structure responses, structure answers as point, biological reason, and linked consequence."
+        }
+    ],
+    "quiz": {
+        "title": "Cell Structure Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Organelle?",
+                "opts": [
+                    "Specialized structure within a cell performing a specific function.",
+                    "Image size divided by actual size.",
+                    "Minimum distance at which two points can be seen as separate.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Organelle."
+            },
+            {
+                "q": "Which statement about Cell Structure is correct?",
+                "opts": [
+                    "Prokaryotic cells are smaller and simpler, with no membrane-bound nucleus. Their structure suits rapid replication and metabolic flexibility.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Magnification?",
+                "opts": [
+                    "Image size divided by actual size.",
+                    "Specialized structure within a cell performing a specific function.",
+                    "Minimum distance at which two points can be seen as separate.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Magnification."
+            },
+            {
+                "q": "Which exam approach is most reliable for Cell Structure?",
+                "opts": [
+                    "In Cell Structure responses, structure answers as point, biological reason, and linked consequence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Cell Structure?",
+                "opts": [
+                    "Exam questions often combine structural comparison, organelle function, and microscope interpretation. Clear terminology is essential for full marks.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9700 AS Topic 1"
+}

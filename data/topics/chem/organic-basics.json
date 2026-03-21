@@ -1,0 +1,238 @@
+{
+    "id": "organic-basics",
+    "subject": "chem",
+    "title": "An Introduction to AS Level Organic Chemistry",
+    "subtitle": "An Introduction to AS Level Organic Chemistry with core theory, reaction logic, and exam-focused application.",
+    "concept": [
+        "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type.",
+        "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually.",
+        "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type.",
+                "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually.",
+                "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply An Introduction to AS Level Organic Chemistry ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "State reagents, conditions, and balanced equations where relevant.",
+                "Use correct state symbols, units, and sign conventions in calculations.",
+                "Link each observation to particle-level or structural explanation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Functional Group",
+            "body": "Specific atom or group in an organic molecule responsible for characteristic reactions."
+        },
+        {
+            "term": "Homologous Series",
+            "body": "Family of compounds with same functional group, same general formula, and similar chemical properties."
+        },
+        {
+            "term": "Isomer",
+            "body": "Compound with the same molecular formula as another compound but different arrangement of atoms."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of An Introduction to AS Level Organic Chemistry.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use An Introduction to AS Level Organic Chemistry reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for An Introduction to AS Level Organic Chemistry?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Giving trends in An Introduction to AS Level Organic Chemistry without molecular or ionic explanation.",
+        "Forgetting state symbols or conditions in reaction equations.",
+        "Using values without checking units or significant figures."
+    ],
+    "tips": [
+        "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence.",
+        "Memorize required conditions alongside each key reaction type.",
+        "Check whether your final answer is chemically realistic."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of An Introduction to AS Level Organic Chemistry?",
+            "a": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
+        },
+        {
+            "q": "Define Functional Group.",
+            "a": "Specific atom or group in an organic molecule responsible for characteristic reactions."
+        },
+        {
+            "q": "Define Homologous Series.",
+            "a": "Family of compounds with same functional group, same general formula, and similar chemical properties."
+        },
+        {
+            "q": "What exam strategy works best for An Introduction to AS Level Organic Chemistry?",
+            "a": "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually."
+        },
+        {
+            "label": "Exam Application",
+            "val": "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Functional Group"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9701 AS Topic 13"
+        },
+        {
+            "label": "Key Formula",
+            "val": "Alkanes: CₙH₂ₙ₊₂; Alkenes: CₙH₂ₙ; Alkynes: CₙH₂ₙ₋₂"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "An Introduction to AS Level Organic Chemistry: core principle",
+            "a": "Organic chemistry focuses on carbon compounds and predictable patterns of functional group behavior. The functional group is the most useful feature for predicting reaction type."
+        },
+        {
+            "q": "Functional Group",
+            "a": "Specific atom or group in an organic molecule responsible for characteristic reactions."
+        },
+        {
+            "q": "Homologous Series",
+            "a": "Family of compounds with same functional group, same general formula, and similar chemical properties."
+        },
+        {
+            "q": "Isomer",
+            "a": "Compound with the same molecular formula as another compound but different arrangement of atoms."
+        },
+        {
+            "q": "An Introduction to AS Level Organic Chemistry: common mistake",
+            "a": "Giving trends in An Introduction to AS Level Organic Chemistry without molecular or ionic explanation."
+        },
+        {
+            "q": "CHEM exam tip",
+            "a": "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "quiz": {
+        "title": "An Introduction to AS Level Organic Chemistry Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Functional Group?",
+                "opts": [
+                    "Specific atom or group in an organic molecule responsible for characteristic reactions.",
+                    "Family of compounds with same functional group, same general formula, and similar chemical properties.",
+                    "Compound with the same molecular formula as another compound but different arrangement of atoms.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Functional Group."
+            },
+            {
+                "q": "Which statement about An Introduction to AS Level Organic Chemistry is correct?",
+                "opts": [
+                    "Homologous series share general formulae and similar chemistry because they keep the same functional group while chain length changes physical properties gradually.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Homologous Series?",
+                "opts": [
+                    "Family of compounds with same functional group, same general formula, and similar chemical properties.",
+                    "Specific atom or group in an organic molecule responsible for characteristic reactions.",
+                    "Compound with the same molecular formula as another compound but different arrangement of atoms.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Homologous Series."
+            },
+            {
+                "q": "Which exam approach is most reliable for An Introduction to AS Level Organic Chemistry?",
+                "opts": [
+                    "In An Introduction to AS Level Organic Chemistry questions, write one clear chemical point per sentence and support it with evidence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in An Introduction to AS Level Organic Chemistry?",
+                "opts": [
+                    "At AS level, success depends on identifying what changes and what stays the same in each transformation: bonds broken, bonds formed, reagents, and conditions.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9701 AS Topic 13"
+}

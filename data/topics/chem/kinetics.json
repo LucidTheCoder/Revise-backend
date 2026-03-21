@@ -1,0 +1,238 @@
+{
+    "id": "kinetics",
+    "subject": "chem",
+    "title": "Reaction Kinetics",
+    "subtitle": "Reaction Kinetics with core theory, reaction logic, and exam-focused application.",
+    "concept": [
+        "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates.",
+        "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation.",
+        "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates.",
+                "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation.",
+                "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Reaction Kinetics ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "State reagents, conditions, and balanced equations where relevant.",
+                "Use correct state symbols, units, and sign conventions in calculations.",
+                "Link each observation to particle-level or structural explanation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Rate of Reaction",
+            "body": "Change in concentration of reactant or product per unit time."
+        },
+        {
+            "term": "Activation Energy",
+            "body": "Minimum energy that colliding particles must have for reaction to occur."
+        },
+        {
+            "term": "Catalyst",
+            "body": "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Reaction Kinetics.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Reaction Kinetics reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Reaction Kinetics?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Giving trends in Reaction Kinetics without molecular or ionic explanation.",
+        "Forgetting state symbols or conditions in reaction equations.",
+        "Using values without checking units or significant figures."
+    ],
+    "tips": [
+        "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence.",
+        "Memorize required conditions alongside each key reaction type.",
+        "Check whether your final answer is chemically realistic."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Reaction Kinetics?",
+            "a": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
+        },
+        {
+            "q": "Define Rate of Reaction.",
+            "a": "Change in concentration of reactant or product per unit time."
+        },
+        {
+            "q": "Define Activation Energy.",
+            "a": "Minimum energy that colliding particles must have for reaction to occur."
+        },
+        {
+            "q": "What exam strategy works best for Reaction Kinetics?",
+            "a": "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Rate of Reaction"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9701 AS Topic 8"
+        },
+        {
+            "label": "Key Formula",
+            "val": "rate = k[A]^m[B]^n; ln[A] = ln[A]₀ − kt (1st order)"
+        }
+    ],
+    "flashcards": [
+        {
+            "q": "Reaction Kinetics: core principle",
+            "a": "Kinetics studies how fast reactions happen and what controls that speed. Two reactions can be equally favorable energetically but proceed at very different rates."
+        },
+        {
+            "q": "Rate of Reaction",
+            "a": "Change in concentration of reactant or product per unit time."
+        },
+        {
+            "q": "Activation Energy",
+            "a": "Minimum energy that colliding particles must have for reaction to occur."
+        },
+        {
+            "q": "Catalyst",
+            "a": "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall."
+        },
+        {
+            "q": "Reaction Kinetics: common mistake",
+            "a": "Giving trends in Reaction Kinetics without molecular or ionic explanation."
+        },
+        {
+            "q": "CHEM exam tip",
+            "a": "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "quiz": {
+        "title": "Reaction Kinetics Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Rate of Reaction?",
+                "opts": [
+                    "Change in concentration of reactant or product per unit time.",
+                    "Minimum energy that colliding particles must have for reaction to occur.",
+                    "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Rate of Reaction."
+            },
+            {
+                "q": "Which statement about Reaction Kinetics is correct?",
+                "opts": [
+                    "Collision theory explains rate in terms of frequency of collisions and fraction of collisions with energy at least activation energy. Particles must collide with both enough energy and suitable orientation.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Activation Energy?",
+                "opts": [
+                    "Minimum energy that colliding particles must have for reaction to occur.",
+                    "Change in concentration of reactant or product per unit time.",
+                    "Substance that increases reaction rate by providing a lower-Ea pathway and is not consumed overall.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Activation Energy."
+            },
+            {
+                "q": "Which exam approach is most reliable for Reaction Kinetics?",
+                "opts": [
+                    "In Reaction Kinetics questions, write one clear chemical point per sentence and support it with evidence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Reaction Kinetics?",
+                "opts": [
+                    "Rate ideas connect directly to industry. Conditions are chosen to increase useful reaction speed while balancing energy cost and safety.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9701 AS Topic 8"
+}

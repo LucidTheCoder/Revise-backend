@@ -1,0 +1,239 @@
+{
+    "id": "chemical-bonding",
+    "subject": "chem",
+    "title": "Chemical Bonding",
+    "subtitle": "Chemical Bonding with core theory, reaction logic, and exam-focused application.",
+    "concept": [
+        "Chemical bonding is driven by electrostatic attraction and lowering of total energy. Atoms arrange electrons to achieve more stable electronic structures.",
+        "Different bonding types explain contrasting material properties. Ionic solids are brittle and high-melting because of giant ionic lattices, while simple molecular substances are usually low-melting due to weaker intermolecular forces.",
+        "Exam questions often join structure, bonding, and properties. The strongest answers explicitly connect bonding model to physical behavior such as conductivity, boiling point, or solubility."
+    ],
+    "notes": [
+        {
+            "heading": "Key Ideas",
+            "items": [
+                "Chemical bonding is driven by electrostatic attraction and lowering of total energy. Atoms arrange electrons to achieve more stable electronic structures.",
+                "Different bonding types explain contrasting material properties. Ionic solids are brittle and high-melting because of giant ionic lattices, while simple molecular substances are usually low-melting due to weaker intermolecular forces.",
+                "Exam questions often join structure, bonding, and properties. The strongest answers explicitly connect bonding model to physical behavior such as conductivity, boiling point, or solubility."
+            ]
+        },
+        {
+            "heading": "Application",
+            "items": [
+                "Apply Chemical Bonding ideas using data, observations, or equations from the question.",
+                "Use quantitative or observational evidence to support each scientific claim.",
+                "Link model assumptions to what the question data actually shows."
+            ]
+        },
+        {
+            "heading": "Exam Focus",
+            "items": [
+                "State reagents, conditions, and balanced equations where relevant.",
+                "Use correct state symbols, units, and sign conventions in calculations.",
+                "Link each observation to particle-level or structural explanation."
+            ]
+        }
+    ],
+    "definitions": [
+        {
+            "term": "Ionic Bond",
+            "body": "Strong electrostatic attraction between oppositely charged ions."
+        },
+        {
+            "term": "Electronegativity",
+            "body": "Ability of an atom in a covalent bond to attract the shared pair of electrons."
+        },
+        {
+            "term": "Hydrogen Bond",
+            "body": "Strong intermolecular attraction between H bonded to N, O, or F and a lone pair on N, O, or F in another molecule."
+        }
+    ],
+    "workedExamples": [
+        {
+            "q": "Explain one core application of Chemical Bonding.",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Identify",
+                    "text": "Chemical bonding is driven by electrostatic attraction and lowering of total energy. Atoms arrange electrons to achieve more stable electronic structures."
+                },
+                {
+                    "n": 2,
+                    "sub": "Apply",
+                    "text": "Different bonding types explain contrasting material properties. Ionic solids are brittle and high-melting because of giant ionic lattices, while simple molecular substances are usually low-melting due to weaker intermolecular forces."
+                },
+                {
+                    "n": 3,
+                    "sub": "Conclude",
+                    "text": "Use Chemical Bonding reasoning to reach a direct, evidence-based conclusion."
+                }
+            ]
+        },
+        {
+            "q": "How should you structure a full-mark exam response for Chemical Bonding?",
+            "steps": [
+                {
+                    "n": 1,
+                    "sub": "Principle",
+                    "text": "State the governing principle and define key terms before calculation or evaluation."
+                },
+                {
+                    "n": 2,
+                    "sub": "Evidence",
+                    "text": "Use relevant data, equations, or observations and show the logical link to your claim."
+                },
+                {
+                    "n": 3,
+                    "sub": "Judgement",
+                    "text": "Finish with a direct conclusion in correct scientific language and units where needed."
+                }
+            ]
+        }
+    ],
+    "mistakes": [
+        "Giving trends in Chemical Bonding without molecular or ionic explanation.",
+        "Forgetting state symbols or conditions in reaction equations.",
+        "Using values without checking units or significant figures."
+    ],
+    "tips": [
+        "In Chemical Bonding questions, write one clear chemical point per sentence and support it with evidence.",
+        "Memorize required conditions alongside each key reaction type.",
+        "Check whether your final answer is chemically realistic."
+    ],
+    "recall": [
+        {
+            "q": "What is the core principle of Chemical Bonding?",
+            "a": "Chemical bonding is driven by electrostatic attraction and lowering of total energy. Atoms arrange electrons to achieve more stable electronic structures."
+        },
+        {
+            "q": "Define Ionic Bond.",
+            "a": "Strong electrostatic attraction between oppositely charged ions."
+        },
+        {
+            "q": "Define Electronegativity.",
+            "a": "Ability of an atom in a covalent bond to attract the shared pair of electrons."
+        },
+        {
+            "q": "What exam strategy works best for Chemical Bonding?",
+            "a": "In Chemical Bonding questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "summary": [
+        {
+            "label": "Core Principle",
+            "val": "Chemical bonding is driven by electrostatic attraction and lowering of total energy. Atoms arrange electrons to achieve more stable electronic structures."
+        },
+        {
+            "label": "Applied Model",
+            "val": "Different bonding types explain contrasting material properties. Ionic solids are brittle and high-melting because of giant ionic lattices, while simple molecular substances are usually low-melting due to weaker intermolecular forces."
+        },
+        {
+            "label": "Exam Application",
+            "val": "Exam questions often join structure, bonding, and properties. The strongest answers explicitly connect bonding model to physical behavior such as conductivity, boiling point, or solubility."
+        },
+        {
+            "label": "Key Definition",
+            "val": "Ionic Bond"
+        },
+        {
+            "label": "Focus Area",
+            "val": "Key Ideas"
+        },
+        {
+            "label": "Syllabus Ref",
+            "val": "9701 AS Topic 3"
+        },
+        {
+            "label": "Key Formula",
+            "val": "ΔEN > 1.7 → typically ionic"
+        }
+    ],
+    "diagramSvg": "<svg viewBox='0 0 460 190' xmlns='http://www.w3.org/2000/svg'><rect x='18' y='18' width='424' height='154' rx='16' fill='rgba(0,212,170,0.08)' stroke='rgba(0,212,170,0.35)'/><text x='34' y='42' fill='#00d4aa' font-size='14' font-family='DM Sans'>Polarity and Intermolecular Forces</text><line x1='118' y1='102' x2='246' y2='102' stroke='#8b949e' stroke-width='2'/><circle cx='118' cy='102' r='24' fill='rgba(129,140,248,0.22)'/><circle cx='246' cy='102' r='30' fill='rgba(249,115,22,0.24)'/><text x='101' y='106' fill='#cdd9e5' font-size='13' font-family='DM Sans'>H</text><text x='237' y='106' fill='#cdd9e5' font-size='13' font-family='DM Sans'>Cl</text><text x='84' y='75' fill='#cdd9e5' font-size='13' font-family='DM Sans'>delta+</text><text x='266' y='70' fill='#cdd9e5' font-size='13' font-family='DM Sans'>delta-</text><path d='M312 130 L356 92 L402 130' fill='none' stroke='#22c55e' stroke-width='2.2'/><text x='314' y='148' fill='#22c55e' font-size='12' font-family='DM Sans'>delta H &lt; 0 for stronger attractions</text></svg>",
+    "flashcards": [
+        {
+            "q": "Chemical Bonding: core principle",
+            "a": "Chemical bonding is driven by electrostatic attraction and lowering of total energy. Atoms arrange electrons to achieve more stable electronic structures."
+        },
+        {
+            "q": "Ionic Bond",
+            "a": "Strong electrostatic attraction between oppositely charged ions."
+        },
+        {
+            "q": "Electronegativity",
+            "a": "Ability of an atom in a covalent bond to attract the shared pair of electrons."
+        },
+        {
+            "q": "Hydrogen Bond",
+            "a": "Strong intermolecular attraction between H bonded to N, O, or F and a lone pair on N, O, or F in another molecule."
+        },
+        {
+            "q": "Chemical Bonding: common mistake",
+            "a": "Giving trends in Chemical Bonding without molecular or ionic explanation."
+        },
+        {
+            "q": "CHEM exam tip",
+            "a": "In Chemical Bonding questions, write one clear chemical point per sentence and support it with evidence."
+        }
+    ],
+    "quiz": {
+        "title": "Chemical Bonding Quiz",
+        "questions": [
+            {
+                "q": "Which definition best matches Ionic Bond?",
+                "opts": [
+                    "Strong electrostatic attraction between oppositely charged ions.",
+                    "Ability of an atom in a covalent bond to attract the shared pair of electrons.",
+                    "Strong intermolecular attraction between H bonded to N, O, or F and a lone pair on N, O, or F in another molecule.",
+                    "It only applies to isolated practical tasks and not to theory explanations."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Ionic Bond."
+            },
+            {
+                "q": "Which statement about Chemical Bonding is correct?",
+                "opts": [
+                    "Different bonding types explain contrasting material properties. Ionic solids are brittle and high-melting because of giant ionic lattices, while simple molecular substances are usually low-melting due to weaker intermolecular forces.",
+                    "The topic can be answered accurately without evidence or scientific terminology.",
+                    "The same rule applies in every condition without exception.",
+                    "Units and sign conventions are optional in high-mark responses."
+                ],
+                "ans": 0,
+                "exp": "This statement reflects the core scientific model used in this topic."
+            },
+            {
+                "q": "Which definition best matches Electronegativity?",
+                "opts": [
+                    "Ability of an atom in a covalent bond to attract the shared pair of electrons.",
+                    "Strong electrostatic attraction between oppositely charged ions.",
+                    "Strong intermolecular attraction between H bonded to N, O, or F and a lone pair on N, O, or F in another molecule.",
+                    "It describes an unrelated process from another part of the syllabus."
+                ],
+                "ans": 0,
+                "exp": "This is the correct definition of Electronegativity."
+            },
+            {
+                "q": "Which exam approach is most reliable for Chemical Bonding?",
+                "opts": [
+                    "In Chemical Bonding questions, write one clear chemical point per sentence and support it with evidence.",
+                    "Write conclusions first and omit method steps to save time.",
+                    "Use everyday wording and avoid topic-specific terms.",
+                    "Skip evidence and rely on memorized phrases only."
+                ],
+                "ans": 0,
+                "exp": "The best answers combine clear scientific logic with precise terminology."
+            },
+            {
+                "q": "Which statement best supports exam application in Chemical Bonding?",
+                "opts": [
+                    "Exam questions often join structure, bonding, and properties. The strongest answers explicitly connect bonding model to physical behavior such as conductivity, boiling point, or solubility.",
+                    "Application questions are solved by definitions alone without mechanism or data.",
+                    "No interpretation is needed if one keyword is identified.",
+                    "The topic has no connection to practical observations or calculations."
+                ],
+                "ans": 0,
+                "exp": "This statement correctly links concept understanding to exam application."
+            }
+        ]
+    },
+    "syllabusRef": "9701 AS Topic 3"
+}
