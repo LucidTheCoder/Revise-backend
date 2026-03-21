@@ -346,7 +346,7 @@ app.get('/api/past-papers', async (req, res, next) => {
 app.get('/api/community/forum', async (req, res, next) => {
   try {
     const community = await loadJsonFile('community.json');
-    let threads = community.forum || [];
+    let threads = community.forumThreads || [];
     
     const { subject, limit, sort } = req.query;
     
@@ -383,7 +383,7 @@ app.get('/api/community/forum', async (req, res, next) => {
 app.get('/api/community/forum/:threadId', async (req, res, next) => {
   try {
     const community = await loadJsonFile('community.json');
-    const thread = community.forum?.find(t => t.id === req.params.threadId);
+    const thread = community.forumThreads?.find(t => t.id === req.params.threadId);
     
     if (!thread) {
       return res.status(404).json({
@@ -408,7 +408,7 @@ app.get('/api/community/forum/:threadId', async (req, res, next) => {
 app.get('/api/community/chat/channels', async (req, res, next) => {
   try {
     const community = await loadJsonFile('community.json');
-    const channels = community.chat || [];
+    const channels = community.chatChannels || [];
     
     res.json({
       success: true,
@@ -431,7 +431,7 @@ app.get('/api/community/chat/channels', async (req, res, next) => {
 app.get('/api/community/chat/:channelId/messages', async (req, res, next) => {
   try {
     const community = await loadJsonFile('community.json');
-    const channel = community.chat?.find(c => c.id === req.params.channelId);
+    const channel = community.chatChannels?.find(c => c.id === req.params.channelId);
     
     if (!channel) {
       return res.status(404).json({
