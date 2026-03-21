@@ -25,8 +25,8 @@ const state = {
   quiz: null,
   flash: null,
   particleSystem: null,
-  streak: 3,
-  xp: 2400,
+  streak: 0,
+  xp: 0,
   weeklyMinutes: [90, 70, 110, 60, 25, 0, 0],
 };
 
@@ -139,6 +139,7 @@ function toSubscript(chars) {
 }
 
 function scientificSymbols(input) {
+  if (input === null || input === undefined) return '';
   let text = String(input);
   text = text.replace(/\+\/-/g, "±");
   text = text.replace(/\bdelta\s*H\b/gi, "ΔH");
@@ -845,7 +846,7 @@ function renderHome() {
     <div class="stat-item"><strong style="color:var(--accent)">${overall.total}</strong><span>Topics available</span></div>
     <div class="stat-item"><strong style="color:var(--warn)">${state.streak}</strong><span>Day streak</span></div>
     <div class="stat-item"><strong style="color:var(--success)">${overall.done}</strong><span>Topics completed</span></div>
-    <div class="stat-item"><strong style="color:var(--phy)">${avgScore}%</strong><span>Quiz average</span></div>
+    <div class="stat-item"><strong style="color:var(--phy)">${overall.total > 0 ? avgScore : 0}%</strong><span>Quiz average</span></div>
   `;
 
   const nextTopics = [];
@@ -1112,17 +1113,23 @@ function renderTopicView(topicId) {
 
   const recallHtml = (topic.recall || [])
     .map(
-      (item, i) => `
+      (item, i) => {
+        // Data is either a plain string question OR a {q, a} object
+        const question = typeof item === 'string' ? item : (item.q || '');
+        const answer   = typeof item === 'string' ? null  : (item.a || '');
+        const hasAnswer = answer !== null;
+        return `
       <div class="recall-item" id="recall-${i}">
         <div class="recall-q">
-          <span>${richText(item.q)}</span>
-          <button class="pill-btn" onclick="App.toggleRecall(${i})">Show answer</button>
+          <span>${richText(question)}</span>
+          <button class="pill-btn" onclick="App.toggleRecall(${i})">${hasAnswer ? 'Show answer' : 'Mark answered'}</button>
         </div>
-        <div class="recall-a" id="recall-a-${i}">${richText(item.a)}</div>
+        ${hasAnswer ? `<div class="recall-a" id="recall-a-${i}">${richText(answer)}</div>` : `<div class="recall-a" id="recall-a-${i}"><em style="color:var(--text2)">Write your answer, then check your notes.</em></div>`}
       </div>
-    `
+    `;
+      }
     )
-    .join("");
+    .join('');
 
   const summaryHtml = (topic.summary || [])
     .map(
@@ -1586,31 +1593,37 @@ function renderPastPapers() {
 // are all replaced by the updated versions defined later in this file.
 
 function renderProfile() {
-  const overall = totalProgress();
-  const avgQuiz = quizHistory();
+  const overall  = totalProgress();
+  const avgQuiz  = quizHistory();
   const avgScore = avgQuiz.length
     ? Math.round(avgQuiz.reduce((sum, item) => sum + item.scorePct, 0) / avgQuiz.length)
     : 0;
 
-  // Update profile identity from auth
-  const user = auth.user;
+  const user     = auth.user;
   const avatarEl = byId("profile-avatar");
   const nameEl   = byId("profile-name");
   const emailEl  = byId("profile-email");
+
   if (user) {
-    const initials = user.name.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2);
+    const initials = user.name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
     if (avatarEl) avatarEl.textContent = initials;
     if (nameEl)   nameEl.textContent   = user.name;
     if (emailEl)  emailEl.textContent  = user.email;
+    // Use server XP if available, else local state
+    const xpDisplay = (user.stats?.xp ?? state.xp) || 0;
+    byId("profile-xp").textContent     = xpDisplay.toLocaleString();
   } else {
     if (avatarEl) avatarEl.textContent = "?";
-    if (nameEl)   nameEl.textContent   = "Sign in to view profile";
-    if (emailEl)  emailEl.textContent  = "";
+    if (nameEl) {
+      nameEl.innerHTML = `<span style="color:var(--text2)">Not signed in</span>
+        <button class="btn btn-primary btn-sm" style="margin-left:0.75rem" onclick="App.openAuthModal('login')">Sign In</button>`;
+    }
+    if (emailEl)  emailEl.textContent = "Sign in to sync your progress across devices";
+    byId("profile-xp").textContent = "0";
   }
 
-  byId("profile-topics").textContent = `${overall.done}/${overall.total}`;
-  byId("profile-avg").textContent = `${avgScore}%`;
-  byId("profile-xp").textContent = state.xp.toLocaleString();
+  byId("profile-topics").textContent = overall.total > 0 ? `${overall.done}/${overall.total}` : "0";
+  byId("profile-avg").textContent    = `${avgScore}%`;
 
   byId("profile-progress").innerHTML = state.subjects
     .map((subject) => {
@@ -1619,13 +1632,20 @@ function renderProfile() {
       <div class="card card-sm" style="margin-top:0.7rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.45rem">
           <strong>${escapeHtml(subject.name)}</strong>
-          <span>${p.pct}%</span>
+          <span style="color:var(--text2);font-size:0.85rem">${p.done}/${p.total} topics &mdash; ${p.pct}%</span>
         </div>
         <div class="quiz-bar"><div class="quiz-fill" style="width:${p.pct}%;background:${colorVar(subject.id)}"></div></div>
       </div>
     `;
     })
     .join("");
+
+  if (!user) {
+    byId("profile-progress").innerHTML += `
+      <div class="card card-sm" style="margin-top:1rem;text-align:center;color:var(--text2)">
+        <p style="margin:0.25rem 0">Progress is tracked locally. <button class="link-btn" onclick="App.openAuthModal('register')">Create an account</button> to save it to the cloud.</p>
+      </div>`;
+  }
 }
 async function askAi(topicId) {
   const promptEl = byId("ai-prompt");
@@ -1918,7 +1938,7 @@ async function init() {
     await loadData();
     bindBaseEvents();
     updateNavForAuth();
-    byId("streak-count").textContent = String(state.streak);
+    byId("streak-count").textContent = String(state.streak || 0);
     go("home");
   } catch (error) {
     showDataLoadError(error);
