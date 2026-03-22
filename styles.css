@@ -4025,3 +4025,109 @@ li .math-eq,
   }
   .section-nav::-webkit-scrollbar { display: none; }
 }
+
+/* ============================================================================
+   GOOGLE SIGN-IN + AUTH MODAL POLISH
+   ============================================================================ */
+
+.btn-google {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             0.6rem;
+  width:           100%;
+  padding:         0.6rem 1rem;
+  border:          1px solid var(--border2);
+  border-radius:   var(--radius2);
+  background:      var(--card);
+  color:           var(--text1);
+  font-size:       0.92rem;
+  font-weight:     500;
+  cursor:          pointer;
+  transition:      background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  margin-bottom:   0.6rem;
+}
+.btn-google:hover {
+  background:    var(--bg3);
+  border-color:  var(--accent);
+  box-shadow:    0 2px 8px rgba(0,0,0,0.12);
+}
+.btn-google:active {
+  transform: translateY(1px);
+}
+
+.auth-divider {
+  display:     flex;
+  align-items: center;
+  gap:         0.75rem;
+  margin:      0.5rem 0 0.75rem;
+  color:       var(--text3);
+  font-size:   0.78rem;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content:    '';
+  flex:       1;
+  height:     1px;
+  background: var(--border);
+}
+
+/* ============================================================================
+   PAST PAPERS — "Coming soon" tag instead of disabled button
+   ============================================================================ */
+
+.paper-unavail {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           0.3rem;
+  font-size:     0.75rem;
+  color:         var(--text3);
+  font-style:    italic;
+  padding:       0.25rem 0;
+}
+.paper-unavail::before {
+  content:     '🕐';
+  font-style:  normal;
+}
+
+/* ============================================================================
+   PAST PAPERS — tighter card grid on all screen sizes
+   ============================================================================ */
+
+.papers-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap:    0.55rem;
+}
+
+.paper-card {
+  padding:        0.7rem 0.8rem;
+  gap:            0.25rem;
+  border-radius:  var(--radius2);
+}
+
+.paper-subject-heading {
+  padding:         0.35rem 0 0.35rem 0.75rem;
+  border-left:     3px solid var(--border2);
+  margin-bottom:   0.5rem;
+}
+
+/* ============================================================================
+   AUTH MODAL — label inputs tighter
+   ============================================================================ */
+
+.auth-modal-box label {
+  margin-bottom: 0.55rem;
+}
+
+/* ============================================================================
+   RESET PROGRESS — danger button style
+   ============================================================================ */
+
+.btn-danger {
+  color:        #ef4444;
+  border-color: rgba(239,68,68,0.4);
+}
+.btn-danger:hover {
+  background:   rgba(239,68,68,0.08);
+  border-color: #ef4444;
+}

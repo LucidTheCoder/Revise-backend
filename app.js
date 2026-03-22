@@ -24,10 +24,11 @@ function applyAiVisibility() {
     el.style.display = enabled ? '' : 'none';
   });
 }
+// ── Backend configuration ───────────────────────────────────────────────────
+// USE_BACKEND: set to true to hit the Render API, false to use local JSON files.
+// When true, all fetches go to API_BASE_URL with automatic local fallback on failure.
+const USE_BACKEND  = true;  // ← flip to false to develop offline with local files
 const API_BASE_URL = 'https://revise-backend-yp6e.onrender.com';
-
-// Determine if using backend API or local files
-const USE_BACKEND = !!API_BASE_URL;
 
 const state = {
   subjects: [],
@@ -80,7 +81,48 @@ function injectAuthModal() {
   const el = document.createElement("div");
   el.id = "auth-modal";
   el.className = "auth-modal-overlay";
-  el.innerHTML = '<div class="auth-modal-box card"><button class="auth-modal-close" id="auth-modal-close">&times;</button><div id="auth-tab-login"><h2>Sign In</h2><p class="auth-sub">Welcome back — your progress awaits.</p><label>Email<input type="email" id="login-email" placeholder="you@example.com"></label><label>Password<input type="password" id="login-password" placeholder="••••••••"></label><div class="auth-error" id="login-error"></div><button class="btn btn-primary auth-submit" id="login-submit">Sign In</button><p class="auth-switch">No account? <button class="link-btn" id="switch-to-register">Create one</button></p></div><div id="auth-tab-register" style="display:none"><h2>Create Account</h2><p class="auth-sub">Join Revise and track your progress.</p><label>Name<input type="text" id="register-name" placeholder="Your name"></label><label>Email<input type="email" id="register-email" placeholder="you@example.com"></label><label>Password<input type="password" id="register-password" placeholder="Min. 8 characters"></label><div class="auth-error" id="register-error"></div><button class="btn btn-primary auth-submit" id="register-submit">Create Account</button><p class="auth-switch">Have an account? <button class="link-btn" id="switch-to-login">Sign in</button></p></div></div>';
+  el.innerHTML = `<div class="auth-modal-box card">
+  <button class="auth-modal-close" id="auth-modal-close">&times;</button>
+  <div id="auth-tab-login">
+    <h2>Sign In</h2>
+    <p class="auth-sub">Welcome back — your progress awaits.</p>
+    <button class="btn-google" id="google-signin-btn" onclick="App.signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.185l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+        <path d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+        <path d="M9 3.583c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.962L3.964 6.294C4.672 4.167 6.656 3.583 9 3.583z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+    <div class="auth-divider"><span>or</span></div>
+    <label>Email<input type="email" id="login-email" placeholder="you@example.com"></label>
+    <label>Password<input type="password" id="login-password" placeholder="••••••••"></label>
+    <div class="auth-error" id="login-error"></div>
+    <button class="btn btn-primary auth-submit" id="login-submit">Sign In</button>
+    <p class="auth-switch">No account? <button class="link-btn" id="switch-to-register">Create one</button></p>
+  </div>
+  <div id="auth-tab-register" style="display:none">
+    <h2>Create Account</h2>
+    <p class="auth-sub">Join Revise and track your progress.</p>
+    <button class="btn-google" id="google-register-btn" onclick="App.signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.185l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+        <path d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+        <path d="M9 3.583c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.962L3.964 6.294C4.672 4.167 6.656 3.583 9 3.583z" fill="#EA4335"/>
+      </svg>
+      Sign up with Google
+    </button>
+    <div class="auth-divider"><span>or</span></div>
+    <label>Name<input type="text" id="register-name" placeholder="Your name"></label>
+    <label>Email<input type="email" id="register-email" placeholder="you@example.com"></label>
+    <label>Password<input type="password" id="register-password" placeholder="Min. 8 characters"></label>
+    <div class="auth-error" id="register-error"></div>
+    <button class="btn btn-primary auth-submit" id="register-submit">Create Account</button>
+    <p class="auth-switch">Have an account? <button class="link-btn" id="switch-to-login">Sign in</button></p>
+  </div>
+</div>`;
   document.body.appendChild(el);
   document.getElementById("auth-modal-close").addEventListener("click", closeAuthModal);
   el.addEventListener("click", (e) => { if (e.target === el) closeAuthModal(); });
@@ -141,6 +183,39 @@ async function handleRegister() {
 }
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
+
+async function signInWithGoogle() {
+  // Use Google Identity Services popup flow
+  // Requires the GSI script loaded in index.html
+  if (typeof google === "undefined" || !google.accounts) {
+    showToast("Google Sign-In is not available. Please use email/password.");
+    return;
+  }
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: "967159024316-cj20g0uo2ekvclrrglepjqtug933d20f.apps.googleusercontent.com",
+    scope: "openid email profile",
+    callback: async (tokenResponse) => {
+      if (tokenResponse.error) { showToast("Google sign-in failed: " + tokenResponse.error); return; }
+      try {
+        // Exchange Google token with our backend
+        const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ access_token: tokenResponse.access_token }),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || "Google auth failed");
+        auth.set(data.token, data.user);
+        closeAuthModal();
+        updateNavForAuth();
+        showToast("Welcome, " + data.user.name.split(" ")[0] + "! 🎉");
+      } catch (e) {
+        showToast(e.message || "Google sign-in failed");
+      }
+    },
+  });
+  client.requestAccessToken();
+}
 
 // Sync server-side stats (XP, streak) into local state after login
 function syncServerStats(user) {
@@ -1148,57 +1223,67 @@ function buildTopicDiagramSvg(topic) {
  * @param {string} [apiOverride] - Override API endpoint for direct API calls
  * @returns {Promise<object>} Parsed JSON response
  */
-async function fetchJson(path, apiOverride = null) {
-  try {
-    let url;
-    
-    if (apiOverride) {
-      // Direct API endpoint call
-      url = `${API_BASE_URL}${apiOverride}`;
-    } else if (USE_BACKEND) {
-      // Map local paths to API endpoints
-      if (path === "data/subjects.json") {
-        url = `${API_BASE_URL}/api/subjects`;
-      } else if (path === "data/past-papers.json") {
-        url = `${API_BASE_URL}/api/past-papers`;
-      } else if (path === "data/community.json") {
-        url = `${API_BASE_URL}/api/community`;
-      } else if (path.startsWith("data/topics/")) {
-        // Extract subject and topic ID from path: data/topics/chem/atomic-structure.json
-        const parts = path.replace("data/topics/", "").replace(".json", "").split("/");
-        const [subject, topicId] = parts;
-        url = `${API_BASE_URL}/api/topics/${topicId}?subject=${subject}`;
-      } else {
-        // Fallback to local
-        url = path;
-      }
-    } else {
-      // Use local path
-      url = path;
-    }
-    
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error(`Failed to load ${url}: ${res.status}`);
-    }
-    
-    const data = await res.json();
-    
-    // Extract actual data from API response wrapper if needed
-    if (USE_BACKEND && data.data) {
-      return data.data;
-    }
-    
-    return data;
-  } catch (error) {
-    console.error(`Fetch error for ${path}:`, error);
-    throw error;
+// ── Path resolver: local file path → backend API endpoint ─────────────────
+function resolveApiUrl(localPath) {
+  if (localPath === "data/subjects.json")      return `${API_BASE_URL}/api/subjects`;
+  if (localPath === "data/past-papers.json")   return `${API_BASE_URL}/api/past-papers`;
+  if (localPath === "data/community.json")     return `${API_BASE_URL}/api/community`;
+  if (localPath.startsWith("data/topics/")) {
+    const [subject, topicId] = localPath
+      .replace("data/topics/", "")
+      .replace(".json", "")
+      .split("/");
+    return `${API_BASE_URL}/api/topics/${topicId}?subject=${subject}`;
   }
+  return null; // no API equivalent — use local file directly
+}
+
+// ── Safe JSON fetcher: backend first, local fallback ──────────────────────
+async function fetchJson(localPath, apiOverride = null) {
+  const unwrap = (data) => (USE_BACKEND && data && data.success && data.data !== undefined)
+    ? data.data
+    : data;
+
+  // 1. Explicit API override (used by auth/admin routes)
+  if (apiOverride) {
+    const res = await fetch(`${API_BASE_URL}${apiOverride}`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`API ${apiOverride} returned ${res.status}`);
+    return unwrap(await res.json());
+  }
+
+  // 2. Try backend if enabled
+  if (USE_BACKEND) {
+    const apiUrl = resolveApiUrl(localPath);
+    if (apiUrl) {
+      try {
+        const res = await fetch(apiUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error(`Backend ${apiUrl} returned ${res.status}`);
+        const data = unwrap(await res.json());
+
+        // Extra check: if backend returned papers with placeholder URLs, fall through to local
+        if (localPath === "data/past-papers.json") {
+          const papers = Array.isArray(data) ? data : (data.papers || []);
+          const allPlaceholder = papers.length > 0 && papers.every(p => !p.downloadUrl || p.downloadUrl === "#");
+          if (!allPlaceholder) return data;
+          console.warn("⚠ Backend papers have no URLs — loading local past-papers.json");
+        } else {
+          return data;
+        }
+      } catch (err) {
+        console.warn(`⚠ Backend unavailable for ${localPath}, using local file:`, err.message);
+      }
+    }
+  }
+
+  // 3. Local file fallback
+  const res = await fetch(localPath, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Local file ${localPath} not found (${res.status})`);
+  return await res.json();
 }
 
 async function loadData() {
   try {
-    console.log(`📚 Loading data from ${USE_BACKEND ? 'Backend API: ' + API_BASE_URL : 'Local JSON files'}...`);
+    console.log(`📚 Loading data [${USE_BACKEND ? 'BACKEND: ' + API_BASE_URL : 'LOCAL FILES'}] …`);
     
     // Load subjects, papers, and community in parallel
     const [subjectsData, papersData, communityData] = await Promise.all([
@@ -1217,13 +1302,14 @@ async function loadData() {
     }
 
     // Setup papers
+    let rawPapers = [];
     if (Array.isArray(papersData)) {
-      state.pastPapers = papersData;
+      rawPapers = papersData;
     } else if (papersData.papers) {
-      state.pastPapers = papersData.papers;
-    } else {
-      state.pastPapers = [];
+      rawPapers = papersData.papers;
     }
+
+    state.pastPapers = rawPapers;
 
     // Setup community
     if (communityData.forumThreads || communityData.forum) {
@@ -1287,7 +1373,8 @@ async function loadData() {
 
     hydrateDoneTopics();
     hydrateWeeklyMinutes();
-    hydrateStreak();
+    hydrateXp();
+  hydrateStreak();
 
     if (state.community.forumThreads && state.community.forumThreads.length > 0) {
       state.selectedThreadId = state.community.forumThreads[0].id;
@@ -1330,6 +1417,16 @@ function persistDoneTopics() {
     }
   }
   localStorage.setItem(doneStorageKey, JSON.stringify(done));
+}
+
+function persistXp() {
+  localStorage.setItem('revise.xp', String(state.xp || 0));
+}
+
+function hydrateXp() {
+  try {
+    state.xp = parseInt(localStorage.getItem('revise.xp') || '0', 10) || 0;
+  } catch { state.xp = 0; }
 }
 
 // ── Weekly minutes (resets each calendar week) ───────────────────────────────
@@ -2184,7 +2281,7 @@ function markTopicDone(topicId) {
   saveProgressToBackend(topicId, null, topicConfidence);
   const tname = state.topics.get(topicId)?.title || topicId;
   showToast(`✅ "${tname}" complete! +50 XP`);
-  state.xp = (state.xp || 0) + 50;
+  state.xp = (state.xp || 0) + 50; persistXp();
   if (state.currentView === "topic") renderTopicView(topicId);
 }
 function buildQuizFromPayload(payload) {
@@ -2322,7 +2419,7 @@ function renderQuizResult() {
 
   const pct = Math.round((quiz.score / quiz.questions.length) * 100);
   const xp = quiz.score * 20;
-  state.xp += xp;
+  state.xp += xp; persistXp();
   pushQuizScore(pct, state.currentTopic);
   touchStreakToday();
   addStudyMinutes(10); // credit 10 min for a quiz session
@@ -2559,7 +2656,7 @@ function _applyPaperFilters() {
           <div class="paper-actions">
             ${hasUrl
               ? `<a class="btn btn-primary btn-sm" href="${escapeHtml(paper.downloadUrl)}" target="_blank" rel="noreferrer noopener">📄 Question Paper</a>`
-              : `<button class="btn btn-outline btn-sm" disabled title="Not yet available">Paper unavailable</button>`}
+              : `<span class="paper-unavail">Coming soon</span>`}
             ${hasMsUrl
               ? `<a class="btn btn-outline btn-sm" href="${escapeHtml(paper.msUrl)}" target="_blank" rel="noreferrer noopener">✓ Mark Scheme</a>`
               : ""}
@@ -2640,16 +2737,16 @@ Current: ${current} min`, String(current));
 function resetProgress() {
   if (!confirm('This will erase ALL local progress, quiz history, confidence ratings, and study time.\n\nThis cannot be undone. Continue?')) return;
 
-  // Remove every revise.* key from localStorage
+  // Wipe every key that starts with "revise." — covers past and future keys
   const keysToRemove = Object.keys(localStorage).filter(k => k.startsWith('revise.'));
   keysToRemove.forEach(k => localStorage.removeItem(k));
-
-  // Also explicitly clear every known key (belt-and-suspenders)
+  
+  // Belt-and-suspenders: explicitly remove every known key including xp
   [
     doneStorageKey, quizStorageKey, confidenceStorageKey,
     weeklyMinutesKey, weeklyMinutesWeekKey,
     streakKey, streakDateKey, lastVisitedKey,
-    'revise.weeklyGoal', themeKey,
+    'revise.weeklyGoal', 'revise.xp', 'revise.aiEnabled', themeKey,
   ].forEach(k => localStorage.removeItem(k));
 
   showToast('All local progress cleared — reloading…');
@@ -4376,6 +4473,7 @@ const App = {
   goToTopicEditor,
   // Auth modal (expose so inline HTML can call it)
   openAuthModal,
+  signInWithGoogle,
 };
 
 window.App = App;

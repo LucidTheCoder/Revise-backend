@@ -176,6 +176,57 @@ app.post('/api/auth/register', register);
 app.post('/api/auth/login',    login);
 app.get('/api/auth/me',        authenticateToken, getMe);
 
+// POST /api/auth/google — exchange Google access_token for app JWT
+app.post('/api/auth/google', async (req, res, next) => {
+  try {
+    const { access_token } = req.body;
+    if (!access_token) return res.status(400).json({ success: false, error: 'access_token required' });
+
+    // Fetch user profile from Google
+    const gRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${access_token}` }
+    });
+    if (!gRes.ok) return res.status(401).json({ success: false, error: 'Invalid Google token' });
+    const gUser = await gRes.json();
+
+    const { email, name, picture } = gUser;
+    if (!email) return res.status(400).json({ success: false, error: 'No email returned from Google' });
+
+    // Find or create the user
+    let user = await db.findUserByEmail(email);
+    if (!user) {
+      const bcrypt = require('bcryptjs');
+      const passwordHash = await bcrypt.hash(Math.random().toString(36), 10);
+      user = await db.createUser({
+        name:         name || email.split('@')[0],
+        email,
+        passwordHash,
+        role:         'student',
+      });
+    }
+
+    // Issue our own JWT
+    const jwt  = require('jsonwebtoken');
+    const token = jwt.sign(
+      { userId: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'revise-secret',
+      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        _id:       user._id,
+        name:      user.name,
+        email:     user.email,
+        role:      user.role,
+        avatarUrl: picture || user.avatarUrl || null,
+      }
+    });
+  } catch (e) { next(e); }
+});
+
 // ============================================================================
 // ROUTES: SUBJECTS & TOPICS
 // ============================================================================
