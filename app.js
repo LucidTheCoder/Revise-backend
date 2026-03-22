@@ -405,12 +405,14 @@ function buildTopicDiagramSvg(topic) {
   // Viewbox: 700 × 260. Title at y=32. Usable space: y 46–252.
   const W = 700, H = 260;
 
+  // Subject-tinted dark background colours
+  const bgBase = sub==='chem' ? '#1a0d04' : sub==='bio' ? '#041a09' : '#07061d';
   const wrap = (inner) =>
     `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)}">
   <defs>
-    <radialGradient id="rg${tid}" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" stop-color="${P.bg}" stop-opacity="1"/>
-      <stop offset="100%" stop-color="${P.bg}" stop-opacity="0.15"/>
+    <radialGradient id="rg${tid}" cx="25%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="${P.ac}" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="${bgBase}" stop-opacity="0"/>
     </radialGradient>
     <marker id="ah${tid}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
       <path d="M0,0 L7,3.5 L0,7Z" fill="${P.st}"/>
@@ -419,9 +421,9 @@ function buildTopicDiagramSvg(topic) {
       <path d="M0,0 L7,3.5 L0,7Z" fill="#8b949e"/>
     </marker>
   </defs>
-  <rect width="${W}" height="${H}" rx="18" fill="#161b22"/>
+  <rect width="${W}" height="${H}" rx="18" fill="${bgBase}"/>
   <rect width="${W}" height="${H}" rx="18" fill="url(#rg${tid})"/>
-  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="18" fill="none" stroke="${P.st}" stroke-width="1"/>
+  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="18" fill="none" stroke="${P.st}" stroke-width="1.2"/>
   ${inner}
 </svg>`;
 
