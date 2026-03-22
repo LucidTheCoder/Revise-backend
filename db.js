@@ -10,15 +10,45 @@
 
 const mongoose = require('mongoose');
 
-let isConnected = false;
 
 async function connectDB() {
-  if (isConnected) return;
+  // Use mongoose readyState instead of a manual flag that never resets
+  // readyState: 0=disconnected, 1=connected, 2=connecting, 3=disconnecting
+  if (mongoose.connection.readyState === 1) return;
+  if (mongoose.connection.readyState === 2) {
+    // Already connecting — wait for it
+    await new Promise((res, rej) => {
+      mongoose.connection.once('connected', res);
+      mongoose.connection.once('error', rej);
+    });
+    return;
+  }
+
   const uri = process.env.MONGODB_URI;
   if (!uri) throw new Error('MONGODB_URI is not set in .env');
-  await mongoose.connect(uri, { dbName: 'revise' });
-  isConnected = true;
+
+  await mongoose.connect(uri, {
+    dbName:                 'revise',
+    // Keep connection alive through Render's idle periods
+    serverSelectionTimeoutMS: 10000,   // fail fast if Atlas unreachable
+    socketTimeoutMS:          45000,   // close sockets after 45s of inactivity
+    heartbeatFrequencyMS:     10000,   // check server health every 10s
+    maxPoolSize:              10,
+    minPoolSize:              2,
+  });
+
   console.log('✅ MongoDB connected');
+
+  // Reset flag on disconnect so we reconnect next request
+  mongoose.connection.on('disconnected', () => {
+    console.warn('⚠ MongoDB disconnected — will reconnect on next request');
+  });
+  mongoose.connection.on('reconnected', () => {
+    console.log('✅ MongoDB reconnected');
+  });
+  mongoose.connection.on('error', (err) => {
+    console.error('❌ MongoDB error:', err.message);
+  });
 }
 
 // ============================================================================

@@ -36,6 +36,12 @@ const io = new Server(server, {
     methods: ['GET', 'POST'],
     credentials: true,
   },
+  // Increase timeouts — Render free tier has slow responses on wake
+  pingTimeout:       60000,   // wait 60s for pong before disconnecting
+  pingInterval:      25000,   // send ping every 25s
+  connectTimeout:    45000,   // allow 45s to establish connection
+  transports:        ['websocket', 'polling'], // try WebSocket first, fall back to polling
+  upgradeTimeout:    10000,
 });
 
 // Track connected users per channel (channelId -> Set of socket info)
@@ -256,12 +262,13 @@ app.post('/api/auth/google', async (req, res, next) => {
     }
 
     // Issue our own JWT
-    const jwt  = require('jsonwebtoken');
-    const token = jwt.sign(
-      { userId: user._id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'revise-secret',
+    // Use same JWT format as auth.js (payload.sub = userId string)
+    const signToken = (id) => require('jsonwebtoken').sign(
+      { sub: id.toString() },
+      process.env.JWT_SECRET || 'change-this-in-production',
       { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
+    const token = signToken(user._id);
 
     res.json({
       success: true,
@@ -332,12 +339,12 @@ app.post('/api/auth/discord', async (req, res, next) => {
       await db.updateUserStats(user._id, { avatarUrl });
     }
 
-    const jwt   = require('jsonwebtoken');
-    const token = jwt.sign(
-      { userId: user._id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'revise-secret',
+    const signToken2 = (id) => require('jsonwebtoken').sign(
+      { sub: id.toString() },
+      process.env.JWT_SECRET || 'change-this-in-production',
       { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
+    const token = signToken2(user._id);
 
     res.json({
       success: true,
@@ -1106,6 +1113,20 @@ app.use((error, req, res, next) => {
 // ============================================================================
 // SERVER STARTUP
 // ============================================================================
+
+// Middleware: ensure DB is connected before every API request
+// This handles Render free tier sleeping and MongoDB Atlas connection drops
+app.use(async (req, res, next) => {
+  // Only check for API routes — static files don't need DB
+  if (!req.path.startsWith('/api')) return next();
+  try {
+    await initializeDatabase();
+    next();
+  } catch (err) {
+    console.error('DB reconnect failed:', err.message);
+    res.status(503).json({ success: false, error: 'Database temporarily unavailable — please retry in a moment.' });
+  }
+});
 
 async function startServer() {
   try {

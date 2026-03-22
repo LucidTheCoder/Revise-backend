@@ -3569,9 +3569,17 @@ let typingTimer = null;
 let currentChannelUserCount = 0;
 
 function initSocket() {
-  if (socket) return;
+  if (socket && socket.connected) return;
+  if (socket) { socket.disconnect(); socket = null; }
   try {
-    socket = io(API_BASE_URL, { transports: ['websocket', 'polling'] });
+    socket = io(API_BASE_URL, {
+      transports:         ['websocket', 'polling'],
+      reconnection:       true,
+      reconnectionAttempts: 5,
+      reconnectionDelay:  2000,
+      reconnectionDelayMax: 10000,
+      timeout:            20000,
+    });
 
     socket.on('connect', () => {
       console.log('[Socket] connected:', socket.id);
