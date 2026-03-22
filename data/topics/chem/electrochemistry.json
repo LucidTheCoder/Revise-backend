@@ -169,6 +169,226 @@
         ],
         "ans": 1,
         "exp": "Positive E\u00b0 means the half-reaction tends to proceed as written (reduction) \u2014 the species readily accepts electrons = good oxidising agent."
+      },
+      {
+        "q": "What happens at the cathode during electrolysis?",
+        "opts": [
+          "Oxidation \u2014 anions are discharged",
+          "Reduction \u2014 cations are discharged",
+          "Both oxidation and reduction",
+          "The electrode dissolves"
+        ],
+        "ans": 1,
+        "exp": "Cathode = negative electrode. Positively charged ions (cations) are attracted to it and gain electrons (reduction). OIL RIG: Reduction Is Gain."
+      },
+      {
+        "q": "The standard electrode potential of Zn\u00b2\u207a/Zn is \u22120.76 V and Cu\u00b2\u207a/Cu is +0.34 V. What is the cell EMF?",
+        "opts": [
+          "0.42 V",
+          "1.10 V",
+          "\u22120.42 V",
+          "\u22121.10 V"
+        ],
+        "ans": 1,
+        "exp": "EMF = E\u2296(cathode) \u2212 E\u2296(anode) = +0.34 \u2212 (\u22120.76) = +1.10 V. The more positive electrode (Cu) is the cathode (reduction); Zn is the anode (oxidation)."
+      },
+      {
+        "q": "In the electrolysis of dilute NaCl solution, what is produced at the anode?",
+        "opts": [
+          "Na metal",
+          "Cl\u2082 gas",
+          "O\u2082 gas",
+          "H\u2082 gas"
+        ],
+        "ans": 2,
+        "exp": "In dilute NaCl, there are more OH\u207b ions (from water) than Cl\u207b ions. OH\u207b is preferentially discharged at the anode: 4OH\u207b \u2192 O\u2082 + 2H\u2082O + 4e\u207b. Cl\u2082 requires concentrated NaCl."
+      },
+      {
+        "q": "Which species is the stronger reducing agent: Fe or Zn? (E\u2296: Fe\u00b2\u207a/Fe = \u22120.44 V; Zn\u00b2\u207a/Zn = \u22120.76 V)",
+        "opts": [
+          "Fe, because it has a less negative E\u2296",
+          "Zn, because it has a more negative E\u2296",
+          "Fe, because it is more reactive",
+          "Both are equally strong reducing agents"
+        ],
+        "ans": 1,
+        "exp": "A more negative E\u2296 means the species is more easily oxidised (better reducing agent). Zn (\u22120.76 V) is a stronger reducing agent than Fe (\u22120.44 V)."
+      },
+      {
+        "q": "In the hydrogen fuel cell, what is the overall reaction?",
+        "opts": [
+          "H\u2082 + O\u2082 \u2192 H\u2082O\u2082",
+          "H\u2082 + \u00bdO\u2082 \u2192 H\u2082O",
+          "2H\u2082 + O\u2082 \u2192 2H\u2082O\u2082",
+          "H\u2082 \u2192 2H\u207a + 2e\u207b only"
+        ],
+        "ans": 1,
+        "exp": "Overall: H\u2082 + \u00bdO\u2082 \u2192 H\u2082O. Anode: H\u2082 \u2192 2H\u207a + 2e\u207b. Cathode: \u00bdO\u2082 + 2H\u207a + 2e\u207b \u2192 H\u2082O. The only product is water \u2014 clean at point of use."
+      },
+      {
+        "q": "What is the oxidation state of Cr in Cr\u2082O\u2087\u00b2\u207b?",
+        "opts": [
+          "+3",
+          "+5",
+          "+6",
+          "+7"
+        ],
+        "ans": 2,
+        "exp": "Let x = OS of Cr. 2x + 7(\u22122) = \u22122 \u2192 2x = +12 \u2192 x = +6. Cr is +6 in dichromate, making it a powerful oxidising agent (it is reduced to Cr\u00b3\u207a during reactions)."
+      },
+      {
+        "q": "If E\u2296(cell) > 0, the reaction is:",
+        "opts": [
+          "Non-spontaneous under standard conditions",
+          "Spontaneous under standard conditions",
+          "At equilibrium",
+          "Endothermic"
+        ],
+        "ans": 1,
+        "exp": "A positive standard cell EMF means the reaction is thermodynamically feasible (spontaneous) under standard conditions. The relationship \u0394G\u2296 = \u2212nFE\u2296 confirms: E\u2296 > 0 \u2192 \u0394G\u2296 < 0 (spontaneous)."
+      },
+      {
+        "q": "In the purification of copper by electrolysis, what acts as the anode?",
+        "opts": [
+          "Pure copper",
+          "Impure copper",
+          "Copper(II) sulfate solution",
+          "Graphite"
+        ],
+        "ans": 1,
+        "exp": "The impure copper anode dissolves (Cu \u2192 Cu\u00b2\u207a + 2e\u207b), while pure copper deposits at the cathode. Impurities fall to the bottom as 'anode sludge'."
+      },
+      {
+        "q": "Fluorine has the most positive reduction potential. This means it is:",
+        "opts": [
+          "The strongest reducing agent",
+          "The weakest oxidising agent",
+          "The strongest oxidising agent",
+          "The least electronegative element"
+        ],
+        "ans": 2,
+        "exp": "A very positive E\u2296 means the species is very easily reduced \u2014 it readily gains electrons, making it a powerful oxidising agent. F\u2082 (E\u2296 = +2.87 V) is the strongest oxidising agent."
+      },
+      {
+        "q": "Balance the following half-equation: MnO\u2084\u207b + H\u207a + e\u207b \u2192 Mn\u00b2\u207a + H\u2082O. How many electrons are transferred?",
+        "opts": [
+          "3",
+          "4",
+          "5",
+          "8"
+        ],
+        "ans": 2,
+        "exp": "MnO\u2084\u207b \u2192 Mn\u00b2\u207a: Mn goes from +7 to +2, a change of 5. So 5 electrons are gained: MnO\u2084\u207b + 8H\u207a + 5e\u207b \u2192 Mn\u00b2\u207a + 4H\u2082O."
+      },
+      {
+        "q": "Standard electrode potentials are measured relative to which reference electrode?",
+        "opts": [
+          "Copper electrode",
+          "Calomel electrode",
+          "Standard hydrogen electrode (SHE)",
+          "Silver/silver chloride electrode"
+        ],
+        "ans": 2,
+        "exp": "All standard electrode potentials (E\u2296) are measured versus the SHE, which is assigned E\u2296 = 0.00 V."
+      },
+      {
+        "q": "At the cathode during electrolysis, what process occurs?",
+        "opts": [
+          "Oxidation \u2014 electrons lost",
+          "Reduction \u2014 electrons gained",
+          "Salt bridge transfers",
+          "Cation formation"
+        ],
+        "ans": 1,
+        "exp": "Cathode = negative electrode. Cations move to it and gain electrons (reduction)."
+      },
+      {
+        "q": "Two half-cells have E\u2296 values of +0.34 V (Cu\u00b2\u207a/Cu) and \u22120.44 V (Fe\u00b2\u207a/Fe). What is the cell EMF?",
+        "opts": [
+          "0.10 V",
+          "0.78 V",
+          "0.44 V",
+          "0.34 V"
+        ],
+        "ans": 1,
+        "exp": "EMF = E\u2296(cathode) \u2212 E\u2296(anode) = +0.34 \u2212 (\u22120.44) = +0.78 V. Cu\u00b2\u207a is reduced; Fe is oxidised."
+      },
+      {
+        "q": "A positive cell EMF (E\u2296_cell > 0) indicates the reaction is:",
+        "opts": [
+          "Non-spontaneous",
+          "Spontaneous under standard conditions",
+          "At equilibrium",
+          "Endothermic"
+        ],
+        "ans": 1,
+        "exp": "A positive cell EMF means the reaction releases electrical energy spontaneously under standard conditions."
+      },
+      {
+        "q": "During electrolysis of dilute H\u2082SO\u2084, what is produced at the anode?",
+        "opts": [
+          "Hydrogen gas",
+          "Oxygen gas",
+          "Sulfur dioxide",
+          "Sulfur"
+        ],
+        "ans": 1,
+        "exp": "At the anode (oxidation), OH\u207b from water is discharged: 2H\u2082O \u2192 O\u2082 + 4H\u207a + 4e\u207b."
+      },
+      {
+        "q": "Which species is the stronger reducing agent \u2014 the one with E\u2296 more:",
+        "opts": [
+          "Positive",
+          "Negative",
+          "Equal to zero",
+          "Variable"
+        ],
+        "ans": 1,
+        "exp": "A more negative E\u2296 means the species is more readily oxidised (loses electrons more easily) \u2014 it is a stronger reducing agent."
+      },
+      {
+        "q": "In the hydrogen fuel cell, what is the overall reaction?",
+        "opts": [
+          "H\u2082 + O\u2082 \u2192 H\u2082O\u2082",
+          "2H\u2082 + O\u2082 \u2192 2H\u2082O",
+          "H\u2082 \u2192 2H\u207a + 2e\u207b",
+          "O\u2082 + 4H\u207a \u2192 2H\u2082O"
+        ],
+        "ans": 1,
+        "exp": "The overall cell reaction is 2H\u2082 + O\u2082 \u2192 2H\u2082O (with electrical energy produced). No CO\u2082 is emitted."
+      },
+      {
+        "q": "Copper is purified by electrolysis. The impure copper is the:",
+        "opts": [
+          "Cathode",
+          "Electrolyte",
+          "Anode",
+          "Salt bridge"
+        ],
+        "ans": 2,
+        "exp": "Impure copper is the anode \u2014 it dissolves (oxidation). Pure copper deposits at the cathode."
+      },
+      {
+        "q": "Which oxidation state change describes oxidation?",
+        "opts": [
+          "\u22122 to \u22123",
+          "+2 to +3",
+          "+3 to +2",
+          "0 to \u22122"
+        ],
+        "ans": 1,
+        "exp": "Oxidation = increase in oxidation state (loss of electrons). +2 to +3 is an increase."
+      },
+      {
+        "q": "The cell notation for a Zn/Cu\u00b2\u207a cell is Zn|Zn\u00b2\u207a||Cu\u00b2\u207a|Cu. What does || represent?",
+        "opts": [
+          "The anode",
+          "The salt bridge",
+          "The cathode",
+          "The external circuit"
+        ],
+        "ans": 1,
+        "exp": "|| represents the salt bridge, which allows ion movement to maintain electrical neutrality in both half-cells."
       }
     ]
   },

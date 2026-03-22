@@ -166,6 +166,226 @@
         ],
         "ans": 3,
         "exp": "I\u2082 dissolved in cyclohexane gives a characteristic violet/purple colour."
+      },
+      {
+        "q": "Which halogen is a liquid at room temperature?",
+        "opts": [
+          "F\u2082",
+          "Cl\u2082",
+          "Br\u2082",
+          "I\u2082"
+        ],
+        "ans": 2,
+        "exp": "Bromine (Br\u2082) is the only halogen that is liquid at room temperature (melting point \u22127 \u00b0C, boiling point 59 \u00b0C). F\u2082 and Cl\u2082 are gases; I\u2082 is a solid."
+      },
+      {
+        "q": "Cl\u2082 is bubbled into KBr solution. What is observed?",
+        "opts": [
+          "No reaction \u2014 Cl\u2082 is less reactive than Br\u2082",
+          "The solution turns orange-brown \u2014 Br\u2082 is displaced",
+          "A white precipitate forms",
+          "The solution turns pale green"
+        ],
+        "ans": 1,
+        "exp": "Cl\u2082 + 2KBr \u2192 2KCl + Br\u2082. Chlorine is a stronger oxidising agent than bromine, so it displaces bromide ions from solution. The liberated Br\u2082 gives the characteristic orange-brown colour."
+      },
+      {
+        "q": "What is produced when concentrated H\u2082SO\u2084 is added to NaI?",
+        "opts": [
+          "HI only",
+          "HI and SO\u2082",
+          "HI, SO\u2082, S, and H\u2082S",
+          "I\u2082 only"
+        ],
+        "ans": 2,
+        "exp": "I\u207b is a stronger reducing agent than Br\u207b or Cl\u207b. It reduces H\u2082SO\u2084 all the way: SO\u2084\u00b2\u207b \u2192 SO\u2082 \u2192 S \u2192 H\u2082S. Products include HI, SO\u2082, S, and H\u2082S (steamy fumes + yellow solid + bad smell)."
+      },
+      {
+        "q": "Why does HF have a much higher boiling point than HCl despite lower Mr?",
+        "opts": [
+          "HF has stronger covalent bonds",
+          "HF molecules form hydrogen bonds with each other",
+          "HF is ionic",
+          "HCl is a larger molecule"
+        ],
+        "ans": 1,
+        "exp": "F is the most electronegative element; H\u2013F bonds are highly polar, allowing strong intermolecular hydrogen bonding. This raises the boiling point of HF far above what its Mr would predict."
+      },
+      {
+        "q": "Which test distinguishes Cl\u207b, Br\u207b and I\u207b in solution?",
+        "opts": [
+          "Adding NaOH \u2014 different precipitate colours",
+          "Adding dilute HNO\u2083 then AgNO\u2083 \u2014 different AgX precipitate colours and solubilities in NH\u2083",
+          "Flame test",
+          "Adding Cl\u2082 water and shaking with cyclohexane"
+        ],
+        "ans": 1,
+        "exp": "Adding acidified AgNO\u2083: Cl\u207b \u2192 white AgCl (soluble in dilute NH\u2083); Br\u207b \u2192 cream AgBr (soluble in conc NH\u2083); I\u207b \u2192 yellow AgI (insoluble in NH\u2083). The precipitate colour and NH\u2083 solubility together confirm the identity."
+      },
+      {
+        "q": "The oxidising power of halogens decreases down Group 17. Which explains this?",
+        "opts": [
+          "Atomic radius decreases, so attraction for electrons decreases",
+          "Atomic radius increases, so the incoming electron is less strongly attracted to the nucleus",
+          "Electronegativity increases down the group",
+          "Ionic radius decreases down the group"
+        ],
+        "ans": 1,
+        "exp": "Larger atoms have more electron shielding and greater atomic radius. The nucleus exerts less attraction on an incoming electron, so the tendency to be reduced (gain electrons) decreases \u2014 oxidising power falls."
+      },
+      {
+        "q": "What colour does iodine give in hexane (cyclohexane) extraction?",
+        "opts": [
+          "Colourless",
+          "Orange",
+          "Violet/purple",
+          "Yellow"
+        ],
+        "ans": 2,
+        "exp": "Iodine dissolves readily in non-polar hexane/cyclohexane, giving a characteristic violet/purple colour. This distinguishes it from Br\u2082 (orange) and Cl\u2082 (pale yellow) in the same solvent."
+      },
+      {
+        "q": "Fluorine does not undergo disproportionation in NaOH because:",
+        "opts": [
+          "It is too small",
+          "It has no d-orbitals and cannot be oxidised further (it has no +ve oxidation states)",
+          "It reacts with NaOH too slowly",
+          "It is a gas"
+        ],
+        "ans": 1,
+        "exp": "Fluorine is the most electronegative element and has no available d-orbitals. It cannot exhibit positive oxidation states, so it cannot disproportionate (unlike Cl\u2082, which gives Cl\u207b and ClO\u207b in NaOH)."
+      },
+      {
+        "q": "Silver iodide (AgI) is described as 'insoluble in ammonia solution'. What does this mean for the silver halide test?",
+        "opts": [
+          "AgI gives no precipitate with AgNO\u2083",
+          "AgI is the cream precipitate (confused with AgBr)",
+          "Adding NH\u2083 to AgI precipitate does not dissolve it \u2014 confirming I\u207b",
+          "Adding NH\u2083 dissolves AgI immediately"
+        ],
+        "ans": 2,
+        "exp": "AgI is yellow and insoluble in both dilute and concentrated ammonia. This contrasts with AgCl (dissolves in dilute NH\u2083) and AgBr (dissolves only in concentrated NH\u2083), completing the three-way identification."
+      },
+      {
+        "q": "What is the role of the Fe catalyst in the reaction of Cl\u2082 with benzene (electrophilic substitution)?",
+        "opts": [
+          "It is oxidised by Cl\u2082 to Fe\u00b3\u207a, which acts as a Lewis acid catalyst generating Cl\u207a",
+          "It reduces Cl\u2082 to Cl\u207b",
+          "It increases the concentration of Cl\u2082",
+          "It acts as a Br\u00f8nsted base"
+        ],
+        "ans": 0,
+        "exp": "Fe + Cl\u2082 \u2192 FeCl\u2083. FeCl\u2083 is a Lewis acid that accepts a lone pair from Cl\u2082: Cl\u2082 + FeCl\u2083 \u2192 Cl\u207a + FeCl\u2084\u207b. The Cl\u207a electrophile then attacks the benzene ring."
+      },
+      {
+        "q": "Which halogen is a liquid at room temperature?",
+        "opts": [
+          "Chlorine",
+          "Fluorine",
+          "Bromine",
+          "Iodine"
+        ],
+        "ans": 2,
+        "exp": "Bromine (Br\u2082) is the only halogen that is liquid at room temperature (bp 59\u00b0C)."
+      },
+      {
+        "q": "Why does the boiling point increase down Group 17?",
+        "opts": [
+          "Increasing bond polarity",
+          "Stronger hydrogen bonds",
+          "Larger molecules with stronger instantaneous dipole-induced dipole forces",
+          "Increasing ionic character"
+        ],
+        "ans": 2,
+        "exp": "Larger electron clouds in heavier halogens produce stronger id\u2013id (van der Waals) forces, requiring more energy to vaporise."
+      },
+      {
+        "q": "Chlorine water reacts with cold NaOH to produce:",
+        "opts": [
+          "NaCl only",
+          "NaCl and NaClO (sodium chlorate(I))",
+          "NaCl and NaClO\u2083",
+          "NaCl and HCl"
+        ],
+        "ans": 1,
+        "exp": "Cl\u2082 + 2NaOH \u2192 NaCl + NaClO + H\u2082O. This disproportionation produces both Cl\u207b (\u22121) and ClO\u207b (+1)."
+      },
+      {
+        "q": "In the test for halide ions using AgNO\u2083, which precipitate dissolves in dilute NH\u2083?",
+        "opts": [
+          "AgI (yellow)",
+          "AgBr (cream)",
+          "AgCl (white)",
+          "None of them"
+        ],
+        "ans": 2,
+        "exp": "White AgCl dissolves in dilute NH\u2083 to form [Ag(NH\u2083)\u2082]\u207a. AgBr dissolves only in concentrated NH\u2083; AgI is insoluble in NH\u2083."
+      },
+      {
+        "q": "NaBr reacts with concentrated H\u2082SO\u2084. Which gases are produced?",
+        "opts": [
+          "HBr only",
+          "HBr and SO\u2082",
+          "HBr, SO\u2082 and Br\u2082",
+          "HBr and SO\u2083"
+        ],
+        "ans": 1,
+        "exp": "Br\u207b is a stronger reducing agent than Cl\u207b. It reduces H\u2082SO\u2084: HBr is produced, and H\u2082SO\u2084 is partially reduced to SO\u2082."
+      },
+      {
+        "q": "Which halogen has the highest electronegativity?",
+        "opts": [
+          "Iodine",
+          "Bromine",
+          "Chlorine",
+          "Fluorine"
+        ],
+        "ans": 3,
+        "exp": "Fluorine is the most electronegative element (Pauling scale: 4.0), due to its small atomic radius and high nuclear charge."
+      },
+      {
+        "q": "Cl\u2082 displaces Br\u207b from solution. This shows:",
+        "opts": [
+          "Cl\u2082 is a weaker oxidising agent than Br\u2082",
+          "Cl\u2082 is a stronger oxidising agent than Br\u2082",
+          "Br\u2082 is more reactive than Cl\u2082",
+          "They have equal reactivity"
+        ],
+        "ans": 1,
+        "exp": "A more reactive (stronger oxidising) halogen displaces a less reactive halide from solution. Cl\u2082 > Br\u2082 > I\u2082 in oxidising power."
+      },
+      {
+        "q": "What colour does iodine give in an organic solvent (cyclohexane) layer?",
+        "opts": [
+          "Pale yellow",
+          "Orange",
+          "Violet/purple",
+          "Brown"
+        ],
+        "ans": 2,
+        "exp": "I\u2082 dissolved in non-polar cyclohexane gives a characteristic violet/purple colour."
+      },
+      {
+        "q": "Why is HF a weaker acid than HCl despite F being more electronegative?",
+        "opts": [
+          "F\u2013H bond is stronger and harder to break",
+          "HF is more soluble",
+          "HF has higher boiling point",
+          "F is too small to ionise"
+        ],
+        "ans": 0,
+        "exp": "The H\u2013F bond is very strong (bond enthalpy ~570 kJ mol\u207b\u00b9), so ionisation is less favourable than in HCl (~432 kJ mol\u207b\u00b9)."
+      },
+      {
+        "q": "Fluorine does not show positive oxidation states. Why?",
+        "opts": [
+          "It has no d orbitals and is the most electronegative element",
+          "It has too many electrons",
+          "It is too large",
+          "It forms covalent bonds only"
+        ],
+        "ans": 0,
+        "exp": "F has no vacant d orbitals for expansion of the valence shell and, being the most electronegative element, never acts as the less electronegative partner."
       }
     ]
   },

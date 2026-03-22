@@ -440,9 +440,11 @@ function buildTopicDiagramSvg(topic) {
 
   // ── Palette ─────────────────────────────────────────────────────────
   const PAL = {
-    chem:{ac:"#f97316",st:"rgba(249,115,22,.7)",fi:"rgba(249,115,22,.2)",bg:"rgba(249,115,22,.08)",li:"rgba(249,115,22,.5)"},
-    bio: {ac:"#22c55e",st:"rgba(34,197,94,.7)",  fi:"rgba(34,197,94,.2)", bg:"rgba(34,197,94,.08)", li:"rgba(34,197,94,.5)"},
-    phy: {ac:"#818cf8",st:"rgba(129,140,248,.7)",fi:"rgba(129,140,248,.2)",bg:"rgba(129,140,248,.08)",li:"rgba(129,140,248,.5)"},
+    // ac=accent  st=stroke(opaque)  fi=fill(FULLY OPAQUE)  bg=bg-glow  li=line colour
+    // fi must be fully opaque so lines never show through shapes
+    chem:{ac:"#f97316",st:"#f97316",fi:"#1e1208",bg:"rgba(249,115,22,.08)",li:"rgba(249,115,22,.55)"},
+    bio: {ac:"#22c55e",st:"#22c55e",fi:"#0a1c10",bg:"rgba(34,197,94,.08)",  li:"rgba(34,197,94,.55)"},
+    phy: {ac:"#818cf8",st:"#818cf8",fi:"#0e1020",bg:"rgba(129,140,248,.08)",li:"rgba(129,140,248,.55)"},
   };
   const P = PAL[sub] || PAL.chem;
 
@@ -475,7 +477,9 @@ function buildTopicDiagramSvg(topic) {
     for(let i=0;i<6;i++){const a=Math.PI/3*i;pts.push(`${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`);}
     return pts.join(" ");
   };
-  const H6  = (cx,cy,r,fi,st)  => `<polygon points="${hexPts(cx,cy,r)}" fill="${fi}" stroke="${st}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  // H6: solid background circle first (blocks lines), then hex outline on top
+  // The extra circle guarantees no line bleed-through regardless of draw order
+  const H6  = (cx,cy,r,fi,st) => `<circle cx="${cx}" cy="${cy}" r="${(r*1.18).toFixed(1)}" fill="#161b22"/><polygon points="${hexPts(cx,cy,r)}" fill="${fi}" stroke="${st}" stroke-width="2" stroke-linejoin="round"/>`;
   const HT  = (cx,cy,lines,sz=11) => {
     if(!Array.isArray(lines))lines=[lines];
     const lh=sz*1.35, tot=lines.length*lh;
@@ -499,6 +503,23 @@ function buildTopicDiagramSvg(topic) {
     return pos;
   };
 
+  // spokeMap: renders a full spoke diagram with CORRECT draw order
+  // Lines are drawn first (behind), hexes+text drawn second (on top).
+  // hubR=hub radius, satR=satellite radius, hubFi/satFi=fills
+  const spokeMap = (sp, hubLabel, satLabels, hubR=42, satR=32, hubFi=null, satFi=null) => {
+    const hfi = hubFi || P.fi;
+    const sfi = satFi || P.fi;
+    // Draw lines first
+    const lines = sp.slice(1).map(s => AR(sp[0].cx,sp[0].cy,s.cx,s.cy,P.li)).join('');
+    // Draw hexes on top
+    const hub  = H6(sp[0].cx,sp[0].cy,hubR,hfi,P.st) + HT(sp[0].cx,sp[0].cy,Array.isArray(hubLabel)?hubLabel:[hubLabel],hubR>36?13:11);
+    const sats = sp.slice(1).map((s,i) => {
+      const lbl = satLabels[i] || '';
+      return H6(s.cx,s.cy,satR,sfi,P.st) + HT(s.cx,s.cy,Array.isArray(lbl)?lbl:[lbl],9);
+    }).join('');
+    return lines + hub + sats;
+  };
+
   // ════════════════════════════════════════════════════════════════════
   //  CHEMISTRY
   // ════════════════════════════════════════════════════════════════════
@@ -509,7 +530,6 @@ function buildTopicDiagramSvg(topic) {
       // Shell diagram left; property hex grid right
       return wrap(`
         ${TT("Atomic Structure")}
-        ${H6(130,150,38,P.fi,P.st)} ${HT(130,150,["nucleus","p⁺ n⁰"],10.5)}
         <circle cx="130" cy="150" r="60" fill="none" stroke="${P.li}" stroke-width="1.2" stroke-dasharray="4 3"/>
         <circle cx="130" cy="150" r="86" fill="none" stroke="${P.li}" stroke-width="1" stroke-dasharray="3 4" opacity=".6"/>
         <circle cx="130" cy="90"  r="5.5" fill="${P.ac}"/>
@@ -517,17 +537,18 @@ function buildTopicDiagramSvg(topic) {
         <circle cx="130" cy="210" r="5.5" fill="${P.ac}"/>
         <circle cx="70"  cy="150" r="5.5" fill="${P.ac}"/>
         ${LB(130,85,"e⁻",P.ac,9)} ${LB(197,153,"e⁻",P.ac,9)} ${LB(130,222,"e⁻",P.ac,9)} ${LB(63,153,"e⁻",P.ac,9)}
+        ${LB(350,46,"Electron Configuration",P.ac,9)}
+        ${LB(540,46,"Isotopes & Ionisation",P.ac,9)}
         ${LN(235,55,680,55,P.li,1,"2 3")}
+        ${LN(310,67,310,55,P.li,1)} ${LN(460,67,460,55,P.li,1)} ${LN(610,67,610,55,P.li,1)}
+        ${LN(310,153,310,218,P.li,1,"3 2")} ${LN(460,153,460,218,P.li,1,"3 2")} ${LN(610,153,610,218,P.li,1,"3 2")}
+        ${H6(130,150,38,P.fi,P.st)} ${HT(130,150,["nucleus","p⁺ n⁰"],10.5)}
         ${H6(310,100,32,P.fi,P.st)} ${HT(310,100,["1s²2s²","2p⁶…"],9.5)}
         ${H6(460,100,32,P.fi,P.st)} ${HT(460,100,["Isotopes","same Z,diff A"],8.5)}
         ${H6(610,100,32,P.fi,P.st)} ${HT(610,100,["1st IE","definition"],9)}
         ${H6(310,185,32,P.fi,P.st)} ${HT(310,185,["Orbitals","s p d f"],9.5)}
         ${H6(460,185,32,P.fi,P.st)} ${HT(460,185,["Aufbau","Hund Pauli"],8.5)}
         ${H6(610,185,32,P.fi,P.st)} ${HT(610,185,["Successive","IE trend"],9)}
-        ${LN(310,67,310,55,P.li,1)} ${LN(460,67,460,55,P.li,1)} ${LN(610,67,610,55,P.li,1)}
-        ${LN(310,153,310,218,P.li,1,"3 2")} ${LN(460,153,460,218,P.li,1,"3 2")} ${LN(610,153,610,218,P.li,1,"3 2")}
-        ${LB(350,46,"Electron Configuration",P.ac,9)}
-        ${LB(540,46,"Isotopes & Ionisation",P.ac,9)}
       `);
     }
 
@@ -536,18 +557,18 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,95,4,-45);
       return wrap(`
         ${TT("Stoichiometry — The Mole")}
+        ${AR(sp[0].cx,sp[0].cy,sp[1].cx+36,sp[1].cy-2,P.li)}
+        ${AR(sp[0].cx,sp[0].cy,sp[2].cx+2,sp[2].cy-36,P.li)}
+        ${AR(sp[0].cx,sp[0].cy,sp[3].cx-36,sp[3].cy+2,P.li)}
+        ${AR(sp[0].cx,sp[0].cy,sp[4].cx-2,sp[4].cy+36,P.li)}
+        ${LN(128,148,260,148,P.li,1,"3 2")} ${LN(440,148,574,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,42,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Mole","n"],14)}
         ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["mass","n = m / Mᵣ"],9)}
         ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["volume","n = V / 24"],9)}
         ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["particles","n = N / Nₐ"],9)}
         ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["conc × vol","n = c × V"],9)}
-        ${AR(sp[0].cx,sp[0].cy,sp[1].cx+36,sp[1].cy-2,P.li)}
-        ${AR(sp[0].cx,sp[0].cy,sp[2].cx+2,sp[2].cy-36,P.li)}
-        ${AR(sp[0].cx,sp[0].cy,sp[3].cx-36,sp[3].cy+2,P.li)}
-        ${AR(sp[0].cx,sp[0].cy,sp[4].cx-2,sp[4].cy+36,P.li)}
-        ${H6(100,148,26,"rgba(249,115,22,.1)",P.st)} ${HT(100,148,["Mᵣ"],11)}
-        ${H6(600,148,26,"rgba(249,115,22,.1)",P.st)} ${HT(600,148,["Nₐ"],11)}
-        ${LN(128,148,260,148,P.li,1,"3 2")} ${LN(440,148,574,148,P.li,1,"3 2")}
+        ${H6(100,148,26,"#1e1208",P.st)} ${HT(100,148,["Mᵣ"],11)}
+        ${H6(600,148,26,"#1e1208",P.st)} ${HT(600,148,["Nₐ"],11)}
       `);
     }
 
@@ -556,16 +577,16 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,96,4,-45);
       return wrap(`
         ${TT("Chemical Bonding")}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(124,148,200,148,P.li,1,"3 2")} ${LN(500,148,582,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Bond","Types"],12)}
         ${H6(sp[1].cx,sp[1].cy,34,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Ionic","e⁻ transfer"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,34,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Covalent","shared e⁻"],9.5)}
         ${H6(sp[3].cx,sp[3].cy,34,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Metallic","e⁻ sea"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,34,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Dative","lone pair"],9.5)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,148,28,P.fi,P.st)}  ${HT(90,148,["Giant","lattice"],8.5)}
         ${H6(610,148,28,P.fi,P.st)} ${HT(610,148,["VSEPR","shapes"],8.5)}
-        ${LN(124,148,200,148,P.li,1,"3 2")} ${LN(500,148,582,148,P.li,1,"3 2")}
       `);
     }
 
@@ -583,13 +604,13 @@ function buildTopicDiagramSvg(topic) {
         <path d="M80,${BY} L80,${BY-EXH} L250,${BY-EXH} L250,${BY}" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M250,${BY-EXH} L310,${BY-EXH}" fill="none" stroke="${P.ac}" stroke-width="1.5" stroke-dasharray="5 4" opacity=".6"/>
         <path d="M380,${BY} L380,${BY-ENH-40} L560,${BY-ENH-40} L560,${BY}" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        ${H6(165,BY-EXH,28,"rgba(249,115,22,.25)",P.st)} ${HT(165,BY-EXH,["Exo","ΔH<0"],10)}
-        ${H6(470,BY-ENH-40,28,"rgba(129,140,248,.25)","rgba(129,140,248,.7)")} ${HT(470,BY-ENH-40,["Endo","ΔH>0"],10)}
-        ${H6(310,BY-EXH-42,26,P.fi,P.st)} ${HT(310,BY-EXH-42,["Eₐ"],12)}
-        ${AR(270,BY-EXH-42,288,BY-EXH-42,P.li)}
         ${LB(80,BY-EXH-8,"start","#8b949e",8)} ${LB(250,BY-EXH-8,"end","#8b949e",8)}
         ${LB(380,BY-ENH-50,"start","#8b949e",8)} ${LB(560,BY-ENH-50,"end","#8b949e",8)}
+        ${AR(270,BY-EXH-42,288,BY-EXH-42,P.li)}
         ${LN(250,BY-EXH,310,BY-EXH-28,P.li,1,"3 3")}
+        ${H6(165,BY-EXH,28,"#1e1208",P.st)} ${HT(165,BY-EXH,["Exo","ΔH<0"],10)}
+        ${H6(470,BY-ENH-40,28,"#0e1020","rgba(129,140,248,.7)")} ${HT(470,BY-ENH-40,["Endo","ΔH>0"],10)}
+        ${H6(310,BY-EXH-42,26,P.fi,P.st)} ${HT(310,BY-EXH-42,["Eₐ"],12)}
       `);
     }
 
@@ -598,19 +619,19 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(295,152,86,4,0);
       return wrap(`
         ${TT("Reaction Kinetics")}
+        <rect x="480" y="55" width="185" height="180" rx="12" fill="${P.bg}" stroke="${P.st}" stroke-width="1.2"/>
+        ${LB(572,75,"Maxwell-Boltzmann",P.ac,9)}
+        <path d="M495,218 Q510,175 530,148 Q560,110 590,100 Q620,95 650,105 Q665,112 655,130" fill="none" stroke="${P.ac}" stroke-width="2.2" stroke-linecap="round"/>
+        ${LB(572,235,"f(E)  →  energy","#8b949e",8)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LB(635,130,"Eₐ","#8b949e",8.5)} ${LN(635,132,635,218,P.li,1,"3 3")}
+        ${LN(384,152,450,152,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Rate","Factors"],12)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Temp","↑ rate"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Conc","↑ rate"],9.5)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Surface","Area"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Catalyst","↓ Eₐ"],9.5)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
-        <rect x="480" y="55" width="185" height="180" rx="12" fill="${P.bg}" stroke="${P.st}" stroke-width="1.2"/>
-        ${LB(572,75,"Maxwell-Boltzmann",P.ac,9)}
-        <path d="M495,218 Q510,175 530,148 Q560,110 590,100 Q620,95 650,105 Q665,112 655,130" fill="none" stroke="${P.ac}" stroke-width="2.2" stroke-linecap="round"/>
-        ${LB(635,130,"Eₐ","#8b949e",8.5)} ${LN(635,132,635,218,P.li,1,"3 3")}
-        ${LB(572,235,"f(E)  →  energy","#8b949e",8)}
-        ${LN(384,152,450,152,P.li,1,"3 2")}
       `);
     }
 
@@ -618,19 +639,19 @@ function buildTopicDiagramSvg(topic) {
     if(tid.includes("equilibria")){
       return wrap(`
         ${TT("Chemical Equilibria")}
-        ${H6(180,148,38,P.fi,P.st)} ${HT(180,148,["Reactants"],11)}
-        ${H6(520,148,38,P.fi,P.st)} ${HT(520,148,["Products"],11)}
         ${AR(225,135,475,135,P.ac)} ${LB(350,128,"kf  (forward)",P.ac,9)}
         ${AR(475,161,225,161,"#818cf8")} ${LB(350,175,"kr  (reverse)","#818cf8",9)}
+        ${LN(180,110,180,90,P.li,1,"3 2")} ${LN(180,90,122,85,P.li,1,"3 2")} ${LN(180,90,324,83,P.li,1,"3 2")}
+        ${LN(520,110,520,90,P.li,1,"3 2")} ${LN(520,90,578,85,P.li,1,"3 2")}
+        ${LN(100,108,100,192,P.li,1,"3 2")} ${LN(600,108,600,192,P.li,1,"3 2")} ${LN(350,108,350,192,P.li,1,"3 2")}
+        ${H6(180,148,38,P.fi,P.st)} ${HT(180,148,["Reactants"],11)}
+        ${H6(520,148,38,P.fi,P.st)} ${HT(520,148,["Products"],11)}
         ${H6(350,80, 28,P.fi,P.st)} ${HT(350,80, ["Kc","[P]/[R]"],9.5)}
         ${H6(100,80, 28,P.fi,P.st)} ${HT(100,80, ["Le","Chatelier"],9)}
         ${H6(600,80, 28,P.fi,P.st)} ${HT(600,80, ["Kp","partial p"],9.5)}
         ${H6(100,220,28,P.fi,P.st)} ${HT(100,220,["Haber","Process"],9)}
         ${H6(600,220,28,P.fi,P.st)} ${HT(600,220,["Contact","Process"],9)}
         ${H6(350,220,28,P.fi,P.st)} ${HT(350,220,["Dynamic","Equil."],9)}
-        ${LN(180,110,180,90,P.li,1,"3 2")} ${LN(180,90,122,85,P.li,1,"3 2")} ${LN(180,90,324,83,P.li,1,"3 2")}
-        ${LN(520,110,520,90,P.li,1,"3 2")} ${LN(520,90,578,85,P.li,1,"3 2")}
-        ${LN(100,108,100,192,P.li,1,"3 2")} ${LN(600,108,600,192,P.li,1,"3 2")} ${LN(350,108,350,192,P.li,1,"3 2")}
       `);
     }
 
@@ -647,10 +668,10 @@ function buildTopicDiagramSvg(topic) {
         <path d="M182,90 L182,62 L518,62 L518,90" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
         <rect x="330" y="55" width="40" height="10" rx="2" fill="${P.ac}"/>
         ${LB(350,52,"e⁻ →",P.ac,9)}
+        ${LN(182,195,182,205,P.li,1)} ${LN(350,190,350,205,P.li,1)} ${LN(518,195,518,205,P.li,1)}
         ${H6(182,215,24,P.fi,P.st)} ${HT(182,215,["Oxidation","State"],8.5)}
         ${H6(350,215,24,P.fi,P.st)} ${HT(350,215,["E°cell","= E°cat−E°an"],8)}
-        ${H6(518,215,24,"rgba(129,140,248,.2)","rgba(129,140,248,.65)")} ${HT(518,215,["Reduction","State"],8.5)}
-        ${LN(182,195,182,205,P.li,1)} ${LN(350,190,350,205,P.li,1)} ${LN(518,195,518,205,P.li,1)}
+        ${H6(518,215,24,"#0e1020","rgba(129,140,248,.65)")} ${HT(518,215,["Reduction","State"],8.5)}
       `);
     }
 
@@ -659,6 +680,9 @@ function buildTopicDiagramSvg(topic) {
       const xs=[80,210,340,470,600], y1=100, y2=190;
       return wrap(`
         ${TT("Organic Chemistry — Functional Groups")}
+        ${xs.map(x=>`${LN(x,134,x,162,P.li)}`).join("")}
+        ${AR(xs[0]+34,y1,xs[1]-34,y1,P.li)} ${AR(xs[1]+34,y1,xs[2]-34,y1,P.li)}
+        ${AR(xs[2]+34,y1,xs[3]-34,y1,P.li)} ${AR(xs[3]+34,y1,xs[4]-34,y1,P.li)}
         ${H6(xs[0],y1,34,P.fi,P.st)} ${HT(xs[0],y1,["Alkanes","CₙH₂ₙ₊₂"],9.5)}
         ${H6(xs[1],y1,34,P.fi,P.st)} ${HT(xs[1],y1,["Alkenes","CₙH₂ₙ"],9.5)}
         ${H6(xs[2],y1,34,P.fi,P.st)} ${HT(xs[2],y1,["Alcohols","–OH"],9.5)}
@@ -669,9 +693,6 @@ function buildTopicDiagramSvg(topic) {
         ${H6(xs[2],y2,28,P.fi,P.st)} ${HT(xs[2],y2,["Oxidation","Esterific."],8.5)}
         ${H6(xs[3],y2,28,P.fi,P.st)} ${HT(xs[3],y2,["Reduc.","Nucleoph."],8.5)}
         ${H6(xs[4],y2,28,P.fi,P.st)} ${HT(xs[4],y2,["Ester","Acyl Cl."],8.5)}
-        ${xs.map(x=>`${LN(x,134,x,162,P.li)}`).join("")}
-        ${AR(xs[0]+34,y1,xs[1]-34,y1,P.li)} ${AR(xs[1]+34,y1,xs[2]-34,y1,P.li)}
-        ${AR(xs[2]+34,y1,xs[3]-34,y1,P.li)} ${AR(xs[3]+34,y1,xs[4]-34,y1,P.li)}
       `);
     }
 
@@ -680,16 +701,16 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,94,4,-45);
       return wrap(`
         ${TT("Halogen Compounds")}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,586,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,36,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["C–X","Bond"],13)}
         ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["SN1","tertiary"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["SN2","primary"],9.5)}
         ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Elim-","ination"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Nucleo-","phile Nu⁻"],9)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(88,148,26,P.fi,P.st)}  ${HT(88,148,["F Cl","Br I"],9.5)}
         ${H6(612,148,26,P.fi,P.st)} ${HT(612,148,["Reactiv.","F<Cl<Br<I"],8)}
-        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,586,148,P.li,1,"3 2")}
       `);
     }
 
@@ -701,11 +722,11 @@ function buildTopicDiagramSvg(topic) {
         ${TT("Periodicity — Period 3")}
         <rect x="50" y="60" width="602" height="34" rx="8" fill="${P.fi}" stroke="${P.st}" stroke-width="1.2"/>
         ${LB(350,83,"Atomic radius ↓     IE (generally) ↑     Electronegativity ↑",P.ac,8.5)}
-        ${els.map((el,i)=>`${H6(xs[i],165,30,P.fi,P.st)}${HT(xs[i],165,[el],14)}`).join("")}
-        ${xs.map((x,i)=>`${LN(x,100,x,133,P.li,1.2)}`).join("")}
         ${LB(78,220,"metal",P.ac,8.5,"start")} ${LB(390,220,"metalloid","#8b949e",8.5)} ${LB(622,220,"non-metal",P.ac,8.5,"end")}
         ${LB(350,240,"Group 1→8: properties change systematically across the period","#8b949e",8.5)}
         <path d="M78,220 L622,220" stroke="${P.li}" stroke-width="1" stroke-dasharray="3 3"/>
+        ${xs.map((x,i)=>`${LN(x,100,x,133,P.li,1.2)}`).join("")}
+        ${els.map((el,i)=>`${H6(xs[i],165,30,P.fi,P.st)}${HT(xs[i],165,[el],14)}`).join("")}
       `);
     }
 
@@ -715,12 +736,12 @@ function buildTopicDiagramSvg(topic) {
       const xs=els.map((_,i)=>80+i*108);
       return wrap(`
         ${TT("Group 2 — Alkaline Earth Metals")}
-        ${els.map((el,i)=>`${H6(xs[i],115,28+i*2,"rgba(249,115,22,.15)",P.st)}${HT(xs[i],115,[el],13)}`).join("")}
-        ${LN(60,148,648,148,P.li,1,"3 4")} 
         <path d="M80,155 Q188,180 296,172 Q404,164 512,178 Q570,186 620,196" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
         ${LB(350,215,"Reactivity with O₂ and H₂O increases down group","#8b949e",9.5)}
         ${LB(80,230,"IE ↑","#8b949e",9,"start")} ${LB(620,230,"IE ↓","#8b949e",9,"end")}
         ${LB(350,245,"Thermal decomposition of carbonates: harder down group","#8b949e",8.5)}
+        ${LN(60,148,648,148,P.li,1,"3 4")} 
+        ${els.map((el,i)=>`${H6(xs[i],115,28+i*2,"#1e1208",P.st)}${HT(xs[i],115,[el],13)}`).join("")}
       `);
     }
 
@@ -730,12 +751,12 @@ function buildTopicDiagramSvg(topic) {
       const xs=[110,260,440,590];
       return wrap(`
         ${TT("Group 17 — The Halogens")}
-        ${data.map(([el,st],i)=>`${H6(xs[i],110,36,"rgba(249,115,22,.16)",P.st)}${HT(xs[i],110,[el],17)}${LB(xs[i],162,st,"#8b949e",8.5)}`).join("")}
         <path d="M110,142 Q260,168 440,155 Q515,150 590,145" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
-        ${LN(60,142,648,142,P.li,1,"3 4")}
         ${LB(350,195,"Oxidising power: F > Cl > Br > I","#8b949e",9.5)}
         ${LB(350,213,"Boiling point increases down the group","#8b949e",9.5)}
         ${LB(350,231,"Reactivity with H₂: F > Cl > Br > I","#8b949e",9.5)}
+        ${LN(60,142,648,142,P.li,1,"3 4")}
+        ${data.map(([el,st],i)=>`${H6(xs[i],110,36,"#1e1208",P.st)}${HT(xs[i],110,[el],17)}${LB(xs[i],162,st,"#8b949e",8.5)}`).join("")}
       `);
     }
 
@@ -743,6 +764,10 @@ function buildTopicDiagramSvg(topic) {
     if(tid.includes("carbonyl")){
       return wrap(`
         ${TT("Carbonyl Compounds")}
+        ${LB(350,53,"C=O group",P.ac,12)}
+        ${LN(175,86,175,100,P.li,1,"3 2")} ${LN(525,86,525,100,P.li,1,"3 2")}
+        ${LN(209,111,320,91,P.li)} ${LN(491,111,380,91,P.li)}
+        ${LN(175,154,175,182,P.li)} ${LN(280,182,280,154,P.li,1,"3 2")} ${LN(420,182,420,154,P.li,1,"3 2")} ${LN(525,154,525,182,P.li)}
         ${H6(175,120,34,P.fi,P.st)} ${HT(175,120,["Aldehydes","R–CHO"],10)}
         ${H6(350,85, 30,P.fi,P.st)} ${HT(350,85, ["Nucleophilic","Addition"],9.5)}
         ${H6(525,120,34,P.fi,P.st)} ${HT(525,120,["Ketones","R–CO–R"],10)}
@@ -750,10 +775,6 @@ function buildTopicDiagramSvg(topic) {
         ${H6(280,210,28,P.fi,P.st)} ${HT(280,210,["Tollens'","silver mirror"],8.5)}
         ${H6(420,210,28,P.fi,P.st)} ${HT(420,210,["Fehling's","brick red"],8.5)}
         ${H6(560,210,28,P.fi,P.st)} ${HT(560,210,["NaBH₄","reduction"],8.5)}
-        ${LN(175,86,175,100,P.li,1,"3 2")} ${LN(525,86,525,100,P.li,1,"3 2")}
-        ${LN(209,111,320,91,P.li)} ${LN(491,111,380,91,P.li)}
-        ${LN(175,154,175,182,P.li)} ${LN(280,182,280,154,P.li,1,"3 2")} ${LN(420,182,420,154,P.li,1,"3 2")} ${LN(525,154,525,182,P.li)}
-        ${LB(350,53,"C=O group",P.ac,12)}
       `);
     }
 
@@ -762,16 +783,16 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(320,148,90,4,-45);
       return wrap(`
         ${TT("Nitrogen Compounds")}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(488,148,531,120,P.li,1,"3 2")} ${LN(488,148,531,176,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,36,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Amines","–NH₂"],12)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Primary","R–NH₂"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Secondary","R₂NH"],9.5)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Amides","–CONH₂"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Amino","Acids"],9.5)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(565,100,34,P.fi,P.st)} ${HT(565,100,["Peptide","–CO–NH–"],9.5)}
         ${H6(565,200,34,P.fi,P.st)} ${HT(565,200,["Diazonium","salts"],9.5)}
-        ${LN(488,148,531,120,P.li,1,"3 2")} ${LN(488,148,531,176,P.li,1,"3 2")}
       `);
     }
 
@@ -780,16 +801,16 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,90,4,-45);
       return wrap(`
         ${TT("Carboxylic Acids & Derivatives")}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(118,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["–COOH"],12)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Acyl","Chloride"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Ester","R–COO–R"],9.5)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Amide","–CONH₂"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Anhydride","R–CO–O–CO"],9)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["PCl₅","→ acyl Cl"],8)}
         ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Sapon-","ification"],8.5)}
-        ${LN(118,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
       `);
     }
 
@@ -798,13 +819,13 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,90,5,-90);
       return wrap(`
         ${TT("Hydroxy Compounds — Alcohols")}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["–OH","Alcohol"],12)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Primary","1°  R–CH₂OH"],8.5)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Oxidation","→ aldehyde"],8.5)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Esterific.","+ acid"],8.5)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Dehydr.","→ alkene"],8.5)}
         ${H6(sp[5].cx,sp[5].cy,30,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Substitut.","→ halogen"],8.5)}
-        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
       `);
     }
 
@@ -820,12 +841,12 @@ function buildTopicDiagramSvg(topic) {
       return wrap(`
         ${TT("Analytical Techniques")}
         ${cols.map(([h,l1,l2],i)=>`
+        `).join("")}
+        ${LB(350,245,"Used to determine molecular formula, structure and purity","#8b949e",8.5)}
+          ${LN(xs[i],150,xs[i],167,P.li)}
+        ${AR(140,110,210,110,P.li)} ${AR(290,110,410,110,P.li)} ${AR(490,110,560,110,P.li)}
           ${H6(xs[i],110,40,P.fi,P.st)}${HT(xs[i],110,[h],9.5)}
           ${H6(xs[i],195,28,P.fi,P.st)}${HT(xs[i],195,[l1,l2],8.2)}
-          ${LN(xs[i],150,xs[i],167,P.li)}
-        `).join("")}
-        ${AR(140,110,210,110,P.li)} ${AR(290,110,410,110,P.li)} ${AR(490,110,560,110,P.li)}
-        ${LB(350,245,"Used to determine molecular formula, structure and purity","#8b949e",8.5)}
       `);
     }
 
@@ -833,6 +854,11 @@ function buildTopicDiagramSvg(topic) {
     if(tid.includes("polymer")){
       return wrap(`
         ${TT("Polymerisation")}
+        ${LN(175,84,175,70,P.li,1,"3 2")} ${LN(175,70,324,70,P.li,1,"3 2")}
+        ${LN(525,84,525,70,P.li,1,"3 2")} ${LN(525,70,376,70,P.li,1,"3 2")}
+        ${LN(175,156,175,182,P.li)} ${LN(90,182,90,196,P.li)} ${LN(200,182,200,196,P.li)}
+        ${LN(525,156,525,182,P.li)} ${LN(400,182,400,196,P.li)} ${LN(510,182,510,196,P.li)} ${LN(620,182,620,196,P.li)}
+        ${AR(211,120,489,120,P.ac)} ${LB(350,113,"no by-product        small molecule lost",P.ac,8.5)}
         ${H6(175,120,36,P.fi,P.st)} ${HT(175,120,["Addition","Polymer."],10.5)}
         ${H6(525,120,36,P.fi,P.st)} ${HT(525,120,["Condensation","Polymer."],9.5)}
         ${H6(90, 210,28,P.fi,P.st)} ${HT(90, 210,["Alkene","monomer"],8.5)}
@@ -841,11 +867,6 @@ function buildTopicDiagramSvg(topic) {
         ${H6(510,210,28,P.fi,P.st)} ${HT(510,210,["Polyamide","–CONH–"],8.5)}
         ${H6(620,210,28,P.fi,P.st)} ${HT(620,210,["H₂O","by-product"],8.5)}
         ${H6(350,70, 26,P.fi,P.st)} ${HT(350,70, ["No","by-product"],8.5)}
-        ${LN(175,84,175,70,P.li,1,"3 2")} ${LN(175,70,324,70,P.li,1,"3 2")}
-        ${LN(525,84,525,70,P.li,1,"3 2")} ${LN(525,70,376,70,P.li,1,"3 2")}
-        ${LN(175,156,175,182,P.li)} ${LN(90,182,90,196,P.li)} ${LN(200,182,200,196,P.li)}
-        ${LN(525,156,525,182,P.li)} ${LN(400,182,400,196,P.li)} ${LN(510,182,510,196,P.li)} ${LN(620,182,620,196,P.li)}
-        ${AR(211,120,489,120,P.ac)} ${LB(350,113,"no by-product        small molecule lost",P.ac,8.5)}
       `);
     }
 
@@ -854,15 +875,15 @@ function buildTopicDiagramSvg(topic) {
       const states=[["Solid","ordered\nlattice",110],["Liquid","flowing\nrandom",350],["Gas","random\nhigh KE",590]];
       return wrap(`
         ${TT("States of Matter")}
-        ${states.map(([s,d,x])=>`${H6(x,128,44,P.fi,P.st)}${HT(x,128,[s],13)}`).join("")}
         ${AR(160,115,300,115,P.ac)} ${LB(230,108,"melting / dissolve",P.ac,8.5)}
         ${AR(400,115,540,115,P.ac)} ${LB(470,108,"boiling / vapour.",P.ac,8.5)}
         ${AR(540,142,400,142,"#818cf8")} ${LB(470,158,"condensation","#818cf8",8.5)}
         ${AR(298,142,162,142,"#818cf8")} ${LB(230,158,"freezing","#818cf8",8.5)}
+        ${LN(110,172,110,189,P.li,1,"3 2")} ${LN(350,172,350,189,P.li,1,"3 2")} ${LN(590,172,590,189,P.li,1,"3 2")}
+        ${states.map(([s,d,x])=>`${H6(x,128,44,P.fi,P.st)}${HT(x,128,[s],13)}`).join("")}
         ${H6(110,215,26,P.fi,P.st)} ${HT(110,215,["Strong","IMF"],8.5)}
         ${H6(350,215,26,P.fi,P.st)} ${HT(350,215,["pV = nRT","ideal gas"],9)}
         ${H6(590,215,26,P.fi,P.st)} ${HT(590,215,["Weak","IMF"],8.5)}
-        ${LN(110,172,110,189,P.li,1,"3 2")} ${LN(350,172,350,189,P.li,1,"3 2")} ${LN(590,172,590,189,P.li,1,"3 2")}
       `);
     }
 
@@ -873,8 +894,8 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,96,5,-90);
       return wrap(`
         ${TT(topic.title)}
-        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:30,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
         ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:30,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
       `);
     }
   }
@@ -890,14 +911,14 @@ function buildTopicDiagramSvg(topic) {
         <ellipse cx="350" cy="148" rx="185" ry="90" fill="${P.fi}" stroke="${P.st}" stroke-width="1.5"/>
         <ellipse cx="350" cy="148" rx="58" ry="38" fill="rgba(34,197,94,.30)" stroke="${P.st}" stroke-width="1.8"/>
         ${LB(350,152,"Nucleus","#e6edf3",10.5)}
+        ${LN(128,88, 180,110,P.li,1,"3 2")} ${LN(128,208,180,186,P.li,1,"3 2")}
+        ${LN(572,88, 520,110,P.li,1,"3 2")} ${LN(572,208,520,186,P.li,1,"3 2")}
         ${H6(100,78, 28,P.fi,P.st)} ${HT(100,78, ["Mito-","chondria"],9)}
         ${H6(100,218,28,P.fi,P.st)} ${HT(100,218,["Rough","ER"],9)}
         ${H6(600,78, 28,P.fi,P.st)} ${HT(600,78, ["Golgi","apparatus"],9)}
         ${H6(600,218,28,P.fi,P.st)} ${HT(600,218,["Ribosome","80S/70S"],8.5)}
         ${H6(350,58, 24,P.fi,P.st)} ${HT(350,58, ["Cell","membrane"],8.5)}
         ${H6(350,240,24,P.fi,P.st)} ${HT(350,240,["Vacuole","(plant)"],8.5)}
-        ${LN(128,88, 180,110,P.li,1,"3 2")} ${LN(128,208,180,186,P.li,1,"3 2")}
-        ${LN(572,88, 520,110,P.li,1,"3 2")} ${LN(572,208,520,186,P.li,1,"3 2")}
       `);
     }
 
@@ -908,6 +929,8 @@ function buildTopicDiagramSvg(topic) {
         <rect x="55"  y="162" width="590" height="14" rx="5" fill="${P.ac}" opacity=".4"/>
         <rect x="55"  y="132" width="590" height="30" fill="${P.fi}" opacity=".18"/>
         ${LB(350,152,"phospholipid bilayer","#e6edf3",9.5)}
+        ${[110,260,440,590].map(x=>`${LN(x,118,x,104,P.li,1.2)}`).join("")}
+        ${[140,300,460,590].map(x=>`${LN(x,176,x,182,P.li,1.2)}`).join("")}
         ${H6(110,90, 28,P.fi,P.st)} ${HT(110,90, ["Channel","protein"],8.5)}
         ${H6(260,90, 28,P.fi,P.st)} ${HT(260,90, ["Carrier","protein"],8.5)}
         ${H6(440,90, 28,P.fi,P.st)} ${HT(440,90, ["Glyco-","protein"],8.5)}
@@ -916,8 +939,6 @@ function buildTopicDiagramSvg(topic) {
         ${H6(300,210,28,P.fi,P.st)} ${HT(300,210,["Diffusion","passive"],9)}
         ${H6(460,210,28,P.fi,P.st)} ${HT(460,210,["Active","transport"],9)}
         ${H6(590,210,28,P.fi,P.st)} ${HT(590,210,["Co-trans-","port"],8.5)}
-        ${[110,260,440,590].map(x=>`${LN(x,118,x,104,P.li,1.2)}`).join("")}
-        ${[140,300,460,590].map(x=>`${LN(x,176,x,182,P.li,1.2)}`).join("")}
       `);
     }
 
@@ -925,16 +946,16 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,145,96,4,-45);
       return wrap(`
         ${TT("Biological Molecules")}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(118,145,220,145,P.li,1,"3 2")} ${LN(480,145,584,145,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Monomers","→ Polymers"],9.5)}
         ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Carbo-","hydrates"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Proteins","amino acids"],9)}
         ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Lipids","fatty acid"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Nucleic","Acids"],9.5)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,145,26,P.fi,P.st)}  ${HT(90,145,["glucose","starch"],8.5)}
         ${H6(610,145,26,P.fi,P.st)} ${HT(610,145,["DNA","RNA"],9)}
-        ${LN(118,145,220,145,P.li,1,"3 2")} ${LN(480,145,584,145,P.li,1,"3 2")}
       `);
     }
 
@@ -945,16 +966,16 @@ function buildTopicDiagramSvg(topic) {
         ${LB(228,138,"Active","#e6edf3",10)} ${LB(228,152,"site","#e6edf3",10)}
         <path d="M256,126 Q278,112 298,126 Q278,146 256,126Z" fill="${P.ac}" opacity=".55"/>
         ${LB(277,132,"S","#e6edf3",12)}
+        ${LB(80,248,"E + S ⇌ ES → E + P",P.ac,10,"start")}
+        ${AR(270,130,420,90,P.li)} ${AR(270,145,420,175,P.li)}
+        ${LN(450,52,450,62,P.li,1,"3 2")} ${LN(590,112,590,145,P.li,1,"2 2")}
+        ${LN(450,112,450,145,P.li,1,"2 2")}
         ${H6(450,82, 30,P.fi,P.st)} ${HT(450,82, ["Lock &","Key"],9.5)}
         ${H6(590,82, 30,P.fi,P.st)} ${HT(590,82, ["Induced","Fit"],9.5)}
         ${H6(450,175,30,P.fi,P.st)} ${HT(450,175,["Compet.","inhibitor"],9)}
         ${H6(590,175,30,P.fi,P.st)} ${HT(590,175,["Non-comp.","inhibitor"],9)}
         ${H6(350,55, 26,P.fi,P.st)} ${HT(350,55, ["Specificity"],8.5)}
         ${H6(350,242,26,P.fi,P.st)} ${HT(350,242,["Temp/pH","denat."],8.5)}
-        ${AR(270,130,420,90,P.li)} ${AR(270,145,420,175,P.li)}
-        ${LN(450,52,450,62,P.li,1,"3 2")} ${LN(590,112,590,145,P.li,1,"2 2")}
-        ${LN(450,112,450,145,P.li,1,"2 2")}
-        ${LB(80,248,"E + S ⇌ ES → E + P",P.ac,10,"start")}
       `);
     }
 
@@ -962,17 +983,17 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,92,4,-45);
       return wrap(`
         ${TT("Gas Exchange")}
+        ${LB(350,46,"Rate = (SA × conc. diff.) ÷ thickness",P.ac,9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(118,148,222,148,P.li,1,"3 2")} ${LN(478,148,584,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Fick's","Law"],13)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Large","surf. area"],9)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Thin","membrane"],9)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Conc.","gradient"],9)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Ventil-","ation"],9)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Alveoli"],8.5)}
         ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Gill","lamella"],8.5)}
-        ${LN(118,148,222,148,P.li,1,"3 2")} ${LN(478,148,584,148,P.li,1,"3 2")}
-        ${LB(350,46,"Rate = (SA × conc. diff.) ÷ thickness",P.ac,9.5)}
       `);
     }
 
@@ -981,16 +1002,16 @@ function buildTopicDiagramSvg(topic) {
         ${TT("Genetics & Nucleic Acids")}
         <path d="M195,55 Q232,95 195,135 Q158,175 195,215" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
         <path d="M235,55 Q198,95 235,135 Q272,175 235,215" fill="none" stroke="${P.ac}" stroke-width="2.5" stroke-linecap="round"/>
-        ${[70,95,120,145,170,195].map(y=>`${LN(195,y,235,y,P.li,1.8)}`).join("")}
         ${LB(215,238,"DNA double helix","#8b949e",8.5)}
+        ${[70,95,120,145,170,195].map(y=>`${LN(195,y,235,y,P.li,1.8)}`).join("")}
+        ${LN(305,75, 400,75, P.li,1,"3 2")} ${LN(305,148,400,148,P.li,1,"3 2")} ${LN(305,220,400,220,P.li,1,"3 2")}
+        ${LN(460,75, 550,75, P.li,1,"2 2")} ${LN(460,148,550,148,P.li,1,"2 2")} ${LN(460,220,550,220,P.li,1,"2 2")}
         ${H6(430,75, 30,P.fi,P.st)} ${HT(430,75, ["Codons","triplet code"],9)}
         ${H6(580,75, 30,P.fi,P.st)} ${HT(580,75, ["mRNA","transcription"],8.5)}
         ${H6(430,148,30,P.fi,P.st)} ${HT(430,148,["tRNA","translation"],9.5)}
         ${H6(580,148,30,P.fi,P.st)} ${HT(580,148,["Ribosome","protein"],9)}
         ${H6(430,220,30,P.fi,P.st)} ${HT(430,220,["Alleles","dom./rec."],9)}
         ${H6(580,220,30,P.fi,P.st)} ${HT(580,220,["Punnett","square"],9)}
-        ${LN(305,75, 400,75, P.li,1,"3 2")} ${LN(305,148,400,148,P.li,1,"3 2")} ${LN(305,220,400,220,P.li,1,"3 2")}
-        ${LN(460,75, 550,75, P.li,1,"2 2")} ${LN(460,148,550,148,P.li,1,"2 2")} ${LN(460,220,550,220,P.li,1,"2 2")}
       `);
     }
 
@@ -998,16 +1019,16 @@ function buildTopicDiagramSvg(topic) {
       return wrap(`
         ${TT("Mitotic Cell Cycle")}
         <circle cx="350" cy="148" r="88" fill="none" stroke="${P.li}" stroke-width="1.4" stroke-dasharray="5 4"/>
+        ${LN(474,105,562,100,P.li,1,"3 2")} ${LN(474,191,562,205,P.li,1,"3 2")}
         ${H6(350,55, 28,P.fi,P.st)} ${HT(350,55, ["G1","growth"],9.5)}
         ${H6(444,100,28,P.fi,P.st)} ${HT(444,100,["S","DNA rep."],9.5)}
         ${H6(444,196,28,P.fi,P.st)} ${HT(444,196,["G2","check"],9.5)}
         ${H6(350,238,28,P.fi,P.st)} ${HT(350,238,["M","PMAT"],9.5)}
         ${H6(256,196,28,P.fi,P.st)} ${HT(256,196,["Cyto-","kinesis"],9)}
         ${H6(256,100,28,P.fi,P.st)} ${HT(256,100,["Interp-","hase"],9)}
-        ${H6(350,148,36,"rgba(34,197,94,.3)",P.st)} ${HT(350,148,["Cell","Cycle"],11)}
+        ${H6(350,148,36,"#0a1c10",P.st)} ${HT(350,148,["Cell","Cycle"],11)}
         ${H6(590,90, 28,P.fi,P.st)} ${HT(590,90, ["Checkpt","p53 gene"],8.5)}
         ${H6(590,210,28,P.fi,P.st)} ${HT(590,210,["Cancer","uncontrolled"],8)}
-        ${LN(474,105,562,100,P.li,1,"3 2")} ${LN(474,191,562,205,P.li,1,"3 2")}
       `);
     }
 
@@ -1015,17 +1036,17 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,94,4,-45);
       return wrap(`
         ${TT("Immunity")}
+        ${LB(350,48,"Antigen → lymphocyte activation → antibody / cytotoxic response",P.ac,8.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(118,148,220,148,P.li,1,"3 2")} ${LN(480,148,582,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Specific","Immunity"],10.5)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["B cells","antibodies"],9)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["T cells","cytotoxic"],9)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Memory","cells"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Vaccines","herd immun."],8.5)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,148,28,P.fi,P.st)}  ${HT(90,148,["Phago-","cytosis"],9)}
         ${H6(610,148,28,P.fi,P.st)} ${HT(610,148,["Clonal","selection"],8.5)}
-        ${LN(118,148,220,148,P.li,1,"3 2")} ${LN(480,148,582,148,P.li,1,"3 2")}
-        ${LB(350,48,"Antigen → lymphocyte activation → antibody / cytotoxic response",P.ac,8.5)}
       `);
     }
 
@@ -1034,15 +1055,15 @@ function buildTopicDiagramSvg(topic) {
         ${TT("Transport in Mammals")}
         <path d="M312,82 Q316,54 350,68 Q384,54 388,82 Q415,108 388,138 Q369,158 350,172 Q331,158 312,138 Q285,108 312,82Z" fill="${P.fi}" stroke="${P.st}" stroke-width="2"/>
         ${LB(350,125,"Heart","#e6edf3",11)}
+        ${AR(160,82, 298,96, P.li)} ${AR(160,215,298,158,P.li)}
+        ${AR(402,96, 540,82, P.li)} ${AR(402,158,540,215,P.li)}
+        ${LN(350,74, 350,62,P.li,1,"3 2")} ${LN(350,172,350,228,P.li,1,"3 2")}
         ${H6(130,75, 30,P.fi,P.st)} ${HT(130,75, ["Pulmon-","ary circ."],9)}
         ${H6(130,222,30,P.fi,P.st)} ${HT(130,222,["Systemic","circ."],9.5)}
         ${H6(570,75, 30,P.fi,P.st)} ${HT(570,75, ["Arteries","thick wall"],8.5)}
         ${H6(570,222,30,P.fi,P.st)} ${HT(570,222,["Veins","valves"],9.5)}
         ${H6(350,48, 26,P.fi,P.st)} ${HT(350,48, ["Double","circulation"],8.5)}
         ${H6(350,240,26,P.fi,P.st)} ${HT(350,240,["Capillaries","exchange"],8.5)}
-        ${AR(160,82, 298,96, P.li)} ${AR(160,215,298,158,P.li)}
-        ${AR(402,96, 540,82, P.li)} ${AR(402,158,540,215,P.li)}
-        ${LN(350,74, 350,62,P.li,1,"3 2")} ${LN(350,172,350,228,P.li,1,"3 2")}
       `);
     }
 
@@ -1050,18 +1071,18 @@ function buildTopicDiagramSvg(topic) {
       return wrap(`
         ${TT("Transport in Plants")}
         <rect x="240" y="52" width="44" height="178" rx="8" fill="${P.fi}" stroke="${P.st}" stroke-width="1.6"/>
-        <rect x="312" y="52" width="44" height="178" rx="8" fill="rgba(34,197,94,.10)" stroke="${P.st}" stroke-width="1.6"/>
+        <rect x="312" y="52" width="44" height="178" rx="8" fill="#0a1c10" stroke="${P.st}" stroke-width="1.6"/>
         ${LB(262,44,"Xylem",P.ac,9)} ${LB(334,44,"Phloem",P.ac,9)}
         ${[68,92,116,140,164,188].map(y=>`${LN(240,y,284,y,P.ac,1,"5 4")}`).join("")}
         ${LN(334,52,334,230,P.li,1.2,"5 4")}
+        ${AR(145,80, 238,100,P.li)} ${AR(145,200,238,180,P.li)}
+        ${AR(356,95, 510,88, P.li)} ${AR(356,175,510,192,P.li)}
+        ${LN(566,110,598,128,P.li,1,"3 2")} ${LN(566,170,598,152,P.li,1,"3 2")}
         ${H6(115,80, 30,P.fi,P.st)} ${HT(115,80, ["Cohesion","tension"],9)}
         ${H6(115,200,30,P.fi,P.st)} ${HT(115,200,["Root hair","active up."],8.5)}
         ${H6(540,80, 30,P.fi,P.st)} ${HT(540,80, ["Source","to sink"],9.5)}
         ${H6(540,200,30,P.fi,P.st)} ${HT(540,200,["Transpir-","ation"],9)}
         ${H6(620,140,26,P.fi,P.st)} ${HT(620,140,["Stomata","guard cells"],8.5)}
-        ${AR(145,80, 238,100,P.li)} ${AR(145,200,238,180,P.li)}
-        ${AR(356,95, 510,88, P.li)} ${AR(356,175,510,192,P.li)}
-        ${LN(566,110,598,128,P.li,1,"3 2")} ${LN(566,170,598,152,P.li,1,"3 2")}
       `);
     }
 
@@ -1069,17 +1090,17 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,95,4,-45);
       return wrap(`
         ${TT("Infectious Diseases")}
+        ${LB(350,46,"Transmission: direct, droplet, vector, faecal-oral",P.ac,9)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,38,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Patho-","gens"],12)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Bacteria","prokaryote"],8.5)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Viruses","non-living"],8.5)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Fungi","eukaryote"],9)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Parasites","vectors"],9)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Antibiotics"],8)}
         ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Resistance"],8)}
-        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
-        ${LB(350,46,"Transmission: direct, droplet, vector, faecal-oral",P.ac,9)}
       `);
     }
 
@@ -1090,8 +1111,8 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,95,5,-90);
       return wrap(`
         ${TT(topic.title)}
-        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
         ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
       `);
     }
   }
@@ -1105,16 +1126,16 @@ function buildTopicDiagramSvg(topic) {
       const AX=58, AY=218, BX=658, BY=218, TY=58;
       return wrap(`
         ${TT("Kinematics — SUVAT")}
-        ${LN(AX,AY,BX,AY,"#8b949e",1.5)}
-        ${LN(AX,AY,AX,TY,"#8b949e",1.5)}
         <path d="M${AX},${AY} Q158,155 258,168 Q358,180 458,108 Q508,78 ${BX},62" fill="none" stroke="${P.ac}" stroke-width="3" stroke-linecap="round"/>
         ${LB(660,62,"v",P.ac,11,"start")} ${LB(AX-8,TY,"","#8b949e",9)} ${LB(660,225,"t","#8b949e",10,"start")}
         ${LB(40,AY,"0","#8b949e",9)} ${LB(200,140,"gradient = a","#8b949e",8.5)} ${LB(480,215,"area under = s","#8b949e",8.5)}
+        ${LB(38,58,"v",P.ac,10)}
+        ${LN(AX,AY,BX,AY,"#8b949e",1.5)}
+        ${LN(AX,AY,AX,TY,"#8b949e",1.5)}
+        ${LN(200,84,200,95,P.li,1,"3 2")} ${LN(370,76,370,95,P.li,1,"3 2")} ${LN(550,84,550,95,P.li,1,"3 2")}
         ${H6(200,58,26,P.fi,P.st)} ${HT(200,58,["v=u+at"],9.5)}
         ${H6(370,50,26,P.fi,P.st)} ${HT(370,50,["s=ut+½at²"],8.5)}
         ${H6(550,58,26,P.fi,P.st)} ${HT(550,58,["v²=u²+2as"],8.5)}
-        ${LN(200,84,200,95,P.li,1,"3 2")} ${LN(370,76,370,95,P.li,1,"3 2")} ${LN(550,84,550,95,P.li,1,"3 2")}
-        ${LB(38,58,"v",P.ac,10)}
       `);
     }
 
@@ -1122,15 +1143,15 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,94,5,-90);
       return wrap(`
         ${TT("Dynamics — Newton's Laws")}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${LN(116,148,222,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["F = ma"],14)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["1st Law","inertia"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["3rd Law","equal &","opp."],9)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Friction","μ = F/N"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Momentum","p = mv"],9.5)}
         ${H6(sp[5].cx,sp[5].cy,30,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Weight","W = mg"],9.5)}
-        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
         ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Impulse","FΔt=Δp"],8.5)}
-        ${LN(116,148,222,148,P.li,1,"3 2")}
       `);
     }
 
@@ -1138,17 +1159,17 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,94,4,-45);
       return wrap(`
         ${TT("Work, Energy & Power")}
+        ${LB(350,46,"KE ↔ GPE  (conservation of energy)",P.ac,9.5)}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Energy","conserv."],11)}
         ${H6(sp[1].cx,sp[1].cy,32,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["KE","½mv²"],12)}
         ${H6(sp[2].cx,sp[2].cy,32,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["GPE","mgh"],12)}
         ${H6(sp[3].cx,sp[3].cy,32,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Work","Fs cosθ"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,32,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Power","P = Fv"],9.5)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Effic.","useful/total"],8)}
         ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Elastic","PE = ½kx²"],8)}
-        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
-        ${LB(350,46,"KE ↔ GPE  (conservation of energy)",P.ac,9.5)}
       `);
     }
 
@@ -1173,16 +1194,16 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,94,4,-45);
       return wrap(`
         ${TT("Electricity & Circuits")}
+        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
+        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
+        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["V = IR","Ohm's"],12)}
         ${H6(sp[1].cx,sp[1].cy,30,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Series","ΣR = R₁+R₂"],8.5)}
         ${H6(sp[2].cx,sp[2].cy,30,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Parallel","1/R=Σ1/Rₙ"],8.5)}
         ${H6(sp[3].cx,sp[3].cy,30,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Power","P=IV=I²R"],9)}
         ${H6(sp[4].cx,sp[4].cy,30,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["EMF","ε=I(R+r)"],9.5)}
-        ${LN(sp[0].cx,sp[0].cy,sp[1].cx,sp[1].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[2].cx,sp[2].cy,P.li)}
-        ${LN(sp[0].cx,sp[0].cy,sp[3].cx,sp[3].cy,P.li)} ${LN(sp[0].cx,sp[0].cy,sp[4].cx,sp[4].cy,P.li)}
         ${H6(90,148,26,P.fi,P.st)}  ${HT(90,148,["Q = It","charge"],8.5)}
         ${H6(610,148,26,P.fi,P.st)} ${HT(610,148,["Kirchhoff","I & V laws"],8)}
-        ${LN(116,148,220,148,P.li,1,"3 2")} ${LN(480,148,584,148,P.li,1,"3 2")}
       `);
     }
 
@@ -1190,34 +1211,34 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,95,5,-90);
       return wrap(`
         ${TT("Particle Physics")}
+        ${LB(350,46,"Conservation laws: charge, baryon no., lepton no.",P.ac,8.5)}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${LN(114,148,222,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Standard","Model"],11)}
         ${H6(sp[1].cx,sp[1].cy,28,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Quarks","u d s c b t"],8.5)}
         ${H6(sp[2].cx,sp[2].cy,28,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Leptons","e⁻ μ τ ν"],9)}
         ${H6(sp[3].cx,sp[3].cy,28,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Bosons","force carr."],8.5)}
         ${H6(sp[4].cx,sp[4].cy,28,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["Antimat-","ter"],9.5)}
         ${H6(sp[5].cx,sp[5].cy,28,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Hadrons","baryon/meson"],8)}
-        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
         ${H6(90,148,24,P.fi,P.st)}  ${HT(90,148,["E=hf","photon"],8.5)}
-        ${LN(114,148,222,148,P.li,1,"3 2")}
-        ${LB(350,46,"Conservation laws: charge, baryon no., lepton no.",P.ac,8.5)}
       `);
     }
 
     if(tid.includes("deformation")){
       return wrap(`
         ${TT("Deformation of Solids")}
-        ${LN(110,220,110,60,"#8b949e",1.5)} ${LN(110,220,650,220,"#8b949e",1.5)}
         <path d="M110,220 L210,220 L210,130 Q240,80 280,110 L400,220" fill="none" stroke="${P.ac}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
         ${LB(155,232,"elastic","#22c55e",9)} ${LB(310,232,"plastic","#f97316",9)}
-        ${LN(210,130,210,220,"#8b949e",1,"3 3")}
         ${LB(213,142,"elastic limit","#8b949e",8.5,"start")}
         ${LB(118,55,"stress σ","#8b949e",9,"start")} ${LB(640,228,"strain ε","#8b949e",9,"end")}
+        ${LN(110,220,110,60,"#8b949e",1.5)} ${LN(110,220,650,220,"#8b949e",1.5)}
+        ${LN(210,130,210,220,"#8b949e",1,"3 3")}
+        ${LN(480,90, 420,100,P.li,1,"3 2")} ${LN(480,180,420,190,P.li,1,"3 2")}
+        ${LN(510,124,510,146,P.li,1,"2 2")} ${LN(620,120,620,150,P.li,1,"2 2")}
         ${H6(510,90, 34,P.fi,P.st)} ${HT(510,90, ["Young","E = σ/ε"],10)}
         ${H6(620,90, 30,P.fi,P.st)} ${HT(620,90, ["Elastic","limit"],9.5)}
         ${H6(510,180,34,P.fi,P.st)} ${HT(510,180,["Hooke's","F = kx"],10)}
         ${H6(620,180,30,P.fi,P.st)} ${HT(620,180,["UTS","fracture"],9.5)}
-        ${LN(480,90, 420,100,P.li,1,"3 2")} ${LN(480,180,420,190,P.li,1,"3 2")}
-        ${LN(510,124,510,146,P.li,1,"2 2")} ${LN(620,120,620,150,P.li,1,"2 2")}
       `);
     }
 
@@ -1225,16 +1246,16 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,95,5,-90);
       return wrap(`
         ${TT("Measurements & Uncertainties")}
+        ${LB(350,46,"Add Δx for + and −;  add %Δx for × and ÷",P.ac,9)}
+        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${LN(114,148,222,148,P.li,1,"3 2")}
         ${H6(sp[0].cx,sp[0].cy,40,P.fi,P.st)} ${HT(sp[0].cx,sp[0].cy,["Uncert-","ainty"],11)}
         ${H6(sp[1].cx,sp[1].cy,28,P.fi,P.st)} ${HT(sp[1].cx,sp[1].cy,["Random","scatter"],9.5)}
         ${H6(sp[2].cx,sp[2].cy,28,P.fi,P.st)} ${HT(sp[2].cx,sp[2].cy,["Systematic","zero err."],8.5)}
         ${H6(sp[3].cx,sp[3].cy,28,P.fi,P.st)} ${HT(sp[3].cx,sp[3].cy,["Absolute","± Δx"],9.5)}
         ${H6(sp[4].cx,sp[4].cy,28,P.fi,P.st)} ${HT(sp[4].cx,sp[4].cy,["% uncert.","Δx/x×100"],8.5)}
         ${H6(sp[5].cx,sp[5].cy,28,P.fi,P.st)} ${HT(sp[5].cx,sp[5].cy,["Precision","repeat"],9.5)}
-        ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
         ${H6(90,148,24,P.fi,P.st)}  ${HT(90,148,["Accuracy","calibrate"],7.5)}
-        ${LN(114,148,222,148,P.li,1,"3 2")}
-        ${LB(350,46,"Add Δx for + and −;  add %Δx for × and ÷",P.ac,9)}
       `);
     }
 
@@ -1245,8 +1266,8 @@ function buildTopicDiagramSvg(topic) {
       const sp=spoke(350,148,95,5,-90);
       return wrap(`
         ${TT(topic.title)}
-        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
         ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+        ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:labs[i-1]],i===0?11:9)}`).join("")}
       `);
     }
   }
@@ -5234,7 +5255,6 @@ function tpPrint() {
 }
 
 function tpExportPdf() {
-  // Build a clean print-ready page: questions first, then full mark scheme
   const questions = _tp._questions;
   if (!questions || !questions.length) { showToast('Generate a paper first'); return; }
 
@@ -5242,19 +5262,23 @@ function tpExportPdf() {
   const typeLabel = { mcq: 'Paper 1 — Multiple Choice', structured: 'Paper 2 — Structured Questions', mixed: 'Mixed Practice Paper' }[_tp.type];
   const dateStr   = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
 
-  // Build clean HTML for a new window (answers hidden in question section, shown in MS)
-  let qSection = '';
   const mcqQs = questions.filter(q => q.type === 'mcq');
   const strQs = questions.filter(q => q.type === 'structured');
 
+  let qSection = '';
   if (mcqQs.length) {
-    qSection += `<h3 class="section-head">Section A — Multiple Choice</h3>`;
+    qSection += `<h3 class="section-head">Section A — Multiple Choice &nbsp;<span class="section-marks">(${mcqQs.length} marks)</span></h3>`;
     mcqQs.forEach(q => {
       qSection += `<div class="question">
         <div class="qnum">${q.num}</div>
         <div class="qbody">
-          <p>${q.q}</p>
-          ${(q.opts||[]).map((o,i)=>`<div class="opt"><span class="opt-letter">${String.fromCharCode(65+i)}</span>${o}</div>`).join('')}
+          <p class="qtext">${q.q}</p>
+          <div class="opts">${(q.opts||[]).map((o,i)=>`
+            <div class="opt">
+              <span class="opt-letter">${String.fromCharCode(65+i)}</span>
+              <span class="opt-text">${o}</span>
+            </div>`).join('')}
+          </div>
         </div>
       </div>`;
     });
@@ -5263,11 +5287,12 @@ function tpExportPdf() {
     qSection += `<h3 class="section-head">Section B — Structured Questions</h3>`;
     strQs.forEach(q => {
       const marks = (q.steps||[]).length;
-      qSection += `<div class="question">
+      const lines = Math.max(5, marks * 2);
+      qSection += `<div class="question str-question">
         <div class="qnum">${q.num}</div>
         <div class="qbody">
-          <p>${q.q} <span class="marks">[${marks} marks]</span></p>
-          ${'<div class="ans-line"></div>'.repeat(Math.max(4, marks*2))}
+          <p class="qtext">${q.q} <span class="marks-inline">[${marks}]</span></p>
+          <div class="ans-lines">${'<div class="ans-line"></div>'.repeat(lines)}</div>
         </div>
       </div>`;
     });
@@ -5277,61 +5302,151 @@ function tpExportPdf() {
   questions.forEach(q => {
     if (q.type === 'mcq') {
       msSection += `<div class="ms-item">
-        <span class="ms-num">${q.num}</span>
-        <span class="ms-ans">${String.fromCharCode(65+q.ans)}</span>
-        <span class="ms-exp">${q.exp||''}</span>
+        <div class="ms-left">
+          <span class="ms-num">${q.num}</span>
+          <span class="ms-ans-badge">${String.fromCharCode(65+q.ans)}</span>
+        </div>
+        <div class="ms-right">
+          <span class="ms-exp">${q.exp||''}</span>
+        </div>
       </div>`;
     } else {
+      const stepsHtml = (q.steps||[]).map((s,i)=>`
+        <div class="ms-step">
+          <span class="ms-step-n">(${i+1})</span>
+          <div class="ms-step-body"><strong>${s.sub}</strong><p>${s.text}</p></div>
+        </div>`).join('');
       msSection += `<div class="ms-item ms-str">
-        <span class="ms-num">${q.num}</span>
-        <div>${(q.steps||[]).map((s,i)=>`<div class="ms-step"><strong>(${i+1}) ${s.sub}:</strong> ${s.text}</div>`).join('')}</div>
+        <div class="ms-left"><span class="ms-num">${q.num}</span></div>
+        <div class="ms-right"><div class="ms-steps">${stepsHtml}</div></div>
       </div>`;
     }
   });
 
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
-  <title>${subjName} — ${typeLabel}</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Segoe UI',Arial,sans-serif;font-size:11pt;color:#111;padding:2cm;line-height:1.5}
-    h1{font-size:16pt;margin-bottom:4px} h2{font-size:12pt;color:#555;font-weight:400;margin-bottom:2px}
-    .date{font-size:9pt;color:#888;margin-bottom:20px}
-    .section-head{font-size:11pt;font-weight:700;background:#f0f0f0;padding:5px 10px;
-      margin:20px 0 10px;border-left:4px solid #00d4aa}
-    .question{display:flex;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #eee}
-    .qnum{width:22px;height:22px;background:#111;color:#fff;border-radius:50%;display:flex;
-      align-items:center;justify-content:center;font-size:9pt;font-weight:700;flex-shrink:0;margin-top:2px}
-    .qbody{flex:1} .qbody p{margin-bottom:8px}
-    .opt{display:flex;gap:8px;align-items:center;margin-bottom:5px;font-size:10.5pt}
-    .opt-letter{width:18px;height:18px;border:1.5px solid #999;border-radius:50%;display:flex;
-      align-items:center;justify-content:center;font-size:8pt;font-weight:700;flex-shrink:0}
-    .marks{font-size:9pt;color:#777;margin-left:8px}
-    .ans-line{border-bottom:1px solid #ccc;height:22px;margin-bottom:4px}
-    /* Mark scheme */
-    .ms-page{page-break-before:always;padding-top:1cm}
-    .ms-item{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid #eee;align-items:flex-start}
-    .ms-num{width:22px;height:22px;border:1px solid #ccc;border-radius:50%;display:flex;
-      align-items:center;justify-content:center;font-size:9pt;font-weight:700;flex-shrink:0}
-    .ms-ans{background:#111;color:#fff;padding:1px 8px;border-radius:3px;font-weight:700;font-size:10pt;flex-shrink:0}
-    .ms-exp{font-size:10pt;color:#444}
-    .ms-step{margin-bottom:4px;font-size:10pt}
-    @page{margin:2cm} @media print{body{padding:0}}
-  </style></head><body>
+  const css = `
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @page { size: A4; margin: 18mm 20mm; }
+    html { font-size: 10.5pt; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; line-height: 1.5; }
+
+    /* Header */
+    .doc-header { border-bottom: 2px solid #111; padding-bottom: 8px; margin-bottom: 16px; }
+    .doc-header h1 { font-size: 15pt; font-weight: 700; }
+    .doc-header .sub { font-size: 10pt; color: #444; margin-top: 2px; }
+    .doc-header .date { font-size: 8.5pt; color: #888; margin-top: 2px; }
+
+    /* Section headings */
+    .section-head {
+      font-size: 10pt; font-weight: 700;
+      background: #f2f2f2; border-left: 4px solid #111;
+      padding: 5px 9px; margin: 18px 0 10px;
+      break-after: avoid;          /* keep heading with next question */
+    }
+    .section-marks { font-weight: 400; color: #555; }
+
+    /* Questions — each is a page-break-inside:avoid unit */
+    .question {
+      display: flex; gap: 10px;
+      margin-bottom: 12px;
+      break-inside: avoid;         /* never split a question across pages */
+      page-break-inside: avoid;
+    }
+    .qnum {
+      flex-shrink: 0;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #111; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8pt; font-weight: 700; margin-top: 1px;
+    }
+    .qbody { flex: 1; }
+    .qtext { margin-bottom: 7px; font-size: 10.5pt; }
+
+    /* MCQ options */
+    .opts { display: flex; flex-direction: column; gap: 4px; }
+    .opt { display: flex; gap: 8px; align-items: flex-start; font-size: 10pt; }
+    .opt-letter {
+      flex-shrink: 0; width: 17px; height: 17px;
+      border: 1.5px solid #888; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8pt; font-weight: 700; margin-top: 1px;
+    }
+    .opt-text { line-height: 1.4; }
+
+    /* Structured answer lines */
+    .str-question .qbody { width: 100%; }
+    .marks-inline { font-size: 9pt; color: #666; margin-left: 4px; }
+    .ans-lines { margin-top: 8px; }
+    .ans-line {
+      border-bottom: 1px solid #bbb;
+      height: 22px;
+      margin-bottom: 0;
+    }
+
+    /* Mark scheme page */
+    .ms-page { break-before: page; page-break-before: always; }
+    .ms-header { border-bottom: 2px solid #111; padding-bottom: 8px; margin-bottom: 14px; }
+    .ms-header h1 { font-size: 14pt; font-weight: 700; }
+    .ms-header .sub { font-size: 9pt; color: #555; margin-top: 2px; }
+
+    .ms-item {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 7px 0; border-bottom: 1px solid #e8e8e8;
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .ms-item:last-child { border-bottom: none; }
+    .ms-left { display: flex; align-items: center; gap: 6px; flex-shrink: 0; min-width: 52px; }
+    .ms-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 1.5px solid #999;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8pt; font-weight: 700; flex-shrink: 0;
+    }
+    .ms-ans-badge {
+      background: #111; color: #fff; font-weight: 800;
+      padding: 2px 7px; border-radius: 3px; font-size: 10pt;
+    }
+    .ms-right { flex: 1; font-size: 9.5pt; }
+    .ms-exp { color: #333; line-height: 1.45; }
+
+    .ms-str .ms-right { padding-top: 1px; }
+    .ms-steps { display: flex; flex-direction: column; gap: 5px; }
+    .ms-step { display: flex; gap: 7px; font-size: 9.5pt; }
+    .ms-step-n { flex-shrink: 0; color: #777; min-width: 22px; }
+    .ms-step-body p { color: #444; margin-top: 2px; font-size: 9pt; }
+  `;
+
+  const html = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<title>${subjName} — ${typeLabel}</title>
+<style>${css}</style>
+</head><body>
+
+<div class="doc-header">
   <h1>${subjName}</h1>
-  <h2>${typeLabel}</h2>
-  <p class="date">Generated ${dateStr} · ${questions.length} questions</p>
-  ${qSection}
-  <div class="ms-page">
+  <p class="sub">${typeLabel}</p>
+  <p class="date">Generated ${dateStr} &nbsp;·&nbsp; ${questions.length} question${questions.length!==1?'s':''} &nbsp;·&nbsp; ${mcqQs.length} MCQ &nbsp;·&nbsp; ${strQs.length} structured</p>
+</div>
+
+${qSection}
+
+<div class="ms-page">
+  <div class="ms-header">
     <h1>Mark Scheme</h1>
-    <h2>${subjName} — ${typeLabel}</h2>
-    <p class="date">${dateStr}</p>
-    <div style="margin-top:14px">${msSection}</div>
+    <p class="sub">${subjName} — ${typeLabel}</p>
+    <p class="sub">${dateStr}</p>
   </div>
-  <script>window.onload=()=>window.print();<\/script>
-  </body></html>`;
+  ${msSection}
+</div>
+
+<script>
+  // Auto-open print dialog when loaded
+  window.addEventListener('load', () => setTimeout(() => window.print(), 400));
+<\/script>
+</body></html>`;
 
   const win = window.open('', '_blank');
-  if (!win) { showToast('Allow pop-ups to export PDF'); return; }
+  if (!win) { showToast('Allow pop-ups to export PDF — check your browser settings'); return; }
+  win.document.open();
   win.document.write(html);
   win.document.close();
 }

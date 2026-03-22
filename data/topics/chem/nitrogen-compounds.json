@@ -155,6 +155,226 @@
         ],
         "ans": 2,
         "exp": "LiAlH\u2084 provides H\u207b (hydride ions) to reduce the \u2013CN group to \u2013CH\u2082NH\u2082 \u2014 a four-hydrogen reduction."
+      },
+      {
+        "q": "What reagent converts a primary amine into an amide?",
+        "opts": [
+          "Dilute HCl",
+          "An acyl chloride (RCOCl)",
+          "Aqueous NaOH",
+          "PCl\u2085"
+        ],
+        "ans": 1,
+        "exp": "RCOCl + R'NH\u2082 \u2192 RCONHR' + HCl. Acyl chlorides react vigorously with primary amines to give secondary amides. The reaction proceeds without a catalyst because the acyl chloride is much more reactive than a carboxylic acid."
+      },
+      {
+        "q": "Why are aliphatic amines (e.g. methylamine) stronger bases than ammonia?",
+        "opts": [
+          "Alkyl groups are electron-withdrawing, increasing the positive charge on N",
+          "Alkyl groups are electron-donating, increasing electron density on N",
+          "Alkyl groups decrease the size of the lone pair",
+          "Methylamine has a lower pKa than ammonia"
+        ],
+        "ans": 1,
+        "exp": "Alkyl groups donate electron density to the nitrogen by the inductive effect, making the lone pair more available for protonation. More available lone pair = stronger base. CH\u2083NH\u2082 has pKb ~3.4 vs NH\u2083 pKb ~4.7."
+      },
+      {
+        "q": "How is phenylamine (aniline) synthesised from nitrobenzene?",
+        "opts": [
+          "Reduction with Sn/HCl under reflux, then NaOH",
+          "Oxidation with K\u2082Cr\u2082O\u2087/H\u2082SO\u2084",
+          "Nucleophilic substitution with NH\u2083",
+          "Free radical substitution"
+        ],
+        "ans": 0,
+        "exp": "C\u2086H\u2085NO\u2082 + 3[H] \u2192 C\u2086H\u2085NH\u2082 + H\u2082O. Tin (Sn) and concentrated HCl reduce the nitro group. The initial product is the phenylammonium salt; NaOH is then added to liberate free phenylamine."
+      },
+      {
+        "q": "At the isoelectric point of an amino acid, the species present is:",
+        "opts": [
+          "Only the uncharged form R\u2013CH(NH\u2082)\u2013COOH",
+          "The zwitterion R\u2013CH(NH\u2083\u207a)\u2013COO\u207b",
+          "Mainly the cation R\u2013CH(NH\u2083\u207a)\u2013COOH",
+          "Mainly the anion R\u2013CH(NH\u2082)\u2013COO\u207b"
+        ],
+        "ans": 1,
+        "exp": "At the isoelectric point (pI), the amino acid exists predominantly as the zwitterion with both charges present but net charge zero. The \u2013COOH donates its proton to \u2013NH\u2082, giving \u2013COO\u207b and \u2013NH\u2083\u207a simultaneously."
+      },
+      {
+        "q": "What colour does ninhydrin spray give with amino acids on a TLC plate?",
+        "opts": [
+          "Yellow",
+          "Orange",
+          "Purple/violet",
+          "Blue-black"
+        ],
+        "ans": 2,
+        "exp": "Ninhydrin reacts with the \u03b1-amino group of amino acids to produce a purple/violet compound (Ruhemann's purple). This is used to visualise amino acid spots on TLC or paper chromatography plates."
+      },
+      {
+        "q": "Which of these amines is the weakest base?",
+        "opts": [
+          "Ethylamine (C\u2082H\u2085NH\u2082)",
+          "Dimethylamine ((CH\u2083)\u2082NH)",
+          "Phenylamine (C\u2086H\u2085NH\u2082)",
+          "Ammonia (NH\u2083)"
+        ],
+        "ans": 2,
+        "exp": "Phenylamine is the weakest base because the lone pair on N is delocalised into the benzene ring's \u03c0 system, making it far less available for protonation. Pkb of phenylamine ~9.4 vs NH\u2083 ~4.7."
+      },
+      {
+        "q": "What is the product when a nitrile is reduced with LiAlH\u2084?",
+        "opts": [
+          "A carboxylic acid",
+          "An aldehyde",
+          "A primary amine",
+          "A secondary amine"
+        ],
+        "ans": 2,
+        "exp": "R\u2013CN + 4[H] \u2192 R\u2013CH\u2082\u2013NH\u2082. LiAlH\u2084 reduces the C\u2261N triple bond fully to give a primary amine with one more carbon than the nitrile. This is a useful chain-lengthening route in synthesis."
+      },
+      {
+        "q": "Which reaction produces an amide bond (peptide bond)?",
+        "opts": [
+          "Esterification between \u2013COOH and \u2013OH",
+          "Condensation between \u2013COOH of one amino acid and \u2013NH\u2082 of another",
+          "Reaction of amine with HCl",
+          "Reduction of a nitrile"
+        ],
+        "ans": 1,
+        "exp": "The peptide bond (\u2013CO\u2013NH\u2013) forms by condensation between the carboxyl group (\u2013COOH) of one amino acid and the amino group (\u2013NH\u2082) of another, releasing water. This linkage forms the primary structure of proteins."
+      },
+      {
+        "q": "A primary amine is treated with HCl. What type of product forms?",
+        "opts": [
+          "An amide",
+          "An alkylammonium salt",
+          "An alkene",
+          "A nitrile"
+        ],
+        "ans": 1,
+        "exp": "R\u2013NH\u2082 + HCl \u2192 R\u2013NH\u2083\u207aCl\u207b. Amines act as Br\u00f8nsted bases, accepting H\u207a from HCl to form an alkylammonium salt. These salts are typically white solids, soluble in water."
+      },
+      {
+        "q": "Why is paper/TLC chromatography used to identify amino acids after protein hydrolysis?",
+        "opts": [
+          "Amino acids are coloured so they can be seen directly",
+          "Each amino acid has a characteristic Rf value; spots are visualised with ninhydrin",
+          "Amino acids form precipitates at the solvent front",
+          "The technique separates amino acids by molecular mass"
+        ],
+        "ans": 1,
+        "exp": "After acid hydrolysis, the mixture of amino acids is spotted on TLC and developed. Each amino acid travels a characteristic distance (Rf). Ninhydrin spray reveals the spots as purple marks. Rf values identify each amino acid by comparison with standards."
+      },
+      {
+        "q": "How is phenylamine (aniline) prepared from nitrobenzene?",
+        "opts": [
+          "Reduction with Sn/HCl",
+          "Oxidation with KMnO\u2084",
+          "Nucleophilic substitution",
+          "Free radical addition"
+        ],
+        "ans": 0,
+        "exp": "Nitrobenzene + Sn + conc. HCl \u2192 phenylammonium salt \u2192 phenylamine on addition of NaOH. Sn/HCl reduces the nitro group."
+      },
+      {
+        "q": "Phenylamine is a weaker base than ammonia because:",
+        "opts": [
+          "The lone pair on N is donated into the benzene ring (delocalised)",
+          "The N\u2013H bond is too strong",
+          "Phenylamine has more steric hindrance",
+          "Benzene withdraws electrons via induction"
+        ],
+        "ans": 0,
+        "exp": "The lone pair on N is partially delocalised into the \u03c0 system of the benzene ring, making it less available to accept a proton."
+      },
+      {
+        "q": "What type of reaction forms a peptide bond between two amino acids?",
+        "opts": [
+          "Addition",
+          "Condensation (with loss of water)",
+          "Substitution",
+          "Elimination"
+        ],
+        "ans": 1,
+        "exp": "A peptide bond (\u2013CO\u2013NH\u2013) forms by condensation between \u2013COOH of one amino acid and \u2013NH\u2082 of another, releasing H\u2082O."
+      },
+      {
+        "q": "At the isoelectric point of an amino acid, the species present is:",
+        "opts": [
+          "\u2013NH\u2082 and \u2013COOH form (uncharged)",
+          "Zwitterion \u2013NH\u2083\u207a and \u2013COO\u207b",
+          "Cation \u2013NH\u2083\u207a only",
+          "Anion \u2013COO\u207b only"
+        ],
+        "ans": 1,
+        "exp": "At the isoelectric point (pI), the amino acid exists as a zwitterion \u2014 net charge is zero but it carries both +1 and \u22121 groups."
+      },
+      {
+        "q": "Which reagent converts a halogenoalkane to a primary amine?",
+        "opts": [
+          "Aqueous NaOH",
+          "KCN in ethanol",
+          "Excess concentrated NH\u2083 in a sealed tube",
+          "LiAlH\u2084"
+        ],
+        "ans": 2,
+        "exp": "RX + excess NH\u2083 (ethanol, sealed tube, heat) \u2192 RNH\u2082 + HX. Excess NH\u2083 prevents further alkylation to secondary/tertiary amines."
+      },
+      {
+        "q": "Ethylamine reacts with hydrochloric acid. The product is:",
+        "opts": [
+          "Ethanol",
+          "Ethylammonium chloride (a salt)",
+          "Chloroethane",
+          "Ethene"
+        ],
+        "ans": 1,
+        "exp": "Amines are bases: C\u2082H\u2085NH\u2082 + HCl \u2192 C\u2082H\u2085NH\u2083\u207aCl\u207b (ethylammonium chloride). This is an acid-base neutralisation."
+      },
+      {
+        "q": "A primary amine reacts with an acyl chloride to give:",
+        "opts": [
+          "An ester",
+          "A secondary amide",
+          "A ketone",
+          "A carboxylic acid"
+        ],
+        "ans": 1,
+        "exp": "RCONH\u2013R\u2032 (secondary amide) forms: RCOCl + R\u2032NH\u2082 \u2192 RCONHR\u2032 + HCl. The \u2013CONH\u2013 linkage is a secondary amide."
+      },
+      {
+        "q": "Which of these is an amino acid?",
+        "opts": [
+          "CH\u2083CH\u2082NH\u2082",
+          "H\u2082NCH\u2082COOH",
+          "CH\u2083COOH",
+          "CH\u2083NH\u2082COOH"
+        ],
+        "ans": 1,
+        "exp": "Glycine (H\u2082NCH\u2082COOH) has both an \u2013NH\u2082 group and a \u2013COOH group on the same carbon \u2014 the definition of an \u03b1-amino acid."
+      },
+      {
+        "q": "Ninhydrin is used to detect amino acids on a TLC plate. What colour does it produce?",
+        "opts": [
+          "Yellow",
+          "Blue",
+          "Purple",
+          "Red"
+        ],
+        "ans": 2,
+        "exp": "Ninhydrin reacts with \u03b1-amino acids (and amines) to produce a characteristic purple/violet colour (Ruhemann's purple)."
+      },
+      {
+        "q": "In paper chromatography of amino acids, Rf = 0.6 means:",
+        "opts": [
+          "The spot moved 60% as far as the solvent front",
+          "60% of the amino acid was retained",
+          "The spot is 60 mm from origin",
+          "The amino acid has 60% purity"
+        ],
+        "ans": 0,
+        "exp": "Rf = distance moved by spot / distance moved by solvent front = 0.6 means the spot travelled 60% of the total solvent distance."
       }
     ]
   },

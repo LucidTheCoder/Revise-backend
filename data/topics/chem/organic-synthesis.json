@@ -157,6 +157,226 @@
         ],
         "ans": 1,
         "exp": "% yield = (3.6/6.0) \u00d7 100 = 60%."
+      },
+      {
+        "q": "You want to increase the carbon chain length by 1 carbon from a halogenoalkane. Which reagent is used?",
+        "opts": [
+          "NaOH(aq)",
+          "KCN in ethanol",
+          "Excess NH\u2083",
+          "Mg in dry ether"
+        ],
+        "ans": 1,
+        "exp": "RX + KCN \u2192 RCN + KX (nucleophilic substitution). The CN\u207b ion acts as a nucleophile, adding one carbon via a nitrile group. The nitrile can then be hydrolysed (\u2192 carboxylic acid) or reduced (\u2192 amine)."
+      },
+      {
+        "q": "What is the purpose of 'retrosynthetic analysis'?",
+        "opts": [
+          "To show forward reaction mechanisms",
+          "To work backwards from the target molecule to identify suitable starting materials",
+          "To predict yields",
+          "To design catalysts"
+        ],
+        "ans": 1,
+        "exp": "Retrosynthesis (disconnection approach) works backwards: identify the target, disconnect a bond to reveal simpler precursors, repeat until commercially available starting materials are reached. This maps out the synthetic route efficiently."
+      },
+      {
+        "q": "Which sequence converts ethanol to ethanoic acid?",
+        "opts": [
+          "Oxidation with K\u2082Cr\u2082O\u2087/H\u2082SO\u2084, distill \u2192 aldehyde, then oxidise under reflux \u2192 acid",
+          "Reduction with LiAlH\u2084",
+          "Reaction with PCl\u2085",
+          "Dehydration with H\u2082SO\u2084"
+        ],
+        "ans": 0,
+        "exp": "Ethanol (primary alcohol) \u2192 ethanal (aldehyde) by oxidation with K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 with distillation. Ethanal \u2192 ethanoic acid by further oxidation under reflux. Both steps use acidified dichromate."
+      },
+      {
+        "q": "How would you convert a carboxylic acid to an amine in one overall transformation?",
+        "opts": [
+          "React with PCl\u2085 then with excess NH\u2083",
+          "React with SOCl\u2082 to make acid chloride, then with NH\u2083 to make amide, then reduce amide with LiAlH\u2084",
+          "Direct reaction with NH\u2083 in water",
+          "Reduction with NaBH\u2084"
+        ],
+        "ans": 1,
+        "exp": "RCOOH \u2192 RCOCl (SOCl\u2082) \u2192 RCONH\u2082 (NH\u2083) \u2192 RCH\u2082NH\u2082 (LiAlH\u2084). This 3-step route keeps the same carbon count. Alternatively, RCOOH \u2192 RCN (+1C) \u2192 RCH\u2082NH\u2082 if chain extension is acceptable."
+      },
+      {
+        "q": "A compound melts sharply at the expected melting point and gives a single spot by TLC. This indicates:",
+        "opts": [
+          "The compound is impure",
+          "The compound is pure",
+          "The compound is a mixture of enantiomers",
+          "The reaction is incomplete"
+        ],
+        "ans": 1,
+        "exp": "A sharp melting point at the expected value (small range, <1\u20132 \u00b0C) and a single TLC spot (single Rf) both indicate a pure compound. Impurities lower and broaden the melting point and give additional TLC spots."
+      },
+      {
+        "q": "Starting from bromobenzene, which sequence gives phenylamine?",
+        "opts": [
+          "Bromobenzene \u2192 nitrobenzene (HNO\u2083/H\u2082SO\u2084) \u2192 phenylamine (Sn/HCl, then NaOH)",
+          "Bromobenzene \u2192 phenol (NaOH) \u2192 phenylamine",
+          "Bromobenzene directly \u2192 phenylamine with NH\u2083",
+          "Bromobenzene \u2192 benzene (Mg/ether) \u2192 phenylamine"
+        ],
+        "ans": 0,
+        "exp": "Bromobenzene \u2192 nitrobenzene via electrophilic nitration (HNO\u2083/H\u2082SO\u2084)? No \u2014 bromobenzene can't be directly converted this way. The direct route to phenylamine from benzene is: benzene \u2192 nitrobenzene (HNO\u2083/H\u2082SO\u2084) \u2192 phenylamine (Sn/HCl then NaOH)."
+      },
+      {
+        "q": "In a multi-step synthesis, overall yield = product of individual step yields. If 3 steps each give 80% yield, what is the overall yield?",
+        "opts": [
+          "80%",
+          "51.2%",
+          "60%",
+          "24%"
+        ],
+        "ans": 1,
+        "exp": "Overall yield = 0.80 \u00d7 0.80 \u00d7 0.80 = 0.512 = 51.2%. This shows why minimising the number of steps is important in industrial synthesis \u2014 each step's imperfect yield multiplies the losses."
+      },
+      {
+        "q": "What functional group is introduced when a halogenoalkane reacts with hot ethanolic KOH?",
+        "opts": [
+          "Hydroxyl (\u2013OH)",
+          "Nitrile (\u2013CN)",
+          "Alkene (C=C)",
+          "Amine (\u2013NH\u2082)"
+        ],
+        "ans": 2,
+        "exp": "Hot ethanolic KOH promotes elimination: OH\u207b acts as a base, abstracting an H adjacent to the C\u2013X; HX is eliminated to form an alkene. Conditions: concentrated KOH, ethanol solvent, heat."
+      },
+      {
+        "q": "Which reagent converts an alcohol into a halogenoalkane with inversion of configuration?",
+        "opts": [
+          "HBr(aq)",
+          "SOCl\u2082 (thionyl chloride)",
+          "PCl\u2083",
+          "NaBr/H\u2082SO\u2084"
+        ],
+        "ans": 1,
+        "exp": "SOCl\u2082 converts \u2013OH to \u2013Cl with retention of carbon skeleton and, in SN2 mechanism, inversion at the chiral centre. It's cleaner than HCl/HBr because the by-products (SO\u2082 and HCl) are gases that leave the reaction mixture."
+      },
+      {
+        "q": "To make a racemic mixture from a ketone by nucleophilic addition of HCN, the product is:",
+        "opts": [
+          "A single enantiomer",
+          "A racemic mixture (50:50 both enantiomers)",
+          "A meso compound",
+          "An achiral compound"
+        ],
+        "ans": 1,
+        "exp": "HCN adds to the C=O from both faces equally (the sp\u00b2 carbonyl is planar). Attack from opposite faces gives opposite configurations at the new chiral centre \u2192 equal amounts of (R) and (S) enantiomers = racemic mixture."
+      },
+      {
+        "q": "To extend a carbon chain by one carbon from a halogenoalkane, which reagent is used?",
+        "opts": [
+          "NaOH (aq)",
+          "KCN in ethanol",
+          "NH\u2083 (excess)",
+          "KOH in ethanol"
+        ],
+        "ans": 1,
+        "exp": "RX + KCN/ethanol \u2192 RCN + KX. The CN\u207b nucleophile adds one carbon, giving a nitrile (and eventually a carboxylic acid or amine)."
+      },
+      {
+        "q": "Which conditions convert a primary alcohol to a carboxylic acid?",
+        "opts": [
+          "Acidified K\u2082Cr\u2082O\u2087, distil",
+          "Acidified K\u2082Cr\u2082O\u2087, reflux",
+          "Concentrated H\u2082SO\u2084, heat",
+          "NaBH\u2084 in ethanol"
+        ],
+        "ans": 1,
+        "exp": "Primary alcohol + acidified K\u2082Cr\u2082O\u2087 under reflux (prevents aldehyde from escaping) \u2192 carboxylic acid. Distillation gives the aldehyde only."
+      },
+      {
+        "q": "A secondary alcohol is oxidised by acidified K\u2082Cr\u2082O\u2087. The product is:",
+        "opts": [
+          "Carboxylic acid",
+          "Aldehyde",
+          "Ketone",
+          "Ester"
+        ],
+        "ans": 2,
+        "exp": "Secondary alcohols are oxidised to ketones. Ketones cannot be oxidised further under normal conditions."
+      },
+      {
+        "q": "Retrosynthesis of ethyl ethanoate (CH\u2083COOC\u2082H\u2085) \u2014 which two starting materials are needed?",
+        "opts": [
+          "Ethanol and methanoic acid",
+          "Ethanoic acid and ethanol",
+          "Propanol and methanol",
+          "Methanoic acid and propanol"
+        ],
+        "ans": 1,
+        "exp": "Ester name: ethyl (from ethanol) ethanoate (from ethanoic acid). Esterification: CH\u2083COOH + C\u2082H\u2085OH \u21cc CH\u2083COOC\u2082H\u2085 + H\u2082O."
+      },
+      {
+        "q": "To convert a nitrile (RCN) to a carboxylic acid (RCOOH), you would:",
+        "opts": [
+          "Reduce with LiAlH\u2084",
+          "Hydrolyse with dilute HCl (reflux)",
+          "React with NaOH (aq)",
+          "React with NH\u2083"
+        ],
+        "ans": 1,
+        "exp": "RCN + H\u2082O (acid/base catalyst, reflux) \u2192 RCOOH. The nitrile is hydrolysed. LiAlH\u2084 gives the amine instead."
+      },
+      {
+        "q": "Which reagent converts an ester to a carboxylic acid irreversibly?",
+        "opts": [
+          "Dilute H\u2082SO\u2084 (reversible)",
+          "NaOH (aq) \u2014 saponification",
+          "Conc. H\u2082SO\u2084",
+          "PCl\u2085"
+        ],
+        "ans": 1,
+        "exp": "Base hydrolysis (saponification): ester + NaOH \u2192 sodium carboxylate + alcohol. Irreversible because the carboxylate cannot re-esterify."
+      },
+      {
+        "q": "What is the purpose of a multi-step synthesis rather than a direct one-step conversion?",
+        "opts": [
+          "To increase atom economy",
+          "To bypass functional groups that cannot be interconverted directly",
+          "To reduce temperature",
+          "To avoid using catalysts"
+        ],
+        "ans": 1,
+        "exp": "Many functional group interconversions are not possible in one step. Multi-step routes allow access to target molecules via a series of achievable transformations."
+      },
+      {
+        "q": "A compound has an \u2013OH group and a \u2013COOH group on the same molecule. It can form:",
+        "opts": [
+          "A polymer by addition",
+          "A polyester by self-condensation",
+          "A polyamide",
+          "A polycarbonate"
+        ],
+        "ans": 1,
+        "exp": "A hydroxy acid (e.g. lactic acid) can polymerise by repeated esterification between \u2013OH and \u2013COOH groups of different molecules, forming a polyester."
+      },
+      {
+        "q": "Percentage yield = 60% means:",
+        "opts": [
+          "60% of reactant was used",
+          "You obtained 60% of the theoretical maximum product",
+          "40% of the product decomposed",
+          "The reaction is 60% exothermic"
+        ],
+        "ans": 1,
+        "exp": "% yield = (actual moles of product / theoretical moles) \u00d7 100. 60% means 60% of the maximum possible product was actually isolated."
+      },
+      {
+        "q": "To confirm the identity of a purified solid product, you would measure its:",
+        "opts": [
+          "Boiling point",
+          "Melting point and compare with literature",
+          "Density",
+          "Refractive index"
+        ],
+        "ans": 1,
+        "exp": "A pure solid has a sharp melting point at the known literature value. Impurities lower and broaden the melting point range."
       }
     ]
   },

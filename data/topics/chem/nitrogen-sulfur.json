@@ -160,6 +160,226 @@
         ],
         "ans": 1,
         "exp": "The equilibrium yield is already high at low pressure; high pressure equipment is expensive and the marginal gain in yield doesn't justify the cost."
+      },
+      {
+        "q": "What are the operating conditions of the Haber process?",
+        "opts": [
+          "150 \u00b0C, 10 atm, vanadium catalyst",
+          "450 \u00b0C, 200 atm, iron catalyst",
+          "600 \u00b0C, 500 atm, platinum catalyst",
+          "25 \u00b0C, 1 atm, iron catalyst"
+        ],
+        "ans": 1,
+        "exp": "450 \u00b0C (compromise between yield and rate), 200 atm (shifts equilibrium toward fewer moles of gas), Fe catalyst (speeds up equilibration). Lower T increases Kc but rate is too slow; the 450 \u00b0C/Fe combination gives a usable rate with ~15% conversion."
+      },
+      {
+        "q": "In the Ostwald process, what catalyst is used to oxidise ammonia?",
+        "opts": [
+          "Iron",
+          "Vanadium(V) oxide",
+          "Platinum/rhodium",
+          "Nickel"
+        ],
+        "ans": 2,
+        "exp": "4NH\u2083 + 5O\u2082 \u2192 4NO + 6H\u2082O. A Pt/Rh gauze catalyst at ~900 \u00b0C is used. Platinum-rhodium alloy withstands the high temperature and provides excellent surface area for catalysis."
+      },
+      {
+        "q": "What is the main source of SO\u2082 causing acid rain?",
+        "opts": [
+          "Vehicle exhaust (NO\u2093)",
+          "Burning fossil fuels containing sulfur impurities",
+          "Decomposing vegetation",
+          "Volcanic activity alone"
+        ],
+        "ans": 1,
+        "exp": "Fossil fuels (especially coal and oil) contain sulfur as an impurity. When burned, S + O\u2082 \u2192 SO\u2082. SO\u2082 dissolves in rainwater to form sulfurous acid (H\u2082SO\u2083), further oxidised to sulfuric acid \u2014 causing acid rain."
+      },
+      {
+        "q": "How does flue gas desulfurisation (FGD) reduce SO\u2082 emissions?",
+        "opts": [
+          "By burning fuel at lower temperatures",
+          "By scrubbing flue gases with calcium oxide or slaked lime, forming calcium sulfite/sulfate",
+          "By adding nitrogen to the combustion gases",
+          "By using unleaded fuel"
+        ],
+        "ans": 1,
+        "exp": "CaO + SO\u2082 \u2192 CaSO\u2083 (or Ca(OH)\u2082 + SO\u2082 \u2192 CaSO\u2083 + H\u2082O). The calcium sulfite can be further oxidised to CaSO\u2084 (gypsum). FGD removes >95% of SO\u2082 from power station emissions."
+      },
+      {
+        "q": "In the Contact process for H\u2082SO\u2084, what catalyst is used?",
+        "opts": [
+          "Iron",
+          "Platinum",
+          "Vanadium(V) oxide (V\u2082O\u2085)",
+          "Nickel"
+        ],
+        "ans": 2,
+        "exp": "2SO\u2082 + O\u2082 \u21cc 2SO\u2083 is catalysed by V\u2082O\u2085 at 450 \u00b0C and 1\u20132 atm. The SO\u2083 is then absorbed in concentrated H\u2082SO\u2084 (not water directly \u2014 the reaction is too violent) to form oleum, which is diluted to give H\u2082SO\u2084."
+      },
+      {
+        "q": "Why is nitrogen in the atmosphere relatively unreactive?",
+        "opts": [
+          "N\u2082 has a low bond enthalpy",
+          "N\u2082 has a very high bond enthalpy (945 kJ mol\u207b\u00b9) due to the triple bond",
+          "N\u2082 has a positive charge",
+          "N\u2082 has no electrons available for bonding"
+        ],
+        "ans": 1,
+        "exp": "The N\u2261N triple bond has a bond enthalpy of 945 kJ mol\u207b\u00b9 \u2014 one of the strongest bonds known. A large activation energy is needed to break it, making N\u2082 kinetically inert under normal conditions despite being thermodynamically feasible to react."
+      },
+      {
+        "q": "The Haber process involves a reversible reaction. Why is ammonia removed continuously?",
+        "opts": [
+          "To speed up the forward reaction rate directly",
+          "To shift the equilibrium to the right (Le Chatelier), increasing yield",
+          "To reduce pressure in the system",
+          "To prevent the catalyst from being poisoned"
+        ],
+        "ans": 1,
+        "exp": "By continuously removing NH\u2083 (liquefied and collected), its concentration is kept low. By Le Chatelier's principle, the equilibrium shifts to the right to replace the removed product, increasing overall yield."
+      },
+      {
+        "q": "Which gas is produced at both electrodes when dilute sulfuric acid is electrolysed?",
+        "opts": [
+          "O\u2082 at both",
+          "H\u2082 at cathode, O\u2082 at anode",
+          "SO\u2082 at anode, H\u2082 at cathode",
+          "H\u2082 at both"
+        ],
+        "ans": 1,
+        "exp": "Cathode: 2H\u207a + 2e\u207b \u2192 H\u2082 (H\u207a ions from H\u2082SO\u2084 and water). Anode: 2H\u2082O \u2192 O\u2082 + 4H\u207a + 4e\u207b (water is oxidised; SO\u2084\u00b2\u207b is not discharged in dilute solution). The ratio is 2:1 H\u2082:O\u2082 by volume."
+      },
+      {
+        "q": "What environmental effect does acid rain have on limestone buildings?",
+        "opts": [
+          "It strengthens the surface",
+          "CaCO\u2083 + H\u2082SO\u2084 \u2192 CaSO\u2084 + CO\u2082 + H\u2082O \u2014 the stone dissolves",
+          "It blackens but does not damage",
+          "It converts limestone to marble"
+        ],
+        "ans": 1,
+        "exp": "CaCO\u2083 + H\u2082SO\u2084 \u2192 CaSO\u2084 + CO\u2082 + H\u2082O. The insoluble limestone reacts with sulfuric acid from acid rain. The calcium sulfate product is more soluble than limestone and is washed away, eroding the building's surface."
+      },
+      {
+        "q": "Which best describes the role of NO\u2093 from vehicles in acid rain formation?",
+        "opts": [
+          "NO\u2093 reacts directly with water in the atmosphere to form sulfuric acid",
+          "NO\u2093 is oxidised to NO\u2082 and dissolves with water to form nitric acid (HNO\u2083)",
+          "NO\u2093 only causes smog, not acid rain",
+          "NO\u2093 neutralises SO\u2082 in the atmosphere"
+        ],
+        "ans": 1,
+        "exp": "Vehicle engines produce NO from N\u2082 + O\u2082 at high temperature. In the atmosphere: 2NO + O\u2082 \u2192 2NO\u2082; 3NO\u2082 + H\u2082O \u2192 2HNO\u2083 + NO. The nitric acid contributes to acid rain alongside H\u2082SO\u2084."
+      },
+      {
+        "q": "In the Haber process, what temperature is used as a compromise?",
+        "opts": [
+          "150\u00b0C",
+          "450\u00b0C",
+          "700\u00b0C",
+          "100\u00b0C"
+        ],
+        "ans": 1,
+        "exp": "450\u00b0C is a compromise: lower T favours equilibrium yield but is too slow; 450\u00b0C with Fe catalyst gives an acceptable rate (~15% yield)."
+      },
+      {
+        "q": "The Haber process uses iron as a catalyst. What does this change?",
+        "opts": [
+          "The equilibrium position",
+          "The value of Kc",
+          "The rate of reaching equilibrium",
+          "The yield at equilibrium"
+        ],
+        "ans": 2,
+        "exp": "A catalyst increases the rate of both forward and reverse reactions equally \u2014 equilibrium is reached faster but the position (yield) is unchanged."
+      },
+      {
+        "q": "What is the role of the V\u2082O\u2085 catalyst in the Contact process?",
+        "opts": [
+          "Increases equilibrium yield",
+          "Converts SO\u2082 to SO\u2083 faster",
+          "Converts S to SO\u2083 directly",
+          "Removes water from the reaction"
+        ],
+        "ans": 1,
+        "exp": "V\u2082O\u2085 catalyses the oxidation 2SO\u2082 + O\u2082 \u21cc 2SO\u2083 (step 2 of the Contact process), increasing the rate of reaching equilibrium."
+      },
+      {
+        "q": "Why is SO\u2083 absorbed in concentrated H\u2082SO\u2084 rather than water in the Contact process?",
+        "opts": [
+          "Water is too expensive",
+          "Direct absorption in water produces dangerous acid mist",
+          "SO\u2083 is insoluble in water",
+          "H\u2082SO\u2084 is cheaper"
+        ],
+        "ans": 1,
+        "exp": "SO\u2083 + H\u2082O \u2192 H\u2082SO\u2084 is very exothermic. Direct addition to water produces a dangerous corrosive mist. Absorption in conc. H\u2082SO\u2084 gives oleum, which is then diluted safely."
+      },
+      {
+        "q": "Acid rain is primarily caused by which gases?",
+        "opts": [
+          "CO\u2082 and CH\u2084",
+          "SO\u2082 and NO\u2093",
+          "HCl and HF",
+          "CO and O\u2083"
+        ],
+        "ans": 1,
+        "exp": "SO\u2082 (from burning fossil fuels) and NO\u2093 (from vehicle engines and combustion) dissolve in rainwater forming sulfuric and nitric acids, lowering pH below 5.6."
+      },
+      {
+        "q": "Flue gas desulfurisation removes SO\u2082 using:",
+        "opts": [
+          "Water only",
+          "Calcium oxide or calcium hydroxide",
+          "Ammonia solution",
+          "Potassium permanganate"
+        ],
+        "ans": 1,
+        "exp": "CaO/Ca(OH)\u2082 is reacted with SO\u2082: CaO + SO\u2082 \u2192 CaSO\u2083. This removes SO\u2082 before it reaches the atmosphere."
+      },
+      {
+        "q": "In the Ostwald process, ammonia is first oxidised over a Pt/Rh catalyst to give:",
+        "opts": [
+          "N\u2082 and H\u2082O",
+          "NO and H\u2082O",
+          "NO\u2082 and H\u2082",
+          "N\u2082O and H\u2082O"
+        ],
+        "ans": 1,
+        "exp": "4NH\u2083 + 5O\u2082 \u2192 4NO + 6H\u2082O (over Pt/Rh at ~900\u00b0C). NO is then further oxidised to NO\u2082 and absorbed in water to give HNO\u2083."
+      },
+      {
+        "q": "Which process uses nitrogen and hydrogen to manufacture ammonia?",
+        "opts": [
+          "Contact process",
+          "Ostwald process",
+          "Haber process",
+          "Solvay process"
+        ],
+        "ans": 2,
+        "exp": "The Haber process: N\u2082 + 3H\u2082 \u21cc 2NH\u2083. Conditions: 450\u00b0C, 200 atm, iron catalyst. Used to make fertilisers."
+      },
+      {
+        "q": "Increasing pressure in the Haber process increases yield because:",
+        "opts": [
+          "Pressure increases temperature",
+          "There are fewer moles of gas on the product side",
+          "Pressure deactivates the catalyst",
+          "Pressure increases the activation energy"
+        ],
+        "ans": 1,
+        "exp": "N\u2082 + 3H\u2082 \u21cc 2NH\u2083: 4 mol gas \u2192 2 mol gas. Higher pressure shifts equilibrium toward fewer moles (Le Chatelier) \u2014 toward NH\u2083."
+      },
+      {
+        "q": "Catalytic converters in vehicles reduce which harmful emission?",
+        "opts": [
+          "CO\u2082 only",
+          "NO\u2093 and CO",
+          "SO\u2082 only",
+          "Unburned hydrocarbons only"
+        ],
+        "ans": 1,
+        "exp": "Pt/Rh/Pd catalysts convert NO\u2093 \u2192 N\u2082 + O\u2082 and CO \u2192 CO\u2082, and oxidise unburned hydrocarbons. All three classes of pollutant are reduced."
       }
     ]
   },

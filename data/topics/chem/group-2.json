@@ -163,6 +163,226 @@
         ],
         "ans": 1,
         "exp": "BaSO\u2084 is insoluble \u2014 not absorbed into the bloodstream, so it's non-toxic. BaCl\u2082 is soluble and would be toxic."
+      },
+      {
+        "q": "Which Group 2 sulfate is used in barium meals for X-ray imaging?",
+        "opts": [
+          "MgSO\u2084",
+          "CaSO\u2084",
+          "SrSO\u2084",
+          "BaSO\u2084"
+        ],
+        "ans": 3,
+        "exp": "BaSO\u2084 is completely insoluble in water (and in body fluids), so it is non-toxic. It is opaque to X-rays, outlining the gastrointestinal tract. More soluble barium salts are toxic."
+      },
+      {
+        "q": "Down Group 2, the solubility of hydroxides:",
+        "opts": [
+          "Decreases",
+          "Increases",
+          "Stays the same",
+          "First increases then decreases"
+        ],
+        "ans": 1,
+        "exp": "Solubility of Group 2 hydroxides increases down the group: Mg(OH)\u2082 is almost insoluble; Ca(OH)\u2082 is slightly soluble; Ba(OH)\u2082 is the most soluble. This is because lattice enthalpy decreases more than hydration enthalpy."
+      },
+      {
+        "q": "What is produced when magnesium burns in oxygen?",
+        "opts": [
+          "MgO only",
+          "MgO and Mg\u2083N\u2082",
+          "MgO\u2082",
+          "Mg(OH)\u2082"
+        ],
+        "ans": 1,
+        "exp": "Burning Mg in air produces MgO (from O\u2082) and Mg\u2083N\u2082 (from N\u2082 in air). In pure oxygen, only MgO forms. The reaction is highly exothermic with an intense white flame."
+      },
+      {
+        "q": "Calcium hydroxide solution (limewater) turns milky when CO\u2082 is bubbled through. What forms?",
+        "opts": [
+          "Ca(HCO\u2083)\u2082",
+          "CaCO\u2083",
+          "CaO",
+          "CaC\u2082"
+        ],
+        "ans": 1,
+        "exp": "Ca(OH)\u2082(aq) + CO\u2082(g) \u2192 CaCO\u2083(s) + H\u2082O(l). The white precipitate of insoluble CaCO\u2083 makes the solution milky. This is the limewater test for CO\u2082."
+      },
+      {
+        "q": "Which statement correctly describes thermal stability of Group 2 carbonates?",
+        "opts": [
+          "MgCO\u2083 is the most thermally stable",
+          "BaCO\u2083 requires the highest temperature to decompose",
+          "All Group 2 carbonates decompose at the same temperature",
+          "CaCO\u2083 is more stable than BaCO\u2083"
+        ],
+        "ans": 1,
+        "exp": "Thermal stability increases down Group 2. Larger cations are less polarising, so they distort the carbonate ion less and more energy is needed to decompose it. BaCO\u2083 decomposes at ~1360 \u00b0C vs MgCO\u2083 at ~350 \u00b0C."
+      },
+      {
+        "q": "What happens when calcium reacts with cold water?",
+        "opts": [
+          "No reaction",
+          "Vigorous reaction producing H\u2082 and Ca(OH)\u2082",
+          "Slow reaction producing CaO and H\u2082",
+          "Explosion"
+        ],
+        "ans": 1,
+        "exp": "Ca(s) + 2H\u2082O(l) \u2192 Ca(OH)\u2082(aq) + H\u2082(g). Calcium reacts steadily (not explosively) with cold water, unlike Group 1 metals. The reaction is faster than Mg with cold water but slower than Ba."
+      },
+      {
+        "q": "Down Group 2, the first ionisation energy:",
+        "opts": [
+          "Increases because nuclear charge increases",
+          "Decreases because atomic radius increases and shielding increases",
+          "Stays constant",
+          "First decreases then increases"
+        ],
+        "ans": 1,
+        "exp": "Atomic radius increases down Group 2 (more electron shells) and shielding increases, so the outer electron is less strongly attracted to the nucleus. First ionisation energy decreases from Mg to Ba."
+      },
+      {
+        "q": "Magnesium oxide is used as an antacid and refractory lining. This is due to its:",
+        "opts": [
+          "High solubility and low melting point",
+          "Basic nature and very high melting point",
+          "Acidic nature and high melting point",
+          "Neutral character and low melting point"
+        ],
+        "ans": 1,
+        "exp": "MgO is a basic oxide (reacts with acids), making it useful as an antacid. Its ionic lattice is very strongly held together (small, highly charged ions \u2192 high lattice energy) giving a very high melting point (~2852 \u00b0C) \u2014 ideal for refractory linings."
+      },
+      {
+        "q": "The solubility of Group 2 sulfates down the group:",
+        "opts": [
+          "Increases",
+          "Decreases",
+          "Stays the same",
+          "Follows no clear trend"
+        ],
+        "ans": 1,
+        "exp": "Solubility of Group 2 sulfates decreases down the group: MgSO\u2084 is soluble; CaSO\u2084 is sparingly soluble; SrSO\u2084 and BaSO\u2084 are insoluble. The trend is opposite to that of the hydroxides."
+      },
+      {
+        "q": "Which Group 2 element reacts most vigorously with water?",
+        "opts": [
+          "Magnesium",
+          "Calcium",
+          "Strontium",
+          "Barium"
+        ],
+        "ans": 3,
+        "exp": "Reactivity increases down Group 2 as ionisation energy decreases. Barium reacts most vigorously with cold water. Magnesium only reacts appreciably with steam, and very slowly with cold water."
+      },
+      {
+        "q": "Which Group 2 hydroxide is least soluble?",
+        "opts": [
+          "Mg(OH)\u2082",
+          "Ca(OH)\u2082",
+          "Sr(OH)\u2082",
+          "Ba(OH)\u2082"
+        ],
+        "ans": 0,
+        "exp": "Solubility of Group 2 hydroxides increases DOWN the group. Mg(OH)\u2082 (least soluble) \u2192 Ba(OH)\u2082 (most soluble)."
+      },
+      {
+        "q": "What is observed when magnesium reacts with cold water?",
+        "opts": [
+          "Vigorous effervescence",
+          "Slow reaction / no visible reaction",
+          "Explosion",
+          "No reaction at all"
+        ],
+        "ans": 1,
+        "exp": "Mg reacts very slowly with cold water (unlike Ca which reacts readily). It reacts quickly with steam to give MgO + H\u2082."
+      },
+      {
+        "q": "Calcium carbonate decomposes on heating. What are the products?",
+        "opts": [
+          "CaO + H\u2082O",
+          "CaO + CO\u2082",
+          "Ca + CO\u2082 + O",
+          "Ca(OH)\u2082 + CO\u2082"
+        ],
+        "ans": 1,
+        "exp": "CaCO\u2083 \u2192 CaO + CO\u2082 (thermal decomposition). Thermal stability of Group 2 carbonates increases down the group."
+      },
+      {
+        "q": "Which Group 2 sulfate is insoluble in water?",
+        "opts": [
+          "MgSO\u2084",
+          "CaSO\u2084",
+          "SrSO\u2084",
+          "BaSO\u2084"
+        ],
+        "ans": 3,
+        "exp": "BaSO\u2084 is virtually insoluble (Ksp \u2248 10\u207b\u00b9\u2070). It is used in barium meals as it is safe to ingest and opaque to X-rays. Solubility decreases down the group."
+      },
+      {
+        "q": "Barium chloride solution is added to a sulfate solution. What forms?",
+        "opts": [
+          "A white precipitate of BaSO\u2084",
+          "A yellow precipitate",
+          "A blue precipitate",
+          "No precipitate"
+        ],
+        "ans": 0,
+        "exp": "Ba\u00b2\u207a(aq) + SO\u2084\u00b2\u207b(aq) \u2192 BaSO\u2084(s) \u2014 white precipitate. This is the test for sulfate ions."
+      },
+      {
+        "q": "Why does reactivity of Group 2 metals increase down the group?",
+        "opts": [
+          "Increasing atomic radius and decreasing ionisation energy",
+          "Increasing electronegativity",
+          "Decreasing atomic radius",
+          "Increasing nuclear charge only"
+        ],
+        "ans": 0,
+        "exp": "Larger atoms have more shielded outer electrons; ionisation energy falls, so metals lose electrons more easily \u2014 higher reactivity."
+      },
+      {
+        "q": "Which Group 2 compound is used to neutralise excess stomach acid?",
+        "opts": [
+          "BaSO\u2084",
+          "MgO (milk of magnesia)",
+          "CaCO\u2083",
+          "SrCl\u2082"
+        ],
+        "ans": 1,
+        "exp": "MgO (or Mg(OH)\u2082 suspension) is used as an antacid \u2014 it neutralises HCl in stomach acid: MgO + 2HCl \u2192 MgCl\u2082 + H\u2082O."
+      },
+      {
+        "q": "Limewater (Ca(OH)\u2082 solution) turns milky when CO\u2082 is bubbled through. The precipitate is:",
+        "opts": [
+          "CaO",
+          "Ca(HCO\u2083)\u2082",
+          "CaCO\u2083",
+          "CaSO\u2084"
+        ],
+        "ans": 2,
+        "exp": "Ca(OH)\u2082 + CO\u2082 \u2192 CaCO\u2083 + H\u2082O. CaCO\u2083 is insoluble \u2014 turns the solution milky. Excess CO\u2082 re-dissolves it as Ca(HCO\u2083)\u2082."
+      },
+      {
+        "q": "The thermal stability of Group 2 carbonates increases down the group because:",
+        "opts": [
+          "Larger cations polarise the carbonate ion less",
+          "Smaller cations are more stable",
+          "Bonding becomes more ionic",
+          "The carbonate ion gets larger"
+        ],
+        "ans": 0,
+        "exp": "Larger cations (lower charge density) polarise and distort the carbonate ion less \u2192 more energy needed to decompose \u2192 higher thermal stability."
+      },
+      {
+        "q": "What is the product when calcium reacts with water?",
+        "opts": [
+          "CaO + H\u2082",
+          "Ca(OH)\u2082 + H\u2082",
+          "CaH\u2082 + O\u2082",
+          "CaCO\u2083 + H\u2082"
+        ],
+        "ans": 1,
+        "exp": "Ca + 2H\u2082O \u2192 Ca(OH)\u2082 + H\u2082. Calcium reacts readily with cold water, forming calcium hydroxide (sparingly soluble) and hydrogen gas."
       }
     ]
   },

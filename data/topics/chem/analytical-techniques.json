@@ -169,6 +169,226 @@
         ],
         "ans": 2,
         "exp": "Rf = distance moved by compound spot / distance moved by solvent front. Values between 0 and 1."
+      },
+      {
+        "q": "In a mass spectrum, which peak gives the relative molecular mass?",
+        "opts": [
+          "Base peak",
+          "M\u207a peak (molecular ion)",
+          "M+1 peak",
+          "Fragment at m/z 28"
+        ],
+        "ans": 1,
+        "exp": "The molecular ion peak M\u207a at the highest m/z value corresponds to the intact molecule losing one electron \u2014 it gives M\u1d63 directly."
+      },
+      {
+        "q": "What does the base peak in a mass spectrum represent?",
+        "opts": [
+          "The molecular ion",
+          "The most abundant fragment ion",
+          "The least stable carbocation",
+          "The isotope peak"
+        ],
+        "ans": 1,
+        "exp": "The base peak is the tallest peak in the spectrum \u2014 the most abundant (most stable) fragment ion. It is assigned a relative abundance of 100%."
+      },
+      {
+        "q": "Which IR absorption at ~1710 cm\u207b\u00b9 is characteristic of?",
+        "opts": [
+          "O\u2013H stretch (alcohol)",
+          "C=O stretch (carboxylic acid/ketone)",
+          "N\u2013H stretch",
+          "C\u2013H stretch"
+        ],
+        "ans": 1,
+        "exp": "A strong, sharp absorption at 1680\u20131750 cm\u207b\u00b9 is the C=O stretch. The exact position identifies the carbonyl type: acid ~1710, ester ~1735, ketone ~1715."
+      },
+      {
+        "q": "In \u00b9H NMR, a signal split into a quartet has how many neighbouring H atoms?",
+        "opts": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "ans": 2,
+        "exp": "By the n+1 rule: a signal split into (n+1) lines means n equivalent neighbouring H atoms. A quartet = 4 lines, so n = 3 neighbouring H atoms."
+      },
+      {
+        "q": "What does the D\u2082O shake test in NMR confirm?",
+        "opts": [
+          "Presence of a carbonyl group",
+          "Exchangeable protons (\u2013OH or \u2013NH)",
+          "Number of carbon environments",
+          "Aromatic protons"
+        ],
+        "ans": 1,
+        "exp": "D\u2082O replaces exchangeable protons (\u2013OH, \u2013NH, \u2013COOH) with deuterium; the corresponding NMR signal disappears, confirming these functional groups."
+      },
+      {
+        "q": "A compound shows M\u207a at m/z 58 and a fragment at m/z 43 (loss of 15). What fragment was lost?",
+        "opts": [
+          "CH\u2082",
+          "CH\u2083",
+          "C\u2082H\u2085",
+          "OH"
+        ],
+        "ans": 1,
+        "exp": "Loss of 15 mass units corresponds to loss of a CH\u2083 group (Ar = 12+3\u00d71 = 15). This is a very common fragmentation in ketones and branched alkanes."
+      },
+      {
+        "q": "Which technique is most powerful for identifying components in a complex mixture?",
+        "opts": [
+          "IR spectroscopy alone",
+          "TLC",
+          "GC\u2013MS (gas chromatography\u2013mass spectrometry)",
+          "\u00b9H NMR alone"
+        ],
+        "ans": 2,
+        "exp": "GC\u2013MS combines separation (by GC) with identification (by MS) \u2014 each component gives a retention time AND a unique mass spectrum, making it the gold standard for mixture analysis."
+      },
+      {
+        "q": "In the \u00b9H NMR of ethanol (CH\u2083CH\u2082OH), how many distinct signals are observed?",
+        "opts": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "ans": 2,
+        "exp": "Ethanol has 3 distinct hydrogen environments: \u2013CH\u2083 (3H, triplet), \u2013CH\u2082\u2013 (2H, quartet), and \u2013OH (1H, singlet or broad). Total: 3 signals."
+      },
+      {
+        "q": "A compound with formula C\u2084H\u2088O shows an IR absorption at 1715 cm\u207b\u00b9 and no O\u2013H peak. What is it most likely?",
+        "opts": [
+          "A carboxylic acid",
+          "A ketone",
+          "An alcohol",
+          "An ether"
+        ],
+        "ans": 1,
+        "exp": "C=O at 1715 cm\u207b\u00b9 (ketone range) with no broad O\u2013H absorption rules out acid or alcohol. C\u2084H\u2088O with a ketone is butanone (methyl ethyl ketone)."
+      },
+      {
+        "q": "Which statement about the fingerprint region (< 1500 cm\u207b\u00b9) of an IR spectrum is correct?",
+        "opts": [
+          "It contains only O\u2013H and N\u2013H stretches",
+          "It is unique to each compound and used for identification by comparison",
+          "It always shows a C=O peak",
+          "It is too complex to interpret and is ignored"
+        ],
+        "ans": 1,
+        "exp": "The fingerprint region is complex and unique \u2014 like a fingerprint for the molecule. It is used to confirm identity by comparing against a reference spectrum of the known compound."
+      },
+      {
+        "q": "Which technique gives the molecular ion peak M\u207a?",
+        "opts": [
+          "Infrared spectroscopy",
+          "Mass spectrometry",
+          "NMR spectroscopy",
+          "Thin-layer chromatography"
+        ],
+        "ans": 1,
+        "exp": "The mass spectrum gives the M\u207a peak at the highest m/z, corresponding to the relative molecular mass."
+      },
+      {
+        "q": "In \u00b9H NMR, what does TMS (tetramethylsilane) provide?",
+        "opts": [
+          "A reference peak at \u03b4 = 0",
+          "A reference peak at \u03b4 = 10",
+          "A splitting pattern",
+          "A molecular ion peak"
+        ],
+        "ans": 0,
+        "exp": "TMS provides 12 equivalent protons at \u03b4 = 0 ppm, used as the zero reference for chemical shift."
+      },
+      {
+        "q": "A compound shows a broad IR absorption at 2500\u20133300 cm\u207b\u00b9. What functional group is present?",
+        "opts": [
+          "Alcohol \u2013OH",
+          "Carboxylic acid \u2013COOH",
+          "Aldehyde \u2013CHO",
+          "Amine \u2013NH\u2082"
+        ],
+        "ans": 1,
+        "exp": "Carboxylic acids show a very broad O\u2013H stretch at 2500\u20133300 cm\u207b\u00b9 due to strong hydrogen bonding."
+      },
+      {
+        "q": "The n+1 rule in \u00b9H NMR predicts splitting. A CH\u2082 group adjacent to a CH\u2083 group appears as a:",
+        "opts": [
+          "Doublet",
+          "Triplet",
+          "Quartet",
+          "Singlet"
+        ],
+        "ans": 1,
+        "exp": "The CH\u2082 has 2 neighbours on the CH\u2083, so n+1 = 2+1 = 3 lines (triplet)."
+      },
+      {
+        "q": "In GLC (gas-liquid chromatography), what does the retention time indicate?",
+        "opts": [
+          "The molecular mass of the compound",
+          "The identity of the compound by comparison",
+          "The number of carbon atoms",
+          "The boiling point directly"
+        ],
+        "ans": 1,
+        "exp": "Each compound has a characteristic retention time under fixed conditions; comparison with standards identifies it."
+      },
+      {
+        "q": "A mass spectrum shows equal M and M+2 peaks. Which halogen is present?",
+        "opts": [
+          "Fluorine",
+          "Chlorine",
+          "Bromine",
+          "Iodine"
+        ],
+        "ans": 2,
+        "exp": "Bromine has two isotopes (\u2077\u2079Br : \u2078\u00b9Br \u2248 1:1), giving equal M and M+2 peaks. Chlorine gives M : M+2 \u2248 3:1."
+      },
+      {
+        "q": "An unknown compound has \u03b4 ~10 ppm in \u00b9H NMR and a strong C=O at ~1710 cm\u207b\u00b9 in IR. What is it?",
+        "opts": [
+          "Ketone",
+          "Ester",
+          "Carboxylic acid",
+          "Aldehyde"
+        ],
+        "ans": 2,
+        "exp": "\u03b4 10\u201312 ppm = COOH proton; ~1710 cm\u207b\u00b9 C=O stretch is consistent with carboxylic acid."
+      },
+      {
+        "q": "The fingerprint region in IR spectroscopy is below which wavenumber?",
+        "opts": [
+          "4000 cm\u207b\u00b9",
+          "3000 cm\u207b\u00b9",
+          "1500 cm\u207b\u00b9",
+          "500 cm\u207b\u00b9"
+        ],
+        "ans": 2,
+        "exp": "Below ~1500 cm\u207b\u00b9 is the fingerprint region \u2014 a unique pattern for each compound used for identity confirmation."
+      },
+      {
+        "q": "Integration of \u00b9H NMR peaks tells you:",
+        "opts": [
+          "Chemical environment",
+          "Number of H atoms in each environment",
+          "Splitting pattern",
+          "Type of C\u2013H bond"
+        ],
+        "ans": 1,
+        "exp": "The area under each NMR peak is proportional to the number of protons in that chemical environment."
+      },
+      {
+        "q": "In a mass spectrum, the base peak is:",
+        "opts": [
+          "The molecular ion peak",
+          "The most abundant fragment (tallest peak)",
+          "The peak at lowest m/z",
+          "The M+1 peak"
+        ],
+        "ans": 1,
+        "exp": "The base peak is the tallest peak in the mass spectrum \u2014 the most stable fragment produced."
       }
     ]
   },

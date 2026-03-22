@@ -156,6 +156,226 @@
         ],
         "ans": 2,
         "exp": "HDPE has linear chains (Ziegler\u2013Natta catalyst) \u2192 closer packing \u2192 higher density and stronger intermolecular forces."
+      },
+      {
+        "q": "What is the repeat unit of poly(chloroethene) (PVC)?",
+        "opts": [
+          "\u2013(CH\u2082\u2013CH\u2082)\u2013",
+          "\u2013(CH\u2082\u2013CHCl)\u2013",
+          "\u2013(CHCl\u2013CHCl)\u2013",
+          "\u2013(CH\u2082\u2013CCl\u2082)\u2013"
+        ],
+        "ans": 1,
+        "exp": "Chloroethene (vinyl chloride, CH\u2082=CHCl) undergoes addition polymerisation. Each monomer adds across the C=C: the repeat unit is \u2013(CH\u2082\u2013CHCl)\u2013. PVC is widely used for pipes, cable insulation, and flooring."
+      },
+      {
+        "q": "Why does addition polymerisation give a polymer with 100% atom economy?",
+        "opts": [
+          "Atoms are lost as water",
+          "All atoms from the monomers are incorporated into the polymer \u2014 no by-products",
+          "The reaction uses a catalyst",
+          "The polymer is later hydrolysed"
+        ],
+        "ans": 1,
+        "exp": "In addition polymerisation, the \u03c0 bond of each alkene monomer breaks and the monomers join directly with no atoms eliminated. Every atom ends up in the product, so atom economy = 100%. Condensation polymerisation is different \u2014 it loses water."
+      },
+      {
+        "q": "Which polymer is formed from ethane-1,2-diol and benzene-1,4-dicarboxylic acid?",
+        "opts": [
+          "Nylon-6,6",
+          "PET (Terylene/polyester)",
+          "Kevlar",
+          "Polypropene"
+        ],
+        "ans": 1,
+        "exp": "This is a condensation polymerisation forming a polyester: each \u2013OH reacts with \u2013COOH, releasing water and forming an ester linkage (\u2013COO\u2013). The polymer PET (polyethylene terephthalate) is used in bottles, fibres and films."
+      },
+      {
+        "q": "Nylon-6,6 contains amide linkages (\u2013CO\u2013NH\u2013). Which monomers are used?",
+        "opts": [
+          "Two diols",
+          "One diamine and one dicarboxylic acid",
+          "Two amino acids",
+          "One diol and one dicarboxylic acid"
+        ],
+        "ans": 1,
+        "exp": "Nylon-6,6 is made from hexane-1,6-diamine (H\u2082N\u2013(CH\u2082)\u2086\u2013NH\u2082) and hexanedioic acid (HOOC\u2013(CH\u2082)\u2084\u2013COOH). Each amine reacts with each acid group, releasing water and forming amide (peptide-like) bonds."
+      },
+      {
+        "q": "How does HDPE differ from LDPE?",
+        "opts": [
+          "HDPE is branched; LDPE is linear",
+          "HDPE is linear, allowing closer packing \u2192 higher density, melting point and strength",
+          "HDPE has a lower molecular mass",
+          "HDPE contains chlorine; LDPE does not"
+        ],
+        "ans": 1,
+        "exp": "HDPE (high-density polyethene) is produced using Ziegler\u2013Natta catalysts, giving linear chains that pack closely \u2192 higher density, crystallinity, melting point and tensile strength. LDPE has branched chains (made at high pressure) that prevent close packing."
+      },
+      {
+        "q": "Which type of polymer can be broken down by acid or base hydrolysis?",
+        "opts": [
+          "Addition polymers (e.g. poly(ethene))",
+          "Condensation polymers (e.g. polyesters, polyamides)",
+          "Both equally",
+          "Neither \u2014 all polymers are resistant to hydrolysis"
+        ],
+        "ans": 1,
+        "exp": "Condensation polymers contain hydrolysable linkages (ester \u2013COO\u2013, amide \u2013CONH\u2013) that can be cleaved by acid or alkali. Addition polymers contain only C\u2013C bonds in the backbone, which are not hydrolysable under normal conditions."
+      },
+      {
+        "q": "What environmental problem is associated with addition polymers?",
+        "opts": [
+          "They release toxic HCl on burning",
+          "They are non-biodegradable and persist in the environment",
+          "They dissolve in water",
+          "They react with oxygen in air"
+        ],
+        "ans": 1,
+        "exp": "Addition polymers (poly(ethene), polypropene etc.) have C\u2013C backbones that are not attacked by biological enzymes \u2014 they are essentially non-biodegradable and persist for hundreds of years in landfill and oceans."
+      },
+      {
+        "q": "What is 'atom economy'? Calculate it for: A + B \u2192 C + D (Mr: A=40, B=60, C=80, D=20)",
+        "opts": [
+          "(40/100)\u00d7100 = 40%",
+          "(80/100)\u00d7100 = 80%",
+          "(20/100)\u00d7100 = 20%",
+          "(60/100)\u00d7100 = 60%"
+        ],
+        "ans": 1,
+        "exp": "Atom economy = (Mr desired product / total Mr all products) \u00d7 100 = (80/(80+20)) \u00d7 100 = 80%. The higher the atom economy, the less waste the process generates."
+      },
+      {
+        "q": "Which monomer would produce a polymer with repeat unit \u2013(CH\u2082\u2013C(CH\u2083)\u2082)\u2013?",
+        "opts": [
+          "Propene",
+          "2-methylpropene (isobutylene)",
+          "Ethene",
+          "But-1-ene"
+        ],
+        "ans": 1,
+        "exp": "2-Methylpropene (CH\u2082=C(CH\u2083)\u2082) has a C=C with two methyl groups on the same carbon. Addition polymerisation across the double bond gives \u2013(CH\u2082\u2013C(CH\u2083)\u2082)\u2013 as the repeat unit (polyisobutylene, used in inner tubes)."
+      },
+      {
+        "q": "The tensile strength of Kevlar is due to:",
+        "opts": [
+          "Its high molecular mass alone",
+          "Extensive intermolecular hydrogen bonding between amide groups in adjacent chains",
+          "Its cross-linked network of covalent bonds",
+          "Its high degree of branching"
+        ],
+        "ans": 1,
+        "exp": "Kevlar is an aromatic polyamide. The amide groups (\u2013CO\u2013NH\u2013) form strong intermolecular hydrogen bonds between adjacent polymer chains. Combined with the rigidity of benzene rings, this gives Kevlar exceptional tensile strength (used in bullet-proof vests)."
+      },
+      {
+        "q": "Which monomer is used to make poly(propene)?",
+        "opts": [
+          "Propan-1-ol",
+          "Propene (CH\u2082=CHCH\u2083)",
+          "Propane",
+          "Propanoic acid"
+        ],
+        "ans": 1,
+        "exp": "Poly(propene) forms by addition polymerisation of propene (CH\u2082=CHCH\u2083) molecules across the C=C double bond."
+      },
+      {
+        "q": "What small molecule is released during condensation polymerisation of a polyamide?",
+        "opts": [
+          "CO\u2082",
+          "HCl",
+          "H\u2082O",
+          "CH\u2084"
+        ],
+        "ans": 2,
+        "exp": "Polyamides (e.g. nylon) form by condensation between \u2013COOH and \u2013NH\u2082 groups, releasing H\u2082O at each step."
+      },
+      {
+        "q": "Nylon-6,6 is formed from two monomers. What are they?",
+        "opts": [
+          "Hexan-1-ol and hexanoic acid",
+          "Hexane-1,6-diamine and hexanedioic acid",
+          "Hex-1-ene and hexanenitrile",
+          "Cyclohexane and ammonia"
+        ],
+        "ans": 1,
+        "exp": "Nylon-6,6 = polyamide from hexane-1,6-diamine (6C diamine) + hexanedioic acid (6C diacid). Each unit loses H\u2082O to form \u2013CONH\u2013 linkage."
+      },
+      {
+        "q": "Why is poly(chloroethene) PVC problematic when incinerated?",
+        "opts": [
+          "It produces CO\u2082",
+          "It releases toxic HCl gas",
+          "It melts and clogs incinerators",
+          "It produces SO\u2082"
+        ],
+        "ans": 1,
+        "exp": "PVC contains C\u2013Cl bonds. Burning releases HCl gas, which is toxic and corrosive."
+      },
+      {
+        "q": "HDPE (high-density polyethene) has a higher melting point than LDPE because:",
+        "opts": [
+          "HDPE has more Cl atoms",
+          "HDPE chains are more linear and pack more closely \u2014 stronger intermolecular forces",
+          "HDPE has longer chains",
+          "LDPE is crosslinked"
+        ],
+        "ans": 1,
+        "exp": "LDPE has branched chains (from free-radical initiation) that can't pack tightly. HDPE (Ziegler\u2013Natta catalyst) is linear \u2192 closer packing \u2192 stronger id\u2013id forces \u2192 higher mp."
+      },
+      {
+        "q": "Terylene (PET) is a polyester made from ethane-1,2-diol and:",
+        "opts": [
+          "Hexanedioic acid",
+          "Benzene-1,4-dicarboxylic acid",
+          "Methanoic acid",
+          "Ethanoic acid"
+        ],
+        "ans": 1,
+        "exp": "PET/Terylene: ethane-1,2-diol + benzene-1,4-dicarboxylic acid \u2192 polyester with \u2013COO\u2013 linkages, releasing H\u2082O."
+      },
+      {
+        "q": "Addition polymers are generally non-biodegradable because:",
+        "opts": [
+          "They are too large",
+          "They have no hydrolysable backbone linkages",
+          "They are toxic to bacteria",
+          "They contain halogens"
+        ],
+        "ans": 1,
+        "exp": "Addition polymers have a C\u2013C backbone with no ester or amide bonds \u2014 enzymes and water cannot hydrolyse them, making them persistent in the environment."
+      },
+      {
+        "q": "The repeat unit of poly(tetrafluoroethene) PTFE is:",
+        "opts": [
+          "\u2013CF\u2082\u2013CF\u2082\u2013",
+          "\u2013CHF\u2013CHF\u2013",
+          "\u2013CF\u2082\u2013CCl\u2082\u2013",
+          "\u2013CF\u2083\u2013"
+        ],
+        "ans": 0,
+        "exp": "PTFE (Teflon) forms from tetrafluoroethene (CF\u2082=CF\u2082) by addition polymerisation. The repeat unit is \u2013(CF\u2082\u2013CF\u2082)\u2013."
+      },
+      {
+        "q": "Condensation polymers, unlike addition polymers, can be hydrolysed because:",
+        "opts": [
+          "They are more reactive",
+          "They contain hydrolysable \u2013COO\u2013 or \u2013CONH\u2013 linkages",
+          "They are shorter",
+          "They dissolve in water"
+        ],
+        "ans": 1,
+        "exp": "Ester (\u2013COO\u2013) and amide (\u2013CONH\u2013) linkages in condensation polymers can be cleaved by water under acid or base conditions \u2014 reverse of condensation."
+      },
+      {
+        "q": "The atom economy of addition polymerisation is:",
+        "opts": [
+          "0%",
+          "50%",
+          "75%",
+          "100%"
+        ],
+        "ans": 3,
+        "exp": "Addition polymerisation has 100% atom economy \u2014 only one product is formed (the polymer) and no atoms are wasted."
       }
     ]
   },

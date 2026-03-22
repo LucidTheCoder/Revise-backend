@@ -160,6 +160,226 @@
         ],
         "ans": 2,
         "exp": "Charles's law: at constant pressure, V is proportional to absolute temperature."
+      },
+      {
+        "q": "What does the ideal gas equation assume about intermolecular forces?",
+        "opts": [
+          "They are very strong",
+          "There are no intermolecular forces between gas molecules",
+          "They vary with temperature",
+          "They only exist between polar molecules"
+        ],
+        "ans": 1,
+        "exp": "An ideal gas is modelled as point masses with no intermolecular forces. Real gases deviate from ideal behaviour when intermolecular forces become significant \u2014 at low temperatures and high pressures."
+      },
+      {
+        "q": "At constant temperature, halving the volume of an ideal gas will:",
+        "opts": [
+          "Halve the pressure",
+          "Double the pressure",
+          "Quadruple the pressure",
+          "Not change the pressure"
+        ],
+        "ans": 1,
+        "exp": "Boyle's law: P \u221d 1/V at constant T and n. If V is halved, P doubles (PV = constant). The molecules collide with the walls twice as frequently in the smaller volume."
+      },
+      {
+        "q": "What is the molar volume of an ideal gas at RTP (25 \u00b0C, 100 kPa)?",
+        "opts": [
+          "22.4 dm\u00b3 mol\u207b\u00b9",
+          "24.0 dm\u00b3 mol\u207b\u00b9",
+          "22.4 L mol\u207b\u00b9 at STP",
+          "18.0 dm\u00b3 mol\u207b\u00b9"
+        ],
+        "ans": 1,
+        "exp": "At RTP (25 \u00b0C, 100 kPa), the molar volume is 24.0 dm\u00b3 mol\u207b\u00b9. The old STP value (0 \u00b0C, 1 atm) is 22.4 dm\u00b3 mol\u207b\u00b9. Cambridge A Level uses RTP = 24.0 dm\u00b3 mol\u207b\u00b9."
+      },
+      {
+        "q": "In a gas at constant volume, increasing temperature causes:",
+        "opts": [
+          "Pressure to decrease because molecules slow down",
+          "Pressure to increase because molecules move faster and collide more frequently with more force",
+          "Volume to increase to maintain pressure",
+          "No change \u2014 only volume can change with temperature"
+        ],
+        "ans": 1,
+        "exp": "At constant volume, the molecules cannot expand. Higher temperature \u2192 higher average kinetic energy \u2192 more frequent collisions with the container walls AND with greater force \u2192 pressure increases (Gay-Lussac's law: P \u221d T at constant V)."
+      },
+      {
+        "q": "Which of these is a property of a giant covalent (network) solid?",
+        "opts": [
+          "Low melting point, conducts electricity",
+          "Very high melting point, does not conduct electricity (except graphite)",
+          "Soluble in water",
+          "Brittle with low density"
+        ],
+        "ans": 1,
+        "exp": "Giant covalent solids (diamond, SiO\u2082, SiC) have very high melting points because many strong covalent bonds must be broken. Most are non-conductors (except graphite, which has delocalised electrons). They are insoluble in most solvents."
+      },
+      {
+        "q": "Which intermolecular force is present in ALL molecular substances?",
+        "opts": [
+          "Hydrogen bonding",
+          "Permanent dipole\u2013dipole",
+          "Instantaneous dipole\u2013induced dipole (London) forces",
+          "Ionic bonding"
+        ],
+        "ans": 2,
+        "exp": "London (van der Waals) forces arise from temporary, instantaneous dipoles due to uneven electron distribution. They exist in ALL molecules \u2014 polar or non-polar, large or small. Other forces (H-bonding, dipole\u2013dipole) exist only in specific molecules."
+      },
+      {
+        "q": "Use PV = nRT to find the pressure (Pa) of 0.50 mol ideal gas at 300 K in 10 L (0.010 m\u00b3). R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9.",
+        "opts": [
+          "124 650 Pa",
+          "1 246 500 Pa",
+          "12 465 Pa",
+          "41 550 Pa"
+        ],
+        "ans": 0,
+        "exp": "P = nRT/V = (0.50 \u00d7 8.31 \u00d7 300) / 0.010 = 1246.5 / 0.010 = 124 650 Pa \u2248 125 kPa. Always use SI units: Pa, m\u00b3, K, mol."
+      },
+      {
+        "q": "Why do noble gases (e.g. Ar, Kr) have higher boiling points with increasing atomic number?",
+        "opts": [
+          "Their bonds become stronger",
+          "Larger atoms have more electrons \u2192 stronger London forces \u2192 more energy needed to boil",
+          "Their atomic radius decreases",
+          "They form hydrogen bonds"
+        ],
+        "ans": 1,
+        "exp": "Noble gases are monatomic with only London forces between atoms. Larger atoms (more electrons) have greater polarisability \u2014 temporary dipoles are larger and induced more easily. Stronger London forces \u2192 higher boiling point."
+      },
+      {
+        "q": "Real gases deviate most from ideal behaviour at:",
+        "opts": [
+          "High temperature and low pressure",
+          "Low temperature and high pressure",
+          "All conditions equally",
+          "Only when polar"
+        ],
+        "ans": 1,
+        "exp": "At low temperature, molecules move slowly and intermolecular attractions become significant (ignored in ideal model). At high pressure, molecules are close together and their own volume is no longer negligible. Both effects cause real deviation from ideal."
+      },
+      {
+        "q": "Which substance has the highest melting point?",
+        "opts": [
+          "NaCl (ionic, giant lattice)",
+          "H\u2082O (molecular, hydrogen-bonded)",
+          "SiO\u2082 (giant covalent)",
+          "I\u2082 (molecular, van der Waals)"
+        ],
+        "ans": 2,
+        "exp": "SiO\u2082 (quartz/silica) is a giant covalent network solid \u2014 melting it requires breaking millions of strong Si\u2013O covalent bonds (mp ~1710 \u00b0C). NaCl melts at ~801 \u00b0C. H\u2082O at 0 \u00b0C. I\u2082 at ~114 \u00b0C."
+      },
+      {
+        "q": "Which gas law states that at constant temperature, pressure and volume are inversely proportional?",
+        "opts": [
+          "Charles's law",
+          "Boyle's law",
+          "Gay-Lussac's law",
+          "Avogadro's law"
+        ],
+        "ans": 1,
+        "exp": "Boyle's law: P \u221d 1/V at constant T. If volume halves, pressure doubles."
+      },
+      {
+        "q": "The ideal gas equation is PV = nRT. What are the units of R?",
+        "opts": [
+          "J K\u207b\u00b9",
+          "J mol\u207b\u00b9",
+          "J mol\u207b\u00b9 K\u207b\u00b9",
+          "Pa mol\u207b\u00b9"
+        ],
+        "ans": 2,
+        "exp": "R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9. Since P is in Pa (= J m\u207b\u00b3) and V in m\u00b3, R = PV/nT has units J mol\u207b\u00b9 K\u207b\u00b9."
+      },
+      {
+        "q": "0.5 mol of an ideal gas at 300 K and 1\u00d710\u2075 Pa. What is its volume?",
+        "opts": [
+          "0.012 m\u00b3",
+          "0.0125 m\u00b3",
+          "0.025 m\u00b3",
+          "0.050 m\u00b3"
+        ],
+        "ans": 1,
+        "exp": "V = nRT/P = 0.5 \u00d7 8.31 \u00d7 300 / 1\u00d710\u2075 = 1246.5 / 100000 = 0.01246 m\u00b3 \u2248 0.0125 m\u00b3."
+      },
+      {
+        "q": "At which conditions do real gases deviate most from ideal behaviour?",
+        "opts": [
+          "Low pressure and high temperature",
+          "High pressure and low temperature",
+          "Standard conditions",
+          "High pressure and high temperature"
+        ],
+        "ans": 1,
+        "exp": "At high pressure, particle volumes become significant. At low temperature, intermolecular forces are significant. Both cause deviation from PV = nRT."
+      },
+      {
+        "q": "Why do noble gases behave most like ideal gases?",
+        "opts": [
+          "They have zero mass",
+          "They are monatomic with negligible intermolecular forces",
+          "They do not follow Boyle's law",
+          "They have the largest atoms"
+        ],
+        "ans": 1,
+        "exp": "Noble gases have no dipole, no hydrogen bonds, and very weak id\u2013id forces \u2014 their behaviour closely matches the ideal gas assumptions."
+      },
+      {
+        "q": "What is the molar volume of an ideal gas at RTP (25\u00b0C, 100 kPa)?",
+        "opts": [
+          "22.4 dm\u00b3 mol\u207b\u00b9",
+          "24.0 dm\u00b3 mol\u207b\u00b9",
+          "22.7 dm\u00b3 mol\u207b\u00b9",
+          "24.5 dm\u00b3 mol\u207b\u00b9"
+        ],
+        "ans": 1,
+        "exp": "At RTP (298 K, 100 kPa): V = RT/P = 8.31 \u00d7 298 / 100000 = 0.0248 m\u00b3 = 24.8 dm\u00b3. The commonly used value is 24.0 dm\u00b3 mol\u207b\u00b9 (approximated)."
+      },
+      {
+        "q": "The pressure in a fixed-volume container increases when temperature rises because:",
+        "opts": [
+          "Gas molecules expand",
+          "Average kinetic energy increases so collisions are more frequent and energetic",
+          "Intermolecular forces weaken",
+          "Volume decreases"
+        ],
+        "ans": 1,
+        "exp": "Higher T \u2192 higher average Ek \u2192 more frequent collisions with walls and greater force per collision \u2192 higher pressure (Gay-Lussac's law: P \u221d T at constant V)."
+      },
+      {
+        "q": "In a giant covalent structure like diamond, why is the melting point extremely high?",
+        "opts": [
+          "Many weak bonds",
+          "Many strong covalent bonds throughout the lattice that all must be broken",
+          "It is ionic",
+          "It has metallic bonding"
+        ],
+        "ans": 1,
+        "exp": "Diamond has a 3D network of strong C\u2013C covalent bonds throughout. Melting requires breaking all these bonds \u2014 requires enormous energy."
+      },
+      {
+        "q": "Which state of matter has definite volume but no definite shape?",
+        "opts": [
+          "Solid",
+          "Liquid",
+          "Gas",
+          "Plasma"
+        ],
+        "ans": 1,
+        "exp": "A liquid has a fixed volume (incompressible) but takes the shape of its container. Solids have fixed shape and volume; gases have neither."
+      },
+      {
+        "q": "Intermolecular forces in liquids are responsible for:",
+        "opts": [
+          "High compressibility",
+          "Surface tension and viscosity",
+          "Definite crystal structure",
+          "Electrical conductivity"
+        ],
+        "ans": 1,
+        "exp": "Intermolecular forces hold liquid molecules close together, giving rise to surface tension (minimising surface area) and viscosity (resistance to flow)."
       }
     ]
   },
