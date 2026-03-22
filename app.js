@@ -95,6 +95,12 @@ function injectAuthModal() {
       </svg>
       Continue with Google
     </button>
+    <button class="btn-discord" id="discord-signin-btn" onclick="App.signInWithDiscord()">
+      <svg width="18" height="14" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <path d="M20.317 1.492a19.84 19.84 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.249a18.31 18.31 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.249.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 1.492a.07.07 0 0 0-.032.027C.533 6.093-.32 10.555.099 14.961a.08.08 0 0 0 .031.055 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.105c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.442a.061.061 0 0 0-.031-.03zM8.02 12.278c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419z" fill="currentColor"/>
+      </svg>
+      Continue with Discord
+    </button>
     <div class="auth-divider"><span>or</span></div>
     <label>Email<input type="email" id="login-email" placeholder="you@example.com"></label>
     <label>Password<input type="password" id="login-password" placeholder="••••••••"></label>
@@ -114,9 +120,16 @@ function injectAuthModal() {
       </svg>
       Sign up with Google
     </button>
+    <button class="btn-discord" id="discord-register-btn" onclick="App.signInWithDiscord()">
+      <svg width="18" height="14" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <path d="M20.317 1.492a19.84 19.84 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.249a18.31 18.31 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.249.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 1.492a.07.07 0 0 0-.032.027C.533 6.093-.32 10.555.099 14.961a.08.08 0 0 0 .031.055 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.105c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.442a.061.061 0 0 0-.031-.03zM8.02 12.278c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419z" fill="currentColor"/>
+      </svg>
+      Sign up with Discord
+    </button>
     <div class="auth-divider"><span>or</span></div>
     <label>Name<input type="text" id="register-name" placeholder="Your name"></label>
     <label>Email<input type="email" id="register-email" placeholder="you@example.com"></label>
+    <label>Confirm Email<input type="email" id="register-email-confirm" placeholder="Confirm your email"></label>
     <label>Password<input type="password" id="register-password" placeholder="Min. 8 characters"></label>
     <div class="auth-error" id="register-error"></div>
     <button class="btn btn-primary auth-submit" id="register-submit">Create Account</button>
@@ -130,6 +143,15 @@ function injectAuthModal() {
   document.getElementById("switch-to-login").addEventListener("click", () => { document.getElementById("auth-tab-register").style.display="none"; document.getElementById("auth-tab-login").style.display=""; });
   document.getElementById("login-submit").addEventListener("click", handleLogin);
   document.getElementById("register-submit").addEventListener("click", handleRegister);
+  // Live confirm-email mismatch highlight
+  ["register-email","register-email-confirm"].forEach(id => {
+    document.getElementById(id)?.addEventListener("input", () => {
+      const a = document.getElementById("register-email")?.value;
+      const b = document.getElementById("register-email-confirm")?.value;
+      const el = document.getElementById("register-email-confirm");
+      if (el && b) el.classList.toggle("mismatch", a !== b);
+    });
+  });
 }
 
 function openAuthModal(tab) {
@@ -162,12 +184,15 @@ async function handleLogin() {
 }
 
 async function handleRegister() {
-  const name = document.getElementById("register-name").value.trim();
-  const email = document.getElementById("register-email").value.trim();
-  const password = document.getElementById("register-password").value;
-  const errEl = document.getElementById("register-error");
-  errEl.textContent = "";
-  if (!name || !email || !password) { errEl.textContent = "Please fill in all fields."; return; }
+  const name         = document.getElementById("register-name").value.trim();
+  const email        = document.getElementById("register-email").value.trim();
+  const emailConfirm = document.getElementById("register-email-confirm").value.trim();
+  const password     = document.getElementById("register-password").value;
+  const errEl        = document.getElementById("register-error");
+  errEl.textContent  = "";
+  if (!name || !email || !emailConfirm || !password) { errEl.textContent = "Please fill in all fields."; return; }
+  if (email !== emailConfirm) { errEl.textContent = "Email addresses do not match."; document.getElementById("register-email-confirm").focus(); return; }
+  if (!email.includes("@") || !email.includes(".")) { errEl.textContent = "Please enter a valid email address."; return; }
   if (password.length < 8) { errEl.textContent = "Password must be at least 8 characters."; return; }
   const btn = document.getElementById("register-submit");
   btn.textContent = "Creating…"; btn.disabled = true;
@@ -183,6 +208,25 @@ async function handleRegister() {
 }
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
+
+async function signInWithDiscord() {
+  // Discord OAuth2 Authorization Code flow
+  // You must set DISCORD_CLIENT_ID in your Render environment variables
+  // and add your redirect URI to your Discord app's OAuth2 redirects
+  const clientId    = window.DISCORD_CLIENT_ID || '';
+  if (!clientId) {
+    showToast('Discord login is not configured yet. Add DISCORD_CLIENT_ID to your environment.');
+    return;
+  }
+  const redirectUri = encodeURIComponent(window.location.origin + '/auth/discord/callback');
+  const scope       = encodeURIComponent('identify email');
+  const state       = Math.random().toString(36).slice(2); // CSRF protection
+  sessionStorage.setItem('discord_state', state);
+  const url = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&state=${state}`;
+  window.location.href = url;
+}
+
+
 
 async function signInWithGoogle() {
   // Use Google Identity Services popup flow
@@ -405,14 +449,12 @@ function buildTopicDiagramSvg(topic) {
   // Viewbox: 700 × 260. Title at y=32. Usable space: y 46–252.
   const W = 700, H = 260;
 
-  // Subject-tinted dark background colours
-  const bgBase = sub==='chem' ? '#1a0d04' : sub==='bio' ? '#041a09' : '#07061d';
   const wrap = (inner) =>
     `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escapeXml(topic.title)}">
   <defs>
-    <radialGradient id="rg${tid}" cx="25%" cy="25%" r="70%">
-      <stop offset="0%" stop-color="${P.ac}" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="${bgBase}" stop-opacity="0"/>
+    <radialGradient id="rg${tid}" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="${P.bg}" stop-opacity="1"/>
+      <stop offset="100%" stop-color="${P.bg}" stop-opacity="0.15"/>
     </radialGradient>
     <marker id="ah${tid}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
       <path d="M0,0 L7,3.5 L0,7Z" fill="${P.st}"/>
@@ -421,9 +463,9 @@ function buildTopicDiagramSvg(topic) {
       <path d="M0,0 L7,3.5 L0,7Z" fill="#8b949e"/>
     </marker>
   </defs>
-  <rect width="${W}" height="${H}" rx="18" fill="${bgBase}"/>
+  <rect width="${W}" height="${H}" rx="18" fill="#161b22"/>
   <rect width="${W}" height="${H}" rx="18" fill="url(#rg${tid})"/>
-  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="18" fill="none" stroke="${P.st}" stroke-width="1.2"/>
+  <rect x="1" y="1" width="${W-2}" height="${H-2}" rx="18" fill="none" stroke="${P.st}" stroke-width="1"/>
   ${inner}
 </svg>`;
 
@@ -1891,33 +1933,59 @@ function renderSubjectSelection() {
 }
 
 function renderSubjectSidebar(subject, activeTopicId = "") {
+  const totalTopics = subject.units.reduce((s, u) => s + u.topics.length, 0);
+  const doneTopics  = subject.units.reduce((s, u) => s + u.topics.filter(t => t.done).length, 0);
+  const overallPct  = totalTopics ? Math.round((doneTopics / totalTopics) * 100) : 0;
+
   return `
     <div class="sidebar-head">
-      <button onclick="App.go('subjects')">Back to subjects</button>
-      <p style="margin-top:0.35rem;color:var(--text2)">${escapeHtml(subject.name)}</p>
-    </div>
-    ${subject.units
-      .map(
-        (unit) => `
-      <div class="sidebar-group">
-        <div class="sidebar-label">${escapeHtml(unit.name)}</div>
-        <div class="sidebar-topics">
-          ${unit.topics
-          .map(
-            (topic) => `
-          <button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""}" onclick="App.go('topic',{topicId:'${topic.id}'})">
-            <span>${escapeHtml(topic.name)}</span>
-            <span>${topic.done ? "Done" : "Open"}</span>
-          </button>
-        `
-          )
-          .join("")}
-        </div>
+      <button onclick="App.go('subjects')">← Subjects</button>
+      <p class="sidebar-subject-name">${escapeHtml(subject.name)}</p>
+      <div class="sidebar-overall-bar">
+        <div class="sidebar-overall-fill" style="width:${overallPct}%"></div>
       </div>
-    `
-      )
-      .join("")}
+      <p class="sidebar-overall-label">${doneTopics} / ${totalTopics} topics done</p>
+      <input class="sidebar-filter-input" id="sidebar-filter" type="text" placeholder="Filter topics…" oninput="App.filterSidebarTopics(this.value)">
+    </div>
+    <div id="sidebar-topics-list">
+      ${subject.units.map(unit => {
+        const unitDone = unit.topics.filter(t => t.done).length;
+        const unitPct  = unit.topics.length ? Math.round((unitDone / unit.topics.length) * 100) : 0;
+        return `
+        <div class="sidebar-group">
+          <div class="sidebar-label-row">
+            <span class="sidebar-label">${escapeHtml(unit.name)}</span>
+            <span class="sidebar-unit-pct">${unitPct}%</span>
+          </div>
+          <div class="sidebar-unit-bar">
+            <div class="sidebar-unit-bar-fill" style="width:${unitPct}%"></div>
+          </div>
+          <div class="sidebar-topics">
+            ${unit.topics.map(topic => `
+              <button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""}"
+                      data-name="${escapeHtml(topic.name.toLowerCase())}"
+                      onclick="App.go('topic',{topicId:'${topic.id}'})">
+                <span>${escapeHtml(topic.name)}</span>
+                <span class="topic-item-badge">${topic.done ? "✓" : ""}</span>
+              </button>`).join("")}
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
   `;
+}
+
+function filterSidebarTopics(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.topic-item').forEach(btn => {
+    const name = btn.dataset.name || '';
+    btn.style.display = (!q || name.includes(q)) ? '' : 'none';
+  });
+  // Show/hide unit groups based on whether any topics match
+  document.querySelectorAll('.sidebar-group').forEach(group => {
+    const visible = [...group.querySelectorAll('.topic-item')].some(b => b.style.display !== 'none');
+    group.style.display = visible ? '' : 'none';
+  });
 }
 
 function renderSubjectView(subjectId) {
@@ -2074,21 +2142,30 @@ function renderTopicView(topicId) {
   const workedHtml = (topic.workedExamples || [])
     .map(
       (example, index) => `
-      <div class="worked-box">
+      <div class="worked-box" data-example="${index}">
         <p><strong>Example ${index + 1}:</strong> ${richText(example.q)}</p>
-        ${(example.steps || [])
-          .map(
-            (step) => `
-          <div class="step">
-            <span class="step-num">${step.n}</span>
-            <div>
-              <small style="color:var(--text3);text-transform:uppercase">${escapeHtml(step.sub || "Step")}</small>
-              <p>${richText(step.text)}</p>
-            </div>
-          </div>
-        `
-          )
-          .join("")}
+        <div class="step-reveal-wrap" id="steps-${topic.id}-${index}">
+          ${(example.steps || [])
+            .map((step, si) => `
+            <div class="step step-hidden" id="step-${topic.id}-${index}-${si}" data-step="${si}">
+              <span class="step-num">${step.n}</span>
+              <div>
+                <small style="color:var(--text3);text-transform:uppercase">${escapeHtml(step.sub || "Step")}</small>
+                <p>${richText(step.text)}</p>
+              </div>
+            </div>`)
+            .join("")}
+        </div>
+        ${(example.steps || []).length > 0 ? `
+        <div class="step-controls">
+          <button class="btn btn-outline btn-sm step-reveal-btn" onclick="App.revealNextStep('${topic.id}',${index},${(example.steps || []).length})">
+            Show Step 1
+          </button>
+          <button class="btn btn-ghost btn-sm step-reveal-all-btn" onclick="App.revealAllSteps('${topic.id}',${index},${(example.steps || []).length})">
+            Show All
+          </button>
+          <span class="step-counter" id="step-counter-${topic.id}-${index}">0 / ${(example.steps||[]).length}</span>
+        </div>` : ""}
       </div>
     `
     )
@@ -2148,10 +2225,16 @@ function renderTopicView(topicId) {
       <h1 class="topic-title">${escapeHtml(topic.title)}</h1>
       <p class="topic-subtitle">${richText(topic.subtitle || "")}</p>
       <div class="topic-actions">
-        <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${topic.id}'})">Topic Quiz</button>
-        <button class="btn btn-outline" onclick="App.go('flash',{topicId:'${topic.id}'})">Topic Flashcards</button>
-        <button class="btn btn-outline" onclick="App.markTopicDone('${topic.id}')">Mark Done</button>
+        <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${topic.id}'})">
+          Topic Quiz${(() => { const scores = quizHistory().filter(q => q.topicId === topic.id); const best = scores.length ? Math.max(...scores.map(q => q.scorePct)) : null; return best !== null ? ` <span class="quiz-best-chip">${best}%</span>` : ''; })()}
+        </button>
+        <button class="btn btn-outline" onclick="App.go('flash',{topicId:'${topic.id}'})">Flashcards</button>
+        <button class="btn btn-outline" onclick="App.printTopic()">🖨 Print</button>
+        <button class="btn btn-outline ${topic.done ? 'btn-done-active' : ''}" onclick="App.markTopicDone('${topic.id}')">
+          ${topic.done ? "✓ Done" : "Mark Done"}
+        </button>
       </div>
+      <p class="topic-shortcut-hint">⌨ <kbd>J</kbd><kbd>K</kbd> navigate · <kbd>Q</kbd> quiz · <kbd>F</kbd> flashcards · <kbd>?</kbd> all shortcuts</p>
       <div class="confidence-bar">
         <span>Confidence:</span>
         <div class="confidence-actions">
@@ -2260,6 +2343,49 @@ function toggleRecall(index) {
   if (button) {
     button.textContent = answer.classList.contains("open") ? "Hide answer" : "Show answer";
   }
+}
+
+
+
+function revealNextStep(topicId, exampleIdx, total) {
+  const wrap = document.getElementById(`steps-${topicId}-${exampleIdx}`);
+  if (!wrap) return;
+  const hidden = wrap.querySelector('.step-hidden');
+  if (!hidden) return;
+  hidden.classList.remove('step-hidden');
+  hidden.classList.add('step-visible');
+  // Count visible
+  const visible = wrap.querySelectorAll('.step-visible').length;
+  const counter = document.getElementById(`step-counter-${topicId}-${exampleIdx}`);
+  if (counter) counter.textContent = `${visible} / ${total}`;
+  // Update button
+  const btn = wrap.nextElementSibling?.querySelector('.step-reveal-btn');
+  if (btn) {
+    if (visible >= total) {
+      btn.textContent = 'All steps shown';
+      btn.disabled = true;
+    } else {
+      btn.textContent = `Show Step ${visible + 1}`;
+    }
+  }
+}
+
+function revealAllSteps(topicId, exampleIdx, total) {
+  const wrap = document.getElementById(`steps-${topicId}-${exampleIdx}`);
+  if (!wrap) return;
+  wrap.querySelectorAll('.step-hidden').forEach(s => {
+    s.classList.remove('step-hidden');
+    s.classList.add('step-visible');
+  });
+  const counter = document.getElementById(`step-counter-${topicId}-${exampleIdx}`);
+  if (counter) counter.textContent = `${total} / ${total}`;
+  const controls = wrap.nextElementSibling;
+  const btn = controls?.querySelector('.step-reveal-btn');
+  if (btn) { btn.textContent = 'All steps shown'; btn.disabled = true; }
+}
+
+function printTopic() {
+  window.print();
 }
 
 function markTopicDone(topicId) {
@@ -2756,6 +2882,31 @@ function resetProgress() {
   setTimeout(() => window.location.reload(), 800);
 }
 
+
+function renderConfidenceMap() {
+  const container = byId("confidence-map-grid");
+  if (!container) return;
+  const conf = confidenceByTopic();
+  const html = state.subjects.map(subject => {
+    const subjectTopics = subject.units.flatMap(u => u.topics.map(t => ({...t, unitName: u.name})));
+    return `
+      <div class="cmap-subject">
+        <h3 class="cmap-subject-title" style="color:${colorVar(subject.id)}">${escapeHtml(subject.name)}</h3>
+        <div class="cmap-grid">
+          ${subjectTopics.map(t => {
+            const c = conf[t.id] || 'none';
+            const label = c === 'confident' ? '✓' : c === 'needs-practice' ? '~' : c === 'no-idea' ? '✗' : '·';
+            return `<button class="cmap-cell cmap-${c}" title="${escapeHtml(t.name)}" onclick="App.go('topic',{topicId:'${t.id}'})">
+              <span class="cmap-cell-name">${escapeHtml(t.name)}</span>
+              <span class="cmap-cell-badge">${label}</span>
+            </button>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }).join('');
+  container.innerHTML = html;
+}
+
 function renderProfile() {
   const overall  = totalProgress();
   const avgQuiz  = quizHistory();
@@ -3249,6 +3400,31 @@ async function init() {
     applyAiVisibility();
   applyAiVisibility();
     byId("streak-count").textContent = String(state.streak || 0);
+
+    // Handle Discord OAuth callback code if present
+    const discordCode = sessionStorage.getItem('discord_pending_code');
+    const discordUri  = sessionStorage.getItem('discord_redirect_uri');
+    if (discordCode && discordUri) {
+      sessionStorage.removeItem('discord_pending_code');
+      sessionStorage.removeItem('discord_redirect_uri');
+      try {
+        const res  = await fetch(API_BASE_URL + '/api/auth/discord', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: discordCode, redirectUri: discordUri }),
+        });
+        const data = await res.json();
+        if (res.ok && data.token) {
+          auth.set(data.token, data.user);
+          syncServerStats(data.user);
+          updateNavForAuth();
+          showToast('Welcome, ' + data.user.name.split(' ')[0] + '! Signed in with Discord.');
+        } else {
+          showToast('Discord sign-in failed: ' + (data.error || 'Unknown error'));
+        }
+      } catch { showToast('Discord sign-in failed — network error'); }
+    }
+
     go("home");
   } catch (error) {
     showDataLoadError(error);
@@ -4290,6 +4466,7 @@ function go(viewName, payload = {}) {
   if (viewName === 'past-papers') renderPastPapers();
   if (viewName === 'community')   renderCommunity();
   if (viewName === 'profile')     renderProfile();
+  if (viewName === 'confidence-map') { renderConfidenceMap(); }
   if (viewName === 'admin')       renderAdmin();
   if (viewName === 'editor') {
     byId('editor-subject-select').value = '';
@@ -4413,10 +4590,27 @@ function bindBaseEvents() {
       return;
     }
 
-    // Shift+? — show keyboard shortcut hint
+    // Shift+? — show all keyboard shortcuts
     if (!inInput && e.key === '?' && e.shiftKey) {
-      showToast('⌨ Shortcuts: / = search  •  Esc = close  •  Shift+Enter = AI send');
+      showToast('⌨  /=search  J/K=navigate  Q=quiz  F=flashcards  P=print  Esc=close');
       return;
+    }
+
+    // Topic-view shortcuts: J/K/Q/F/P
+    if (!inInput && state.currentView === 'topic') {
+      if (e.key === 'j' || e.key === 'k') {
+        const subject = state.subjectMap.get(state.currentSubject);
+        if (!subject) return;
+        const allTopics = subject.units.flatMap(u => u.topics);
+        const idx = allTopics.findIndex(t => t.id === state.currentTopic);
+        if (idx === -1) return;
+        const next = e.key === 'j' ? allTopics[idx + 1] : allTopics[idx - 1];
+        if (next) { e.preventDefault(); go('topic', { topicId: next.id }); }
+        return;
+      }
+      if (e.key === 'q') { e.preventDefault(); go('quiz',  { topicId: state.currentTopic }); return; }
+      if (e.key === 'f') { e.preventDefault(); go('flash', { topicId: state.currentTopic }); return; }
+      if (e.key === 'p' && !e.ctrlKey && !e.metaKey) { e.preventDefault(); window.print(); return; }
     }
   });
 }
@@ -4432,12 +4626,17 @@ const App = {
   toggleRecall,
   markTopicDone,
   dismissSpacedRep,
+  filterSidebarTopics,
+  renderConfidenceMap,
   uploadAvatar,
   setWeeklyGoal,
   copyText,
   setAiEnabled,
   getAiEnabled,
   resetProgress,
+  printTopic,
+  revealNextStep,
+  revealAllSteps,
   selectQuizAnswer,
   nextQuizQuestion,
   flipFlash,
@@ -4483,6 +4682,7 @@ const App = {
   // Auth modal (expose so inline HTML can call it)
   openAuthModal,
   signInWithGoogle,
+  signInWithDiscord,
 };
 
 window.App = App;

@@ -3818,3 +3818,188 @@ main { flex: 1 0 auto; }
 .sidebar-topic { transition: background 0.12s, color 0.12s, padding-left 0.12s; }
 .sidebar-topic:hover:not(.active) { padding-left: 1.1rem; }
 .auth-modal-box label { margin-bottom: 0.55rem; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DISCORD BUTTON
+   ═══════════════════════════════════════════════════════════════════════ */
+.btn-discord {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.6rem; width: 100%; padding: 0.62rem 1rem;
+  border: 1px solid var(--border2); border-radius: 10px;
+  background: #5865F2; color: #fff;
+  font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  margin-bottom: 0.5rem;
+}
+.btn-discord:hover { background: #4752C4; box-shadow: 0 2px 8px rgba(88,101,242,0.35); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SIDEBAR — progress bars, filter input, unit breakdown
+   ═══════════════════════════════════════════════════════════════════════ */
+.sidebar-subject-name {
+  font-size: 0.82rem; font-weight: 600; color: var(--text2);
+  margin: 0.25rem 0 0.35rem;
+}
+.sidebar-overall-bar {
+  height: 5px; border-radius: 99px; background: var(--bg3);
+  overflow: hidden; margin-bottom: 0.2rem;
+}
+.sidebar-overall-fill {
+  height: 100%; background: var(--accent); border-radius: 99px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+.sidebar-overall-label {
+  font-size: 0.7rem; color: var(--text3);
+  font-family: var(--font-mono); margin: 0 0 0.55rem;
+}
+.sidebar-filter-input {
+  width: 100%; padding: 0.38rem 0.6rem;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg3); color: var(--text);
+  font-size: 0.82rem; margin-bottom: 0.4rem;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.sidebar-filter-input:focus { outline: none; border-color: var(--accent); }
+.sidebar-label-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.2rem;
+}
+.sidebar-unit-pct {
+  font-size: 0.65rem; color: var(--text3);
+  font-family: var(--font-mono);
+}
+.sidebar-unit-bar {
+  height: 3px; border-radius: 99px; background: var(--bg3);
+  overflow: hidden; margin-bottom: 0.4rem;
+}
+.sidebar-unit-bar-fill {
+  height: 100%; border-radius: 99px;
+  background: var(--accent); opacity: 0.6;
+  transition: width 0.4s ease;
+}
+.topic-item-badge { font-size: 0.7rem; color: var(--success); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TOPIC HEAD — quiz best score chip, keyboard hint, print btn, done btn
+   ═══════════════════════════════════════════════════════════════════════ */
+.quiz-best-chip {
+  display: inline-block;
+  font-size: 0.68rem; font-weight: 700;
+  background: rgba(255,255,255,0.18); border-radius: 99px;
+  padding: 0.1rem 0.45rem; margin-left: 0.35rem;
+  vertical-align: middle;
+}
+.topic-shortcut-hint {
+  font-size: 0.72rem; color: var(--text3);
+  margin: 0.5rem 0 0; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;
+}
+.topic-shortcut-hint kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 1.5em; padding: 0.05rem 0.35rem;
+  border: 1px solid var(--border2); border-radius: 5px;
+  background: var(--bg3); font-size: 0.68rem;
+  font-family: var(--font-mono); color: var(--text2);
+  line-height: 1.6;
+}
+.btn-done-active {
+  background: color-mix(in srgb, var(--success), transparent 80%) !important;
+  border-color: var(--success) !important;
+  color: var(--success) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   WORKED EXAMPLES — step reveal
+   ═══════════════════════════════════════════════════════════════════════ */
+.step-hidden {
+  display: none;
+}
+.step-visible {
+  display: flex;
+  animation: stepReveal 0.28s ease;
+}
+@keyframes stepReveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.step-controls {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-top: 0.65rem; flex-wrap: wrap;
+}
+.step-counter {
+  font-size: 0.72rem; color: var(--text3);
+  font-family: var(--font-mono); margin-left: auto;
+}
+.step-reveal-btn:disabled {
+  opacity: 0.4; cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CONFIDENCE MAP
+   ═══════════════════════════════════════════════════════════════════════ */
+.cmap-legend {
+  display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap;
+  margin-bottom: 1.25rem; font-size: 0.82rem; color: var(--text2);
+}
+.cmap-legend-item { display: flex; align-items: center; gap: 0.35rem; }
+.cmap-dot {
+  width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0;
+}
+.cmap-dot.cmap-confident      { background: var(--success); }
+.cmap-dot.cmap-needs-practice { background: var(--warn); }
+.cmap-dot.cmap-no-idea        { background: #f87171; }
+.cmap-dot.cmap-none           { background: var(--border2); }
+
+#confidence-map-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+.cmap-subject {}
+.cmap-subject-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.65rem; }
+.cmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 0.4rem;
+}
+.cmap-cell {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.35rem; padding: 0.5rem 0.65rem;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--card); cursor: pointer; text-align: left;
+  transition: transform 0.14s, border-color 0.14s;
+}
+.cmap-cell:hover { transform: translateY(-2px); border-color: var(--accent); }
+.cmap-cell-name {
+  font-size: 0.78rem; color: var(--text); font-weight: 500;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+}
+.cmap-cell-badge { font-size: 0.72rem; flex-shrink: 0; }
+.cmap-confident      { border-left: 3px solid var(--success) !important; }
+.cmap-needs-practice { border-left: 3px solid var(--warn) !important; }
+.cmap-no-idea        { border-left: 3px solid #f87171 !important; }
+.cmap-none           { opacity: 0.65; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PRINT STYLES — clean topic printout
+   ═══════════════════════════════════════════════════════════════════════ */
+@media print {
+  .nav, .chat-sidebar, #topic-sidebar, .topic-actions,
+  .section-nav, .confidence-bar, .topic-shortcut-hint,
+  .ai-panel, .site-footer, .nav-hamburger,
+  .spaced-rep-section, #ambient-particles,
+  .btn, button:not(.step-reveal-btn) { display: none !important; }
+
+  body, .topic-main, .section-block { background: #fff !important; color: #000 !important; }
+  .card { border: 1px solid #ccc !important; box-shadow: none !important; background: #fff !important; }
+  .topic-title { font-size: 1.4rem !important; color: #000 !important; }
+  .math-eq { border: 1px solid #999 !important; background: #f5f5f5 !important; }
+  h2 { color: #333 !important; font-size: 1rem !important; }
+  .step-hidden { display: flex !important; } /* show all steps when printing */
+  .step-controls { display: none !important; }
+  a { color: #000 !important; text-decoration: underline !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CONFIRM EMAIL — highlight mismatch
+   ═══════════════════════════════════════════════════════════════════════ */
+#register-email-confirm.mismatch {
+  border-color: #f87171 !important;
+  background: rgba(248,113,113,0.06) !important;
+}

@@ -227,6 +227,76 @@ app.post('/api/auth/google', async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
+
+// POST /api/auth/discord — exchange Discord auth code for app JWT
+app.post('/api/auth/discord', async (req, res, next) => {
+  try {
+    const { code, redirectUri } = req.body;
+    if (!code) return res.status(400).json({ success: false, error: 'code required' });
+
+    const clientId     = process.env.DISCORD_CLIENT_ID;
+    const clientSecret = process.env.DISCORD_CLIENT_SECRET;
+    if (!clientId || !clientSecret) {
+      return res.status(501).json({ success: false, error: 'Discord OAuth not configured on server. Set DISCORD_CLIENT_ID and DISCORD_CLIENT_SECRET.' });
+    }
+
+    // Exchange code for access token
+    const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id:     clientId,
+        client_secret: clientSecret,
+        grant_type:    'authorization_code',
+        code,
+        redirect_uri:  redirectUri,
+      }),
+    });
+    if (!tokenRes.ok) {
+      const err = await tokenRes.text();
+      return res.status(401).json({ success: false, error: `Discord token exchange failed: ${err}` });
+    }
+    const { access_token } = await tokenRes.json();
+
+    // Fetch Discord user profile
+    const dRes = await fetch('https://discord.com/api/users/@me', {
+      headers: { Authorization: `Bearer ${access_token}` },
+    });
+    if (!dRes.ok) return res.status(401).json({ success: false, error: 'Failed to fetch Discord profile' });
+    const dUser = await dRes.json();
+
+    const { email, username, global_name, avatar, id: discordId } = dUser;
+    if (!email) return res.status(400).json({ success: false, error: 'Discord account has no verified email. Please verify your email on Discord first.' });
+
+    const name      = global_name || username || `Discord User`;
+    const avatarUrl = avatar ? `https://cdn.discordapp.com/avatars/${discordId}/${avatar}.png` : null;
+
+    // Find or create user
+    let user = await db.findUserByEmail(email);
+    if (!user) {
+      const bcrypt      = require('bcryptjs');
+      const passwordHash = await bcrypt.hash(Math.random().toString(36) + discordId, 10);
+      user = await db.createUser({ name, email, passwordHash, role: 'student' });
+    }
+    if (avatarUrl && !user.avatarUrl) {
+      await db.updateUserStats(user._id, { avatarUrl });
+    }
+
+    const jwt   = require('jsonwebtoken');
+    const token = jwt.sign(
+      { userId: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'revise-secret',
+      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user: { _id: user._id, name: user.name, email: user.email, role: user.role, avatarUrl: avatarUrl || user.avatarUrl || null },
+    });
+  } catch (e) { next(e); }
+});
+
 // ============================================================================
 // ROUTES: SUBJECTS & TOPICS
 // ============================================================================
