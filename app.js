@@ -343,6 +343,24 @@ function syncServerStats(user) {
     const countEl = byId('streak-count');
     if (countEl) countEl.textContent = String(state.streak);
   }
+  // Load server-side confidence data and merge with local
+  // (server is source of truth; runs async so it doesn't block login)
+  if (USE_BACKEND && auth.token) {
+    fetch(`${API_BASE_URL}/api/user/progress`, { headers: authHeaders() })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (!data?.success) return;
+        const confMap = confidenceByTopic();
+        let updated = false;
+        for (const p of data.data.progress || []) {
+          if (!p.confidence) continue;
+          const level = p.confidence >= 4 ? 'confident' : p.confidence >= 2 ? 'needs-practice' : 'no-idea';
+          if (confMap[p.topicId] !== level) { confMap[p.topicId] = level; updated = true; }
+        }
+        if (updated) localStorage.setItem(confidenceStorageKey, JSON.stringify(confMap));
+      })
+      .catch(() => {});
+  }
 }
 
 // updateNavForAuth is defined in the new section below
@@ -499,6 +517,10 @@ function setTopicConfidence(topicId, level) {
   const map = confidenceByTopic();
   map[topicId] = level;
   localStorage.setItem(confidenceStorageKey, JSON.stringify(map));
+  // Sync to backend so spaced rep works across devices
+  const numericConf = level === 'confident' ? 5 : level === 'needs-practice' ? 2 : 1;
+  const topic = state.topics.get(topicId);
+  if (topic) saveProgressToBackend(topicId, null, numericConf);
   if (state.currentView === "topic") {
     renderTopicView(topicId);
   }
@@ -1849,12 +1871,15 @@ function dismissSpacedRep() {
   if (section) section.style.display = 'none';
 }
 
+let _homeLastState = '';
 function renderHome() {
   renderSpacedRep();
-  const statsEl = byId("home-stats");
-  const continueEl = byId("continue-list");
-  const activityEl = byId("recent-activity");
-  const goalEl = byId("weekly-goal");
+  // Cache key — skip full rebuild if nothing changed
+  const cacheKey = `${state.streak}|${state.xp}|${state.weeklyMinutes.join(',')}|${state.currentView}`;
+  const statsEl    = byId("home-stats");
+  const continueEl  = byId("continue-list");
+  const activityEl  = byId("recent-activity");
+  const goalEl      = byId("weekly-goal");
 
   const overall = totalProgress();
   const avgQuiz = quizHistory();
@@ -1862,11 +1887,28 @@ function renderHome() {
     ? Math.round(avgQuiz.reduce((sum, item) => sum + item.scorePct, 0) / avgQuiz.length)
     : 0;
 
+  const doneColor  = overall.done === overall.total && overall.total > 0 ? 'var(--success)' : 'var(--accent)';
   statsEl.innerHTML = `
-    <div class="stat-item"><strong style="color:var(--accent)">${overall.total}</strong><span>Topics available</span></div>
-    <div class="stat-item"><strong style="color:var(--warn)">${state.streak}</strong><span>Day streak</span></div>
-    <div class="stat-item"><strong style="color:var(--success)">${overall.done}</strong><span>Topics completed</span></div>
-    <div class="stat-item"><strong style="color:var(--phy)">${overall.total > 0 ? avgScore : 0}%</strong><span>Quiz average</span></div>
+    <div class="hstat">
+      <strong style="color:var(--accent)">${overall.total}</strong>
+      <span>Topics</span>
+    </div>
+    <div class="hstat">
+      <strong style="color:var(--warn)">${state.streak}🔥</strong>
+      <span>Day streak</span>
+    </div>
+    <div class="hstat">
+      <strong style="color:${doneColor}">${overall.done}</strong>
+      <span>Completed</span>
+    </div>
+    <div class="hstat">
+      <strong style="color:var(--phy)">${overall.total > 0 ? avgScore : 0}%</strong>
+      <span>Quiz avg</span>
+    </div>
+    <div class="hstat">
+      <strong style="color:var(--accent)">${state.xp.toLocaleString()}</strong>
+      <span>XP</span>
+    </div>
   `;
 
   const nextTopics = [];
@@ -1879,20 +1921,19 @@ function renderHome() {
     }
   }
 
-  const preview = nextTopics.slice(0, 4);
-  continueEl.innerHTML = preview
-    .map(
-      (topic) => `
-      <button class="continue-item" onclick="App.go('topic',{topicId:'${topic.id}'})">
-        <span>
-          <strong>${escapeHtml(topic.name)}</strong><br>
-          <small>${escapeHtml(topic.subjectName)}</small>
-        </span>
-        <span class="badge ${topic.done ? "badge-success" : "badge-warn"}">${topic.done ? "Done" : "Resume"}</span>
-      </button>
-    `
-    )
-    .join("");
+  const preview = nextTopics.slice(0, 5);
+  continueEl.innerHTML = preview.length ? preview.map(topic => {
+    const conf   = (confidenceByTopic())[topic.id] || 'none';
+    const confDot = conf === 'confident' ? '#22c55e' : conf === 'needs-practice' ? '#fbbf24' : conf === 'no-idea' ? '#f87171' : 'var(--border2)';
+    return `<button class="continue-card" onclick="App.go('topic',{topicId:'${topic.id}'})">
+      <span class="continue-dot" style="background:${confDot}" title="${conf}"></span>
+      <span class="continue-info">
+        <strong>${escapeHtml(topic.name)}</strong>
+        <small>${escapeHtml(topic.subjectName)}</small>
+      </span>
+      <span class="continue-arrow">›</span>
+    </button>`;
+  }).join('') : '<p class="home-empty">All caught up! 🎉</p>';
 
   const totalTarget  = parseInt(localStorage.getItem('revise.weeklyGoal') || '180', 10);
   const current      = state.weeklyMinutes.reduce((sum, m) => sum + m, 0);
@@ -2055,12 +2096,24 @@ function renderSubjectSidebar(subject, activeTopicId = "") {
           </div>
           <div class="sidebar-topics">
             ${unit.topics.map(topic => `
-              <button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""}"
-                      data-name="${escapeHtml(topic.name.toLowerCase())}"
-                      onclick="App.go('topic',{topicId:'${topic.id}'})">
-                <span>${escapeHtml(topic.name)}</span>
-                <span class="topic-item-badge">${topic.done ? "✓" : ""}</span>
-              </button>`).join("")}
+              ${(() => {
+                const lv = getLastVisited();
+                const ts = lv[topic.id];
+                const conf = (confidenceByTopic())[topic.id];
+                const confDot = conf === 'confident' ? 'var(--success)' : conf === 'needs-practice' ? 'var(--warn)' : conf === 'no-idea' ? '#f87171' : 'transparent';
+                let timeLabel = '';
+                if (ts) {
+                  const days = Math.floor((Date.now()-ts)/86400000);
+                  timeLabel = days === 0 ? 'today' : days === 1 ? '1d' : days < 7 ? days+'d' : '';
+                }
+                return `<button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""}"
+                  data-name="${escapeHtml(topic.name.toLowerCase())}"
+                  onclick="App.go('topic',{topicId:'${topic.id}'})">
+                  <span class="ti-conf-dot" style="background:${confDot}"></span>
+                  <span class="ti-name">${escapeHtml(topic.name)}</span>
+                  <span class="ti-meta">${topic.done ? "✓" : timeLabel}</span>
+                </button>`;
+              })()}`).join("")}
           </div>
         </div>`;
       }).join("")}
@@ -2193,6 +2246,17 @@ function renderTopicView(topicId) {
     return;
   }
 
+  // Show skeleton for perceived performance on topic switch
+  const _topicMain = byId("topic-main");
+  if (_topicMain && state.currentTopic !== topicId) {
+    _topicMain.innerHTML = `<div class="topic-skeleton">
+      <div class="skeleton skeleton-head"></div>
+      <div class="skeleton skeleton-sub"></div>
+      <div class="skeleton skeleton-block" style="margin-top:1rem"></div>
+      <div class="skeleton skeleton-block sm" style="margin-top:0.6rem"></div>
+    </div>`;
+  }
+
   state.currentTopic = topicId;
   state.currentSubject = topic.subject;
   // Track last visited
@@ -2318,6 +2382,9 @@ function renderTopicView(topicId) {
       <h1 class="topic-title">${escapeHtml(topic.title)}</h1>
       <p class="topic-subtitle">${richText(topic.subtitle || "")}</p>
       <div class="topic-actions">
+        <button class="btn btn-ghost btn-sm topic-discuss-btn" onclick="App.openTopicDiscussion('${topic.id}','${escapeHtml(topic.title)}')">
+          💬 Discuss
+        </button>
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${topic.id}'})">
           Topic Quiz${(() => { const scores = quizHistory().filter(q => q.topicId === topic.id); const best = scores.length ? Math.max(...scores.map(q => q.scorePct)) : null; return best !== null ? ` <span class="quiz-best-chip">${best}%</span>` : ''; })()}
         </button>
@@ -2656,6 +2723,7 @@ function renderQuizResult() {
       <p>${quiz.score}/${quiz.questions.length} correct</p>
       <p style="margin:0.7rem 0;color:var(--text2)">+${xp} XP earned</p>
       <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+        ${state.currentTopic ? `<button class="btn btn-outline" onclick="App.go('topic',{topicId:'${state.currentTopic}'})">Back to Topic</button>` : ''}
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${state.currentTopic || ""}',subjectId:'${state.currentSubject || ""}'})">Retry</button>
         <button class="btn btn-outline" onclick="App.go('home')">Back Home</button>
       </div>
@@ -2774,20 +2842,47 @@ function rateFlash(value) {
 
 function renderFlashResult() {
   const flash = state.flash;
-  const known = flash.results.filter((r) => r === true).length;
+  const known   = flash.results.filter((r) => r === true).length;
+  const unknown = flash.results.filter((r) => r === false).length;
+  const pct     = flash.cards.length ? Math.round((known / flash.cards.length) * 100) : 0;
+
+  // Persist flash result to localStorage
+  const topicId = state.currentTopic;
+  if (topicId) {
+    try {
+      const key   = 'revise.flashScores';
+      const scores = JSON.parse(localStorage.getItem(key) || '{}');
+      scores[topicId] = { known, total: flash.cards.length, pct, at: Date.now() };
+      localStorage.setItem(key, JSON.stringify(scores));
+    } catch {}
+    // Save to backend as a confidence signal
+    if (pct >= 80) saveProgressToBackend(topicId, null, 4); // confident
+    else if (pct >= 50) saveProgressToBackend(topicId, null, 2); // needs practice
+    else if (pct > 0)   saveProgressToBackend(topicId, null, 1); // no idea
+  }
+
+  addStudyMinutes(8);
+  touchStreakToday();
+
+  const backToTopicBtn = topicId
+    ? `<button class="btn btn-outline" onclick="App.go('topic',{topicId:'${topicId}'})">Back to Topic</button>`
+    : '';
+  const restartUrl = topicId
+    ? `App.go('flash',{topicId:'${topicId}'})`
+    : `App.go('flash',{subjectId:'${state.currentSubject||"chem"}'})`;
 
   byId("flash-content").innerHTML = `
     <div class="card result-box">
       <h1>Flashcards Complete</h1>
       <div class="result-score">${known}/${flash.cards.length}</div>
-      <p style="color:var(--text2)">Cards marked as known.</p>
+      <p style="color:var(--text2)">${known} known · ${unknown} to review · ${pct}%</p>
       <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem">
-        <button class="btn btn-primary" onclick="App.go('flash',{subjectId:'${state.currentSubject || "chem"}'})">Restart</button>
+        ${backToTopicBtn}
+        <button class="btn btn-primary" onclick="${restartUrl}">Restart</button>
         <button class="btn btn-outline" onclick="App.go('home')">Back Home</button>
       </div>
     </div>
   `;
-
   showToast("Flashcard session completed.");
 }
 // Active subject filter for past papers tab UI
@@ -3000,6 +3095,22 @@ function renderConfidenceMap() {
   container.innerHTML = html;
 }
 
+
+async function sendVerificationEmail() {
+  if (!auth.isLoggedIn) { showToast('Sign in first'); return; }
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/auth/send-verification`, {
+      method: 'POST', headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.devToken ? `Dev mode — verify URL: ${data.verifyUrl}` : '📧 Verification email sent! Check your inbox.');
+    } else {
+      showToast(data.error || 'Could not send verification email');
+    }
+  } catch { showToast('Network error'); }
+}
+
 function renderProfile() {
   const overall  = totalProgress();
   const avgQuiz  = quizHistory();
@@ -3025,7 +3136,13 @@ function renderProfile() {
       }
     }
     if (nameEl)   nameEl.textContent   = user.name;
-    if (emailEl)  emailEl.textContent  = user.email;
+    if (emailEl) {
+      const verifiedBadge = user.emailVerified
+        ? '<span style="color:var(--success);font-size:0.72rem;margin-left:0.4rem">✓ verified</span>'
+        : `<button class="link-btn" style="font-size:0.72rem;margin-left:0.4rem;color:var(--warn)"
+            onclick="App.sendVerificationEmail()">Verify email</button>`;
+      emailEl.innerHTML = `${escapeHtml(user.email)}${verifiedBadge}`;
+    }
     // Show upload button
     const uploadBtn = byId('avatar-upload-btn');
     if (uploadBtn) uploadBtn.style.display = '';
@@ -3419,40 +3536,62 @@ function bindSearch() {
       return;
     }
 
-    const hits = state.searchIndex
-      .filter((item) => {
-        const hay = [
-          item.title,
-          item.subtitle,
-          ...(item.concept || []),
-          ...(item.defTerms || []),
-          ...(item.noteHeadings || []),
-        ].join(' ').toLowerCase();
-        return hay.includes(q);
-      })
-      .sort((a, b) => {
-        // Exact title match ranks first
-        const aTitle = a.title.toLowerCase().startsWith(q) ? 0 : 1;
-        const bTitle = b.title.toLowerCase().startsWith(q) ? 0 : 1;
-        return aTitle - bTitle;
-      })
-      .slice(0, 8);
+    // Fuzzy search with scoring — title match > defTerms > concept > subtitle
+    const scored = state.searchIndex.map(item => {
+      const title    = item.title.toLowerCase();
+      const defs     = (item.defTerms     || []).join(' ').toLowerCase();
+      const concepts = (item.concept      || []).join(' ').toLowerCase();
+      const notes    = (item.noteHeadings || []).join(' ').toLowerCase();
+      const sub      = (item.subtitle     || '').toLowerCase();
+
+      let score = 0;
+      if (title === q)                       score += 100; // exact
+      else if (title.startsWith(q))          score += 80;  // prefix
+      else if (title.includes(q))            score += 60;  // substring
+      if (defs.includes(q))                  score += 40;
+      if (concepts.includes(q))              score += 30;
+      if (notes.includes(q))                 score += 20;
+      if (sub.includes(q))                   score += 10;
+      // Fuzzy: check each query word
+      const words = q.split(/\s+/).filter(w => w.length > 2);
+      for (const w of words) {
+        if (title.includes(w))    score += 15;
+        if (defs.includes(w))     score += 8;
+        if (concepts.includes(w)) score += 5;
+      }
+      return { ...item, score };
+    }).filter(i => i.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
+
+    const hits = scored;
 
     if (!hits.length) {
       results.classList.remove("open");
       return;
     }
 
-    results.innerHTML = hits
-      .map(
-        (hit) => `
-        <button class="search-item" onclick="App.openFromSearch('${hit.subject}','${hit.id}')">
-          <strong>${escapeHtml(hit.title)}</strong><br>
-          <small>${escapeHtml(state.subjectMap.get(hit.subject)?.name || hit.subject)}</small>
-        </button>
-      `
-      )
-      .join("");
+    results.innerHTML = hits.map(hit => {
+      // Show which field matched
+      const subjName = state.subjectMap.get(hit.subject)?.name || hit.subject;
+      let matchHint = '';
+      const ql = q.toLowerCase();
+      if (!(hit.title.toLowerCase().includes(ql))) {
+        const defMatch  = (hit.defTerms     || []).find(d => d.toLowerCase().includes(ql));
+        const concMatch = (hit.concept      || []).find(c => c.toLowerCase().includes(ql));
+        const noteMatch = (hit.noteHeadings || []).find(n => n.toLowerCase().includes(ql));
+        if (defMatch)  matchHint = `<span class="search-match-hint">Definition: ${escapeHtml(defMatch.slice(0,40))}</span>`;
+        else if (concMatch) matchHint = `<span class="search-match-hint">Concept match</span>`;
+        else if (noteMatch) matchHint = `<span class="search-match-hint">Note: ${escapeHtml(noteMatch.slice(0,40))}</span>`;
+      }
+      return `<button class="search-item" onclick="App.openFromSearch('${hit.subject}','${hit.id}')">
+        <div class="search-item-body">
+          <strong>${escapeHtml(hit.title)}</strong>
+          ${matchHint}
+        </div>
+        <small class="search-item-subj">${escapeHtml(subjName)}</small>
+      </button>`;
+    }).join('');
 
     results.classList.add("open");
   });
@@ -3490,7 +3629,7 @@ function showDataLoadError(error) {
 async function init() {
   try {
     initTheme();
-    state.particleSystem = createParticleSystem();
+    state.particleSystem = null; // CSS particles replace canvas
     await loadData();
     bindBaseEvents();
     updateNavForAuth();
@@ -3520,6 +3659,22 @@ async function init() {
           showToast('Discord sign-in failed: ' + (data.error || 'Unknown error'));
         }
       } catch { showToast('Discord sign-in failed — network error'); }
+    }
+
+    // Handle email verification token from redirect
+    const emailVerifyToken = sessionStorage.getItem('email_verify_token');
+    if (emailVerifyToken) {
+      sessionStorage.removeItem('email_verify_token');
+      fetch(`${API_BASE_URL}/api/auth/verify?token=${emailVerifyToken}`)
+        .then(r => r.json())
+        .then(d => {
+          showToast(d.success ? 'Email verified! You are all set.' : (d.error || 'Verification failed'));
+          if (d.success && auth.isLoggedIn) {
+            // Update local user object
+            if (auth.user) auth.user.emailVerified = true;
+          }
+        })
+        .catch(() => showToast('Verification check failed'));
     }
 
     go("home");
@@ -5586,6 +5741,24 @@ const _socialState = {
 // SOCIAL — tab switcher
 // ============================================================================
 
+
+function openTopicDiscussion(topicId, topicTitle) {
+  // Navigate to Social → Forums with a pre-filter for this topic
+  go('community');
+  // Switch to forums tab and filter/highlight threads tagged with this topic
+  setTimeout(() => {
+    switchSocialTab('forums', document.querySelector('[data-tab="forums"]'));
+    // Pre-fill new thread modal with topic title if no threads exist
+    const filterSel = document.querySelector('.forum-filter-select');
+    if (filterSel) {
+      // Store for the forum to pick up
+      sessionStorage.setItem('forum_topic_filter', topicId);
+      sessionStorage.setItem('forum_topic_title', topicTitle);
+    }
+  }, 150);
+  showToast(`Showing discussions for "${topicTitle}"`);
+}
+
 function switchSocialTab(tab, btn) {
   document.querySelectorAll('.social-nav-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
@@ -6246,6 +6419,8 @@ const App = {
   openNewGroupModal,
   createGroup,
   signInWithDiscord,
+  openTopicDiscussion,
+  sendVerificationEmail,
 };
 
 window.App = App;

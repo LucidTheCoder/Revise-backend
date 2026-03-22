@@ -1,0 +1,26 @@
+{
+  "name": "Revise. — Cambridge AS Level",
+  "short_name": "Revise.",
+  "description": "Cambridge AS Level revision — Chemistry, Biology, Physics",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#00d4aa",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%230d1117'/><polygon points='96,18 162,57 162,135 96,174 30,135 30,57' fill='none' stroke='%2300d4aa' stroke-width='12'/><text y='118' x='96' text-anchor='middle' font-family='serif' font-weight='900' font-size='72' fill='%2300d4aa'>R</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%230d1117'/><polygon points='256,48 432,152 432,360 256,464 80,360 80,152' fill='none' stroke='%2300d4aa' stroke-width='28'/><text y='310' x='256' text-anchor='middle' font-family='serif' font-weight='900' font-size='192' fill='%2300d4aa'>R</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "screenshots": []
+}

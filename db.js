@@ -63,6 +63,9 @@ const userSchema = new mongoose.Schema({
   avatarUrl:      { type: String, default: null },
   avatarPublicId: { type: String, default: null },
   banned:         { type: Boolean, default: false },
+  emailVerified:      { type: Boolean, default: false },
+  verificationToken:  { type: String,  default: null },
+  verificationExpiry: { type: Date,    default: null },
   stats: {
     totalTopicsCompleted:  { type: Number, default: 0 },
     totalQuizzesCompleted: { type: Number, default: 0 },
@@ -156,6 +159,11 @@ const groupMessageSchema = new mongoose.Schema({
 // ============================================================================
 // MODELS
 // ============================================================================
+
+// Indexes for search performance
+userSchema.index({ name: 1 });
+forumThreadSchema.index({ subject: 1, createdAt: -1 });
+forumThreadSchema.index({ createdAt: -1 });
 
 const User          = mongoose.models.User          || mongoose.model('User',          userSchema);
 const Progress      = mongoose.models.Progress      || mongoose.model('Progress',      progressSchema);
@@ -355,11 +363,16 @@ const createGroupChat   = (name, creatorId, memberIds) =>
   GroupChat.create({ name, createdBy: creatorId, members: [creatorId, ...memberIds] });
 const getUserGroupChats = (userId) =>
   GroupChat.find({ members: userId }).sort({ updatedAt: -1 }).lean();
-const getGroupMessages  = (chatId, limit = 50) =>
-  GroupMessage.find({ chatId }).sort({ createdAt: -1 }).limit(limit).lean();
+const getGroupMessages = async (chatId, limit = 50, before = null) => {
+  const query = { chatId };
+  if (before) query.createdAt = { $lt: new Date(before) };
+  const msgs = await GroupMessage.find(query).sort({ createdAt: -1 }).limit(limit).lean();
+  return msgs.reverse(); // return chronological order
+};
 const addGroupMessage   = (chatId, authorId, authorName, text) =>
   GroupMessage.create({ chatId, authorId, authorName, text });
 
+// Export models directly for advanced queries
 module.exports = {
   connectDB,
   User, Progress, ForumThread, ChatMessage, FriendRequest, GroupChat, GroupMessage,

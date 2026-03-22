@@ -47,6 +47,27 @@ const io = new Server(server, {
 // Track connected users per channel (channelId -> Set of socket info)
 const channelUsers = {};
 
+// Socket.io auth middleware — reject connections without a valid token
+io.use(async (socket, next) => {
+  try {
+    const token = socket.handshake.auth?.token || socket.handshake.query?.token;
+    if (!token) return next(new Error('Authentication required'));
+    const jwt = require('jsonwebtoken');
+    const payload = jwt.verify(token, process.env.JWT_SECRET || 'revise-secret');
+    const user = await db.findUserById(payload.userId || payload.sub);
+    if (!user) return next(new Error('User not found'));
+    if (user.banned) return next(new Error('Account suspended'));
+    socket.userId   = user._id.toString();
+    socket.userName = user.name;
+    next();
+  } catch (err) {
+    // Allow unauthenticated for read-only ops but tag as guest
+    socket.userId   = null;
+    socket.userName = 'Guest';
+    next();
+  }
+});
+
 io.on('connection', (socket) => {
   console.log(`[Socket] connected: ${socket.id}`);
 
@@ -353,7 +374,7 @@ app.post('/api/auth/discord', async (req, res, next) => {
       user = await db.createUser({ name, email, passwordHash, role: 'student' });
     }
     if (avatarUrl && !user.avatarUrl) {
-      await db.updateUserStats(user._id, { avatarUrl });
+      await db.updateUserAvatar(user._id, { url: avatarUrl, publicId: null });
     }
 
     const signToken2 = (id) => require('jsonwebtoken').sign(
@@ -790,6 +811,10 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
     if (!prompt || !prompt.trim()) {
       return res.status(400).json({ success: false, error: 'prompt is required' });
     }
+    const MAX_PROMPT = parseInt(process.env.AI_MAX_PROMPT_CHARS || '2000', 10);
+    if (prompt.length > MAX_PROMPT) {
+      return res.status(400).json({ success: false, error: `Prompt too long (max ${MAX_PROMPT} characters)` });
+    }
 
     // Rate limit per user
     const rateLimitKey = req.user._id.toString();
@@ -1102,6 +1127,107 @@ app.get('/api/user/spaced-rep', authenticateToken, async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
+
+// GET /api/social/groups/:groupId/leaderboard — member progress ranking
+app.get('/api/social/groups/:groupId/leaderboard', authenticateToken, async (req, res, next) => {
+  try {
+    const group = await db.GroupChat.findById(req.params.groupId).lean();
+    if (!group) return res.status(404).json({ success: false, error: 'Group not found' });
+    const isMember = group.members.map(String).includes(req.user._id.toString());
+    if (!isMember) return res.status(403).json({ success: false, error: 'Not a member' });
+
+    // Fetch all members' public profiles with stats
+    const members = await db.User.find({ _id: { $in: group.members } })
+      .select('name avatarUrl stats.xp stats.streak stats.totalTopicsCompleted stats.averageQuizScore stats.lastActiveAt')
+      .lean();
+
+    // Sort by XP descending
+    members.sort((a, b) => (b.stats?.xp || 0) - (a.stats?.xp || 0));
+    const ranked = members.map((m, i) => ({
+      rank: i + 1,
+      _id:      m._id,
+      name:     m.name,
+      avatarUrl: m.avatarUrl || null,
+      xp:       m.stats?.xp || 0,
+      streak:   m.stats?.streak || 0,
+      topics:   m.stats?.totalTopicsCompleted || 0,
+      quizAvg:  m.stats?.averageQuizScore || 0,
+      lastSeen: m.stats?.lastActiveAt || null,
+      isYou:    m._id.toString() === req.user._id.toString(),
+    }));
+
+    res.json({ success: true, data: ranked });
+  } catch (e) { next(e); }
+});
+
+
+// POST /api/auth/send-verification — send verification email
+app.post('/api/auth/send-verification', authenticateToken, async (req, res, next) => {
+  try {
+    const user = await db.findUserById(req.user._id);
+    if (!user) return res.status(404).json({ success: false, error: 'User not found' });
+    if (user.emailVerified) return res.json({ success: true, message: 'Email already verified' });
+
+    // Generate a simple hex token
+    const crypto = require('crypto');
+    const token  = crypto.randomBytes(32).toString('hex');
+    const expiry = Date.now() + 24 * 60 * 60 * 1000; // 24h
+
+    await db.User.findByIdAndUpdate(user._id, {
+      $set: { verificationToken: token, verificationExpiry: expiry }
+    });
+
+    // If nodemailer is configured, send email; otherwise return token (dev mode)
+    const verifyUrl = `${process.env.SITE_URL || 'https://asrevise.onrender.com'}/verify?token=${token}`;
+
+    if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+      try {
+        const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: parseInt(process.env.SMTP_PORT || '587'),
+          auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+        });
+        await transporter.sendMail({
+          from: `"Revise." <${process.env.SMTP_USER}>`,
+          to: user.email,
+          subject: 'Verify your Revise. account',
+          html: `<p>Hi ${user.name},</p><p>Click below to verify your email:</p>
+                 <p><a href="${verifyUrl}" style="background:#00d4aa;color:#04231a;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Verify Email</a></p>
+                 <p>This link expires in 24 hours.</p>`,
+        });
+        res.json({ success: true, message: 'Verification email sent' });
+      } catch (mailErr) {
+        console.error('Email send failed:', mailErr.message);
+        res.json({ success: true, message: 'Email send failed — check SMTP config', devToken: token });
+      }
+    } else {
+      // Dev mode — return token directly
+      res.json({ success: true, message: 'SMTP not configured — dev mode', devToken: token, verifyUrl });
+    }
+  } catch (e) { next(e); }
+});
+
+// GET /api/auth/verify?token=... — verify email
+app.get('/api/auth/verify', async (req, res, next) => {
+  try {
+    const { token } = req.query;
+    if (!token) return res.status(400).json({ success: false, error: 'Token required' });
+
+    const user = await db.User.findOne({
+      verificationToken: token,
+      verificationExpiry: { $gt: Date.now() },
+    });
+    if (!user) return res.status(400).json({ success: false, error: 'Invalid or expired verification link' });
+
+    await db.User.findByIdAndUpdate(user._id, {
+      $set: { emailVerified: true },
+      $unset: { verificationToken: '', verificationExpiry: '' },
+    });
+    res.json({ success: true, message: 'Email verified successfully! You can now sign in.' });
+  } catch (e) { next(e); }
+});
+
 // ============================================================================
 // CATCH-ALL / ERROR HANDLING
 // ============================================================================
@@ -1211,7 +1337,7 @@ app.post('/api/social/groups', authenticateToken, async (req, res, next) => {
     if (!name || !name.trim()) return res.status(400).json({ success: false, error: 'name required' });
     memberIds = Array.isArray(memberIds) ? memberIds : [];
     await db.touchLastActive(req.user._id);
-    const group = await db.createGroupChat(name.trim(), req.user._id, memberIds);
+    const group = await db.createGroupChat(name.trim(), req.user._id, validMembers);
     res.status(201).json({ success: true, data: group });
   } catch (e) { next(e); }
 });
@@ -1224,8 +1350,10 @@ app.get('/api/social/groups/:groupId/messages', authenticateToken, async (req, r
     const isMember = group.members.map(String).includes(req.user._id.toString());
     if (!isMember) return res.status(403).json({ success: false, error: 'Not a member of this group' });
     await db.touchLastActive(req.user._id);
-    const msgs = await db.getGroupMessages(req.params.groupId, 80);
-    res.json({ success: true, data: msgs.reverse() }); // chronological
+    const limit  = Math.min(parseInt(req.query.limit) || 50, 100);
+    const before = req.query.before || null;
+    const msgs   = await db.getGroupMessages(req.params.groupId, limit, before);
+    res.json({ success: true, data: msgs, hasMore: msgs.length === limit });
   } catch (e) { next(e); }
 });
 

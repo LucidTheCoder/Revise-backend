@@ -33,6 +33,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00d4aa">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='38' fill='%230d1117'/><text y='130' x='90' text-anchor='middle' font-family='serif' font-weight='900' font-size='100' fill='%2300d4aa'>R</text></svg>">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23161b22'/><text y='23' x='4' font-size='21' font-family='serif' font-weight='700' fill='%2300d4aa'>R.</text></svg>">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="editor-styles.css">
@@ -61,7 +64,6 @@
   </script>
 </head>
 <body>
-  <canvas id="ambient-particles" aria-hidden="true"></canvas>
   <nav class="nav" id="main-nav">
     <button class="nav-logo" data-route="home">Revise<span>.</span></button>
     <div class="nav-search">
@@ -93,94 +95,79 @@
 
   <main>
     <section class="view active" id="view-home">
-      <div class="container page-pad">
 
-        <!-- HERO -->
-        <section class="hero card">
-          <div class="hero-eyebrow">Cambridge AS Level · Chemistry · Biology · Physics</div>
-          <h1>Master your <strong>A Levels</strong><br>with confidence.</h1>
-          <p>Topic notes, worked examples, flashcards, quizzes, topical papers and past papers — all in one place.</p>
-          <div class="hero-actions">
-            <button class="btn btn-primary" data-route="subjects">
+      <!-- ── HERO ──────────────────────────────────────────────────────── -->
+      <div class="home-hero">
+        <!-- CSS-only floating orbs — zero JS, no canvas -->
+        <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+        <!-- Lightweight CSS dot-grid particles -->
+        <div class="hero-dots" aria-hidden="true"></div>
+
+        <div class="hero-content">
+          <div class="hero-badge">Cambridge AS Level · Chem · Bio · Physics</div>
+          <h1>Revise smarter.<br><span class="hero-accent">Score higher.</span></h1>
+          <p>Everything you need for Cambridge AS Level — notes, flashcards, quizzes, past papers and an AI tutor — in one place.</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary hero-cta-primary" data-route="subjects">
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               Start Revising
             </button>
-            <button class="btn btn-outline" data-route="topical">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Generate Paper
-            </button>
-            <button class="btn btn-ghost" data-route="past-papers">Past Papers</button>
+            <button class="btn hero-cta-secondary" data-route="topical">Generate Paper</button>
+            <button class="btn hero-cta-ghost" data-route="past-papers">Past Papers</button>
           </div>
-
-          <!-- Feature pills -->
-          <div class="hero-features">
-            <span class="hero-feat">📝 Topic Notes</span>
-            <span class="hero-feat">⚡ Flashcards</span>
-            <span class="hero-feat">🎯 Quizzes</span>
-            <span class="hero-feat">📄 Topical Papers</span>
-            <span class="hero-feat">📚 Past Papers</span>
-            <span class="hero-feat">🤖 AI Tutor</span>
+          <!-- Subject quick-launch inline in hero on mobile -->
+          <div class="hero-subjects">
+            <button class="hero-subj-pill hs-chem" onclick="App.go('subject',{subjectId:'chem'})">⚗️ Chemistry</button>
+            <button class="hero-subj-pill hs-bio"  onclick="App.go('subject',{subjectId:'bio'})">🧬 Biology</button>
+            <button class="hero-subj-pill hs-phy"  onclick="App.go('subject',{subjectId:'phy'})">⚡ Physics</button>
           </div>
-        </section>
+        </div>
+      </div>
 
-        <!-- STATS ROW -->
-        <section class="stats-row" id="home-stats"></section>
+      <div class="container home-body">
 
-        <!-- SUBJECT QUICK-LAUNCH -->
-        <section class="home-subjects">
-          <button class="home-subj-card home-subj-chem" onclick="App.go('subject',{subjectId:'chem'})">
-            <span class="home-subj-icon">⚗️</span>
-            <div>
-              <strong>Chemistry</strong>
-              <span>9701 · 22 topics</span>
-            </div>
-            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="home-subj-card home-subj-bio" onclick="App.go('subject',{subjectId:'bio'})">
-            <span class="home-subj-icon">🧬</span>
-            <div>
-              <strong>Biology</strong>
-              <span>9700 · 13 topics</span>
-            </div>
-            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="home-subj-card home-subj-phy" onclick="App.go('subject',{subjectId:'phy'})">
-            <span class="home-subj-icon">⚡</span>
-            <div>
-              <strong>Physics</strong>
-              <span>9702 · 11 topics</span>
-            </div>
-            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </section>
+        <!-- ── STATS ──────────────────────────────────────────────────── -->
+        <section class="home-stats-row" id="home-stats"></section>
 
-        <!-- SPACED REP -->
+        <!-- ── SPACED REP ─────────────────────────────────────────────── -->
         <section class="spaced-rep-section" id="spaced-rep-section" style="display:none">
-          <div class="card">
-            <div class="section-title-row">
-              <h2>📅 Revise Today</h2>
-              <button class="pill-btn" onclick="App.dismissSpacedRep()">Dismiss</button>
+          <div class="card sr-card">
+            <div class="sr-card-head">
+              <div class="sr-card-title">
+                <span class="sr-icon">📅</span>
+                <div>
+                  <strong>Revise Today</strong>
+                  <small>Based on your confidence ratings</small>
+                </div>
+              </div>
+              <button class="btn-icon" onclick="App.dismissSpacedRep()" aria-label="Dismiss">✕</button>
             </div>
-            <p style="color:var(--text2);font-size:0.88rem;margin-bottom:0.75rem">Based on your confidence ratings — these topics are due for review.</p>
             <div id="spaced-rep-list"></div>
           </div>
         </section>
 
-        <!-- MAIN GRID -->
-        <section class="home-grid">
-          <div class="card">
-            <div class="section-title-row">
+        <!-- ── MAIN DASHBOARD GRID ────────────────────────────────────── -->
+        <section class="home-dash">
+
+          <!-- Continue Learning -->
+          <div class="home-dash-card home-dash-continue">
+            <div class="home-dash-head">
               <h2>Continue Learning</h2>
             </div>
             <div id="continue-list"></div>
             <div id="recent-activity"></div>
           </div>
-          <div class="card">
-            <div class="section-title-row">
+
+          <!-- Weekly Goal -->
+          <div class="home-dash-card home-dash-goal">
+            <div class="home-dash-head">
               <h2>Weekly Goal</h2>
             </div>
             <div id="weekly-goal"></div>
           </div>
+
         </section>
 
       </div>
@@ -697,5 +684,26 @@
 
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script type="module" src="app.js"></script>
+
+  <script>
+    // Service worker registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.warn('SW failed:', err));
+      });
+    }
+
+    // Handle email verification redirect (?verify=token)
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const vToken = params.get('verify') || params.get('token');
+      if (vToken && window.location.pathname === '/verify') {
+        sessionStorage.setItem('email_verify_token', vToken);
+        window.history.replaceState({}, '', '/');
+      }
+    })();
+  </script>
 </body>
 </html>
