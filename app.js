@@ -7,6 +7,31 @@
 // ============================================================================
 const APP_VERSION  = "1.2.0";
 
+// ── Accessibility / display settings ────────────────────────────────────────
+const FONT_SIZES    = ['small','normal','large','xlarge'];
+const DIAGRAM_SIZES = ['compact','normal','large'];
+
+function getDisplaySetting(key, def) {
+  return localStorage.getItem('revise.' + key) || def;
+}
+function setDisplaySetting(key, val) {
+  localStorage.setItem('revise.' + key, val);
+  applyDisplaySettings();
+}
+function applyDisplaySettings() {
+  const fs = getDisplaySetting('fontSize', 'normal');
+  const ds = getDisplaySetting('diagramSize', 'normal');
+  // Font size
+  const fsMap = { small: '14px', normal: '16px', large: '18px', xlarge: '20px' };
+  document.documentElement.style.setProperty('--user-font-size', fsMap[fs] || '16px');
+  document.body.style.fontSize = fsMap[fs] || '16px';
+  // Diagram size — set a CSS var that diagram-wrap svg reads
+  const dsMap = { compact: '480px', normal: '640px', large: '100%' };
+  document.documentElement.style.setProperty('--diagram-min-width', dsMap[ds] || '640px');
+  const dsScale = { compact: '1', normal: '1', large: '1.15' };
+  document.documentElement.style.setProperty('--diagram-scale', dsScale[ds] || '1');
+}
+
 // ── AI Feature Flag ──────────────────────────────────────────────────────────
 // Set to false to hide all AI UI and prevent API calls sitewide.
 // Admins can toggle via Admin > Dashboard. Stored in localStorage.
@@ -1974,9 +1999,9 @@ function renderSubjectSidebar(subject, activeTopicId = "") {
         const unitPct  = unit.topics.length ? Math.round((unitDone / unit.topics.length) * 100) : 0;
         return `
         <div class="sidebar-group">
-          <div class="sidebar-label-row">
-            <span class="sidebar-label">${escapeHtml(unit.name)}</span>
-            <span class="sidebar-unit-pct">${unitPct}%</span>
+          <div class="sidebar-banner">
+            <span class="sidebar-banner-text">${escapeHtml(unit.name)}</span>
+            <span class="sidebar-banner-pct">${unitPct}%</span>
           </div>
           <div class="sidebar-unit-bar">
             <div class="sidebar-unit-bar-fill" style="width:${unitPct}%"></div>
@@ -2995,6 +3020,34 @@ function renderProfile() {
       <button class="btn btn-outline btn-danger btn-sm" onclick="App.resetProgress()">Reset Local Progress</button>
     </div>`;
 
+
+  // ── Display settings ──────────────────────────────────────────────
+  const settingsEl = byId('profile-display-settings');
+  if (settingsEl) {
+    const curFs = getDisplaySetting('fontSize', 'normal');
+    const curDs = getDisplaySetting('diagramSize', 'normal');
+    const fsBtns = ['small','normal','large','xlarge'].map(v =>
+      `<button class="seg-btn ${curFs === v ? 'active' : ''}" onclick="App.setDisplaySetting('fontSize','${v}')">
+        <span class="seg-a" style="font-size:${v==='small'?'0.78rem':v==='normal'?'0.9rem':v==='large'?'1.05rem':'1.2rem'}">A</span>
+        <span>${v}</span></button>`
+    ).join('');
+    const dsBtns = ['compact','normal','large'].map(v =>
+      `<button class="seg-btn ${curDs === v ? 'active' : ''}" onclick="App.setDisplaySetting('diagramSize','${v}')">
+        ${v === 'compact' ? '⊟' : v === 'normal' ? '⊞' : '⊠'} ${v}</button>`
+    ).join('');
+    settingsEl.innerHTML = `
+      <div class="settings-row">
+        <div class="settings-field">
+          <div class="settings-label">Text Size</div>
+          <div class="settings-seg">${fsBtns}</div>
+        </div>
+        <div class="settings-field">
+          <div class="settings-label">Diagram Size</div>
+          <div class="settings-seg">${dsBtns}</div>
+        </div>
+      </div>`;
+  }
+
   // ── Quiz history ──────────────────────────────────────────────────
   const quizEl = byId('profile-quiz-history');
   if (quizEl) {
@@ -3419,7 +3472,7 @@ async function init() {
     bindBaseEvents();
     updateNavForAuth();
     applyAiVisibility();
-  applyAiVisibility();
+    applyDisplaySettings();
     byId("streak-count").textContent = String(state.streak || 0);
 
     // Handle Discord OAuth callback code if present
@@ -5471,6 +5524,7 @@ const App = {
   uploadAvatar,
   setWeeklyGoal,
   copyText,
+  setDisplaySetting,
   setAiEnabled,
   getAiEnabled,
   resetProgress,

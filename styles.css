@@ -4751,3 +4751,164 @@ main { flex: 1 0 auto; }
   margin-top: 0.3rem;
   font-size:  0.78rem;
 }
+
+/* ============================================================================
+   SIDEBAR — full-width green banner (replaces oval pill)
+   ============================================================================ */
+
+.sidebar-banner {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         0.32rem 0.65rem;
+  margin-bottom:   0.35rem;
+  border-radius:   8px;
+  background:      var(--accent);
+  color:           #0a0f1a;
+}
+
+.sidebar-banner-text {
+  font-size:      0.7rem;
+  font-weight:    700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height:    1.2;
+}
+
+.sidebar-banner-pct {
+  font-size:   0.68rem;
+  font-weight: 700;
+  opacity:     0.75;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .sidebar-banner {
+  background: var(--accent);
+  color:      #fff;
+}
+
+/* ============================================================================
+   DISPLAY SETTINGS — segmented controls
+   ============================================================================ */
+
+.settings-row {
+  display:   flex;
+  gap:       1.5rem;
+  flex-wrap: wrap;
+}
+
+.settings-field {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.5rem;
+}
+
+.settings-label {
+  font-size:      0.75rem;
+  font-weight:    600;
+  color:          var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.settings-seg {
+  display:       flex;
+  gap:           0.3rem;
+  background:    var(--bg3);
+  padding:       0.25rem;
+  border-radius: 10px;
+  border:        1px solid var(--border);
+}
+
+.seg-btn {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            0.15rem;
+  padding:        0.35rem 0.7rem;
+  border-radius:  7px;
+  border:         none;
+  background:     transparent;
+  color:          var(--text2);
+  font-size:      0.72rem;
+  font-weight:    500;
+  cursor:         pointer;
+  transition:     background 0.14s, color 0.14s;
+  min-width:      3rem;
+}
+
+.seg-btn:hover { background: var(--bg2); color: var(--text1); }
+
+.seg-btn.active {
+  background:  var(--card);
+  color:       var(--accent);
+  font-weight: 700;
+  box-shadow:  0 1px 4px rgba(0,0,0,0.15);
+}
+
+.seg-a {
+  font-weight:  700;
+  line-height:  1;
+  font-family:  var(--font-head);
+}
+
+/* ============================================================================
+   DIAGRAM — CSS variable driven sizing
+   ============================================================================ */
+
+.diagram-wrap svg {
+  min-width: var(--diagram-min-width, 640px);
+  transform: scale(var(--diagram-scale, 1));
+  transform-origin: top left;
+}
+
+/* ============================================================================
+   GLOBAL — CSS variable for user font size
+   ============================================================================ */
+
+html {
+  font-size: var(--user-font-size, 16px);
+}
+
+/* ============================================================================
+   FINAL POLISH — pre-release sweep
+   ============================================================================ */
+
+/* Smoother topic item active state */
+.topic-item.active {
+  background:  color-mix(in srgb, var(--accentbg), transparent 20%) !important;
+  border-color: var(--accent) !important;
+  color:       var(--accent) !important;
+  font-weight: 600;
+}
+.topic-item.active .topic-item-badge { color: var(--accent); }
+
+/* Tighter nav on mobile */
+@media (max-width: 480px) {
+  .nav-logo { font-size: 1.2rem; }
+  .nav-chip  { display: none; }
+}
+
+/* Keyboard shortcut hint toast — monospace */
+.toast code {
+  font-family: var(--font-mono);
+  font-size:   0.85em;
+  background:  rgba(255,255,255,0.12);
+  padding:     0.05em 0.3em;
+  border-radius: 3px;
+}
+
+/* Profile grid responsive */
+@media (max-width: 900px) {
+  .profile-grid { grid-template-columns: 1fr; }
+}
+
+/* Consistent card hover lift everywhere */
+.card.hover-lift { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.card.hover-lift:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.14); }
+
+/* Print: hide settings / nav / sidebar */
+@media print {
+  .nav, .sidebar, .site-footer, .profile-display-settings,
+  .tp-paper-toolbar, #ambient-particles, .back-to-top { display: none !important; }
+}
