@@ -4464,6 +4464,7 @@ function go(viewName, payload = {}) {
   if (viewName === 'quiz')        startQuiz(payload);
   if (viewName === 'flash')       startFlashcards(payload);
   if (viewName === 'past-papers') renderPastPapers();
+  if (viewName === 'topical')     renderTopical();
   if (viewName === 'community')   renderCommunity();
   if (viewName === 'profile')     renderProfile();
   if (viewName === 'confidence-map') { renderConfidenceMap(); }
@@ -4619,6 +4620,314 @@ function bindBaseEvents() {
 // APP EXPORT
 // ============================================================================
 
+
+// ============================================================================
+// TOPICAL PAPER GENERATOR
+// ============================================================================
+
+const _tp = {
+  subject:    'chem',
+  type:       'mcq',       // mcq | structured | mixed
+  qtyPerTopic: 3,
+  selected:   new Set(),   // topic IDs
+};
+
+function renderTopical() {
+  _tpRenderTopicGrid();
+  _tpWireSubjectTabs();
+  _tpWireTypeTabs();
+  byId('tp-paper-output').style.display = 'none';
+  byId('tp-setup').style.display        = '';
+}
+
+function _tpWireSubjectTabs() {
+  const tabs = document.querySelectorAll('.tp-subj-btn');
+  tabs.forEach(btn => {
+    btn.onclick = () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      _tp.subject = btn.dataset.subj;
+      _tp.selected.clear();
+      _tpRenderTopicGrid();
+    };
+  });
+}
+
+function _tpWireTypeTabs() {
+  const tabs = document.querySelectorAll('.tp-type-btn');
+  tabs.forEach(btn => {
+    btn.onclick = () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      _tp.type = btn.dataset.type;
+      _tpUpdateCount();
+    };
+  });
+}
+
+function _tpGetSubjectTopics() {
+  return Array.from(state.topics.values())
+    .filter(t => t.subject === _tp.subject)
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+function _tpRenderTopicGrid() {
+  const grid = byId('tp-topic-grid');
+  if (!grid) return;
+  const topics = _tpGetSubjectTopics();
+  grid.innerHTML = topics.map(t => {
+    const qCount = (t.quiz?.questions || []).length;
+    const weCount = (t.workedExamples || []).length;
+    const available = (_tp.type === 'mcq'        && qCount > 0)
+                   || (_tp.type === 'structured'  && weCount > 0)
+                   || (_tp.type === 'mixed'       && (qCount + weCount) > 0);
+    const checked = _tp.selected.has(t.id);
+    const disabled = !available;
+    return `<label class="tp-topic-chip ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}"
+      title="${disabled ? 'No questions available for this paper type' : ''}">
+      <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}
+        onchange="App.tpToggleTopic('${t.id}', this.checked)">
+      <span>${escapeHtml(t.title)}</span>
+      <small>${qCount}q ${weCount}we</small>
+    </label>`;
+  }).join('');
+  _tpUpdateCount();
+}
+
+function tpToggleTopic(id, checked) {
+  if (checked) _tp.selected.add(id);
+  else         _tp.selected.delete(id);
+  // Update chip visual
+  document.querySelectorAll('.tp-topic-chip').forEach(chip => {
+    const cb = chip.querySelector('input');
+    if (cb) chip.classList.toggle('checked', cb.checked);
+  });
+  _tpUpdateCount();
+}
+
+function tpChangeQty(delta) {
+  _tp.qtyPerTopic = Math.max(1, Math.min(5, _tp.qtyPerTopic + delta));
+  const el = byId('tp-qty-display');
+  if (el) el.textContent = _tp.qtyPerTopic;
+  _tpUpdateCount();
+}
+
+function tpSelectAll() {
+  _tpGetSubjectTopics().forEach(t => {
+    const qc = (t.quiz?.questions || []).length;
+    const wc = (t.workedExamples || []).length;
+    const ok = (_tp.type === 'mcq'       && qc > 0)
+            || (_tp.type === 'structured' && wc > 0)
+            || (_tp.type === 'mixed'      && (qc + wc) > 0);
+    if (ok) _tp.selected.add(t.id);
+  });
+  _tpRenderTopicGrid();
+}
+
+function tpClearAll() {
+  _tp.selected.clear();
+  _tpRenderTopicGrid();
+}
+
+function _tpUpdateCount() {
+  let total = 0;
+  _tp.selected.forEach(id => {
+    const t = state.topics.get(id);
+    if (!t) return;
+    if (_tp.type === 'mcq')        total += Math.min(_tp.qtyPerTopic, (t.quiz?.questions || []).length);
+    if (_tp.type === 'structured') total += Math.min(_tp.qtyPerTopic, (t.workedExamples || []).length);
+    if (_tp.type === 'mixed') {
+      total += Math.min(Math.ceil(_tp.qtyPerTopic / 2), (t.quiz?.questions || []).length);
+      total += Math.min(Math.floor(_tp.qtyPerTopic / 2), (t.workedExamples || []).length);
+    }
+  });
+  const el = byId('tp-question-count');
+  if (el) el.textContent = `${total} question${total !== 1 ? 's' : ''} · ${_tp.selected.size} topic${_tp.selected.size !== 1 ? 's' : ''}`;
+}
+
+function tpGenerate() {
+  if (_tp.selected.size === 0) { showToast('Select at least one topic first'); return; }
+
+  const subjName = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' };
+  const typeLabel = { mcq: 'Paper 1 — Multiple Choice', structured: 'Paper 2 — Structured Questions', mixed: 'Mixed Practice Paper' };
+
+  // Build question bank
+  let questions = [];
+  let qNum = 1;
+
+  _tp.selected.forEach(id => {
+    const t = state.topics.get(id);
+    if (!t) return;
+
+    if (_tp.type === 'mcq' || _tp.type === 'mixed') {
+      const pool = [...(t.quiz?.questions || [])].sort(() => Math.random() - 0.5);
+      const take = _tp.type === 'mixed'
+        ? Math.ceil(_tp.qtyPerTopic / 2)
+        : _tp.qtyPerTopic;
+      pool.slice(0, take).forEach(q => {
+        questions.push({ type: 'mcq', topicTitle: t.title, q: q.q, opts: q.opts, ans: q.ans, exp: q.exp, num: qNum++ });
+      });
+    }
+
+    if (_tp.type === 'structured' || _tp.type === 'mixed') {
+      const pool = [...(t.workedExamples || [])].sort(() => Math.random() - 0.5);
+      const take = _tp.type === 'mixed'
+        ? Math.floor(_tp.qtyPerTopic / 2)
+        : _tp.qtyPerTopic;
+      pool.slice(0, take).forEach(we => {
+        questions.push({ type: 'structured', topicTitle: t.title, q: we.q, steps: we.steps, num: qNum++ });
+      });
+    }
+  });
+
+  if (!questions.length) { showToast('No questions available for the selected configuration'); return; }
+
+  // Shuffle the whole paper
+  questions = questions.sort(() => Math.random() - 0.5).map((q, i) => ({ ...q, num: i + 1 }));
+
+  // Render paper
+  _tp._questions = questions; // store for reshuffle
+  _tpRenderPaper(questions, subjName[_tp.subject], typeLabel[_tp.type]);
+}
+
+function _tpRenderPaper(questions, subjName, typeLabel) {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  const mcqQs  = questions.filter(q => q.type === 'mcq');
+  const strQs  = questions.filter(q => q.type === 'structured');
+
+  // ── Question paper ───────────────────────────────────────────────────
+  let qHtml = `
+    <div class="tp-paper card" id="tp-questions-section">
+      <div class="tp-paper-header">
+        <div class="tp-paper-logo">Revise.</div>
+        <div class="tp-paper-meta">
+          <h2>${escapeHtml(subjName)}</h2>
+          <p>${escapeHtml(typeLabel)}</p>
+          <p class="tp-paper-date">Generated ${dateStr} · ${questions.length} questions</p>
+        </div>
+        <div class="tp-paper-instructions">
+          <strong>Instructions to candidates:</strong>
+          <ul>
+            <li>Answer <strong>all</strong> questions.</li>
+            ${mcqQs.length ? '<li>For MCQ: circle the letter of your chosen answer.</li>' : ''}
+            ${strQs.length ? '<li>For structured questions: show all working.</li>' : ''}
+            <li>Write legibly in the spaces provided.</li>
+          </ul>
+        </div>
+      </div>`;
+
+  // MCQ section
+  if (mcqQs.length) {
+    qHtml += `<div class="tp-section-head">Section A — Multiple Choice (${mcqQs.length} marks)</div>`;
+    mcqQs.forEach(q => {
+      qHtml += `
+        <div class="tp-question tp-mcq">
+          <div class="tp-qnum">${q.num}</div>
+          <div class="tp-qbody">
+            <p class="tp-qtext">${richText(q.q)}</p>
+            <div class="tp-topic-tag">${escapeHtml(q.topicTitle)}</div>
+            <div class="tp-opts">
+              ${(q.opts || []).map((opt, i) => `
+                <div class="tp-opt">
+                  <span class="tp-opt-letter">${String.fromCharCode(65+i)}</span>
+                  <span>${richText(opt)}</span>
+                </div>`).join('')}
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+
+  // Structured section
+  if (strQs.length) {
+    qHtml += `<div class="tp-section-head">Section B — Structured Questions</div>`;
+    strQs.forEach(q => {
+      const marks = (q.steps || []).length;
+      qHtml += `
+        <div class="tp-question tp-structured">
+          <div class="tp-qnum">${q.num}</div>
+          <div class="tp-qbody">
+            <div class="tp-qtext-row">
+              <p class="tp-qtext">${richText(q.q)}</p>
+              <span class="tp-marks">[${marks} marks]</span>
+            </div>
+            <div class="tp-topic-tag">${escapeHtml(q.topicTitle)}</div>
+            <div class="tp-answer-lines">
+              ${'<div class="tp-answer-line"></div>'.repeat(Math.max(4, marks * 2))}
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+
+  qHtml += `</div>`;
+
+  // ── Mark scheme ──────────────────────────────────────────────────────
+  let msHtml = `
+    <div class="tp-paper tp-markscheme card">
+      <div class="tp-ms-header">
+        <div class="tp-paper-logo">Revise.</div>
+        <div>
+          <h2>${escapeHtml(subjName)} — Mark Scheme</h2>
+          <p>${escapeHtml(typeLabel)} · ${dateStr}</p>
+        </div>
+      </div>`;
+
+  questions.forEach(q => {
+    if (q.type === 'mcq') {
+      msHtml += `
+        <div class="tp-ms-item">
+          <span class="tp-ms-num">${q.num}</span>
+          <div>
+            <span class="tp-ms-ans">${String.fromCharCode(65 + q.ans)}</span>
+            <span class="tp-ms-exp">${richText(q.exp || '')}</span>
+          </div>
+        </div>`;
+    } else {
+      msHtml += `
+        <div class="tp-ms-item tp-ms-structured">
+          <span class="tp-ms-num">${q.num}</span>
+          <div class="tp-ms-steps">
+            ${(q.steps || []).map((s, i) => `
+              <div class="tp-ms-step">
+                <span class="tp-ms-step-n">(${i+1})</span>
+                <div>
+                  <strong>${escapeHtml(s.sub)}</strong>
+                  <p>${richText(s.text)}</p>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>`;
+    }
+  });
+
+  msHtml += `</div>`;
+
+  byId('tp-paper-content').innerHTML = qHtml + msHtml;
+  byId('tp-setup').style.display        = 'none';
+  byId('tp-paper-output').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function tpBack() {
+  byId('tp-paper-output').style.display = 'none';
+  byId('tp-setup').style.display        = '';
+}
+
+function tpShuffle() {
+  if (!_tp._questions) return;
+  _tp._questions = _tp._questions.sort(() => Math.random() - 0.5).map((q,i) => ({...q, num: i+1}));
+  const subjName = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' }[_tp.subject];
+  const typeLabel = { mcq: 'Paper 1 — Multiple Choice', structured: 'Paper 2 — Structured Questions', mixed: 'Mixed Practice Paper' }[_tp.type];
+  _tpRenderPaper(_tp._questions, subjName, typeLabel);
+  showToast('Paper reshuffled!');
+}
+
+function tpPrint() {
+  window.print();
+}
+
 const App = {
   go,
   scrollToSection,
@@ -4679,6 +4988,15 @@ const App = {
   adminDeleteThread,
   adminCreateThread,
   goToTopicEditor,
+  // Topical paper generator
+  tpToggleTopic,
+  tpChangeQty,
+  tpSelectAll,
+  tpClearAll,
+  tpGenerate,
+  tpBack,
+  tpShuffle,
+  tpPrint,
   // Auth modal (expose so inline HTML can call it)
   openAuthModal,
   signInWithGoogle,

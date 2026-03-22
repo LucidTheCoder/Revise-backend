@@ -4015,3 +4015,409 @@ main { flex: 1 0 auto; }
   border-color: #f87171 !important;
   background: rgba(248,113,113,0.06) !important;
 }
+
+/* ============================================================================
+   TOPICAL PAPER GENERATOR
+   ============================================================================ */
+
+/* ── Setup panel ─────────────────────────────────────────────────────── */
+
+.tp-setup {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.tp-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.tp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tp-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* Subject tabs */
+.tp-subject-tabs,
+.tp-type-tabs {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.tp-subj-btn,
+.tp-type-btn {
+  padding:       0.35rem 0.9rem;
+  border-radius: 99px;
+  border:        1px solid var(--border);
+  background:    transparent;
+  color:         var(--text2);
+  font-size:     0.83rem;
+  font-weight:   500;
+  cursor:        pointer;
+  transition:    background 0.14s, color 0.14s, border-color 0.14s;
+}
+.tp-subj-btn:hover,
+.tp-type-btn:hover { background: var(--bg3); color: var(--text1); }
+
+.tp-subj-btn.active,
+.tp-type-btn.active {
+  background:   var(--accent);
+  border-color: var(--accent);
+  color:        #0a0f1a;
+  font-weight:  600;
+}
+
+/* Qty stepper */
+.tp-qty-row {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+}
+
+.tp-qty-btn {
+  width:         1.8rem;
+  height:        1.8rem;
+  border-radius: 50%;
+  border:        1px solid var(--border);
+  background:    var(--bg3);
+  color:         var(--text1);
+  font-size:     1rem;
+  line-height:   1;
+  cursor:        pointer;
+  transition:    background 0.12s;
+}
+.tp-qty-btn:hover { background: var(--border); }
+
+#tp-qty-display {
+  font-size:   1.1rem;
+  font-weight: 700;
+  min-width:   1.5rem;
+  text-align:  center;
+  color:       var(--accent);
+}
+
+/* ── Topic grid ───────────────────────────────────────────────────────── */
+
+.tp-topic-section { margin-bottom: 1.1rem; }
+
+.tp-topic-header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  margin-bottom:   0.6rem;
+}
+
+.tp-topic-actions { display: flex; gap: 0.4rem; }
+
+.tp-topic-grid {
+  display:   flex;
+  flex-wrap: wrap;
+  gap:       0.4rem;
+}
+
+.tp-topic-chip {
+  display:       flex;
+  align-items:   center;
+  gap:           0.4rem;
+  padding:       0.3rem 0.65rem;
+  border:        1px solid var(--border);
+  border-radius: 8px;
+  background:    var(--bg3);
+  cursor:        pointer;
+  transition:    background 0.13s, border-color 0.13s;
+  user-select:   none;
+  font-size:     0.83rem;
+}
+.tp-topic-chip input { display: none; }
+.tp-topic-chip:hover { border-color: var(--accent); background: var(--accentbg); }
+.tp-topic-chip.checked {
+  background:   var(--accentbg);
+  border-color: var(--accent);
+  color:        var(--accent);
+  font-weight:  500;
+}
+.tp-topic-chip.checked::before { content: "✓ "; font-weight: 700; }
+.tp-topic-chip.disabled { opacity: 0.38; cursor: not-allowed; }
+.tp-topic-chip small { color: var(--text3); font-size: 0.72rem; }
+
+/* ── Generate row ─────────────────────────────────────────────────────── */
+
+.tp-generate-row {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             1rem;
+  flex-wrap:       wrap;
+  padding-top:     0.9rem;
+  border-top:      1px solid var(--border);
+}
+
+.tp-count-badge {
+  font-size:   0.85rem;
+  color:       var(--text2);
+  font-weight: 500;
+}
+
+.tp-generate-btn {
+  padding:     0.55rem 1.4rem;
+  font-size:   0.95rem;
+  font-weight: 700;
+}
+
+/* ── Paper toolbar ────────────────────────────────────────────────────── */
+
+.tp-paper-toolbar {
+  display:     flex;
+  gap:         0.5rem;
+  flex-wrap:   wrap;
+  margin-bottom: 0.9rem;
+}
+
+/* ── Paper layout ─────────────────────────────────────────────────────── */
+
+.tp-paper {
+  padding:       1.75rem 2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  line-height:   1.65;
+}
+
+.tp-paper-header {
+  display:         grid;
+  grid-template-columns: auto 1fr auto;
+  gap:             1.5rem;
+  align-items:     start;
+  margin-bottom:   1.5rem;
+  padding-bottom:  1rem;
+  border-bottom:   2px solid var(--border);
+}
+
+.tp-paper-logo {
+  font-family:  var(--font-head);
+  font-size:    1.5rem;
+  font-weight:  700;
+  color:        var(--accent);
+}
+
+.tp-paper-meta h2  { margin: 0 0 0.2rem; font-size: 1.15rem; }
+.tp-paper-meta p   { margin: 0; color: var(--text2); font-size: 0.88rem; }
+.tp-paper-date     { color: var(--text3) !important; font-size: 0.78rem !important; }
+
+.tp-paper-instructions {
+  font-size:     0.82rem;
+  color:         var(--text2);
+  border:        1px solid var(--border);
+  border-radius: 8px;
+  padding:       0.65rem 0.85rem;
+  max-width:     280px;
+}
+.tp-paper-instructions ul {
+  margin: 0.3rem 0 0 0;
+  padding-left: 1.1rem;
+}
+.tp-paper-instructions li { margin-bottom: 0.25rem; }
+
+/* Section headings */
+.tp-section-head {
+  background:    var(--bg3);
+  border-left:   4px solid var(--accent);
+  padding:       0.4rem 0.75rem;
+  font-weight:   700;
+  font-size:     0.9rem;
+  border-radius: 0 6px 6px 0;
+  margin:        1.25rem 0 0.75rem;
+  color:         var(--text1);
+}
+
+/* ── Individual questions ─────────────────────────────────────────────── */
+
+.tp-question {
+  display:       flex;
+  gap:           0.75rem;
+  padding:       0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.tp-question:last-of-type { border-bottom: none; }
+
+.tp-qnum {
+  flex-shrink:   0;
+  width:         1.8rem;
+  height:        1.8rem;
+  border-radius: 50%;
+  background:    var(--accent);
+  color:         #0a0f1a;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  font-size:     0.78rem;
+  font-weight:   800;
+  margin-top:    0.1rem;
+}
+
+.tp-qbody { flex: 1; }
+.tp-qtext { margin: 0 0 0.45rem; font-size: 0.95rem; }
+
+.tp-topic-tag {
+  display:       inline-block;
+  font-size:     0.68rem;
+  color:         var(--text3);
+  background:    var(--bg3);
+  border:        1px solid var(--border);
+  border-radius: 99px;
+  padding:       0.1rem 0.55rem;
+  margin-bottom: 0.55rem;
+}
+
+/* MCQ options */
+.tp-opts { display: flex; flex-direction: column; gap: 0.3rem; }
+.tp-opt {
+  display:       flex;
+  align-items:   center;
+  gap:           0.55rem;
+  padding:       0.3rem 0.5rem;
+  border-radius: 6px;
+  font-size:     0.88rem;
+  transition:    background 0.12s;
+}
+.tp-opt:hover { background: var(--bg3); }
+.tp-opt-letter {
+  flex-shrink:   0;
+  width:         1.4rem;
+  height:        1.4rem;
+  border-radius: 50%;
+  border:        1.5px solid var(--border2);
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  font-size:     0.72rem;
+  font-weight:   700;
+  color:         var(--text2);
+}
+
+/* Structured question */
+.tp-qtext-row {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     flex-start;
+  gap:             0.75rem;
+}
+
+.tp-marks {
+  flex-shrink: 0;
+  font-size:   0.78rem;
+  color:       var(--text3);
+  font-weight: 600;
+  white-space: nowrap;
+  padding-top: 0.15rem;
+}
+
+.tp-answer-lines { margin-top: 0.35rem; }
+.tp-answer-line {
+  height:        1px;
+  background:    var(--border);
+  margin-bottom: 1.4rem;
+}
+
+/* ── Mark scheme ──────────────────────────────────────────────────────── */
+
+.tp-markscheme {
+  border:     2px solid var(--accent);
+  background: color-mix(in srgb, var(--accentbg), transparent 30%);
+}
+
+.tp-ms-header {
+  display:       flex;
+  gap:           1rem;
+  align-items:   center;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid var(--accent);
+}
+
+.tp-ms-item {
+  display:       flex;
+  gap:           0.75rem;
+  padding:       0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size:     0.9rem;
+  align-items:   flex-start;
+}
+.tp-ms-item:last-child { border-bottom: none; }
+
+.tp-ms-num {
+  flex-shrink:   0;
+  width:         1.8rem;
+  height:        1.8rem;
+  border-radius: 50%;
+  background:    var(--bg3);
+  border:        1px solid var(--border);
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  font-size:     0.75rem;
+  font-weight:   700;
+}
+
+.tp-ms-ans {
+  display:       inline-block;
+  background:    var(--accent);
+  color:         #0a0f1a;
+  font-weight:   800;
+  font-size:     0.85rem;
+  border-radius: 4px;
+  padding:       0.05rem 0.5rem;
+  margin-right:  0.5rem;
+}
+
+.tp-ms-exp { color: var(--text2); font-size: 0.85rem; }
+
+.tp-ms-structured { align-items: flex-start; }
+.tp-ms-steps { display: flex; flex-direction: column; gap: 0.4rem; }
+.tp-ms-step { display: flex; gap: 0.5rem; font-size: 0.85rem; }
+.tp-ms-step-n { flex-shrink: 0; color: var(--text3); min-width: 1.2rem; }
+.tp-ms-step p { margin: 0.15rem 0 0; color: var(--text2); }
+
+/* ── Print styles ─────────────────────────────────────────────────────── */
+
+@media print {
+  .nav, .tp-paper-toolbar, .tp-setup,
+  #ambient-particles, .site-footer,
+  .back-to-top { display: none !important; }
+
+  body, .tp-paper {
+    background: #fff !important;
+    color:      #000 !important;
+  }
+
+  .tp-paper { box-shadow: none !important; border: none !important; page-break-after: always; }
+  .tp-markscheme { page-break-before: always; border: 1px solid #ccc !important; }
+  .tp-qnum { background: #000 !important; color: #fff !important; }
+  .tp-ms-ans { background: #000 !important; color: #fff !important; }
+  .tp-section-head { background: #f0f0f0 !important; color: #000 !important; border-color: #000 !important; }
+  .tp-answer-line { background: #ccc !important; }
+  a { color: #000 !important; text-decoration: none !important; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .tp-row { flex-direction: column; gap: 0.9rem; }
+  .tp-paper { padding: 1.1rem; }
+  .tp-paper-header { grid-template-columns: 1fr; gap: 0.75rem; }
+  .tp-paper-instructions { max-width: 100%; }
+  .tp-generate-row { flex-direction: column; align-items: flex-start; }
+  .tp-generate-btn { width: 100%; }
+}

@@ -65,20 +65,39 @@ const pdfStorage = new CloudinaryStorage({
 // ============================================================================
 
 function imageFilter(req, file, cb) {
-  const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
-  if (allowed.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed (jpg, png, webp, gif, svg).'), false);
+  // Validate declared MIME type (browser-provided, can be spoofed)
+  const allowedMime = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+  if (!allowedMime.includes(file.mimetype)) {
+    return cb(new Error('Only image files are allowed (jpg, png, webp, gif, svg).'), false);
   }
+  // Block double-extensions like "shell.php.jpg" which can bypass naive checks
+  const originalName = (file.originalname || '').toLowerCase();
+  const dangerousExtensions = /\.(php|php3|php4|php5|phtml|asp|aspx|jsp|cgi|sh|exe|bat|cmd|pl|py|rb)(\.|$)/;
+  if (dangerousExtensions.test(originalName)) {
+    return cb(new Error('File name contains a dangerous extension.'), false);
+  }
+  // Restrict filename to safe characters
+  const safeName = /^[a-zA-Z0-9._\- ]+$/;
+  if (!safeName.test(originalName)) {
+    return cb(new Error('File name contains invalid characters.'), false);
+  }
+  cb(null, true);
 }
 
 function pdfFilter(req, file, cb) {
-  if (file.mimetype === 'application/pdf') {
-    cb(null, true);
-  } else {
-    cb(new Error('Only PDF files are allowed.'), false);
+  if (file.mimetype !== 'application/pdf') {
+    return cb(new Error('Only PDF files are allowed.'), false);
   }
+  const originalName = (file.originalname || '').toLowerCase();
+  if (!originalName.endsWith('.pdf')) {
+    return cb(new Error('File must have a .pdf extension.'), false);
+  }
+  // Block double-extension attacks
+  const dangerousExtensions = /\.(php|asp|aspx|jsp|sh|exe|bat|pl|py|rb)\./;
+  if (dangerousExtensions.test(originalName)) {
+    return cb(new Error('File name contains a dangerous extension.'), false);
+  }
+  cb(null, true);
 }
 
 // ============================================================================

@@ -77,6 +77,7 @@
       <div class="nav-links" id="nav-links">
         <button class="nav-btn ghost" data-route="subjects">Notes</button>
         <button class="nav-btn ghost" data-route="past-papers">Past Papers</button>
+        <button class="nav-btn ghost" data-route="topical">Topical</button>
         <button class="nav-btn ghost" data-route="community">Social</button>
         <button class="nav-btn ghost" data-route="editor" id="editor-nav-btn">Editor</button>
         <button class="nav-btn ghost" data-route="profile">Profile</button>
@@ -204,6 +205,77 @@
         </div>
 
         <div id="past-paper-list"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ TOPICAL PAPER GENERATOR ═══════════ -->
+    <section class="view" id="view-topical">
+      <div class="container page-pad">
+        <div class="page-head">
+          <h1>Topical Paper Generator</h1>
+          <p>Select a subject and topics to generate a custom exam-style practice paper.</p>
+        </div>
+
+        <!-- Step 1: Subject + configuration -->
+        <div class="tp-setup card" id="tp-setup">
+          <div class="tp-row">
+            <div class="tp-field">
+              <label class="tp-label">Subject</label>
+              <div class="tp-subject-tabs" id="tp-subject-tabs">
+                <button class="tp-subj-btn active" data-subj="chem">⚗️ Chemistry</button>
+                <button class="tp-subj-btn" data-subj="bio">🧬 Biology</button>
+                <button class="tp-subj-btn" data-subj="phy">⚡ Physics</button>
+              </div>
+            </div>
+            <div class="tp-field">
+              <label class="tp-label">Paper Type</label>
+              <div class="tp-type-tabs" id="tp-type-tabs">
+                <button class="tp-type-btn active" data-type="mcq">MCQ (Paper 1)</button>
+                <button class="tp-type-btn" data-type="structured">Structured (Paper 2)</button>
+                <button class="tp-type-btn" data-type="mixed">Mixed</button>
+              </div>
+            </div>
+            <div class="tp-field">
+              <label class="tp-label">Questions per topic</label>
+              <div class="tp-qty-row">
+                <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)">−</button>
+                <span id="tp-qty-display">3</span>
+                <button class="tp-qty-btn" onclick="App.tpChangeQty(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Topic selector -->
+          <div class="tp-topic-section">
+            <div class="tp-topic-header">
+              <span class="tp-label">Select Topics</span>
+              <div class="tp-topic-actions">
+                <button class="btn btn-ghost btn-sm" onclick="App.tpSelectAll()">Select All</button>
+                <button class="btn btn-ghost btn-sm" onclick="App.tpClearAll()">Clear</button>
+              </div>
+            </div>
+            <div class="tp-topic-grid" id="tp-topic-grid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="tp-generate-row">
+            <div id="tp-question-count" class="tp-count-badge">0 questions selected</div>
+            <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">
+              Generate Paper →
+            </button>
+          </div>
+        </div>
+
+        <!-- Generated paper output -->
+        <div id="tp-paper-output" style="display:none">
+          <div class="tp-paper-toolbar">
+            <button class="btn btn-outline btn-sm" onclick="App.tpBack()">← New Paper</button>
+            <button class="btn btn-outline btn-sm" onclick="App.tpShuffle()">🔀 Reshuffle</button>
+            <button class="btn btn-primary btn-sm" onclick="App.tpPrint()">🖨 Print / Save PDF</button>
+          </div>
+          <div id="tp-paper-content"></div>
+        </div>
       </div>
     </section>
 

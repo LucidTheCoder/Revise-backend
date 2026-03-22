@@ -122,14 +122,58 @@ io.on('connection', (socket) => {
 
 app.use(express.static(path.join(__dirname)));
 
+// ── Security headers (no external package needed) ─────────────────────────
+app.use((req, res, next) => {
+  // Prevent MIME sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  // Block clickjacking
+  res.setHeader('X-Frame-Options', 'DENY');
+  // Disable legacy XSS filter (can cause issues in modern browsers)
+  res.setHeader('X-XSS-Protection', '0');
+  // Only send referrer on same-origin requests
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  // Restrict powerful browser features
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  // Basic CSP — tightened for API server (no inline scripts needed)
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; frame-ancestors 'none';"
+  );
+  next();
+});
+
+// ── Simple in-memory rate limiter (no external package) ──────────────────
+const _requestCounts = new Map();
+setInterval(() => _requestCounts.clear(), 60_000); // reset every minute
+
+function rateLimit(maxPerMinute) {
+  return (req, res, next) => {
+    const key = req.ip || req.connection.remoteAddress || 'unknown';
+    const count = (_requestCounts.get(key) || 0) + 1;
+    _requestCounts.set(key, count);
+    if (count > maxPerMinute) {
+      return res.status(429).json({ success: false, error: 'Too many requests — try again in a minute.' });
+    }
+    next();
+  };
+}
+
+// Apply global rate limit (300 req/min per IP — generous for a study app)
+app.use(rateLimit(300));
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: (origin, cb) => {
+    // Allow requests from the configured frontend URL, or any origin if not set
+    const allowed = process.env.FRONTEND_URL;
+    if (!allowed || !origin || origin === allowed) return cb(null, true);
+    cb(new Error('CORS: origin not allowed'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '1mb' })); // reduced from 10mb — API payloads have no reason to be large
 
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
@@ -172,8 +216,9 @@ async function loadTopic(topicId, subject) {
 // ROUTES: AUTH
 // ============================================================================
 
-app.post('/api/auth/register', register);
-app.post('/api/auth/login',    login);
+// Auth routes — stricter rate limit (10 req/min per IP)
+app.post('/api/auth/register', rateLimit(10), register);
+app.post('/api/auth/login',    rateLimit(10), login);
 app.get('/api/auth/me',        authenticateToken, getMe);
 
 // POST /api/auth/google — exchange Google access_token for app JWT
@@ -1035,6 +1080,10 @@ app.get('/api/user/spaced-rep', authenticateToken, async (req, res, next) => {
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ success: false, error: 'API route not found', path: req.path });
+  }
+  // Guard against open redirect via crafted URLs (express CVE-2024-29041)
+  if (/^(https?:)?\/\//.test(req.path)) {
+    return res.status(400).json({ success: false, error: 'Invalid path' });
   }
   res.sendFile(path.join(__dirname, 'index.html'));
 });
