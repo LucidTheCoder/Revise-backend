@@ -10,43 +10,33 @@
   ],
   "notes": [
     {
-      "heading": "Redox and Oxidation States",
+      "heading": "Oxidation States and Redox",
       "items": [
-        "Oxidation state rules: O is \u22122 (usually); H is +1 (usually); F is always \u22121; sum = charge of species.",
-        "OIL RIG: Oxidation Is Loss (of electrons); Reduction Is Gain.",
-        "Oxidising agent: accepts electrons (is reduced). Reducing agent: donates electrons (is oxidised).",
-        "Half-equations: write oxidation and reduction half-equations separately; balance O with H\u2082O, H with H\u207a, then electrons."
+        "Oxidation state rules: O is usually \u22122; H is usually +1; F is always \u22121; sum of oxidation states = overall charge of the species. OIL RIG: Oxidation Is Loss of electrons; Reduction Is Gain.",
+        "Oxidising agent: accepts electrons (is itself reduced). Reducing agent: donates electrons (is itself oxidised). To balance redox equations, write separate half-equations \u2014 balance atoms (using H\u2082O and H\u207a), then balance charge with electrons; then combine."
       ]
     },
     {
-      "heading": "Electrode Potentials",
+      "heading": "Electrode Potentials and Cell EMF",
       "items": [
-        "Standard hydrogen electrode (SHE): H\u207a(aq, 1 mol dm\u207b\u00b3) + e\u207b \u21cc \u00bdH\u2082(g), E\u00b0 = 0.00 V (reference).",
-        "Standard conditions: 298 K, 100 kPa, 1 mol dm\u207b\u00b3.",
-        "More positive E\u00b0: better oxidising agent (more easily reduced).",
-        "More negative E\u00b0: better reducing agent (more easily oxidised).",
-        "EMF = E\u00b0(cathode, reduction) \u2212 E\u00b0(anode, oxidation) = E\u00b0(more positive) \u2212 E\u00b0(less positive).",
-        "Cell notation: anode (\u2212) | electrode | solution || solution | electrode | cathode (+).",
-        "Feasibility: if EMF > 0, reaction is spontaneous under standard conditions."
+        "Standard electrode potential (E\u2296) is the EMF of a half-cell measured against the standard hydrogen electrode (SHE, E\u2296 = 0.00 V) under standard conditions (298 K, 100 kPa, all solutions 1 mol dm\u207b\u00b3).",
+        "More positive E\u2296 \u2192 stronger oxidising agent (more easily reduced). More negative E\u2296 \u2192 stronger reducing agent (more easily oxidised).",
+        "Cell EMF = E\u2296(cathode, reduction) \u2212 E\u2296(anode, oxidation). If EMF > 0, the cell reaction is feasible under standard conditions. EMF < 0 means non-spontaneous (the reverse reaction is spontaneous)."
       ]
     },
     {
       "heading": "Electrolysis",
       "items": [
-        "Cathode (\u2212): reduction occurs; cations are discharged.",
-        "Anode (+): oxidation occurs; anions are discharged.",
-        "In aqueous solution: competition between ions and water. High concentration: ion discharged. Dilute: water more likely.",
-        "Aqueous NaCl: cathode \u2192 H\u2082 (from H\u2082O); anode \u2192 Cl\u2082 (concentrated) or O\u2082 (dilute).",
-        "Molten NaCl: cathode \u2192 Na; anode \u2192 Cl\u2082.",
-        "Copper purification: impure Cu anode dissolves; pure Cu deposits at cathode."
+        "Electrolysis uses electrical energy to drive a non-spontaneous redox reaction. Cathode (negative electrode): reduction (cations are discharged). Anode (positive electrode): oxidation (anions are discharged).",
+        "Competing discharges in aqueous solution: at the cathode, H\u2082 is evolved from water unless the metal cation is below hydrogen in the electrochemical series (Cu\u00b2\u207a, Ag\u207a). At the anode, in concentrated halide solution, the halide is discharged; in dilute solution, O\u2082 is evolved from water (OH\u207b oxidised).",
+        "Electrolysis of molten NaCl: cathode \u2192 Na; anode \u2192 Cl\u2082. Purification of copper: impure Cu anode dissolves; pure Cu deposits at the cathode (other metals do not deposit if their E\u2296 is very negative or very positive)."
       ]
     },
     {
       "heading": "Fuel Cells",
       "items": [
-        "Hydrogen fuel cell: H\u2082 oxidised at anode (H\u2082 \u2192 2H\u207a + 2e\u207b); O\u2082 reduced at cathode (O\u2082 + 4H\u207a + 4e\u207b \u2192 2H\u2082O).",
-        "Advantages: high efficiency; only H\u2082O produced; continuous operation.",
-        "Disadvantages: H\u2082 storage; production of H\u2082 (often from fossil fuels); expensive catalysts (Pt)."
+        "Hydrogen fuel cell: H\u2082 is oxidised at the anode (H\u2082 \u2192 2H\u207a + 2e\u207b); O\u2082 is reduced at the cathode (O\u2082 + 4H\u207a + 4e\u207b \u2192 2H\u2082O). Overall: H\u2082 + \u00bdO\u2082 \u2192 H\u2082O. Higher efficiency than combustion engines. Only H\u2082O produced \u2014 clean at point of use.",
+        "Disadvantages: H\u2082 storage (high pressure or cryogenic); currently most H\u2082 is made from fossil fuels (steam reforming); expensive Pt catalysts required."
       ]
     }
   ],

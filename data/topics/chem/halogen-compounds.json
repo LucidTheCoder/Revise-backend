@@ -10,38 +10,32 @@
   ],
   "notes": [
     {
-      "heading": "Nucleophilic Substitution (SN)",
+      "heading": "Structure and Polarity",
       "items": [
-        "C\u2013X bond is polar: carbon is \u03b4+; nucleophile attacks carbon.",
-        "With NaOH(aq): R\u2013X + OH\u207b \u2192 R\u2013OH + X\u207b (substitution; forms alcohol).",
-        "With NaCN (ethanol solvent): R\u2013X + CN\u207b \u2192 R\u2013CN + X\u207b (forms nitrile; chain length increases by 1C).",
-        "With NH\u2083 (excess, sealed tube): R\u2013X + NH\u2083 \u2192 R\u2013NH\u2082 + HX (forms primary amine).",
-        "With NaOH(aq)/AgNO\u2083(aq): after hydrolysis, Ag\u207a + X\u207b \u2192 AgX precipitate \u2014 used to compare reactivity."
+        "Halogenoalkanes (haloalkanes) contain a C\u2013X bond (X = F, Cl, Br or I). The electronegativity of the halogen makes the carbon \u03b4+ \u2014 susceptible to attack by nucleophiles. Reactivity in nucleophilic substitution: C\u2013I > C\u2013Br > C\u2013Cl > C\u2013F. Despite C\u2013F being the most polar bond, bond enthalpy dominates \u2014 C\u2013F is very strong (485 kJ mol\u207b\u00b9) and barely reacts."
       ]
     },
     {
-      "heading": "Reactivity Trend of C\u2013X Bonds",
+      "heading": "Nucleophilic Substitution",
       "items": [
-        "Bond enthalpy: C\u2013F > C\u2013Cl > C\u2013Br > C\u2013I (decreasing strength down group).",
-        "Reactivity: C\u2013I > C\u2013Br > C\u2013Cl > C\u2013F (weaker bond = easier to break = faster reaction).",
-        "C\u2013F is very strong and essentially unreactive in nucleophilic substitution.",
-        "AgNO\u2083 test: Cl\u207b \u2192 white ppt (AgCl); Br\u207b \u2192 cream ppt (AgBr); I\u207b \u2192 yellow ppt (AgI) \u2014 solubility in dilute and conc. ammonia distinguishes them."
+        "With warm aqueous NaOH: RX + OH\u207b \u2192 ROH + X\u207b (substitution \u2192 alcohol).",
+        "With KCN in ethanol: RX + CN\u207b \u2192 RCN + X\u207b (substitution \u2192 nitrile; chain length increases by 1 carbon).",
+        "With excess NH\u2083 in a sealed tube: RX + NH\u2083 \u2192 RNH\u2082 + HX (substitution \u2192 primary amine).",
+        "AgNO\u2083 test for halide ions (after acid hydrolysis): Cl\u207b \u2192 white AgCl (dissolves in dilute NH\u2083); Br\u207b \u2192 cream AgBr (dissolves in concentrated NH\u2083); I\u207b \u2192 yellow AgI (insoluble in NH\u2083). Rate of precipitation: I > Br > Cl (reflects C\u2013X bond strength)."
       ]
     },
     {
       "heading": "Elimination",
       "items": [
-        "Competing reaction with NaOH \u2014 rate of substitution vs elimination depends on conditions.",
-        "Ethanolic KOH, hot: elimination \u2192 alkene + HX.",
-        "Aqueous NaOH, warm: substitution \u2192 alcohol.",
-        "Primary halogenoalkanes: mainly substitution. Tertiary: mainly elimination (steric hindrance prevents nucleophilic attack)."
+        "Hot ethanolic KOH (or NaOH) causes elimination \u2014 HX is removed to form an alkene. The competition between substitution and elimination depends on conditions: aqueous/warm \u2192 substitution; ethanolic/hot \u2192 elimination.",
+        "Tertiary halogenoalkanes favour elimination (steric hindrance around the C\u2013X carbon prevents nucleophilic attack)."
       ]
     },
     {
-      "heading": "Environmental Concerns",
+      "heading": "CFCs and the Environment",
       "items": [
-        "CFCs (chlorofluorocarbons): very unreactive in troposphere; rise to stratosphere; UV breaks C\u2013Cl bond \u2192 Cl\u2022 radicals that catalyse O\u2083 decomposition (ozone depletion).",
-        "HCFCs and HFCs: replacements \u2014 break down in troposphere before reaching stratosphere."
+        "CFCs (chlorofluorocarbons) are very stable in the troposphere but diffuse to the stratosphere. UV radiation cleaves the C\u2013Cl bond homolytically, generating Cl\u2022 radicals. Each Cl\u2022 can catalyse the destruction of thousands of O\u2083 molecules: Cl\u2022 + O\u2083 \u2192 ClO\u2022 + O\u2082; ClO\u2022 + O\u2022 \u2192 Cl\u2022 + O\u2082. The Cl\u2022 is regenerated \u2014 catalytic cycle.",
+        "HCFCs and HFCs were introduced as replacements \u2014 they contain C\u2013H bonds that react with OH\u2022 radicals in the troposphere before reaching the stratosphere."
       ]
     }
   ],

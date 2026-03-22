@@ -12,37 +12,33 @@
     {
       "heading": "Non-Specific Defences",
       "items": [
-        "Physical barriers: skin (keratin layer), mucus (traps pathogens), cilia (sweep mucus).",
-        "Chemical: lysozyme in tears/saliva; stomach acid (pH 1\u20132); sebum (lowers skin pH).",
-        "Phagocytosis: neutrophils and macrophages engulf pathogens via phagosomes \u2192 lysosomes fuse \u2192 hydrolytic enzymes digest pathogen.",
-        "Inflammation: histamine released by mast cells \u2192 vasodilation \u2192 more phagocytes to site."
+        "The first line of defence is physical and chemical: intact skin (keratin layer), mucus (traps pathogens in the respiratory tract), cilia (sweep mucus away from the lungs), stomach acid (pH \u2248 2), and lysozyme in tears and saliva.",
+        "Inflammation: damaged cells release histamine \u2192 vasodilation \u2192 increased permeability \u2192 neutrophils and macrophages flood the site by chemotaxis.",
+        "Phagocytosis: neutrophils and macrophages engulf pathogens by endocytosis, trapping them in a phagosome; lysosomes fuse and release hydrolases to destroy the pathogen."
       ]
     },
     {
       "heading": "Specific Immunity \u2014 Humoral",
       "items": [
-        "B lymphocytes: each clone has unique surface antibodies complementary to one antigen.",
-        "Clonal selection: antigen binds to specific B cell \u2192 B cell activated (with T helper cell help) \u2192 clonal expansion.",
-        "Plasma cells: produce antibodies (>2000/second). Memory B cells: long-lived; rapid secondary response.",
-        "Antibody structure: two heavy chains + two light chains; Y-shaped; variable regions form antigen-binding sites (complementary to one antigen); constant regions determine antibody class."
+        "Each B lymphocyte carries surface antibodies specific to one antigen. When the complementary antigen binds (clonal selection) \u2014 assisted by T helper cells \u2014 the B cell is activated and divides by clonal expansion into plasma cells and memory B cells.",
+        "Plasma cells secrete antibodies at high rate (>2000 per second). Antibodies are Y-shaped glycoproteins with two identical antigen-binding sites (variable regions) and a constant region that determines the antibody class.",
+        "Memory B cells persist for years. On re-exposure (secondary response), they rapidly proliferate into plasma cells, producing high antibody levels within days \u2014 before symptoms develop."
       ]
     },
     {
       "heading": "Specific Immunity \u2014 Cell-Mediated",
       "items": [
-        "T helper cells (CD4+): activated by antigen-presenting cells; release cytokines; stimulate B cells and cytotoxic T cells.",
-        "Cytotoxic T cells (CD8+): destroy cells displaying foreign antigen (infected cells, cancer cells, transplanted tissue).",
-        "T regulatory cells: suppress immune response once infection is cleared."
+        "T helper cells (CD4+) are activated by antigen-presenting cells displaying foreign peptides on MHC II. They release cytokines that stimulate B cells, cytotoxic T cells, and macrophages.",
+        "Cytotoxic T cells (CD8+) recognise and destroy cells displaying foreign antigen on MHC I \u2014 including virus-infected cells, cancer cells, and transplanted tissue. They release perforin, which punches holes in target cell membranes.",
+        "HIV specifically targets and destroys T helper cells, progressively dismantling both humoral and cell-mediated immunity, ultimately leading to AIDS."
       ]
     },
     {
-      "heading": "Vaccines and HIV",
+      "heading": "Vaccines, Active and Passive Immunity",
       "items": [
-        "Active immunity: body makes its own antibodies after exposure to antigen (natural: infection; artificial: vaccination).",
-        "Passive immunity: antibodies are transferred (natural: maternal IgG across placenta; artificial: injection of antibodies). Fast but short-lived (no memory cells).",
-        "HIV: attacks T helper cells (CD4+) \u2192 destroys cell-mediated immunity \u2192 AIDS (acquired immunodeficiency syndrome).",
-        "HIV structure: RNA virus with reverse transcriptase; envelope (lipid bilayer with glycoproteins); infects and destroys T helper cells.",
-        "Monoclonal antibodies: produced from a single B cell clone; identical antibodies for one specific antigen. Used in: pregnancy tests, cancer therapy (e.g. Herceptin), ELISA diagnostic tests."
+        "Active immunity: the individual's own immune system produces antibodies and memory cells following antigen exposure. Natural active immunity follows infection; artificial active immunity follows vaccination.",
+        "Passive immunity: ready-made antibodies are transferred into the body \u2014 no memory cells form, so protection is immediate but short-lived. Natural passive immunity: maternal IgG crosses the placenta and is present in breast milk. Artificial: injection of antibody-containing serum.",
+        "Herd immunity: when a sufficiently large proportion of a population is immune, transmission chains break and even unvaccinated individuals are protected."
       ]
     }
   ],

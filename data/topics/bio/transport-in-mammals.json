@@ -12,30 +12,26 @@
     {
       "heading": "Blood Vessels",
       "items": [
-        "Arteries: thick muscular/elastic walls; small lumen; carry blood away from heart at high pressure.",
-        "Veins: thin walls; large lumen; valves prevent backflow; carry blood to heart at low pressure.",
-        "Capillaries: walls one cell thick (squamous endothelium); exchange of materials with tissues by diffusion.",
-        "Tissue fluid: formed at arteriole end of capillaries (hydrostatic pressure > osmotic); returned at venule end or via lymph."
+        "Arteries carry blood away from the heart at high pressure \u2014 they have thick muscular and elastic walls that withstand and smooth out pressure surges. The elastic tissue stretches during systole and recoils during diastole, maintaining flow.",
+        "Veins return blood to the heart at low pressure \u2014 thin walls, large lumen, and pocket valves that prevent backflow. Venous return is aided by contraction of surrounding skeletal muscles.",
+        "Capillaries have walls one cell thick (squamous endothelium) \u2014 the site of exchange with tissues. Materials move by diffusion, filtration and osmosis. Tissue fluid forms at the arteriole end where hydrostatic pressure exceeds osmotic pressure; it is reabsorbed at the venule end."
       ]
     },
     {
-      "heading": "Heart Structure and Cardiac Cycle",
+      "heading": "The Heart and Cardiac Cycle",
       "items": [
-        "Right side: receives deoxygenated blood; pumps to lungs (pulmonary circuit).",
-        "Left side: receives oxygenated blood; pumps to body (systemic circuit). Left ventricle wall is thicker.",
-        "Valves: atrioventricular (tricuspid right, bicuspid/mitral left) \u2014 prevent backflow to atria; semilunar (pulmonary and aortic) \u2014 prevent backflow from arteries.",
-        "Cardiac cycle: diastole (relaxation, filling) \u2192 atrial systole \u2192 ventricular systole \u2192 diastole again.",
-        "SAN (sinoatrial node) \u2014 pacemaker; generates electrical impulse \u2192 spreads across atria (contraction) \u2192 delayed at AVN \u2192 down bundle of His \u2192 Purkinje fibres \u2192 ventricular contraction."
+        "The right side of the heart receives deoxygenated blood and pumps it to the lungs (pulmonary circuit); the left side receives oxygenated blood and pumps it around the body (systemic circuit). The left ventricle wall is thicker because it generates higher pressure.",
+        "Valves maintain unidirectional flow: atrioventricular valves (tricuspid on the right, bicuspid/mitral on the left) prevent backflow from ventricles to atria; semilunar valves (pulmonary and aortic) prevent backflow from arteries into ventricles.",
+        "The cardiac cycle: diastole (atria and ventricles relax and fill) \u2192 atrial systole (atria contract, completing ventricular filling) \u2192 ventricular systole (ventricles contract powerfully, ejecting blood into the arteries).",
+        "The SAN (sinoatrial node) in the right atrium is the pacemaker \u2014 it generates an electrical impulse that spreads across both atria. The impulse is delayed at the AVN (atrioventricular node), then conducted rapidly down the Bundle of His and Purkinje fibres to the ventricle walls, producing coordinated contraction from the apex upward."
       ]
     },
     {
       "heading": "Haemoglobin and Oxygen Transport",
       "items": [
-        "Haemoglobin (Hb): 4 polypeptide chains each with a haem group; each haem carries one O\u2082.",
-        "Oxyhaemoglobin: Hb + 4O\u2082 \u21cc HbO\u2088 (loaded in lungs; unloaded in tissues).",
-        "Oxygen dissociation curve: S-shaped (sigmoidal); cooperativity \u2014 binding of first O\u2082 makes subsequent binding easier.",
-        "Bohr effect: increased CO\u2082 \u2192 decreased pH \u2192 curve shifts right \u2192 Hb has lower affinity for O\u2082 \u2192 more O\u2082 released in active tissues.",
-        "Fetal haemoglobin: higher affinity for O\u2082 than adult Hb \u2192 loads O\u2082 from maternal haemoglobin across placenta."
+        "Haemoglobin (Hb) has four polypeptide subunits, each containing a haem group that can reversibly bind one O\u2082 molecule (total: 4 O\u2082 per Hb). O\u2082 loading occurs in the lungs (high pO\u2082); unloading in the tissues (low pO\u2082).",
+        "The S-shaped (sigmoidal) oxygen dissociation curve reflects cooperativity: binding of the first O\u2082 changes the Hb conformation, making subsequent binding progressively easier.",
+        "The Bohr effect: elevated CO\u2082 in active tissues lowers pH, which reduces Hb's affinity for O\u2082 \u2014 the dissociation curve shifts right. This ensures that where O\u2082 is most needed (high CO\u2082), more is released. Fetal Hb has a left-shifted curve (higher affinity) so it can load O\u2082 from maternal Hb across the placenta."
       ]
     }
   ],

@@ -4,85 +4,210 @@
   "title": "Stoichiometry",
   "subtitle": "Moles, empirical/molecular formulae, titrations and gas volumes.",
   "concept": [
-    "The mole links macroscopic mass to the number of particles. One mole contains 6.02×10²³ particles (Avogadro's constant).",
-    "Balanced equations give molar ratios — the key tool for all stoichiometric calculations.",
-    "Concentration, gas volumes (using molar volume 24 dm³ at RTP) and titration data all convert to moles for calculation."
+    "The mole links macroscopic mass to the number of particles. One mole contains 6.02\u00d710\u00b2\u00b3 particles (Avogadro's constant).",
+    "Balanced equations give molar ratios \u2014 the key tool for all stoichiometric calculations.",
+    "Concentration, gas volumes (using molar volume 24 dm\u00b3 at RTP) and titration data all convert to moles for calculation."
   ],
   "notes": [
-    { "heading": "Core Equations", "items": [
-        "n = m / Mr  (moles = mass / molar mass)",
-        "n = c × V  (moles = concentration × volume in dm³; divide cm³ by 1000)",
-        "At RTP (25°C, 1 atm): molar volume = 24.0 dm³ mol⁻¹, so n = V / 24",
-        "PV = nRT for non-RTP gas calculations (R = 8.31 J mol⁻¹ K⁻¹)"
-    ]},
-    { "heading": "Empirical and Molecular Formula", "items": [
-        "Empirical formula: simplest whole-number ratio of atoms.",
-        "To find: convert % composition to moles by dividing by Ar, then divide by smallest.",
-        "Molecular formula = (empirical formula) × n, where n = Mr(molecular) / Mr(empirical).",
-        "Combustion data: burn compound, collect CO₂ and H₂O, calculate C and H moles, then O by difference."
-    ]},
-    { "heading": "Titration Calculations", "items": [
-        "Standard solution: accurately known concentration, made from a primary standard (e.g. anhydrous Na₂CO₃).",
-        "Steps: moles of known solution → moles of unknown (using ratio from equation) → concentration or mass of unknown.",
-        "Back titration: add excess reagent A to sample, titrate excess A against B to find how much A reacted with sample."
-    ]},
-    { "heading": "Percentage Yield and Atom Economy", "items": [
-        "% yield = (actual moles / theoretical moles) × 100",
-        "Atom economy = (Mr of desired product / sum of Mr of all products) × 100",
-        "High atom economy = greener process (less waste)."
-    ]}
+    {
+      "heading": "The Mole and Molar Mass",
+      "items": [
+        "The mole links the macroscopic world (grams you can weigh) to the microscopic world (individual atoms/molecules). One mole contains 6.02 \u00d7 10\u00b2\u00b3 particles \u2014 Avogadro's constant (N\u2090).",
+        "Molar mass is the mass of one mole of a substance in g mol\u207b\u00b9; numerically equal to the relative molecular (or atomic) mass.",
+        "n = m / M\u1d63  \u2014 moles = mass (g) divided by molar mass (g mol\u207b\u00b9)."
+      ]
+    },
+    {
+      "heading": "Concentration and Volume",
+      "items": [
+        "n = c \u00d7 V  where concentration c is in mol dm\u207b\u00b3 and volume V must be in dm\u00b3 (divide cm\u00b3 by 1000).",
+        "At RTP (25 \u00b0C, 1 atm), the molar volume of any ideal gas is 24.0 dm\u00b3 mol\u207b\u00b9. So n = V / 24.0.",
+        "For non-standard conditions: PV = nRT, where R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9, P in Pa, V in m\u00b3, T in K."
+      ]
+    },
+    {
+      "heading": "Empirical and Molecular Formulae",
+      "items": [
+        "Empirical formula: simplest whole-number ratio of atoms. Find it by dividing each element's % mass by its A\u1d63, then dividing all values by the smallest.",
+        "Molecular formula = (empirical formula) \u00d7 n, where n = M\u1d63(molecular) / M\u1d63(empirical).",
+        "Combustion analysis: burn the compound; collect CO\u2082 (\u2192 moles of C) and H\u2082O (\u2192 moles of H); find O by mass difference."
+      ]
+    },
+    {
+      "heading": "Titration Calculations",
+      "items": [
+        "Steps: calculate moles of the known solution \u2192 use the molar ratio from the balanced equation \u2192 find moles of unknown \u2192 calculate concentration or mass.",
+        "Back titration: add a measured excess of reagent A to the sample; titrate the remaining excess against reagent B; subtract to find how much A reacted with the sample.",
+        "Standard solution: a solution of accurately known concentration made from a primary standard (e.g. anhydrous Na\u2082CO\u2083)."
+      ]
+    },
+    {
+      "heading": "Percentage Yield and Atom Economy",
+      "items": [
+        "% yield = (actual moles of product / theoretical moles) \u00d7 100. The theoretical yield assumes complete reaction with no losses.",
+        "Atom economy = (M\u1d63 of desired product / sum of M\u1d63 of all products) \u00d7 100. A high atom economy means less waste \u2014 greener chemistry.",
+        "Addition reactions have 100% atom economy (only one product formed)."
+      ]
+    }
   ],
   "definitions": [
-    { "term": "Mole", "body": "The amount of substance containing 6.02×10²³ particles (Avogadro's constant)." },
-    { "term": "Molar mass", "body": "The mass of one mole of a substance, in g mol⁻¹; numerically equal to the relative molecular mass." },
-    { "term": "Empirical formula", "body": "The simplest whole-number ratio of atoms of each element in a compound." },
-    { "term": "Atom economy", "body": "The percentage of the total mass of reactants that becomes the desired product: (Mr desired product / ΣMr all products) × 100." },
-    { "term": "Standard solution", "body": "A solution of accurately known concentration, prepared from a primary standard." }
+    {
+      "term": "Mole",
+      "body": "The amount of substance containing 6.02\u00d710\u00b2\u00b3 particles (Avogadro's constant)."
+    },
+    {
+      "term": "Molar mass",
+      "body": "The mass of one mole of a substance, in g mol\u207b\u00b9; numerically equal to the relative molecular mass."
+    },
+    {
+      "term": "Empirical formula",
+      "body": "The simplest whole-number ratio of atoms of each element in a compound."
+    },
+    {
+      "term": "Atom economy",
+      "body": "The percentage of the total mass of reactants that becomes the desired product: (Mr desired product / \u03a3Mr all products) \u00d7 100."
+    },
+    {
+      "term": "Standard solution",
+      "body": "A solution of accurately known concentration, prepared from a primary standard."
+    }
   ],
   "workedExamples": [
     {
       "q": "A compound contains 40.0% C, 6.7% H and 53.3% O by mass. Its Mr = 60. Find the molecular formula.",
       "steps": [
-        { "n": 1, "sub": "Moles per 100 g", "text": "C: 40.0/12 = 3.33; H: 6.7/1 = 6.7; O: 53.3/16 = 3.33" },
-        { "n": 2, "sub": "Divide by smallest (3.33)", "text": "C:1, H:2, O:1 → empirical formula CH₂O, Mr = 30" },
-        { "n": 3, "sub": "Molecular formula", "text": "n = 60/30 = 2 → molecular formula C₂H₄O₂" }
+        {
+          "n": 1,
+          "sub": "Moles per 100 g",
+          "text": "C: 40.0/12 = 3.33; H: 6.7/1 = 6.7; O: 53.3/16 = 3.33"
+        },
+        {
+          "n": 2,
+          "sub": "Divide by smallest (3.33)",
+          "text": "C:1, H:2, O:1 \u2192 empirical formula CH\u2082O, Mr = 30"
+        },
+        {
+          "n": 3,
+          "sub": "Molecular formula",
+          "text": "n = 60/30 = 2 \u2192 molecular formula C\u2082H\u2084O\u2082"
+        }
       ]
     },
     {
-      "q": "25.0 cm³ of H₂SO₄ requires 30.0 cm³ of 0.100 mol dm⁻³ NaOH to reach the endpoint. Find [H₂SO₄].",
+      "q": "25.0 cm\u00b3 of H\u2082SO\u2084 requires 30.0 cm\u00b3 of 0.100 mol dm\u207b\u00b3 NaOH to reach the endpoint. Find [H\u2082SO\u2084].",
       "steps": [
-        { "n": 1, "sub": "Moles NaOH", "text": "n(NaOH) = 0.100 × 30.0/1000 = 3.00×10⁻³ mol" },
-        { "n": 2, "sub": "Moles H₂SO₄ (ratio 1:2)", "text": "H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O; n(H₂SO₄) = 3.00×10⁻³/2 = 1.50×10⁻³ mol" },
-        { "n": 3, "sub": "Concentration", "text": "c = n/V = 1.50×10⁻³ / (25.0/1000) = 0.0600 mol dm⁻³" }
+        {
+          "n": 1,
+          "sub": "Moles NaOH",
+          "text": "n(NaOH) = 0.100 \u00d7 30.0/1000 = 3.00\u00d710\u207b\u00b3 mol"
+        },
+        {
+          "n": 2,
+          "sub": "Moles H\u2082SO\u2084 (ratio 1:2)",
+          "text": "H\u2082SO\u2084 + 2NaOH \u2192 Na\u2082SO\u2084 + 2H\u2082O; n(H\u2082SO\u2084) = 3.00\u00d710\u207b\u00b3/2 = 1.50\u00d710\u207b\u00b3 mol"
+        },
+        {
+          "n": 3,
+          "sub": "Concentration",
+          "text": "c = n/V = 1.50\u00d710\u207b\u00b3 / (25.0/1000) = 0.0600 mol dm\u207b\u00b3"
+        }
       ]
     }
   ],
   "mistakes": [
-    "Using cm³ instead of dm³ in concentration calculations — always divide cm³ by 1000.",
+    "Using cm\u00b3 instead of dm\u00b3 in concentration calculations \u2014 always divide cm\u00b3 by 1000.",
     "Forgetting to use the molar ratio from the balanced equation before finding concentration.",
     "Confusing empirical formula (simplest ratio) with molecular formula (actual number of atoms)."
   ],
   "tips": [
     "Write out the full equation and mark the molar ratio before substituting numbers.",
-    "In combustion analysis, find C from CO₂ (1 mol CO₂ → 1 mol C), H from H₂O (1 mol H₂O → 2 mol H), then O by difference.",
-    "Atom economy favours reactions where only one product forms — addition reactions have 100% atom economy."
+    "In combustion analysis, find C from CO\u2082 (1 mol CO\u2082 \u2192 1 mol C), H from H\u2082O (1 mol H\u2082O \u2192 2 mol H), then O by difference.",
+    "Atom economy favours reactions where only one product forms \u2014 addition reactions have 100% atom economy."
   ],
   "flashcards": [
-    { "q": "What is the molar volume of a gas at RTP?", "a": "24.0 dm³ mol⁻¹ (at 25°C, 1 atm)." },
-    { "q": "Formula for moles from concentration and volume?", "a": "n = c × V (V in dm³)" },
-    { "q": "How do you find oxygen in a combustion analysis?", "a": "Oxygen mass = sample mass − mass of C − mass of H (by difference)." },
-    { "q": "What is atom economy?", "a": "(Mr of desired product / ΣMr of all products) × 100" },
-    { "q": "What is a primary standard?", "a": "A stable, pure substance of known Mr used to make a standard solution, e.g. anhydrous Na₂CO₃." },
-    { "q": "What is the ideal gas equation?", "a": "PV = nRT, where R = 8.31 J mol⁻¹ K⁻¹." }
+    {
+      "q": "What is the molar volume of a gas at RTP?",
+      "a": "24.0 dm\u00b3 mol\u207b\u00b9 (at 25\u00b0C, 1 atm)."
+    },
+    {
+      "q": "Formula for moles from concentration and volume?",
+      "a": "n = c \u00d7 V (V in dm\u00b3)"
+    },
+    {
+      "q": "How do you find oxygen in a combustion analysis?",
+      "a": "Oxygen mass = sample mass \u2212 mass of C \u2212 mass of H (by difference)."
+    },
+    {
+      "q": "What is atom economy?",
+      "a": "(Mr of desired product / \u03a3Mr of all products) \u00d7 100"
+    },
+    {
+      "q": "What is a primary standard?",
+      "a": "A stable, pure substance of known Mr used to make a standard solution, e.g. anhydrous Na\u2082CO\u2083."
+    },
+    {
+      "q": "What is the ideal gas equation?",
+      "a": "PV = nRT, where R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9."
+    }
   ],
   "quiz": {
     "title": "Stoichiometry Quiz",
     "questions": [
-      { "q": "How many moles are in 11.0 g of CO₂ (Mr = 44)?", "opts": ["0.25 mol","0.50 mol","1.00 mol","2.00 mol"], "ans": 0, "exp": "n = m/Mr = 11.0/44 = 0.25 mol" },
-      { "q": "What volume does 0.5 mol of gas occupy at RTP?", "opts": ["12.0 dm³","24.0 dm³","48.0 dm³","22.4 dm³"], "ans": 0, "exp": "V = n × 24.0 = 0.5 × 24.0 = 12.0 dm³" },
-      { "q": "A compound is 75% C, 25% H by mass. What is the empirical formula?", "opts": ["CH₂","CH₃","CH₄","C₂H₅"], "ans": 2, "exp": "C: 75/12=6.25; H: 25/1=25. Ratio = 1:4 → CH₄" },
-      { "q": "What is the atom economy for the reaction A → B + C, where B is the desired product with Mr 40 and C has Mr 60?", "opts": ["40%","60%","67%","33%"], "ans": 0, "exp": "Atom economy = 40/(40+60) × 100 = 40%" },
-      { "q": "In a titration, 20.0 cm³ of 0.200 mol dm⁻³ NaOH neutralises HCl. If the equation is 1:1, what is [HCl] if 25.0 cm³ was used?", "opts": ["0.150 mol dm⁻³","0.160 mol dm⁻³","0.200 mol dm⁻³","0.250 mol dm⁻³"], "ans": 1, "exp": "n(NaOH)=0.200×0.020=4×10⁻³; n(HCl)=4×10⁻³; c=4×10⁻³/0.025=0.160 mol dm⁻³" }
+      {
+        "q": "How many moles are in 11.0 g of CO\u2082 (Mr = 44)?",
+        "opts": [
+          "0.25 mol",
+          "0.50 mol",
+          "1.00 mol",
+          "2.00 mol"
+        ],
+        "ans": 0,
+        "exp": "n = m/Mr = 11.0/44 = 0.25 mol"
+      },
+      {
+        "q": "What volume does 0.5 mol of gas occupy at RTP?",
+        "opts": [
+          "12.0 dm\u00b3",
+          "24.0 dm\u00b3",
+          "48.0 dm\u00b3",
+          "22.4 dm\u00b3"
+        ],
+        "ans": 0,
+        "exp": "V = n \u00d7 24.0 = 0.5 \u00d7 24.0 = 12.0 dm\u00b3"
+      },
+      {
+        "q": "A compound is 75% C, 25% H by mass. What is the empirical formula?",
+        "opts": [
+          "CH\u2082",
+          "CH\u2083",
+          "CH\u2084",
+          "C\u2082H\u2085"
+        ],
+        "ans": 2,
+        "exp": "C: 75/12=6.25; H: 25/1=25. Ratio = 1:4 \u2192 CH\u2084"
+      },
+      {
+        "q": "What is the atom economy for the reaction A \u2192 B + C, where B is the desired product with Mr 40 and C has Mr 60?",
+        "opts": [
+          "40%",
+          "60%",
+          "67%",
+          "33%"
+        ],
+        "ans": 0,
+        "exp": "Atom economy = 40/(40+60) \u00d7 100 = 40%"
+      },
+      {
+        "q": "In a titration, 20.0 cm\u00b3 of 0.200 mol dm\u207b\u00b3 NaOH neutralises HCl. If the equation is 1:1, what is [HCl] if 25.0 cm\u00b3 was used?",
+        "opts": [
+          "0.150 mol dm\u207b\u00b3",
+          "0.160 mol dm\u207b\u00b3",
+          "0.200 mol dm\u207b\u00b3",
+          "0.250 mol dm\u207b\u00b3"
+        ],
+        "ans": 1,
+        "exp": "n(NaOH)=0.200\u00d70.020=4\u00d710\u207b\u00b3; n(HCl)=4\u00d710\u207b\u00b3; c=4\u00d710\u207b\u00b3/0.025=0.160 mol dm\u207b\u00b3"
+      }
     ]
   },
   "recall": [
@@ -93,12 +218,30 @@
     "State the molar volume of gas at RTP."
   ],
   "summary": [
-    { "label": "n = m/Mr", "value": "moles from mass" },
-    { "label": "n = cV", "value": "moles from concentration (V in dm³)" },
-    { "label": "RTP volume", "value": "24.0 dm³ mol⁻¹" },
-    { "label": "PV = nRT", "value": "R = 8.31 J mol⁻¹ K⁻¹" },
-    { "label": "% yield", "value": "(actual/theoretical) × 100" },
-    { "label": "Atom economy", "value": "(Mr desired / ΣMr all) × 100" }
+    {
+      "label": "n = m/Mr",
+      "value": "moles from mass"
+    },
+    {
+      "label": "n = cV",
+      "value": "moles from concentration (V in dm\u00b3)"
+    },
+    {
+      "label": "RTP volume",
+      "value": "24.0 dm\u00b3 mol\u207b\u00b9"
+    },
+    {
+      "label": "PV = nRT",
+      "value": "R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9"
+    },
+    {
+      "label": "% yield",
+      "value": "(actual/theoretical) \u00d7 100"
+    },
+    {
+      "label": "Atom economy",
+      "value": "(Mr desired / \u03a3Mr all) \u00d7 100"
+    }
   ],
   "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 3"
 }

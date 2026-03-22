@@ -10,21 +10,25 @@
   ],
   "notes": [
     {
-      "heading": "Classification and Oxidation",
+      "heading": "Classification of Alcohols",
       "items": [
-        "Primary (1\u00b0): one alkyl group on C\u2013OH. Secondary (2\u00b0): two. Tertiary (3\u00b0): three \u2014 no H on C\u2013OH.",
-        "Oxidising agent: K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 (acidified dichromate). Orange \u2192 green (Cr\u2076\u207a\u2192Cr\u00b3\u207a).",
-        "1\u00b0 + distil \u2192 aldehyde; 1\u00b0 + reflux \u2192 carboxylic acid; 2\u00b0 + reflux \u2192 ketone; 3\u00b0 \u2192 no reaction.",
-        "Distinguish aldehyde from ketone: Tollens' reagent (silver mirror = aldehyde); Fehling's (brick-red ppt = aldehyde). Ketones give no reaction."
+        "Alcohols contain the \u2013OH functional group. They are classified by the number of carbon groups attached to the C\u2013OH carbon: primary (1 alkyl group, e.g. ethanol); secondary (2, e.g. propan-2-ol); tertiary (3, e.g. 2-methylpropan-2-ol). This classification determines their oxidation behaviour."
       ]
     },
     {
-      "heading": "Reactions of Alcohols",
+      "heading": "Oxidation Reactions",
       "items": [
-        "Dehydration: conc. H\u2082SO\u2084 (or Al\u2082O\u2083, ~300\u00b0C) \u2192 alkene + H\u2082O.",
-        "Esterification: alcohol + carboxylic acid \u21cc ester + water; H\u2082SO\u2084 catalyst; reversible.",
-        "With Na metal: alcohol + Na \u2192 sodium alkoxide + H\u2082 (effervescence of H\u2082).",
-        "With PCl\u2085: alcohol + PCl\u2085 \u2192 chloroalkane + POCl\u2083 + HCl (white fumes of HCl)."
+        "Oxidising agent: acidified potassium dichromate(VI) [K\u2082Cr\u2082O\u2087/H\u2082SO\u2084]. Colour change: orange (Cr\u2082O\u2087\u00b2\u207b) \u2192 green (Cr\u00b3\u207a) indicates oxidation of the alcohol.",
+        "Primary alcohol + distil \u2192 aldehyde (collect immediately to prevent further oxidation). Primary alcohol + reflux \u2192 carboxylic acid (fully oxidised). Secondary alcohol + reflux \u2192 ketone. Tertiary alcohol: no reaction (no H on the C\u2013OH carbon).",
+        "Distinguish aldehyde from ketone: Tollens' reagent (ammoniacal AgNO\u2083) \u2014 aldehyde gives a silver mirror; ketone no reaction. Fehling's solution \u2014 aldehyde gives a brick-red precipitate; ketone no reaction."
+      ]
+    },
+    {
+      "heading": "Dehydration and Esterification",
+      "items": [
+        "Dehydration (elimination): alcohol heated with concentrated H\u2082SO\u2084 (or H\u2083PO\u2084) \u2192 alkene + water. Or pass over Al\u2082O\u2083 at ~300 \u00b0C. E.g. ethanol \u2192 ethene.",
+        "Esterification: alcohol + carboxylic acid \u21cc ester + water (reversible; H\u2082SO\u2084 catalyst; reflux). Ester names: name the alkyl group from the alcohol first (e.g. ethyl ethanoate from ethanol + ethanoic acid).",
+        "Base hydrolysis (saponification) is the reverse of esterification but irreversible: ester + NaOH \u2192 sodium carboxylate + alcohol. Used in soap making."
       ]
     }
   ],

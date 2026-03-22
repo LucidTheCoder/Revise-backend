@@ -12,35 +12,24 @@
     {
       "heading": "Oxygen Transport",
       "items": [
-        "98.5% O\u2082 is carried as oxyhaemoglobin inside red blood cells; 1.5% dissolved in plasma.",
-        "Each haemoglobin molecule carries up to 4 O\u2082; loading in lungs (high pO\u2082); unloading in tissues (low pO\u2082).",
-        "Cooperativity: first O\u2082 binding changes Hb shape \u2192 easier for 2nd, 3rd, 4th O\u2082 to bind \u2192 S-shaped dissociation curve."
+        "98.5% of O\u2082 in the blood is carried as oxyhaemoglobin inside red blood cells; only 1.5% is dissolved in plasma. Each haemoglobin molecule can carry up to four O\u2082.",
+        "The sigmoidal shape of the oxygen dissociation curve arises from cooperativity: binding the first O\u2082 increases affinity for the second, third and fourth, producing the steep middle section of the curve. The plateau at high pO\u2082 reflects saturation."
       ]
     },
     {
-      "heading": "CO\u2082 Transport",
+      "heading": "Carbon Dioxide Transport",
       "items": [
-        "~70% as HCO\u2083\u207b in plasma: CO\u2082 + H\u2082O \u2192 H\u2082CO\u2083 \u2192 H\u207a + HCO\u2083\u207b (catalysed by carbonic anhydrase in RBCs). HCO\u2083\u207b exits RBC into plasma; Cl\u207b enters (chloride shift) to maintain charge balance.",
-        "~23% as carbaminohaemoglobin (CO\u2082 bound to amino groups of Hb).",
-        "~7% dissolved in plasma."
+        "About 70% of CO\u2082 is transported as hydrogencarbonate ions (HCO\u2083\u207b) in plasma. Inside red blood cells, carbonic anhydrase catalyses CO\u2082 + H\u2082O \u2192 H\u2082CO\u2083 \u2192 H\u207a + HCO\u2083\u207b. The HCO\u2083\u207b diffuses out into plasma; Cl\u207b enters in exchange (the chloride shift) to maintain electrical neutrality. This is reversed at the lungs.",
+        "About 23% is carried as carbaminohaemoglobin \u2014 CO\u2082 bound to the amino groups of haemoglobin. The remaining 7% is dissolved in plasma."
       ]
     },
     {
       "heading": "Red Blood Cell Adaptations",
       "items": [
-        "Biconcave disc: large surface area : volume ratio for rapid O\u2082 diffusion; flexible to squeeze through capillaries.",
-        "No nucleus: more space for haemoglobin (~280 million Hb per RBC).",
-        "No mitochondria: RBCs respire anaerobically \u2192 don't use the O\u2082 they carry.",
-        "Short lifespan (~120 days): replaced by new RBCs from bone marrow."
-      ]
-    },
-    {
-      "heading": "Adaptations in Other Organisms",
-      "items": [
-        "Llamas/alpacas: Hb with higher O\u2082 affinity at altitude (lower pO\u2082).",
-        "Diving mammals (e.g. seals): higher myoglobin content in muscles; higher blood volume; store O\u2082 for extended dives.",
-        "Insects: use tracheal system; no blood O\u2082 transport.",
-        "Fish: gills; counter-current exchange (covered in gas exchange topic)."
+        "Biconcave disc shape: large surface area-to-volume ratio for rapid O\u2082 diffusion; flexible enough to squeeze through capillaries smaller than its diameter.",
+        "No nucleus: frees space for more haemoglobin (~280 million molecules per cell).",
+        "No mitochondria: all ATP comes from anaerobic respiration \u2014 the cell does not consume the O\u2082 it carries.",
+        "Short lifespan (~120 days): replaced continuously by the bone marrow."
       ]
     }
   ],

@@ -10,37 +10,27 @@
   ],
   "notes": [
     {
-      "heading": "SI Base Units",
+      "heading": "SI Units",
       "items": [
-        "Seven SI base units: metre (m), kilogram (kg), second (s), ampere (A), kelvin (K), mole (mol), candela (cd).",
-        "Derived units are combinations of base units: N = kg m s\u207b\u00b2, Pa = kg m\u207b\u00b9 s\u207b\u00b2, J = kg m\u00b2 s\u207b\u00b2, W = kg m\u00b2 s\u207b\u00b3.",
-        "Prefixes: nano(n) 10\u207b\u2079, micro(\u03bc) 10\u207b\u2076, milli(m) 10\u207b\u00b3, kilo(k) 10\u00b3, mega(M) 10\u2076, giga(G) 10\u2079."
+        "The seven SI base units are: metre (m), kilogram (kg), second (s), ampere (A), kelvin (K), mole (mol), and candela (cd). All other units are derived from these \u2014 e.g. newton (N = kg m s\u207b\u00b2), pascal (Pa = N m\u207b\u00b2 = kg m\u207b\u00b9 s\u207b\u00b2), joule (J = kg m\u00b2 s\u207b\u00b2).",
+        "Useful prefixes: nano (n, 10\u207b\u2079), micro (\u03bc, 10\u207b\u2076), milli (m, 10\u207b\u00b3), kilo (k, 10\u00b3), mega (M, 10\u2076), giga (G, 10\u2079). Always check unit consistency before substituting into formulae."
       ]
     },
     {
-      "heading": "Errors and Uncertainties",
+      "heading": "Errors",
       "items": [
-        "Random error: unpredictable variations; affects precision; reduced by taking multiple readings and averaging.",
-        "Systematic error: consistent offset in one direction (e.g. calibration error, zero error); affects accuracy; not reduced by averaging.",
-        "Absolute uncertainty (\u0394x): half the range of repeated readings, or the instrument's smallest division / 2.",
-        "Percentage uncertainty: (\u0394x / x) \u00d7 100%."
+        "Random errors produce scatter about the true value \u2014 they are unpredictable and affect precision. Reduced by averaging many readings. Sources: reading a scale, timing reactions, vibrations.",
+        "Systematic errors shift every measurement in the same direction by the same amount \u2014 they affect accuracy, not precision. They cannot be reduced by averaging. Examples: a wrongly calibrated instrument, a non-zero reading before measurement (zero error), parallax error when reading a scale from an angle.",
+        "Precision: how reproducible the readings are (small spread). Accuracy: how close the mean value is to the true value. A measurement can be precise but not accurate (consistent systematic error)."
       ]
     },
     {
-      "heading": "Combining Uncertainties",
+      "heading": "Calculating and Combining Uncertainties",
       "items": [
-        "Add/subtract quantities: add absolute uncertainties.",
-        "Multiply/divide quantities: add percentage uncertainties.",
-        "Power n: multiply percentage uncertainty by n.",
-        "e.g. if A = x\u00b2 \u00d7 y/z: %\u0394A = 2(%\u0394x) + %\u0394y + %\u0394z."
-      ]
-    },
-    {
-      "heading": "Significant Figures",
-      "items": [
-        "Calculated answer should have same number of significant figures as the least precise measurement.",
-        "Uncertainty quoted to 1 or 2 significant figures; result quoted to match.",
-        "Best-fit line gradient: use the range from maximum to minimum gradient of realistic lines through the data."
+        "Absolute uncertainty (\u0394x): quoted in the same units as the measurement. For repeated readings: \u0394x = \u00bd \u00d7 range. For a single reading from a digital instrument: \u0394x = \u00b11 in the last displayed digit; from an analogue scale: \u0394x = \u00b1\u00bd the smallest scale division.",
+        "Percentage uncertainty = (\u0394x / x) \u00d7 100%.",
+        "When adding or subtracting quantities: add the absolute uncertainties. When multiplying or dividing: add the percentage uncertainties. When raising to a power n: multiply the percentage uncertainty by n.",
+        "Uncertainty in a gradient (from a graph): draw lines of maximum and minimum gradient consistent with the data; uncertainty = (max gradient \u2212 min gradient) / 2."
       ]
     }
   ],

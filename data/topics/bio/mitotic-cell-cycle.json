@@ -10,39 +10,28 @@
   ],
   "notes": [
     {
-      "heading": "Phases of the Cell Cycle",
+      "heading": "The Cell Cycle",
       "items": [
-        "G1 (Gap 1): cell grows; proteins and organelles are synthesised.",
-        "S (Synthesis): DNA replication; each chromosome is duplicated into two sister chromatids.",
-        "G2 (Gap 2): cell continues to grow; prepares for division; centrosomes replicate.",
-        "M (Mitotic) phase: mitosis + cytokinesis."
+        "The cell cycle consists of interphase followed by the mitotic (M) phase. Interphase has three stages: G\u2081 (growth, protein synthesis), S (DNA replication \u2014 each chromosome is copied into two sister chromatids), and G\u2082 (further growth, preparation for division).",
+        "The purpose of mitosis is to produce two genetically identical daughter cells with the same chromosome number as the parent \u2014 used in growth, tissue repair, and asexual reproduction."
       ]
     },
     {
       "heading": "Stages of Mitosis (PMAT)",
       "items": [
-        "Prophase: chromosomes condense; spindle forms from centrioles; nuclear envelope breaks down.",
-        "Metaphase: chromosomes align at the equator (metaphase plate); spindle fibres attach to centromeres.",
-        "Anaphase: centromeres split; sister chromatids pulled to opposite poles by spindle fibres.",
-        "Telophase: nuclear envelopes reform around each set of chromosomes; chromosomes decondense.",
-        "Cytokinesis: cytoplasm divides \u2014 cleavage furrow in animals; cell plate forms in plants."
+        "Prophase: chromosomes condense and become visible; the spindle forms from centrioles; the nuclear envelope breaks down.",
+        "Metaphase: chromosomes align at the equatorial plate; spindle fibres from opposite poles attach to the centromeres.",
+        "Anaphase: centromeres split; spindle fibres shorten and pull sister chromatids to opposite poles. The chromosome number momentarily doubles, but each chromatid is now an individual chromosome.",
+        "Telophase: nuclear envelopes reform around each set of chromosomes; chromosomes decondense; the spindle breaks down.",
+        "Cytokinesis: the cytoplasm divides \u2014 a cleavage furrow forms in animal cells; a cell plate (from Golgi vesicles) forms in plant cells."
       ]
     },
     {
-      "heading": "Significance of Mitosis",
+      "heading": "Cancer and Cell Cycle Control",
       "items": [
-        "Produces two genetically identical diploid cells.",
-        "Used in: growth, repair, asexual reproduction.",
-        "Maintains chromosome number."
-      ]
-    },
-    {
-      "heading": "Cancer and the Cell Cycle",
-      "items": [
-        "Proto-oncogenes promote cell division; mutations \u2192 oncogenes (over-stimulate division).",
-        "Tumour suppressor genes (e.g. p53) halt division if DNA is damaged; mutations remove this brake.",
-        "Malignant tumours: cells invade surrounding tissue and metastasise.",
-        "Lifestyle factors: UV radiation, carcinogens (e.g. tobacco smoke), viral infection can cause mutations."
+        "The cell cycle is regulated at checkpoints. Proto-oncogenes normally promote division; mutation converts them into oncogenes that drive uncontrolled proliferation. Tumour suppressor genes (e.g. p53) halt division when DNA is damaged; loss-of-function mutations remove this brake.",
+        "Benign tumours remain localised. Malignant tumours invade surrounding tissue and can metastasise \u2014 cells break away, enter the bloodstream or lymph, and seed secondary tumours elsewhere.",
+        "Carcinogens (UV, tobacco smoke, certain viruses) cause the mutations that underlie cancer."
       ]
     }
   ],

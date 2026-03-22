@@ -6,6 +6,24 @@
 // Currently set to production Render deployment
 // ============================================================================
 const APP_VERSION  = "1.2.0";
+
+// ── AI Feature Flag ──────────────────────────────────────────────────────────
+// Set to false to hide all AI UI and prevent API calls sitewide.
+// Admins can toggle via Admin > Dashboard. Stored in localStorage.
+function getAiEnabled() {
+  const stored = localStorage.getItem('revise.aiEnabled');
+  return stored === null ? true : stored === 'true';
+}
+function setAiEnabled(val) {
+  localStorage.setItem('revise.aiEnabled', String(val));
+  applyAiVisibility();
+}
+function applyAiVisibility() {
+  const enabled = getAiEnabled();
+  document.querySelectorAll('.ai-panel, .ai-feature').forEach(el => {
+    el.style.display = enabled ? '' : 'none';
+  });
+}
 const API_BASE_URL = 'https://revise-backend-yp6e.onrender.com';
 
 // Determine if using backend API or local files
@@ -231,7 +249,12 @@ function formatMathMarkup(escapedText) {
 }
 
 function richText(input) {
-  return formatMathMarkup(escapeHtml(input));
+  if (input == null) return "";
+  // Convert newlines to <br> so multi-line content renders correctly
+  return String(input)
+    .split(/\n/)
+    .map(line => formatMathMarkup(escapeHtml(line)))
+    .join("<br>");
 }
 
 function escapeXml(input) {
@@ -1253,10 +1276,13 @@ async function loadData() {
     await Promise.all(topicLoads);
 
     state.searchIndex = Array.from(state.topics.values()).map((topic) => ({
-      id: topic.id,
-      title: topic.title,
-      subtitle: topic.subtitle,
-      subject: topic.subject,
+      id:           topic.id,
+      subject:      topic.subject,
+      title:        topic.title,
+      subtitle:     topic.subtitle || '',
+      concept:      (topic.concept     || []).map(s => String(s).slice(0, 150)),
+      defTerms:     (topic.definitions || []).map(d => d.term),
+      noteHeadings: (topic.notes       || []).map(n => n.heading),
     }));
 
     hydrateDoneTopics();
@@ -1393,10 +1419,16 @@ function quizHistory() {
   }
 }
 
-function pushQuizScore(scorePct) {
+function pushQuizScore(scorePct, topicId) {
   const entries = quizHistory();
-  entries.push({ scorePct, at: Date.now() });
-  localStorage.setItem(quizStorageKey, JSON.stringify(entries.slice(-30)));
+  const topic   = topicId ? state.topics.get(topicId) : null;
+  entries.push({
+    scorePct,
+    at:       Date.now(),
+    topicId:  topicId  || null,
+    topicName: topic?.title || null,
+  });
+  localStorage.setItem(quizStorageKey, JSON.stringify(entries.slice(-50)));
 }
 
 // ============================================================================
@@ -1628,7 +1660,7 @@ function renderHome() {
     )
     .join("");
 
-  const totalTarget  = 180;
+  const totalTarget  = parseInt(localStorage.getItem('revise.weeklyGoal') || '180', 10);
   const current      = state.weeklyMinutes.reduce((sum, m) => sum + m, 0);
   const labels       = ["M", "T", "W", "T", "F", "S", "S"];
   const weeklyPct    = Math.round((current / totalTarget) * 100);
@@ -1730,6 +1762,7 @@ function renderHome() {
         ? `<button class="btn btn-primary btn-sm" onclick="App.go('topic',{topicId:'${nextUp.id}'})">▶ ${escapeHtml(nextUp.name)}</button>`
         : `<button class="btn btn-primary btn-sm" onclick="App.go('subjects')">Browse Topics</button>`}
       <button class="btn btn-outline btn-sm" onclick="App.go('quiz',{subjectId:'${weakest ? weakest.id : "chem"}'})">Quick Quiz</button>
+      <button class="btn btn-ghost btn-sm" onclick="App.setWeeklyGoal()" title="Change weekly target">⚙ Goal: ${totalTarget}m</button>
     </div>
     ${!hasAnyActivity ? `<div class="wg-empty-tip">🚀 Start a topic today to kick off your streak!</div>` : ""}
   `;
@@ -1745,6 +1778,12 @@ function renderSubjectSelection() {
       <button class="subject-card" onclick="App.go('subject',{subjectId:'${subject.id}'})">
         <h3 style="color:${colorVar(subject.id)}">${escapeHtml(subject.name)}</h3>
         <p>${escapeHtml(subject.desc)}</p>
+        <div class="subject-card-progress">
+          <div class="subject-card-bar">
+            <div class="subject-card-fill" style="width:${p.pct}%;background:${colorVar(subject.id)}"></div>
+          </div>
+          <span class="subject-card-pct">${p.done}/${p.total} topics &mdash; ${p.pct}%</span>
+        </div>
         <div class="subject-meta"><span>${p.done}/${p.total} done</span><span>${p.pct}% complete</span></div>
       </button>
     `;
@@ -1835,12 +1874,62 @@ function scrollToSection(sectionId) {
   const el = byId(sectionId);
   if (!el) return;
   el.scrollIntoView({ behavior: "smooth", block: "start" });
+  // Update active pill immediately on click
+  document.querySelectorAll('.section-nav .pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick')?.includes(sectionId));
+  });
+}
+
+let _sectionObserver = null;
+function bindSectionScrollSpy() {
+  if (_sectionObserver) { _sectionObserver.disconnect(); _sectionObserver = null; }
+  const sections = ['section-concept','section-notes','section-defs',
+                    'section-worked','section-diagram','section-recall','section-summary'];
+  const pills    = document.querySelectorAll('.section-nav .pill-btn');
+  if (!pills.length) return;
+
+  _sectionObserver = new IntersectionObserver((entries) => {
+    let topVisible = null;
+    let topY = Infinity;
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.boundingClientRect.top < topY) {
+        topY       = entry.boundingClientRect.top;
+        topVisible = entry.target.id;
+      }
+    });
+    if (!topVisible) return;
+    pills.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('onclick')?.includes(topVisible));
+    });
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(id => {
+    const el = byId(id);
+    if (el) _sectionObserver.observe(el);
+  });
 }
 
 function renderTopicView(topicId) {
   const topic = state.topics.get(topicId);
   if (!topic) {
-    showToast("Topic not found.");
+    const main = byId('topic-main');
+    if (main) {
+      main.innerHTML = `
+        <div class="container page-pad">
+          <div class="card" style="text-align:center;padding:2.5rem 1.5rem">
+            <div style="font-size:3rem;margin-bottom:0.75rem">📭</div>
+            <h2>Topic not found</h2>
+            <p style="color:var(--text2);margin:0.5rem 0 1.25rem">
+              The topic <code>${escapeHtml(topicId)}</code> doesn't exist or hasn't loaded yet.
+            </p>
+            <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+              <button class="btn btn-primary" onclick="App.go('subjects')">Browse Subjects</button>
+              <button class="btn btn-outline" onclick="App.go('home')">Go Home</button>
+            </div>
+          </div>
+        </div>`;
+    }
+    setActiveView('topic');
     return;
   }
 
@@ -1873,7 +1962,10 @@ function renderTopicView(topicId) {
     .map(
       (item) => `
       <div class="info-box">
-        <strong>${richText(item.term)}</strong>
+        <div class="def-term-row">
+          <strong>${richText(item.term)}</strong>
+          <button class="copy-btn" onclick="App.copyText('${escapeHtml(item.term)}: ${escapeHtml(item.body)}')" title="Copy definition">⎘</button>
+        </div>
         <span>${richText(item.body)}</span>
       </div>
     `
@@ -2044,7 +2136,7 @@ function renderTopicView(topicId) {
       ${auth.isLoggedIn ? `
       <div class="ai-chat-history" id="ai-chat-history"></div>
       <div class="ai-compose">
-        <textarea id="ai-prompt" placeholder="Ask anything about ${escapeHtml(topic.title)}…" rows="2"></textarea>
+        <textarea id="ai-prompt" data-autoresize placeholder="Ask anything about ${escapeHtml(topic.title)}…" rows="2"></textarea>
         <button class="btn btn-primary" id="ai-send-btn" onclick="App.askAi('${topic.id}')">
           <span class="ai-send-icon">↑</span>
         </button>
@@ -2056,6 +2148,7 @@ function renderTopicView(topicId) {
       </div>`}
     </section>
   `;
+  requestAnimationFrame(bindSectionScrollSpy);
 }
 
 function toggleRecall(index) {
@@ -2089,7 +2182,9 @@ function markTopicDone(topicId) {
     return lvl === 'confident' ? 5 : lvl === 'needs-practice' ? 2 : lvl === 'no-idea' ? 1 : 0;
   })();
   saveProgressToBackend(topicId, null, topicConfidence);
-  showToast("Topic marked as complete. Great progress.");
+  const tname = state.topics.get(topicId)?.title || topicId;
+  showToast(`✅ "${tname}" complete! +50 XP`);
+  state.xp = (state.xp || 0) + 50;
   if (state.currentView === "topic") renderTopicView(topicId);
 }
 function buildQuizFromPayload(payload) {
@@ -2228,7 +2323,7 @@ function renderQuizResult() {
   const pct = Math.round((quiz.score / quiz.questions.length) * 100);
   const xp = quiz.score * 20;
   state.xp += xp;
-  pushQuizScore(pct);
+  pushQuizScore(pct, state.currentTopic);
   touchStreakToday();
   addStudyMinutes(10); // credit 10 min for a quiz session
   
@@ -2523,24 +2618,43 @@ async function uploadAvatar(input) {
 }
 
 
-function resetProgress() {
-  if (!confirm('This will clear all local progress, quiz history, confidence ratings, and study minutes. This cannot be undone.\n\nAre you sure?')) return;
-  // Clear all local storage progress keys
-  [doneStorageKey, quizStorageKey, confidenceStorageKey, weeklyMinutesKey, weeklyMinutesWeekKey, streakKey, streakDateKey, lastVisitedKey].forEach(k => localStorage.removeItem(k));
-  // Reset in-memory state
-  state.streak        = 0;
-  state.xp            = 0;
-  state.weeklyMinutes = [0,0,0,0,0,0,0];
-  for (const subject of state.subjects) {
-    for (const unit of subject.units) {
-      for (const topic of unit.topics) { topic.done = false; }
-    }
-  }
-  const countEl = byId('streak-count');
-  if (countEl) countEl.textContent = '0';
-  showToast('Local progress cleared.');
-  renderProfile();
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(
+    () => showToast('Copied to clipboard'),
+    () => showToast('Could not copy — try manually selecting')
+  );
+}
+
+function setWeeklyGoal() {
+  const current = parseInt(localStorage.getItem('revise.weeklyGoal') || '180', 10);
+  const input   = prompt(`Set your weekly study goal (minutes).
+Current: ${current} min`, String(current));
+  if (input === null) return;
+  const val = parseInt(input, 10);
+  if (isNaN(val) || val < 10 || val > 1440) { showToast('Enter a number between 10 and 1440 minutes'); return; }
+  localStorage.setItem('revise.weeklyGoal', String(val));
+  showToast(`Weekly goal set to ${val} min`);
   renderHome();
+}
+
+function resetProgress() {
+  if (!confirm('This will erase ALL local progress, quiz history, confidence ratings, and study time.\n\nThis cannot be undone. Continue?')) return;
+
+  // Remove every revise.* key from localStorage
+  const keysToRemove = Object.keys(localStorage).filter(k => k.startsWith('revise.'));
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+
+  // Also explicitly clear every known key (belt-and-suspenders)
+  [
+    doneStorageKey, quizStorageKey, confidenceStorageKey,
+    weeklyMinutesKey, weeklyMinutesWeekKey,
+    streakKey, streakDateKey, lastVisitedKey,
+    'revise.weeklyGoal', themeKey,
+  ].forEach(k => localStorage.removeItem(k));
+
+  showToast('All local progress cleared — reloading…');
+  // Full reload gives a truly clean state; setTimeout lets the toast show
+  setTimeout(() => window.location.reload(), 800);
 }
 
 function renderProfile() {
@@ -2609,6 +2723,27 @@ function renderProfile() {
       ${!user ? `<p style="color:var(--text2);font-size:0.85rem;margin-bottom:0.65rem">Progress is tracked locally. <button class="link-btn" onclick="App.openAuthModal('register')">Create an account</button> to save it to the cloud.</p>` : ''}
       <button class="btn btn-outline btn-danger btn-sm" onclick="App.resetProgress()">Reset Local Progress</button>
     </div>`;
+
+  // ── Quiz history ──────────────────────────────────────────────────
+  const quizEl = byId('profile-quiz-history');
+  if (quizEl) {
+    const history = quizHistory().slice(-20).reverse();
+    if (!history.length) {
+      quizEl.innerHTML = '<p style="color:var(--text2);font-size:0.85rem;padding:0.5rem 0">No quizzes taken yet. Complete a topic quiz to see your history here.</p>';
+    } else {
+      const rows = history.map(h => {
+        const name = h.topicName || (h.topicId ? h.topicId.replace(/-/g,' ') : 'Quiz');
+        const date = new Date(h.at).toLocaleDateString(undefined, {day:'numeric',month:'short'});
+        const cls  = h.scorePct >= 80 ? 'qh-good' : h.scorePct >= 50 ? 'qh-mid' : 'qh-low';
+        return `<tr>
+          <td class="qh-topic">${escapeHtml(name)}</td>
+          <td><span class="qh-badge ${cls}">${h.scorePct}%</span></td>
+          <td class="qh-date">${date}</td>
+        </tr>`;
+      }).join('');
+      quizEl.innerHTML = `<table class="quiz-history-table"><thead><tr><th>Topic</th><th>Score</th><th>Date</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+  }
 }
 // ── AI Study Coach ────────────────────────────────────────────────────────────
 
@@ -2616,6 +2751,7 @@ function renderProfile() {
 const aiChatHistory = {};
 
 function aiQuick(topicId, type) {
+  if (!getAiEnabled()) { showToast('AI features are currently disabled.'); return; }
   const prompts = {
     explain:  `Give me a clear explanation of the key concepts in ${state.topics.get(topicId)?.title || topicId}. Use simple language and bullet points.`,
     quiz:     `Give me 3 exam-style questions on ${state.topics.get(topicId)?.title || topicId} with mark scheme answers. Format as Q1, Q2, Q3.`,
@@ -2628,6 +2764,7 @@ function aiQuick(topicId, type) {
 }
 
 async function askAi(topicId) {
+  if (!getAiEnabled()) { showToast('AI features are currently disabled.'); return; }
   const promptEl = byId('ai-prompt');
   const histEl   = byId('ai-chat-history');
   const sendBtn  = byId('ai-send-btn');
@@ -2936,8 +3073,23 @@ function bindSearch() {
     }
 
     const hits = state.searchIndex
-      .filter((item) => item.title.toLowerCase().includes(q) || item.subtitle.toLowerCase().includes(q))
-      .slice(0, 7);
+      .filter((item) => {
+        const hay = [
+          item.title,
+          item.subtitle,
+          ...(item.concept || []),
+          ...(item.defTerms || []),
+          ...(item.noteHeadings || []),
+        ].join(' ').toLowerCase();
+        return hay.includes(q);
+      })
+      .sort((a, b) => {
+        // Exact title match ranks first
+        const aTitle = a.title.toLowerCase().startsWith(q) ? 0 : 1;
+        const bTitle = b.title.toLowerCase().startsWith(q) ? 0 : 1;
+        return aTitle - bTitle;
+      })
+      .slice(0, 8);
 
     if (!hits.length) {
       results.classList.remove("open");
@@ -2995,6 +3147,8 @@ async function init() {
     await loadData();
     bindBaseEvents();
     updateNavForAuth();
+    applyAiVisibility();
+  applyAiVisibility();
     byId("streak-count").textContent = String(state.streak || 0);
     go("home");
   } catch (error) {
@@ -3391,7 +3545,7 @@ async function renderThreadDetail() {
 
   const replyBox = auth.isLoggedIn && !thread.locked ? `
     <div class="forum-reply-box">
-      <textarea id="reply-input" placeholder="Write a reply…" rows="3" maxlength="2000"></textarea>
+      <textarea id="reply-input" data-autoresize placeholder="Write a reply…" rows="3" maxlength="2000"></textarea>
       <div class="reply-actions">
         <button class="btn btn-primary btn-sm" onclick="App.submitReply('${id}')">Post Reply</button>
       </div>
@@ -3430,6 +3584,15 @@ async function selectChannel(channelId) {
   state.selectedChannelId = channelId;
   joinSocketChannel(channelId);
   await renderChatSidebar();
+  // Focus input and scroll to bottom after channel switch
+  const input = byId('chat-input');
+  if (input && !input.disabled) {
+    requestAnimationFrame(() => {
+      input.focus();
+      const msgs = byId('chat-messages');
+      if (msgs) msgs.scrollTop = msgs.scrollHeight;
+    });
+  }
 }
 
 async function submitReply(threadId) {
@@ -3662,6 +3825,23 @@ async function loadAdminStats() {
         <div><strong>${escapeHtml(t.title.slice(0, 50))}${t.title.length > 50 ? '…' : ''}</strong><br><small>by ${escapeHtml(t.author)} · ${t.subject}</small></div>
         <small>${new Date(t.createdAt).toLocaleDateString()}</small>
       </div>`).join('') || '<p style="color:var(--text2);font-size:0.85rem">No threads yet.</p>';
+
+    // AI toggle card
+    const aiCard = byId('admin-ai-toggle-card');
+    if (aiCard) {
+      const enabled = getAiEnabled();
+      aiCard.innerHTML = `
+        <h4 style="margin:0 0 0.4rem">AI Study Coach</h4>
+        <p style="color:var(--text2);font-size:0.85rem;margin:0 0 0.75rem">
+          When disabled, all AI panels are hidden sitewide and no API calls are made.
+        </p>
+        <label class="ai-toggle-label">
+          <input type="checkbox" id="ai-toggle-checkbox" ${enabled ? 'checked' : ''}
+            onchange="App.setAiEnabled(this.checked)">
+          <span class="ai-toggle-slider"></span>
+          <span style="margin-left:0.5rem;font-weight:600">${enabled ? 'Enabled' : 'Disabled'}</span>
+        </label>`;
+    }
   } catch (e) { showToast('Failed to load stats'); }
 }
 
@@ -4014,6 +4194,35 @@ function go(viewName, payload = {}) {
 }
 
 // ============================================================================
+
+// ── Back-to-top button ────────────────────────────────────────────────────────
+(function setupBackToTop() {
+  const btn = document.createElement('button');
+  btn.id        = 'back-to-top';
+  btn.innerHTML = '↑';
+  btn.title     = 'Back to top';
+  btn.setAttribute('aria-label', 'Back to top');
+  btn.style.cssText = [
+    'position:fixed','bottom:1.25rem','right:1.25rem','z-index:900',
+    'width:2.4rem','height:2.4rem','border-radius:50%',
+    'background:var(--accent)','color:#fff','border:none',
+    'font-size:1.1rem','cursor:pointer','box-shadow:0 2px 8px rgba(0,0,0,0.3)',
+    'opacity:0','transition:opacity 0.25s,transform 0.25s',
+    'transform:translateY(8px)','display:flex','align-items:center','justify-content:center'
+  ].join(';');
+  document.body.appendChild(btn);
+
+  const show = () => window.scrollY > 400;
+  const update = () => {
+    const vis = show();
+    btn.style.opacity   = vis ? '1'  : '0';
+    btn.style.transform = vis ? 'translateY(0)' : 'translateY(8px)';
+    btn.style.pointerEvents = vis ? '' : 'none';
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
+
 // bindBaseEvents — add typing emitter + new route listener
 // ============================================================================
 
@@ -4064,7 +4273,46 @@ function bindBaseEvents() {
     }
   });
 
+  // Auto-resize any textarea with data-autoresize
+  document.addEventListener('input', e => {
+    if (e.target.tagName === 'TEXTAREA' && e.target.dataset.autoresize !== undefined) {
+      e.target.style.height = 'auto';
+      e.target.style.height = Math.min(e.target.scrollHeight, 240) + 'px';
+    }
+  });
+
   bindSearch();
+
+  // Global keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    const tag = document.activeElement?.tagName;
+    const inInput = ['INPUT','TEXTAREA','SELECT'].includes(tag);
+
+    // Escape — close any open modal
+    if (e.key === 'Escape') {
+      const authOverlay = byId('auth-modal-overlay');
+      if (authOverlay?.classList.contains('open')) { closeAuthModal(); return; }
+      const ntModal = byId('new-thread-modal');
+      if (ntModal?.classList.contains('open')) { closeNewThreadModal(); return; }
+      // Close search dropdown
+      byId('search-results')?.classList.remove('open');
+      return;
+    }
+
+    // / or Ctrl+K — focus search (when not already typing)
+    if (!inInput && (e.key === '/' || (e.ctrlKey && e.key === 'k'))) {
+      e.preventDefault();
+      const si = byId('search-input');
+      if (si) { si.focus(); si.select(); }
+      return;
+    }
+
+    // Shift+? — show keyboard shortcut hint
+    if (!inInput && e.key === '?' && e.shiftKey) {
+      showToast('⌨ Shortcuts: / = search  •  Esc = close  •  Shift+Enter = AI send');
+      return;
+    }
+  });
 }
 
 // ============================================================================
@@ -4079,6 +4327,10 @@ const App = {
   markTopicDone,
   dismissSpacedRep,
   uploadAvatar,
+  setWeeklyGoal,
+  copyText,
+  setAiEnabled,
+  getAiEnabled,
   resetProgress,
   selectQuizAnswer,
   nextQuizQuestion,
@@ -4109,6 +4361,7 @@ const App = {
   filterForumBySubject,
   forumLoadMore,
   // Admin
+  renderAdmin,
   switchAdminTab,
   loadAdminTopicList,
   filterAdminUsers,

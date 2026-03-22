@@ -4,112 +4,233 @@
   "title": "Chemical Bonding",
   "subtitle": "Ionic, covalent and metallic bonding; shapes of molecules; intermolecular forces.",
   "concept": [
-    "Bonding type depends on electronegativity difference: large difference → ionic; small/zero → covalent; metal atoms → metallic.",
+    "Bonding type depends on electronegativity difference: large difference \u2192 ionic; small/zero \u2192 covalent; metal atoms \u2192 metallic.",
     "VSEPR theory predicts molecular shape based on electron pairs (bonding and lone pairs) repelling each other to maximum separation.",
     "Intermolecular forces (van der Waals, dipole-dipole, hydrogen bonding) determine physical properties such as boiling point and solubility."
   ],
   "notes": [
     {
-      "heading": "Types of Bond",
+      "heading": "Types of Chemical Bond",
       "items": [
-        "Ionic: transfer of electrons; strong electrostatic attraction between oppositely charged ions; high MP/BP; conducts when molten or dissolved.",
-        "Covalent: sharing of electrons; can be single (σ), double (σ+π), or triple (σ+2π); lower MP/BP than ionic (simple molecular); giant covalent (e.g. diamond) has very high MP.",
-        "Metallic: delocalised electrons in a lattice of positive ions; good conductor; malleable; MP varies with charge/radius of ion."
+        "Ionic bonds form by electron transfer between atoms of very different electronegativity \u2014 a metal loses electrons to form a cation; a non-metal gains them to form an anion. The electrostatic attraction between oppositely charged ions is the ionic bond. Ionic compounds have high melting points, conduct electricity when molten or dissolved, and form giant lattice structures.",
+        "Covalent bonds form by sharing a pair of electrons between atoms of similar electronegativity. A single bond is one shared pair (\u03c3 bond); a double bond is two pairs (1 \u03c3 + 1 \u03c0); a triple bond is three pairs (1 \u03c3 + 2 \u03c0). A dative (coordinate) bond forms when both electrons come from the same atom (e.g. the N\u2013H\u207a bond in NH\u2084\u207a).",
+        "Metallic bonds result from the electrostatic attraction between a lattice of positive metal ions and delocalised electrons. High melting points (especially for small, highly charged ions), good electrical/thermal conductors, malleable and ductile."
       ]
     },
     {
-      "heading": "VSEPR and Shapes",
+      "heading": "Shapes of Molecules \u2014 VSEPR Theory",
       "items": [
-        "Count bonding pairs (BP) + lone pairs (LP) around central atom.",
-        "2 pairs → linear (180°). 3 BP, 0 LP → trigonal planar (120°). 4 BP, 0 LP → tetrahedral (109.5°).",
-        "4 BP, 1 LP → pyramidal (~107°). 4 BP, 2 LP → bent (~104.5°). 5 BP → trigonal bipyramidal. 6 BP → octahedral (90°).",
-        "Lone pairs repel more than bonding pairs, reducing bond angles."
+        "Electron pairs (bonding pairs and lone pairs) repel each other and adopt positions that maximise separation. Lone pairs exert greater repulsion than bonding pairs, compressing bond angles.",
+        "2 pairs: linear (180\u00b0). 3 BP + 0 LP: trigonal planar (120\u00b0). 4 BP + 0 LP: tetrahedral (109.5\u00b0). 3 BP + 1 LP: pyramidal (~107\u00b0). 2 BP + 2 LP: bent (~104.5\u00b0). 5 BP: trigonal bipyramidal. 6 BP: octahedral (90\u00b0)."
       ]
     },
     {
       "heading": "Electronegativity and Polarity",
       "items": [
-        "Electronegativity: the ability of an atom to attract the shared electron pair in a covalent bond (Pauling scale).",
-        "Bond polarity: unequal sharing creates δ+ and δ− ends. Molecular polarity depends on whether bond dipoles cancel.",
-        "CO₂ is linear so dipoles cancel → non-polar. H₂O is bent → polar molecule."
+        "Electronegativity increases across a period and up a group. A polar bond has \u03b4+ and \u03b4\u2212 ends due to unequal electron sharing. A molecule is polar only if the bond dipoles do not cancel \u2014 CO\u2082 is linear so the two C=O dipoles cancel (non-polar); H\u2082O is bent so they do not (polar)."
       ]
     },
     {
       "heading": "Intermolecular Forces",
       "items": [
-        "Instantaneous dipole–induced dipole (id-id) / van der Waals / London forces: present in ALL molecules; strength increases with molecular mass and surface area.",
-        "Permanent dipole–dipole: in polar molecules; weaker than H-bonds.",
-        "Hydrogen bonds: N–H, O–H or F–H interacting with lone pair on N, O or F. Strongest intermolecular force; explains high BP of H₂O, HF, NH₃; responsible for ice density and DNA base pairing."
+        "Instantaneous dipole\u2013induced dipole (id-id) forces (van der Waals/London forces) exist in ALL molecules. They arise from temporary uneven electron distribution; their strength increases with molecular mass and surface area.",
+        "Permanent dipole\u2013dipole forces act between polar molecules \u2014 weaker than hydrogen bonds but stronger than id-id forces of similar-sized non-polar molecules.",
+        "Hydrogen bonds form when H is bonded to N, O or F and interacts with a lone pair on another N, O or F atom. They explain: the anomalously high boiling point of H\u2082O, HF, and NH\u2083; the low density of ice (open hexagonal lattice); DNA double helix stability; protein secondary and tertiary structure."
       ]
     }
   ],
   "definitions": [
-    { "term": "Ionic bond", "body": "Electrostatic attraction between oppositely charged ions formed by electron transfer." },
-    { "term": "Covalent bond", "body": "A shared pair of electrons between two atoms." },
-    { "term": "Dative (coordinate) bond", "body": "A covalent bond in which both electrons come from the same atom, e.g. NH₄⁺ formation." },
-    { "term": "Electronegativity", "body": "The ability of an atom to attract the bonding electron pair towards itself." },
-    { "term": "Hydrogen bond", "body": "An intermolecular force between a δ+ hydrogen on N–H, O–H or F–H and a lone pair on N, O or F of another molecule." }
+    {
+      "term": "Ionic bond",
+      "body": "Electrostatic attraction between oppositely charged ions formed by electron transfer."
+    },
+    {
+      "term": "Covalent bond",
+      "body": "A shared pair of electrons between two atoms."
+    },
+    {
+      "term": "Dative (coordinate) bond",
+      "body": "A covalent bond in which both electrons come from the same atom, e.g. NH\u2084\u207a formation."
+    },
+    {
+      "term": "Electronegativity",
+      "body": "The ability of an atom to attract the bonding electron pair towards itself."
+    },
+    {
+      "term": "Hydrogen bond",
+      "body": "An intermolecular force between a \u03b4+ hydrogen on N\u2013H, O\u2013H or F\u2013H and a lone pair on N, O or F of another molecule."
+    }
   ],
   "workedExamples": [
     {
-      "q": "Predict the shape and bond angle of SF₄.",
+      "q": "Predict the shape and bond angle of SF\u2084.",
       "steps": [
-        { "n": 1, "sub": "Count electron pairs on S", "text": "S has 6 valence e⁻. 4 bonding pairs with F = 8e used. Remaining: 6−4 = 2e → 1 lone pair." },
-        { "n": 2, "sub": "Total pairs", "text": "4 BP + 1 LP = 5 electron pairs → based on trigonal bipyramidal." },
-        { "n": 3, "sub": "Shape", "text": "Lone pair occupies equatorial position (more space). Shape: see-saw. Bond angles: ~117° (equatorial) and ~87° (axial)." }
+        {
+          "n": 1,
+          "sub": "Count electron pairs on S",
+          "text": "S has 6 valence e\u207b. 4 bonding pairs with F = 8e used. Remaining: 6\u22124 = 2e \u2192 1 lone pair."
+        },
+        {
+          "n": 2,
+          "sub": "Total pairs",
+          "text": "4 BP + 1 LP = 5 electron pairs \u2192 based on trigonal bipyramidal."
+        },
+        {
+          "n": 3,
+          "sub": "Shape",
+          "text": "Lone pair occupies equatorial position (more space). Shape: see-saw. Bond angles: ~117\u00b0 (equatorial) and ~87\u00b0 (axial)."
+        }
       ]
     },
     {
-      "q": "Explain why the boiling point of H₂O is much higher than H₂S.",
+      "q": "Explain why the boiling point of H\u2082O is much higher than H\u2082S.",
       "steps": [
-        { "n": 1, "sub": "Identify forces", "text": "H₂O forms hydrogen bonds (O–H···O); H₂S only has permanent dipole–dipole and id-id forces." },
-        { "n": 2, "sub": "Relative strength", "text": "Hydrogen bonds are much stronger than dipole–dipole forces." },
-        { "n": 3, "sub": "Conclusion", "text": "More energy is required to overcome hydrogen bonds in H₂O, giving it a much higher BP despite lower molecular mass." }
+        {
+          "n": 1,
+          "sub": "Identify forces",
+          "text": "H\u2082O forms hydrogen bonds (O\u2013H\u00b7\u00b7\u00b7O); H\u2082S only has permanent dipole\u2013dipole and id-id forces."
+        },
+        {
+          "n": 2,
+          "sub": "Relative strength",
+          "text": "Hydrogen bonds are much stronger than dipole\u2013dipole forces."
+        },
+        {
+          "n": 3,
+          "sub": "Conclusion",
+          "text": "More energy is required to overcome hydrogen bonds in H\u2082O, giving it a much higher BP despite lower molecular mass."
+        }
       ]
     }
   ],
   "mistakes": [
     "Forgetting that lone pairs count as electron pairs in VSEPR but are not shown in the shape name.",
-    "Stating that CO₂ is polar because each C=O bond is polar — the bonds cancel in the linear molecule.",
+    "Stating that CO\u2082 is polar because each C=O bond is polar \u2014 the bonds cancel in the linear molecule.",
     "Confusing bond polarity (property of a bond) with molecular polarity (property of the whole molecule)."
   ],
   "tips": [
-    "Draw the Lewis structure first, then apply VSEPR — always show lone pairs on the central atom.",
-    "Hydrogen bonding requires: H bonded to N, O or F, AND a lone pair on N, O or F on another molecule — state both.",
-    "For exam questions on intermolecular forces, always say 'instantaneous dipole–induced dipole' (not just 'van der Waals') for full marks."
+    "Draw the Lewis structure first, then apply VSEPR \u2014 always show lone pairs on the central atom.",
+    "Hydrogen bonding requires: H bonded to N, O or F, AND a lone pair on N, O or F on another molecule \u2014 state both.",
+    "For exam questions on intermolecular forces, always say 'instantaneous dipole\u2013induced dipole' (not just 'van der Waals') for full marks."
   ],
   "flashcards": [
-    { "q": "What bond angle is found in a tetrahedral molecule with no lone pairs?", "a": "109.5°" },
-    { "q": "Why does NH₃ have a bond angle of ~107° rather than 109.5°?", "a": "The lone pair on N repels the bonding pairs more than bonding pairs repel each other, compressing the angle." },
-    { "q": "What condition is needed to form a hydrogen bond?", "a": "H must be bonded to N, O or F; and the H must interact with a lone pair on N, O or F of another molecule." },
-    { "q": "Why is ice less dense than liquid water?", "a": "In ice, hydrogen bonds lock water molecules into an open hexagonal lattice, which is less dense than the more disordered liquid." },
-    { "q": "What is a dative (coordinate) bond?", "a": "A covalent bond where both electrons in the shared pair come from the same atom." },
-    { "q": "What shape is BF₃ and why?", "a": "Trigonal planar (120°) — 3 bonding pairs, 0 lone pairs around B." }
+    {
+      "q": "What bond angle is found in a tetrahedral molecule with no lone pairs?",
+      "a": "109.5\u00b0"
+    },
+    {
+      "q": "Why does NH\u2083 have a bond angle of ~107\u00b0 rather than 109.5\u00b0?",
+      "a": "The lone pair on N repels the bonding pairs more than bonding pairs repel each other, compressing the angle."
+    },
+    {
+      "q": "What condition is needed to form a hydrogen bond?",
+      "a": "H must be bonded to N, O or F; and the H must interact with a lone pair on N, O or F of another molecule."
+    },
+    {
+      "q": "Why is ice less dense than liquid water?",
+      "a": "In ice, hydrogen bonds lock water molecules into an open hexagonal lattice, which is less dense than the more disordered liquid."
+    },
+    {
+      "q": "What is a dative (coordinate) bond?",
+      "a": "A covalent bond where both electrons in the shared pair come from the same atom."
+    },
+    {
+      "q": "What shape is BF\u2083 and why?",
+      "a": "Trigonal planar (120\u00b0) \u2014 3 bonding pairs, 0 lone pairs around B."
+    }
   ],
   "quiz": {
     "title": "Chemical Bonding Quiz",
     "questions": [
-      { "q": "What is the shape of PCl₅?", "opts": ["Trigonal planar","Tetrahedral","Trigonal bipyramidal","Octahedral"], "ans": 2, "exp": "P has 5 bonding pairs and 0 lone pairs → trigonal bipyramidal." },
-      { "q": "Which molecule has the highest boiling point?", "opts": ["CH₄","NH₃","PH₃","AsH₃"], "ans": 1, "exp": "NH₃ forms hydrogen bonds (N–H···N); the others only have id-id forces." },
-      { "q": "Which of these is a polar molecule?", "opts": ["CO₂","CCl₄","BCl₃","CHCl₃"], "ans": 3, "exp": "CHCl₃ is tetrahedral but the three C–Cl dipoles do not cancel the C–H dipole." },
-      { "q": "What type of bonding explains why metals conduct electricity?", "opts": ["Ionic","Covalent","Metallic — delocalised electrons","Hydrogen bonding"], "ans": 2, "exp": "Delocalised electrons in metallic bonding are free to carry charge." },
-      { "q": "In which molecule does the central atom have two lone pairs?", "opts": ["NH₃","BF₃","H₂O","SF₆"], "ans": 2, "exp": "O has 2 bonding pairs and 2 lone pairs → bent shape, ~104.5°." }
+      {
+        "q": "What is the shape of PCl\u2085?",
+        "opts": [
+          "Trigonal planar",
+          "Tetrahedral",
+          "Trigonal bipyramidal",
+          "Octahedral"
+        ],
+        "ans": 2,
+        "exp": "P has 5 bonding pairs and 0 lone pairs \u2192 trigonal bipyramidal."
+      },
+      {
+        "q": "Which molecule has the highest boiling point?",
+        "opts": [
+          "CH\u2084",
+          "NH\u2083",
+          "PH\u2083",
+          "AsH\u2083"
+        ],
+        "ans": 1,
+        "exp": "NH\u2083 forms hydrogen bonds (N\u2013H\u00b7\u00b7\u00b7N); the others only have id-id forces."
+      },
+      {
+        "q": "Which of these is a polar molecule?",
+        "opts": [
+          "CO\u2082",
+          "CCl\u2084",
+          "BCl\u2083",
+          "CHCl\u2083"
+        ],
+        "ans": 3,
+        "exp": "CHCl\u2083 is tetrahedral but the three C\u2013Cl dipoles do not cancel the C\u2013H dipole."
+      },
+      {
+        "q": "What type of bonding explains why metals conduct electricity?",
+        "opts": [
+          "Ionic",
+          "Covalent",
+          "Metallic \u2014 delocalised electrons",
+          "Hydrogen bonding"
+        ],
+        "ans": 2,
+        "exp": "Delocalised electrons in metallic bonding are free to carry charge."
+      },
+      {
+        "q": "In which molecule does the central atom have two lone pairs?",
+        "opts": [
+          "NH\u2083",
+          "BF\u2083",
+          "H\u2082O",
+          "SF\u2086"
+        ],
+        "ans": 2,
+        "exp": "O has 2 bonding pairs and 2 lone pairs \u2192 bent shape, ~104.5\u00b0."
+      }
     ]
   },
   "recall": [
     "State the bond angles in tetrahedral, pyramidal and bent molecules.",
     "Explain why water has a higher boiling point than hydrogen sulfide.",
     "Describe what is meant by a dative bond and give an example.",
-    "Predict the shape of XeF₄ using VSEPR.",
-    "Explain why CO₂ is non-polar despite having polar bonds."
+    "Predict the shape of XeF\u2084 using VSEPR.",
+    "Explain why CO\u2082 is non-polar despite having polar bonds."
   ],
   "summary": [
-    { "label": "Linear", "value": "180°, 2 BP 0 LP" },
-    { "label": "Trig. planar", "value": "120°, 3 BP 0 LP" },
-    { "label": "Tetrahedral", "value": "109.5°, 4 BP 0 LP" },
-    { "label": "Pyramidal", "value": "~107°, 3 BP 1 LP" },
-    { "label": "Bent", "value": "~104.5°, 2 BP 2 LP" },
-    { "label": "H-bond requires", "value": "H on N/O/F + lone pair on N/O/F" }
+    {
+      "label": "Linear",
+      "value": "180\u00b0, 2 BP 0 LP"
+    },
+    {
+      "label": "Trig. planar",
+      "value": "120\u00b0, 3 BP 0 LP"
+    },
+    {
+      "label": "Tetrahedral",
+      "value": "109.5\u00b0, 4 BP 0 LP"
+    },
+    {
+      "label": "Pyramidal",
+      "value": "~107\u00b0, 3 BP 1 LP"
+    },
+    {
+      "label": "Bent",
+      "value": "~104.5\u00b0, 2 BP 2 LP"
+    },
+    {
+      "label": "H-bond requires",
+      "value": "H on N/O/F + lone pair on N/O/F"
+    }
   ],
   "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 4"
 }

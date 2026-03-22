@@ -12,35 +12,22 @@
     {
       "heading": "Kinetic Theory of Gases",
       "items": [
-        "Assumptions: gas particles have negligible volume; no intermolecular forces; all collisions are perfectly elastic; average KE \u221d absolute temperature (K).",
-        "Pressure arises from collisions of gas particles with container walls.",
-        "Increasing T: particles move faster \u2192 more frequent, more forceful collisions \u2192 higher pressure (at constant V).",
-        "Increasing V: particles travel further between collisions \u2192 fewer collisions per unit area \u2192 lower pressure (at constant T)."
+        "An ideal gas obeys the assumptions of kinetic theory: (1) gas molecules have negligible volume compared to the container; (2) there are no intermolecular forces between them; (3) all collisions are perfectly elastic (no kinetic energy lost); (4) the average kinetic energy of the molecules is proportional to the absolute temperature (T in K).",
+        "Pressure arises from the constant bombardment of the container walls by gas molecules. Increasing temperature increases the average kinetic energy and therefore the frequency and force of collisions \u2014 pressure rises at constant volume."
       ]
     },
     {
-      "heading": "Gas Laws",
+      "heading": "Gas Laws and the Ideal Gas Equation",
       "items": [
-        "Boyle's law: P \u221d 1/V at constant T and n. (PV = constant)",
-        "Charles's law: V \u221d T at constant P and n. (V/T = constant, T in Kelvin)",
-        "Ideal gas equation: PV = nRT (P in Pa, V in m\u00b3, T in K, R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9). Or: PV = nRT gives V in dm\u00b3 if P in kPa."
+        "Boyle's law: at constant T and n, P \u221d 1/V (PV = constant). Charles's law: at constant P and n, V \u221d T (T must be in K). These combine into the ideal gas equation: PV = nRT, where R = 8.31 J mol\u207b\u00b9 K\u207b\u00b9, P in Pa, V in m\u00b3, T in K.",
+        "Molar volume at RTP (25 \u00b0C, 100 kPa): 24.0 dm\u00b3 mol\u207b\u00b9."
       ]
     },
     {
-      "heading": "Real vs Ideal Gases",
+      "heading": "Real vs Ideal Behaviour",
       "items": [
-        "Real gases deviate at high pressure (particle volume becomes significant) and low temperature (intermolecular forces significant).",
-        "Real gas volumes < ideal at high P (particles take up space); > ideal at moderate P (intermolecular attractions pull particles together less than expected).",
-        "Noble gases and H\u2082 at room T and pressure: closest to ideal behaviour."
-      ]
-    },
-    {
-      "heading": "Intermolecular Forces and States",
-      "items": [
-        "Solid: particles in fixed positions; vibrate only; strongest intermolecular forces.",
-        "Liquid: particles can flow; moderate intermolecular forces; definite volume but no fixed shape.",
-        "Gas: particles far apart; move freely; intermolecular forces negligible; no fixed shape or volume.",
-        "Melting and boiling involve overcoming intermolecular forces (NOT breaking covalent/ionic bonds in most cases)."
+        "Real gases deviate from ideal at high pressure (particle volumes are no longer negligible) and low temperature (intermolecular forces become significant \u2014 they reduce the pressure below the ideal value at moderate distances).",
+        "Noble gases and H\u2082 behave most ideally at room temperature and pressure."
       ]
     }
   ],

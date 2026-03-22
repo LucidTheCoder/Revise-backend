@@ -2,220 +2,304 @@
   "id": "cell-structure",
   "subject": "bio",
   "title": "Cell Structure",
-  "subtitle": "Eukaryotic and prokaryotic cells; organelle structure and function.",
+  "subtitle": "Eukaryotic and prokaryotic cells; organelle structure and function; microscopy.",
   "concept": [
-    "Eukaryotic cells have a membrane-bound nucleus and membrane-bound organelles; prokaryotic cells do not.",
-    "Organelle structure is directly linked to function \u2014 e.g. mitochondria have a folded inner membrane (cristae) to maximise ATP synthesis surface area.",
-    "Resolution and magnification are key microscopy concepts; electron microscopes give greater resolution than light microscopes."
+    "Cells are the fundamental units of life, bounded by a partially permeable membrane that controls exchange with the environment. Eukaryotic cells (animals, plants, fungi) possess a membrane-bound nucleus, whereas prokaryotic cells (bacteria) lack one \u2014 the circular DNA lies free in the cytoplasm.",
+    "Electron microscopes reveal the ultrastructure of cells. The transmission electron microscope (TEM) achieves a maximum resolution of 0.5 nm, far exceeding the 200 nm limit of a light microscope, because resolution is limited by half the wavelength of the radiation used.",
+    "Magnification = image size \u00f7 actual size. Resolution is the ability to distinguish two objects close together \u2014 increasing magnification beyond the resolution limit produces a blurred, enlarged image, not greater detail."
   ],
   "notes": [
     {
-      "heading": "Organelles \u2014 Structure and Function",
+      "heading": "The Cell Surface Membrane",
       "items": [
-        "Nucleus: contains chromatin (DNA + histone proteins); surrounded by nuclear envelope with pores; contains nucleolus (makes rRNA and assembles ribosomes).",
-        "Mitochondria: double membrane; inner membrane folded into cristae (site of ATP synthesis); matrix contains enzymes for Krebs cycle and DNA/ribosomes.",
-        "Chloroplast (plants): double membrane; thylakoid membranes (grana) for light-dependent reactions; stroma for light-independent (Calvin cycle).",
-        "Rough ER: has ribosomes on surface; site of protein synthesis and folding.",
-        "Smooth ER: no ribosomes; synthesises lipids and detoxifies substances.",
-        "Golgi apparatus: modifies and packages proteins into vesicles; produces lysosomes.",
-        "Lysosomes: contain hydrolytic enzymes; digest old organelles (autophagy) and foreign material.",
-        "Ribosomes: 80S (eukaryotes, free or on RER); 70S (prokaryotes, mitochondria, chloroplasts).",
-        "Cell wall (plants): cellulose microfibrils; provides strength and prevents lysis.",
-        "Vacuole (plants): filled with cell sap; maintains turgor.",
-        "Centrioles (animal cells): organise spindle fibres during cell division."
+        "Found in ALL cells. Also called the plasma membrane \u2014 it is partially permeable and controls exchange between the cell and its environment.",
+        "Extremely thin (\u22487 nm). Under the electron microscope it appears as two dark layers with a pale interior \u2014 the trilaminar (unit membrane) appearance."
       ]
     },
     {
-      "heading": "Prokaryotic vs Eukaryotic",
+      "heading": "The Nucleus",
       "items": [
-        "Prokaryotic: no nucleus; circular DNA; 70S ribosomes; no membrane-bound organelles; smaller (~1\u201310 \u03bcm).",
-        "Eukaryotic: true nucleus; linear DNA; 80S ribosomes; membrane-bound organelles; larger (~10\u2013100 \u03bcm).",
-        "Prokaryotic features: cell wall (peptidoglycan in bacteria); plasmids; flagellum; capsule (some)."
+        "Largest organelle. Enclosed by the nuclear envelope \u2014 two membranes with the outer membrane continuous with the rough ER.",
+        "Nuclear pores penetrate the envelope and control the two-way exchange of materials (e.g. mRNA out; proteins in).",
+        "Chromatin = DNA + histone proteins (+ small amounts of RNA); it coils into chromosomes before division.",
+        "The nucleolus is a deeply-staining body within the nucleus that synthesises rRNA and assembles ribosome subunits."
+      ]
+    },
+    {
+      "heading": "Ribosomes, ER and Golgi",
+      "items": [
+        "Ribosomes consist of a large and a small subunit made of rRNA and protein. Eukaryotes have 80S ribosomes; prokaryotes, mitochondria and chloroplasts have 70S ribosomes (Svedberg units = rate of sedimentation in ultracentrifuge).",
+        "Rough ER (RER) is studded with ribosomes \u2014 it is the site of synthesis and initial processing of secretory and membrane proteins.",
+        "Smooth ER (SER) has no ribosomes; it synthesises lipids and steroids and is a major Ca\u00b2\u207a store.",
+        "The Golgi apparatus is a stack of flattened cisternae. It modifies proteins (adds sugars \u2192 glycoproteins; adds lipids \u2192 glycolipids), packages them into Golgi vesicles, and dispatches them to their destination \u2014 including making lysosomes."
+      ]
+    },
+    {
+      "heading": "Lysosomes and Mitochondria",
+      "items": [
+        "Lysosomes (0.1\u20130.5 \u03bcm) are membrane-bound sacs containing hydrolases at an acidic pH. They digest: old organelles (autophagy), engulfed pathogens (fused with endocytic vacuoles), and can cause autolysis of the entire cell.",
+        "Mitochondria (\u22481 \u03bcm) have a double membrane. The inner membrane is folded into cristae, maximising the surface area for ATP synthesis. The fluid-filled matrix contains enzymes for the Krebs cycle, 70S ribosomes, and circular DNA \u2014 supporting the endosymbiont theory."
+      ]
+    },
+    {
+      "heading": "Cytoskeleton and Centrioles",
+      "items": [
+        "Microtubules (25 nm diameter) are hollow tubes of \u03b1- and \u03b2-tubulin dimers; 13 protofilaments form each tube. They form the cytoskeleton (cell shape), the spindle (chromosome separation), and are the core of cilia/flagella.",
+        "Centrioles (200 \u00d7 500 nm) each contain 9 triplets of microtubules and lie in the centrosome just outside the nucleus. Found in animal cells (absent in most plant cells). The centrosome organises the spindle; centrioles produce basal bodies from which cilia and flagella grow.",
+        "Cilia have a '9+2' arrangement \u2014 9 outer doublets + 2 central microtubules \u2014 with dynein arms that cause adjacent doublets to slide, producing the beating motion. Cilia move mucus; flagella propel single-celled organisms."
+      ]
+    },
+    {
+      "heading": "Plant-Specific Organelles",
+      "items": [
+        "Chloroplasts (3\u201310 \u03bcm) are surrounded by a double envelope. Thylakoid membranes stack into grana \u2014 the site of the light-dependent reactions. The stroma (fluid matrix) contains enzymes for the light-independent (Calvin) cycle, starch grains, 70S ribosomes and circular DNA.",
+        "The central vacuole (surrounded by the tonoplast) maintains turgor, stores pigments and secondary metabolites, and can contain hydrolases (acting as a lysosome).",
+        "The primary cell wall is made of cellulose fibres (high tensile strength). A secondary wall may form next, with fibres in different directions for a stronger cross-ply structure. Lignin provides compressional strength. Plasmodesmata (cytoplasm-lined pores) link neighbouring cells through the wall."
+      ]
+    },
+    {
+      "heading": "Prokaryotic Cells (Bacteria)",
+      "items": [
+        "1\u20135 \u03bcm in diameter. No membrane-bound organelles. Circular DNA in the nucleoid region (no nuclear envelope).",
+        "Cell wall contains murein (a peptidoglycan) \u2014 prevents osmotic lysis. Some bacteria also have a polysaccharide capsule (definite structure) or slime layer (more diffuse) for protection.",
+        "Plasmids: small circular DNA molecules separate from the main chromosome; contain few genes (e.g. antibiotic resistance); replicate independently.",
+        "Flagellum: rigid, hollow, wave-shaped protein cylinder that rotates at its base \u2014 distinct from eukaryotic flagella. Pili: fine protein rods for attachment and conjugation (gene transfer)."
       ]
     },
     {
       "heading": "Microscopy",
       "items": [
-        "Magnification = image size / actual size.",
-        "Resolution: minimum distance between two points that can be seen as distinct.",
-        "Light microscope: max resolution ~200 nm; can view living cells; uses visible light; cheaper.",
-        "Transmission EM: resolution ~0.1 nm; shows internal ultrastructure; dead/stained specimens only.",
-        "Scanning EM: shows surface structure in 3D."
+        "Eyepiece graticule: a transparent scale in the eyepiece (usually 100 divisions) \u2014 must be calibrated using a stage micrometre (a slide with accurately known divisions of 0.1 mm and 0.01 mm).",
+        "TEM: beam passes through a thin section \u2192 images internal ultrastructure; max resolution 0.5 nm. Specimens must be in a vacuum and are dehydrated; heavy-metal stains improve contrast.",
+        "SEM: beam scans the surface \u2192 3D surface images; max resolution 3\u201320 nm.",
+        "Limit of resolution = \u00bd \u00d7 wavelength. Electrons have a much shorter wavelength than visible light (400\u2013700 nm) \u2192 far greater resolution."
       ]
     }
   ],
   "definitions": [
     {
-      "term": "Organelle",
-      "body": "A membrane-bound structure within a eukaryotic cell with a specific function."
-    },
-    {
       "term": "Resolution",
-      "body": "The minimum distance between two points that can still be seen as separate points."
+      "body": "The ability to distinguish between two objects very close together. Limit of resolution = half the wavelength of the radiation used. A light microscope resolves to ~200 nm; a TEM to ~0.5 nm."
     },
     {
       "term": "Magnification",
-      "body": "Image size divided by actual size: M = I/A."
+      "body": "How many times larger an image is compared to the real object. Magnification = image size \u00f7 actual size."
+    },
+    {
+      "term": "Ultrastructure",
+      "body": "The fine, detailed internal structure of a cell as revealed by the electron microscope."
+    },
+    {
+      "term": "Organelle",
+      "body": "A functionally and structurally distinct compartment within a eukaryotic cell, often bounded by one or two membranes."
+    },
+    {
+      "term": "Endosymbiont theory",
+      "body": "Mitochondria and chloroplasts are descended from free-living bacteria that were engulfed by a larger host cell \u2014 evidenced by their 70S ribosomes, circular DNA, and double membranes."
     },
     {
       "term": "Cristae",
-      "body": "Folds of the inner mitochondrial membrane that increase the surface area for ATP synthesis."
+      "body": "Folds of the inner mitochondrial membrane that greatly increase the surface area available for ATP synthesis."
     },
     {
-      "term": "70S ribosome",
-      "body": "The smaller ribosome type found in prokaryotes, mitochondria and chloroplasts (made of 30S and 50S subunits)."
+      "term": "Nucleolus",
+      "body": "A dense region inside the nucleus that synthesises ribosomal RNA (rRNA) and assembles ribosome subunits."
+    },
+    {
+      "term": "Plasmodesmata",
+      "body": "Pores in plant cell walls lined with cell surface membrane that allow cytoplasmic continuity (symplast pathway) between neighbouring cells."
     }
   ],
   "workedExamples": [
     {
-      "q": "A cell organelle is 2.5 \u03bcm long. Its image in a micrograph is 37.5 mm. Calculate the magnification.",
+      "q": "A cell is 25 \u03bcm in diameter. Its image in a micrograph measures 37.5 mm. Calculate the magnification.",
       "steps": [
         {
           "n": 1,
-          "sub": "Convert units",
-          "text": "Actual size: 2.5 \u03bcm = 2.5 \u00d7 10\u207b\u00b3 mm = 0.0025 mm"
+          "sub": "Convert to same units",
+          "text": "Actual size: 25 \u03bcm = 25 \u00d7 10\u207b\u00b3 mm = 0.025 mm"
         },
         {
           "n": 2,
-          "sub": "Apply formula",
-          "text": "M = image size / actual size = 37.5 / 0.0025"
+          "sub": "Apply M = I/A",
+          "text": "M = 37.5 mm \u00f7 0.025 mm = \u00d71500"
         },
         {
           "n": 3,
-          "sub": "Answer",
-          "text": "M = 15 000\u00d7 (or \u00d715 000)"
+          "sub": "State answer",
+          "text": "Magnification = \u00d71500"
+        }
+      ]
+    },
+    {
+      "q": "Explain why increasing magnification beyond the resolution limit of a microscope does not improve the image.",
+      "steps": [
+        {
+          "n": 1,
+          "sub": "Resolution is fixed by wavelength",
+          "text": "Resolution is limited by half the wavelength of radiation used. For a light microscope this is ~200 nm regardless of lens power."
+        },
+        {
+          "n": 2,
+          "sub": "Magnification beyond the limit",
+          "text": "Further magnification simply enlarges the same blurred image \u2014 two points closer than 200 nm cannot be resolved into two distinct points."
+        },
+        {
+          "n": 3,
+          "sub": "Solution: use shorter wavelength",
+          "text": "Electron microscopes use electrons (much shorter wavelength) \u2192 resolution of 0.5 nm for TEM."
         }
       ]
     }
   ],
   "mistakes": [
-    "Confusing magnification (how large the image is) with resolution (how much detail can be seen).",
-    "Stating that ribosomes are 'found on the rough ER' \u2014 they are free in cytoplasm AND on RER.",
-    "Forgetting that prokaryotic cells have 70S ribosomes, not 80S."
+    "Confusing magnification (size of image relative to object) with resolution (ability to see detail) \u2014 resolution does NOT increase with magnification.",
+    "Stating that the mitochondrion has a single membrane \u2014 it has two (the outer membrane and the inner membrane with cristae).",
+    "Saying ribosomes are membrane-bound \u2014 ribosomes have NO membrane; they are free in the cytoplasm or attached to the RER.",
+    "Claiming prokaryotic cells have mitochondria \u2014 they have NO membrane-bound organelles.",
+    "Confusing the nucleolus (makes rRNA/ribosomes) with the nucleus (contains DNA/chromosomes)."
   ],
   "tips": [
-    "Always check units when calculating magnification \u2014 convert to the same unit first.",
-    "Link organelle to function: 'mitochondria have cristae to increase surface area for ATP synthase/electron transport chain.'",
-    "Learn which organelles are absent in prokaryotes: no nuclear envelope, no mitochondria, no Golgi, no ER."
+    "Magnification calculation: always convert image and actual size to the same unit before dividing. Express answer as \u00d71500, not just 1500.",
+    "TEM vs SEM: TEM sees INside (Transmission \u2192 through); SEM sees Surface (Scanning \u2192 surface).",
+    "70S ribosomes: found in prokaryotes, mitochondria and chloroplasts \u2014 useful for distinguishing these from eukaryotic cytoplasm (80S).",
+    "Endosymbiont evidence (for exam questions): 70S ribosomes, circular DNA, double membrane, similar size to bacteria, binary fission."
   ],
   "flashcards": [
     {
-      "q": "What is the magnification formula?",
-      "a": "Magnification = image size / actual size (M = I/A). Convert to same units first."
+      "q": "What is the maximum resolution of a transmission electron microscope?",
+      "a": "~0.5 nm (compared to ~200 nm for a light microscope)."
     },
     {
-      "q": "What is the function of the Golgi apparatus?",
-      "a": "Modifies, processes and packages proteins (and lipids) into vesicles for secretion or use within the cell."
+      "q": "Why do mitochondria and chloroplasts have 70S ribosomes and circular DNA?",
+      "a": "Endosymbiont theory \u2014 they evolved from ancient bacteria engulfed by a host eukaryotic cell."
     },
     {
-      "q": "What type of ribosome do prokaryotes have?",
-      "a": "70S ribosomes (made of 30S + 50S subunits)."
+      "q": "What is the function of the nucleolus?",
+      "a": "Synthesises ribosomal RNA (rRNA) and assembles ribosome subunits."
     },
     {
-      "q": "What is the resolution of a transmission electron microscope?",
-      "a": "~0.1 nm \u2014 much better than the light microscope (~200 nm)."
+      "q": "What is the '9+2' arrangement found in cilia?",
+      "a": "9 peripheral microtubule doublets surrounding 2 central microtubules, with dynein arms enabling the sliding motion."
     },
     {
-      "q": "What is the function of lysosomes?",
-      "a": "Contain hydrolytic enzymes that break down waste materials, old organelles (autophagy), and pathogens."
+      "q": "What structural molecule forms the bacterial cell wall?",
+      "a": "Murein (a peptidoglycan) \u2014 prevents osmotic lysis when water enters by osmosis."
     },
     {
-      "q": "Name three features of a prokaryotic cell not found in eukaryotic cells.",
-      "a": "Circular DNA, plasmids, 70S ribosomes, peptidoglycan cell wall, flagellum (any 3)."
+      "q": "State the formula for magnification.",
+      "a": "Magnification = image size \u00f7 actual size. Always use the same units for both measurements."
+    },
+    {
+      "q": "How does the Golgi apparatus differ from the rough ER?",
+      "a": "The Golgi modifies, packages and dispatches proteins; the RER synthesises and initially processes them. Both are stacks of membrane sacs but the Golgi receives vesicles from the RER."
+    },
+    {
+      "q": "What is the function of plasmodesmata?",
+      "a": "Cytoplasm-filled pores in plant cell walls that allow direct communication and transport between adjacent cells (the symplast pathway)."
     }
   ],
   "quiz": {
     "title": "Cell Structure Quiz",
     "questions": [
       {
-        "q": "Which organelle is the site of the Krebs cycle?",
+        "q": "Which ribosome type is found in prokaryotic cells, mitochondria and chloroplasts?",
         "opts": [
-          "Cytoplasm",
-          "Nucleus",
-          "Mitochondrial matrix",
-          "Stroma of chloroplast"
+          "80S",
+          "70S",
+          "60S",
+          "40S"
+        ],
+        "ans": 1,
+        "exp": "70S ribosomes are found in prokaryotes and in the semi-autonomous organelles (mitochondria, chloroplasts) \u2014 consistent with the endosymbiont theory."
+      },
+      {
+        "q": "What is the maximum resolution of a light microscope?",
+        "opts": [
+          "0.5 nm",
+          "25 nm",
+          "200 nm",
+          "1 \u03bcm"
         ],
         "ans": 2,
-        "exp": "The Krebs cycle occurs in the mitochondrial matrix; oxidative phosphorylation occurs on the inner membrane (cristae)."
+        "exp": "The resolution limit of a light microscope is ~200 nm, determined by half the wavelength of visible light (~400\u2013700 nm)."
       },
       {
-        "q": "What is the resolution of a light microscope?",
+        "q": "Which organelle modifies proteins by adding sugar chains to form glycoproteins?",
         "opts": [
-          "0.1 nm",
-          "200 nm",
-          "0.5 mm",
-          "20 \u03bcm"
+          "Smooth ER",
+          "Lysosome",
+          "Golgi apparatus",
+          "Ribosome"
         ],
-        "ans": 1,
-        "exp": "Light microscopes have a maximum resolution of about 200 nm due to the wavelength of visible light."
+        "ans": 2,
+        "exp": "The Golgi apparatus adds carbohydrate chains to proteins (\u2192 glycoproteins) and lipids (\u2192 glycolipids) before packaging them into vesicles."
       },
       {
-        "q": "Which of these is present in prokaryotic cells but NOT eukaryotic cells?",
+        "q": "A micrograph shows a cell 45 mm wide; the actual cell is 15 \u03bcm. What is the magnification?",
         "opts": [
-          "Ribosome",
-          "Plasmid",
-          "Cell membrane",
-          "Cytoplasm"
+          "\u00d7100",
+          "\u00d71000",
+          "\u00d73000",
+          "\u00d7300"
         ],
-        "ans": 1,
-        "exp": "Plasmids are small circular DNA molecules found in prokaryotes; eukaryotes do not have them."
+        "ans": 2,
+        "exp": "Convert: 45 mm = 45 000 \u03bcm. M = 45 000 \u00f7 15 = \u00d73000."
       },
       {
-        "q": "A cell image is 60 mm; actual cell is 30 \u03bcm. What is the magnification?",
+        "q": "Which feature is present in prokaryotic cells but NOT eukaryotic cells?",
         "opts": [
-          "\u00d7500",
-          "\u00d72000",
-          "\u00d720 000",
-          "\u00d7200"
+          "70S ribosomes",
+          "Cell surface membrane",
+          "Circular DNA",
+          "Both A and C"
         ],
-        "ans": 1,
-        "exp": "60 mm = 60 000 \u03bcm; M = 60 000/30 = 2000"
-      },
-      {
-        "q": "What is the function of the rough endoplasmic reticulum?",
-        "opts": [
-          "Lipid synthesis",
-          "Protein synthesis and folding",
-          "DNA replication",
-          "Photosynthesis"
-        ],
-        "ans": 1,
-        "exp": "The RER is studded with ribosomes and is the site of synthesis and initial processing of proteins destined for export or membrane insertion."
+        "ans": 3,
+        "exp": "Prokaryotes have 70S ribosomes (eukaryotes have 80S) AND circular DNA \u2014 both are distinctive prokaryotic features."
       }
     ]
   },
   "recall": [
-    "Compare eukaryotic and prokaryotic cells.",
-    "Describe the structure and function of mitochondria.",
-    "Calculate magnification from image and actual sizes.",
-    "Explain why electron microscopes have greater resolution than light microscopes.",
-    "List organelles found in plant cells but not animal cells."
+    "State the difference between eukaryotic and prokaryotic cells.",
+    "Describe the structure and function of the mitochondrion.",
+    "Explain why the electron microscope has greater resolution than the light microscope.",
+    "Calculate magnification from image and actual sizes (include unit conversion).",
+    "List four features of prokaryotic cells that distinguish them from eukaryotic cells.",
+    "Describe the '9+2' structure of a cilium and explain how it produces movement."
   ],
   "summary": [
-    {
-      "label": "Magnification",
-      "value": "M = I/A (same units)"
-    },
     {
       "label": "LM resolution",
       "value": "~200 nm"
     },
     {
       "label": "TEM resolution",
-      "value": "~0.1 nm"
+      "value": "~0.5 nm"
     },
     {
-      "label": "Prokaryote ribosomes",
+      "label": "SEM resolution",
+      "value": "3\u201320 nm"
+    },
+    {
+      "label": "Magnification",
+      "value": "M = I \u00f7 A (same units)"
+    },
+    {
+      "label": "Prokaryote ribosome",
       "value": "70S"
     },
     {
-      "label": "Eukaryote ribosomes",
+      "label": "Eukaryote ribosome",
       "value": "80S"
     },
     {
       "label": "Cristae",
-      "value": "inner mitochondrial membrane \u2014 ATP synthesis"
+      "value": "folds of inner mitochondrial membrane"
+    },
+    {
+      "label": "Endosymbiont evidence",
+      "value": "70S ribosomes, circular DNA, double membrane"
     }
   ],
-  "syllabusRef": "Cambridge AS Level Biology 9700, Topic 1"
+  "syllabusRef": "Cambridge AS Level Biology 9700, Topics 1 & 2"
 }

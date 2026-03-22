@@ -10,39 +10,34 @@
   ],
   "notes": [
     {
-      "heading": "Key Definitions",
+      "heading": "Key Terminology",
       "items": [
-        "Gene: a sequence of DNA bases that codes for a polypeptide or functional RNA.",
-        "Allele: an alternative form of a gene at a specific locus.",
-        "Dominant: allele that is expressed in the phenotype even when heterozygous.",
-        "Recessive: allele only expressed in the phenotype when homozygous.",
-        "Codominance: both alleles are expressed simultaneously (e.g. ABO blood groups, sickle-cell trait)."
+        "Gene: a sequence of DNA bases at a specific locus on a chromosome that codes for a polypeptide (or functional RNA). Alleles are alternative forms of a gene \u2014 they arise by mutation.",
+        "Genotype: the alleles an organism carries. Phenotype: the observable characteristics produced by the genotype in a given environment. Dominant alleles are expressed whenever present; recessive alleles are only expressed when homozygous.",
+        "Homozygous: both alleles at a locus are identical. Heterozygous: the two alleles differ. Codominance: both alleles are fully expressed simultaneously in the heterozygote (e.g. ABO blood groups, sickle-cell trait)."
       ]
     },
     {
       "heading": "Monohybrid and Dihybrid Crosses",
       "items": [
-        "Monohybrid: 1 gene, 2 alleles. Heterozygous \u00d7 heterozygous \u2192 3:1 (dominant:recessive).",
-        "Dihybrid: 2 genes on different chromosomes (independent assortment) \u2192 9:3:3:1 ratio from AaBb \u00d7 AaBb.",
-        "Chi-squared test: \u03c7\u00b2 = \u03a3(O\u2212E)\u00b2/E; compare with critical value at p = 0.05 to accept/reject null hypothesis."
+        "A monohybrid cross involves one gene. Two heterozygotes (Aa \u00d7 Aa) give a 3:1 phenotypic ratio and 1:2:1 genotypic ratio in F\u2082.",
+        "A dihybrid cross involves two independently assorting genes. AaBb \u00d7 AaBb gives a 9:3:3:1 ratio in F\u2082 (Mendel's law of independent assortment \u2014 only applies when the two genes are on different chromosomes or far apart on the same one).",
+        "A test cross: cross the unknown genotype with a homozygous recessive individual. If all offspring show the dominant phenotype, the unknown was homozygous dominant; a 1:1 ratio reveals heterozygosity."
       ]
     },
     {
       "heading": "Sex Linkage",
       "items": [
-        "Most sex-linked genes are on the X chromosome (X-linked).",
-        "Males (XY): only one X chromosome, so a recessive X-linked allele is always expressed (hemizygous).",
-        "Female carriers: X^N X^n \u2014 not affected but can pass on allele.",
-        "Examples: colour blindness, haemophilia A.",
-        "Inheritance pattern: more males affected; no father-to-son transmission of X-linked trait."
+        "Most sex-linked genes are X-linked. Males (XY) are hemizygous \u2014 they have only one copy of each X-linked gene, so a recessive allele is always expressed.",
+        "Female carriers (X^N X^n) are phenotypically normal but can pass the recessive allele to sons. X-linked recessive conditions (e.g. colour blindness, haemophilia A) therefore affect males more frequently.",
+        "Key feature: no father-to-son transmission of an X-linked allele (fathers pass the Y chromosome to sons). Affected fathers pass the allele to all daughters."
       ]
     },
     {
-      "heading": "Codominance and Multiple Alleles",
+      "heading": "Chi-Squared Test",
       "items": [
-        "ABO blood groups: I^A and I^B are codominant; i is recessive. Three alleles but each person has only two.",
-        "Sickle cell: Hb^A Hb^S \u2014 heterozygotes produce both normal and sickle haemoglobin (sickle cell trait).",
-        "Incomplete dominance: heterozygotes show intermediate phenotype (e.g. Antirrhinum flower colour)."
+        "\u03c7\u00b2 = \u03a3[(O \u2212 E)\u00b2 / E], where O = observed frequency and E = expected frequency based on the Mendelian ratio.",
+        "Compare the calculated \u03c7\u00b2 to the critical value at p = 0.05 and (n \u2212 1) degrees of freedom (n = number of classes). If \u03c7\u00b2 < critical value, the null hypothesis (that the results fit the expected ratio) is accepted. If \u03c7\u00b2 \u2265 critical value, the difference is significant \u2014 some other factor is acting."
       ]
     }
   ],

@@ -12,37 +12,28 @@
     {
       "heading": "Series and Parallel Circuits",
       "items": [
-        "Series: same current; resistances add: R_total = R\u2081 + R\u2082 + ...",
-        "Parallel: same p.d.; reciprocals add: 1/R_total = 1/R\u2081 + 1/R\u2082 + ... (total R < smallest individual R).",
-        "Power dissipated: P = IV = I\u00b2R = V\u00b2/R.",
-        "In series: larger resistor gets larger p.d. In parallel: each branch has the same p.d."
+        "Series: same current through all components. Total resistance = sum of individual resistances (R\u209c = R\u2081 + R\u2082 + ...). The supply voltage is shared \u2014 larger resistors have larger p.d.s.",
+        "Parallel: same p.d. across all branches. 1/R\u209c = 1/R\u2081 + 1/R\u2082 + ... Total resistance is always less than the smallest branch resistance. Current divides in inverse proportion to resistance."
       ]
     },
     {
       "heading": "Kirchhoff's Laws",
       "items": [
-        "KCL (junction rule): \u03a3I_in = \u03a3I_out at any junction.",
-        "KVL (loop rule): \u03a3\u03b5 = \u03a3IR around any closed loop (sum of EMFs = sum of p.d. drops).",
-        "For a source with EMF \u03b5 and internal resistance r: \u03b5 = I(R + r) \u2192 V = \u03b5 \u2212 Ir.",
-        "Apply KVL by choosing a loop direction; EMF adds if traversed from \u2212 to +; subtract if traversed + to \u2212."
+        "KCL (junction rule): the sum of currents entering a junction equals the sum leaving. This is conservation of charge \u2014 charge cannot accumulate at a junction.",
+        "KVL (loop rule): the algebraic sum of all EMFs around any closed loop equals the algebraic sum of all potential drops (IR terms) around the same loop. This is conservation of energy \u2014 the energy supplied by sources equals the energy dissipated."
       ]
     },
     {
       "heading": "Potential Divider",
       "items": [
-        "Two resistors R\u2081 and R\u2082 in series across a supply V_s.",
-        "Output across R\u2082: V_out = V_s \u00d7 R\u2082/(R\u2081 + R\u2082).",
-        "Sensor circuit: replace one resistor with a thermistor or LDR.",
-        "As temperature/light \u2191, thermistor/LDR resistance \u2193 \u2192 adjust R\u2082 formula.",
-        "Wheatstone bridge: balanced when R\u2081/R\u2082 = R\u2083/R\u2084 \u2192 no current through galvanometer."
+        "Two resistors R\u2081 and R\u2082 in series across a supply voltage V\u209b. The output (p.d. across R\u2082): V_out = V\u209b \u00d7 R\u2082 / (R\u2081 + R\u2082). The output is larger when R\u2082 is a larger fraction of the total.",
+        "Sensor circuits: replace R\u2082 with an LDR or thermistor. As temperature increases, the thermistor resistance falls \u2192 V_out falls (if thermistor is R\u2082). Connecting the output to a transistor switch allows automatic control."
       ]
     },
     {
-      "heading": "Resistance Combinations",
+      "heading": "Power in Circuits",
       "items": [
-        "Two equal resistors in parallel: R_total = R/2.",
-        "For n equal resistors in parallel: R_total = R/n.",
-        "Mixed networks: simplify step by step, replacing series/parallel groups with equivalents."
+        "Power dissipated in a resistor: P = IV = I\u00b2R = V\u00b2/R. In series: the resistor with the highest R dissipates the most power. In parallel: the resistor with the lowest R (highest current) dissipates the most power."
       ]
     }
   ],

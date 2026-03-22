@@ -161,8 +161,11 @@
     <section class="view" id="view-community">
       <div class="community-layout">
         <div class="community-main">
-          <div class="community-head card card-sm" style="display:flex;align-items:center;justify-content:space-between;gap:0.8rem;flex-wrap:wrap">
-            <div><h2 style="margin:0">Social</h2><p style="margin:0.15rem 0 0;color:var(--text2)">Ask questions, share strategies, and chat with other students.</p></div>
+          <div class="community-head-bar">
+            <div>
+              <h2 class="community-page-title">Social</h2>
+              <p class="community-page-sub">Ask questions, share strategies, and chat with other students.</p>
+            </div>
           </div>
           <div id="forum-list"></div>
           <div class="card" id="forum-thread"></div>
@@ -209,6 +212,13 @@
           <div class="card">
             <h2>Progress by Subject</h2>
             <div id="profile-progress"></div>
+          </div>
+          <div class="card" style="grid-column: 1 / -1">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem">
+              <h2 style="margin:0">Quiz History</h2>
+              <span style="font-size:0.8rem;color:var(--text3)">Last 20 attempts</span>
+            </div>
+            <div id="profile-quiz-history"></div>
           </div>
         </div>
       </div>
@@ -284,6 +294,9 @@
               <h3>Recent Threads</h3>
               <div id="admin-recent-threads"></div>
             </div>
+          </div>
+          <div class="card" id="admin-ai-toggle-card" style="margin-top:1rem">
+            <!-- Populated by loadAdminStats() -->
           </div>
         </div>
 

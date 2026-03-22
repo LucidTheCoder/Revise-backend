@@ -12,32 +12,25 @@
     {
       "heading": "Trends Across Period 3",
       "items": [
-        "Atomic radius: decreases left to right (same shell; increasing nuclear charge pulls electrons in).",
-        "First IE: generally increases (more protons); dip Na\u2192Mg normal; dip Al: 3p electron easier to remove than 3s; dip S: paired 3p electron easier to remove.",
-        "Electronegativity: increases across period (more protons, same shielding).",
-        "Melting points: Na\u2013Al have metallic bonding (moderate MP); Si has giant covalent (very high MP ~1410\u00b0C); P\u2084, S\u2088, Cl\u2082 simple molecular (low MP); Ar monatomic (very low MP)."
+        "Atomic radius decreases across Period 3: nuclear charge increases but all electrons are in the same shell (same shielding), so the effective nuclear charge increases and electrons are pulled closer to the nucleus.",
+        "First ionisation energy generally increases across the period. Two dips: Al < Mg (the 3p electron in Al is higher in energy and more shielded than the 3s electron in Mg) and S < P (the paired 3p electron in S experiences additional repulsion from its partner, making it easier to remove).",
+        "Electronegativity increases and metallic character decreases left to right. Melting points: Na\u2013Al (metallic bonding, moderate) \u2192 Si (giant covalent, very high \u2248 1410 \u00b0C) \u2192 P\u2084, S\u2088, Cl\u2082 (simple molecular, low) \u2192 Ar (monatomic, very low)."
       ]
     },
     {
       "heading": "Group 2 Trends",
       "items": [
-        "Atomic/ionic radius increases down group; first IE decreases; electronegativity decreases.",
-        "Reactivity increases down group (easier to lose the 2 outer electrons).",
-        "Mg burns in air; Ca reacts with cold water; Ba reacts vigorously.",
-        "Group 2 oxides and hydroxides are bases: MgO + H\u2082SO\u2084 \u2192 MgSO\u2084 + H\u2082O.",
-        "Solubility of Group 2 sulfates decreases down group (MgSO\u2084 soluble; BaSO\u2084 insoluble \u2014 used in barium meal test).",
-        "Solubility of Group 2 hydroxides increases down group (Mg(OH)\u2082 sparingly soluble; Ba(OH)\u2082 soluble)."
+        "Reactivity increases down Group 2 as ionisation energy decreases (larger atoms, more shielded outer electrons). Mg reacts with steam; Ca reacts with cold water; Ba reacts vigorously.",
+        "Solubility of Group 2 sulfates decreases down the group \u2014 MgSO\u2084 is soluble, BaSO\u2084 is insoluble (used in barium meals because it is safe to ingest and opaque to X-rays). Solubility of hydroxides increases down the group \u2014 Ba(OH)\u2082 is the most soluble.",
+        "Thermal stability of carbonates increases down the group \u2014 a larger, more polarisable cation is less effective at distorting the carbonate ion, so more energy is needed for decomposition."
       ]
     },
     {
       "heading": "Group 17 Trends",
       "items": [
-        "Atomic radius increases; electronegativity decreases; first IE decreases down group.",
-        "Volatility decreases (stronger id-id forces as molecules get larger).",
-        "Cl\u2082 is yellow-green gas; Br\u2082 is orange-brown liquid; I\u2082 is grey-black solid.",
-        "Reactivity (oxidising power) decreases down group: Cl\u2082 > Br\u2082 > I\u2082.",
-        "Halogen displacement: a more reactive halogen displaces a less reactive one from its halide solution (e.g. Cl\u2082 + 2KBr \u2192 2KCl + Br\u2082).",
-        "Halide reducing power increases down group: I\u207b > Br\u207b > Cl\u207b."
+        "Physical state at room temperature: F\u2082 (pale yellow gas), Cl\u2082 (yellow-green gas), Br\u2082 (orange-brown liquid), I\u2082 (grey-black solid). Volatility decreases (boiling point rises) because larger molecules have stronger id-id intermolecular forces.",
+        "Oxidising power (reactivity) decreases down the group: F\u2082 > Cl\u2082 > Br\u2082 > I\u2082. A more reactive halogen displaces a less reactive halide from solution. In cyclohexane extraction: Cl\u2082 \u2192 pale yellow, Br\u2082 \u2192 orange, I\u2082 \u2192 violet.",
+        "Reaction of sodium halides with concentrated H\u2082SO\u2084: NaCl \u2192 HCl (misty fumes, no redox); NaBr \u2192 HBr + SO\u2082 (Br\u207b reduces S from +6 to +4); NaI \u2192 HI + SO\u2082 + S + H\u2082S (I\u207b is a stronger reducing agent, reducing S all the way to \u22122)."
       ]
     }
   ],

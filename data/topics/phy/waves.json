@@ -12,37 +12,36 @@
     {
       "heading": "Wave Properties",
       "items": [
-        "Amplitude (A): maximum displacement from equilibrium.",
-        "Frequency (f): oscillations per second; Hz.",
-        "Period (T): time for one complete oscillation; T = 1/f.",
-        "Wavelength (\u03bb): distance between two successive in-phase points (e.g. crest to crest).",
-        "Wave speed: v = f\u03bb.",
-        "Phase difference: measured in degrees or radians; two points \u03bb apart are in phase (0\u00b0 or 2\u03c0); \u03bb/2 apart are antiphase (180\u00b0 or \u03c0)."
+        "Amplitude (A): the maximum displacement of a particle from its equilibrium position.",
+        "Frequency (f): the number of complete oscillations per second; unit: hertz (Hz). Period T = 1/f.",
+        "Wavelength (\u03bb): the distance between two adjacent points that are in phase (e.g. crest to crest).",
+        "Wave speed: v = f\u03bb. Frequency is set by the source and remains constant at a boundary; wavelength and speed both change.",
+        "Phase difference: two points \u03bb apart are in phase (\u0394\u03c6 = 0 or 2\u03c0); \u03bb/2 apart are in antiphase (\u0394\u03c6 = \u03c0)."
       ]
     },
     {
       "heading": "Transverse and Longitudinal Waves",
       "items": [
-        "Transverse: oscillations \u22a5 to propagation direction; e.g. EM waves, water waves, S-waves (seismic).",
-        "Longitudinal: oscillations \u2225 to propagation direction; compressions and rarefactions; e.g. sound, P-waves (seismic).",
-        "Polarisation: only transverse waves can be polarised; oscillations restricted to one plane."
+        "Transverse waves: oscillations perpendicular (\u22a5) to the direction of propagation. Examples: all electromagnetic waves, water waves, seismic S-waves. Can be polarised.",
+        "Longitudinal waves: oscillations parallel (\u2225) to propagation \u2014 compressions and rarefactions. Examples: sound waves, seismic P-waves. Cannot be polarised.",
+        "Polarisation is evidence that a wave is transverse \u2014 it restricts oscillations to a single plane."
       ]
     },
     {
-      "heading": "Reflection, Refraction, Diffraction",
+      "heading": "Reflection, Refraction and Diffraction",
       "items": [
-        "Reflection: angle of incidence = angle of reflection (both measured from normal).",
-        "Refraction: wave changes speed (and wavelength) at a boundary; frequency stays constant; n = c/v = sin \u03b8\u2081/sin \u03b8\u2082 (Snell's law).",
-        "Total internal reflection: occurs when angle of incidence \u2265 critical angle (sin c = 1/n). Used in optical fibres.",
-        "Diffraction: spreading of waves around obstacles or through gaps; most significant when gap \u2248 \u03bb."
+        "Reflection: angle of incidence = angle of reflection (both measured from the normal). No change in wavelength, frequency or speed.",
+        "Refraction: wave crosses a boundary, speed changes, wavelength changes proportionally \u2014 but frequency remains constant. Snell's law: n = c/v = sin \u03b8\u2081 / sin \u03b8\u2082.",
+        "Total internal reflection (TIR): occurs when light travels from a denser to a less dense medium at an angle \u2265 the critical angle c, where sin c = 1/n.",
+        "Diffraction: spreading of waves through a gap or around an obstacle. The effect is most pronounced when the gap width \u2248 the wavelength."
       ]
     },
     {
-      "heading": "Electromagnetic Spectrum",
+      "heading": "The Electromagnetic Spectrum",
       "items": [
-        "Order (increasing frequency/decreasing wavelength): radio \u2192 microwave \u2192 infrared \u2192 visible \u2192 UV \u2192 X-ray \u2192 gamma.",
-        "All EM waves: transverse; travel at c = 3\u00d710\u2078 m s\u207b\u00b9 in vacuum; can be polarised.",
-        "Uses: radio (broadcasting), microwave (communications, cooking), IR (thermal imaging), visible (sight), UV (fluorescence, sterilisation), X-rays (medical imaging), gamma (cancer treatment, sterilisation)."
+        "In order of increasing frequency (decreasing wavelength): radio \u2192 microwave \u2192 infrared \u2192 visible \u2192 ultraviolet \u2192 X-ray \u2192 gamma ray.",
+        "All EM waves are transverse, travel at c = 3 \u00d7 10\u2078 m s\u207b\u00b9 in a vacuum, and can be polarised.",
+        "Visible light spans approximately 400 nm (violet) to 700 nm (red)."
       ]
     }
   ],

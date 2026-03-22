@@ -10,36 +10,38 @@
   ],
   "notes": [
     {
-      "heading": "Standard Enthalpy Definitions",
+      "heading": "Enthalpy Change and Standard Conditions",
       "items": [
-        "\u0394Hf\u00b0: enthalpy change when 1 mol of compound forms from its elements in standard states at 298 K, 100 kPa.",
-        "\u0394Hc\u00b0: enthalpy change when 1 mol of substance burns completely in O\u2082 under standard conditions.",
-        "\u0394Hneut\u00b0: enthalpy change when 1 mol of water forms from neutralisation under standard conditions (~\u221257 kJ mol\u207b\u00b9 for strong acid + strong base).",
-        "\u0394Hat\u00b0: enthalpy change when 1 mol of gaseous atoms forms from the element in its standard state."
+        "Enthalpy change (\u0394H) is the heat energy exchanged at constant pressure. Exothermic reactions release heat (\u0394H < 0); endothermic reactions absorb it (\u0394H > 0).",
+        "Standard conditions: 298 K (25 \u00b0C) and 100 kPa, with all substances in their standard states. Standard enthalpy changes carry the symbol \u0394H\u2296.",
+        "Standard enthalpy of formation (\u0394Hf\u2296): enthalpy change when 1 mol of a compound forms from its elements in standard states. By convention, \u0394Hf\u2296 of any element in its standard state = 0.",
+        "Standard enthalpy of combustion (\u0394Hc\u2296): enthalpy change when 1 mol burns completely in O\u2082 under standard conditions.",
+        "Standard enthalpy of neutralisation (\u0394Hneut\u2296): enthalpy change when 1 mol of water forms from H\u207a(aq) + OH\u207b(aq). For strong acid + strong base \u2248 \u221257 kJ mol\u207b\u00b9."
       ]
     },
     {
       "heading": "Hess's Law",
       "items": [
-        "\u0394H(reaction) = \u03a3\u0394Hf\u00b0(products) \u2212 \u03a3\u0394Hf\u00b0(reactants)",
-        "Or use a cycle: \u0394H\u2081 = \u0394H\u2082 + \u0394H\u2083 (going via an alternative route).",
-        "Combustion cycle: \u0394Hreaction = \u03a3\u0394Hc\u00b0(reactants) \u2212 \u03a3\u0394Hc\u00b0(products) (note reversed sign vs formation)."
-      ]
-    },
-    {
-      "heading": "Bond Enthalpies",
-      "items": [
-        "\u0394H = \u03a3(bonds broken) \u2212 \u03a3(bonds formed)",
-        "Breaking bonds: endothermic (+). Forming bonds: exothermic (\u2212).",
-        "Mean bond enthalpies are averages \u2014 give approximate answers, unlike Hess's law cycles which use precise thermodynamic data."
+        "Hess's law states that the total enthalpy change for a reaction is independent of the route taken \u2014 it depends only on the initial and final states (a consequence of conservation of energy).",
+        "Formation cycle: \u0394H(reaction) = \u03a3\u0394Hf\u2296(products) \u2212 \u03a3\u0394Hf\u2296(reactants).",
+        "Combustion cycle: \u0394H(reaction) = \u03a3\u0394Hc\u2296(reactants) \u2212 \u03a3\u0394Hc\u2296(products) \u2014 note the reversed sign compared to the formation version.",
+        "Always draw the Hess cycle with clear arrows before doing arithmetic."
       ]
     },
     {
       "heading": "Calorimetry",
       "items": [
-        "q = mc\u0394T, where m = mass of solution (g), c = 4.18 J g\u207b\u00b9 K\u207b\u00b9, \u0394T = temperature change.",
-        "\u0394H = \u2212q/n (negative sign: if solution warms, reaction is exothermic).",
-        "Errors: heat loss to surroundings, incomplete combustion, assuming solution density = 1 g cm\u207b\u00b3."
+        "q = mc\u0394T, where m = mass of solution in grams, c = specific heat capacity of water (4.18 J g\u207b\u00b9 K\u207b\u00b9), \u0394T = temperature change in \u00b0C (or K \u2014 the difference is identical).",
+        "\u0394H = \u2212q / n  (negative sign: if the solution warms, the reaction is exothermic \u2014 energy was released TO the solution).",
+        "Key sources of error: heat loss to surroundings and calorimeter; incomplete combustion; assuming density of solution = 1 g cm\u207b\u00b3."
+      ]
+    },
+    {
+      "heading": "Bond Enthalpies",
+      "items": [
+        "\u0394H = \u03a3(bond enthalpies of bonds broken) \u2212 \u03a3(bond enthalpies of bonds formed). Breaking bonds is endothermic (+); forming bonds is exothermic (\u2212).",
+        "Mean bond enthalpies are averages over many molecules \u2014 they give approximate (not exact) \u0394H values. Hess's law cycles using \u0394Hf\u2296 or \u0394Hc\u2296 data give exact values.",
+        "Always draw the full displayed structural formula before counting bonds."
       ]
     }
   ],

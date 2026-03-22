@@ -10,40 +10,33 @@
   ],
   "notes": [
     {
-      "heading": "Hooke's Law",
+      "heading": "Hooke's Law and the Force\u2013Extension Graph",
       "items": [
-        "F = ke (force = spring constant \u00d7 extension).",
-        "Spring constant k: stiffness in N m\u207b\u00b9 (or N mm\u207b\u00b9). Steeper gradient = stiffer spring.",
-        "Limit of proportionality: beyond this point, F \u221d e no longer holds.",
-        "Elastic limit: beyond this point, permanent (plastic) deformation occurs.",
-        "Elastic deformation: returns to original shape when force removed. Plastic: permanent change."
+        "Hooke's law: for a spring or wire below the limit of proportionality, the extension e is proportional to the applied force F: F = ke, where k is the spring constant (N m\u207b\u00b9). The gradient of a linear F\u2013e graph = k.",
+        "The limit of proportionality is the point beyond which F \u221d e no longer holds. The elastic limit is (close to but) beyond the limit of proportionality \u2014 if exceeded, the material undergoes permanent deformation and does not return to its original length when the load is removed."
       ]
     },
     {
       "heading": "Stress, Strain and Young Modulus",
       "items": [
-        "Stress \u03c3 = F/A (Pa = N m\u207b\u00b2); force per unit cross-sectional area.",
-        "Strain \u03b5 = e/L\u2080 (dimensionless); fractional extension.",
-        "Young modulus E = \u03c3/\u03b5 = (F/A)/(e/L\u2080) = FL\u2080/(Ae); units: Pa.",
-        "E is a material property (same for all samples of a material); k depends on dimensions.",
-        "Gradient of stress\u2013strain graph = E (in the linear Hooke's law region)."
+        "Tensile stress \u03c3 = F/A (Pa = N m\u207b\u00b2) \u2014 the force per unit cross-sectional area. Tensile strain \u03b5 = e/L\u2080 \u2014 the fractional extension (dimensionless, no units).",
+        "Young modulus E = \u03c3/\u03b5 = (F/A)/(e/L\u2080). Units: Pa. E is a material property \u2014 it describes intrinsic stiffness, independent of the sample's dimensions. The gradient of a linear stress\u2013strain graph = E.",
+        "Spring constant k is not a material property \u2014 it depends on both material (E) and dimensions: k = EA/L\u2080."
       ]
     },
     {
-      "heading": "Elastic Energy (Strain Energy)",
+      "heading": "Elastic Strain Energy",
       "items": [
-        "For Hooke's law material: E_el = \u00bdFe = \u00bdke\u00b2.",
-        "Graphically: area under F\u2013e graph up to that extension.",
-        "For loading and unloading: if material is elastic, the curves coincide. If plastic deformation: loading curve above unloading curve; area between curves = energy lost as heat (hysteresis)."
+        "Energy stored in a stretched spring or wire (within Hooke's law): E_el = \u00bdFe = \u00bdke\u00b2. This equals the area under the F\u2013e graph (a triangle for a Hookean material).",
+        "Elastic deformation: energy stored is fully recovered when the load is removed. Plastic deformation: energy is dissipated as heat; the loading and unloading curves differ (hysteresis loop)."
       ]
     },
     {
-      "heading": "Stress-Strain Graphs",
+      "heading": "Material Properties from Stress\u2013Strain Graphs",
       "items": [
-        "Gradient = Young modulus (up to limit of proportionality).",
-        "Yield point: beyond elastic limit, large strain with small stress increase.",
-        "Ultimate tensile stress (UTS): maximum stress before fracture.",
-        "Ductile materials: large plastic region (e.g. copper, mild steel). Brittle: fracture before significant plastic deformation (e.g. glass, ceramics)."
+        "Ductile materials (e.g. mild steel, copper) show a large plastic region \u2014 they can be drawn into wire. The yield point marks the onset of large plastic strain with little additional stress.",
+        "Brittle materials (e.g. glass, cast iron) fracture with little or no plastic deformation \u2014 the stress\u2013strain graph is linear almost to the breaking point.",
+        "The ultimate tensile stress (UTS) is the maximum stress a material can withstand before necking and fracture."
       ]
     }
   ],

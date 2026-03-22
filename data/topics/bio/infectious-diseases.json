@@ -12,40 +12,26 @@
     {
       "heading": "Types of Pathogen",
       "items": [
-        "Bacteria: prokaryotes; some produce toxins (e.g. Vibrio cholerae produces cholera toxin; Mycobacterium tuberculosis causes TB).",
-        "Viruses: non-cellular; hijack host cell machinery to replicate; e.g. HIV, influenza, measles.",
-        "Fungi: e.g. Candida (thrush); Tinea (athlete's foot). Can produce spores for transmission.",
-        "Protoctists: eukaryotic; e.g. Plasmodium (malaria \u2014 transmitted by Anopheles mosquito \u2014 female vector)."
+        "Bacteria are prokaryotes that can produce disease by releasing toxins or by directly invading tissue. Examples: Vibrio cholerae (cholera \u2014 toxin drives Cl\u207b secretion into the gut lumen, causing osmotic water loss and severe diarrhoea); Mycobacterium tuberculosis (TB \u2014 airborne, destroys lung tissue).",
+        "Viruses are non-cellular \u2014 they hijack host cell machinery to replicate. Examples: HIV (destroys T helper cells), influenza, measles. Antibiotics are ineffective against viruses.",
+        "Protoctists are eukaryotic single-celled organisms. Plasmodium falciparum causes malaria \u2014 transmitted by the bite of an infected female Anopheles mosquito (the vector). The parasite invades red blood cells and liver cells.",
+        "Fungi cause surface infections (e.g. Tinea \u2014 athlete's foot) and, in immunocompromised patients, systemic infections."
       ]
     },
     {
-      "heading": "Transmission",
+      "heading": "Transmission and Control",
       "items": [
-        "Direct contact: physical touch (e.g. STIs), droplets (TB, influenza, COVID-19).",
-        "Indirect: vectors (mosquito \u2192 malaria), contaminated water (cholera, typhoid), contaminated food, fomites (contaminated surfaces).",
-        "Cholera: Vibrio cholerae in contaminated water \u2192 toxin causes Cl\u207b secretion into intestine lumen \u2192 osmotic water loss \u2192 severe diarrhoea.",
-        "TB: Mycobacterium tuberculosis; airborne droplets; can be latent; BCG vaccine provides protection.",
-        "Malaria: Plasmodium falciparum (most dangerous); female Anopheles mosquito vector; infects liver and RBCs."
+        "Direct transmission: physical contact, respiratory droplets (TB, flu), sexual contact. Indirect: contaminated water (cholera, typhoid), food, fomites, or vectors.",
+        "Breaking the chain of transmission is the key control strategy: vaccination (herd immunity), antibiotics (bacteria only), insecticides and bed nets (malaria vector control), water treatment and sanitation (cholera), quarantine.",
+        "Herd immunity: when a large enough proportion of a population is immune, the pathogen cannot maintain a chain of transmission \u2014 even unvaccinated individuals are indirectly protected."
       ]
     },
     {
-      "heading": "Control Measures",
+      "heading": "Antibiotic Resistance",
       "items": [
-        "Vaccination (herd immunity: when enough of population is immune, spread is halted even among unvaccinated).",
-        "Antibiotics: effective against bacteria; not viruses. Antibiotic resistance: mutations in bacteria; selection pressure from misuse.",
-        "Insecticides / bed nets: malaria control.",
-        "Water treatment and sanitation: cholera control.",
-        "Quarantine and contact tracing: limiting direct transmission.",
-        "WHO: coordinates global health responses; monitors disease outbreaks."
-      ]
-    },
-    {
-      "heading": "Drug Resistance",
-      "items": [
-        "Antibiotic resistance arises by natural selection: random mutation \u2192 resistant bacterium \u2192 selective advantage \u2192 spreads.",
-        "MRSA: methicillin-resistant Staphylococcus aureus \u2014 hospital-acquired.",
-        "Multi-drug resistant TB (MDR-TB): requires longer, more toxic treatment.",
-        "Strategies: complete courses of antibiotics; rotate antibiotic types; prescribe only when necessary."
+        "Antibiotics target bacterial structures (cell walls, 70S ribosomes) not found in eukaryotic cells. Resistance arises by natural selection: a random mutation confers resistance to an antibiotic; selective pressure from antibiotic use kills susceptible bacteria; the resistant strain proliferates and spreads.",
+        "Resistance genes can transfer horizontally between bacteria via plasmids (conjugation) \u2014 they are not limited to vertical (parent-to-offspring) transfer.",
+        "Control strategies: complete courses of antibiotics (avoid leaving resistant survivors); prescribe only when necessary; rotate antibiotic classes; develop new antibiotics."
       ]
     }
   ],

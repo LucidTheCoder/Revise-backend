@@ -10,36 +10,28 @@
   ],
   "notes": [
     {
-      "heading": "Newton's Laws",
+      "heading": "Newton's Three Laws",
       "items": [
-        "1st law: an object remains at rest or constant velocity unless acted upon by a resultant force.",
-        "2nd law: F = ma (resultant force = mass \u00d7 acceleration); or F = \u0394p/\u0394t (rate of change of momentum).",
-        "3rd law: when body A exerts a force on body B, body B exerts an equal and opposite force on body A (action-reaction pair; same type of force, on different objects)."
+        "First law: an object remains at rest or moves with constant velocity unless acted upon by a resultant force. This defines inertia \u2014 the resistance of an object to changes in its motion.",
+        "Second law: the resultant force on an object equals the rate of change of its momentum: F = \u0394p/\u0394t. For constant mass this simplifies to F = ma. The direction of acceleration is always in the direction of the resultant force.",
+        "Third law: if object A exerts a force on object B, then B exerts an equal and opposite force of the same type on A. Newton's third law pairs act on different objects \u2014 they never cancel each other."
       ]
     },
     {
       "heading": "Momentum and Impulse",
       "items": [
-        "Momentum p = mv (kg m s\u207b\u00b9 = N s); vector quantity.",
-        "Impulse = F\u0394t = \u0394p (N s or kg m s\u207b\u00b9); equals area under F\u2013t graph.",
-        "Conservation of momentum: total momentum before = total momentum after (in a closed system with no external forces).",
-        "Newton's 2nd law: F = \u0394p/\u0394t = d(mv)/dt."
+        "Linear momentum p = mv (kg m s\u207b\u00b9 = N s). Momentum is a vector \u2014 direction matters.",
+        "Impulse = F\u0394t = \u0394p. Equal to the area under a force\u2013time graph. A large force applied for a short time gives the same impulse as a smaller force applied for longer.",
+        "Conservation of momentum: in a closed system (no external resultant force), total momentum is constant before and after any interaction. This follows directly from Newton's third law \u2014 the equal and opposite forces between two objects produce equal and opposite impulses, so their combined momentum is unchanged."
       ]
     },
     {
-      "heading": "Collisions",
+      "heading": "Elastic and Inelastic Collisions",
       "items": [
-        "Elastic collision: KE conserved and momentum conserved. Uncommon in practice; billiard balls approximately elastic.",
-        "Inelastic collision: KE NOT conserved (converted to heat/sound/deformation); momentum IS conserved.",
-        "Perfectly inelastic: objects stick together after collision (maximum KE loss consistent with momentum conservation).",
-        "Explosion (reverse collision): total momentum = 0 if system starts at rest; objects move in opposite directions."
-      ]
-    },
-    {
-      "heading": "Newton's 3rd Law Pairs",
-      "items": [
-        "Must be: same type of force, same magnitude, opposite direction, acting on different objects.",
-        "NOT a 3rd law pair: weight (gravity on person) and normal reaction (surface on person) \u2014 different types of force on the SAME object (these are 1st law forces in equilibrium)."
+        "Elastic collision: both momentum and kinetic energy are conserved. Perfectly elastic collisions are rare in practice (hard spheres, subatomic particles).",
+        "Inelastic collision: momentum is conserved, but kinetic energy is not \u2014 some is converted to heat, sound, or deformation. Most real collisions are inelastic.",
+        "Perfectly inelastic: the objects stick together after collision. This gives the maximum possible kinetic energy loss consistent with momentum conservation.",
+        "Explosions: a system at rest has zero total momentum. After the explosion, the momenta of the fragments are equal and opposite."
       ]
     }
   ],

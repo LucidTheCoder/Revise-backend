@@ -10,44 +10,29 @@
   ],
   "notes": [
     {
-      "heading": "Nuclear Structure",
+      "heading": "The Nucleus and Nuclear Forces",
       "items": [
-        "Nucleus: protons + neutrons (nucleons), radius ~10\u207b\u00b9\u2075 m (femtometre scale); held by strong nuclear force.",
-        "Strong nuclear force: attractive up to ~3 fm; repulsive below ~0.5 fm; acts equally on p and n; short range.",
-        "Nuclear density: very high (~10\u00b9\u2077 kg m\u207b\u00b3); approximately constant (independent of A).",
-        "Isotopes: same Z, different A (different number of neutrons)."
+        "The nucleus contains protons and neutrons (collectively nucleons) in a volume of radius \u2248 10\u207b\u00b9\u2075 m. Nuclear density is approximately constant for all nuclei (\u2248 10\u00b9\u2077 kg m\u207b\u00b3) because both mass and volume scale with nucleon number A.",
+        "The strong nuclear force holds the nucleus together against the electrostatic repulsion between protons. It is attractive between 0.5\u20133 fm, becomes repulsive below 0.5 fm, acts equally between all nucleon pairs (charge-independent), and is a very short-range force."
       ]
     },
     {
       "heading": "Radioactive Decay",
       "items": [
-        "Alpha (\u03b1): \u2082\u2074He nucleus; charge +2; highly ionising; stopped by few cm of air or paper; deflected in fields.",
-        "Beta-minus (\u03b2\u207b): electron emitted; n \u2192 p + e\u207b + antineutrino; moderately ionising; stopped by few mm Al.",
-        "Beta-plus (\u03b2\u207a): positron emitted; p \u2192 n + e\u207a + neutrino; antimatter counterpart of \u03b2\u207b.",
-        "Gamma (\u03b3): EM radiation (high frequency photon); no charge or mass change; weakly ionising; attenuated by thick Pb or concrete.",
-        "Half-life (t\u2081/\u2082): time for activity (or number of undecayed nuclei) to halve; random and spontaneous."
+        "Radioactive decay is a random, spontaneous process \u2014 it cannot be predicted for an individual nucleus, only statistically for large numbers.",
+        "Alpha (\u03b1) decay: emission of a \u2082\u2074He nucleus. Mass number decreases by 4, atomic number decreases by 2. Highly ionising; stopped by a few cm of air or a sheet of paper.",
+        "Beta-minus (\u03b2\u207b) decay: a neutron converts to a proton (n \u2192 p + e\u207b + \u03bd\u0304\u2091). Mass number unchanged; atomic number increases by 1. Stopped by a few mm of aluminium.",
+        "Gamma (\u03b3) decay: emission of a high-energy photon from a nucleus in an excited state. Mass number and atomic number unchanged. Weakly ionising; attenuated by thick lead or concrete.",
+        "Half-life (t\u2081/\u2082): the time for the activity (or number of undecayed nuclei) to halve. A constant characteristic of each nuclide."
       ]
     },
     {
-      "heading": "Nuclear Equations",
+      "heading": "The Standard Model",
       "items": [
-        "Balancing: top number (mass number A, nucleon number) must balance; bottom number (Z, atomic number) must balance.",
-        "Alpha decay: A decreases by 4; Z decreases by 2.",
-        "Beta-minus: A unchanged; Z increases by 1 (n \u2192 p).",
-        "Gamma: A and Z both unchanged (nucleus loses energy only).",
-        "Positron emission (\u03b2\u207a): Z decreases by 1; A unchanged."
-      ]
-    },
-    {
-      "heading": "Standard Model and Particle Classification",
-      "items": [
-        "Hadrons: particles made of quarks (baryons: 3 quarks, e.g. proton, neutron; mesons: quark + antiquark).",
-        "Leptons: fundamental; not made of quarks; e.g. electron, muon, neutrino.",
-        "Quarks: up (u, charge +\u2154e), down (d, charge \u2212\u2153e). Proton = uud; neutron = udd.",
-        "Antiparticles: same mass, opposite charge/quantum numbers (e.g. positron = antielectron).",
-        "Pair production: \u03b3 \u2192 particle + antiparticle (energy \u2192 mass, E = mc\u00b2).",
-        "Annihilation: particle + antiparticle \u2192 2\u03b3 photons (mass \u2192 energy).",
-        "Conservation laws in particle interactions: charge, baryon number, lepton number (and energy-momentum)."
+        "Matter is made of quarks and leptons \u2014 both are fundamental (no internal structure). Quarks combine in groups of three (baryons) or quark\u2013antiquark pairs (mesons); these are collectively hadrons.",
+        "Proton = uud (charge: +\u2154 + \u2154 \u2212 \u2153 = +1). Neutron = udd (charge: +\u2154 \u2212 \u2153 \u2212 \u2153 = 0). The down quark has charge \u2212\u2153e; the up quark +\u2154e.",
+        "Conservation laws in all particle interactions: charge, baryon number, and lepton number. In \u03b2\u207b decay: d \u2192 u (quark level); baryon number, charge, and lepton number are all conserved.",
+        "Pair production: a photon of sufficient energy (\u2265 2m\u2091c\u00b2) near a nucleus produces a particle\u2013antiparticle pair (e.g. e\u207b + e\u207a). Annihilation: matter and antimatter annihilate to produce two photons of equal energy (conservation of momentum requires two photons)."
       ]
     }
   ],

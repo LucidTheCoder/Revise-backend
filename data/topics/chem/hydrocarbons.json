@@ -10,29 +10,27 @@
   ],
   "notes": [
     {
-      "heading": "Alkanes",
+      "heading": "Alkanes \u2014 Properties and Free Radical Substitution",
       "items": [
-        "General formula: C\u2099H\u2082\u2099\u208a\u2082. All C\u2013C and C\u2013H single bonds (\u03c3 bonds only). Unreactive except combustion and free radical substitution.",
-        "Combustion: complete \u2192 CO\u2082 + H\u2082O; incomplete \u2192 CO + H\u2082O (+ soot/C).",
-        "Free radical substitution (halogenation): UV light needed. Steps: initiation (UV breaks Cl\u2082 \u2192 2Cl\u2022), propagation (Cl\u2022 + CH\u2084 \u2192 CH\u2083\u2022 + HCl; CH\u2083\u2022 + Cl\u2082 \u2192 CH\u2083Cl + Cl\u2022), termination (two radicals combine).",
-        "Product: mixture of mono- and poly-substituted products (low selectivity)."
+        "Alkanes (C\u2099H\u2082\u2099\u208a\u2082) contain only \u03c3 bonds \u2014 all C\u2013C and C\u2013H single bonds. They are relatively unreactive due to the strong, non-polar bonds. Complete combustion produces CO\u2082 and H\u2082O; incomplete combustion produces CO and soot.",
+        "Free radical substitution (with Cl\u2082 or Br\u2082) requires UV light to initiate. Initiation: UV cleaves Cl\u2082 homolytically \u2192 2Cl\u2022 (radicals). Propagation: Cl\u2022 + CH\u2084 \u2192 \u2022CH\u2083 + HCl; then \u2022CH\u2083 + Cl\u2082 \u2192 CH\u2083Cl + Cl\u2022 (chain reaction). Termination: two radicals combine \u2192 no new radicals formed. Products are a mixture of mono- and poly-substituted compounds."
       ]
     },
     {
-      "heading": "Alkenes",
+      "heading": "Alkenes \u2014 Electrophilic Addition",
       "items": [
-        "General formula: C\u2099H\u2082\u2099. Contain one C=C (\u03c3 + \u03c0 bonds). \u03c0 bond is electron-rich \u2192 electrophilic attack.",
-        "Electrophilic addition: electrophile attacks \u03c0 electrons \u2192 forms carbocation intermediate \u2192 nucleophile attacks carbocation.",
-        "Reactions: + HBr (Markovnikov: H adds to C with more H, Br to C with fewer H \u2014 gives more stable carbocation); + Br\u2082 (bromine water decolourised \u2014 test for alkene); + H\u2082O (acid catalyst, H\u2083PO\u2084) \u2192 alcohol; + H\u2082 (Ni catalyst, 150\u00b0C) \u2192 alkane (hydrogenation).",
-        "Markovnikov's rule: in addition of HX, H goes to the carbon with more hydrogens (gives more stable, more substituted carbocation)."
+        "Alkenes (C\u2099H\u2082\u2099) contain a C=C double bond (1 \u03c3 + 1 \u03c0). The \u03c0 bond has high electron density above and below the plane \u2014 it is easily attacked by electrophiles.",
+        "Mechanism of electrophilic addition: the electrophile (e.g. Br\u2082, HBr) is attracted to the \u03c0 electrons. The \u03c0 bond breaks; both electrons go to form a bond with the electrophile \u2192 a carbocation intermediate forms. The counter-ion (nucleophile) then attacks the carbocation.",
+        "Markovnikov's rule: in addition of HX to an unsymmetrical alkene, H adds to the carbon with more H atoms (giving the more stable, more substituted carbocation). The major product is therefore the one derived from the more stable intermediate.",
+        "Carbocation stability: tertiary (3 alkyl groups) > secondary > primary \u2014 alkyl groups donate electron density by the inductive effect, stabilising the positive charge."
       ]
     },
     {
-      "heading": "Testing for Alkenes",
+      "heading": "Tests and Other Reactions",
       "items": [
-        "Bromine water (orange \u2192 colourless): alkene present decolourises Br\u2082.",
-        "Cold, dilute KMnO\u2084 (purple \u2192 colourless): alkene oxidised (gives diol).",
-        "Distinguish from alkanes: alkanes do not decolourise bromine water in the dark."
+        "Test for alkene: bromine water decolourises in the dark (orange \u2192 colourless). Alkanes do not react with bromine water in the dark (only in UV light \u2014 free radical substitution).",
+        "Hydrogenation: alkene + H\u2082 \u2192 alkane (Ni catalyst, ~150 \u00b0C). Used to harden vegetable oils.",
+        "Hydration: alkene + H\u2082O \u2192 alcohol (H\u2083PO\u2084 catalyst, high temperature and pressure). Polymerisation: many alkene molecules join via addition polymerisation across the C=C bond."
       ]
     }
   ],

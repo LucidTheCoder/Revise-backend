@@ -10,43 +10,33 @@
   ],
   "notes": [
     {
-      "heading": "Mass Spectrometry",
+      "heading": "Mass Spectrometry (Revisited)",
       "items": [
-        "Molecular ion peak (M\u207a): highest m/z peak; gives relative molecular mass.",
-        "Fragmentation: bonds break to give characteristic fragment ions; helps identify structure.",
-        "Base peak: most abundant fragment (tallest peak).",
-        "Isotope peaks: M+1 (\u00b9\u00b3C) and M+2 (\u00b3\u2075Cl/\u00b3\u2077Cl) give isotope patterns.",
-        "High-resolution MS: measures exact molecular mass to identify molecular formula."
+        "High-resolution mass spectrometry (HRMS) measures the exact molecular mass to several decimal places, allowing identification of the molecular formula. Different formulae with the same nominal mass (e.g. CO vs N\u2082 vs CH\u2082=CH\u2082) can be distinguished.",
+        "Fragmentation patterns are characteristic of functional groups: loss of 15 (CH\u2083), 29 (CHO or C\u2082H\u2085), 31 (OCH\u2083), 45 (OC\u2082H\u2085 or COOH) etc. The M\u22121 peak often arises from loss of H; M+1 and M+2 patterns reveal the presence of Cl or Br isotopes."
       ]
     },
     {
-      "heading": "Infrared (IR) Spectroscopy",
+      "heading": "Infrared Spectroscopy",
       "items": [
-        "C\u2013H stretch: ~2850\u20133000 cm\u207b\u00b9 (most organic compounds).",
-        "O\u2013H (alcohol): broad ~2500\u20133550 cm\u207b\u00b9.",
-        "O\u2013H (carboxylic acid): very broad 2500\u20133300 cm\u207b\u00b9.",
-        "N\u2013H (amine): ~3300\u20133500 cm\u207b\u00b9 (one or two peaks).",
-        "C=O (carbonyl): strong, sharp ~1680\u20131750 cm\u207b\u00b9. Aldehyde ~1720\u20131740; ketone ~1715; carboxylic acid ~1700\u20131725; ester ~1735\u20131750; amide ~1630\u20131680.",
-        "C\u2261N (nitrile): ~2200 cm\u207b\u00b9.",
-        "Fingerprint region (<1500 cm\u207b\u00b9): unique to each compound; used for identification."
+        "IR spectroscopy identifies functional groups from characteristic absorption wavenumbers (cm\u207b\u00b9). Key absorptions: O\u2013H (alcohol) broad 3200\u20133550; O\u2013H (carboxylic acid) very broad 2500\u20133300; N\u2013H (amine) 3300\u20133500 (one or two peaks); C=O (carbonyl) strong sharp 1680\u20131750 (position distinguishes type: acid ~1710, ester ~1735\u20131750, ketone ~1715, amide ~1630\u20131680); C\u2013H 2850\u20133100; C\u2261N nitrile ~2200.",
+        "The fingerprint region (below ~1500 cm\u207b\u00b9) contains a complex, unique pattern for each compound \u2014 used to confirm identity by comparison with a reference spectrum."
       ]
     },
     {
       "heading": "\u00b9H NMR Spectroscopy",
       "items": [
-        "Chemical shift (\u03b4, ppm): depends on electronic environment of H. TMS (tetramethylsilane) = reference (\u03b4 = 0).",
-        "Typical shifts: R\u2013CH\u2083 ~0.9; R\u2013CH\u2082\u2013R ~1.2; R\u2013CO\u2013CH\u2083 ~2.1; Ar\u2013H ~7.3; R\u2013CHO ~9\u201310; R\u2013COOH ~10\u201312.",
-        "Integration: peak area \u221d number of H in that environment.",
-        "Splitting (n+1 rule): a proton with n equivalent H neighbours splits into n+1 peaks. Singlet (no neighbours), doublet (1), triplet (2), quartet (3).",
-        "D\u2082O shake: replaces exchangeable OH/NH protons with D \u2192 peak disappears \u2192 confirms \u2013OH or \u2013NH."
+        "\u00b9H NMR identifies the chemical environments of hydrogen atoms. Chemical shift \u03b4 (ppm) is measured relative to TMS (\u03b4 = 0) \u2014 the chosen reference because all 12 protons are equivalent, it is chemically inert, and it is volatile.",
+        "Typical shifts: R\u2013CH\u2083 ~0.9; R\u2013CH\u2082\u2013R ~1.2\u20131.4; R\u2013CO\u2013CH\u2083 ~2.1; Ar\u2013H ~7\u20138; R\u2013CHO ~9\u201310; R\u2013COOH ~10\u201312.",
+        "Integration: the area under each peak is proportional to the number of H atoms in that environment. Splitting (n+1 rule): a proton with n equivalent neighbouring H atoms gives a peak split into n+1 lines. Classic ethyl group: \u2013CH\u2082\u2013 (quartet, 3 neighbours) and \u2013CH\u2083 (triplet, 2 neighbours).",
+        "D\u2082O shake: exchangeable protons (\u2013OH, \u2013NH) are replaced by deuterium \u2014 the corresponding NMR peak disappears, confirming \u2013OH or \u2013NH groups."
       ]
     },
     {
       "heading": "Chromatography",
       "items": [
-        "Rf = distance moved by spot / distance moved by solvent front.",
-        "Paper and TLC: identify compounds by Rf; compare with known standards; ninhydrin for amino acids.",
-        "GC (gas-liquid chromatography): volatile compounds; identifies by retention time; GC-MS combines separation with mass spectrometry for definitive identification."
+        "In all forms of chromatography, components separate by their different affinities for the mobile phase (which moves) versus the stationary phase (which does not). Rf = distance moved by component / distance moved by solvent front (TLC/paper).",
+        "Gas-liquid chromatography (GLC): volatile compounds separate in a column; each component gives a peak at a characteristic retention time. GC\u2013MS combines separation with mass spectrometry \u2014 the most powerful technique for identifying unknown mixture components."
       ]
     }
   ],

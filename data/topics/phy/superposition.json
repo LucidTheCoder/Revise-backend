@@ -10,41 +10,33 @@
   ],
   "notes": [
     {
-      "heading": "Principle of Superposition",
+      "heading": "Principle of Superposition and Interference",
       "items": [
-        "Resultant displacement = sum of individual displacements at each point.",
-        "Coherent sources: same frequency and a constant phase difference \u2014 required for stable interference.",
-        "Constructive interference: path difference = n\u03bb (n = 0, 1, 2...); amplitude is maximum.",
-        "Destructive interference: path difference = (n + \u00bd)\u03bb; amplitude is zero."
+        "When two or more waves overlap, the resultant displacement at any point and time is the algebraic sum of the individual displacements. This is the principle of superposition.",
+        "Constructive interference occurs where waves arrive in phase (path difference = n\u03bb, n = 0, 1, 2\u2026) \u2014 amplitudes add. Destructive interference occurs where they arrive in antiphase (path difference = (n + \u00bd)\u03bb) \u2014 amplitudes subtract.",
+        "Stable interference requires coherent sources \u2014 sources with the same frequency and a constant phase difference. Two separate lamps are not coherent."
       ]
     },
     {
-      "heading": "Double Slit Interference (Young's)",
+      "heading": "Young's Double-Slit Experiment",
       "items": [
-        "Fringe spacing: \u0394y = \u03bbD/d (\u03bb = wavelength, D = slit-to-screen distance, d = slit separation).",
-        "Bright fringes: constructive (path difference = n\u03bb). Dark fringes: destructive (path difference = (n+\u00bd)\u03bb).",
-        "Smaller \u03bb \u2192 narrower fringes; larger D \u2192 wider fringes; larger d \u2192 narrower fringes.",
-        "For microwaves/sound: larger \u0394y (easier to measure) due to larger \u03bb."
+        "A single light source illuminates two narrow slits, creating two coherent secondary sources. The slits diffract the light, which then interferes. Bright fringes (maxima) appear where the path difference from the two slits is n\u03bb; dark fringes (minima) where it is (n + \u00bd)\u03bb.",
+        "Fringe spacing: \u0394y = \u03bbD/d, where \u03bb is the wavelength, D is the slit-to-screen distance, and d is the slit separation. Reducing d or increasing D gives wider, more widely spaced fringes."
       ]
     },
     {
       "heading": "Stationary Waves",
       "items": [
-        "Formed by superposition of two waves of equal frequency and amplitude travelling in opposite directions.",
-        "Nodes: points of zero amplitude (destructive interference). Antinodes: maximum amplitude.",
-        "Distance between adjacent nodes = \u03bb/2.",
-        "Fundamental (1st harmonic): \u00bd\u03bb fits in the string \u2192 \u03bb = 2L.",
-        "Harmonics: for string fixed at both ends: f_n = nv/2L where n = 1, 2, 3...",
-        "For open pipe: same formula. Closed pipe: only odd harmonics; f_n = nv/4L (n odd)."
+        "Stationary (standing) waves form when two waves of equal frequency and amplitude travel in opposite directions. The superposition produces points of zero amplitude (nodes, separated by \u03bb/2) and points of maximum amplitude (antinodes, midway between nodes).",
+        "Unlike progressive waves, stationary waves do not transfer energy along the medium. All points between two nodes oscillate in phase; points on opposite sides of a node are in antiphase.",
+        "Fundamental mode (first harmonic) of a string fixed at both ends: the string length = \u03bb/2, so f\u2081 = v/(2L). The nth harmonic has frequency n\u00d7f\u2081."
       ]
     },
     {
       "heading": "Diffraction Grating",
       "items": [
-        "d sin\u03b8 = n\u03bb (d = slit spacing, \u03b8 = angle of nth order maximum, n = order).",
-        "More slits \u2192 sharper, brighter maxima.",
-        "Grating equation: maximum order n_max = d/\u03bb (sin\u03b8 \u2264 1).",
-        "Used to measure wavelength of light precisely."
+        "The grating equation: d sin \u03b8 = n\u03bb, where d = slit spacing (1/N lines per metre), \u03b8 = angle of the nth order maximum, n = order number. A grating with more lines per mm has smaller d and produces more widely spaced maxima.",
+        "The maximum order n\u2098\u2090\u2093 occurs when sin \u03b8 = 1 (\u03b8 = 90\u00b0): n\u2098\u2090\u2093 = d/\u03bb. Gratings produce sharp, bright maxima \u2014 useful for precise wavelength measurement in spectroscopy."
       ]
     }
   ],

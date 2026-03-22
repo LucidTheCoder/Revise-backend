@@ -12,36 +12,23 @@
     {
       "heading": "Work Done",
       "items": [
-        "W = Fs cos\u03b8 (F = force, s = displacement, \u03b8 = angle between force and displacement).",
-        "No work is done if force is perpendicular to displacement (e.g. centripetal force).",
-        "Work done by gas: W = p\u0394V (constant pressure).",
-        "Area under a F\u2013s graph = work done."
+        "Work is done when a force has a component in the direction of displacement: W = Fs cos\u03b8, where \u03b8 is the angle between the force and the direction of motion. If \u03b8 = 90\u00b0, no work is done (e.g. centripetal force, normal reaction on horizontal motion). The SI unit is the joule (J = N m).",
+        "The area under a force\u2013displacement graph equals the work done, even for non-constant forces."
       ]
     },
     {
-      "heading": "Energy",
+      "heading": "Energy and the Work-Energy Theorem",
       "items": [
-        "Kinetic energy: Ek = \u00bdmv\u00b2.",
-        "Gravitational PE: Ep = mgh (h = height above reference level).",
-        "Elastic PE: E = \u00bdkx\u00b2 (Hooke's law spring).",
-        "Work-energy theorem: net work done = \u0394Ek = \u00bdmv\u00b2 \u2212 \u00bdmu\u00b2.",
-        "Conservation of energy: total energy in a closed system is constant; energy converts between forms."
+        "The work-energy theorem states that the net work done on an object equals its change in kinetic energy: W_net = \u0394E\u2096 = \u00bdmv\u00b2 \u2212 \u00bdmu\u00b2.",
+        "Kinetic energy: E\u2096 = \u00bdmv\u00b2. Gravitational potential energy: E\u209a = mgh (relative to a chosen reference level). Elastic potential energy (Hooke's law spring): E_el = \u00bdkx\u00b2.",
+        "Conservation of energy: energy cannot be created or destroyed, only converted between forms. In a closed system, total mechanical energy (E\u2096 + E\u209a) is constant when only conservative forces act. In practice, non-conservative forces (friction, air resistance) convert mechanical energy to thermal energy."
       ]
     },
     {
-      "heading": "Power",
+      "heading": "Power and Efficiency",
       "items": [
-        "Power P = W/t = \u0394E/\u0394t; SI unit: watt (W = J s\u207b\u00b9).",
-        "P = Fv (for a constant force and velocity; e.g. vehicle at terminal velocity: P = Fv where F = driving force).",
-        "At terminal velocity: driving force = resistive force; P = Fv (no acceleration)."
-      ]
-    },
-    {
-      "heading": "Efficiency",
-      "items": [
-        "Efficiency = useful output power / total input power = useful energy output / total energy input.",
-        "Expressed as a fraction or percentage: \u03b7 = (P_out / P_in) \u00d7 100%.",
-        "No real machine is 100% efficient (energy dissipated as heat/sound/vibration)."
+        "Power is the rate of doing work or transferring energy: P = W/t = \u0394E/\u0394t (watts, W = J s\u207b\u00b9). For a constant driving force: P = Fv. At terminal velocity, the driving force equals the resistive force and P = Fv gives the power output needed to maintain constant speed.",
+        "Efficiency = useful output power / total input power (or useful output energy / total input energy). Expressed as a decimal (0\u20131) or percentage (0\u2013100%). Always < 1 in practice \u2014 some energy is always dissipated as heat."
       ]
     }
   ],

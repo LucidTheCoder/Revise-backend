@@ -10,33 +10,27 @@
   ],
   "notes": [
     {
-      "heading": "Factors Affecting Rate",
+      "heading": "Rate of Reaction and Collision Theory",
       "items": [
-        "Concentration: more particles per unit volume \u2192 more frequent collisions \u2192 faster rate.",
-        "Temperature: increases average kinetic energy AND fraction of molecules with E \u2265 Ea; even a 10\u00b0C rise roughly doubles rate.",
-        "Pressure (gases): equivalent to increasing concentration.",
-        "Surface area: more exposed particles available for collisions.",
-        "Catalyst: lowers Ea, increasing fraction of successful collisions."
+        "The rate of reaction is the change in concentration of a reactant (or product) per unit time (mol dm\u207b\u00b3 s\u207b\u00b9). For a collision to produce a reaction, two conditions must be met: the particles must collide with sufficient energy (\u2265 activation energy, E\u2090) and with the correct orientation.",
+        "Factors increasing rate: higher concentration (more collisions per second), higher temperature (more collisions and higher fraction with E \u2265 E\u2090), higher pressure for gases (equivalent to concentration), increased surface area, and catalyst (lowers E\u2090)."
       ]
     },
     {
-      "heading": "Maxwell\u2013Boltzmann Distribution",
+      "heading": "The Maxwell\u2013Boltzmann Distribution",
       "items": [
-        "X-axis: kinetic energy. Y-axis: number of molecules (proportion) with that energy.",
-        "Area under curve = total number of molecules (constant).",
-        "Most probable energy is the peak; mean energy is slightly to the right.",
-        "Ea marked as a vertical line; area to the right = molecules that can react.",
-        "Higher T: curve flattens and shifts right; Ea line stays fixed; shaded area increases greatly.",
-        "Catalyst: lowers Ea to Ea'; shaded area increases without changing temperature."
+        "The distribution shows the spread of kinetic energies among molecules at a given temperature. The curve starts at the origin, rises to a peak (most probable energy), then tails off asymptotically. The area under the entire curve represents the total number of molecules (constant).",
+        "The activation energy E\u2090 is shown as a vertical line on the energy axis. Only molecules in the shaded area to the right of E\u2090 can react.",
+        "Effect of increasing temperature: the curve flattens, shifts right, and the peak moves to higher energy. The area to the right of E\u2090 increases greatly \u2014 the proportion of successful collisions rises substantially, explaining why even a 10 K rise roughly doubles the rate.",
+        "Effect of a catalyst: the curve is unchanged (same temperature) but E\u2090 moves left to a lower position \u2014 a larger fraction of molecules can now react."
       ]
     },
     {
       "heading": "Catalysis",
       "items": [
-        "Homogeneous catalyst: same phase as reactants (e.g. H\u207a(aq) in ester hydrolysis).",
-        "Heterogeneous catalyst: different phase (e.g. Fe in Haber process; Pt/Rh in catalytic converters).",
-        "Catalysts increase rate but do not change \u0394H or the equilibrium position.",
-        "Autocatalysis: product of reaction acts as catalyst (e.g. Mn\u00b2\u207a in MnO\u2084\u207b + C\u2082O\u2084\u00b2\u207b reaction)."
+        "A catalyst provides an alternative reaction pathway of lower activation energy. It is not consumed. Heterogeneous catalysts are in a different phase from the reactants (e.g. Fe in the Haber process, Pt/Rh in catalytic converters). Homogeneous catalysts are in the same phase (e.g. H\u207a(aq) in ester hydrolysis).",
+        "A catalyst increases the rate and reduces the time to reach equilibrium \u2014 it does not change the equilibrium position or the value of Kc.",
+        "Autocatalysis: the product of a reaction acts as a catalyst for the same reaction (e.g. Mn\u00b2\u207a ions produced during the KMnO\u2084/C\u2082O\u2084\u00b2\u207b reaction)."
       ]
     }
   ],

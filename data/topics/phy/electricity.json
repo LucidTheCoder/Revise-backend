@@ -10,30 +10,25 @@
   ],
   "notes": [
     {
-      "heading": "Charge and Current",
+      "heading": "Charge, Current and Potential Difference",
       "items": [
-        "Charge Q = It (coulombs = amperes \u00d7 seconds).",
-        "Current I = \u0394Q/\u0394t; rate of flow of charge.",
-        "Electron drift velocity: I = nqvA (n = number density of charge carriers, q = charge on each, v = drift velocity, A = cross-sectional area).",
-        "Conventional current: + to \u2212; electron flow: \u2212 to +."
+        "Electric charge Q is measured in coulombs (C). Current I = \u0394Q/\u0394t \u2014 the rate of flow of charge (amperes, A). Conventional current flows from + to \u2212; electron flow is from \u2212 to +.",
+        "Potential difference (p.d.) between two points is the work done per unit charge moving between them: V = W/Q (volts, V = J C\u207b\u00b9). EMF (\u03b5) is the work done per unit charge by the source in moving charge around the complete circuit \u2014 includes the internal resistance drop.",
+        "The drift velocity equation: I = nqvA, where n = number density of charge carriers, q = charge per carrier, v = drift velocity, A = cross-sectional area of conductor."
       ]
     },
     {
-      "heading": "Potential Difference and EMF",
+      "heading": "Resistance, Ohm's Law and Resistivity",
       "items": [
-        "Potential difference (p.d.): energy transferred per unit charge between two points; V = W/Q; unit: volt (V = J C\u207b\u00b9).",
-        "EMF (\u03b5): work done per unit charge by the source in moving charge around the complete circuit.",
-        "Terminal p.d. = EMF \u2212 voltage drop across internal resistance: V = \u03b5 \u2212 Ir."
+        "Resistance R = V/I (ohms, \u03a9). Ohm's law: for a metallic conductor at constant temperature, V \u221d I \u2014 R is constant. An ohmic conductor gives a straight line through the origin on a V\u2013I graph.",
+        "Non-ohmic components: filament lamp (R increases as it heats up \u2014 V\u2013I graph curves upward); thermistor (NTC \u2014 R decreases with temperature); LDR (R decreases with light intensity); diode (only conducts in the forward direction above a threshold voltage \u2248 0.6 V for Si).",
+        "Resistivity: R = \u03c1L/A, where \u03c1 (\u03a9 m) is a material property, L is the length, and A is the cross-sectional area. Resistivity increases with temperature for metals (more phonon scattering) and decreases for semiconductors (more charge carriers)."
       ]
     },
     {
-      "heading": "Resistance and Ohm's Law",
+      "heading": "Internal Resistance",
       "items": [
-        "Resistance R = V/I; unit: ohm (\u03a9).",
-        "Ohm's law: V \u221d I at constant temperature \u2192 R is constant.",
-        "Ohmic conductor: straight line through origin on V\u2013I graph (e.g. metal wire at constant T).",
-        "Non-ohmic: filament lamp (R increases with T); diode (one-way flow); thermistor (R decreases with T); LDR (R decreases with light intensity).",
-        "Resistivity: R = \u03c1L/A (\u03c1 = resistivity in \u03a9 m; L = length; A = cross-sectional area). \u03c1 is a material property."
+        "A real battery has internal resistance r. Terminal p.d. = EMF \u2212 voltage drop across internal resistance: V = \u03b5 \u2212 Ir. When current is drawn, the terminal p.d. falls below the EMF. Maximum current (short-circuit current) = \u03b5/r. Maximum power to the external circuit occurs when external resistance R = r."
       ]
     }
   ],

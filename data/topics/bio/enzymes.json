@@ -12,35 +12,33 @@
     {
       "heading": "Mechanism of Enzyme Action",
       "items": [
-        "Active site: region of the enzyme with a specific 3D shape complementary to the substrate.",
-        "Lock-and-key: substrate fits active site exactly. Induced fit: active site changes shape slightly on binding substrate.",
-        "ES complex forms \u2192 products released \u2192 enzyme unchanged.",
-        "Enzymes lower Ea by straining bonds, bringing substrates together, and providing a reactive microenvironment."
+        "Enzymes are globular proteins that act as biological catalysts \u2014 they lower the activation energy of a reaction without being consumed. Each enzyme has an active site with a specific 3D shape complementary to one substrate (or a small group of structurally similar substrates).",
+        "Lock-and-key model: the substrate fits the active site precisely, like a key in a lock. Induced fit model: the active site changes shape slightly on substrate binding to achieve a better fit \u2014 this is now the preferred model. The enzyme\u2013substrate complex forms, products are released, and the enzyme is regenerated unchanged."
       ]
     },
     {
       "heading": "Factors Affecting Rate",
       "items": [
-        "Temperature: rate increases up to Topt (~37\u00b0C in humans); above Topt, enzyme denatures (H-bonds/other bonds disrupted \u2192 active site changes shape \u2192 substrate no longer fits).",
-        "pH: each enzyme has an optimum pH; change in pH alters ionisation of R-groups \u2192 alters active site shape.",
-        "Substrate concentration: rate increases as [S] increases until all active sites are saturated (Vmax); adding more substrate has no effect at Vmax.",
-        "Enzyme concentration: increasing [E] increases rate (more active sites), provided substrate is not limiting."
+        "Temperature: rate increases up to the optimum (\u224837 \u00b0C in humans) because more molecules exceed the activation energy. Above the optimum, excessive vibration breaks the hydrogen bonds and other non-covalent bonds maintaining tertiary structure \u2014 the active site changes shape (denaturation) and the enzyme cannot bind substrate.",
+        "pH: each enzyme has an optimum pH. Changes in pH alter the ionisation of amino acid R-groups in the active site, disrupting the bonds that maintain its shape. Extremes cause irreversible denaturation.",
+        "Substrate concentration [S]: rate increases as [S] rises \u2014 more enzyme\u2013substrate complexes form per second. At Vmax (maximum velocity), all active sites are permanently occupied (saturated); adding more substrate has no effect.",
+        "Enzyme concentration: increasing [E] increases rate proportionally (more active sites available), provided substrate is not limiting."
       ]
     },
     {
       "heading": "Inhibitors",
       "items": [
-        "Competitive inhibitor: similar shape to substrate; occupies active site; blocks substrate binding; effect reduced by increasing [S].",
-        "Non-competitive inhibitor: binds to allosteric site; changes active site shape; substrate cannot bind even if [S] is increased; cannot be overcome by adding more substrate.",
-        "Irreversible inhibitors: bind permanently (e.g. nerve agents inhibiting acetylcholinesterase)."
+        "Competitive inhibitors have a shape similar to the substrate and compete for the active site. The effect is reversible and can be overcome by increasing substrate concentration \u2014 at high [S], substrate out-competes the inhibitor.",
+        "Non-competitive (allosteric) inhibitors bind to a separate allosteric site, causing a conformational change in the active site so the substrate can no longer fit. Increasing [S] does not restore activity \u2014 Vmax is reduced.",
+        "Irreversible inhibitors form permanent covalent bonds with the enzyme (e.g. nerve agents that block acetylcholinesterase). The enzyme is permanently inactivated."
       ]
     },
     {
       "heading": "Immobilised Enzymes",
       "items": [
-        "Enzymes attached to an inert support (e.g. alginate beads, cellulose matrix).",
-        "Advantages: enzyme can be reused (cost-effective); product is not contaminated by enzyme; continuous processing possible.",
-        "Example: lactase immobilised to produce lactose-free milk; glucose isomerase to convert glucose to fructose."
+        "Immobilised enzymes are attached to an inert support (e.g. alginate beads, cellulose fibres) so they can be easily separated from the product.",
+        "Advantages: (1) enzyme is reusable \u2014 reduces cost; (2) product is uncontaminated by enzyme; (3) allows continuous processing in a column reactor.",
+        "Industrial examples: lactase on beads to produce lactose-free milk; glucose isomerase to convert glucose to fructose (used in food industry)."
       ]
     }
   ],

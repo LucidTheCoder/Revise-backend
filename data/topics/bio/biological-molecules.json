@@ -12,30 +12,42 @@
     {
       "heading": "Carbohydrates",
       "items": [
-        "Monosaccharides: hexoses (glucose, fructose, galactose) and pentoses (ribose, deoxyribose). \u03b1-glucose has OH on C1 pointing down; \u03b2-glucose points up.",
-        "Disaccharides: maltose (\u03b1-glucose + \u03b1-glucose, 1,4-glycosidic), sucrose (\u03b1-glucose + fructose), lactose (glucose + galactose).",
-        "Polysaccharides: starch (amylose \u2014 \u03b11,4; amylopectin \u2014 \u03b11,4 and \u03b11,6 branching); glycogen (highly branched, \u03b11,4 and \u03b11,6); cellulose (\u03b21,4 \u2014 alternating glucose units, H-bonds between chains give strength)."
+        "All carbohydrates contain C, H and O. Monosaccharides (single sugars) are the monomers \u2014 glucose, fructose (hexoses) and ribose, deoxyribose (pentoses). \u03b1-glucose has the \u2013OH on C1 pointing down; \u03b2-glucose has it pointing up.",
+        "Disaccharides form when two monosaccharides join by a condensation reaction, releasing water, to form a glycosidic bond. Maltose = \u03b1-glucose + \u03b1-glucose (1,4-glycosidic); sucrose = \u03b1-glucose + fructose; lactose = glucose + galactose.",
+        "Polysaccharides: amylose (unbranched, \u03b1-1,4) and amylopectin (branched, \u03b1-1,4 and \u03b1-1,6) make up starch. Glycogen is similar but more highly branched \u2014 compact energy store in animals. Cellulose uses \u03b2-1,4-glycosidic bonds; alternate glucose units flip 180\u00b0, producing straight chains that hydrogen-bond into strong microfibrils."
       ]
     },
     {
       "heading": "Lipids",
       "items": [
-        "Triglyceride: glycerol + 3 fatty acids joined by ester bonds (condensation). Saturated: no C=C double bonds; unsaturated: one or more C=C.",
-        "Phospholipid: glycerol + 2 fatty acids + phosphate group. Amphipathic \u2014 hydrophilic head (phosphate), hydrophobic tails (fatty acid chains); forms bilayer in cell membranes."
+        "Triglycerides: glycerol + 3 fatty acids joined by ester bonds (3 condensation reactions, 3 water molecules released). Saturated fatty acids have no C=C double bonds; unsaturated have one or more.",
+        "Phospholipids: glycerol + 2 fatty acids + a phosphate group. Amphipathic \u2014 the hydrophilic phosphate head and hydrophobic fatty acid tails drive spontaneous bilayer formation in aqueous environments.",
+        "Lipids are energy-dense (more C\u2013H bonds per gram than carbohydrates), waterproof, thermally insulating, and form hormones (steroids)."
       ]
     },
     {
       "heading": "Proteins",
       "items": [
-        "Amino acids linked by peptide bonds (condensation between \u2013NH\u2082 and \u2013COOH; water released).",
-        "Primary: amino acid sequence. Secondary: \u03b1-helix or \u03b2-pleated sheet (H-bonds). Tertiary: 3D shape (H-bonds, ionic bonds, disulfide bonds, hydrophobic interactions). Quaternary: two or more polypeptide chains.",
-        "Fibrous proteins (e.g. collagen, keratin): structural, insoluble, regular repeated sequence. Globular proteins (e.g. enzymes, haemoglobin): functional, soluble, irregular sequence folded into compact shape."
+        "Amino acids are joined by peptide bonds \u2014 formed by condensation between the \u2013COOH of one and the \u2013NH\u2082 of another. The 20 different R-groups give proteins their chemical diversity.",
+        "Primary structure: the specific sequence of amino acids (determined by DNA). Secondary structure: H-bonds along the backbone produce \u03b1-helices or \u03b2-pleated sheets. Tertiary structure: the overall 3D shape, stabilised by H-bonds, ionic bonds, disulfide bridges (between cysteine \u2013SH groups) and hydrophobic interactions. Quaternary structure: two or more polypeptide chains assembled together (e.g. haemoglobin has 4 subunits).",
+        "Fibrous proteins (e.g. collagen, keratin) have long, regular, repetitive sequences \u2014 insoluble structural roles. Globular proteins (e.g. enzymes, antibodies) have irregular sequences folded into compact soluble shapes with a specific active site or binding region."
       ]
     },
     {
       "heading": "Water",
       "items": [
-        "Polar molecule (\u03b4+ H, \u03b4\u2212 O); forms hydrogen bonds. Cohesion: water molecules stick to each other (surface tension, transpiration stream). High specific heat capacity: resists temperature change. Solvent: dissolves ions and polar molecules. Latent heat of vaporisation: evaporation cools surfaces."
+        "Water is a polar molecule \u2014 the O atom carries \u03b4\u2212 and each H carries \u03b4+. This polarity enables hydrogen bonding between molecules, giving water its unique properties.",
+        "High specific heat capacity (4.18 J g\u207b\u00b9 K\u207b\u00b9): resists temperature change, buffering aquatic environments. High latent heat of vaporisation: evaporation (sweating, transpiration) removes large amounts of heat. Cohesion between water molecules supports the transpiration stream in xylem. Water is an excellent solvent for ions and polar molecules \u2014 essential for biochemical reactions."
+      ]
+    },
+    {
+      "heading": "Food Tests",
+      "items": [
+        "Reducing sugars (all monosaccharides and some disaccharides): Benedict's reagent \u2014 heat with blue solution; positive = brick-red precipitate.",
+        "Non-reducing sugars (e.g. sucrose): First hydrolyse with dilute HCl, neutralise with Na\u2082CO\u2083, then run Benedict's test.",
+        "Starch: iodine/KI solution \u2014 positive = blue-black colour.",
+        "Protein: Biuret reagent (NaOH + CuSO\u2084) \u2014 positive = purple colour.",
+        "Lipids: emulsion test \u2014 dissolve in ethanol, add water; positive = cloudy white emulsion."
       ]
     }
   ],

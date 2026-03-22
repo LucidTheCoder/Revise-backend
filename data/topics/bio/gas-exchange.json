@@ -10,47 +10,39 @@
   ],
   "notes": [
     {
-      "heading": "Features of Gas Exchange Surfaces",
+      "heading": "Features of Efficient Gas Exchange Surfaces",
       "items": [
-        "Large surface area: increases rate of diffusion.",
-        "Thin: short diffusion pathway.",
-        "Moist: gases dissolve before diffusing.",
-        "Good blood supply / ventilation: maintains steep concentration gradient."
+        "All gas exchange surfaces share four key features: large surface area (increases rate); thin surface (short diffusion distance); moist surface (gases dissolve before diffusing); maintenance of a concentration gradient (by ventilation or a good blood supply). These are captured by Fick's law: rate of diffusion \u221d (surface area \u00d7 concentration difference) / thickness."
       ]
     },
     {
       "heading": "Mammalian Lungs",
       "items": [
-        "Ventilation: intercostal muscles + diaphragm change thorax volume \u2192 pressure changes \u2192 air moves in/out.",
-        "Inspiration: external intercostals contract, diaphragm contracts and flattens \u2192 volume increases \u2192 pressure falls \u2192 air in.",
-        "Expiration: internal intercostals + elastic recoil \u2192 volume decreases \u2192 pressure rises \u2192 air out.",
-        "Alveoli: ~700 million; lined with surfactant (prevents collapse); surrounded by capillaries; one-cell-thick squamous epithelium.",
-        "Fick's law: rate of diffusion \u221d (surface area \u00d7 concentration difference) / thickness."
+        "Inspiration: external intercostal muscles contract, pulling the rib cage up and out; the diaphragm contracts and flattens. Thorax volume increases \u2192 pressure falls below atmospheric \u2192 air flows in.",
+        "Expiration (at rest): elastic recoil of the lungs and gravity reverse the process \u2014 passive. Forced expiration recruits internal intercostal muscles.",
+        "Alveoli (\u2248700 million) provide an enormous surface area (\u224870 m\u00b2). Each alveolus is lined with a single layer of squamous epithelium (\u22480.1\u20130.5 \u03bcm thick) and surrounded by a dense capillary network \u2014 minimising diffusion distance. Surfactant reduces surface tension and prevents collapse during expiration."
       ]
     },
     {
-      "heading": "Fish Gills",
+      "heading": "Counter-Current Exchange in Fish Gills",
       "items": [
-        "Lamellae on gill arches; secondary lamellae provide large SA.",
-        "Counter-current flow: blood and water flow in opposite directions \u2192 concentration gradient maintained across entire gill \u2192 greater O\u2082 extraction (~80%) vs parallel flow (~50%)."
+        "Water flows over the gill lamellae in the opposite direction to blood flow in the capillaries (counter-current). This maintains a concentration gradient along the entire length of the gill, allowing \u224880% of dissolved O\u2082 to be extracted.",
+        "In parallel flow (same direction), the gradient would equalise mid-way and diffusion would stop \u2014 only \u224850% extraction. Counter-current is therefore far more efficient."
       ]
     },
     {
-      "heading": "Insects: Tracheal System",
+      "heading": "Insect Tracheal System",
       "items": [
-        "Air enters through spiracles (can be opened/closed to reduce water loss).",
-        "Tracheae divide into tracheoles \u2192 carry O\u2082 directly to cells.",
-        "No haemoglobin needed; relies on diffusion (only efficient in small organisms).",
-        "Spiracles close during rest to reduce water loss."
+        "Insects exchange gases through a network of air-filled tubes \u2014 tracheae \u2014 that branch into microscopic tracheoles delivering O\u2082 directly to cells. No circulatory O\u2082 transport is needed.",
+        "Spiracles are valved openings in the exoskeleton that control entry of air and are closed when gas exchange demand is low, reducing water loss by evaporation."
       ]
     },
     {
-      "heading": "Plants: Stomata",
+      "heading": "Stomata in Plants",
       "items": [
-        "CO\u2082 enters; O\u2082 and water vapour exit through stomata.",
-        "Guard cells: swell (turgid) to open stoma when water enters by osmosis; become flaccid to close.",
-        "Stomata usually open in daytime (photosynthesis demand); close at night and in water stress.",
-        "Xerophytes: thick cuticle, sunken stomata, rolled leaves, stomata on lower surface \u2014 reduce water loss."
+        "CO\u2082 enters leaves for photosynthesis through stomata; O\u2082 and water vapour exit through the same pores.",
+        "Guard cells control stoma aperture by changes in turgor. When water enters guard cells by osmosis (triggered by light-induced K\u207a uptake), they swell and their curved shape pulls the stoma open. Loss of water causes flaccidity and closure.",
+        "Xerophyte adaptations reduce transpiration: thick waxy cuticle; sunken stomata (humid air pocket reduces gradient); rolled leaves; reduced leaf area; CAM metabolism (stomata open at night)."
       ]
     }
   ],

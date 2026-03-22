@@ -10,41 +10,41 @@
   ],
   "notes": [
     {
-      "heading": "Definitions",
+      "heading": "Key Definitions",
       "items": [
-        "Displacement (s): change in position; vector (direction matters).",
-        "Velocity (v): rate of change of displacement; v = \u0394s/\u0394t; vector.",
-        "Acceleration (a): rate of change of velocity; a = \u0394v/\u0394t; vector.",
-        "Speed and distance are scalar equivalents (magnitude only)."
+        "Displacement (s): change in position measured from a fixed reference point \u2014 a vector quantity with both magnitude and direction.",
+        "Velocity (v): rate of change of displacement (v = \u0394s / \u0394t) \u2014 vector. Speed is the scalar equivalent (magnitude only).",
+        "Acceleration (a): rate of change of velocity (a = \u0394v / \u0394t) \u2014 vector. A negative value simply means deceleration (if motion is in the positive direction)."
       ]
     },
     {
-      "heading": "SUVAT Equations",
+      "heading": "Equations of Uniform Acceleration (SUVAT)",
       "items": [
+        "These five equations apply only when acceleration is constant in both magnitude and direction:",
         "v = u + at",
         "s = ut + \u00bdat\u00b2",
         "v\u00b2 = u\u00b2 + 2as",
         "s = \u00bd(u + v)t",
         "s = vt \u2212 \u00bdat\u00b2",
-        "Valid only for uniform (constant) acceleration; use g = 9.81 m s\u207b\u00b2 (or 10 m s\u207b\u00b2 if specified) for free fall."
+        "For free fall, use a = g = 9.81 m s\u207b\u00b2 downward (or 10 m s\u207b\u00b2 if specified). Always define a positive direction before substituting."
       ]
     },
     {
-      "heading": "Motion Graphs",
+      "heading": "Interpreting Motion Graphs",
       "items": [
-        "s\u2013t graph: gradient = instantaneous velocity; straight line = constant velocity; curve = acceleration.",
-        "v\u2013t graph: gradient = acceleration; area under curve = displacement; horizontal line = constant velocity.",
-        "a\u2013t graph: area under curve = change in velocity.",
-        "Free fall: parabolic s\u2013t curve; straight v\u2013t line with gradient g downward."
+        "Displacement\u2013time (s\u2013t) graph: gradient = instantaneous velocity. A straight line \u2192 constant velocity. A curve \u2192 changing velocity (acceleration).",
+        "Velocity\u2013time (v\u2013t) graph: gradient = acceleration; area under the curve = displacement (positive area above the axis, negative area below).",
+        "A constant positive gradient on a v\u2013t graph is uniform acceleration; a horizontal line is constant velocity; a line crossing zero means the object reverses direction."
       ]
     },
     {
       "heading": "Projectile Motion",
       "items": [
-        "Two independent components: horizontal (constant velocity, no acceleration) and vertical (constant acceleration = g downward).",
-        "Horizontal: x = v_x t. Vertical: use SUVAT with a = g = 9.81 m s\u207b\u00b2.",
-        "At maximum height: vertical velocity = 0.",
-        "Time of flight determined from vertical component; range from horizontal \u00d7 time."
+        "A projectile moves under gravity only \u2014 horizontal and vertical motions are completely independent.",
+        "Horizontal component: constant velocity (zero acceleration). x = v\u2093 \u00b7 t.",
+        "Vertical component: constant downward acceleration g. Use SUVAT equations with a = g.",
+        "At maximum height, the vertical velocity = 0. The time of flight is determined entirely from the vertical equation.",
+        "Range = horizontal velocity \u00d7 total time of flight."
       ]
     }
   ],

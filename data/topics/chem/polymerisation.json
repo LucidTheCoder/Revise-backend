@@ -12,29 +12,18 @@
     {
       "heading": "Addition Polymerisation",
       "items": [
-        "Monomers: alkenes (contain C=C). Each monomer's \u03c0 bond opens and joins to the chain.",
-        "Poly(ethene): \u2013(CH\u2082\u2013CH\u2082)\u2099\u2013. Poly(propene): \u2013(CH\u2082\u2013CHCH\u2083)\u2099\u2013. Poly(chloroethene) = PVC: \u2013(CH\u2082\u2013CHCl)\u2099\u2013. Poly(tetrafluoroethene) = PTFE: \u2013(CF\u2082\u2013CF\u2082)\u2099\u2013.",
-        "Low-density polyethylene (LDPE): branched chains \u2014 lower density, softer, lower MP.",
-        "High-density polyethylene (HDPE): linear chains (Ziegler\u2013Natta catalyst) \u2014 higher density, harder, higher MP.",
-        "Addition polymers are non-biodegradable."
+        "Addition polymers form when many alkene (or substituted alkene) monomers undergo addition across the C=C bond \u2014 no atoms are lost. The repeat unit has the same atomic composition as the monomer.",
+        "Examples: poly(ethene) \u2013(CH\u2082\u2013CH\u2082)\u2099\u2013; poly(propene) \u2013(CH\u2082\u2013CHCH\u2083)\u2099\u2013; poly(chloroethene)/PVC \u2013(CH\u2082\u2013CHCl)\u2099\u2013; PTFE \u2013(CF\u2082\u2013CF\u2082)\u2099\u2013.",
+        "Low-density poly(ethene) (LDPE) is branched \u2014 chains cannot pack closely, giving lower density, flexibility, and a lower melting point. High-density poly(ethene) (HDPE, Ziegler\u2013Natta catalyst) has linear chains that pack closely \u2014 higher density and melting point.",
+        "Addition polymers are chemically inert and non-biodegradable \u2014 disposal by landfill or incineration (PVC releases toxic HCl on burning) is problematic."
       ]
     },
     {
       "heading": "Condensation Polymerisation",
       "items": [
-        "Polyesters: diol + dicarboxylic acid \u2192 polyester + H\u2082O. e.g. Terylene (PET): ethane-1,2-diol + benzene-1,4-dicarboxylic acid.",
-        "Polyamides: diamine + dicarboxylic acid \u2192 polyamide + H\u2082O. e.g. Nylon-6,6: hexane-1,6-diamine + hexanedioic acid.",
-        "Linkage: polyester has \u2013COO\u2013 ester bond; polyamide has \u2013CONH\u2013 amide bond.",
-        "Proteins are natural polyamides; cellulose and starch are natural polyesters (glycosidic bonds, but technically not ester-linked in the way synthetic polyesters are)."
-      ]
-    },
-    {
-      "heading": "Polymer Properties and Disposal",
-      "items": [
-        "Chain length: longer chains \u2192 higher MP, stronger (more id-id forces).",
-        "Cross-linking: increases rigidity and resistance to solvents (e.g. vulcanised rubber, thermosetting plastics).",
-        "Disposal: landfill (non-biodegradable); incineration (CO\u2082/HCl from PVC \u2014 environmental concerns); recycling (code on containers); biodegradable polymers (e.g. polylactic acid from plant starch).",
-        "Hydrolysis of condensation polymers: polyesters and polyamides can be hydrolysed by acid or base (unlike addition polymers which are resistant to hydrolysis)."
+        "Condensation polymers form from difunctional monomers that react together with the loss of a small molecule (usually water, sometimes HCl) at each step.",
+        "Polyesters (\u2013COO\u2013 linkage): e.g. Terylene/PET from ethane-1,2-diol + benzene-1,4-dicarboxylic acid. Polyamides (\u2013CONH\u2013 linkage): e.g. nylon-6,6 from hexane-1,6-diamine + hexanedioic acid.",
+        "Condensation polymers can be hydrolysed under acidic or basic conditions \u2014 unlike addition polymers. This also means they are more biodegradable."
       ]
     }
   ],

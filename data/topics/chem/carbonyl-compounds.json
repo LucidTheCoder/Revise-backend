@@ -10,28 +10,19 @@
   ],
   "notes": [
     {
-      "heading": "Structure and Properties",
+      "heading": "Aldehydes and Ketones",
       "items": [
-        "Aldehyde: C=O at end of chain (\u2013CHO). Ketone: C=O within chain (\u2013CO\u2013).",
-        "Both have C=O: strong absorption at ~1700 cm\u207b\u00b9 (1680\u20131750 cm\u207b\u00b9 range).",
-        "Higher boiling points than alkanes (polar C=O); lower than alcohols (no H-bonding between molecules)."
+        "Both contain the C=O (carbonyl) group. In aldehydes, the carbonyl is at the end of the chain (\u2013CHO); in ketones, it is within the chain (\u2013CO\u2013). Both show a strong, sharp IR absorption at ~1700\u20131750 cm\u207b\u00b9.",
+        "Test for any carbonyl: 2,4-dinitrophenylhydrazine (2,4-DNPH, Brady's reagent) \u2014 gives an orange or yellow precipitate with any aldehyde or ketone. The melting point of the purified precipitate identifies the specific compound.",
+        "Distinguish aldehyde from ketone: Tollens' reagent (silver mirror = aldehyde); Fehling's/Benedict's (brick-red precipitate = aldehyde). Ketones do not react with either."
       ]
     },
     {
-      "heading": "Reactions",
+      "heading": "Nucleophilic Addition Reactions",
       "items": [
-        "Nucleophilic addition with NaBH\u2084 (or LiAlH\u2084): reduces C=O to C\u2013OH. Aldehyde \u2192 primary alcohol; ketone \u2192 secondary alcohol.",
-        "Nucleophilic addition with HCN (+ KCN catalyst): R\u2013CHO + HCN \u2192 R\u2013CH(OH)CN (hydroxynitrile). Chain length increases. Creates a chiral centre.",
-        "Oxidation of aldehydes: Tollens' (silver mirror), Fehling's (brick-red ppt), acidified K\u2082Cr\u2082O\u2087 (orange \u2192 green). Ketones: no reaction.",
-        "2,4-DNPH (Brady's reagent): orange/yellow precipitate with ANY carbonyl compound (aldehyde or ketone). Melting point of derivative identifies specific compound."
-      ]
-    },
-    {
-      "heading": "Mechanism: Nucleophilic Addition",
-      "items": [
-        "Step 1: nucleophile (CN\u207b or H\u207b from NaBH\u2084) attacks \u03b4+ carbon of C=O.",
-        "Step 2: C=O \u03c0 bond breaks; O becomes O\u207b (alkoxide or intermediate).",
-        "Step 3: protonation by H\u2082O or acid gives the \u2013OH product."
+        "The carbonyl carbon is \u03b4+ (O is electronegative) \u2014 it is attacked by nucleophiles. Mechanism: nucleophile attacks the C=O carbon; the \u03c0 bond breaks; O\u207b forms; then protonation gives the \u2013OH product.",
+        "Reduction with NaBH\u2084 (sodium borohydride): H\u207b acts as the nucleophile. Aldehyde \u2192 primary alcohol; ketone \u2192 secondary alcohol.",
+        "Reaction with HCN (in presence of KCN catalyst): CN\u207b adds to the carbonyl \u2192 hydroxynitrile (contains \u2013OH and \u2013CN). The product has one more carbon than the original carbonyl compound, and a new chiral centre forms \u2014 equal amounts of both enantiomers are produced (racemic mixture)."
       ]
     }
   ],

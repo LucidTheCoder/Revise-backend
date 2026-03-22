@@ -12,38 +12,29 @@
     {
       "heading": "Carboxylic Acids",
       "items": [
-        "Weak acids: partially dissociate in water. pKa ~4\u20135 for simple carboxylic acids.",
-        "React with Na\u2082CO\u2083/NaHCO\u2083: RCOOH + Na\u2082CO\u2083 \u2192 RCOONa + H\u2082O + CO\u2082 (effervescence \u2014 test for carboxylic acid; aldehydes/ketones do not react with Na\u2082CO\u2083).",
-        "Esterification: RCOOH + R'OH \u21cc RCOOR' + H\u2082O (H\u2082SO\u2084 catalyst, reversible).",
-        "Reduction: RCOOH + LiAlH\u2084 \u2192 RCH\u2082OH (primary alcohol)."
+        "Carboxylic acids (\u2013COOH) are weak acids \u2014 they partially dissociate in aqueous solution. They react with carbonates and hydrogencarbonates with effervescence (CO\u2082 released) \u2014 a diagnostic test distinguishing them from aldehydes and ketones, which do not react with Na\u2082CO\u2083.",
+        "Esterification: RCOOH + R'OH \u21cc RCOOR' + H\u2082O (H\u2082SO\u2084 catalyst; reversible equilibrium; use excess of one reagent to improve yield).",
+        "Reduction: RCOOH + 4[H] (LiAlH\u2084) \u2192 RCH\u2082OH (primary alcohol)."
       ]
     },
     {
       "heading": "Acyl Chlorides",
       "items": [
-        "Prepared from carboxylic acid + PCl\u2085 (or SOCl\u2082).",
-        "More reactive than carboxylic acids (better leaving group Cl\u207b vs OH\u207b).",
-        "With water: RCOCl + H\u2082O \u2192 RCOOH + HCl (steamy fumes of HCl).",
-        "With alcohol: RCOCl + R'OH \u2192 RCOOR' + HCl (ester formed, no catalyst needed, fast).",
-        "With ammonia: RCOCl + 2NH\u2083 \u2192 RCONH\u2082 + NH\u2084Cl (primary amide).",
-        "With primary amine: RCOCl + RNH\u2082 \u2192 RCONHR + HCl (secondary amide)."
+        "Acyl chlorides (\u2013COCl) are more reactive than carboxylic acids because Cl\u207b is a better leaving group than OH\u207b. Reactions proceed vigorously without a catalyst.",
+        "With water: RCOCl + H\u2082O \u2192 RCOOH + HCl (steamy white fumes). With alcohol: RCOCl + R'OH \u2192 RCOOR' + HCl (ester, no catalyst needed). With ammonia: RCOCl + 2NH\u2083 \u2192 RCONH\u2082 + NH\u2084Cl (primary amide). With a primary amine: RCOCl + R'NH\u2082 \u2192 RCONHR' + HCl (secondary amide)."
       ]
     },
     {
-      "heading": "Esters",
+      "heading": "Hydrolysis of Esters",
       "items": [
-        "Hydrolysis (acid): RCOOR' + H\u2082O \u21cc RCOOH + R'OH (reversible; H\u207a catalyst).",
-        "Hydrolysis (base/saponification): RCOOR' + NaOH \u2192 RCOONa + R'OH (irreversible \u2192 drives to completion).",
-        "Polyesters: e.g. Terylene (PET) from benzene-1,4-dicarboxylic acid + ethane-1,2-diol.",
-        "Biodiesel: transesterification of vegetable oil triglycerides with methanol."
+        "Acid hydrolysis: ester + H\u2082O \u21cc carboxylic acid + alcohol (H\u207a catalyst; reversible \u2014 equilibrium). Base hydrolysis (saponification): ester + NaOH \u2192 carboxylate salt + alcohol (irreversible \u2014 the carboxylate cannot re-esterify; drives reaction to completion)."
       ]
     },
     {
-      "heading": "Amides",
+      "heading": "Condensation Polymers",
       "items": [
-        "Contain \u2013CONH\u2082 (primary), \u2013CONHR (secondary), \u2013CONR\u2082 (tertiary) group.",
-        "Polyamides: nylon \u2014 condensation polymer; e.g. nylon-6,6 from hexanediamine + hexanedioic acid.",
-        "Hydrolysis of amide: heat with HCl(aq) \u2192 carboxylic acid + ammonium salt; or NaOH(aq) \u2192 carboxylate + amine."
+        "Polyesters form from a diol and a dicarboxylic acid \u2014 ester linkages (\u2013COO\u2013) form with loss of water. Example: Terylene/PET from ethane-1,2-diol + benzene-1,4-dicarboxylic acid.",
+        "Polyamides form from a diamine and a dicarboxylic acid \u2014 amide linkages (\u2013CONH\u2013) form with loss of water. Example: nylon-6,6 from hexane-1,6-diamine + hexanedioic acid. Polyamides can be hydrolysed (by acid or base) \u2014 unlike addition polymers."
       ]
     }
   ],

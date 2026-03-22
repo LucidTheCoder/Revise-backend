@@ -10,31 +10,32 @@
   ],
   "notes": [
     {
-      "heading": "Naming Organic Compounds",
+      "heading": "IUPAC Nomenclature",
       "items": [
-        "Identify the longest chain as the parent hydrocarbon; number from the end nearest the functional group.",
-        "Prefixes: meth-(1C), eth-(2C), prop-(3C), but-(4C), pent-(5C), hex-(6C).",
-        "Suffixes: -ane (alkane), -ene (alkene), -ol (alcohol), -al (aldehyde), -one (ketone), -oic acid (carboxylic acid).",
-        "Substituents: methyl, ethyl, chloro, bromo, nitro etc. \u2014 listed alphabetically before the parent name."
+        "Identify the longest continuous carbon chain as the parent hydrocarbon (meth-, eth-, prop-, but-, pent-, hex-). Number the chain from the end that gives substituents/functional groups the lowest locants.",
+        "The principal functional group determines the suffix (parent name): \u2013ane (alkane), \u2013ene (alkene), \u2013ol (alcohol), \u2013al (aldehyde), \u2013one (ketone), \u2013oic acid (carboxylic acid). Substituents (methyl, bromo, chloro etc.) are listed alphabetically as prefixes with their position number."
       ]
     },
     {
-      "heading": "Isomerism",
+      "heading": "Structural Isomers",
       "items": [
-        "Structural isomers: same molecular formula, different connectivity. Types: chain (different carbon skeleton), positional (functional group in different position), functional group (different functional group).",
-        "Stereoisomers: same connectivity, different spatial arrangement. Types: cis/trans (E/Z) and optical isomers.",
-        "E/Z isomerism: requires restricted rotation (C=C) and two different groups on each carbon of the double bond. Z (zusammen) = same side; E (entgegen) = opposite sides.",
-        "Optical isomers (enantiomers): molecule with a chiral centre (4 different groups on one carbon); non-superimposable mirror images; rotate plane-polarised light in opposite directions."
+        "Structural isomers have the same molecular formula but different structural arrangements. Three types: chain isomers (different carbon skeleton), positional isomers (same functional group at different positions on the chain), and functional group isomers (different functional group \u2014 e.g. an aldehyde and a ketone with the same formula)."
       ]
     },
     {
-      "heading": "Reaction Types",
+      "heading": "Stereoisomers",
       "items": [
-        "Substitution: atom/group replaced by another. Electrophilic substitution (benzene), free radical substitution (alkanes), nucleophilic substitution (halogenoalkanes).",
-        "Addition: two molecules join across a double bond (alkene reactions).",
-        "Elimination: small molecule removed to form a double bond (e.g. dehydration of alcohol to alkene).",
-        "Hydrolysis: bond broken by reaction with water (e.g. ester hydrolysis).",
-        "Oxidation: gain of O or loss of H (aldehydes oxidised to carboxylic acids; alcohols oxidised). Reduction: gain of H or loss of O (ketones/aldehydes reduced with NaBH\u2084 or LiAlH\u2084)."
+        "E/Z isomerism (a type of geometric isomerism) arises when a C=C bond has two different groups on each carbon. The C=C bond has restricted rotation; Z (zusammen) isomers have the higher-priority groups on the same side; E (entgegen) have them on opposite sides. Priorities follow Cahn\u2013Ingold\u2013Prelog rules (higher atomic number = higher priority).",
+        "Optical isomers (enantiomers) arise when a molecule has a chiral centre \u2014 a carbon with four different groups. The two enantiomers are non-superimposable mirror images with identical physical and chemical properties, except they rotate plane-polarised light by equal amounts in opposite directions. A 50:50 mixture (racemate) shows no net optical rotation."
+      ]
+    },
+    {
+      "heading": "Reaction Types and Mechanisms",
+      "items": [
+        "Substitution: a group is replaced by another. Electrophilic substitution (benzene + Br\u2082 / FeBr\u2083), free-radical substitution (alkane + Cl\u2082 / UV), nucleophilic substitution (halogenoalkane + NaOH).",
+        "Addition: two molecules join across a \u03c0 bond. Electrophilic addition (alkene + Br\u2082), hydrogenation (alkene + H\u2082).",
+        "Elimination: a small molecule is lost from within a molecule to create a \u03c0 bond (e.g. alcohol \u2192 alkene by dehydration). Hydrolysis: a bond is broken using water (e.g. ester hydrolysis).",
+        "An electrophile is an electron-deficient species that accepts electron pairs. A nucleophile is electron-rich (lone pair or negative charge) and donates electron pairs. Curly arrows show movement of electron pairs \u2014 always from electrons to electron-deficient site."
       ]
     }
   ],

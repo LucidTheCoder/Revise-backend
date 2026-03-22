@@ -12,35 +12,22 @@
     {
       "heading": "Haber Process",
       "items": [
-        "N\u2082(g) + 3H\u2082(g) \u21cc 2NH\u2083(g)  \u0394H = \u221292 kJ mol\u207b\u00b9 (exothermic).",
-        "Conditions: 450\u00b0C (compromise \u2014 lower T gives higher Kc but too slow; 450\u00b0C gives acceptable rate and ~15% yield), 200 atm pressure (favours fewer moles of gas \u2192 more NH\u2083; high P costly), Fe catalyst.",
-        "Ammonia liquefied and removed \u2192 equilibrium shifts right (Le Chatelier).",
-        "Uses: fertilisers, nitric acid, explosives."
+        "N\u2082(g) + 3H\u2082(g) \u21cc 2NH\u2083(g)   \u0394H = \u221292 kJ mol\u207b\u00b9. The reaction is exothermic and produces fewer moles of gas.",
+        "Industrial conditions \u2014 a compromise: 450 \u00b0C (lower T increases Kc and yield, but the rate is too slow without the Fe catalyst; 450 \u00b0C gives an acceptable rate with \u224815% yield); 200 atm (shifts equilibrium toward NH\u2083; lower pressure would reduce yield; higher pressure is technically demanding and costly); Fe catalyst (speeds up equilibration without changing Kc); NH\u2083 is liquefied and removed continuously (shifts equilibrium right \u2014 Le Chatelier)."
       ]
     },
     {
-      "heading": "Ostwald Process",
+      "heading": "Ostwald Process and Nitric Acid",
       "items": [
-        "Step 1: 4NH\u2083 + 5O\u2082 \u2192 4NO + 6H\u2082O (Pt/Rh catalyst, ~900\u00b0C).",
-        "Step 2: 2NO + O\u2082 \u2192 2NO\u2082 (cooling).",
-        "Step 3: 3NO\u2082 + H\u2082O \u2192 2HNO\u2083 + NO (NO recycled).",
-        "Product: dilute nitric acid; concentrated by distillation."
+        "Step 1: catalytic oxidation of ammonia \u2014 4NH\u2083 + 5O\u2082 \u2192 4NO + 6H\u2082O (Pt/Rh catalyst, ~900 \u00b0C). Step 2: further oxidation \u2014 2NO + O\u2082 \u2192 2NO\u2082. Step 3: absorption in water \u2014 3NO\u2082 + H\u2082O \u2192 2HNO\u2083 + NO (NO recycled back to Step 2)."
       ]
     },
     {
-      "heading": "Acid Rain",
+      "heading": "Acid Rain and Sulfur Chemistry",
       "items": [
-        "SO\u2082 from burning fossil fuels (sulfur impurities) + H\u2082O \u2192 H\u2082SO\u2084 (sulfurous acid, then oxidised to sulfuric).",
-        "NO\u2093 from vehicle engines (high T, N\u2082 + O\u2082 \u2192 NO) + O\u2082/H\u2082O \u2192 HNO\u2083.",
-        "Effects: acidification of lakes/soils; damage to limestone/marble buildings; forest damage.",
-        "Control: flue gas desulfurisation (CaO/Ca(OH)\u2082 + SO\u2082 \u2192 CaSO\u2083/CaSO\u2084); catalytic converters (Pt/Rh/Pd \u2014 converts NO and CO to N\u2082 and CO\u2082); low-sulfur fuels."
-      ]
-    },
-    {
-      "heading": "Sulfur Chemistry",
-      "items": [
-        "SO\u2082: reducing agent (decolourises acidified KMnO\u2084); bleaching agent; food preservative (E220).",
-        "Contact process (H\u2082SO\u2084 manufacture): S + O\u2082 \u2192 SO\u2082; 2SO\u2082 + O\u2082 \u21cc 2SO\u2083 (V\u2082O\u2085 catalyst, 450\u00b0C, 1\u20132 atm); SO\u2083 + H\u2082SO\u2084 \u2192 H\u2082S\u2082O\u2087 (oleum); oleum + H\u2082O \u2192 H\u2082SO\u2084."
+        "SO\u2082 from burning fossil fuels (sulfur impurities) dissolves in rainwater to form sulfurous acid, which is further oxidised to sulfuric acid. NO\u2093 from vehicle engines (N\u2082 + O\u2082 at high T) forms nitric acid. Both lower the pH of precipitation below 5.6 (normal rain, already slightly acidic from CO\u2082).",
+        "Effects of acid rain: acidification of lakes and soil; damage to limestone and marble buildings (CaCO\u2083 + H\u2082SO\u2084 \u2192 CaSO\u2084 + CO\u2082 + H\u2082O); forest damage.",
+        "Controls: flue gas desulfurisation (scrubbing flue gases with CaO/Ca(OH)\u2082 \u2014 CaO + SO\u2082 \u2192 CaSO\u2083); catalytic converters in vehicles (Pt/Rh/Pd \u2014 oxidise CO and unburned hydrocarbons, reduce NO\u2093 to N\u2082 and O\u2082); low-sulfur fuels."
       ]
     }
   ],

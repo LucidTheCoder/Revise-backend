@@ -10,37 +10,25 @@
   ],
   "notes": [
     {
-      "heading": "Key Functional Group Conversions",
+      "heading": "Key Functional Group Interconversions",
       "items": [
-        "Alkane \u2192 halogenoalkane: UV light + halogen (free radical substitution).",
-        "Alkene \u2192 halogenoalkane: HX, room temp (electrophilic addition; Markovnikov).",
-        "Alkene \u2192 diol: cold KMnO\u2084 or H\u2082O/H\u2082SO\u2084 (acid).",
-        "Halogenoalkane \u2192 alcohol: NaOH(aq), warm.",
-        "Halogenoalkane \u2192 nitrile: NaCN/KCN, ethanol (+1C).",
-        "Halogenoalkane \u2192 amine: excess NH\u2083, sealed tube.",
-        "Primary alcohol \u2192 aldehyde: K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 + distil.",
-        "Primary alcohol \u2192 carboxylic acid: K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 + reflux.",
-        "Secondary alcohol \u2192 ketone: K\u2082Cr\u2082O\u2087/H\u2082SO\u2084 + reflux.",
-        "Aldehyde/ketone \u2192 alcohol: NaBH\u2084.",
-        "Nitrile \u2192 amine: LiAlH\u2084; nitrile \u2192 carboxylic acid: HCl(aq) reflux or NaOH(aq) then acidify.",
-        "Carboxylic acid \u2192 ester: ROH + H\u2082SO\u2084 catalyst; acyl chloride + ROH (faster).",
-        "Acyl chloride \u2192 amide: NH\u2083 or amine."
+        "The most important transformations to know as a connected network: alkane \u2192 (UV/halogen) halogenoalkane; alkene \u2192 (HX) halogenoalkane; halogenoalkane \u2192 (NaOH aq) alcohol \u2192 (Cr\u2082O\u2087\u00b2\u207b/H\u207a, distil) aldehyde \u2192 (Cr\u2082O\u2087\u00b2\u207b/H\u207a, reflux) carboxylic acid; secondary alcohol \u2192 (Cr\u2082O\u2087\u00b2\u207b/H\u207a) ketone; halogenoalkane \u2192 (NaCN/ethanol) nitrile (+1C) \u2192 (LiAlH\u2084) amine or (HCl(aq) reflux) carboxylic acid.",
+        "For each step, always state: (i) reagent, (ii) conditions/solvent, (iii) type of reaction."
       ]
     },
     {
-      "heading": "Multi-Step Synthesis",
+      "heading": "Multi-Step Synthesis and Retrosynthesis",
       "items": [
-        "Work backwards from the target (retrosynthetic analysis): identify the last bond formed, then work back.",
-        "Consider: chain length, functional group, oxidation state, stereochemistry.",
-        "Write reagents and conditions for each step; account for intermediate purification."
+        "Retrosynthetic analysis: work backwards from the target molecule. Identify the last bond formed or functional group introduced, then the step before that, and so on to a suitable starting material.",
+        "Key considerations: does the chain length need to change? (Use the nitrile route for +1C.) Does stereochemistry matter? Is the target chiral \u2014 can HCN addition give the needed enantiomer?",
+        "Atom economy and percentage yield apply to each step \u2014 multi-step syntheses accumulate losses."
       ]
     },
     {
-      "heading": "Practical Considerations",
+      "heading": "Purification and Purity",
       "items": [
-        "Yield: % yield = (actual moles / theoretical moles) \u00d7 100. Use excess of cheap reagent to improve yield.",
-        "Purity: distillation, recrystallisation, chromatography.",
-        "Test for purity: melting point (pure compound melts sharply at expected MP; impurities lower MP and broaden range)."
+        "Purification methods: distillation (for liquids with different boiling points), recrystallisation (for solids \u2014 dissolve in minimum hot solvent, cool slowly to get pure crystals), column chromatography.",
+        "Test for purity: sharp melting point at the expected value (impurities lower and broaden the melting point range). GC retention time or TLC Rf compared with a pure reference sample."
       ]
     }
   ],

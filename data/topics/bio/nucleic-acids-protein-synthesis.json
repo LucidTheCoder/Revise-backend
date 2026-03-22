@@ -12,40 +12,33 @@
     {
       "heading": "DNA Structure",
       "items": [
-        "Nucleotide: phosphate group + deoxyribose sugar + nitrogenous base.",
-        "Bases: adenine (A), thymine (T), guanine (G), cytosine (C). Purines (A, G) pair with pyrimidines (T, C).",
-        "A\u2013T: 2 hydrogen bonds. G\u2013C: 3 hydrogen bonds.",
-        "Strands are antiparallel: one runs 5'\u21923', the other 3'\u21925'.",
-        "Sugar-phosphate backbone held by covalent (phosphodiester) bonds."
+        "DNA is a double helix of two antiparallel polynucleotide strands. Each nucleotide consists of a deoxyribose sugar, a phosphate group, and one of four nitrogenous bases: adenine (A), thymine (T), guanine (G) or cytosine (C).",
+        "Complementary base pairing: A pairs with T via 2 hydrogen bonds; G pairs with C via 3 hydrogen bonds. The two strands are antiparallel \u2014 one runs 5'\u21923', the other 3'\u21925'. Adjacent nucleotides within a strand are linked by covalent phosphodiester bonds."
       ]
     },
     {
       "heading": "DNA Replication (Semi-Conservative)",
       "items": [
-        "Helicase unwinds the double helix and breaks H-bonds, separating the two strands.",
-        "Each strand acts as a template. DNA polymerase adds complementary nucleotides (5'\u21923' direction only).",
-        "Leading strand: synthesised continuously. Lagging strand: synthesised in Okazaki fragments.",
-        "Ligase joins Okazaki fragments.",
-        "Result: two identical double-stranded DNA molecules, each with one original and one new strand."
+        "Helicase unwinds the double helix and breaks the hydrogen bonds between base pairs, separating the two strands. Each strand then serves as a template.",
+        "DNA polymerase adds free nucleotides complementary to the template strand, building a new strand in the 5'\u21923' direction only. The leading strand is synthesised continuously; the lagging strand is built in short Okazaki fragments.",
+        "DNA ligase joins the Okazaki fragments on the lagging strand. The result is two identical double-stranded DNA molecules, each containing one original strand and one new strand \u2014 hence semi-conservative.",
+        "Meselson and Stahl proved semi-conservative replication using \u00b9\u2075N and \u00b9\u2074N isotopes in caesium chloride density gradient centrifugation."
       ]
     },
     {
-      "heading": "Transcription (Nucleus)",
+      "heading": "Transcription",
       "items": [
-        "RNA polymerase unwinds DNA at the promoter region.",
-        "Free RNA nucleotides form complementary base pairs with the template strand (T in DNA \u2192 A in RNA; A in DNA \u2192 U in RNA).",
-        "mRNA strand is synthesised 5'\u21923'. The other DNA strand (coding/sense strand) has the same sequence as the mRNA (with U replacing T).",
-        "Pre-mRNA is processed: introns removed (splicing), exons joined; 5' cap and poly-A tail added."
+        "RNA polymerase binds to the promoter region and unwinds a section of DNA. It reads the template (antisense) strand 3'\u21925' and synthesises a complementary mRNA strand 5'\u21923'.",
+        "RNA uses uracil (U) instead of thymine \u2014 so where the template has A, the mRNA has U. The coding (sense) strand has the same sequence as the mRNA (with U replacing T).",
+        "In eukaryotes, the initial pre-mRNA is processed: introns (non-coding sequences) are spliced out, exons are joined, and a 5' methylguanosine cap and poly-A tail are added \u2014 protecting the mRNA and aiding ribosome binding."
       ]
     },
     {
-      "heading": "Translation (Ribosome)",
+      "heading": "Translation",
       "items": [
-        "mRNA moves to ribosome (rough ER or cytoplasm).",
-        "tRNA carries specific amino acid (anticodon is complementary to mRNA codon).",
-        "Start codon: AUG (methionine). Stop codons: UAA, UAG, UGA.",
-        "Ribosome moves along mRNA; peptide bonds form between amino acids; polypeptide chain grows.",
-        "Protein folds into its 3D shape; may be modified in Golgi."
+        "The mature mRNA leaves the nucleus through nuclear pores and attaches to a ribosome (in the cytoplasm or on the RER). Each codon (three consecutive bases) on the mRNA specifies one amino acid.",
+        "tRNA molecules carry specific amino acids to the ribosome. The anticodon on each tRNA is complementary to the mRNA codon. AUG is the start codon (methionine); UAA, UAG and UGA are stop codons.",
+        "The ribosome moves along the mRNA; peptide bonds form between successive amino acids as tRNA molecules deliver them. The growing polypeptide chain is released when a stop codon is reached, then folds into its tertiary shape."
       ]
     }
   ],

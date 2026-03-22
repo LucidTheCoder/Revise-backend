@@ -10,29 +10,28 @@
   ],
   "notes": [
     {
+      "heading": "Dynamic Equilibrium",
+      "items": [
+        "A dynamic equilibrium is reached in a closed system when the rate of the forward reaction equals the rate of the reverse reaction. Concentrations remain constant \u2014 but both reactions continue to occur at the molecular level.",
+        "The equilibrium constant Kc = [products]^n / [reactants]^m, where the concentrations are raised to their stoichiometric coefficients. Only species in solution or the gas phase are included \u2014 pure solids and liquids are not.",
+        "The value of Kc depends only on temperature. A large Kc (>> 1) indicates products are favoured; a small Kc (<< 1) means reactants predominate."
+      ]
+    },
+    {
       "heading": "Le Chatelier's Principle",
       "items": [
-        "Concentration: adding a reactant shifts equilibrium to the right (more product); removing product also shifts right.",
-        "Pressure (gas reactions): increasing pressure favours the side with fewer moles of gas.",
-        "Temperature: increasing T shifts equilibrium in the endothermic direction (\u0394H > 0 side). This changes the value of Kc.",
-        "Catalyst: no effect on equilibrium position or Kc \u2014 just speeds up reaching equilibrium."
+        "If a system at equilibrium is subjected to a change, it responds to oppose that change and restore equilibrium.",
+        "Concentration: adding a reactant shifts equilibrium toward products; removing a product has the same effect.",
+        "Pressure (for reactions involving gases): increasing pressure favours the side with fewer moles of gas.",
+        "Temperature: increasing T shifts equilibrium in the endothermic direction. For an exothermic reaction, higher T decreases Kc (and the equilibrium yield of products). This is the only factor that changes the numerical value of Kc.",
+        "Catalyst: increases the rate of both forward and reverse reactions equally \u2014 equilibrium is reached faster, but the position and Kc are unchanged."
       ]
     },
     {
-      "heading": "Kc Expression",
+      "heading": "Industrial Applications",
       "items": [
-        "For aA + bB \u21cc cC + dD: Kc = [C]^c[D]^d / [A]^a[B]^b",
-        "Only include species in solution or gas phase (not pure solids or liquids).",
-        "Units of Kc depend on the expression \u2014 check by substituting mol dm\u207b\u00b3.",
-        "Large Kc (>10\u2074): equilibrium lies far to the right (products favoured). Small Kc: reactants favoured."
-      ]
-    },
-    {
-      "heading": "Effect of Temperature on Kc",
-      "items": [
-        "Exothermic reaction (\u0394H < 0): increasing T decreases Kc (shifts to reactants).",
-        "Endothermic reaction (\u0394H > 0): increasing T increases Kc (shifts to products).",
-        "This is the only factor that changes the numerical value of Kc."
+        "Haber process (N\u2082 + 3H\u2082 \u21cc 2NH\u2083, exothermic): uses 450 \u00b0C (a compromise \u2014 lower T gives higher Kc but too slow a rate even with the Fe catalyst; 450 \u00b0C is the economic optimum), 200 atm (shifts toward fewer moles of gas, increasing yield), and Fe catalyst. Ammonia is continuously removed to shift equilibrium right.",
+        "Contact process (2SO\u2082 + O\u2082 \u21cc 2SO\u2083, exothermic): 450 \u00b0C, 1\u20132 atm (high yield is achievable at low pressure \u2014 high pressure equipment is not cost-effective), V\u2082O\u2085 catalyst."
       ]
     }
   ],

@@ -10,38 +10,32 @@
   ],
   "notes": [
     {
-      "heading": "Xylem",
+      "heading": "Xylem and Water Transport",
       "items": [
-        "Transports water and mineral ions from roots to shoots. One-way flow.",
-        "Xylem vessels: dead cells at maturity; lignified walls (waterproof and strengthened); no cross walls; form continuous tubes.",
-        "Water entry into roots: moves by osmosis from soil water (high \u03a8) into root hair cells (low \u03a8), then across cortex via apoplast, symplast or vacuolar pathways, then into xylem.",
-        "Apoplast: cell wall pathway (no membranes crossed; blocked by Casparian strip in endodermis \u2014 forces water through symplast here to control mineral uptake)."
+        "Xylem transports water and mineral ions from roots to aerial parts \u2014 one-way flow. Mature xylem vessels are dead cells with no cytoplasm; their lignified walls are waterproof, strengthened, and prevent collapse under the tension generated during transpiration.",
+        "Water enters root hair cells by osmosis (soil water has higher \u03a8 than the cell contents). It crosses the cortex via the apoplast (cell walls, no membranes) or symplast (through cytoplasm via plasmodesmata). At the endodermis, the Casparian strip (suberin) blocks the apoplast pathway \u2014 water is forced through the symplast, giving cells control over mineral entry into the xylem."
       ]
     },
     {
-      "heading": "Cohesion-Tension Mechanism",
+      "heading": "The Cohesion-Tension Mechanism",
       "items": [
-        "Transpiration: water evaporates from mesophyll cells \u2192 diffuses out through stomata.",
-        "This creates a tension (negative pressure) at the top of the xylem, pulling water up.",
-        "Cohesion: water molecules stick to each other (H-bonds) \u2014 maintain continuous column.",
-        "Adhesion: water sticks to xylem walls.",
-        "Root pressure: active pumping of ions into xylem lowers \u03a8 \u2192 water enters by osmosis \u2014 contributes to upward movement."
+        "Transpiration from mesophyll cells creates a water vapour concentration gradient that drives evaporation through stomata. This removes water from the top of the xylem column, creating tension (negative pressure) that pulls the column upward.",
+        "Cohesion (hydrogen bonds between water molecules) keeps the column intact \u2014 water does not break under the tension. Adhesion to xylem walls provides additional support. No ATP is needed \u2014 the driving force is evaporation, ultimately powered by the sun."
       ]
     },
     {
       "heading": "Phloem and Translocation",
       "items": [
-        "Transports sucrose (and amino acids) from source (e.g. leaves, storage organs) to sink (e.g. roots, growing tips, fruits).",
-        "Phloem tissue: sieve tube elements (living, no nucleus) + companion cells (have nucleus; provide metabolic support via plasmodesmata).",
-        "Mass flow hypothesis: active loading of sucrose into phloem at source lowers \u03a8 \u2192 water enters from xylem \u2192 increased hydrostatic pressure \u2192 mass flow of solution toward sink \u2192 sucrose unloaded \u2192 water returns to xylem."
+        "Phloem transports sucrose (and amino acids) from sources (photosynthesising leaves, storage organs) to sinks (growing roots, developing fruits, meristems). Unlike xylem, flow can be bidirectional.",
+        "Sieve tube elements (living but without a nucleus) are connected end-to-end through sieve plates. Companion cells (with all organelles) maintain them metabolically via plasmodesmata.",
+        "Mass flow hypothesis: at the source, sucrose is actively loaded into phloem \u2192 water follows by osmosis \u2192 hydrostatic pressure rises and drives a bulk flow of solution toward the sink, where sucrose is unloaded and the process reverses. Evidence: aphid stylus experiments confirm phloem sap exudes under pressure."
       ]
     },
     {
       "heading": "Transpiration",
       "items": [
-        "Factors increasing rate: higher temperature, lower humidity, higher wind speed, more light (stomata open), larger leaf surface area.",
-        "Potometer: measures uptake of water (as a proxy for transpiration); capillary tube with air bubble measures distance moved per unit time.",
-        "Adaptations to reduce transpiration: thick waxy cuticle, sunken stomata, rolled leaves, fewer stomata, CAM metabolism (stomata open at night)."
+        "Rate of transpiration is increased by: higher temperature (more energy for evaporation), lower humidity (steeper water vapour gradient), higher wind speed (removes saturated air), more light (stomata open wider), larger leaf area.",
+        "A potometer measures the rate of water uptake by a cut shoot \u2014 used as an indirect measure of transpiration (some water is also used for photosynthesis and cell expansion)."
       ]
     }
   ],

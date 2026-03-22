@@ -10,33 +10,30 @@
   ],
   "notes": [
     {
-      "heading": "Fluid Mosaic Model",
+      "heading": "The Fluid Mosaic Model",
       "items": [
-        "Phospholipid bilayer: hydrophilic heads face outward (aqueous environment); hydrophobic tails face inward.",
-        "Intrinsic (integral) proteins: span the membrane; include channel proteins and carrier proteins.",
-        "Extrinsic (peripheral) proteins: on the surface; often involved in cell signalling.",
-        "Cholesterol: between phospholipid tails; regulates fluidity (prevents excess fluidity at high T and excess rigidity at low T).",
-        "Glycoproteins and glycolipids: carbohydrate chains attached to outer surface; cell signalling, cell recognition, immune response.",
-        "Fluid: phospholipids and proteins move laterally. Mosaic: proteins are scattered within the bilayer."
+        "The cell surface membrane is described by the fluid mosaic model: a phospholipid bilayer with embedded proteins that can move laterally (fluid), and a variety of protein types scattered throughout (mosaic).",
+        "Intrinsic (integral) proteins span the bilayer \u2014 they include channel proteins (allow specific ions/small molecules through by facilitated diffusion) and carrier proteins (change shape to transport molecules, can be active or passive). Extrinsic (peripheral) proteins sit on the surface and are often involved in cell signalling.",
+        "Cholesterol molecules intercalate between the fatty acid tails \u2014 they prevent the membrane becoming too fluid at high temperatures and too rigid at low temperatures, stabilising fluidity across a range of conditions.",
+        "Glycoproteins and glycolipids have carbohydrate chains on the outer surface \u2014 they act as receptors for hormones and neurotransmitters, cell-surface antigens for immune recognition, and adhesion molecules."
       ]
     },
     {
       "heading": "Membrane Transport",
       "items": [
-        "Simple diffusion: non-polar/small molecules move down concentration gradient (O\u2082, CO\u2082, lipid-soluble substances). No protein needed.",
-        "Facilitated diffusion: polar/charged molecules move down concentration gradient via channel or carrier proteins. No ATP required.",
-        "Osmosis: water moves by diffusion from high to low water potential (\u03a8) through a partially permeable membrane.",
-        "Active transport: molecules move against concentration gradient via carrier proteins; requires ATP (from hydrolysis of ATP \u2192 ADP + P\u1d62); Na\u207a/K\u207a pump is the classic example.",
-        "Endocytosis / exocytosis: bulk transport of large molecules via membrane vesicles."
+        "Simple diffusion: small, non-polar molecules (O\u2082, CO\u2082, lipid-soluble substances) dissolve directly into and pass through the lipid bilayer, moving down their concentration gradient. No proteins or energy required.",
+        "Facilitated diffusion: polar or charged molecules (glucose, ions) cannot cross the bilayer directly \u2014 they move down their concentration gradient through specific channel or carrier proteins. Passive \u2014 no ATP required.",
+        "Active transport: molecules move against their concentration gradient through carrier proteins, driven by ATP hydrolysis (ATP \u2192 ADP + P\u1d62). The Na\u207a/K\u207a pump is the classic example \u2014 pumps 3 Na\u207a out and 2 K\u207a in per ATP molecule.",
+        "Bulk transport: endocytosis (membrane engulfs material to form a vesicle inside the cell) and exocytosis (vesicle fuses with membrane to release contents outside) transport large molecules."
       ]
     },
     {
-      "heading": "Water Potential",
+      "heading": "Osmosis and Water Potential",
       "items": [
-        "Water potential (\u03a8) = solute potential (\u03a8s) + pressure potential (\u03a8p).",
-        "Pure water: \u03a8 = 0 (highest possible). Adding solutes: \u03a8s becomes negative, lowering \u03a8.",
-        "In animal cells: cells in hypertonic solution \u2192 crenation (shrink); hypotonic \u2192 lysis (burst).",
-        "In plant cells: hypertonic \u2192 plasmolysis (membrane pulls away from cell wall); hypotonic \u2192 turgid (cell wall prevents lysis)."
+        "Osmosis is the net movement of water molecules by diffusion through a partially permeable membrane from a region of higher water potential (\u03a8) to a region of lower water potential.",
+        "Pure water has \u03a8 = 0 (the maximum possible). Dissolving solutes lowers \u03a8 \u2014 the more concentrated the solution, the more negative (lower) its water potential. Water always moves from less negative to more negative \u03a8.",
+        "In animal cells: a hypertonic external solution (lower \u03a8) draws water out \u2192 crenation (cell shrinks). A hypotonic solution (higher \u03a8) drives water in \u2192 lysis (cell bursts) because there is no cell wall.",
+        "In plant cells: hypertonic solution causes plasmolysis \u2014 the plasma membrane pulls away from the cell wall. A hypotonic solution makes the cell turgid \u2014 the cell wall exerts wall pressure, preventing lysis."
       ]
     }
   ],

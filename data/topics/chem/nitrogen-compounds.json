@@ -12,31 +12,17 @@
     {
       "heading": "Amines",
       "items": [
-        "Primary amine: R\u2013NH\u2082 (one alkyl group). Secondary: R\u2082NH. Tertiary: R\u2083N.",
-        "Basicity: lone pair on N accepts a proton. R\u2013NH\u2082 + H\u207a \u2192 R\u2013NH\u2083\u207a.",
-        "Arylamines (e.g. phenylamine, C\u2086H\u2085NH\u2082) are weaker bases than alkylamines \u2014 lone pair delocalised into benzene ring.",
-        "Alkylamines are stronger bases than NH\u2083 (alkyl groups donate electrons to N, increasing availability of lone pair).",
-        "Nucleophilicity: amines react with acyl chlorides to form amides (covered in carboxylic acids topic).",
-        "Preparation of primary amines: reduction of nitrile (R\u2013CN + 4[H] \u2192 R\u2013CH\u2082\u2013NH\u2082, using LiAlH\u2084 or H\u2082/Ni); or reduction of nitrobenzene (Sn/HCl) to give phenylamine."
+        "Amines are organic derivatives of ammonia. Primary amines (R\u2013NH\u2082) have one alkyl/aryl group on nitrogen; secondary (R\u2082NH) have two; tertiary (R\u2083N) have three.",
+        "Basicity: the lone pair on nitrogen accepts a proton. Alkylamines are stronger bases than ammonia \u2014 the alkyl group donates electron density to N (inductive effect), making the lone pair more available. Phenylamines (arylamines) are much weaker bases \u2014 the lone pair is delocalised into the benzene ring and is less available for protonation.",
+        "Preparation: reduce a nitrile with LiAlH\u2084 (R\u2013CN + 4[H] \u2192 R\u2013CH\u2082\u2013NH\u2082); or reduce nitrobenzene with Sn/HCl to give phenylamine; or nucleophilic substitution of a halogenoalkane with excess NH\u2083."
       ]
     },
     {
-      "heading": "Amino Acids",
+      "heading": "Amino Acids and Proteins",
       "items": [
-        "General structure: H\u2082N\u2013CHR\u2013COOH (R = side chain).",
-        "Amphoteric: act as acid (\u2013COOH) or base (\u2013NH\u2082).",
-        "Zwitterion: at isoelectric point (pI), \u2013NH\u2083\u207a and \u2013COO\u207b groups present simultaneously; net charge = 0.",
-        "At low pH (acidic): \u2013NH\u2083\u207a predominates (positively charged). At high pH (basic): \u2013COO\u207b predominates (negatively charged).",
-        "Condensation reaction between \u2013NH\u2082 of one and \u2013COOH of another \u2192 peptide bond (\u2013CO\u2013NH\u2013) + H\u2082O."
-      ]
-    },
-    {
-      "heading": "Peptides and Proteins",
-      "items": [
-        "Dipeptide: 2 amino acids; polypeptide: many. Protein = functional polypeptide.",
-        "Primary structure: amino acid sequence.",
-        "Hydrolysis of peptide bond: HCl(aq) reflux \u2192 amino acids.",
-        "Chromatography (paper/TLC): Rf values identify amino acids from protein hydrolysate. Ninhydrin spray gives purple spots."
+        "Amino acids contain both \u2013NH\u2082 and \u2013COOH groups. They are amphoteric \u2014 acting as an acid (donating H\u207a from \u2013COOH) or a base (accepting H\u207a on \u2013NH\u2082). At the isoelectric point (pI), the amino acid exists as a zwitterion (\u2013NH\u2083\u207a and \u2013COO\u207b simultaneously; net charge = 0).",
+        "Peptide bonds form by condensation between the \u2013COOH of one amino acid and the \u2013NH\u2082 of another, releasing water. Hydrolysis (reflux with HCl(aq) or NaOH(aq)) breaks the peptide bonds back to individual amino acids.",
+        "Paper/TLC chromatography identifies amino acids after hydrolysis \u2014 Rf = distance spot moved / distance solvent moved. Spots are visualised with ninhydrin spray (purple colour)."
       ]
     }
   ],

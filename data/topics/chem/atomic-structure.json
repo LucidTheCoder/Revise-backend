@@ -12,61 +12,102 @@
     {
       "heading": "Subatomic Particles",
       "items": [
-        "Proton: relative mass 1, charge +1, found in nucleus.",
-        "Neutron: relative mass 1, charge 0, found in nucleus.",
-        "Electron: relative mass 1/1836 (~0), charge -1, found in shells.",
-        "Mass number (A) = protons + neutrons. Atomic number (Z) = protons only."
+        "Atoms consist of a dense positive nucleus (protons and neutrons) surrounded by electrons in shells. The atomic number (Z) = number of protons; it defines the element. The mass number (A) = protons + neutrons.",
+        "Proton: relative mass 1, charge +1. Neutron: relative mass 1, charge 0. Electron: relative mass \u2248 1/1836 (negligible), charge \u22121."
       ]
     },
     {
-      "heading": "Electron Configuration",
+      "heading": "Electron Configuration and Subshells",
       "items": [
-        "Shells are divided into subshells: s (max 2e), p (max 6e), d (max 10e).",
-        "Fill in order: 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p.",
-        "Cr and Cu are exceptions: [Ar] 3d5 4s1 and [Ar] 3d10 4s1 (half-filled/fully-filled d is more stable).",
-        "When writing ions, remove electrons from 4s before 3d."
+        "Electrons occupy shells divided into subshells: s (max 2), p (max 6), d (max 10), f (max 14). The order of filling is: 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p.",
+        "Hund's rule: electrons occupy degenerate orbitals singly before pairing. Copper and chromium are anomalous \u2014 the extra stability of a half-filled (3d\u2075) or fully filled (3d\u00b9\u2070) d subshell means one electron moves from 4s: Cr = [Ar] 3d\u2075 4s\u00b9; Cu = [Ar] 3d\u00b9\u2070 4s\u00b9.",
+        "When forming ions, electrons are always removed from the highest principal quantum number first \u2014 remove 4s before 3d in transition metals: Fe\u00b2\u207a = [Ar] 3d\u2076."
       ]
     },
     {
-      "heading": "Isotopes and RAM",
+      "heading": "Isotopes and Relative Atomic Mass",
       "items": [
-        "Relative atomic mass (Ar) = weighted mean mass relative to 1/12 mass of carbon-12.",
-        "Calculate Ar from mass spectrum: sum of (mass × % abundance) / 100.",
-        "Isotopes have same proton number but different neutron number — same chemistry, different physical properties."
+        "Isotopes are atoms of the same element (same Z) with different mass numbers (different number of neutrons). They have identical chemical properties but different physical properties (mass).",
+        "Relative atomic mass (A\u1d63): weighted mean mass of an atom relative to 1/12 the mass of \u00b9\u00b2C. A\u1d63 = \u03a3(isotope mass \u00d7 fractional abundance). Not necessarily a whole number."
       ]
     },
     {
       "heading": "Mass Spectrometry",
       "items": [
-        "Steps: vaporisation → ionisation (electron bombardment, loses 1e to form M+) → acceleration → deflection in magnetic field → detection.",
-        "Lighter ions and more charged ions are deflected more.",
-        "The m/z axis gives mass of ion; y-axis gives relative abundance.",
-        "Molecular ion peak (M+) = highest m/z peak (ignoring isotope peaks). Fragmentation peaks appear at lower m/z."
+        "Four stages: ionisation (electron bombardment removes one electron \u2192 M\u207a cation) \u2192 acceleration (electric field) \u2192 deflection (magnetic field \u2014 lighter ions and those with higher charge deflect more) \u2192 detection.",
+        "The x-axis of the mass spectrum is m/z (mass-to-charge ratio). The molecular ion peak (M\u207a) at the highest m/z gives the relative molecular mass. Fragment peaks arise from bond cleavage. The tallest peak (base peak) is the most abundant fragment.",
+        "Isotope patterns: chlorine (\u00b3\u2075Cl : \u00b3\u2077Cl \u2248 3:1) gives M and M+2 peaks in a 3:1 ratio; bromine (\u22481:1) gives equal M and M+2 peaks."
+      ]
+    },
+    {
+      "heading": "Ionisation Energies",
+      "items": [
+        "First ionisation energy (IE\u2081): X(g) \u2192 X\u207a(g) + e\u207b. It increases across a period (more protons, same shielding) with two dips: Al < Mg (3p electron easier to remove than 3s) and S < P (paired 3p electron repelled by its partner).",
+        "Successive ionisation energies increase steadily, then show a large jump when an electron is removed from a new, inner shell \u2014 this reveals the group of the element."
       ]
     }
   ],
   "definitions": [
-    { "term": "Atomic number (Z)", "body": "The number of protons in the nucleus of an atom." },
-    { "term": "Mass number (A)", "body": "The total number of protons and neutrons in the nucleus." },
-    { "term": "Isotopes", "body": "Atoms of the same element with the same number of protons but different numbers of neutrons." },
-    { "term": "Relative atomic mass (Ar)", "body": "The weighted mean mass of an atom of an element relative to 1/12 the mass of a carbon-12 atom." },
-    { "term": "First ionisation energy", "body": "The energy required to remove one mole of electrons from one mole of gaseous atoms: X(g) → X+(g) + e−." }
+    {
+      "term": "Atomic number (Z)",
+      "body": "The number of protons in the nucleus of an atom."
+    },
+    {
+      "term": "Mass number (A)",
+      "body": "The total number of protons and neutrons in the nucleus."
+    },
+    {
+      "term": "Isotopes",
+      "body": "Atoms of the same element with the same number of protons but different numbers of neutrons."
+    },
+    {
+      "term": "Relative atomic mass (Ar)",
+      "body": "The weighted mean mass of an atom of an element relative to 1/12 the mass of a carbon-12 atom."
+    },
+    {
+      "term": "First ionisation energy",
+      "body": "The energy required to remove one mole of electrons from one mole of gaseous atoms: X(g) \u2192 X+(g) + e\u2212."
+    }
   ],
   "workedExamples": [
     {
       "q": "Chlorine has two isotopes: Cl-35 (75.0%) and Cl-37 (25.0%). Calculate the relative atomic mass.",
       "steps": [
-        { "n": 1, "sub": "Formula", "text": "Ar = Σ(mass × abundance) / 100" },
-        { "n": 2, "sub": "Substitute", "text": "Ar = (35 × 75.0 + 37 × 25.0) / 100 = (2625 + 925) / 100" },
-        { "n": 3, "sub": "Answer", "text": "Ar = 3550 / 100 = 35.5" }
+        {
+          "n": 1,
+          "sub": "Formula",
+          "text": "Ar = \u03a3(mass \u00d7 abundance) / 100"
+        },
+        {
+          "n": 2,
+          "sub": "Substitute",
+          "text": "Ar = (35 \u00d7 75.0 + 37 \u00d7 25.0) / 100 = (2625 + 925) / 100"
+        },
+        {
+          "n": 3,
+          "sub": "Answer",
+          "text": "Ar = 3550 / 100 = 35.5"
+        }
       ]
     },
     {
       "q": "Write the full electron configuration of Fe2+.",
       "steps": [
-        { "n": 1, "sub": "Neutral Fe (Z=26)", "text": "1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁶ 4s²" },
-        { "n": 2, "sub": "Remove 2 electrons from 4s first", "text": "Remove both 4s electrons." },
-        { "n": 3, "sub": "Fe2+ configuration", "text": "1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁶" }
+        {
+          "n": 1,
+          "sub": "Neutral Fe (Z=26)",
+          "text": "1s\u00b2 2s\u00b2 2p\u2076 3s\u00b2 3p\u2076 3d\u2076 4s\u00b2"
+        },
+        {
+          "n": 2,
+          "sub": "Remove 2 electrons from 4s first",
+          "text": "Remove both 4s electrons."
+        },
+        {
+          "n": 3,
+          "sub": "Fe2+ configuration",
+          "text": "1s\u00b2 2s\u00b2 2p\u2076 3s\u00b2 3p\u2076 3d\u2076"
+        }
       ]
     }
   ],
@@ -76,42 +117,128 @@
     "Forgetting Cu and Cr have anomalous configurations due to extra stability of half-filled/full 3d."
   ],
   "tips": [
-    "In mass spectrometry questions, the tallest peak is the most abundant isotope — not necessarily the heaviest.",
-    "Always state the equation for first ionisation energy: X(g) → X+(g) + e−.",
+    "In mass spectrometry questions, the tallest peak is the most abundant isotope \u2014 not necessarily the heaviest.",
+    "Always state the equation for first ionisation energy: X(g) \u2192 X+(g) + e\u2212.",
     "Successive ionisation energy data: a big jump between nth and (n+1)th IE means the element is in Group n."
   ],
   "flashcards": [
-    { "q": "What is the charge and mass of a proton?", "a": "Charge +1, relative mass 1." },
-    { "q": "What is the formula for relative atomic mass?", "a": "Ar = Σ(isotope mass × % abundance) / 100" },
-    { "q": "Why do Cr and Cu have anomalous electron configurations?", "a": "Half-filled (3d⁵) and fully-filled (3d¹⁰) subshells have extra stability, so one electron moves from 4s to 3d." },
-    { "q": "What are the four stages of mass spectrometry?", "a": "Ionisation → acceleration → deflection in magnetic field → detection." },
-    { "q": "What is first ionisation energy?", "a": "Energy to remove 1 mole of electrons from 1 mole of gaseous atoms: X(g) → X+(g) + e−." },
-    { "q": "What does a large jump in successive ionisation energies indicate?", "a": "The electron being removed is from a new, inner shell — reveals the group of the element." }
+    {
+      "q": "What is the charge and mass of a proton?",
+      "a": "Charge +1, relative mass 1."
+    },
+    {
+      "q": "What is the formula for relative atomic mass?",
+      "a": "Ar = \u03a3(isotope mass \u00d7 % abundance) / 100"
+    },
+    {
+      "q": "Why do Cr and Cu have anomalous electron configurations?",
+      "a": "Half-filled (3d\u2075) and fully-filled (3d\u00b9\u2070) subshells have extra stability, so one electron moves from 4s to 3d."
+    },
+    {
+      "q": "What are the four stages of mass spectrometry?",
+      "a": "Ionisation \u2192 acceleration \u2192 deflection in magnetic field \u2192 detection."
+    },
+    {
+      "q": "What is first ionisation energy?",
+      "a": "Energy to remove 1 mole of electrons from 1 mole of gaseous atoms: X(g) \u2192 X+(g) + e\u2212."
+    },
+    {
+      "q": "What does a large jump in successive ionisation energies indicate?",
+      "a": "The electron being removed is from a new, inner shell \u2014 reveals the group of the element."
+    }
   ],
   "quiz": {
     "title": "Atomic Structure Quiz",
     "questions": [
-      { "q": "Bromine has isotopes Br-79 (50.7%) and Br-81 (49.3%). What is the Ar?", "opts": ["79.0","79.99","80.0","81.0"], "ans": 1, "exp": "Ar = (79×50.7 + 81×49.3)/100 = (4005.3+3993.3)/100 = 79.99" },
-      { "q": "Which subshells are filled before 3d?", "opts": ["1s 2s 2p 3s 3p 4s","1s 2s 2p 3s 3p 3d","1s 2s 2p 3s 3p","1s 2s 3s 2p 3p"], "ans": 0, "exp": "Order of filling: 1s, 2s, 2p, 3s, 3p, 4s, then 3d." },
-      { "q": "What is the electron configuration of Cu (Z=29)?", "opts": ["[Ar] 3d9 4s2","[Ar] 3d10 4s1","[Ar] 3d8 4s2","[Ar] 3d10 4s2"], "ans": 1, "exp": "Cu is anomalous: fully filled 3d10 with 4s1 is more stable than 3d9 4s2." },
-      { "q": "In mass spectrometry, which ions are deflected most in the magnetic field?", "opts": ["Heavy, singly charged","Light, highly charged","Heavy, highly charged","Light, singly charged"], "ans": 1, "exp": "Deflection increases with charge and decreases with mass — light, highly charged ions deflect most." },
-      { "q": "What does the molecular ion peak (M+) represent?", "opts": ["The most abundant fragment","The parent molecule minus one electron","The lightest fragment","A doubly charged ion"], "ans": 1, "exp": "M+ is the intact molecule that has lost one electron during ionisation — it appears at the highest m/z." }
+      {
+        "q": "Bromine has isotopes Br-79 (50.7%) and Br-81 (49.3%). What is the Ar?",
+        "opts": [
+          "79.0",
+          "79.99",
+          "80.0",
+          "81.0"
+        ],
+        "ans": 1,
+        "exp": "Ar = (79\u00d750.7 + 81\u00d749.3)/100 = (4005.3+3993.3)/100 = 79.99"
+      },
+      {
+        "q": "Which subshells are filled before 3d?",
+        "opts": [
+          "1s 2s 2p 3s 3p 4s",
+          "1s 2s 2p 3s 3p 3d",
+          "1s 2s 2p 3s 3p",
+          "1s 2s 3s 2p 3p"
+        ],
+        "ans": 0,
+        "exp": "Order of filling: 1s, 2s, 2p, 3s, 3p, 4s, then 3d."
+      },
+      {
+        "q": "What is the electron configuration of Cu (Z=29)?",
+        "opts": [
+          "[Ar] 3d9 4s2",
+          "[Ar] 3d10 4s1",
+          "[Ar] 3d8 4s2",
+          "[Ar] 3d10 4s2"
+        ],
+        "ans": 1,
+        "exp": "Cu is anomalous: fully filled 3d10 with 4s1 is more stable than 3d9 4s2."
+      },
+      {
+        "q": "In mass spectrometry, which ions are deflected most in the magnetic field?",
+        "opts": [
+          "Heavy, singly charged",
+          "Light, highly charged",
+          "Heavy, highly charged",
+          "Light, singly charged"
+        ],
+        "ans": 1,
+        "exp": "Deflection increases with charge and decreases with mass \u2014 light, highly charged ions deflect most."
+      },
+      {
+        "q": "What does the molecular ion peak (M+) represent?",
+        "opts": [
+          "The most abundant fragment",
+          "The parent molecule minus one electron",
+          "The lightest fragment",
+          "A doubly charged ion"
+        ],
+        "ans": 1,
+        "exp": "M+ is the intact molecule that has lost one electron during ionisation \u2014 it appears at the highest m/z."
+      }
     ]
   },
   "recall": [
     "State the relative mass and charge of a proton, neutron and electron.",
-    "Write the electron configuration of Fe²⁺.",
+    "Write the electron configuration of Fe\u00b2\u207a.",
     "Explain why successive ionisation energies increase.",
     "Calculate Ar given two isotopes and their abundances.",
     "Describe the four stages of a mass spectrometer."
   ],
   "summary": [
-    { "label": "Proton", "value": "mass 1, charge +1" },
-    { "label": "Neutron", "value": "mass 1, charge 0" },
-    { "label": "Electron", "value": "mass ~0, charge -1" },
-    { "label": "Ar formula", "value": "Σ(mass × %) / 100" },
-    { "label": "Cr config", "value": "[Ar] 3d5 4s1" },
-    { "label": "Cu config", "value": "[Ar] 3d10 4s1" }
+    {
+      "label": "Proton",
+      "value": "mass 1, charge +1"
+    },
+    {
+      "label": "Neutron",
+      "value": "mass 1, charge 0"
+    },
+    {
+      "label": "Electron",
+      "value": "mass ~0, charge -1"
+    },
+    {
+      "label": "Ar formula",
+      "value": "\u03a3(mass \u00d7 %) / 100"
+    },
+    {
+      "label": "Cr config",
+      "value": "[Ar] 3d5 4s1"
+    },
+    {
+      "label": "Cu config",
+      "value": "[Ar] 3d10 4s1"
+    }
   ],
   "syllabusRef": "Cambridge AS Level Chemistry 9701, Topic 1"
 }

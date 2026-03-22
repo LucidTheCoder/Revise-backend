@@ -10,38 +10,26 @@
   ],
   "notes": [
     {
-      "heading": "Moments and Torques",
+      "heading": "Moments and the Principle of Moments",
       "items": [
-        "Moment = F \u00d7 d\u22a5 (force \u00d7 perpendicular distance from pivot); units: N m.",
-        "Principle of moments: for equilibrium, sum of clockwise moments = sum of anticlockwise moments.",
-        "Couple: two equal, opposite, parallel forces separated by distance d; torque of couple = F \u00d7 d (constant regardless of pivot chosen).",
-        "Torque \u2260 moment of single force (torque of couple is independent of pivot)."
+        "The moment of a force about a pivot = force \u00d7 perpendicular distance from the pivot to the line of action of the force (N m). Moments that rotate clockwise are positive by convention; anticlockwise are negative.",
+        "Principle of moments: for a body in rotational equilibrium, the sum of clockwise moments about any point equals the sum of anticlockwise moments about the same point.",
+        "A couple is a pair of equal, opposite, parallel forces \u2014 it produces pure rotation with no net translational force. The torque of a couple = F \u00d7 d, where d is the perpendicular distance between the lines of action. This is independent of the choice of pivot."
       ]
     },
     {
-      "heading": "Equilibrium Conditions",
+      "heading": "Conditions for Equilibrium",
       "items": [
-        "Translational equilibrium: \u03a3F = 0 in all directions (\u03a3 horizontal = 0; \u03a3 vertical = 0).",
-        "Rotational equilibrium: \u03a3\u03c4 = 0 about any point.",
-        "To solve: resolve forces into components; choose a convenient pivot to eliminate unknown forces (put pivot at unknown force).",
-        "Three-force rule: if three non-parallel forces are in equilibrium, they must meet at a single point."
+        "A body is in equilibrium when: (1) the vector sum of all forces is zero (\u03a3F = 0 in all directions \u2014 translational equilibrium) and (2) the sum of moments about any point is zero (\u03a3\u03c4 = 0 \u2014 rotational equilibrium).",
+        "Tip: when solving for unknown forces, choose a pivot at the point where one unknown acts \u2014 it eliminates that unknown from the moments equation."
       ]
     },
     {
       "heading": "Centre of Gravity",
       "items": [
-        "The point at which the weight of the object acts; coincides with centre of mass for uniform gravitational fields.",
-        "For regular shapes: at geometric centre.",
-        "To find experimentally: suspend object from two different points and draw plumb lines; intersection = CoG.",
-        "Stability: lower CoG and wider base \u2192 more stable; object topples if CoG moves outside base of support."
-      ]
-    },
-    {
-      "heading": "Resolving Forces",
-      "items": [
-        "Any force F at angle \u03b8 to horizontal: horizontal component = F cos\u03b8; vertical component = F sin\u03b8.",
-        "Triangle/parallelogram of forces: find resultant or equilibrant graphically.",
-        "Lami's theorem (3 forces in equilibrium): F\u2081/sin \u03b1\u2081 = F\u2082/sin \u03b1\u2082 = F\u2083/sin \u03b1\u2083 (where \u03b1 is the angle OPPOSITE the force)."
+        "The centre of gravity (CoG) is the single point at which the entire weight of an object appears to act. For uniform objects it coincides with the geometric centre.",
+        "To find the CoG experimentally: suspend the object from two different points and draw a plumb line from each. The CoG lies at the intersection.",
+        "Stability: an object topples if its CoG moves outside its base of support. A lower CoG and wider base both increase stability \u2014 this is why racing cars are built wide and low."
       ]
     }
   ],
