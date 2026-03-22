@@ -4134,10 +4134,17 @@ async function loadAdminUsers() {
   try {
     const res  = await fetch(`${API_BASE_URL}/api/admin/users`, { headers: authHeaders() });
     const data = await res.json();
-    if (!data.success) { tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444">Error: ${escapeHtml(data.error)}</td></tr>`; return; }
-    adminData.users = data.data;
+    if (!res.ok || !data.success) {
+      tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444;padding:1rem">
+        Error ${res.status}: ${escapeHtml(data.error || 'Unknown error')}
+        ${res.status === 401 ? '<br><small>Try signing out and back in — your session may have expired.</small>' : ''}
+        ${res.status === 403 ? '<br><small>Your account may not have admin role yet. Check MongoDB Atlas.</small>' : ''}
+      </td></tr>`;
+      return;
+    }
+    adminData.users = Array.isArray(data.data) ? data.data : [];
     renderAdminUsersTable(adminData.users);
-  } catch { tbody.innerHTML = '<tr><td colspan="5" style="color:#ef4444">Network error</td></tr>'; }
+  } catch (e) { tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444;padding:1rem">Network error: ${escapeHtml(e.message)}</td></tr>`; }
 }
 
 function renderAdminUsersTable(users) {
@@ -4216,10 +4223,13 @@ async function loadAdminForum() {
   try {
     const res  = await fetch(`${API_BASE_URL}/api/admin/forum`, { headers: authHeaders() });
     const data = await res.json();
-    if (!data.success) { tbody.innerHTML = `<tr><td colspan="6" style="color:#ef4444">Error: ${escapeHtml(data.error)}</td></tr>`; return; }
-    adminData.threads = data.data;
+    if (!res.ok || !data.success) {
+      tbody.innerHTML = `<tr><td colspan="6" style="color:#ef4444;padding:1rem">Error ${res.status}: ${escapeHtml(data.error || 'Unknown error')}</td></tr>`;
+      return;
+    }
+    adminData.threads = Array.isArray(data.data) ? data.data : [];
     renderAdminForumTable(adminData.threads);
-  } catch { tbody.innerHTML = '<tr><td colspan="6" style="color:#ef4444">Network error</td></tr>'; }
+  } catch (e) { tbody.innerHTML = `<tr><td colspan="6" style="color:#ef4444;padding:1rem">Network error: ${escapeHtml(e.message)}</td></tr>`; }
 }
 
 function renderAdminForumTable(threads) {
@@ -4721,7 +4731,8 @@ function _tpViewHTML() {
       <div class="tp-paper-toolbar">
         <button class="btn btn-outline btn-sm" onclick="App.tpBack()">← New Paper</button>
         <button class="btn btn-outline btn-sm" onclick="App.tpShuffle()">🔀 Reshuffle</button>
-        <button class="btn btn-primary btn-sm" onclick="App.tpPrint()">🖨 Print / Save PDF</button>
+        <button class="btn btn-outline btn-sm" onclick="App.tpPrint()">🖨 Print</button>
+        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export PDF with Answers</button>
       </div>
       <div id="tp-paper-content"></div>
     </div>
@@ -5006,6 +5017,38 @@ function _tpRenderOneAtATime(subjName, typeLabel) {
     </div>`;
 }
 
+// Full-paper mode: clicking an MCQ option
+function tpFullSelectOpt(qNum, idx, correct, exp) {
+  const optsEl = byId(`tp-opts-${qNum}`);
+  if (!optsEl || optsEl.dataset.answered) return; // only answer once
+  optsEl.dataset.answered = '1';
+
+  optsEl.querySelectorAll('.tp-opt').forEach((el, i) => {
+    el.style.pointerEvents = 'none';
+    if (i === correct) el.classList.add('tp-opt-correct');
+    if (i === idx && idx !== correct) el.classList.add('tp-opt-wrong');
+  });
+
+  const ansEl = byId(`tp-ans-${qNum}`);
+  if (ansEl && exp) {
+    ansEl.innerHTML = `<div class="tp-inline-answer-inner">
+      <span class="tp-ms-ans">${String.fromCharCode(65+correct)}</span>
+      <span class="tp-answer-exp">${richText(exp)}</span>
+    </div>`;
+    ansEl.style.display = '';
+    ansEl.classList.add('tp-reveal-in');
+  }
+}
+
+// Full-paper mode: reveal structured answer
+function tpRevealStructured(qNum, btn) {
+  const ansEl = byId(`tp-ans-${qNum}`);
+  if (!ansEl) return;
+  ansEl.style.display = '';
+  ansEl.classList.add('tp-reveal-in');
+  if (btn) btn.style.display = 'none';
+}
+
 function tpRevealAnswer() {
   const reveal = byId('tp-answer-reveal');
   const revealBtn = byId('tp-reveal-btn');
@@ -5070,18 +5113,20 @@ function _tpRenderPaper(questions, subjName, typeLabel) {
     qHtml += `<div class="tp-section-head">Section A — Multiple Choice (${mcqQs.length} marks)</div>`;
     mcqQs.forEach(q => {
       qHtml += `
-        <div class="tp-question tp-mcq">
+        <div class="tp-question tp-mcq" id="tp-q-${q.num}">
           <div class="tp-qnum">${q.num}</div>
           <div class="tp-qbody">
             <p class="tp-qtext">${richText(q.q)}</p>
             <div class="tp-topic-tag">${escapeHtml(q.topicTitle)}</div>
-            <div class="tp-opts">
+            <div class="tp-opts" id="tp-opts-${q.num}">
               ${(q.opts || []).map((opt, i) => `
-                <div class="tp-opt">
+                <div class="tp-opt" id="tp-opt-${q.num}-${i}"
+                  onclick="App.tpFullSelectOpt(${q.num}, ${i}, ${q.ans}, '${escapeHtml(q.exp||'')}')">
                   <span class="tp-opt-letter">${String.fromCharCode(65+i)}</span>
                   <span>${richText(opt)}</span>
                 </div>`).join('')}
             </div>
+            <div class="tp-inline-answer" id="tp-ans-${q.num}" style="display:none"></div>
           </div>
         </div>`;
     });
@@ -5091,8 +5136,13 @@ function _tpRenderPaper(questions, subjName, typeLabel) {
     qHtml += `<div class="tp-section-head">Section B — Structured Questions</div>`;
     strQs.forEach(q => {
       const marks = (q.steps || []).length;
+      const stepsHtml = (q.steps || []).map((s, i) => `
+        <div class="tp-ms-step">
+          <span class="tp-ms-step-n">(${i+1})</span>
+          <div><strong>${escapeHtml(s.sub)}</strong><p>${richText(s.text)}</p></div>
+        </div>`).join('');
       qHtml += `
-        <div class="tp-question tp-structured">
+        <div class="tp-question tp-structured" id="tp-q-${q.num}">
           <div class="tp-qnum">${q.num}</div>
           <div class="tp-qbody">
             <div class="tp-qtext-row">
@@ -5102,6 +5152,15 @@ function _tpRenderPaper(questions, subjName, typeLabel) {
             <div class="tp-topic-tag">${escapeHtml(q.topicTitle)}</div>
             <div class="tp-answer-lines">
               ${'<div class="tp-answer-line"></div>'.repeat(Math.max(4, marks * 2))}
+            </div>
+            <div class="tp-str-reveal-row">
+              <button class="btn btn-outline btn-sm tp-str-reveal-btn"
+                onclick="App.tpRevealStructured(${q.num}, this)">
+                👁 Show Answer
+              </button>
+              <div class="tp-inline-answer tp-ms-steps" id="tp-ans-${q.num}" style="display:none">
+                ${stepsHtml}
+              </div>
             </div>
           </div>
         </div>`;
@@ -5172,6 +5231,109 @@ function tpShuffle() {
 
 function tpPrint() {
   window.print();
+}
+
+function tpExportPdf() {
+  // Build a clean print-ready page: questions first, then full mark scheme
+  const questions = _tp._questions;
+  if (!questions || !questions.length) { showToast('Generate a paper first'); return; }
+
+  const subjName  = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' }[_tp.subject];
+  const typeLabel = { mcq: 'Paper 1 — Multiple Choice', structured: 'Paper 2 — Structured Questions', mixed: 'Mixed Practice Paper' }[_tp.type];
+  const dateStr   = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+
+  // Build clean HTML for a new window (answers hidden in question section, shown in MS)
+  let qSection = '';
+  const mcqQs = questions.filter(q => q.type === 'mcq');
+  const strQs = questions.filter(q => q.type === 'structured');
+
+  if (mcqQs.length) {
+    qSection += `<h3 class="section-head">Section A — Multiple Choice</h3>`;
+    mcqQs.forEach(q => {
+      qSection += `<div class="question">
+        <div class="qnum">${q.num}</div>
+        <div class="qbody">
+          <p>${q.q}</p>
+          ${(q.opts||[]).map((o,i)=>`<div class="opt"><span class="opt-letter">${String.fromCharCode(65+i)}</span>${o}</div>`).join('')}
+        </div>
+      </div>`;
+    });
+  }
+  if (strQs.length) {
+    qSection += `<h3 class="section-head">Section B — Structured Questions</h3>`;
+    strQs.forEach(q => {
+      const marks = (q.steps||[]).length;
+      qSection += `<div class="question">
+        <div class="qnum">${q.num}</div>
+        <div class="qbody">
+          <p>${q.q} <span class="marks">[${marks} marks]</span></p>
+          ${'<div class="ans-line"></div>'.repeat(Math.max(4, marks*2))}
+        </div>
+      </div>`;
+    });
+  }
+
+  let msSection = '';
+  questions.forEach(q => {
+    if (q.type === 'mcq') {
+      msSection += `<div class="ms-item">
+        <span class="ms-num">${q.num}</span>
+        <span class="ms-ans">${String.fromCharCode(65+q.ans)}</span>
+        <span class="ms-exp">${q.exp||''}</span>
+      </div>`;
+    } else {
+      msSection += `<div class="ms-item ms-str">
+        <span class="ms-num">${q.num}</span>
+        <div>${(q.steps||[]).map((s,i)=>`<div class="ms-step"><strong>(${i+1}) ${s.sub}:</strong> ${s.text}</div>`).join('')}</div>
+      </div>`;
+    }
+  });
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>${subjName} — ${typeLabel}</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;font-size:11pt;color:#111;padding:2cm;line-height:1.5}
+    h1{font-size:16pt;margin-bottom:4px} h2{font-size:12pt;color:#555;font-weight:400;margin-bottom:2px}
+    .date{font-size:9pt;color:#888;margin-bottom:20px}
+    .section-head{font-size:11pt;font-weight:700;background:#f0f0f0;padding:5px 10px;
+      margin:20px 0 10px;border-left:4px solid #00d4aa}
+    .question{display:flex;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #eee}
+    .qnum{width:22px;height:22px;background:#111;color:#fff;border-radius:50%;display:flex;
+      align-items:center;justify-content:center;font-size:9pt;font-weight:700;flex-shrink:0;margin-top:2px}
+    .qbody{flex:1} .qbody p{margin-bottom:8px}
+    .opt{display:flex;gap:8px;align-items:center;margin-bottom:5px;font-size:10.5pt}
+    .opt-letter{width:18px;height:18px;border:1.5px solid #999;border-radius:50%;display:flex;
+      align-items:center;justify-content:center;font-size:8pt;font-weight:700;flex-shrink:0}
+    .marks{font-size:9pt;color:#777;margin-left:8px}
+    .ans-line{border-bottom:1px solid #ccc;height:22px;margin-bottom:4px}
+    /* Mark scheme */
+    .ms-page{page-break-before:always;padding-top:1cm}
+    .ms-item{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid #eee;align-items:flex-start}
+    .ms-num{width:22px;height:22px;border:1px solid #ccc;border-radius:50%;display:flex;
+      align-items:center;justify-content:center;font-size:9pt;font-weight:700;flex-shrink:0}
+    .ms-ans{background:#111;color:#fff;padding:1px 8px;border-radius:3px;font-weight:700;font-size:10pt;flex-shrink:0}
+    .ms-exp{font-size:10pt;color:#444}
+    .ms-step{margin-bottom:4px;font-size:10pt}
+    @page{margin:2cm} @media print{body{padding:0}}
+  </style></head><body>
+  <h1>${subjName}</h1>
+  <h2>${typeLabel}</h2>
+  <p class="date">Generated ${dateStr} · ${questions.length} questions</p>
+  ${qSection}
+  <div class="ms-page">
+    <h1>Mark Scheme</h1>
+    <h2>${subjName} — ${typeLabel}</h2>
+    <p class="date">${dateStr}</p>
+    <div style="margin-top:14px">${msSection}</div>
+  </div>
+  <script>window.onload=()=>window.print();<\/script>
+  </body></html>`;
+
+  const win = window.open('', '_blank');
+  if (!win) { showToast('Allow pop-ups to export PDF'); return; }
+  win.document.write(html);
+  win.document.close();
 }
 
 const App = {
@@ -5246,8 +5408,11 @@ const App = {
   tpStartMode,
   tpRevealAnswer,
   tpSelectOpt,
+  tpFullSelectOpt,
+  tpRevealStructured,
   tpNextQuestion,
   tpPrevQuestion,
+  tpExportPdf,
   // Auth modal (expose so inline HTML can call it)
   openAuthModal,
   signInWithGoogle,

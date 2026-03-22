@@ -120,6 +120,9 @@ io.on('connection', (socket) => {
 // MIDDLEWARE
 // ============================================================================
 
+// Trust Render's proxy so req.ip resolves to the real client IP
+app.set('trust proxy', 1);
+
 app.use(express.static(path.join(__dirname)));
 
 // ── Security headers (no external package needed) ─────────────────────────
@@ -148,7 +151,9 @@ setInterval(() => _requestCounts.clear(), 60_000); // reset every minute
 
 function rateLimit(maxPerMinute) {
   return (req, res, next) => {
-    const key = req.ip || req.connection.remoteAddress || 'unknown';
+    // Use userId when authenticated (more accurate), else IP
+    const userId = req.user?._id?.toString();
+    const key = userId || req.ip || req.connection.remoteAddress || 'unknown';
     const count = (_requestCounts.get(key) || 0) + 1;
     _requestCounts.set(key, count);
     if (count > maxPerMinute) {
