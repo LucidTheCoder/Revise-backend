@@ -6,15 +6,15 @@
   "concept": [
     "Displacement, velocity and acceleration are vector quantities; distance and speed are scalars.",
     "The five kinematic equations (SUVAT) apply to uniform (constant) acceleration only.",
-    "Graphs of motion: gradient of displacement\u2013time = velocity; gradient of velocity\u2013time = acceleration; area under v\u2013t graph = displacement."
+    "Graphs of motion: gradient of displacement–time = velocity; gradient of velocity–time = acceleration; area under v–t graph = displacement."
   ],
   "notes": [
     {
       "heading": "Key Definitions",
       "items": [
-        "Displacement (s): change in position measured from a fixed reference point \u2014 a vector quantity with both magnitude and direction.",
-        "Velocity (v): rate of change of displacement (v = \u0394s / \u0394t) \u2014 vector. Speed is the scalar equivalent (magnitude only).",
-        "Acceleration (a): rate of change of velocity (a = \u0394v / \u0394t) \u2014 vector. A negative value simply means deceleration (if motion is in the positive direction)."
+        "Displacement (s): change in position measured from a fixed reference point — a vector quantity with both magnitude and direction.",
+        "Velocity (v): rate of change of displacement (v = Δs / Δt) — vector. Speed is the scalar equivalent (magnitude only).",
+        "Acceleration (a): rate of change of velocity (a = Δv / Δt) — vector. A negative value simply means deceleration (if motion is in the positive direction)."
       ]
     },
     {
@@ -22,29 +22,29 @@
       "items": [
         "These five equations apply only when acceleration is constant in both magnitude and direction:",
         "v = u + at",
-        "s = ut + \u00bdat\u00b2",
-        "v\u00b2 = u\u00b2 + 2as",
-        "s = \u00bd(u + v)t",
-        "s = vt \u2212 \u00bdat\u00b2",
-        "For free fall, use a = g = 9.81 m s\u207b\u00b2 downward (or 10 m s\u207b\u00b2 if specified). Always define a positive direction before substituting."
+        "s = ut + ½at²",
+        "v² = u² + 2as",
+        "s = ½(u + v)t",
+        "s = vt − ½at²",
+        "For free fall, use a = g = 9.81 m s⁻² downward (or 10 m s⁻² if specified). Always define a positive direction before substituting."
       ]
     },
     {
       "heading": "Interpreting Motion Graphs",
       "items": [
-        "Displacement\u2013time (s\u2013t) graph: gradient = instantaneous velocity. A straight line \u2192 constant velocity. A curve \u2192 changing velocity (acceleration).",
-        "Velocity\u2013time (v\u2013t) graph: gradient = acceleration; area under the curve = displacement (positive area above the axis, negative area below).",
-        "A constant positive gradient on a v\u2013t graph is uniform acceleration; a horizontal line is constant velocity; a line crossing zero means the object reverses direction."
+        "Displacement–time (s–t) graph: gradient = instantaneous velocity. A straight line → constant velocity. A curve → changing velocity (acceleration).",
+        "Velocity–time (v–t) graph: gradient = acceleration; area under the curve = displacement (positive area above the axis, negative area below).",
+        "A constant positive gradient on a v–t graph is uniform acceleration; a horizontal line is constant velocity; a line crossing zero means the object reverses direction."
       ]
     },
     {
       "heading": "Projectile Motion",
       "items": [
-        "A projectile moves under gravity only \u2014 horizontal and vertical motions are completely independent.",
-        "Horizontal component: constant velocity (zero acceleration). x = v\u2093 \u00b7 t.",
+        "A projectile moves under gravity only — horizontal and vertical motions are completely independent.",
+        "Horizontal component: constant velocity (zero acceleration). x = vₓ · t.",
         "Vertical component: constant downward acceleration g. Use SUVAT equations with a = g.",
         "At maximum height, the vertical velocity = 0. The time of flight is determined entirely from the vertical equation.",
-        "Range = horizontal velocity \u00d7 total time of flight."
+        "Range = horizontal velocity × total time of flight."
       ]
     }
   ],
@@ -64,38 +64,38 @@
   ],
   "workedExamples": [
     {
-      "q": "A ball is thrown horizontally at 15 m s\u207b\u00b9 from a cliff 45 m high. Find the time of flight and horizontal range. (g = 10 m s\u207b\u00b2)",
+      "q": "A ball is thrown horizontally at 15 m s⁻¹ from a cliff 45 m high. Find the time of flight and horizontal range. (g = 10 m s⁻²)",
       "steps": [
         {
           "n": 1,
           "sub": "Vertical (free fall)",
-          "text": "s = ut + \u00bdat\u00b2; 45 = 0 + \u00bd\u00d710\u00d7t\u00b2; t\u00b2 = 9; t = 3.0 s"
+          "text": "s = ut + ½at²; 45 = 0 + ½×10×t²; t² = 9; t = 3.0 s"
         },
         {
           "n": 2,
           "sub": "Horizontal range",
-          "text": "x = v_x \u00d7 t = 15 \u00d7 3.0 = 45 m"
+          "text": "x = v_x × t = 15 × 3.0 = 45 m"
         }
       ]
     }
   ],
   "mistakes": [
-    "Applying SUVAT to non-uniform acceleration (e.g. air resistance present \u2014 use graphs instead).",
+    "Applying SUVAT to non-uniform acceleration (e.g. air resistance present — use graphs instead).",
     "Forgetting that at maximum height, the vertical velocity is zero (not horizontal).",
-    "Mixing up which direction is positive \u2014 always define positive direction first."
+    "Mixing up which direction is positive — always define positive direction first."
   ],
   "tips": [
     "In projectile problems: resolve into horizontal (a=0) and vertical (a=g) components; treat them independently.",
-    "The gradient of a curved s\u2013t graph at a point = instantaneous velocity (draw tangent at that point).",
-    "Free fall: g acts downward; if upward is positive, a = \u22129.81 m s\u207b\u00b2."
+    "The gradient of a curved s–t graph at a point = instantaneous velocity (draw tangent at that point).",
+    "Free fall: g acts downward; if upward is positive, a = −9.81 m s⁻²."
   ],
   "flashcards": [
     {
       "q": "What are the five SUVAT equations?",
-      "a": "v=u+at; s=ut+\u00bdat\u00b2; v\u00b2=u\u00b2+2as; s=\u00bd(u+v)t; s=vt\u2212\u00bdat\u00b2"
+      "a": "v=u+at; s=ut+½at²; v²=u²+2as; s=½(u+v)t; s=vt−½at²"
     },
     {
-      "q": "What does the area under a v\u2013t graph represent?",
+      "q": "What does the area under a v–t graph represent?",
       "a": "Displacement (the area between the line and the time axis)."
     },
     {
@@ -103,12 +103,12 @@
       "a": "The vertical component is zero; the horizontal component remains constant (equal to initial horizontal velocity)."
     },
     {
-      "q": "What is the gradient of a displacement\u2013time graph?",
+      "q": "What is the gradient of a displacement–time graph?",
       "a": "Velocity (instantaneous velocity at a point = gradient of tangent to the curve)."
     },
     {
-      "q": "A car accelerates uniformly from rest to 20 m s\u207b\u00b9 in 4 s. What is its acceleration?",
-      "a": "a = (v\u2212u)/t = (20\u22120)/4 = 5 m s\u207b\u00b2"
+      "q": "A car accelerates uniformly from rest to 20 m s⁻¹ in 4 s. What is its acceleration?",
+      "a": "a = (v−u)/t = (20−0)/4 = 5 m s⁻²"
     },
     {
       "q": "What condition must hold for SUVAT equations to be valid?",
@@ -119,7 +119,7 @@
     "title": "Kinematics Quiz",
     "questions": [
       {
-        "q": "A stone falls from rest. How far has it fallen after 3.0 s? (g = 10 m s\u207b\u00b2)",
+        "q": "A stone falls from rest. How far has it fallen after 3.0 s? (g = 10 m s⁻²)",
         "opts": [
           "15 m",
           "30 m",
@@ -127,10 +127,10 @@
           "90 m"
         ],
         "ans": 2,
-        "exp": "s = ut + \u00bdat\u00b2 = 0 + \u00bd\u00d710\u00d79 = 45 m"
+        "exp": "s = ut + ½at² = 0 + ½×10×9 = 45 m"
       },
       {
-        "q": "What does the gradient of a v\u2013t graph represent?",
+        "q": "What does the gradient of a v–t graph represent?",
         "a": "Acceleration",
         "opts": [
           "Displacement",
@@ -139,7 +139,7 @@
           "Distance"
         ],
         "ans": 2,
-        "exp": "Gradient of v\u2013t graph = \u0394v/\u0394t = acceleration."
+        "exp": "Gradient of v–t graph = Δv/Δt = acceleration."
       },
       {
         "q": "A projectile is launched horizontally. Which statement is correct?",
@@ -155,33 +155,143 @@
       {
         "q": "Which graph shows constant acceleration?",
         "opts": [
-          "Straight line on s\u2013t",
-          "Curved line on s\u2013t",
-          "Horizontal line on v\u2013t",
-          "Straight line on a\u2013t"
+          "Straight line on s–t",
+          "Curved line on s–t",
+          "Horizontal line on v–t",
+          "Straight line on a–t"
         ],
         "ans": 1,
-        "exp": "On an s\u2013t graph, constant acceleration gives a parabolic (curved) shape; on a v\u2013t graph it gives a straight (non-horizontal) line."
+        "exp": "On an s–t graph, constant acceleration gives a parabolic (curved) shape; on a v–t graph it gives a straight (non-horizontal) line."
       },
       {
-        "q": "v\u00b2 = u\u00b2 + 2as. A car with u = 0, a = 3 m s\u207b\u00b2, s = 24 m. Find v.",
+        "q": "v² = u² + 2as. A car with u = 0, a = 3 m s⁻², s = 24 m. Find v.",
         "opts": [
-          "6 m s\u207b\u00b9",
-          "12 m s\u207b\u00b9",
-          "8 m s\u207b\u00b9",
-          "9 m s\u207b\u00b9"
+          "6 m s⁻¹",
+          "12 m s⁻¹",
+          "8 m s⁻¹",
+          "9 m s⁻¹"
         ],
         "ans": 1,
-        "exp": "v\u00b2 = 0 + 2\u00d73\u00d724 = 144; v = 12 m s\u207b\u00b9. Wait: ans=1. v=12."
+        "exp": "v² = 0 + 2×3×24 = 144; v = 12 m s⁻¹. Wait: ans=1. v=12."
+      },
+      {
+        "q": "A car accelerates from rest to 20 m s⁻¹ in 5 s. What is its acceleration?",
+        "opts": [
+          "4 m s⁻²",
+          "2.5 m s⁻²",
+          "100 m s⁻²",
+          "10 m s⁻²"
+        ],
+        "ans": 0,
+        "exp": "a = Δv/t = (20−0)/5 = 4 m s⁻²"
+      },
+      {
+        "q": "Which equation gives displacement for uniform acceleration from rest?",
+        "opts": [
+          "s = ½at²",
+          "s = vt",
+          "s = at",
+          "s = v²/a"
+        ],
+        "ans": 0,
+        "exp": "Starting from rest (u=0): s = ut + ½at² = ½at²"
+      },
+      {
+        "q": "A ball is thrown horizontally at 15 m s⁻¹ from a cliff 20 m high. How long does it take to land? (g=10 m s⁻²)",
+        "opts": [
+          "2 s",
+          "1.5 s",
+          "3 s",
+          "4 s"
+        ],
+        "ans": 0,
+        "exp": "Vertical: s = ½gt² → 20 = ½(10)t² → t² = 4 → t = 2 s"
+      },
+      {
+        "q": "What does the gradient of a velocity-time graph represent?",
+        "opts": [
+          "Acceleration",
+          "Displacement",
+          "Speed",
+          "Distance"
+        ],
+        "ans": 0,
+        "exp": "Gradient of a v-t graph = Δv/Δt = acceleration."
+      },
+      {
+        "q": "An object has initial velocity 8 m s⁻¹ and decelerates at 2 m s⁻². When does it stop?",
+        "opts": [
+          "4 s",
+          "8 s",
+          "2 s",
+          "16 s"
+        ],
+        "ans": 0,
+        "exp": "v = u + at → 0 = 8 + (−2)t → t = 4 s"
+      },
+      {
+        "q": "What is the displacement of an object after 3 s if it starts at 4 m s⁻¹ and accelerates at 2 m s⁻²?",
+        "opts": [
+          "21 m",
+          "12 m",
+          "18 m",
+          "9 m"
+        ],
+        "ans": 0,
+        "exp": "s = ut + ½at² = 4(3) + ½(2)(9) = 12 + 9 = 21 m"
+      },
+      {
+        "q": "A projectile is launched at 30° above horizontal with speed 20 m s⁻¹. What is the initial vertical component?",
+        "opts": [
+          "10 m s⁻¹",
+          "17.3 m s⁻¹",
+          "20 m s⁻¹",
+          "15 m s⁻¹"
+        ],
+        "ans": 0,
+        "exp": "vy = v sinθ = 20 sin30° = 20 × 0.5 = 10 m s⁻¹"
+      },
+      {
+        "q": "What does the area under a velocity-time graph represent?",
+        "opts": [
+          "Displacement",
+          "Acceleration",
+          "Speed",
+          "Force"
+        ],
+        "ans": 0,
+        "exp": "Area under a v-t graph = displacement (= v × t for uniform velocity or trapezoid for non-uniform)."
+      },
+      {
+        "q": "A stone is dropped from rest. What is its speed after falling for 3 s? (g = 10 m s⁻²)",
+        "opts": [
+          "30 m s⁻¹",
+          "15 m s⁻¹",
+          "45 m s⁻¹",
+          "9.8 m s⁻¹"
+        ],
+        "ans": 0,
+        "exp": "v = u + at = 0 + 10×3 = 30 m s⁻¹"
+      },
+      {
+        "q": "At the top of a projectile's trajectory, which statement is true?",
+        "opts": [
+          "Vertical velocity = 0; horizontal velocity is unchanged",
+          "Both components are zero",
+          "Speed is zero",
+          "Acceleration is zero"
+        ],
+        "ans": 0,
+        "exp": "At the peak, vy = 0 (momentarily). Horizontal velocity is constant (no air resistance). Acceleration = g downward."
       }
     ]
   },
   "recall": [
     "State the five SUVAT equations.",
-    "Describe what each graph feature represents in s\u2013t and v\u2013t graphs.",
+    "Describe what each graph feature represents in s–t and v–t graphs.",
     "Solve a projectile problem by resolving into horizontal and vertical components.",
     "Distinguish between scalar and vector quantities.",
-    "Calculate displacement from a v\u2013t graph."
+    "Calculate displacement from a v–t graph."
   ],
   "summary": [
     {
@@ -189,19 +299,19 @@
       "value": "constant acceleration"
     },
     {
-      "label": "v\u00b2=u\u00b2+2as",
+      "label": "v²=u²+2as",
       "value": "no time"
     },
     {
-      "label": "s=ut+\u00bdat\u00b2",
+      "label": "s=ut+½at²",
       "value": "no final velocity"
     },
     {
-      "label": "v\u2013t gradient",
+      "label": "v–t gradient",
       "value": "acceleration"
     },
     {
-      "label": "v\u2013t area",
+      "label": "v–t area",
       "value": "displacement"
     },
     {

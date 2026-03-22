@@ -12,42 +12,42 @@
     {
       "heading": "Carbohydrates",
       "items": [
-        "All carbohydrates contain C, H and O. Monosaccharides (single sugars) are the monomers \u2014 glucose, fructose (hexoses) and ribose, deoxyribose (pentoses). \u03b1-glucose has the \u2013OH on C1 pointing down; \u03b2-glucose has it pointing up.",
-        "Disaccharides form when two monosaccharides join by a condensation reaction, releasing water, to form a glycosidic bond. Maltose = \u03b1-glucose + \u03b1-glucose (1,4-glycosidic); sucrose = \u03b1-glucose + fructose; lactose = glucose + galactose.",
-        "Polysaccharides: amylose (unbranched, \u03b1-1,4) and amylopectin (branched, \u03b1-1,4 and \u03b1-1,6) make up starch. Glycogen is similar but more highly branched \u2014 compact energy store in animals. Cellulose uses \u03b2-1,4-glycosidic bonds; alternate glucose units flip 180\u00b0, producing straight chains that hydrogen-bond into strong microfibrils."
+        "All carbohydrates contain C, H and O. Monosaccharides (single sugars) are the monomers — glucose, fructose (hexoses) and ribose, deoxyribose (pentoses). α-glucose has the –OH on C1 pointing down; β-glucose has it pointing up.",
+        "Disaccharides form when two monosaccharides join by a condensation reaction, releasing water, to form a glycosidic bond. Maltose = α-glucose + α-glucose (1,4-glycosidic); sucrose = α-glucose + fructose; lactose = glucose + galactose.",
+        "Polysaccharides: amylose (unbranched, α-1,4) and amylopectin (branched, α-1,4 and α-1,6) make up starch. Glycogen is similar but more highly branched — compact energy store in animals. Cellulose uses β-1,4-glycosidic bonds; alternate glucose units flip 180°, producing straight chains that hydrogen-bond into strong microfibrils."
       ]
     },
     {
       "heading": "Lipids",
       "items": [
         "Triglycerides: glycerol + 3 fatty acids joined by ester bonds (3 condensation reactions, 3 water molecules released). Saturated fatty acids have no C=C double bonds; unsaturated have one or more.",
-        "Phospholipids: glycerol + 2 fatty acids + a phosphate group. Amphipathic \u2014 the hydrophilic phosphate head and hydrophobic fatty acid tails drive spontaneous bilayer formation in aqueous environments.",
-        "Lipids are energy-dense (more C\u2013H bonds per gram than carbohydrates), waterproof, thermally insulating, and form hormones (steroids)."
+        "Phospholipids: glycerol + 2 fatty acids + a phosphate group. Amphipathic — the hydrophilic phosphate head and hydrophobic fatty acid tails drive spontaneous bilayer formation in aqueous environments.",
+        "Lipids are energy-dense (more C–H bonds per gram than carbohydrates), waterproof, thermally insulating, and form hormones (steroids)."
       ]
     },
     {
       "heading": "Proteins",
       "items": [
-        "Amino acids are joined by peptide bonds \u2014 formed by condensation between the \u2013COOH of one and the \u2013NH\u2082 of another. The 20 different R-groups give proteins their chemical diversity.",
-        "Primary structure: the specific sequence of amino acids (determined by DNA). Secondary structure: H-bonds along the backbone produce \u03b1-helices or \u03b2-pleated sheets. Tertiary structure: the overall 3D shape, stabilised by H-bonds, ionic bonds, disulfide bridges (between cysteine \u2013SH groups) and hydrophobic interactions. Quaternary structure: two or more polypeptide chains assembled together (e.g. haemoglobin has 4 subunits).",
-        "Fibrous proteins (e.g. collagen, keratin) have long, regular, repetitive sequences \u2014 insoluble structural roles. Globular proteins (e.g. enzymes, antibodies) have irregular sequences folded into compact soluble shapes with a specific active site or binding region."
+        "Amino acids are joined by peptide bonds — formed by condensation between the –COOH of one and the –NH₂ of another. The 20 different R-groups give proteins their chemical diversity.",
+        "Primary structure: the specific sequence of amino acids (determined by DNA). Secondary structure: H-bonds along the backbone produce α-helices or β-pleated sheets. Tertiary structure: the overall 3D shape, stabilised by H-bonds, ionic bonds, disulfide bridges (between cysteine –SH groups) and hydrophobic interactions. Quaternary structure: two or more polypeptide chains assembled together (e.g. haemoglobin has 4 subunits).",
+        "Fibrous proteins (e.g. collagen, keratin) have long, regular, repetitive sequences — insoluble structural roles. Globular proteins (e.g. enzymes, antibodies) have irregular sequences folded into compact soluble shapes with a specific active site or binding region."
       ]
     },
     {
       "heading": "Water",
       "items": [
-        "Water is a polar molecule \u2014 the O atom carries \u03b4\u2212 and each H carries \u03b4+. This polarity enables hydrogen bonding between molecules, giving water its unique properties.",
-        "High specific heat capacity (4.18 J g\u207b\u00b9 K\u207b\u00b9): resists temperature change, buffering aquatic environments. High latent heat of vaporisation: evaporation (sweating, transpiration) removes large amounts of heat. Cohesion between water molecules supports the transpiration stream in xylem. Water is an excellent solvent for ions and polar molecules \u2014 essential for biochemical reactions."
+        "Water is a polar molecule — the O atom carries δ− and each H carries δ+. This polarity enables hydrogen bonding between molecules, giving water its unique properties.",
+        "High specific heat capacity (4.18 J g⁻¹ K⁻¹): resists temperature change, buffering aquatic environments. High latent heat of vaporisation: evaporation (sweating, transpiration) removes large amounts of heat. Cohesion between water molecules supports the transpiration stream in xylem. Water is an excellent solvent for ions and polar molecules — essential for biochemical reactions."
       ]
     },
     {
       "heading": "Food Tests",
       "items": [
-        "Reducing sugars (all monosaccharides and some disaccharides): Benedict's reagent \u2014 heat with blue solution; positive = brick-red precipitate.",
-        "Non-reducing sugars (e.g. sucrose): First hydrolyse with dilute HCl, neutralise with Na\u2082CO\u2083, then run Benedict's test.",
-        "Starch: iodine/KI solution \u2014 positive = blue-black colour.",
-        "Protein: Biuret reagent (NaOH + CuSO\u2084) \u2014 positive = purple colour.",
-        "Lipids: emulsion test \u2014 dissolve in ethanol, add water; positive = cloudy white emulsion."
+        "Reducing sugars (all monosaccharides and some disaccharides): Benedict's reagent — heat with blue solution; positive = brick-red precipitate.",
+        "Non-reducing sugars (e.g. sucrose): First hydrolyse with dilute HCl, neutralise with Na₂CO₃, then run Benedict's test.",
+        "Starch: iodine/KI solution — positive = blue-black colour.",
+        "Protein: Biuret reagent (NaOH + CuSO₄) — positive = purple colour.",
+        "Lipids: emulsion test — dissolve in ethanol, add water; positive = cloudy white emulsion."
       ]
     }
   ],
@@ -58,7 +58,7 @@
     },
     {
       "term": "Peptide bond",
-      "body": "The bond formed between the \u2013NH\u2082 group of one amino acid and the \u2013COOH group of another, releasing water."
+      "body": "The bond formed between the –NH₂ group of one amino acid and the –COOH group of another, releasing water."
     },
     {
       "term": "Denaturation",
@@ -76,7 +76,7 @@
         {
           "n": 1,
           "sub": "Structure",
-          "text": "Cellulose is a polysaccharide of \u03b2-glucose molecules linked by \u03b2-1,4-glycosidic bonds. The alternating orientation of \u03b2-glucose units allows straight, unbranched chains."
+          "text": "Cellulose is a polysaccharide of β-glucose molecules linked by β-1,4-glycosidic bonds. The alternating orientation of β-glucose units allows straight, unbranched chains."
         },
         {
           "n": 2,
@@ -92,23 +92,23 @@
     }
   ],
   "mistakes": [
-    "Confusing \u03b1-glucose (OH down at C1) and \u03b2-glucose (OH up at C1).",
-    "Stating denaturation 'breaks the primary structure' \u2014 primary structure (peptide bonds) is unaffected; denaturation disrupts tertiary/secondary bonds.",
-    "Confusing condensation (joins monomers, releases H\u2082O) with hydrolysis (breaks polymers, uses H\u2082O)."
+    "Confusing α-glucose (OH down at C1) and β-glucose (OH up at C1).",
+    "Stating denaturation 'breaks the primary structure' — primary structure (peptide bonds) is unaffected; denaturation disrupts tertiary/secondary bonds.",
+    "Confusing condensation (joins monomers, releases H₂O) with hydrolysis (breaks polymers, uses H₂O)."
   ],
   "tips": [
-    "Learn the Benedict's test: reducing sugar \u2192 brick-red; non-reducing sugar (sucrose) \u2192 test with HCl first to hydrolyse, then retest.",
-    "Iodine/KI solution: starch \u2192 blue-black. Biuret reagent: protein \u2192 purple.",
-    "Emulsion test for lipids: dissolve in ethanol, add water \u2192 white emulsion."
+    "Learn the Benedict's test: reducing sugar → brick-red; non-reducing sugar (sucrose) → test with HCl first to hydrolyse, then retest.",
+    "Iodine/KI solution: starch → blue-black. Biuret reagent: protein → purple.",
+    "Emulsion test for lipids: dissolve in ethanol, add water → white emulsion."
   ],
   "flashcards": [
     {
       "q": "What bond joins amino acids together?",
-      "a": "Peptide bond (formed by condensation between \u2013NH\u2082 and \u2013COOH groups)."
+      "a": "Peptide bond (formed by condensation between –NH₂ and –COOH groups)."
     },
     {
-      "q": "What is the difference between \u03b1-glucose and \u03b2-glucose?",
-      "a": "\u03b1-glucose has the \u2013OH group on C1 pointing downward; \u03b2-glucose has it pointing upward."
+      "q": "What is the difference between α-glucose and β-glucose?",
+      "a": "α-glucose has the –OH group on C1 pointing downward; β-glucose has it pointing upward."
     },
     {
       "q": "What bonds stabilise the tertiary structure of a protein?",
@@ -116,7 +116,7 @@
     },
     {
       "q": "What is the reagent for testing for starch, and what is a positive result?",
-      "a": "Iodine/KI solution \u2014 positive: blue-black colour."
+      "a": "Iodine/KI solution — positive: blue-black colour."
     },
     {
       "q": "How are triglycerides formed?",
@@ -124,7 +124,7 @@
     },
     {
       "q": "Why is water a good solvent?",
-      "a": "Water is polar \u2014 the \u03b4+ and \u03b4\u2212 regions attract and surround ions and polar molecules, dispersing them in solution."
+      "a": "Water is polar — the δ+ and δ− regions attract and surround ions and polar molecules, dispersing them in solution."
     }
   ],
   "quiz": {
@@ -133,13 +133,13 @@
       {
         "q": "What type of bond joins glucose monomers in cellulose?",
         "opts": [
-          "\u03b1-1,4-glycosidic",
-          "\u03b2-1,4-glycosidic",
+          "α-1,4-glycosidic",
+          "β-1,4-glycosidic",
           "Peptide bond",
           "Ester bond"
         ],
         "ans": 1,
-        "exp": "Cellulose is formed by \u03b2-1,4-glycosidic bonds between \u03b2-glucose monomers."
+        "exp": "Cellulose is formed by β-1,4-glycosidic bonds between β-glucose monomers."
       },
       {
         "q": "Which test detects a reducing sugar?",
@@ -161,15 +161,15 @@
           "Quaternary"
         ],
         "ans": 2,
-        "exp": "Disulfide bonds (between cysteine \u2013SH groups) contribute to the tertiary structure of proteins."
+        "exp": "Disulfide bonds (between cysteine –SH groups) contribute to the tertiary structure of proteins."
       },
       {
         "q": "What molecule is released in a condensation reaction?",
         "opts": [
-          "CO\u2082",
-          "NH\u2083",
-          "H\u2082O",
-          "O\u2082"
+          "CO₂",
+          "NH₃",
+          "H₂O",
+          "O₂"
         ],
         "ans": 2,
         "exp": "Condensation reactions join monomers with the release of water."
@@ -183,7 +183,117 @@
           "Glycogen has more energy per gram"
         ],
         "ans": 2,
-        "exp": "Glycogen is an insoluble compact polymer \u2014 it does not affect osmotic potential and stores large amounts of glucose in a small volume."
+        "exp": "Glycogen is an insoluble compact polymer — it does not affect osmotic potential and stores large amounts of glucose in a small volume."
+      },
+      {
+        "q": "Which molecule is the monomer of proteins?",
+        "opts": [
+          "Amino acid",
+          "Glucose",
+          "Fatty acid",
+          "Nucleotide"
+        ],
+        "ans": 0,
+        "exp": "Proteins are polymers of amino acids linked by peptide bonds."
+      },
+      {
+        "q": "What bond links glucose molecules in starch?",
+        "opts": [
+          "1,4-glycosidic bond",
+          "Peptide bond",
+          "Phosphodiester bond",
+          "Hydrogen bond"
+        ],
+        "ans": 0,
+        "exp": "Starch (amylose) is made of α-glucose joined by 1,4-glycosidic bonds via condensation reactions."
+      },
+      {
+        "q": "Which test is used to detect reducing sugars?",
+        "opts": [
+          "Benedict's reagent",
+          "Biuret test",
+          "Iodine solution",
+          "Sudan III"
+        ],
+        "ans": 0,
+        "exp": "Benedict's reagent turns brick-red/orange when heated with reducing sugars."
+      },
+      {
+        "q": "What is the function of phospholipids in cell membranes?",
+        "opts": [
+          "Form a bilayer acting as a hydrophobic barrier",
+          "Store energy",
+          "Catalyse reactions",
+          "Carry genetic information"
+        ],
+        "ans": 0,
+        "exp": "Phospholipids arrange into a bilayer — hydrophilic heads out, hydrophobic tails in — forming the membrane."
+      },
+      {
+        "q": "Which level of protein structure is maintained by hydrogen bonds between C=O and N−H groups in the backbone?",
+        "opts": [
+          "Secondary",
+          "Primary",
+          "Tertiary",
+          "Quaternary"
+        ],
+        "ans": 0,
+        "exp": "Secondary structure (α-helix, β-pleated sheet) is stabilised by hydrogen bonds along the polypeptide backbone."
+      },
+      {
+        "q": "What type of bond holds the two strands of DNA together?",
+        "opts": [
+          "Hydrogen bonds",
+          "Covalent bonds",
+          "Ionic bonds",
+          "Peptide bonds"
+        ],
+        "ans": 0,
+        "exp": "Complementary base pairs are held together by hydrogen bonds (A–T: 2; G–C: 3)."
+      },
+      {
+        "q": "Which carbohydrate is used for energy storage in animals?",
+        "opts": [
+          "Glycogen",
+          "Starch",
+          "Cellulose",
+          "Chitin"
+        ],
+        "ans": 0,
+        "exp": "Glycogen is the storage polysaccharide in animal liver and muscle cells; it is highly branched."
+      },
+      {
+        "q": "Triglycerides are formed by condensation of glycerol with:",
+        "opts": [
+          "Three fatty acids",
+          "Three amino acids",
+          "Three glucose molecules",
+          "Three phosphate groups"
+        ],
+        "ans": 0,
+        "exp": "Esterification of glycerol's three −OH groups with three fatty acids produces a triglyceride + 3H₂O."
+      },
+      {
+        "q": "What is the role of the R-group in an amino acid?",
+        "opts": [
+          "Determines the amino acid's properties and identity",
+          "Forms the peptide bond",
+          "Carries the charge",
+          "Is identical in all amino acids"
+        ],
+        "ans": 0,
+        "exp": "The R-group (side chain) varies between amino acids and determines their chemical properties."
+      },
+      {
+        "q": "Which reagent is used to test for starch?",
+        "opts": [
+          "Iodine solution",
+          "Benedict's reagent",
+          "Biuret reagent",
+          "Emulsion test"
+        ],
+        "ans": 0,
+        "exp": "Iodine in KI solution turns blue-black in the presence of starch."
       }
     ]
   },
@@ -197,27 +307,27 @@
   "summary": [
     {
       "label": "Condensation",
-      "value": "joins monomers, releases H\u2082O"
+      "value": "joins monomers, releases H₂O"
     },
     {
       "label": "Peptide bond",
-      "value": "\u2013NH\u2082 + \u2013COOH \u2192 \u2013CO\u2013NH\u2013 + H\u2082O"
+      "value": "–NH₂ + –COOH → –CO–NH– + H₂O"
     },
     {
       "label": "Cellulose",
-      "value": "\u03b2-1,4-glycosidic; H-bonds between chains"
+      "value": "β-1,4-glycosidic; H-bonds between chains"
     },
     {
       "label": "Starch",
-      "value": "\u03b1-1,4 (amylose) + \u03b1-1,6 branching (amylopectin)"
+      "value": "α-1,4 (amylose) + α-1,6 branching (amylopectin)"
     },
     {
       "label": "Biuret",
-      "value": "protein \u2192 purple"
+      "value": "protein → purple"
     },
     {
       "label": "Benedict's",
-      "value": "reducing sugar \u2192 brick-red"
+      "value": "reducing sugar → brick-red"
     }
   ],
   "syllabusRef": "Cambridge AS Level Biology 9700, Topic 2"
