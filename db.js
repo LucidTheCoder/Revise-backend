@@ -310,10 +310,24 @@ function escapeRegex(str) {
 }
 
 const getPublicProfile   = (userId) => User.findById(userId).select(SAFE_FIELDS).lean();
-const searchUsers        = (query)  => User.find(
-  { name: { $regex: escapeRegex(query), $options: 'i' }, banned: { $ne: true } },
-  SAFE_FIELDS
-).limit(20).lean();
+const searchUsers = (query, excludeUserId = null) => {
+  const filter = {
+    name:   { $regex: escapeRegex(query), $options: 'i' },
+    banned: { $ne: true },
+  };
+  if (excludeUserId) filter._id = { $ne: excludeUserId };
+  // Use explicit object projection — string projection of 'stats.streak' etc.
+  // is unreliable in some Mongoose versions; object form is always safe
+  return User.find(filter, {
+    name:       1,
+    avatarUrl:  1,
+    'stats.streak':                1,
+    'stats.xp':                    1,
+    'stats.totalTopicsCompleted':  1,
+    'stats.averageQuizScore':      1,
+    'stats.lastActiveAt':          1,
+  }).limit(20).lean();
+};
 const touchLastActive    = (userId) =>
   User.findByIdAndUpdate(userId, { $set: { 'stats.lastActiveAt': new Date() } });
 

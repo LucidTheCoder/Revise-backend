@@ -1141,7 +1141,7 @@ app.get('/api/social/search', authenticateToken, async (req, res, next) => {
     const q = (req.query.q || '').trim();
     if (q.length < 2) return res.json({ success: true, data: [] });
     await db.touchLastActive(req.user._id);
-    const users = await db.searchUsers(q);
+    const users = await db.searchUsers(q, req.user._id);
     res.json({ success: true, data: users });
   } catch (e) { next(e); }
 });

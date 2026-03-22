@@ -5754,6 +5754,9 @@ async function socialSearch(query) {
   if (q.length < 2) { resultsEl.innerHTML = ''; resultsEl.style.display = 'none'; return; }
 
   clearTimeout(_socialSearchTimer);
+  // Show dropdown with loading indicator immediately
+  resultsEl.innerHTML = `<div class="social-search-empty" style="padding:0.5rem 0.75rem;color:var(--text3)">Searching…</div>`;
+  resultsEl.style.display = '';
   _socialSearchTimer = setTimeout(async () => {
     try {
       const res  = await fetch(`${API_BASE_URL}/api/social/search?q=${encodeURIComponent(q)}`, { headers: authHeaders() });
@@ -6060,7 +6063,7 @@ function _renderFriendPanel() {
         <input id="social-search-input" type="text" placeholder="Search by name…"
           oninput="App.socialSearch(this.value)">
       </div>
-      <div id="social-search-results" class="social-search-results" style="display:none"></div>
+      <div id="social-search-results" class="social-search-dropdown"></div>
     </div>
     <div class="social-friends-list">${friendsHtml}</div>`;
 }
