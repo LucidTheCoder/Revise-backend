@@ -250,7 +250,7 @@ async function handleLogin() {
     if (!res.ok) { errEl.textContent = data.error || "Login failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
     syncServerStats(data.user);
-    showToast("Welcome back, " + data.user.name.split(" ")[0] + "!");
+    showSignInBanner("Welcome back, " + data.user.name.split(" ")[0] + "!");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Sign In"; btn.disabled = false; }
 }
@@ -274,12 +274,36 @@ async function handleRegister() {
     if (!res.ok) { errEl.textContent = data.error || "Registration failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
     syncServerStats(data.user);
-    showToast("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
+    showSignInBanner("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Create Account"; btn.disabled = false; }
 }
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
+
+function showSignInBanner(greeting) {
+  // Remove any existing banner
+  document.getElementById('signin-banner')?.remove();
+  const banner = document.createElement('div');
+  banner.id = 'signin-banner';
+  banner.className = 'signin-banner';
+  banner.innerHTML = `
+    <div class="signin-banner-inner">
+      <span class="signin-banner-icon">✅</span>
+      <div class="signin-banner-text">
+        <strong>${escapeHtml(greeting)}</strong>
+        <span>Refresh the page to load your progress across all topics.</span>
+      </div>
+      <button class="signin-banner-refresh btn btn-primary btn-sm" onclick="location.reload()">
+        Refresh now
+      </button>
+      <button class="signin-banner-close" onclick="this.closest('#signin-banner').remove()" aria-label="Dismiss">✕</button>
+    </div>
+  `;
+  document.body.appendChild(banner);
+  // Auto-dismiss after 30s if user ignores it
+  setTimeout(() => banner?.remove(), 30000);
+}
 
 async function signInWithDiscord() {
   // Discord OAuth2 Authorization Code flow
@@ -2259,6 +2283,9 @@ function renderTopicView(topicId) {
 
   state.currentTopic = topicId;
   state.currentSubject = topic.subject;
+  // Scroll topic-main to top on each new topic
+  const _tm = byId('topic-main');
+  if (_tm) _tm.scrollTop = 0;
   // Track last visited
   try {
     const lv = JSON.parse(localStorage.getItem(lastVisitedKey) || '{}');
@@ -5080,7 +5107,7 @@ function _tpRenderTopicGrid() {
         aria-label="${escapeHtml(t.title)}">
       <span class="tp-chip-check">✓</span>
       <span class="tp-chip-name">${escapeHtml(t.title)}</span>
-      <span class="tp-chip-meta">${meta}</span>
+      <span class="tp-chip-meta">${available ? meta : '—'}</span>
     </label>`;
   }).join('');
   _tpUpdateCount();
