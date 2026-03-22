@@ -94,17 +94,67 @@
   <main>
     <section class="view active" id="view-home">
       <div class="container page-pad">
+
+        <!-- HERO -->
         <section class="hero card">
-          <h1>Master your <strong>A Levels</strong> with confidence.</h1>
-          <p>Notes, worked examples, flashcards, quizzes, community support, and past papers across Chemistry, Biology, and Physics.</p>
+          <div class="hero-eyebrow">Cambridge AS Level · Chemistry · Biology · Physics</div>
+          <h1>Master your <strong>A Levels</strong><br>with confidence.</h1>
+          <p>Topic notes, worked examples, flashcards, quizzes, topical papers and past papers — all in one place.</p>
           <div class="hero-actions">
-            <button class="btn btn-primary" data-route="subjects">Start Revising</button>
-            <button class="btn btn-outline" data-route="past-papers">Open Past Papers</button>
+            <button class="btn btn-primary" data-route="subjects">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Start Revising
+            </button>
+            <button class="btn btn-outline" data-route="topical">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Generate Paper
+            </button>
+            <button class="btn btn-ghost" data-route="past-papers">Past Papers</button>
+          </div>
+
+          <!-- Feature pills -->
+          <div class="hero-features">
+            <span class="hero-feat">📝 Topic Notes</span>
+            <span class="hero-feat">⚡ Flashcards</span>
+            <span class="hero-feat">🎯 Quizzes</span>
+            <span class="hero-feat">📄 Topical Papers</span>
+            <span class="hero-feat">📚 Past Papers</span>
+            <span class="hero-feat">🤖 AI Tutor</span>
           </div>
         </section>
 
+        <!-- STATS ROW -->
         <section class="stats-row" id="home-stats"></section>
 
+        <!-- SUBJECT QUICK-LAUNCH -->
+        <section class="home-subjects">
+          <button class="home-subj-card home-subj-chem" onclick="App.go('subject',{subjectId:'chem'})">
+            <span class="home-subj-icon">⚗️</span>
+            <div>
+              <strong>Chemistry</strong>
+              <span>9701 · 22 topics</span>
+            </div>
+            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="home-subj-card home-subj-bio" onclick="App.go('subject',{subjectId:'bio'})">
+            <span class="home-subj-icon">🧬</span>
+            <div>
+              <strong>Biology</strong>
+              <span>9700 · 13 topics</span>
+            </div>
+            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="home-subj-card home-subj-phy" onclick="App.go('subject',{subjectId:'phy'})">
+            <span class="home-subj-icon">⚡</span>
+            <div>
+              <strong>Physics</strong>
+              <span>9702 · 11 topics</span>
+            </div>
+            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </section>
+
+        <!-- SPACED REP -->
         <section class="spaced-rep-section" id="spaced-rep-section" style="display:none">
           <div class="card">
             <div class="section-title-row">
@@ -116,6 +166,7 @@
           </div>
         </section>
 
+        <!-- MAIN GRID -->
         <section class="home-grid">
           <div class="card">
             <div class="section-title-row">
@@ -131,6 +182,7 @@
             <div id="weekly-goal"></div>
           </div>
         </section>
+
       </div>
     </section>
 

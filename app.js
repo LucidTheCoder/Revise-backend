@@ -4633,11 +4633,99 @@ const _tp = {
 };
 
 function renderTopical() {
+  // Require account to use topical paper generator
+  if (!auth.isLoggedIn) {
+    const container = byId('view-topical');
+    if (container) {
+      container.innerHTML = `
+        <div class="container page-pad">
+          <div class="card" style="text-align:center;padding:3rem 2rem;max-width:480px;margin:3rem auto">
+            <div style="font-size:2.8rem;margin-bottom:0.75rem">📄</div>
+            <h2 style="margin:0 0 0.5rem">Sign in to generate papers</h2>
+            <p style="color:var(--text2);margin:0 0 1.5rem">
+              The Topical Paper Generator is free — you just need an account
+              so we can save your paper history and preferences.
+            </p>
+            <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+              <button class="btn btn-primary" onclick="App.openAuthModal('login')">Sign In</button>
+              <button class="btn btn-outline" onclick="App.openAuthModal('register')">Create Free Account</button>
+            </div>
+          </div>
+        </div>`;
+    }
+    return;
+  }
+  // Restore the setup panel HTML if we previously replaced it with the gate
+  const container = byId('view-topical');
+  if (container && !byId('tp-setup')) {
+    // Re-render the full view from scratch
+    container.innerHTML = _tpViewHTML();
+  }
   _tpRenderTopicGrid();
   _tpWireSubjectTabs();
   _tpWireTypeTabs();
   byId('tp-paper-output').style.display = 'none';
   byId('tp-setup').style.display        = '';
+}
+
+// Returns the setup HTML so we can restore it after showing the auth gate
+function _tpViewHTML() {
+  return `<div class="container page-pad">
+    <div class="page-head">
+      <h1>Topical Paper Generator</h1>
+      <p>Select a subject and topics to generate a custom exam-style practice paper.</p>
+    </div>
+    <div class="tp-setup card" id="tp-setup">
+      <div class="tp-row">
+        <div class="tp-field">
+          <label class="tp-label">Subject</label>
+          <div class="tp-subject-tabs" id="tp-subject-tabs">
+            <button class="tp-subj-btn active" data-subj="chem">⚗️ Chemistry</button>
+            <button class="tp-subj-btn" data-subj="bio">🧬 Biology</button>
+            <button class="tp-subj-btn" data-subj="phy">⚡ Physics</button>
+          </div>
+        </div>
+        <div class="tp-field">
+          <label class="tp-label">Paper Type</label>
+          <div class="tp-type-tabs" id="tp-type-tabs">
+            <button class="tp-type-btn active" data-type="mcq">MCQ (Paper 1)</button>
+            <button class="tp-type-btn" data-type="structured">Structured (Paper 2)</button>
+            <button class="tp-type-btn" data-type="mixed">Mixed</button>
+          </div>
+        </div>
+        <div class="tp-field">
+          <label class="tp-label">Questions per topic</label>
+          <div class="tp-qty-row">
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)">−</button>
+            <span id="tp-qty-display">3</span>
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="tp-topic-section">
+        <div class="tp-topic-header">
+          <span class="tp-label">Select Topics</span>
+          <div class="tp-topic-actions">
+            <button class="btn btn-ghost btn-sm" onclick="App.tpSelectAll()">Select All</button>
+            <button class="btn btn-ghost btn-sm" onclick="App.tpClearAll()">Clear</button>
+          </div>
+        </div>
+        <div class="tp-topic-grid" id="tp-topic-grid"></div>
+      </div>
+      <div class="tp-generate-row">
+        <div id="tp-question-count" class="tp-count-badge">0 questions selected</div>
+        <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">Generate Paper →</button>
+      </div>
+    </div>
+    <div id="tp-paper-output" style="display:none">
+      <div class="tp-paper-toolbar">
+        <button class="btn btn-outline btn-sm" onclick="App.tpBack()">← New Paper</button>
+        <button class="btn btn-outline btn-sm" onclick="App.tpShuffle()">🔀 Reshuffle</button>
+        <button class="btn btn-primary btn-sm" onclick="App.tpPrint()">🖨 Print / Save PDF</button>
+      </div>
+      <div id="tp-paper-content"></div>
+    </div>
+  </div>`;
 }
 
 function _tpWireSubjectTabs() {
@@ -4746,6 +4834,7 @@ function _tpUpdateCount() {
 }
 
 function tpGenerate() {
+  if (!auth.isLoggedIn) { openAuthModal('login'); return; }
   if (_tp.selected.size === 0) { showToast('Select at least one topic first'); return; }
 
   const subjName = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' };
@@ -4787,7 +4876,168 @@ function tpGenerate() {
 
   // Render paper
   _tp._questions = questions; // store for reshuffle
-  _tpRenderPaper(questions, subjName[_tp.subject], typeLabel[_tp.type]);
+  _tpAskMode(questions, subjName[_tp.subject], typeLabel[_tp.type]);
+}
+
+// ── Topical paper: display mode state ──────────────────────────────────
+let _tpMode = 'all';        // 'all' | 'one'
+let _tpCurrentQ = 0;        // index in _tp._questions for one-at-a-time mode
+
+function _tpAskMode(questions, subjName, typeLabel) {
+  // Prompt user to choose display mode
+  byId('tp-paper-content').innerHTML = `
+    <div class="tp-mode-prompt card">
+      <h2>How would you like to practice?</h2>
+      <p>Choose how the paper is displayed.</p>
+      <div class="tp-mode-options">
+        <button class="tp-mode-btn" onclick="App.tpStartMode('one', '${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')">
+          <span class="tp-mode-icon">1️⃣</span>
+          <strong>One at a time</strong>
+          <span>Answer each question, then reveal the answer before moving on.</span>
+        </button>
+        <button class="tp-mode-btn" onclick="App.tpStartMode('all', '${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')">
+          <span class="tp-mode-icon">📄</span>
+          <strong>Full paper</strong>
+          <span>See all questions at once. Mark scheme shown at the end.</span>
+        </button>
+      </div>
+    </div>`;
+  byId('tp-setup').style.display        = 'none';
+  byId('tp-paper-output').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function tpStartMode(mode, subjName, typeLabel) {
+  _tpMode      = mode;
+  _tpCurrentQ  = 0;
+  if (mode === 'one') {
+    _tpRenderOneAtATime(subjName, typeLabel);
+  } else {
+    _tpRenderPaper(_tp._questions, subjName, typeLabel);
+  }
+}
+
+function _tpRenderOneAtATime(subjName, typeLabel) {
+  const questions = _tp._questions;
+  const q = questions[_tpCurrentQ];
+  if (!q) return;
+
+  const isLast = _tpCurrentQ === questions.length - 1;
+  const progress = `${_tpCurrentQ + 1} / ${questions.length}`;
+
+  let answerHtml = '';
+  if (q.type === 'mcq') {
+    answerHtml = `
+      <div class="tp-reveal-answer" id="tp-answer-reveal" style="display:none">
+        <div class="tp-answer-badge">
+          <span class="tp-ms-ans">${String.fromCharCode(65 + q.ans)}</span>
+          <span>${richText((q.opts || [])[q.ans] || '')}</span>
+        </div>
+        <p class="tp-answer-exp">${richText(q.exp || '')}</p>
+      </div>`;
+  } else {
+    const stepsHtml = (q.steps || []).map((s, i) => `
+      <div class="tp-ms-step">
+        <span class="tp-ms-step-n">(${i+1})</span>
+        <div><strong>${escapeHtml(s.sub)}</strong><p>${richText(s.text)}</p></div>
+      </div>`).join('');
+    answerHtml = `
+      <div class="tp-reveal-answer" id="tp-answer-reveal" style="display:none">
+        <div class="tp-ms-steps">${stepsHtml}</div>
+      </div>`;
+  }
+
+  let bodyHtml = '';
+  if (q.type === 'mcq') {
+    bodyHtml = `
+      <div class="tp-opts">
+        ${(q.opts || []).map((opt, i) => `
+          <div class="tp-opt" id="tp-opt-${i}" onclick="App.tpSelectOpt(${i}, ${q.ans})">
+            <span class="tp-opt-letter">${String.fromCharCode(65+i)}</span>
+            <span>${richText(opt)}</span>
+          </div>`).join('')}
+      </div>`;
+  } else {
+    const marks = (q.steps || []).length;
+    bodyHtml = `
+      <div class="tp-qtext-row">
+        <span class="tp-marks">[${marks} marks]</span>
+      </div>
+      <div class="tp-answer-lines">
+        ${'<div class="tp-answer-line"></div>'.repeat(Math.max(4, marks * 2))}
+      </div>`;
+  }
+
+  byId('tp-paper-content').innerHTML = `
+    <div class="tp-one-wrap card">
+      <div class="tp-one-header">
+        <div class="tp-one-progress">
+          <div class="tp-one-progress-bar" style="width:${Math.round((_tpCurrentQ/questions.length)*100)}%"></div>
+        </div>
+        <div class="tp-one-meta">
+          <span class="tp-one-counter">${progress}</span>
+          <span class="tp-topic-tag">${escapeHtml(q.topicTitle)}</span>
+          <span class="tp-one-type">${q.type === 'mcq' ? 'Multiple Choice' : 'Structured'}</span>
+        </div>
+      </div>
+
+      <div class="tp-one-question">
+        <div class="tp-qnum">${q.num}</div>
+        <div class="tp-qbody">
+          <p class="tp-qtext">${richText(q.q)}</p>
+          ${bodyHtml}
+        </div>
+      </div>
+
+      ${answerHtml}
+
+      <div class="tp-one-actions">
+        <button class="btn btn-outline btn-sm" id="tp-reveal-btn"
+          onclick="App.tpRevealAnswer()">
+          👁 Reveal Answer
+        </button>
+        <button class="btn btn-primary" id="tp-next-btn"
+          onclick="App.tpNextQuestion('${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')"
+          style="display:none">
+          ${isLast ? '✅ Finish' : 'Next Question →'}
+        </button>
+        ${_tpCurrentQ > 0 ? `<button class="btn btn-ghost btn-sm" onclick="App.tpPrevQuestion('${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')">← Back</button>` : ''}
+      </div>
+    </div>`;
+}
+
+function tpRevealAnswer() {
+  const reveal = byId('tp-answer-reveal');
+  const revealBtn = byId('tp-reveal-btn');
+  const nextBtn   = byId('tp-next-btn');
+  if (reveal)    { reveal.style.display = ''; reveal.classList.add('tp-reveal-in'); }
+  if (revealBtn) revealBtn.style.display = 'none';
+  if (nextBtn)   nextBtn.style.display = '';
+}
+
+function tpSelectOpt(idx, correct) {
+  // Highlight selected option, mark right/wrong
+  document.querySelectorAll('.tp-opt').forEach((el, i) => {
+    if (i === idx)     el.classList.add(idx === correct ? 'tp-opt-correct' : 'tp-opt-wrong');
+    if (i === correct && idx !== correct) el.classList.add('tp-opt-correct');
+  });
+  tpRevealAnswer();
+}
+
+function tpNextQuestion(subjName, typeLabel) {
+  _tpCurrentQ++;
+  if (_tpCurrentQ >= _tp._questions.length) {
+    // Show full mark scheme at the end
+    _tpRenderPaper(_tp._questions, subjName, typeLabel);
+    showToast('Paper complete! Here is the full mark scheme.');
+  } else {
+    _tpRenderOneAtATime(subjName, typeLabel);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function tpPrevQuestion(subjName, typeLabel) {
+  if (_tpCurrentQ > 0) { _tpCurrentQ--; _tpRenderOneAtATime(subjName, typeLabel); }
 }
 
 function _tpRenderPaper(questions, subjName, typeLabel) {
@@ -4807,17 +5057,15 @@ function _tpRenderPaper(questions, subjName, typeLabel) {
           <p class="tp-paper-date">Generated ${dateStr} · ${questions.length} questions</p>
         </div>
         <div class="tp-paper-instructions">
-          <strong>Instructions to candidates:</strong>
+          <strong>Instructions:</strong>
           <ul>
             <li>Answer <strong>all</strong> questions.</li>
-            ${mcqQs.length ? '<li>For MCQ: circle the letter of your chosen answer.</li>' : ''}
-            ${strQs.length ? '<li>For structured questions: show all working.</li>' : ''}
-            <li>Write legibly in the spaces provided.</li>
+            ${mcqQs.length ? '<li>MCQ: circle your answer letter.</li>' : ''}
+            ${strQs.length ? '<li>Structured: show all working.</li>' : ''}
           </ul>
         </div>
       </div>`;
 
-  // MCQ section
   if (mcqQs.length) {
     qHtml += `<div class="tp-section-head">Section A — Multiple Choice (${mcqQs.length} marks)</div>`;
     mcqQs.forEach(q => {
@@ -4839,7 +5087,6 @@ function _tpRenderPaper(questions, subjName, typeLabel) {
     });
   }
 
-  // Structured section
   if (strQs.length) {
     qHtml += `<div class="tp-section-head">Section B — Structured Questions</div>`;
     strQs.forEach(q => {
@@ -4860,7 +5107,6 @@ function _tpRenderPaper(questions, subjName, typeLabel) {
         </div>`;
     });
   }
-
   qHtml += `</div>`;
 
   // ── Mark scheme ──────────────────────────────────────────────────────
@@ -4997,6 +5243,11 @@ const App = {
   tpBack,
   tpShuffle,
   tpPrint,
+  tpStartMode,
+  tpRevealAnswer,
+  tpSelectOpt,
+  tpNextQuestion,
+  tpPrevQuestion,
   // Auth modal (expose so inline HTML can call it)
   openAuthModal,
   signInWithGoogle,
