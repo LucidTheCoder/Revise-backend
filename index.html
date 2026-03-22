@@ -270,49 +270,51 @@
 
         <!-- Step 1: Subject + configuration -->
         <div class="tp-setup card" id="tp-setup">
-          <div class="tp-row">
+          <div class="tp-config-grid">
             <div class="tp-field">
-              <label class="tp-label">Subject</label>
-              <div class="tp-subject-tabs" id="tp-subject-tabs">
+              <p class="tp-label" id="tp-subject-label">Subject</p>
+              <div class="tp-subject-tabs" id="tp-subject-tabs" role="group" aria-labelledby="tp-subject-label">
                 <button class="tp-subj-btn active" data-subj="chem">⚗️ Chemistry</button>
                 <button class="tp-subj-btn" data-subj="bio">🧬 Biology</button>
                 <button class="tp-subj-btn" data-subj="phy">⚡ Physics</button>
               </div>
             </div>
             <div class="tp-field">
-              <label class="tp-label">Paper Type</label>
-              <div class="tp-type-tabs" id="tp-type-tabs">
+              <p class="tp-label" id="tp-type-label">Paper Type</p>
+              <div class="tp-type-tabs" id="tp-type-tabs" role="group" aria-labelledby="tp-type-label">
                 <button class="tp-type-btn active" data-type="mcq">MCQ (Paper 1)</button>
                 <button class="tp-type-btn" data-type="structured">Structured (Paper 2)</button>
                 <button class="tp-type-btn" data-type="mixed">Mixed</button>
               </div>
             </div>
             <div class="tp-field">
-              <label class="tp-label">Questions per topic</label>
-              <div class="tp-qty-row">
-                <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)">−</button>
-                <span id="tp-qty-display">3</span>
-                <button class="tp-qty-btn" onclick="App.tpChangeQty(1)">+</button>
+              <p class="tp-label">Per topic</p>
+              <div class="tp-qty-row" role="group" aria-label="Questions per topic">
+                <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)" aria-label="Decrease">−</button>
+                <output id="tp-qty-display" aria-live="polite" aria-label="Questions per topic">3</output>
+                <button class="tp-qty-btn" onclick="App.tpChangeQty(1)" aria-label="Increase">+</button>
               </div>
             </div>
           </div>
-
-          <!-- Topic selector -->
-          <div class="tp-topic-section">
-            <div class="tp-topic-header">
-              <span class="tp-label">Select Topics</span>
+          <div class="tp-divider"></div>
+          <div>
+            <div class="tp-topics-head">
+              <div class="tp-topics-head-left">
+                <p class="tp-topics-title">Select Topics</p>
+                <span class="tp-topics-count" id="tp-topics-count">0 selected</span>
+              </div>
               <div class="tp-topic-actions">
                 <button class="btn btn-ghost btn-sm" onclick="App.tpSelectAll()">Select All</button>
                 <button class="btn btn-ghost btn-sm" onclick="App.tpClearAll()">Clear</button>
               </div>
             </div>
-            <div class="tp-topic-grid" id="tp-topic-grid">
-              <!-- Populated by JS -->
-            </div>
+            <div class="tp-topic-grid" id="tp-topic-grid" role="group" aria-label="Select topics" style="margin-top:0.75rem"></div>
           </div>
-
-          <div class="tp-generate-row">
-            <div id="tp-question-count" class="tp-count-badge">0 questions selected</div>
+          <div class="tp-generate-bar">
+            <div class="tp-generate-info">
+              <strong id="tp-question-count">0 questions</strong>
+              <span>across <span id="tp-topic-count-label">0</span> topics</span>
+            </div>
             <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">
               Generate Paper →
             </button>

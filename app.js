@@ -4798,48 +4798,57 @@ function _tpViewHTML() {
   return `<div class="container page-pad">
     <div class="page-head">
       <h1>Topical Paper Generator</h1>
-      <p>Select a subject and topics to generate a custom exam-style practice paper.</p>
+      <p>Select topics and generate a custom exam-style practice paper.</p>
     </div>
     <div class="tp-setup card" id="tp-setup">
-      <div class="tp-row">
+      <div class="tp-config-grid">
         <div class="tp-field">
-          <label class="tp-label">Subject</label>
-          <div class="tp-subject-tabs" id="tp-subject-tabs">
+          <p class="tp-label" id="tp-subject-label">Subject</p>
+          <div class="tp-subject-tabs" id="tp-subject-tabs" role="group" aria-labelledby="tp-subject-label">
             <button class="tp-subj-btn active" data-subj="chem">⚗️ Chemistry</button>
             <button class="tp-subj-btn" data-subj="bio">🧬 Biology</button>
             <button class="tp-subj-btn" data-subj="phy">⚡ Physics</button>
           </div>
         </div>
         <div class="tp-field">
-          <label class="tp-label">Paper Type</label>
-          <div class="tp-type-tabs" id="tp-type-tabs">
+          <p class="tp-label" id="tp-type-label">Paper Type</p>
+          <div class="tp-type-tabs" id="tp-type-tabs" role="group" aria-labelledby="tp-type-label">
             <button class="tp-type-btn active" data-type="mcq">MCQ (Paper 1)</button>
             <button class="tp-type-btn" data-type="structured">Structured (Paper 2)</button>
             <button class="tp-type-btn" data-type="mixed">Mixed</button>
           </div>
         </div>
         <div class="tp-field">
-          <label class="tp-label">Questions per topic</label>
-          <div class="tp-qty-row">
-            <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)">−</button>
-            <span id="tp-qty-display">3</span>
-            <button class="tp-qty-btn" onclick="App.tpChangeQty(1)">+</button>
+          <p class="tp-label">Per topic</p>
+          <div class="tp-qty-row" role="group" aria-label="Questions per topic">
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)" aria-label="Decrease">−</button>
+            <output id="tp-qty-display" aria-live="polite" aria-label="Questions per topic">3</output>
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(1)" aria-label="Increase">+</button>
           </div>
         </div>
       </div>
-      <div class="tp-topic-section">
-        <div class="tp-topic-header">
-          <span class="tp-label">Select Topics</span>
+      <div class="tp-divider"></div>
+      <div>
+        <div class="tp-topics-head">
+          <div class="tp-topics-head-left">
+            <p class="tp-topics-title">Select Topics</p>
+            <span class="tp-topics-count" id="tp-topics-count">0 selected</span>
+          </div>
           <div class="tp-topic-actions">
             <button class="btn btn-ghost btn-sm" onclick="App.tpSelectAll()">Select All</button>
             <button class="btn btn-ghost btn-sm" onclick="App.tpClearAll()">Clear</button>
           </div>
         </div>
-        <div class="tp-topic-grid" id="tp-topic-grid"></div>
+        <div class="tp-topic-grid" id="tp-topic-grid" role="group" aria-label="Select topics" style="margin-top:0.75rem"></div>
       </div>
-      <div class="tp-generate-row">
-        <div id="tp-question-count" class="tp-count-badge">0 questions selected</div>
-        <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">Generate Paper →</button>
+      <div class="tp-generate-bar">
+        <div class="tp-generate-info">
+          <strong id="tp-question-count">0 questions</strong>
+          <span>across <span id="tp-topic-count-label">0</span> topics</span>
+        </div>
+        <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">
+          Generate Paper →
+        </button>
       </div>
     </div>
     <div id="tp-paper-output" style="display:none">
@@ -4847,13 +4856,12 @@ function _tpViewHTML() {
         <button class="btn btn-outline btn-sm" onclick="App.tpBack()">← New Paper</button>
         <button class="btn btn-outline btn-sm" onclick="App.tpShuffle()">🔀 Reshuffle</button>
         <button class="btn btn-outline btn-sm" onclick="App.tpPrint()">🖨 Print</button>
-        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export PDF with Answers</button>
+        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export PDF</button>
       </div>
       <div id="tp-paper-content"></div>
     </div>
   </div>`;
 }
-
 function _tpWireSubjectTabs() {
   const tabs = document.querySelectorAll('.tp-subj-btn');
   tabs.forEach(btn => {
@@ -4889,20 +4897,35 @@ function _tpRenderTopicGrid() {
   const grid = byId('tp-topic-grid');
   if (!grid) return;
   const topics = _tpGetSubjectTopics();
+  const totalAvail = topics.filter(t => {
+    const qc = (t.quiz?.questions||[]).length, wc = (t.workedExamples||[]).length;
+    return (_tp.type==='mcq'&&qc>0)||(_tp.type==='structured'&&wc>0)||(_tp.type==='mixed'&&(qc+wc)>0);
+  }).length;
+
+  // Update the topics-count badge if it exists
+  const countBadge = byId('tp-topics-count');
+  if (countBadge) countBadge.textContent = `${_tp.selected.size} / ${totalAvail} selected`;
+
   grid.innerHTML = topics.map(t => {
-    const qCount = (t.quiz?.questions || []).length;
-    const weCount = (t.workedExamples || []).length;
-    const available = (_tp.type === 'mcq'        && qCount > 0)
+    const qCount  = (t.quiz?.questions || []).length;
+    const weCount = (t.workedExamples  || []).length;
+    const available = (_tp.type === 'mcq'        && qCount  > 0)
                    || (_tp.type === 'structured'  && weCount > 0)
                    || (_tp.type === 'mixed'       && (qCount + weCount) > 0);
-    const checked = _tp.selected.has(t.id);
+    const checked  = _tp.selected.has(t.id);
     const disabled = !available;
+    const meta = _tp.type === 'mcq'        ? `${qCount} MCQ`
+               : _tp.type === 'structured' ? `${weCount} structured`
+               : `${qCount}q + ${weCount}we`;
     return `<label class="tp-topic-chip ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}"
-      title="${disabled ? 'No questions available for this paper type' : ''}">
-      <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}
-        onchange="App.tpToggleTopic('${t.id}', this.checked)">
-      <span>${escapeHtml(t.title)}</span>
-      <small>${qCount}q ${weCount}we</small>
+      title="${disabled ? 'No questions available for this paper type' : escapeHtml(t.title)}">
+      <input type="checkbox" id="tp-cb-${t.id}" name="tp-topic" value="${t.id}"
+        ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}
+        onchange="App.tpToggleTopic('${t.id}', this.checked)"
+        aria-label="${escapeHtml(t.title)}">
+      <span class="tp-chip-check">✓</span>
+      <span class="tp-chip-name">${escapeHtml(t.title)}</span>
+      <span class="tp-chip-meta">${meta}</span>
     </label>`;
   }).join('');
   _tpUpdateCount();
@@ -4957,6 +4980,10 @@ function _tpUpdateCount() {
   });
   const el = byId('tp-question-count');
   if (el) el.textContent = `${total} question${total !== 1 ? 's' : ''} · ${_tp.selected.size} topic${_tp.selected.size !== 1 ? 's' : ''}`;
+  const badge = byId('tp-topics-count');
+  if (badge) badge.textContent = `${_tp.selected.size} selected`;
+  const tcLabel = byId('tp-topic-count-label');
+  if (tcLabel) tcLabel.textContent = _tp.selected.size;
 }
 
 function tpGenerate() {
@@ -5671,22 +5698,38 @@ function _renderFriendsTab() {
         </div>`).join('')}
     </div>` : '';
 
+  // Preserve search input value if already rendered (avoid wiping as user types)
+  const existingSearch = byId('social-search-input');
+  const existingQuery  = existingSearch ? existingSearch.value : '';
+
   el.innerHTML = `
     <div class="social-search-wrap">
+      <label for="social-search-input" class="sr-only">Search for students</label>
       <div class="social-search-bar">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="social-search-input" type="text" placeholder="Search for students by name…"
-          oninput="App.socialSearch(this.value)" autocomplete="off">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="social-search-input" name="social-search-input" type="search"
+          placeholder="Search for students by name…"
+          autocomplete="off" value="${escapeHtml(existingQuery)}"
+          aria-label="Search for students by name"
+          aria-controls="social-search-results"
+          oninput="App.socialSearch(this.value)">
       </div>
-      <div id="social-search-results" class="social-search-dropdown"></div>
+      <div id="social-search-results" class="social-search-dropdown" role="listbox" aria-label="Search results"></div>
     </div>
-    ${pendingHtml}
-    ${friendsHtml}
-    ${!_socialState.friends.length && !pending.length ? `
-      <div class="social-empty-state">
-        <div style="font-size:2.5rem">👥</div>
-        <p>No friends yet — search for students above to connect!</p>
-      </div>` : ''}`;
+    <div id="social-friends-content">
+      ${pendingHtml}
+      ${friendsHtml}
+      ${!_socialState.friends.length && !pending.length ? `
+        <div class="social-empty-state">
+          <div style="font-size:2.5rem">👥</div>
+          <p>No friends yet — search for students above to connect!</p>
+        </div>` : ''}
+    </div>`;
+
+  // Restore search results if user was mid-search
+  if (existingQuery.length >= 2) {
+    setTimeout(() => App.socialSearch(existingQuery), 0);
+  }
 }
 
 // ============================================================================
