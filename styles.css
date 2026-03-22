@@ -56,17 +56,19 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  height: 100%;                /* Added to ensure full height coverage */
+  /* Remove height: 100% — it often causes more problems than it solves */
 }
 
 body {
   position: relative;
-  min-height: 100vh;           /* Ensures body spans at least full viewport */
-  background: var(--bg);       /* Solid background - prevents pattern/image repeat */
-  background-attachment: fixed; /* Keeps background pinned during scroll */
-  background-size: cover;      /* Useful if you add background-image later */
-  background-position: center;
-  background-repeat: no-repeat; /* Explicitly disable repeating */
+  /* Remove min-height: 100vh and height: 100% — let content determine height */
+  
+  background: var(--bg);                /* #0d1117 – solid color prevents any tile repeat */
+  background-attachment: fixed;         /* ← this is usually the single most important line */
+  background-size: cover;               /* harmless even without image */
+  background-position: center center;
+  background-repeat: no-repeat;         /* ← explicitly block repeating */
+  
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.6;
