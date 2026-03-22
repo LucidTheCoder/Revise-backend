@@ -28,7 +28,7 @@ function applyAiVisibility() {
 // USE_BACKEND: set to true to hit the Render API, false to use local JSON files.
 // When true, all fetches go to API_BASE_URL with automatic local fallback on failure.
 const USE_BACKEND  = true;  // ← flip to false to develop offline with local files
-const API_BASE_URL = 'https://revise-backend-yp6e.onrender.com';
+const API_BASE_URL = 'https://asrevise.onrender.com';
 
 const state = {
   subjects: [],
@@ -3576,7 +3576,14 @@ async function renderCommunity(forceRefresh = false) {
         </select>
       </div>
       <div class="forum-stack">
-        ${forumItemsHtml || '<p style="color:var(--text2);padding:1rem">No threads yet. Be the first!</p>'}
+        ${forumItemsHtml || `<div class="forum-empty-state">
+  <svg width="40" height="40" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <p>No threads yet — be the first to post!</p>
+  <button class="btn btn-primary btn-sm" onclick="App.openNewThreadModal()">Start a thread</button>
+</div>`}
       </div>
       ${hasMore ? `<button class="btn btn-outline btn-sm forum-load-more" style="width:100%;margin-top:0.6rem" onclick="App.forumLoadMore()">Load more (${allThreads.length - visibleThreads.length} remaining)</button>` : ''}
     </div>
