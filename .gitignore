@@ -1,6 +1,5 @@
 # node_modules and package management
 node_modules/
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
