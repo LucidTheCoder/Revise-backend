@@ -152,9 +152,18 @@ app.use((req, res, next) => {
   // Restrict powerful browser features
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   // Basic CSP — tightened for API server (no inline scripts needed)
+  // CSP: allow WebSocket/fetch to same origin, Google fonts, KaTeX CDN
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; frame-ancestors 'none';"
+    [
+      "default-src 'self'",
+      "connect-src 'self' wss: ws: https:",    // socket.io + fetch to any https
+      "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
+      "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net",
+      "img-src 'self' data: https:",
+      "frame-ancestors 'none'",
+    ].join('; ')
   );
   next();
 });
