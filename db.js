@@ -126,13 +126,44 @@ const chatMessageSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // ============================================================================
+// SCHEMA: FriendRequest
+// ============================================================================
+
+const friendRequestSchema = new mongoose.Schema({
+  from:   { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  to:     { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  status: { type: String, enum: ['pending','accepted','rejected'], default: 'pending' },
+}, { timestamps: true });
+friendRequestSchema.index({ from: 1, to: 1 }, { unique: true });
+
+// ============================================================================
+// SCHEMA: GroupChat + GroupMessage
+// ============================================================================
+
+const groupChatSchema = new mongoose.Schema({
+  name:     { type: String, required: true, trim: true, maxlength: 60 },
+  members:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  createdBy:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+}, { timestamps: true });
+
+const groupMessageSchema = new mongoose.Schema({
+  chatId:   { type: mongoose.Schema.Types.ObjectId, ref: 'GroupChat', required: true, index: true },
+  authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  authorName:{ type: String, required: true },
+  text:     { type: String, required: true, maxlength: 2000 },
+}, { timestamps: true });
+
+// ============================================================================
 // MODELS
 // ============================================================================
 
-const User        = mongoose.models.User        || mongoose.model('User',        userSchema);
-const Progress    = mongoose.models.Progress    || mongoose.model('Progress',    progressSchema);
-const ForumThread = mongoose.models.ForumThread || mongoose.model('ForumThread', forumThreadSchema);
-const ChatMessage = mongoose.models.ChatMessage || mongoose.model('ChatMessage', chatMessageSchema);
+const User          = mongoose.models.User          || mongoose.model('User',          userSchema);
+const Progress      = mongoose.models.Progress      || mongoose.model('Progress',      progressSchema);
+const ForumThread   = mongoose.models.ForumThread   || mongoose.model('ForumThread',   forumThreadSchema);
+const ChatMessage   = mongoose.models.ChatMessage   || mongoose.model('ChatMessage',   chatMessageSchema);
+const FriendRequest = mongoose.models.FriendRequest || mongoose.model('FriendRequest', friendRequestSchema);
+const GroupChat     = mongoose.models.GroupChat     || mongoose.model('GroupChat',     groupChatSchema);
+const GroupMessage  = mongoose.models.GroupMessage  || mongoose.model('GroupMessage',  groupMessageSchema);
 
 // ============================================================================
 // USER HELPERS
@@ -270,9 +301,54 @@ async function getSiteStats() {
 // EXPORTS
 // ============================================================================
 
+// ── Social helpers ───────────────────────────────────────────────────────────
+// Public profile — NEVER exposes email, passwordHash, or auth fields
+const SAFE_FIELDS = 'name avatarUrl stats.streak stats.xp stats.totalTopicsCompleted stats.totalQuizzesCompleted stats.averageQuizScore stats.lastActiveAt';
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const getPublicProfile   = (userId) => User.findById(userId).select(SAFE_FIELDS).lean();
+const searchUsers        = (query)  => User.find(
+  { name: { $regex: escapeRegex(query), $options: 'i' }, banned: { $ne: true } },
+  SAFE_FIELDS
+).limit(20).lean();
+const touchLastActive    = (userId) =>
+  User.findByIdAndUpdate(userId, { $set: { 'stats.lastActiveAt': new Date() } });
+
+// Friend requests
+const sendFriendRequest    = (from, to)  => FriendRequest.findOneAndUpdate({ from, to }, { from, to, status: 'pending' }, { upsert: true, new: true });
+const respondFriendRequest = (id, status) => FriendRequest.findByIdAndUpdate(id, { status }, { new: true });
+const getFriendRequests    = (userId) => FriendRequest.find({
+  $or: [{ to: userId, status: 'pending' }, { from: userId, status: 'pending' }]
+}).lean();
+const getFriends = async (userId) => {
+  const uid = mongoose.Types.ObjectId.createFromHexString
+    ? mongoose.Types.ObjectId.createFromHexString(userId.toString())
+    : new mongoose.Types.ObjectId(userId);
+  const accepted = await FriendRequest.find({
+    $or: [{ from: uid, status: 'accepted' }, { to: uid, status: 'accepted' }]
+  }).lean();
+  const friendIds = accepted.map(r =>
+    r.from.toString() === userId.toString() ? r.to : r.from
+  );
+  return User.find({ _id: { $in: friendIds } }).select(SAFE_FIELDS).lean();
+};
+
+// Group chats
+const createGroupChat   = (name, creatorId, memberIds) =>
+  GroupChat.create({ name, createdBy: creatorId, members: [creatorId, ...memberIds] });
+const getUserGroupChats = (userId) =>
+  GroupChat.find({ members: userId }).sort({ updatedAt: -1 }).lean();
+const getGroupMessages  = (chatId, limit = 50) =>
+  GroupMessage.find({ chatId }).sort({ createdAt: -1 }).limit(limit).lean();
+const addGroupMessage   = (chatId, authorId, authorName, text) =>
+  GroupMessage.create({ chatId, authorId, authorName, text });
+
 module.exports = {
   connectDB,
-  User, Progress, ForumThread, ChatMessage,
+  User, Progress, ForumThread, ChatMessage, FriendRequest, GroupChat, GroupMessage,
   findUserByEmail, findUserById, createUser, updateUserAvatar,
   getAllUsers, setUserRole, banUser, deleteUser,
   upsertProgress, getAllProgress, getProgress,
@@ -281,4 +357,7 @@ module.exports = {
   deleteForumThread, addForumReply, deleteForumReply, upvoteThread,
   getChatMessages, saveChatMessage, deleteChatMessage,
   getSiteStats,
+  getPublicProfile, searchUsers, touchLastActive,
+  sendFriendRequest, respondFriendRequest, getFriendRequests, getFriends,
+  createGroupChat, getUserGroupChats, getGroupMessages, addGroupMessage,
 };

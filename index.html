@@ -334,14 +334,47 @@
     <section class="view" id="view-community">
       <div class="community-layout">
         <div class="community-main">
-          <div class="card card-sm community-head-bar">
-            <div>
+          <div class="community-head-bar">
+            <div style="flex:1">
               <h2 class="community-page-title">Social</h2>
-              <p class="community-page-sub">Ask questions, share strategies, and chat with other students.</p>
+              <p class="community-page-sub">Forums, friends and group chats — all in one place.</p>
+            </div>
+            <div class="social-tabs" id="social-tabs">
+              <button class="social-tab active" data-tab="forums" onclick="App.switchSocialTab('forums',this)">💬 Forums</button>
+              <button class="social-tab" data-tab="friends" onclick="App.switchSocialTab('friends',this)">👥 Friends</button>
+              <button class="social-tab" data-tab="groups" onclick="App.switchSocialTab('groups',this)">🗨 Groups</button>
             </div>
           </div>
-          <div id="forum-list"></div>
-          <div class="card" id="forum-thread"></div>
+
+          <div class="social-tab-panel" id="social-panel-forums">
+            <div id="forum-list"></div>
+            <div class="card" id="forum-thread"></div>
+          </div>
+
+          <div class="social-tab-panel" id="social-panel-friends" style="display:none">
+            <div class="card" id="social-friends-panel">
+              <p style="color:var(--text2);padding:1rem">Loading…</p>
+            </div>
+          </div>
+
+          <div class="social-tab-panel" id="social-panel-groups" style="display:none">
+            <div class="social-groups-layout">
+              <div class="card" id="social-groups-panel">
+                <p style="color:var(--text2);padding:1rem">Loading…</p>
+              </div>
+              <div class="card social-group-chat" id="social-group-chat" style="display:none">
+                <div class="group-chat-header">
+                  <span id="social-group-name">Group Chat</span>
+                </div>
+                <div class="group-chat-messages" id="social-group-messages"></div>
+                <div class="group-chat-compose">
+                  <input id="social-group-input" type="text" placeholder="Message…"
+                    onkeydown="if(event.key==='Enter')App.sendGroupMessage()">
+                  <button class="btn btn-primary btn-sm" onclick="App.sendGroupMessage()">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <aside class="chat-sidebar">
           <div class="card card-sm">

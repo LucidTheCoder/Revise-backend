@@ -17,6 +17,53 @@ function getDisplaySetting(key, def) {
 function setDisplaySetting(key, val) {
   localStorage.setItem('revise.' + key, val);
   applyDisplaySettings();
+  // Update active state on all seg-btn groups without full re-render
+  const segMap = { fontSize: 'font-size-seg', diagramSize: 'diagram-size-seg' };
+  const segId = segMap[key];
+  if (segId) {
+    // Re-render just the settings card so active states refresh
+    const settingsEl = byId('profile-display-settings');
+    if (settingsEl) renderDisplaySettings(settingsEl);
+  }
+}
+
+function renderDisplaySettings(el) {
+  if (!el) return;
+  const curFs = getDisplaySetting('fontSize', 'normal');
+  const curDs = getDisplaySetting('diagramSize', 'normal');
+
+  const fsLabels = { small: 'Small', normal: 'Normal', large: 'Large', xlarge: 'XL' };
+  const fsSizes  = { small: '0.78rem', normal: '0.92rem', large: '1.08rem', xlarge: '1.25rem' };
+
+  const fsBtns = ['small','normal','large','xlarge'].map(v => `
+    <button class="seg-btn ${curFs === v ? 'active' : ''}"
+      id="fs-${v}" onclick="App.setDisplaySetting('fontSize','${v}')">
+      <span class="seg-a" style="font-size:${fsSizes[v]};line-height:1.2">A</span>
+      <span>${fsLabels[v]}</span>
+    </button>`).join('');
+
+  const dsIcons = { compact: '▣', normal: '◫', large: '□' };
+  const dsLabels = { compact: 'Compact', normal: 'Normal', large: 'Large' };
+  const dsBtns = ['compact','normal','large'].map(v => `
+    <button class="seg-btn ${curDs === v ? 'active' : ''}"
+      id="ds-${v}" onclick="App.setDisplaySetting('diagramSize','${v}')">
+      <span style="font-size:1.1rem;line-height:1.2">${dsIcons[v]}</span>
+      <span>${dsLabels[v]}</span>
+    </button>`).join('');
+
+  el.innerHTML = `
+    <div class="settings-row">
+      <div class="settings-field">
+        <div class="settings-label">Text Size</div>
+        <div class="settings-seg" id="font-size-seg">${fsBtns}</div>
+        <p class="settings-hint">Adjusts all text across the site</p>
+      </div>
+      <div class="settings-field">
+        <div class="settings-label">Diagram Size</div>
+        <div class="settings-seg" id="diagram-size-seg">${dsBtns}</div>
+        <p class="settings-hint">Controls SVG diagram minimum width</p>
+      </div>
+    </div>`;
 }
 function applyDisplaySettings() {
   const fs = getDisplaySetting('fontSize', 'normal');
@@ -3022,31 +3069,7 @@ function renderProfile() {
 
 
   // ── Display settings ──────────────────────────────────────────────
-  const settingsEl = byId('profile-display-settings');
-  if (settingsEl) {
-    const curFs = getDisplaySetting('fontSize', 'normal');
-    const curDs = getDisplaySetting('diagramSize', 'normal');
-    const fsBtns = ['small','normal','large','xlarge'].map(v =>
-      `<button class="seg-btn ${curFs === v ? 'active' : ''}" onclick="App.setDisplaySetting('fontSize','${v}')">
-        <span class="seg-a" style="font-size:${v==='small'?'0.78rem':v==='normal'?'0.9rem':v==='large'?'1.05rem':'1.2rem'}">A</span>
-        <span>${v}</span></button>`
-    ).join('');
-    const dsBtns = ['compact','normal','large'].map(v =>
-      `<button class="seg-btn ${curDs === v ? 'active' : ''}" onclick="App.setDisplaySetting('diagramSize','${v}')">
-        ${v === 'compact' ? '⊟' : v === 'normal' ? '⊞' : '⊠'} ${v}</button>`
-    ).join('');
-    settingsEl.innerHTML = `
-      <div class="settings-row">
-        <div class="settings-field">
-          <div class="settings-label">Text Size</div>
-          <div class="settings-seg">${fsBtns}</div>
-        </div>
-        <div class="settings-field">
-          <div class="settings-label">Diagram Size</div>
-          <div class="settings-seg">${dsBtns}</div>
-        </div>
-      </div>`;
-  }
+  renderDisplaySettings(byId('profile-display-settings'));
 
   // ── Quiz history ──────────────────────────────────────────────────
   const quizEl = byId('profile-quiz-history');
@@ -4557,7 +4580,7 @@ function go(viewName, payload = {}) {
   if (viewName === 'flash')       startFlashcards(payload);
   if (viewName === 'past-papers') renderPastPapers();
   if (viewName === 'topical')     renderTopical();
-  if (viewName === 'community')   renderCommunity();
+  if (viewName === 'community')   { renderCommunity(); renderSocialPage(); _bindGroupSocketEvents(); }
   if (viewName === 'profile')     renderProfile();
   if (viewName === 'confidence-map') { renderConfidenceMap(); }
   if (viewName === 'admin')       renderAdmin();
@@ -5512,6 +5535,380 @@ ${qSection}
   win.document.close();
 }
 
+
+function switchSocialTab(tab, btn) {
+  // Update tab buttons
+  document.querySelectorAll('.social-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Show/hide panels
+  ['forums','friends','groups'].forEach(t => {
+    const el = byId(`social-panel-${t}`);
+    if (el) el.style.display = t === tab ? '' : 'none';
+  });
+  // Load data when switching to social tabs
+  if (tab === 'friends' || tab === 'groups') renderSocialPage();
+}
+
+// ============================================================================
+// SOCIAL SYSTEM — friends, user profiles, group chats
+// ============================================================================
+
+let _socialState = {
+  friends:     [],
+  requests:    [],
+  groups:      [],
+  activeGroup: null,
+  searchResults: [],
+  viewingProfile: null,
+};
+
+// ── Last-seen helper ────────────────────────────────────────────────
+function formatLastSeen(dateStr) {
+  if (!dateStr) return 'Unknown';
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 2)  return '🟢 Online';
+  if (mins < 60) return `Last seen ${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24)  return `Last seen ${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `Last seen ${days}d ago`;
+}
+
+// ── Render Social (Friends / Group Chat tabs) ───────────────────────
+async function renderSocialPage() {
+  if (!auth.isLoggedIn) {
+    // Show auth gate
+    const main = document.querySelector('#view-community .community-main');
+    if (main) main.innerHTML = `
+      <div class="card" style="text-align:center;padding:2.5rem 1.5rem">
+        <div style="font-size:2.5rem;margin-bottom:0.6rem">👥</div>
+        <h2>Sign in to access social features</h2>
+        <p style="color:var(--text2);margin:0.5rem 0 1.25rem">Connect with other students, create group chats, and track friends' progress.</p>
+        <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="App.openAuthModal('login')">Sign In</button>
+          <button class="btn btn-outline" onclick="App.openAuthModal('register')">Create Account</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Load data
+  try {
+    const [frRes, grRes] = await Promise.all([
+      fetch(`${API_BASE_URL}/api/social/friends`,  { headers: authHeaders() }),
+      fetch(`${API_BASE_URL}/api/social/groups`,   { headers: authHeaders() }),
+    ]);
+    const frData = await frRes.json();
+    const grData = await grRes.json();
+    if (frData.success) {
+      _socialState.friends  = frData.data.friends  || [];
+      _socialState.requests = frData.data.requests || [];
+    }
+    if (grData.success) _socialState.groups = grData.data || [];
+  } catch (e) { console.warn('Social load error:', e.message); }
+
+  _renderFriendPanel();
+  _renderGroupPanel();
+}
+
+function _renderFriendPanel() {
+  const el = byId('social-friends-panel');
+  if (!el) return;
+
+  const pending = _socialState.requests.filter(r =>
+    r.to?.toString?.() === auth.user?._id || r.to === auth.user?._id
+  );
+
+  const friendsHtml = _socialState.friends.map(f => `
+    <div class="social-user-row" onclick="App.openUserProfile('${f._id}')">
+      <div class="social-avatar">${f.avatarUrl
+        ? `<img src="${escapeHtml(f.avatarUrl)}" alt="avatar" loading="lazy">`
+        : `<span>${escapeHtml((f.name||'?')[0].toUpperCase())}</span>`}
+      </div>
+      <div class="social-user-info">
+        <strong>${escapeHtml(f.name)}</strong>
+        <small class="social-lastseen">${formatLastSeen(f.stats?.lastActiveAt)}</small>
+      </div>
+      <div class="social-user-stats">
+        <span title="XP">⚡ ${f.stats?.xp || 0}</span>
+        <span title="Streak">🔥 ${f.stats?.streak || 0}</span>
+      </div>
+    </div>`).join('') || '<p class="social-empty">No friends yet — search for users to connect!</p>';
+
+  const pendingHtml = pending.map(r => `
+    <div class="social-request-row">
+      <span>Friend request from <strong>${escapeHtml(r.fromName || 'a user')}</strong></span>
+      <div style="display:flex;gap:0.4rem">
+        <button class="btn btn-primary btn-sm" onclick="App.respondFriend('${r._id}','accepted')">Accept</button>
+        <button class="btn btn-outline btn-sm" onclick="App.respondFriend('${r._id}','rejected')">Decline</button>
+      </div>
+    </div>`).join('');
+
+  el.innerHTML = `
+    ${pendingHtml ? `<div class="social-requests-section">${pendingHtml}</div>` : ''}
+    <div class="social-search-wrap">
+      <div class="social-search-field">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="social-search-input" type="text" placeholder="Search by name…"
+          oninput="App.socialSearch(this.value)">
+      </div>
+      <div id="social-search-results" class="social-search-results" style="display:none"></div>
+    </div>
+    <div class="social-friends-list">${friendsHtml}</div>`;
+}
+
+function _renderGroupPanel() {
+  const el = byId('social-groups-panel');
+  if (!el) return;
+
+  const groupsHtml = _socialState.groups.map(g => `
+    <button class="social-group-item ${_socialState.activeGroup?._id === g._id ? 'active' : ''}"
+      onclick="App.openGroupChat('${g._id}','${escapeHtml(g.name)}')">
+      <span class="social-group-icon">💬</span>
+      <span class="social-group-name">${escapeHtml(g.name)}</span>
+      <span class="social-group-count">${(g.members||[]).length} members</span>
+    </button>`).join('') || '<p class="social-empty">No group chats yet.</p>';
+
+  el.innerHTML = `
+    <div class="social-groups-list">${groupsHtml}</div>
+    <button class="btn btn-primary btn-sm social-new-group-btn" onclick="App.openNewGroupModal()">
+      + New Group
+    </button>`;
+}
+
+// ── User search ─────────────────────────────────────────────────────
+let _socialSearchTimer = null;
+async function socialSearch(query) {
+  const q = query.trim();
+  const resultsEl = byId('social-search-results');
+  if (!resultsEl) return;
+
+  if (q.length < 2) { resultsEl.style.display = 'none'; return; }
+
+  clearTimeout(_socialSearchTimer);
+  _socialSearchTimer = setTimeout(async () => {
+    try {
+      const res  = await fetch(`${API_BASE_URL}/api/social/search?q=${encodeURIComponent(q)}`, { headers: authHeaders() });
+      const data = await res.json();
+      if (!data.success) return;
+      const results = data.data || [];
+
+      if (!results.length) {
+        resultsEl.innerHTML = '<p class="social-empty" style="padding:0.6rem">No users found.</p>';
+        resultsEl.style.display = '';
+        return;
+      }
+
+      resultsEl.innerHTML = results.map(u => `
+        <div class="social-search-result" onclick="App.openUserProfile('${u._id}')">
+          <div class="social-avatar sm">
+            ${u.avatarUrl
+              ? `<img src="${escapeHtml(u.avatarUrl)}" alt="" loading="lazy">`
+              : `<span>${escapeHtml((u.name||'?')[0].toUpperCase())}</span>`}
+          </div>
+          <div>
+            <strong>${escapeHtml(u.name)}</strong>
+            <small class="social-lastseen">${formatLastSeen(u.stats?.lastActiveAt)}</small>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();App.sendFriendReq('${u._id}','${escapeHtml(u.name)}')">+ Add</button>
+        </div>`).join('');
+      resultsEl.style.display = '';
+    } catch (e) { console.warn('Search error:', e.message); }
+  }, 300);
+}
+
+// ── User profile modal ──────────────────────────────────────────────
+async function openUserProfile(userId) {
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/profile/${userId}`, { headers: authHeaders() });
+    const data = await res.json();
+    if (!data.success) { showToast('Could not load profile'); return; }
+    const u = data.data;
+
+    let modal = byId('user-profile-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'user-profile-modal';
+      modal.className = 'social-modal-overlay';
+      document.body.appendChild(modal);
+      modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+    }
+
+    const isFriend = _socialState.friends.some(f => f._id?.toString() === userId);
+
+    modal.innerHTML = `
+      <div class="social-modal">
+        <button class="social-modal-close" onclick="byId('user-profile-modal').classList.remove('open')">&times;</button>
+        <div class="user-profile-header">
+          <div class="social-avatar lg">
+            ${u.avatarUrl
+              ? `<img src="${escapeHtml(u.avatarUrl)}" alt="avatar" loading="lazy">`
+              : `<span>${escapeHtml((u.name||'?')[0].toUpperCase())}</span>`}
+          </div>
+          <div>
+            <h2 style="margin:0">${escapeHtml(u.name)}</h2>
+            <p class="social-lastseen" style="margin:0.2rem 0 0">${formatLastSeen(u.stats?.lastActiveAt)}</p>
+          </div>
+        </div>
+        <div class="user-profile-stats">
+          <div class="ustat"><strong>⚡ ${u.stats?.xp || 0}</strong><span>XP</span></div>
+          <div class="ustat"><strong>🔥 ${u.stats?.streak || 0}</strong><span>Streak</span></div>
+          <div class="ustat"><strong>${u.stats?.totalTopicsCompleted || 0}</strong><span>Topics</span></div>
+          <div class="ustat"><strong>${u.stats?.averageQuizScore || 0}%</strong><span>Avg Quiz</span></div>
+        </div>
+        <div class="user-profile-actions">
+          ${isFriend
+            ? `<span class="social-friend-badge">✓ Friends</span>`
+            : `<button class="btn btn-primary btn-sm" onclick="App.sendFriendReq('${userId}','${escapeHtml(u.name)}');this.textContent='Request sent';this.disabled=true">+ Add Friend</button>`}
+        </div>
+      </div>`;
+
+    modal.classList.add('open');
+  } catch (e) { showToast('Network error'); }
+}
+
+// ── Friend request actions ──────────────────────────────────────────
+async function sendFriendReq(toUserId, name) {
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/friends/request`, {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({ toUserId }),
+    });
+    const data = await res.json();
+    if (data.success) showToast(`Friend request sent to ${name}!`);
+    else showToast(data.error || 'Could not send request');
+  } catch (e) { showToast('Network error'); }
+}
+
+async function respondFriend(requestId, status) {
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/friends/respond`, {
+      method: 'PATCH', headers: authHeaders(),
+      body: JSON.stringify({ requestId, status }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(status === 'accepted' ? 'Friend added! 🎉' : 'Request declined');
+      await renderSocialPage();
+    }
+  } catch (e) { showToast('Network error'); }
+}
+
+// ── Group chat ──────────────────────────────────────────────────────
+let _groupPollTimer = null;
+
+async function openGroupChat(groupId, groupName) {
+  _socialState.activeGroup = { _id: groupId, name: groupName };
+  if (socket) socket.emit('join_group', { groupId });
+
+  const chatEl = byId('social-group-chat');
+  if (chatEl) chatEl.style.display = '';
+
+  byId('social-group-name') && (byId('social-group-name').textContent = groupName);
+  _renderGroupPanel(); // update active state
+  await _loadGroupMessages(groupId);
+}
+
+async function _loadGroupMessages(groupId) {
+  const msgs = byId('social-group-messages');
+  if (!msgs) return;
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/groups/${groupId}/messages`, { headers: authHeaders() });
+    const data = await res.json();
+    if (!data.success) return;
+    msgs.innerHTML = (data.data || []).map(m => _groupMsgHtml(m)).join('');
+    msgs.scrollTop = msgs.scrollHeight;
+  } catch (e) { /* silent */ }
+}
+
+function _groupMsgHtml(m) {
+  const isSelf = m.authorId === auth.user?._id || m.authorId?.toString?.() === auth.user?._id;
+  const time   = new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return `<div class="group-msg ${isSelf ? 'self' : ''}">
+    ${!isSelf ? `<span class="group-msg-author">${escapeHtml(m.authorName)}</span>` : ''}
+    <div class="group-msg-bubble">${escapeHtml(m.text)}</div>
+    <span class="group-msg-time">${time}</span>
+  </div>`;
+}
+
+async function sendGroupMessage() {
+  if (!_socialState.activeGroup) return;
+  const input = byId('social-group-input');
+  const text  = input?.value.trim();
+  if (!text) return;
+  input.value = '';
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/social/groups/${_socialState.activeGroup._id}/messages`, {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify({ text }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      const msgs = byId('social-group-messages');
+      if (msgs) {
+        msgs.innerHTML += _groupMsgHtml(data.data);
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+    }
+  } catch (e) { showToast('Could not send message'); }
+}
+
+function openNewGroupModal() {
+  let modal = byId('new-group-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'new-group-modal';
+    modal.className = 'social-modal-overlay';
+    modal.innerHTML = `
+      <div class="social-modal">
+        <button class="social-modal-close" onclick="byId('new-group-modal').classList.remove('open')">&times;</button>
+        <h3>Create Group Chat</h3>
+        <label>Group name<input id="ng-name" type="text" placeholder="Study Group…" maxlength="60" class="auth-input"></label>
+        <p style="color:var(--text2);font-size:0.85rem;margin:0.5rem 0">Add friends after creating the group.</p>
+        <div style="display:flex;gap:0.6rem;margin-top:1rem">
+          <button class="btn btn-primary" onclick="App.createGroup()">Create</button>
+          <button class="btn btn-outline" onclick="byId('new-group-modal').classList.remove('open')">Cancel</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+  }
+  modal.classList.add('open');
+  setTimeout(() => byId('ng-name')?.focus(), 50);
+}
+
+async function createGroup() {
+  const name = byId('ng-name')?.value.trim();
+  if (!name) { showToast('Enter a group name'); return; }
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/groups`, {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify({ name }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Group "${name}" created!`);
+      byId('new-group-modal')?.classList.remove('open');
+      _socialState.groups.unshift(data.data);
+      _renderGroupPanel();
+      openGroupChat(data.data._id, data.data.name);
+    } else showToast(data.error || 'Could not create group');
+  } catch (e) { showToast('Network error'); }
+}
+
+// Receive real-time group messages via socket
+function _bindGroupSocketEvents() {
+  if (!socket) return;
+  socket.off('group_message'); // avoid double-binding
+  socket.on('group_message', (msg) => {
+    if (!_socialState.activeGroup || msg.chatId !== _socialState.activeGroup._id) return;
+    const msgs = byId('social-group-messages');
+    if (msgs) {
+      msgs.innerHTML += _groupMsgHtml(msg);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+  });
+}
+
 const App = {
   go,
   scrollToSection,
@@ -5593,6 +5990,17 @@ const App = {
   // Auth modal (expose so inline HTML can call it)
   openAuthModal,
   signInWithGoogle,
+  // Social
+  switchSocialTab,
+  renderSocialPage,
+  socialSearch,
+  openUserProfile,
+  sendFriendReq,
+  respondFriend,
+  openGroupChat,
+  sendGroupMessage,
+  openNewGroupModal,
+  createGroup,
   signInWithDiscord,
 };
 

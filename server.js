@@ -50,6 +50,14 @@ const channelUsers = {};
 io.on('connection', (socket) => {
   console.log(`[Socket] connected: ${socket.id}`);
 
+  // Join a group chat room
+  socket.on('join_group', ({ groupId }) => {
+    socket.join(`group:${groupId}`);
+  });
+  socket.on('leave_group', ({ groupId }) => {
+    socket.leave(`group:${groupId}`);
+  });
+
   // Join a channel room
   socket.on('join_channel', ({ channelId, user }) => {
     socket.join(channelId);
@@ -1113,6 +1121,128 @@ app.use((error, req, res, next) => {
 // ============================================================================
 // SERVER STARTUP
 // ============================================================================
+
+// ============================================================================
+// ROUTES: SOCIAL — public profiles, user search
+// ============================================================================
+
+// GET /api/social/search?q=... — search users by name (public, no email exposed)
+app.get('/api/social/search', authenticateToken, async (req, res, next) => {
+  try {
+    const q = (req.query.q || '').trim();
+    if (q.length < 2) return res.json({ success: true, data: [] });
+    await db.touchLastActive(req.user._id);
+    const users = await db.searchUsers(q);
+    res.json({ success: true, data: users });
+  } catch (e) { next(e); }
+});
+
+// GET /api/social/profile/:userId — get a public profile (no email/auth data)
+app.get('/api/social/profile/:userId', authenticateToken, async (req, res, next) => {
+  try {
+    await db.touchLastActive(req.user._id);
+    const profile = await db.getPublicProfile(req.params.userId);
+    if (!profile) return res.status(404).json({ success: false, error: 'User not found' });
+    res.json({ success: true, data: profile });
+  } catch (e) { next(e); }
+});
+
+// ── Friends ──────────────────────────────────────────────────────────────────
+
+// POST /api/social/friends/request — send friend request
+app.post('/api/social/friends/request', authenticateToken, async (req, res, next) => {
+  try {
+    const { toUserId } = req.body;
+    if (!toUserId) return res.status(400).json({ success: false, error: 'toUserId required' });
+    if (toUserId === req.user._id.toString()) return res.status(400).json({ success: false, error: 'Cannot friend yourself' });
+    await db.touchLastActive(req.user._id);
+    const req2 = await db.sendFriendRequest(req.user._id, toUserId);
+    res.json({ success: true, data: req2 });
+  } catch (e) { next(e); }
+});
+
+// PATCH /api/social/friends/respond — accept or reject a request
+app.patch('/api/social/friends/respond', authenticateToken, async (req, res, next) => {
+  try {
+    const { requestId, status } = req.body;
+    if (!['accepted','rejected'].includes(status)) return res.status(400).json({ success: false, error: 'status must be accepted or rejected' });
+    await db.touchLastActive(req.user._id);
+    const fr = await db.respondFriendRequest(requestId, status);
+    res.json({ success: true, data: fr });
+  } catch (e) { next(e); }
+});
+
+// GET /api/social/friends — get friend list + pending requests
+app.get('/api/social/friends', authenticateToken, async (req, res, next) => {
+  try {
+    await db.touchLastActive(req.user._id);
+    const [friends, requests] = await Promise.all([
+      db.getFriends(req.user._id),
+      db.getFriendRequests(req.user._id),
+    ]);
+    res.json({ success: true, data: { friends, requests } });
+  } catch (e) { next(e); }
+});
+
+// ── Group chats ──────────────────────────────────────────────────────────────
+
+// GET /api/social/groups — list groups the user is in
+app.get('/api/social/groups', authenticateToken, async (req, res, next) => {
+  try {
+    await db.touchLastActive(req.user._id);
+    const groups = await db.getUserGroupChats(req.user._id);
+    res.json({ success: true, data: groups });
+  } catch (e) { next(e); }
+});
+
+// POST /api/social/groups — create a group chat
+app.post('/api/social/groups', authenticateToken, async (req, res, next) => {
+  try {
+    let { name, memberIds } = req.body;
+    if (!name || !name.trim()) return res.status(400).json({ success: false, error: 'name required' });
+    memberIds = Array.isArray(memberIds) ? memberIds : [];
+    await db.touchLastActive(req.user._id);
+    const group = await db.createGroupChat(name.trim(), req.user._id, memberIds);
+    res.status(201).json({ success: true, data: group });
+  } catch (e) { next(e); }
+});
+
+// GET /api/social/groups/:groupId/messages — get messages
+app.get('/api/social/groups/:groupId/messages', authenticateToken, async (req, res, next) => {
+  try {
+    const group = await db.GroupChat.findById(req.params.groupId).lean();
+    if (!group) return res.status(404).json({ success: false, error: 'Group not found' });
+    const isMember = group.members.map(String).includes(req.user._id.toString());
+    if (!isMember) return res.status(403).json({ success: false, error: 'Not a member of this group' });
+    await db.touchLastActive(req.user._id);
+    const msgs = await db.getGroupMessages(req.params.groupId, 80);
+    res.json({ success: true, data: msgs.reverse() }); // chronological
+  } catch (e) { next(e); }
+});
+
+// POST /api/social/groups/:groupId/messages — send a message
+app.post('/api/social/groups/:groupId/messages', authenticateToken, async (req, res, next) => {
+  try {
+    const group = await db.GroupChat.findById(req.params.groupId).lean();
+    if (!group) return res.status(404).json({ success: false, error: 'Group not found' });
+    const isMember = group.members.map(String).includes(req.user._id.toString());
+    if (!isMember) return res.status(403).json({ success: false, error: 'Not a member' });
+    const text = (req.body.text || '').trim().slice(0, 2000);
+    if (!text) return res.status(400).json({ success: false, error: 'text required' });
+    await db.touchLastActive(req.user._id);
+    const msg = await db.addGroupMessage(req.params.groupId, req.user._id, req.user.name, text);
+    // Emit to socket room
+    io.to(`group:${req.params.groupId}`).emit('group_message', msg);
+    res.status(201).json({ success: true, data: msg });
+  } catch (e) { next(e); }
+});
+
+// ── Touch lastActive on any authenticated API call ───────────────────────────
+// (Light-touch middleware — only runs on /api/user/* to avoid touching on every request)
+app.use('/api/user', authenticateToken, (req, res, next) => {
+  db.touchLastActive(req.user._id).catch(() => {});
+  next();
+});
 
 // Middleware: ensure DB is connected before every API request
 // This handles Render free tier sleeping and MongoDB Atlas connection drops
