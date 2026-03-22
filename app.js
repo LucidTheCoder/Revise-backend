@@ -5547,6 +5547,15 @@ ${qSection}
 
 
 // ============================================================================
+// SOCIAL — shared state object (must be declared before any social function uses it)
+const _socialState = {
+  friends:     [],   // loaded friend list
+  requests:    [],   // pending friend requests
+  groups:      [],   // group chats the user belongs to
+  activeGroup: null, // { _id, name } of the open group chat
+};
+
+// ============================================================================
 // SOCIAL — tab switcher
 // ============================================================================
 
