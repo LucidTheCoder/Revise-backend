@@ -516,6 +516,7 @@
             <option value="phy">⚡ Physics</option>
           </select>
           <button class="btn btn-primary" onclick="App.createNewTopic()">+ New Topic</button>
+          <button class="btn btn-outline" id="quiz-import-btn" onclick="App.openQuizImport()" style="display:none" title="Paste quiz questions from ChatGPT">⚡ Import Questions</button>
           <div class="editor-mode-toggle" id="editor-mode-toggle" style="display:none">
             <button class="editor-mode-btn active" id="mode-btn-form" onclick="App.switchEditorMode('form')">📋 Form</button>
             <button class="editor-mode-btn"        id="mode-btn-json" onclick="App.switchEditorMode('json')">{ } JSON</button>

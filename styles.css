@@ -6178,3 +6178,44 @@ html {
 .role-admin   { background: rgba(239,68,68,0.15);  color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
 .role-teacher { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
 .role-student { background: var(--bg3); color: var(--text3); border: 1px solid var(--border); }
+
+/* ============================================================================
+   QUIZ IMPORT MODAL
+   ============================================================================ */
+
+.quiz-import-modal {
+  width: min(620px, calc(100vw - 1.5rem));
+  max-height: 90dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.quiz-import-hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text2);
+}
+.quiz-import-example {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text2);
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+}
+#quiz-import-input {
+  min-height: 160px;
+  font-size: 0.8rem;
+}
+.quiz-import-status {
+  font-size: 0.82rem;
+  padding: 0.4rem 0;
+  min-height: 1.2em;
+}
+.quiz-import-status.error   { color: #f87171; }
+.quiz-import-status.success { color: var(--success); font-weight: 600; }

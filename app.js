@@ -3667,6 +3667,134 @@ function renderGifs(html) {
   );
 }
 
+
+// ── Quiz Question Quick-Import ───────────────────────────────────────────
+// Accepts pasted JSON from ChatGPT in multiple formats and merges into topic
+
+function openQuizImport() {
+  if (!editorState.currentTopic) { showToast('Select a topic first'); return; }
+  byId('quiz-import-modal')?.remove();
+  const topic    = state.topics.get(editorState.currentTopic);
+  const existing = (topic?.quiz?.questions || []).length;
+  const modal    = document.createElement('div');
+  modal.id        = 'quiz-import-modal';
+  modal.className = 'social-modal-overlay';
+
+  const closeBtn   = `<button class="social-modal-close" onclick="byId('quiz-import-modal').remove()"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>`;
+  const examplePre = `<pre class="quiz-import-example">// Format A — standard:\n[{"q":"Question?","opts":["A","B","C","D"],"ans":0,"exp":"Explanation"}]\n\n// Format B — answer as letter:\n[{"question":"Q?","options":["A","B","C","D"],"answer":"A","explanation":"..."}]\n\n// Format C — answer as text match:\n[{"q":"Q?","opts":["A","B","C","D"],"answer":"B","exp":"..."}]</pre>`;
+
+  modal.innerHTML = `
+    <div class="social-modal quiz-import-modal" role="dialog">
+      ${closeBtn}
+      <h3 style="margin:0 0 0.35rem">Import Quiz Questions</h3>
+      <p class="quiz-import-hint">Currently <strong>${existing}</strong> question${existing !== 1 ? 's' : ''} in this topic.</p>
+      <p class="quiz-import-hint">Paste a JSON array. ChatGPT prompt: <em>"Give me 10 MCQ questions on [topic] as a JSON array with fields: q, opts (array of 4), ans (0-indexed int), exp"</em></p>
+      ${examplePre}
+      <textarea id="quiz-import-input" class="ef-textarea" rows="10"
+        placeholder="Paste JSON array here…" spellcheck="false"></textarea>
+      <div id="quiz-import-status" class="quiz-import-status"></div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.75rem">
+        <button class="btn btn-primary" onclick="App.doQuizImport()">Import &amp; Merge</button>
+        <button class="btn btn-outline" onclick="byId('quiz-import-modal').remove()">Cancel</button>
+      </div>
+    </div>`;
+
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  requestAnimationFrame(() => modal.classList.add('open'));
+  setTimeout(() => byId('quiz-import-input')?.focus(), 80);
+}
+
+function doQuizImport() {
+  const raw = byId('quiz-import-input')?.value?.trim();
+  const status = byId('quiz-import-status');
+  if (!raw) { if (status) status.textContent = 'Paste some JSON first.'; return; }
+
+  let parsed;
+  try {
+    // Strip markdown code fences if ChatGPT wrapped it
+    const cleaned = raw.replace(/^```(?:json)?\n?/i, '').replace(/\n?```\s*$/i, '').trim();
+    parsed = JSON.parse(cleaned);
+  } catch (e) {
+    if (status) { status.className = 'quiz-import-status error'; status.textContent = 'Invalid JSON: ' + e.message; }
+    return;
+  }
+
+  if (!Array.isArray(parsed)) {
+    // Maybe it's wrapped: { questions: [...] }
+    if (parsed.questions && Array.isArray(parsed.questions)) {
+      parsed = parsed.questions;
+    } else {
+      if (status) { status.className = 'quiz-import-status error'; status.textContent = 'Expected a JSON array of questions.'; }
+      return;
+    }
+  }
+
+  const normalized = [];
+  const errors = [];
+
+  parsed.forEach((item, i) => {
+    try {
+      // Normalise field names
+      const q    = item.q || item.question || item.text || item.prompt || '';
+      const opts = item.opts || item.options || item.choices || [];
+      let ans    = item.ans;
+      const exp  = item.exp || item.explanation || item.rationale || '';
+
+      if (!q) { errors.push('Item ' + (i+1) + ': missing question text'); return; }
+      if (!Array.isArray(opts) || opts.length < 2) { errors.push('Item ' + (i+1) + ': need at least 2 options'); return; }
+
+      // Resolve ans to numeric index
+      if (typeof ans === 'string') {
+        const letter = ans.trim().toUpperCase();
+        if (/^[A-D]$/.test(letter)) {
+          ans = letter.charCodeAt(0) - 65; // A=0, B=1, C=2, D=3
+        } else {
+          // Try matching option text
+          const idx = opts.findIndex(o => o.toString().toLowerCase().trim() === ans.toLowerCase().trim());
+          ans = idx >= 0 ? idx : 0;
+        }
+      }
+      if (typeof ans !== 'number' || ans < 0 || ans >= opts.length) ans = 0;
+
+      normalized.push({ q: String(q), opts: opts.map(String), ans, exp: String(exp) });
+    } catch (e) {
+      errors.push('Item ' + (i+1) + ': ' + e.message);
+    }
+  });
+
+  if (!normalized.length) {
+    if (status) { status.className = 'quiz-import-status error'; status.textContent = 'No valid questions found. ' + errors.join('; '); }
+    return;
+  }
+
+  // Merge into topic
+  const topic = state.topics.get(editorState.currentTopic);
+  if (!topic) { if (status) { status.textContent = 'Topic not found.'; } return; }
+  if (!topic.quiz) topic.quiz = { title: topic.title + ' Quiz', questions: [] };
+  if (!Array.isArray(topic.quiz.questions)) topic.quiz.questions = [];
+  topic.quiz.questions.push(...normalized);
+  state.topics.set(editorState.currentTopic, topic);
+  _persistCustomTopic(editorState.currentTopic, topic, editorState.currentSubject);
+
+  // Update the JSON textarea so admin can save
+  const jsonStr = JSON.stringify(topic, null, 2);
+  editorState.originalJson = jsonStr;
+  const ta = byId('editor-json');
+  if (ta) ta.value = jsonStr;
+
+  const msg = 'Imported ' + normalized.length + ' question' + (normalized.length !== 1 ? 's' : '') + '!'
+    + (errors.length ? ' (' + errors.length + ' skipped)' : '');
+  if (status) { status.className = 'quiz-import-status success'; status.textContent = msg; }
+
+  showSuccess('Questions imported!', normalized.length + ' added to ' + (topic.title || editorState.currentTopic));
+
+  // Auto-save to backend if admin/teacher
+  if (auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher')) {
+    setTimeout(() => saveTopic(), 500);
+  }
+}
+
 // ── Custom topic persistence (localStorage) ─────────────────────────────────
 const CUSTOM_TOPICS_KEY = 'revise.customTopics'; // { topicId: { subject, data } }
 
@@ -3958,6 +4086,7 @@ function openTopicInEditor(topicId) {
   byId("editor-delete-btn").style.display = "inline-flex";
   byId("editor-actions").style.display = "";
   byId("editor-mode-toggle").style.display = "";
+  const _qib = byId("quiz-import-btn"); if (_qib) _qib.style.display = "";
   // Default to form mode, render the form
   _editorMode = 'form';
   byId('mode-btn-form')?.classList.add('active');
@@ -4020,6 +4149,7 @@ function createNewTopic() {
   byId("editor-delete-btn").style.display = "inline-flex";
   byId("editor-actions").style.display = "";
   byId("editor-mode-toggle").style.display = "";
+  const _qib = byId("quiz-import-btn"); if (_qib) _qib.style.display = "";
   _editorMode = 'form';
   byId('mode-btn-form')?.classList.add('active');
   byId('mode-btn-json')?.classList.remove('active');
@@ -6667,6 +6797,8 @@ const App = {
   openNewGroupModal,
   switchEditorMode,
   filterEditorTopics,
+  openQuizImport,
+  doQuizImport,
   togglePw,
   openGifPicker,
   _gifSearch,

@@ -907,35 +907,53 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const apiKey = process.env.GEMINI_API_KEY;
       if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add GEMINI_API_KEY in Render environment variables.' });
 
-      // Build Gemini contents array (system goes in as first user turn)
+      // Build Gemini contents — must be non-empty and start with 'user' role
       const contents = [];
       if (history.length) {
         history.filter(m => m.role === 'user' || m.role === 'assistant').forEach(m => {
-          contents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.text }] });
+          contents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: String(m.text || '') }] });
         });
       }
-      contents.push({ role: 'user', parts: [{ text: prompt }] });
+      // Ensure final message is user (Gemini requires alternating, ending in user)
+      if (contents.length && contents[contents.length - 1].role === 'model') {
+        contents.push({ role: 'user', parts: [{ text: prompt }] });
+      } else {
+        contents.push({ role: 'user', parts: [{ text: prompt }] });
+      }
 
       const model = process.env.AI_MODEL || 'gemini-1.5-flash';
+      const geminiBody = {
+        contents,
+        generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+      };
+
+      console.log(`[AI] Gemini request: model=${model}, messages=${contents.length}`);
+
       const geminiRes = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            contents,
-            generationConfig: { maxOutputTokens: 1024 },
-          }),
+          body: JSON.stringify(geminiBody),
         }
       );
 
       if (!geminiRes.ok) {
-        const err = await geminiRes.json().catch(() => ({}));
-        throw new Error(err.error?.message || `Gemini API error ${geminiRes.status}`);
+        const errBody = await geminiRes.text();
+        console.error(`[AI] Gemini error ${geminiRes.status}:`, errBody.slice(0, 300));
+        let errMsg = `Gemini API error ${geminiRes.status}`;
+        try { errMsg = JSON.parse(errBody).error?.message || errMsg; } catch {}
+        throw new Error(errMsg);
       }
       const geminiData = await geminiRes.json();
+      console.log('[AI] Gemini response keys:', Object.keys(geminiData));
       answer = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (!answer) {
+        const finishReason = geminiData.candidates?.[0]?.finishReason;
+        console.error('[AI] Gemini empty answer, finishReason:', finishReason, JSON.stringify(geminiData).slice(0, 300));
+        throw new Error(finishReason === 'SAFETY' ? 'Response blocked by safety filters — try rephrasing.' : 'Empty response from Gemini');
+      }
     }
 
     else {
@@ -947,13 +965,15 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
     res.json({ success: true, answer: answer.trim() });
   } catch (error) {
     console.error('AI tutor error:', error.message);
-    // Return user-friendly error, not 500
-    res.status(503).json({
-      success: false,
-      error: error.message.includes('API key') || error.message.includes('configured')
-        ? error.message
-        : 'The AI tutor is temporarily unavailable. Please try again in a moment.',
-    });
+    // Pass the real error to the client so it's debuggable
+    const isConfigError = error.message.includes('API key') || error.message.includes('configured') || error.message.includes('not configured');
+    const isRateLimit   = error.message.includes('quota') || error.message.includes('rate') || error.message.includes('RESOURCE_EXHAUSTED');
+    const isSafety      = error.message.includes('safety') || error.message.includes('SAFETY');
+    const clientMsg = isConfigError ? error.message
+      : isRateLimit  ? 'AI rate limit reached — please wait a moment and try again.'
+      : isSafety     ? error.message
+      : `AI error: ${error.message}`;
+    res.status(503).json({ success: false, error: clientMsg });
   }
 });
 
