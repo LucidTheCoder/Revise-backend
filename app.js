@@ -5547,6 +5547,15 @@ ${qSection}
 
 
 // ============================================================================
+// SOCIAL — shared state (declared before any social function uses it)
+const _socialState = {
+  friends:     [],
+  requests:    [],
+  groups:      [],
+  activeGroup: null,
+};
+
+// ============================================================================
 // SOCIAL — tab switcher
 // ============================================================================
 
@@ -5947,7 +5956,15 @@ function openNewGroupModal() {
       <h3 style="margin:0 0 1rem">New Group Chat</h3>
       <label style="display:block;margin-bottom:0.5rem;font-size:0.85rem;color:var(--text2)">Group name</label>
       <input id="ng-name" type="text" placeholder="e.g. Chem Study Group"
-        maxlength="60" class="auth-input" style="margin-bottom:1rem">
+        maxlength="60" style="
+          width:100%; box-sizing:border-box; margin-bottom:1rem;
+          padding:0.55rem 0.75rem; border-radius:8px;
+          border:1px solid var(--border2); background:var(--bg3);
+          color:var(--text); font-size:0.9rem; font-family:inherit;
+          outline:none; transition:border-color 0.15s;
+        "
+        onfocus="this.style.borderColor='var(--accent)'"
+        onblur="this.style.borderColor='var(--border2)'">
       <div style="display:flex;gap:0.6rem">
         <button class="btn btn-primary" onclick="App.createGroup()">Create Group</button>
         <button class="btn btn-outline" onclick="byId('new-group-modal').remove()">Cancel</button>
