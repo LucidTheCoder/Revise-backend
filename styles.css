@@ -3949,44 +3949,142 @@ main { flex: 1 0 auto; }
 /* ═══════════════════════════════════════════════════════════════════════
    CONFIDENCE MAP
    ═══════════════════════════════════════════════════════════════════════ */
+/* ── Confidence map legend ─────────────────────────────────────────── */
 .cmap-legend {
-  display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap;
-  margin-bottom: 1.25rem; font-size: 0.82rem; color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  padding: 0.65rem 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
 }
-.cmap-legend-item { display: flex; align-items: center; gap: 0.35rem; }
+.cmap-legend-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text3);
+  margin-right: 0.25rem;
+}
+.cmap-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text2);
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
 .cmap-dot {
-  width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
-.cmap-dot.cmap-confident      { background: var(--success); }
-.cmap-dot.cmap-needs-practice { background: var(--warn); }
-.cmap-dot.cmap-no-idea        { background: #f87171; }
+.cmap-dot.cmap-confident      { background: var(--success); box-shadow: 0 0 5px rgba(34,197,94,0.5); }
+.cmap-dot.cmap-needs-practice { background: var(--warn);    box-shadow: 0 0 5px rgba(251,191,36,0.5); }
+.cmap-dot.cmap-no-idea        { background: #f87171;        box-shadow: 0 0 5px rgba(248,113,113,0.5); }
 .cmap-dot.cmap-none           { background: var(--border2); }
 
-#confidence-map-grid { display: flex; flex-direction: column; gap: 1.5rem; }
-.cmap-subject {}
-.cmap-subject-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.65rem; }
+/* ── Subject sections ──────────────────────────────────────────────── */
+#confidence-map-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.cmap-subject {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+}
+.cmap-subject-title {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cmap-subject-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Topic grid ─────────────────────────────────────────────────────── */
 .cmap-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-  gap: 0.4rem;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.5rem;
 }
+@media (max-width: 640px) { .cmap-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } }
+
 .cmap-cell {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 0.35rem; padding: 0.5rem 0.65rem;
-  border-radius: 8px; border: 1px solid var(--border);
-  background: var(--card); cursor: pointer; text-align: left;
-  transition: transform 0.14s, border-color 0.14s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.13s, box-shadow 0.13s, border-color 0.13s;
+  overflow: hidden;
 }
-.cmap-cell:hover { transform: translateY(-2px); border-color: var(--accent); }
+.cmap-cell::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  border-radius: 10px 0 0 10px;
+  background: var(--border2);
+  transition: background 0.13s;
+}
+.cmap-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  border-color: var(--border2);
+}
 .cmap-cell-name {
-  font-size: 0.78rem; color: var(--text); font-weight: 500;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+  font-size: 0.78rem;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.cmap-cell-badge { font-size: 0.72rem; flex-shrink: 0; }
-.cmap-confident      { border-left: 3px solid var(--success) !important; }
-.cmap-needs-practice { border-left: 3px solid var(--warn) !important; }
-.cmap-no-idea        { border-left: 3px solid #f87171 !important; }
-.cmap-none           { opacity: 0.65; }
+.cmap-cell-badge {
+  font-size: 0.68rem;
+  color: var(--text3);
+  font-weight: 600;
+  margin-top: 0.1rem;
+}
+
+/* Confidence state colours */
+.cmap-confident::before      { background: var(--success); }
+.cmap-confident               { background: color-mix(in srgb, var(--success), transparent 93%); border-color: color-mix(in srgb, var(--success), transparent 70%); }
+.cmap-confident .cmap-cell-badge { color: var(--success); }
+
+.cmap-needs-practice::before { background: var(--warn); }
+.cmap-needs-practice          { background: color-mix(in srgb, var(--warn), transparent 93%); border-color: color-mix(in srgb, var(--warn), transparent 70%); }
+.cmap-needs-practice .cmap-cell-badge { color: var(--warn); }
+
+.cmap-no-idea::before        { background: #f87171; }
+.cmap-no-idea                 { background: color-mix(in srgb, #f87171, transparent 93%); border-color: color-mix(in srgb, #f87171, transparent 70%); }
+.cmap-no-idea .cmap-cell-badge { color: #f87171; }
+
+.cmap-none { opacity: 0.7; }
+.cmap-none .cmap-cell-badge  { color: var(--text3); }
 
 /* ═══════════════════════════════════════════════════════════════════════
    PRINT STYLES — clean topic printout
@@ -6431,3 +6529,28 @@ html {
 @media (max-width: 480px) {
   .signin-banner-text span { display: none; }
 }
+
+/* ============================================================================
+   HOME — daily tip card
+   ============================================================================ */
+
+.home-daily-tip {
+  margin-bottom: 0.85rem;
+}
+.home-tip-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  background: color-mix(in srgb, var(--accent), transparent 92%);
+  border: 1px solid color-mix(in srgb, var(--accent), transparent 70%);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+.home-tip-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.home-tip-inner p {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.home-tip-inner p strong { color: var(--text); }

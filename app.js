@@ -320,7 +320,7 @@ function showSignInBanner(greeting) {
         '<span>Refresh the page to load your saved progress.</span>' +
       '</div>' +
       '<button class="signin-banner-refresh btn btn-primary btn-sm" onclick="location.reload()">Refresh now</button>' +
-      '<button class="signin-banner-close" onclick="byId(\"signin-banner\").remove()" aria-label="Dismiss">✕</button>' +
+      '<button class="signin-banner-close" onclick="document.getElementById(&quot;signin-banner&quot;).remove()" aria-label="Dismiss">✕</button>' +
     '</div>';
   document.body.appendChild(banner);
   setTimeout(() => { byId('signin-banner')?.remove(); }, 30000);
@@ -1975,6 +1975,24 @@ function renderHome() {
     `;
   }
 
+  // Daily tip / motivational card
+  const tipEl = byId("home-daily-tip");
+  if (tipEl) {
+    const tips = [
+      "📌 Try the <strong>Spaced Repetition</strong> queue — topics due for review appear at the top of the home page.",
+      "🎯 Use <strong>Quick Quiz</strong> to test a topic immediately after reading it for better retention.",
+      "📄 The <strong>Topical Paper Generator</strong> builds custom practice papers from any mix of topics.",
+      "⚡ Rate your confidence on each topic — it powers your <strong>Confidence Map</strong> and spaced rep schedule.",
+      "🤖 Ask the <strong>AI Study Coach</strong> to explain tricky concepts or give you exam-style questions.",
+      "📚 Check <strong>Past Papers</strong> regularly — Cambridge questions repeat patterns across years.",
+      "🗺 Your <strong>Confidence Map</strong> shows which topics need the most attention at a glance.",
+      "🔥 Maintain your streak — even a short 10-minute review each day adds up over a week.",
+    ];
+    const today = new Date().getDay();
+    const tip   = tips[today % tips.length];
+    tipEl.innerHTML = `<div class="home-tip-inner"><span class="home-tip-icon">💡</span><p>${tip}</p></div>`;
+  }
+
   // Subject progress bars
   const subjProgressEl = byId("home-subj-progress");
   if (subjProgressEl) {
@@ -3052,20 +3070,32 @@ function resetProgress() {
 function renderConfidenceMap() {
   const container = byId("confidence-map-grid");
   if (!container) return;
-  const conf = confidenceByTopic();
+  const conf  = confidenceByTopic();
+  const icons = { chem: '⚗️', bio: '🧬', phy: '⚡' };
+  const confidenceLabel = { confident: 'Confident', 'needs-practice': 'Needs practice', 'no-idea': 'No idea', none: 'Not rated' };
   const html = state.subjects.map(subject => {
     const subjectTopics = subject.units.flatMap(u => u.topics.map(t => ({...t, unitName: u.name})));
+    const total      = subjectTopics.length;
+    const confident  = subjectTopics.filter(t => (conf[t.id] || 'none') === 'confident').length;
+    const noIdea     = subjectTopics.filter(t => (conf[t.id] || 'none') === 'no-idea').length;
+    const needsPrac  = subjectTopics.filter(t => (conf[t.id] || 'none') === 'needs-practice').length;
+    const pct        = total ? Math.round((confident / total) * 100) : 0;
     return `
       <div class="cmap-subject">
-        <h3 class="cmap-subject-title" style="color:${colorVar(subject.id)}">${escapeHtml(subject.name)}</h3>
+        <h3 class="cmap-subject-title" style="color:${colorVar(subject.id)}">
+          ${icons[subject.id] || ''} ${escapeHtml(subject.name)}
+          <span style="font-size:0.75rem;font-weight:500;color:var(--text3);margin-left:0.5rem">
+            ${confident}/${total} confident · ${pct}%
+          </span>
+        </h3>
         <div class="cmap-grid">
           ${subjectTopics.map(t => {
-            const c = conf[t.id] || 'none';
-            const label = c === 'confident' ? '✓' : c === 'needs-practice' ? '~' : c === 'no-idea' ? '✗' : '·';
-            return `<button class="cmap-cell cmap-${c}" title="${escapeHtml(t.name)}" onclick="App.go('topic',{topicId:'${t.id}'})">
-              <span class="cmap-cell-name">${escapeHtml(t.name)}</span>
-              <span class="cmap-cell-badge">${label}</span>
-            </button>`;
+            const c     = conf[t.id] || 'none';
+            const badge = confidenceLabel[c] || 'Not rated';
+            return '<button class="cmap-cell cmap-' + c + '" onclick="App.go(\'topic\',{topicId:\'' + t.id + '\'})">'+
+              '<span class="cmap-cell-name">' + escapeHtml(t.name) + '</span>'+
+              '<span class="cmap-cell-badge">' + badge + '</span>'+
+            '</button>';
           }).join('')}
         </div>
       </div>`;
@@ -3652,7 +3682,7 @@ function openGifPicker(target) {
           <input id="gif-search" type="search" placeholder="Search GIFs…" autocomplete="off"
             oninput="App._gifSearch(this.value)" autofocus>
         </div>
-        <button class="social-modal-close" onclick="byId('gif-modal').remove()">
+        <button class="social-modal-close" onclick="document.getElementById('gif-modal').remove()">
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
@@ -3722,7 +3752,7 @@ function openQuizImport() {
   modal.id        = 'quiz-import-modal';
   modal.className = 'social-modal-overlay';
 
-  const closeBtn   = `<button class="social-modal-close" onclick="byId('quiz-import-modal').remove()"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>`;
+  const closeBtn   = `<button class="social-modal-close" onclick="document.getElementById('quiz-import-modal').remove()"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>`;
   const examplePre = `<pre class="quiz-import-example">// Format A — standard:\n[{"q":"Question?","opts":["A","B","C","D"],"ans":0,"exp":"Explanation"}]\n\n// Format B — answer as letter:\n[{"question":"Q?","options":["A","B","C","D"],"answer":"A","explanation":"..."}]\n\n// Format C — answer as text match:\n[{"q":"Q?","opts":["A","B","C","D"],"answer":"B","exp":"..."}]</pre>`;
 
   modal.innerHTML = `
@@ -3737,7 +3767,7 @@ function openQuizImport() {
       <div id="quiz-import-status" class="quiz-import-status"></div>
       <div style="display:flex;gap:0.5rem;margin-top:0.75rem">
         <button class="btn btn-primary" onclick="App.doQuizImport()">Import &amp; Merge</button>
-        <button class="btn btn-outline" onclick="byId('quiz-import-modal').remove()">Cancel</button>
+        <button class="btn btn-outline" onclick="document.getElementById('quiz-import-modal').remove()">Cancel</button>
       </div>
     </div>`;
 
@@ -6581,7 +6611,7 @@ function openNewGroupModal() {
   modal.className = 'social-modal-overlay';
   modal.innerHTML = `
     <div class="social-modal" role="dialog">
-      <button class="social-modal-close" onclick="byId('new-group-modal').remove()">
+      <button class="social-modal-close" onclick="document.getElementById('new-group-modal').remove()">
         <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
       <h3 style="margin:0 0 1rem">New Group Chat</h3>
@@ -6598,7 +6628,7 @@ function openNewGroupModal() {
         onblur="this.style.borderColor='var(--border2)'">
       <div style="display:flex;gap:0.6rem">
         <button class="btn btn-primary" onclick="App.createGroup()">Create Group</button>
-        <button class="btn btn-outline" onclick="byId('new-group-modal').remove()">Cancel</button>
+        <button class="btn btn-outline" onclick="document.getElementById('new-group-modal').remove()">Cancel</button>
       </div>
     </div>`;
   document.body.appendChild(modal);

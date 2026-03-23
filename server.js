@@ -928,7 +928,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
         contents.push({ role: 'user', parts: [{ text: prompt }] });
       }
 
-      const model = process.env.AI_MODEL || 'gemini-1.5-flash';
+      const model = process.env.AI_MODEL || 'gemini-2.0-flash';
       const geminiBody = {
         contents,
         generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
