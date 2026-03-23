@@ -116,62 +116,21 @@
         <section class="hero card">
           <div class="hero-eyebrow">Cambridge AS Level · Chemistry · Biology · Physics</div>
           <h1>Master your <strong>A Levels</strong><br>with confidence.</h1>
-          <p>Topic notes, worked examples, flashcards, quizzes, topical papers and past papers — all in one place.</p>
           <div class="hero-actions">
             <button class="btn btn-primary" data-route="subjects">
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               Start Revising
             </button>
-            <button class="btn btn-outline" data-route="topical">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Generate Paper
-            </button>
-            <button class="btn btn-ghost" data-route="past-papers">Past Papers</button>
-          </div>
-
-          <!-- Feature pills -->
-          <div class="hero-features">
-            <span class="hero-feat">📝 Topic Notes</span>
-            <span class="hero-feat">⚡ Flashcards</span>
-            <span class="hero-feat">🎯 Quizzes</span>
-            <span class="hero-feat">📄 Topical Papers</span>
-            <span class="hero-feat">📚 Past Papers</span>
-            <span class="hero-feat">🤖 AI Tutor</span>
+            <button class="btn btn-outline" data-route="topical">📄 Topical Paper</button>
+            <button class="btn btn-ghost"   data-route="past-papers">📚 Past Papers</button>
+            <button class="btn btn-ghost"   data-route="confidence-map">🗺 My Map</button>
           </div>
         </section>
 
         <!-- STATS ROW -->
         <section class="stats-row" id="home-stats"></section>
 
-        <!-- SUBJECT QUICK-LAUNCH -->
-        <section class="home-subjects">
-          <button class="home-subj-card home-subj-chem" onclick="App.go('subject',{subjectId:'chem'})">
-            <span class="home-subj-icon">⚗️</span>
-            <div>
-              <strong>Chemistry</strong>
-              <span>9701 · 22 topics</span>
-            </div>
-            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="home-subj-card home-subj-bio" onclick="App.go('subject',{subjectId:'bio'})">
-            <span class="home-subj-icon">🧬</span>
-            <div>
-              <strong>Biology</strong>
-              <span>9700 · 13 topics</span>
-            </div>
-            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="home-subj-card home-subj-phy" onclick="App.go('subject',{subjectId:'phy'})">
-            <span class="home-subj-icon">⚡</span>
-            <div>
-              <strong>Physics</strong>
-              <span>9702 · 11 topics</span>
-            </div>
-            <svg class="home-subj-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </section>
-
-        <!-- SPACED REP -->
+        <!-- SPACED REP (shown only when due) -->
         <section class="spaced-rep-section" id="spaced-rep-section" style="display:none">
           <div class="card">
             <div class="section-title-row">
@@ -183,53 +142,49 @@
           </div>
         </section>
 
-        <!-- DAILY TIP -->
-        <div id="home-daily-tip" class="home-daily-tip"></div>
-
-        <!-- QUICK ACTIONS -->
-        <section class="home-quick-actions">
-          <button class="hqa-btn hqa-quiz"    onclick="App.go('quiz',{subjectId:'chem'})"  title="Start a random quiz">
-            <span class="hqa-icon">🎯</span>
-            <span class="hqa-label">Quick Quiz</span>
-          </button>
-          <button class="hqa-btn hqa-flash"   onclick="App.go('flash',{subjectId:'chem'})" title="Practice flashcards">
-            <span class="hqa-icon">⚡</span>
-            <span class="hqa-label">Flashcards</span>
-          </button>
-          <button class="hqa-btn hqa-topical" onclick="App.go('topical')"                  title="Generate a topical paper">
-            <span class="hqa-icon">📄</span>
-            <span class="hqa-label">Topical Paper</span>
-          </button>
-          <button class="hqa-btn hqa-papers"  onclick="App.go('past-papers')"              title="Browse past papers">
-            <span class="hqa-icon">📚</span>
-            <span class="hqa-label">Past Papers</span>
-          </button>
-          <button class="hqa-btn hqa-map"     onclick="App.go('confidence-map')"           title="See your confidence map">
-            <span class="hqa-icon">🗺</span>
-            <span class="hqa-label">Confidence Map</span>
-          </button>
-        </section>
-
-        <!-- SUBJECT PROGRESS -->
-        <section class="home-subj-progress" id="home-subj-progress">
-          <!-- Populated by renderHome() -->
-        </section>
-
-        <!-- MAIN GRID -->
+        <!-- MAIN DASHBOARD GRID -->
         <section class="home-grid">
-          <div class="card">
-            <div class="section-title-row">
-              <h2>Continue Learning</h2>
+
+          <!-- LEFT: Continue + Subject Progress -->
+          <div class="home-left-col">
+
+            <!-- Quick actions row -->
+            <section class="home-quick-actions">
+              <button class="hqa-btn hqa-quiz"  onclick="App.go('quiz',{subjectId:'chem'})"  title="Quick Quiz">
+                <span class="hqa-icon">🎯</span><span class="hqa-label">Quick Quiz</span>
+              </button>
+              <button class="hqa-btn hqa-flash" onclick="App.go('flash',{subjectId:'chem'})" title="Flashcards">
+                <span class="hqa-icon">⚡</span><span class="hqa-label">Flashcards</span>
+              </button>
+              <button class="hqa-btn hqa-chem"  onclick="App.go('subject',{subjectId:'chem'})" title="Chemistry">
+                <span class="hqa-icon">⚗️</span><span class="hqa-label">Chemistry</span>
+              </button>
+              <button class="hqa-btn hqa-bio"   onclick="App.go('subject',{subjectId:'bio'})"  title="Biology">
+                <span class="hqa-icon">🧬</span><span class="hqa-label">Biology</span>
+              </button>
+              <button class="hqa-btn hqa-phy"   onclick="App.go('subject',{subjectId:'phy'})"  title="Physics">
+                <span class="hqa-icon">⚡</span><span class="hqa-label">Physics</span>
+              </button>
+            </section>
+
+            <!-- Continue learning -->
+            <div class="card">
+              <div class="section-title-row"><h2>Continue Learning</h2></div>
+              <div id="continue-list"></div>
+              <div id="recent-activity"></div>
             </div>
-            <div id="continue-list"></div>
-            <div id="recent-activity"></div>
+
+            <!-- Subject progress -->
+            <section class="home-subj-progress" id="home-subj-progress"></section>
+
           </div>
-          <div class="card">
-            <div class="section-title-row">
-              <h2>Weekly Goal</h2>
-            </div>
+
+          <!-- RIGHT: Weekly Goal (with daily tip inside) -->
+          <div class="card home-right-col">
+            <div class="section-title-row"><h2>Weekly Goal</h2></div>
             <div id="weekly-goal"></div>
           </div>
+
         </section>
 
       </div>

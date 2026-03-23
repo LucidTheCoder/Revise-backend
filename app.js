@@ -1985,24 +1985,6 @@ function renderHome() {
     `;
   }
 
-  // Daily tip / motivational card
-  const tipEl = byId("home-daily-tip");
-  if (tipEl) {
-    const tips = [
-      "📌 Try the <strong>Spaced Repetition</strong> queue — topics due for review appear at the top of the home page.",
-      "🎯 Use <strong>Quick Quiz</strong> to test a topic immediately after reading it for better retention.",
-      "📄 The <strong>Topical Paper Generator</strong> builds custom practice papers from any mix of topics.",
-      "⚡ Rate your confidence on each topic — it powers your <strong>Confidence Map</strong> and spaced rep schedule.",
-      "🤖 Ask the <strong>AI Study Coach</strong> to explain tricky concepts or give you exam-style questions.",
-      "📚 Check <strong>Past Papers</strong> regularly — Cambridge questions repeat patterns across years.",
-      "🗺 Your <strong>Confidence Map</strong> shows which topics need the most attention at a glance.",
-      "🔥 Maintain your streak — even a short 10-minute review each day adds up over a week.",
-    ];
-    const today = new Date().getDay();
-    const tip   = tips[today % tips.length];
-    tipEl.innerHTML = `<div class="home-tip-inner"><span class="home-tip-icon">💡</span><p>${tip}</p></div>`;
-  }
-
   // Subject progress bars
   const subjProgressEl = byId("home-subj-progress");
   if (subjProgressEl) {
@@ -2098,6 +2080,19 @@ function renderHome() {
       <button class="btn btn-ghost btn-sm" onclick="App.setWeeklyGoal()" title="Change weekly target">⚙ Goal: ${totalTarget}m</button>
     </div>
     ${!hasAnyActivity ? `<div class="wg-empty-tip">🚀 Start a topic today to kick off your streak!</div>` : ""}
+    <div class="wg-tip">${(() => {
+      const tips = [
+        '📌 Spaced repetition reviews appear on the home page — check them daily.',
+        '🎯 Quiz yourself right after reading a topic for best retention.',
+        '📄 Use the Topical Paper Generator to simulate real exam conditions.',
+        '⚡ Rate your confidence after every topic to power your study schedule.',
+        '🤖 The AI Study Coach can explain anything — just ask it on the topic page.',
+        '📚 Past paper questions repeat patterns — practise past papers regularly.',
+        '🗺 Your Confidence Map shows at a glance where you need more work.',
+        '🔥 Even 10 minutes a day keeps your streak alive and compounds over time.',
+      ];
+      return '💡 ' + tips[new Date().getDay() % tips.length];
+    })()}</div>
   `;
 }
 
