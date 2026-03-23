@@ -193,7 +193,11 @@ function rateLimit(maxPerMinute) {
 }
 
 // Apply global rate limit (300 req/min per IP — generous for a study app)
-app.use(rateLimit(300));
+// Exempt health check and OPTIONS preflight
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS' || req.path === '/' || req.path === '/health') return next();
+  return rateLimit(300)(req, res, next);
+});
 
 app.use(cors({
   origin: (origin, cb) => {
@@ -253,6 +257,9 @@ async function loadTopic(topicId, subject) {
   let data = await fs.readFile(filePath, 'utf-8');
   return JSON.parse(data.replace(/^\uFEFF/, ''));
 }
+
+// Health check endpoint for Render
+app.get('/health', (req, res) => res.json({ status: 'ok', ts: Date.now() }));
 
 // ============================================================================
 // ROUTES: AUTH
@@ -764,7 +771,7 @@ const aiRateLimiter = new Map(); // userId/ip -> { count, resetAt }
 function checkAiRateLimit(key) {
   const now    = Date.now();
   const window = 60 * 1000; // 1-minute window
-  const max    = parseInt(process.env.AI_RATE_LIMIT_PER_MIN || '10', 10);
+  const max    = parseInt(process.env.AI_RATE_LIMIT_PER_MIN || '20', 10);
   let entry    = aiRateLimiter.get(key);
   if (!entry || now > entry.resetAt) {
     entry = { count: 0, resetAt: now + window };
@@ -967,7 +974,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
     console.error('AI tutor error:', error.message);
     // Pass the real error to the client so it's debuggable
     const isConfigError = error.message.includes('API key') || error.message.includes('configured') || error.message.includes('not configured');
-    const isRateLimit   = error.message.includes('quota') || error.message.includes('rate') || error.message.includes('RESOURCE_EXHAUSTED');
+    const isRateLimit   = error.message.includes('RESOURCE_EXHAUSTED') || error.message.includes('quota exceeded') || error.message.toLowerCase().includes('rate limit exceeded');
     const isSafety      = error.message.includes('safety') || error.message.includes('SAFETY');
     const clientMsg = isConfigError ? error.message
       : isRateLimit  ? 'AI rate limit reached — please wait a moment and try again.'

@@ -183,6 +183,35 @@
           </div>
         </section>
 
+        <!-- QUICK ACTIONS -->
+        <section class="home-quick-actions">
+          <button class="hqa-btn hqa-quiz"    onclick="App.go('quiz',{subjectId:'chem'})"  title="Start a random quiz">
+            <span class="hqa-icon">🎯</span>
+            <span class="hqa-label">Quick Quiz</span>
+          </button>
+          <button class="hqa-btn hqa-flash"   onclick="App.go('flash',{subjectId:'chem'})" title="Practice flashcards">
+            <span class="hqa-icon">⚡</span>
+            <span class="hqa-label">Flashcards</span>
+          </button>
+          <button class="hqa-btn hqa-topical" onclick="App.go('topical')"                  title="Generate a topical paper">
+            <span class="hqa-icon">📄</span>
+            <span class="hqa-label">Topical Paper</span>
+          </button>
+          <button class="hqa-btn hqa-papers"  onclick="App.go('past-papers')"              title="Browse past papers">
+            <span class="hqa-icon">📚</span>
+            <span class="hqa-label">Past Papers</span>
+          </button>
+          <button class="hqa-btn hqa-map"     onclick="App.go('confidence-map')"           title="See your confidence map">
+            <span class="hqa-icon">🗺</span>
+            <span class="hqa-label">Confidence Map</span>
+          </button>
+        </section>
+
+        <!-- SUBJECT PROGRESS -->
+        <section class="home-subj-progress" id="home-subj-progress">
+          <!-- Populated by renderHome() -->
+        </section>
+
         <!-- MAIN GRID -->
         <section class="home-grid">
           <div class="card">
@@ -284,6 +313,22 @@
           <h1>Topical Paper Generator</h1>
           <p>Select a subject and topics to generate a custom exam-style practice paper.</p>
         </div>
+
+        <!-- How it works -->
+        <details class="info-card" id="topical-howto">
+          <summary>ℹ️ How to use the Topical Paper Generator</summary>
+          <div class="info-card-body">
+            <ol class="info-steps">
+              <li><strong>Choose a subject</strong> — Chemistry, Biology, or Physics.</li>
+              <li><strong>Select paper type</strong> — MCQ (Paper 1 style), Structured (worked examples), or Mixed.</li>
+              <li><strong>Set questions per topic</strong> — how many questions to pull from each selected topic.</li>
+              <li><strong>Tick your topics</strong> — click topic chips to select them. Greyed-out topics have no questions for that paper type.</li>
+              <li><strong>Click Generate Paper</strong> — choose <em>One at a time</em> (answer then reveal) or <em>Full paper</em> (all at once with mark scheme at the end).</li>
+              <li><strong>Print or Export PDF</strong> — use the toolbar buttons after generating.</li>
+            </ol>
+            <p class="info-note">💡 To add more questions to a topic, go to the <strong>Editor</strong> (admin/teacher only) and use the <strong>⚡ Import Questions</strong> button to paste a ChatGPT-generated JSON array.</p>
+          </div>
+        </details>
 
         <!-- Step 1: Subject + configuration -->
         <div class="tp-setup card" id="tp-setup">
@@ -506,6 +551,54 @@
           <h1>Topic Editor</h1>
           <p>Create and edit topics with the visual form, or switch to raw JSON for full control.</p>
         </div>
+
+        <details class="info-card" id="editor-howto">
+          <summary>ℹ️ How to use the Topic Editor</summary>
+          <div class="info-card-body">
+            <div class="info-cols">
+              <div>
+                <p class="info-section-head">📋 Form mode</p>
+                <ol class="info-steps">
+                  <li>Select a subject → select a topic (or click <strong>+ New Topic</strong>).</li>
+                  <li>Fill in the fields — Title, Subtitle, Concept paragraphs, Notes, Definitions, Mistakes, Tips, Flashcards, Recall Q&amp;A, Summary.</li>
+                  <li>Click <strong>💾 Save Changes</strong>. Topics are saved to the server (admin/teacher) or to your browser (guest).</li>
+                </ol>
+              </div>
+              <div>
+                <p class="info-section-head">⚡ Importing quiz questions</p>
+                <p>Select a topic, then click <strong>⚡ Import Questions</strong>. Use this ChatGPT prompt:</p>
+                <pre class="info-pre">Give me 10 MCQ questions on [topic name]
+as a JSON array. Each item must have:
+  q: question text
+  opts: array of 4 answer strings
+  ans: 0-indexed integer (0=A, 1=B, 2=C, 3=D)
+  exp: explanation of the correct answer</pre>
+                <p class="info-note">Paste the result directly — code fences (```json) are stripped automatically. Letters (A/B/C/D) and text-match answers are also accepted.</p>
+              </div>
+              <div>
+                <p class="info-section-head">{ } JSON mode</p>
+                <p>Switch to JSON for full control — worked examples, quiz questions, diagram SVG, and anything the form doesn't cover. The complete topic structure:</p>
+                <pre class="info-pre">{
+  "id": "unique-topic-id",
+  "subject": "chem",
+  "title": "Topic Name",
+  "concept": ["paragraph 1", "paragraph 2"],
+  "notes": [{"heading":"Section","items":["point"]}],
+  "definitions": [{"term":"Word","body":"Definition"}],
+  "mistakes": ["Common mistake"],
+  "tips": ["Exam tip"],
+  "recall": [{"q":"Question?","a":"Answer"}],
+  "flashcards": [{"q":"Q?","a":"A"}],
+  "summary": [{"label":"Key","value":"Value"}],
+  "workedExamples": [{"q":"Q?","steps":[{"n":1,"sub":"Step","text":"..."}]}],
+  "quiz": {"title":"Quiz","questions":[
+    {"q":"Q?","opts":["A","B","C","D"],"ans":0,"exp":"Explanation"}
+  ]}
+}</pre>
+              </div>
+            </div>
+          </div>
+        </details>
 
         <!-- Toolbar -->
         <div class="editor-toolbar card card-sm">

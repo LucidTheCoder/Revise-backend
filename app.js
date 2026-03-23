@@ -264,7 +264,7 @@ async function handleLogin() {
     if (!res.ok) { errEl.textContent = data.error || "Login failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
     syncServerStats(data.user);
-    showToast("Welcome back, " + data.user.name.split(" ")[0] + "!");
+    showSignInBanner("Welcome back, " + data.user.name.split(" ")[0] + "!");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Sign In"; btn.disabled = false; }
 }
@@ -288,7 +288,7 @@ async function handleRegister() {
     if (!res.ok) { errEl.textContent = data.error || "Registration failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
     syncServerStats(data.user);
-    showToast("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
+    showSignInBanner("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Create Account"; btn.disabled = false; }
 }
@@ -304,6 +304,26 @@ function togglePw(inputId, btn) {
     ? '<svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
     : '<svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>';
   btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+}
+
+
+function showSignInBanner(greeting) {
+  byId('signin-banner')?.remove();
+  const banner = document.createElement('div');
+  banner.id = 'signin-banner';
+  banner.className = 'signin-banner';
+  banner.innerHTML =
+    '<div class="signin-banner-inner">' +
+      '<span class="signin-banner-icon">✅</span>' +
+      '<div class="signin-banner-text">' +
+        '<strong>' + escapeHtml(greeting) + '</strong>' +
+        '<span>Refresh the page to load your saved progress.</span>' +
+      '</div>' +
+      '<button class="signin-banner-refresh btn btn-primary btn-sm" onclick="location.reload()">Refresh now</button>' +
+      '<button class="signin-banner-close" onclick="byId(\"signin-banner\").remove()" aria-label="Dismiss">✕</button>' +
+    '</div>';
+  document.body.appendChild(banner);
+  setTimeout(() => { byId('signin-banner')?.remove(); }, 30000);
 }
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
@@ -1953,6 +1973,28 @@ function renderHome() {
         ${activityItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
       </ul>
     `;
+  }
+
+  // Subject progress bars
+  const subjProgressEl = byId("home-subj-progress");
+  if (subjProgressEl) {
+    const subjColors = { chem: 'var(--chem)', bio: 'var(--bio)', phy: 'var(--phy)' };
+    const subjData = state.subjects.map(s => {
+      const p = getProgress(s.id);
+      return { id: s.id, name: s.name, pct: p.pct || 0, done: p.done || 0, total: p.total || 0 };
+    });
+    subjProgressEl.innerHTML = subjData.map(s => `
+      <div class="hsp-item" onclick="App.go('subject',{subjectId:'${s.id}'})" role="button" tabindex="0"
+        onkeydown="if(event.key==='Enter')App.go('subject',{subjectId:'${s.id}'})">
+        <div class="hsp-top">
+          <span class="hsp-name">${escapeHtml(s.name)}</span>
+          <span class="hsp-pct" style="color:${subjColors[s.id] || 'var(--accent)'}">${s.pct}%</span>
+        </div>
+        <div class="hsp-track">
+          <div class="hsp-fill" style="width:${s.pct}%;background:${subjColors[s.id] || 'var(--accent)'}"></div>
+        </div>
+        <div class="hsp-sub">${s.done} / ${s.total} topics done</div>
+      </div>`).join('');
   }
 
   const isOver       = weeklyPct >= 100;
