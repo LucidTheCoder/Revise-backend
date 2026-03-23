@@ -1255,23 +1255,28 @@ app.use((req, res, next) => {
 });
 
 async function startServer() {
-  try {
-    await initializeDatabase().catch(err => {
-      console.error('Fatal: could not connect to MongoDB on startup:', err.message);
-      process.exit(1);
-    });
+  // Bind to port FIRST so Render's health check passes immediately,
+  // then connect to MongoDB in the background.
+  await new Promise((resolve, reject) => {
     server.listen(PORT, '0.0.0.0', () => {
       console.log('');
       console.log('╔════════════════════════════════════════╗');
       console.log('║   Revise Study Platform — Started      ║');
       console.log('╠════════════════════════════════════════╣');
-      console.log(`║ HTTP+Socket.io: http://localhost:${PORT}   ║`);
+      console.log(`║ Port: ${PORT.toString().padEnd(33)}║`);
       console.log(`║ Environment: ${(process.env.NODE_ENV || 'development').padEnd(26)}║`);
       console.log('╚════════════════════════════════════════╝');
       console.log('');
+      resolve();
     });
-  } catch (error) {
-    console.error('Failed to start server:', error);
+    server.once('error', reject);
+  });
+
+  // Connect to DB after port is bound (non-blocking for Render health check)
+  try {
+    await initializeDatabase();
+  } catch (err) {
+    console.error('Fatal: could not connect to MongoDB:', err.message);
     process.exit(1);
   }
 }
