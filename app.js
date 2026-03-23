@@ -250,7 +250,7 @@ async function handleLogin() {
     if (!res.ok) { errEl.textContent = data.error || "Login failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
     syncServerStats(data.user);
-    showSignInBanner("Welcome back, " + data.user.name.split(" ")[0] + "!");
+    showToast("Welcome back, " + data.user.name.split(" ")[0] + "!");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Sign In"; btn.disabled = false; }
 }
@@ -274,36 +274,12 @@ async function handleRegister() {
     if (!res.ok) { errEl.textContent = data.error || "Registration failed."; return; }
     auth.set(data.token, data.user); closeAuthModal(); updateNavForAuth();
     syncServerStats(data.user);
-    showSignInBanner("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
+    showToast("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Create Account"; btn.disabled = false; }
 }
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
-
-function showSignInBanner(greeting) {
-  // Remove any existing banner
-  document.getElementById('signin-banner')?.remove();
-  const banner = document.createElement('div');
-  banner.id = 'signin-banner';
-  banner.className = 'signin-banner';
-  banner.innerHTML = `
-    <div class="signin-banner-inner">
-      <span class="signin-banner-icon">✅</span>
-      <div class="signin-banner-text">
-        <strong>${escapeHtml(greeting)}</strong>
-        <span>Refresh the page to load your progress across all topics.</span>
-      </div>
-      <button class="signin-banner-refresh btn btn-primary btn-sm" onclick="location.reload()">
-        Refresh now
-      </button>
-      <button class="signin-banner-close" onclick="this.closest('#signin-banner').remove()" aria-label="Dismiss">✕</button>
-    </div>
-  `;
-  document.body.appendChild(banner);
-  // Auto-dismiss after 30s if user ignores it
-  setTimeout(() => banner?.remove(), 30000);
-}
 
 async function signInWithDiscord() {
   // Discord OAuth2 Authorization Code flow
@@ -366,24 +342,6 @@ function syncServerStats(user) {
     localStorage.setItem(streakKey, String(state.streak));
     const countEl = byId('streak-count');
     if (countEl) countEl.textContent = String(state.streak);
-  }
-  // Load server-side confidence data and merge with local
-  // (server is source of truth; runs async so it doesn't block login)
-  if (USE_BACKEND && auth.token) {
-    fetch(`${API_BASE_URL}/api/user/progress`, { headers: authHeaders() })
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (!data?.success) return;
-        const confMap = confidenceByTopic();
-        let updated = false;
-        for (const p of data.data.progress || []) {
-          if (!p.confidence) continue;
-          const level = p.confidence >= 4 ? 'confident' : p.confidence >= 2 ? 'needs-practice' : 'no-idea';
-          if (confMap[p.topicId] !== level) { confMap[p.topicId] = level; updated = true; }
-        }
-        if (updated) localStorage.setItem(confidenceStorageKey, JSON.stringify(confMap));
-      })
-      .catch(() => {});
   }
 }
 
@@ -541,10 +499,6 @@ function setTopicConfidence(topicId, level) {
   const map = confidenceByTopic();
   map[topicId] = level;
   localStorage.setItem(confidenceStorageKey, JSON.stringify(map));
-  // Sync to backend so spaced rep works across devices
-  const numericConf = level === 'confident' ? 5 : level === 'needs-practice' ? 2 : 1;
-  const topic = state.topics.get(topicId);
-  if (topic) saveProgressToBackend(topicId, null, numericConf);
   if (state.currentView === "topic") {
     renderTopicView(topicId);
   }
@@ -1895,15 +1849,12 @@ function dismissSpacedRep() {
   if (section) section.style.display = 'none';
 }
 
-let _homeLastState = '';
 function renderHome() {
   renderSpacedRep();
-  // Cache key — skip full rebuild if nothing changed
-  const cacheKey = `${state.streak}|${state.xp}|${state.weeklyMinutes.join(',')}|${state.currentView}`;
-  const statsEl    = byId("home-stats");
-  const continueEl  = byId("continue-list");
-  const activityEl  = byId("recent-activity");
-  const goalEl      = byId("weekly-goal");
+  const statsEl = byId("home-stats");
+  const continueEl = byId("continue-list");
+  const activityEl = byId("recent-activity");
+  const goalEl = byId("weekly-goal");
 
   const overall = totalProgress();
   const avgQuiz = quizHistory();
@@ -1911,28 +1862,11 @@ function renderHome() {
     ? Math.round(avgQuiz.reduce((sum, item) => sum + item.scorePct, 0) / avgQuiz.length)
     : 0;
 
-  const doneColor  = overall.done === overall.total && overall.total > 0 ? 'var(--success)' : 'var(--accent)';
   statsEl.innerHTML = `
-    <div class="hstat">
-      <strong style="color:var(--accent)">${overall.total}</strong>
-      <span>Topics</span>
-    </div>
-    <div class="hstat">
-      <strong style="color:var(--warn)">${state.streak}🔥</strong>
-      <span>Day streak</span>
-    </div>
-    <div class="hstat">
-      <strong style="color:${doneColor}">${overall.done}</strong>
-      <span>Completed</span>
-    </div>
-    <div class="hstat">
-      <strong style="color:var(--phy)">${overall.total > 0 ? avgScore : 0}%</strong>
-      <span>Quiz avg</span>
-    </div>
-    <div class="hstat">
-      <strong style="color:var(--accent)">${state.xp.toLocaleString()}</strong>
-      <span>XP</span>
-    </div>
+    <div class="stat-item"><strong style="color:var(--accent)">${overall.total}</strong><span>Topics available</span></div>
+    <div class="stat-item"><strong style="color:var(--warn)">${state.streak}</strong><span>Day streak</span></div>
+    <div class="stat-item"><strong style="color:var(--success)">${overall.done}</strong><span>Topics completed</span></div>
+    <div class="stat-item"><strong style="color:var(--phy)">${overall.total > 0 ? avgScore : 0}%</strong><span>Quiz average</span></div>
   `;
 
   const nextTopics = [];
@@ -1945,19 +1879,20 @@ function renderHome() {
     }
   }
 
-  const preview = nextTopics.slice(0, 5);
-  continueEl.innerHTML = preview.length ? preview.map(topic => {
-    const conf   = (confidenceByTopic())[topic.id] || 'none';
-    const confDot = conf === 'confident' ? '#22c55e' : conf === 'needs-practice' ? '#fbbf24' : conf === 'no-idea' ? '#f87171' : 'var(--border2)';
-    return `<button class="continue-card" onclick="App.go('topic',{topicId:'${topic.id}'})">
-      <span class="continue-dot" style="background:${confDot}" title="${conf}"></span>
-      <span class="continue-info">
-        <strong>${escapeHtml(topic.name)}</strong>
-        <small>${escapeHtml(topic.subjectName)}</small>
-      </span>
-      <span class="continue-arrow">›</span>
-    </button>`;
-  }).join('') : '<p class="home-empty">All caught up! 🎉</p>';
+  const preview = nextTopics.slice(0, 4);
+  continueEl.innerHTML = preview
+    .map(
+      (topic) => `
+      <button class="continue-item" onclick="App.go('topic',{topicId:'${topic.id}'})">
+        <span>
+          <strong>${escapeHtml(topic.name)}</strong><br>
+          <small>${escapeHtml(topic.subjectName)}</small>
+        </span>
+        <span class="badge ${topic.done ? "badge-success" : "badge-warn"}">${topic.done ? "Done" : "Resume"}</span>
+      </button>
+    `
+    )
+    .join("");
 
   const totalTarget  = parseInt(localStorage.getItem('revise.weeklyGoal') || '180', 10);
   const current      = state.weeklyMinutes.reduce((sum, m) => sum + m, 0);
@@ -2120,24 +2055,12 @@ function renderSubjectSidebar(subject, activeTopicId = "") {
           </div>
           <div class="sidebar-topics">
             ${unit.topics.map(topic => `
-              ${(() => {
-                const lv = getLastVisited();
-                const ts = lv[topic.id];
-                const conf = (confidenceByTopic())[topic.id];
-                const confDot = conf === 'confident' ? 'var(--success)' : conf === 'needs-practice' ? 'var(--warn)' : conf === 'no-idea' ? '#f87171' : 'transparent';
-                let timeLabel = '';
-                if (ts) {
-                  const days = Math.floor((Date.now()-ts)/86400000);
-                  timeLabel = days === 0 ? 'today' : days === 1 ? '1d' : days < 7 ? days+'d' : '';
-                }
-                return `<button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""}"
-                  data-name="${escapeHtml(topic.name.toLowerCase())}"
-                  onclick="App.go('topic',{topicId:'${topic.id}'})">
-                  <span class="ti-conf-dot" style="background:${confDot}"></span>
-                  <span class="ti-name">${escapeHtml(topic.name)}</span>
-                  <span class="ti-meta">${topic.done ? "✓" : timeLabel}</span>
-                </button>`;
-              })()}`).join("")}
+              <button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""}"
+                      data-name="${escapeHtml(topic.name.toLowerCase())}"
+                      onclick="App.go('topic',{topicId:'${topic.id}'})">
+                <span>${escapeHtml(topic.name)}</span>
+                <span class="topic-item-badge">${topic.done ? "✓" : ""}</span>
+              </button>`).join("")}
           </div>
         </div>`;
       }).join("")}
@@ -2270,22 +2193,8 @@ function renderTopicView(topicId) {
     return;
   }
 
-  // Show skeleton for perceived performance on topic switch
-  const _topicMain = byId("topic-main");
-  if (_topicMain && state.currentTopic !== topicId) {
-    _topicMain.innerHTML = `<div class="topic-skeleton">
-      <div class="skeleton skeleton-head"></div>
-      <div class="skeleton skeleton-sub"></div>
-      <div class="skeleton skeleton-block" style="margin-top:1rem"></div>
-      <div class="skeleton skeleton-block sm" style="margin-top:0.6rem"></div>
-    </div>`;
-  }
-
   state.currentTopic = topicId;
   state.currentSubject = topic.subject;
-  // Scroll topic-main to top on each new topic
-  const _tm = byId('topic-main');
-  if (_tm) _tm.scrollTop = 0;
   // Track last visited
   try {
     const lv = JSON.parse(localStorage.getItem(lastVisitedKey) || '{}');
@@ -2409,9 +2318,6 @@ function renderTopicView(topicId) {
       <h1 class="topic-title">${escapeHtml(topic.title)}</h1>
       <p class="topic-subtitle">${richText(topic.subtitle || "")}</p>
       <div class="topic-actions">
-        <button class="btn btn-ghost btn-sm topic-discuss-btn" onclick="App.openTopicDiscussion('${topic.id}','${escapeHtml(topic.title)}')">
-          💬 Discuss
-        </button>
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${topic.id}'})">
           Topic Quiz${(() => { const scores = quizHistory().filter(q => q.topicId === topic.id); const best = scores.length ? Math.max(...scores.map(q => q.scorePct)) : null; return best !== null ? ` <span class="quiz-best-chip">${best}%</span>` : ''; })()}
         </button>
@@ -2750,7 +2656,6 @@ function renderQuizResult() {
       <p>${quiz.score}/${quiz.questions.length} correct</p>
       <p style="margin:0.7rem 0;color:var(--text2)">+${xp} XP earned</p>
       <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
-        ${state.currentTopic ? `<button class="btn btn-outline" onclick="App.go('topic',{topicId:'${state.currentTopic}'})">Back to Topic</button>` : ''}
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${state.currentTopic || ""}',subjectId:'${state.currentSubject || ""}'})">Retry</button>
         <button class="btn btn-outline" onclick="App.go('home')">Back Home</button>
       </div>
@@ -2869,47 +2774,20 @@ function rateFlash(value) {
 
 function renderFlashResult() {
   const flash = state.flash;
-  const known   = flash.results.filter((r) => r === true).length;
-  const unknown = flash.results.filter((r) => r === false).length;
-  const pct     = flash.cards.length ? Math.round((known / flash.cards.length) * 100) : 0;
-
-  // Persist flash result to localStorage
-  const topicId = state.currentTopic;
-  if (topicId) {
-    try {
-      const key   = 'revise.flashScores';
-      const scores = JSON.parse(localStorage.getItem(key) || '{}');
-      scores[topicId] = { known, total: flash.cards.length, pct, at: Date.now() };
-      localStorage.setItem(key, JSON.stringify(scores));
-    } catch {}
-    // Save to backend as a confidence signal
-    if (pct >= 80) saveProgressToBackend(topicId, null, 4); // confident
-    else if (pct >= 50) saveProgressToBackend(topicId, null, 2); // needs practice
-    else if (pct > 0)   saveProgressToBackend(topicId, null, 1); // no idea
-  }
-
-  addStudyMinutes(8);
-  touchStreakToday();
-
-  const backToTopicBtn = topicId
-    ? `<button class="btn btn-outline" onclick="App.go('topic',{topicId:'${topicId}'})">Back to Topic</button>`
-    : '';
-  const restartUrl = topicId
-    ? `App.go('flash',{topicId:'${topicId}'})`
-    : `App.go('flash',{subjectId:'${state.currentSubject||"chem"}'})`;
+  const known = flash.results.filter((r) => r === true).length;
 
   byId("flash-content").innerHTML = `
     <div class="card result-box">
       <h1>Flashcards Complete</h1>
       <div class="result-score">${known}/${flash.cards.length}</div>
-      <p style="color:var(--text2)">${known} known · ${unknown} to review · ${pct}%</p>
+      <p style="color:var(--text2)">Cards marked as known.</p>
       <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem">
-        ${backToTopicBtn}
-        <button class="btn btn-primary" onclick="${restartUrl}">Restart</button>
+        <button class="btn btn-primary" onclick="App.go('flash',{subjectId:'${state.currentSubject || "chem"}'})">Restart</button>
         <button class="btn btn-outline" onclick="App.go('home')">Back Home</button>
       </div>
     </div>
   `;
+
   showToast("Flashcard session completed.");
 }
 // Active subject filter for past papers tab UI
@@ -3122,22 +3000,6 @@ function renderConfidenceMap() {
   container.innerHTML = html;
 }
 
-
-async function sendVerificationEmail() {
-  if (!auth.isLoggedIn) { showToast('Sign in first'); return; }
-  try {
-    const res  = await fetch(`${API_BASE_URL}/api/auth/send-verification`, {
-      method: 'POST', headers: authHeaders(),
-    });
-    const data = await res.json();
-    if (data.success) {
-      showToast(data.devToken ? `Dev mode — verify URL: ${data.verifyUrl}` : '📧 Verification email sent! Check your inbox.');
-    } else {
-      showToast(data.error || 'Could not send verification email');
-    }
-  } catch { showToast('Network error'); }
-}
-
 function renderProfile() {
   const overall  = totalProgress();
   const avgQuiz  = quizHistory();
@@ -3163,13 +3025,7 @@ function renderProfile() {
       }
     }
     if (nameEl)   nameEl.textContent   = user.name;
-    if (emailEl) {
-      const verifiedBadge = user.emailVerified
-        ? '<span style="color:var(--success);font-size:0.72rem;margin-left:0.4rem">✓ verified</span>'
-        : `<button class="link-btn" style="font-size:0.72rem;margin-left:0.4rem;color:var(--warn)"
-            onclick="App.sendVerificationEmail()">Verify email</button>`;
-      emailEl.innerHTML = `${escapeHtml(user.email)}${verifiedBadge}`;
-    }
+    if (emailEl)  emailEl.textContent  = user.email;
     // Show upload button
     const uploadBtn = byId('avatar-upload-btn');
     if (uploadBtn) uploadBtn.style.display = '';
@@ -3563,62 +3419,40 @@ function bindSearch() {
       return;
     }
 
-    // Fuzzy search with scoring — title match > defTerms > concept > subtitle
-    const scored = state.searchIndex.map(item => {
-      const title    = item.title.toLowerCase();
-      const defs     = (item.defTerms     || []).join(' ').toLowerCase();
-      const concepts = (item.concept      || []).join(' ').toLowerCase();
-      const notes    = (item.noteHeadings || []).join(' ').toLowerCase();
-      const sub      = (item.subtitle     || '').toLowerCase();
-
-      let score = 0;
-      if (title === q)                       score += 100; // exact
-      else if (title.startsWith(q))          score += 80;  // prefix
-      else if (title.includes(q))            score += 60;  // substring
-      if (defs.includes(q))                  score += 40;
-      if (concepts.includes(q))              score += 30;
-      if (notes.includes(q))                 score += 20;
-      if (sub.includes(q))                   score += 10;
-      // Fuzzy: check each query word
-      const words = q.split(/\s+/).filter(w => w.length > 2);
-      for (const w of words) {
-        if (title.includes(w))    score += 15;
-        if (defs.includes(w))     score += 8;
-        if (concepts.includes(w)) score += 5;
-      }
-      return { ...item, score };
-    }).filter(i => i.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 10);
-
-    const hits = scored;
+    const hits = state.searchIndex
+      .filter((item) => {
+        const hay = [
+          item.title,
+          item.subtitle,
+          ...(item.concept || []),
+          ...(item.defTerms || []),
+          ...(item.noteHeadings || []),
+        ].join(' ').toLowerCase();
+        return hay.includes(q);
+      })
+      .sort((a, b) => {
+        // Exact title match ranks first
+        const aTitle = a.title.toLowerCase().startsWith(q) ? 0 : 1;
+        const bTitle = b.title.toLowerCase().startsWith(q) ? 0 : 1;
+        return aTitle - bTitle;
+      })
+      .slice(0, 8);
 
     if (!hits.length) {
       results.classList.remove("open");
       return;
     }
 
-    results.innerHTML = hits.map(hit => {
-      // Show which field matched
-      const subjName = state.subjectMap.get(hit.subject)?.name || hit.subject;
-      let matchHint = '';
-      const ql = q.toLowerCase();
-      if (!(hit.title.toLowerCase().includes(ql))) {
-        const defMatch  = (hit.defTerms     || []).find(d => d.toLowerCase().includes(ql));
-        const concMatch = (hit.concept      || []).find(c => c.toLowerCase().includes(ql));
-        const noteMatch = (hit.noteHeadings || []).find(n => n.toLowerCase().includes(ql));
-        if (defMatch)  matchHint = `<span class="search-match-hint">Definition: ${escapeHtml(defMatch.slice(0,40))}</span>`;
-        else if (concMatch) matchHint = `<span class="search-match-hint">Concept match</span>`;
-        else if (noteMatch) matchHint = `<span class="search-match-hint">Note: ${escapeHtml(noteMatch.slice(0,40))}</span>`;
-      }
-      return `<button class="search-item" onclick="App.openFromSearch('${hit.subject}','${hit.id}')">
-        <div class="search-item-body">
-          <strong>${escapeHtml(hit.title)}</strong>
-          ${matchHint}
-        </div>
-        <small class="search-item-subj">${escapeHtml(subjName)}</small>
-      </button>`;
-    }).join('');
+    results.innerHTML = hits
+      .map(
+        (hit) => `
+        <button class="search-item" onclick="App.openFromSearch('${hit.subject}','${hit.id}')">
+          <strong>${escapeHtml(hit.title)}</strong><br>
+          <small>${escapeHtml(state.subjectMap.get(hit.subject)?.name || hit.subject)}</small>
+        </button>
+      `
+      )
+      .join("");
 
     results.classList.add("open");
   });
@@ -3656,7 +3490,7 @@ function showDataLoadError(error) {
 async function init() {
   try {
     initTheme();
-    state.particleSystem = null; // CSS particles replace canvas
+    state.particleSystem = createParticleSystem();
     await loadData();
     bindBaseEvents();
     updateNavForAuth();
@@ -3686,22 +3520,6 @@ async function init() {
           showToast('Discord sign-in failed: ' + (data.error || 'Unknown error'));
         }
       } catch { showToast('Discord sign-in failed — network error'); }
-    }
-
-    // Handle email verification token from redirect
-    const emailVerifyToken = sessionStorage.getItem('email_verify_token');
-    if (emailVerifyToken) {
-      sessionStorage.removeItem('email_verify_token');
-      fetch(`${API_BASE_URL}/api/auth/verify?token=${emailVerifyToken}`)
-        .then(r => r.json())
-        .then(d => {
-          showToast(d.success ? 'Email verified! You are all set.' : (d.error || 'Verification failed'));
-          if (d.success && auth.isLoggedIn) {
-            // Update local user object
-            if (auth.user) auth.user.emailVerified = true;
-          }
-        })
-        .catch(() => showToast('Verification check failed'));
     }
 
     go("home");
@@ -4980,57 +4798,48 @@ function _tpViewHTML() {
   return `<div class="container page-pad">
     <div class="page-head">
       <h1>Topical Paper Generator</h1>
-      <p>Select topics and generate a custom exam-style practice paper.</p>
+      <p>Select a subject and topics to generate a custom exam-style practice paper.</p>
     </div>
     <div class="tp-setup card" id="tp-setup">
-      <div class="tp-config-grid">
+      <div class="tp-row">
         <div class="tp-field">
-          <p class="tp-label" id="tp-subject-label">Subject</p>
-          <div class="tp-subject-tabs" id="tp-subject-tabs" role="group" aria-labelledby="tp-subject-label">
+          <label class="tp-label">Subject</label>
+          <div class="tp-subject-tabs" id="tp-subject-tabs">
             <button class="tp-subj-btn active" data-subj="chem">⚗️ Chemistry</button>
             <button class="tp-subj-btn" data-subj="bio">🧬 Biology</button>
             <button class="tp-subj-btn" data-subj="phy">⚡ Physics</button>
           </div>
         </div>
         <div class="tp-field">
-          <p class="tp-label" id="tp-type-label">Paper Type</p>
-          <div class="tp-type-tabs" id="tp-type-tabs" role="group" aria-labelledby="tp-type-label">
+          <label class="tp-label">Paper Type</label>
+          <div class="tp-type-tabs" id="tp-type-tabs">
             <button class="tp-type-btn active" data-type="mcq">MCQ (Paper 1)</button>
             <button class="tp-type-btn" data-type="structured">Structured (Paper 2)</button>
             <button class="tp-type-btn" data-type="mixed">Mixed</button>
           </div>
         </div>
         <div class="tp-field">
-          <p class="tp-label">Per topic</p>
-          <div class="tp-qty-row" role="group" aria-label="Questions per topic">
-            <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)" aria-label="Decrease">−</button>
-            <output id="tp-qty-display" aria-live="polite" aria-label="Questions per topic">3</output>
-            <button class="tp-qty-btn" onclick="App.tpChangeQty(1)" aria-label="Increase">+</button>
+          <label class="tp-label">Questions per topic</label>
+          <div class="tp-qty-row">
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)">−</button>
+            <span id="tp-qty-display">3</span>
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(1)">+</button>
           </div>
         </div>
       </div>
-      <div class="tp-divider"></div>
-      <div>
-        <div class="tp-topics-head">
-          <div class="tp-topics-head-left">
-            <p class="tp-topics-title">Select Topics</p>
-            <span class="tp-topics-count" id="tp-topics-count">0 selected</span>
-          </div>
+      <div class="tp-topic-section">
+        <div class="tp-topic-header">
+          <span class="tp-label">Select Topics</span>
           <div class="tp-topic-actions">
             <button class="btn btn-ghost btn-sm" onclick="App.tpSelectAll()">Select All</button>
             <button class="btn btn-ghost btn-sm" onclick="App.tpClearAll()">Clear</button>
           </div>
         </div>
-        <div class="tp-topic-grid" id="tp-topic-grid" role="group" aria-label="Select topics" style="margin-top:0.75rem"></div>
+        <div class="tp-topic-grid" id="tp-topic-grid"></div>
       </div>
-      <div class="tp-generate-bar">
-        <div class="tp-generate-info">
-          <strong id="tp-question-count">0 questions</strong>
-          <span>across <span id="tp-topic-count-label">0</span> topics</span>
-        </div>
-        <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">
-          Generate Paper →
-        </button>
+      <div class="tp-generate-row">
+        <div id="tp-question-count" class="tp-count-badge">0 questions selected</div>
+        <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">Generate Paper →</button>
       </div>
     </div>
     <div id="tp-paper-output" style="display:none">
@@ -5038,12 +4847,13 @@ function _tpViewHTML() {
         <button class="btn btn-outline btn-sm" onclick="App.tpBack()">← New Paper</button>
         <button class="btn btn-outline btn-sm" onclick="App.tpShuffle()">🔀 Reshuffle</button>
         <button class="btn btn-outline btn-sm" onclick="App.tpPrint()">🖨 Print</button>
-        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export PDF</button>
+        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export PDF with Answers</button>
       </div>
       <div id="tp-paper-content"></div>
     </div>
   </div>`;
 }
+
 function _tpWireSubjectTabs() {
   const tabs = document.querySelectorAll('.tp-subj-btn');
   tabs.forEach(btn => {
@@ -5079,35 +4889,20 @@ function _tpRenderTopicGrid() {
   const grid = byId('tp-topic-grid');
   if (!grid) return;
   const topics = _tpGetSubjectTopics();
-  const totalAvail = topics.filter(t => {
-    const qc = (t.quiz?.questions||[]).length, wc = (t.workedExamples||[]).length;
-    return (_tp.type==='mcq'&&qc>0)||(_tp.type==='structured'&&wc>0)||(_tp.type==='mixed'&&(qc+wc)>0);
-  }).length;
-
-  // Update the topics-count badge if it exists
-  const countBadge = byId('tp-topics-count');
-  if (countBadge) countBadge.textContent = `${_tp.selected.size} / ${totalAvail} selected`;
-
   grid.innerHTML = topics.map(t => {
-    const qCount  = (t.quiz?.questions || []).length;
-    const weCount = (t.workedExamples  || []).length;
-    const available = (_tp.type === 'mcq'        && qCount  > 0)
+    const qCount = (t.quiz?.questions || []).length;
+    const weCount = (t.workedExamples || []).length;
+    const available = (_tp.type === 'mcq'        && qCount > 0)
                    || (_tp.type === 'structured'  && weCount > 0)
                    || (_tp.type === 'mixed'       && (qCount + weCount) > 0);
-    const checked  = _tp.selected.has(t.id);
+    const checked = _tp.selected.has(t.id);
     const disabled = !available;
-    const meta = _tp.type === 'mcq'        ? `${qCount} MCQ`
-               : _tp.type === 'structured' ? `${weCount} structured`
-               : `${qCount}q + ${weCount}we`;
     return `<label class="tp-topic-chip ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}"
-      title="${disabled ? 'No questions available for this paper type' : escapeHtml(t.title)}">
-      <input type="checkbox" id="tp-cb-${t.id}" name="tp-topic" value="${t.id}"
-        ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}
-        onchange="App.tpToggleTopic('${t.id}', this.checked)"
-        aria-label="${escapeHtml(t.title)}">
-      <span class="tp-chip-check">✓</span>
-      <span class="tp-chip-name">${escapeHtml(t.title)}</span>
-      <span class="tp-chip-meta">${available ? meta : '—'}</span>
+      title="${disabled ? 'No questions available for this paper type' : ''}">
+      <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}
+        onchange="App.tpToggleTopic('${t.id}', this.checked)">
+      <span>${escapeHtml(t.title)}</span>
+      <small>${qCount}q ${weCount}we</small>
     </label>`;
   }).join('');
   _tpUpdateCount();
@@ -5162,10 +4957,6 @@ function _tpUpdateCount() {
   });
   const el = byId('tp-question-count');
   if (el) el.textContent = `${total} question${total !== 1 ? 's' : ''} · ${_tp.selected.size} topic${_tp.selected.size !== 1 ? 's' : ''}`;
-  const badge = byId('tp-topics-count');
-  if (badge) badge.textContent = `${_tp.selected.size} selected`;
-  const tcLabel = byId('tp-topic-count-label');
-  if (tcLabel) tcLabel.textContent = _tp.selected.size;
 }
 
 function tpGenerate() {
@@ -5756,35 +5547,8 @@ ${qSection}
 
 
 // ============================================================================
-// SOCIAL — shared state object (must be declared before any social function uses it)
-const _socialState = {
-  friends:     [],   // loaded friend list
-  requests:    [],   // pending friend requests
-  groups:      [],   // group chats the user belongs to
-  activeGroup: null, // { _id, name } of the open group chat
-};
-
-// ============================================================================
 // SOCIAL — tab switcher
 // ============================================================================
-
-
-function openTopicDiscussion(topicId, topicTitle) {
-  // Navigate to Social → Forums with a pre-filter for this topic
-  go('community');
-  // Switch to forums tab and filter/highlight threads tagged with this topic
-  setTimeout(() => {
-    switchSocialTab('forums', document.querySelector('[data-tab="forums"]'));
-    // Pre-fill new thread modal with topic title if no threads exist
-    const filterSel = document.querySelector('.forum-filter-select');
-    if (filterSel) {
-      // Store for the forum to pick up
-      sessionStorage.setItem('forum_topic_filter', topicId);
-      sessionStorage.setItem('forum_topic_title', topicTitle);
-    }
-  }, 150);
-  showToast(`Showing discussions for "${topicTitle}"`);
-}
 
 function switchSocialTab(tab, btn) {
   document.querySelectorAll('.social-nav-tab').forEach(b => b.classList.remove('active'));
@@ -5898,38 +5662,22 @@ function _renderFriendsTab() {
         </div>`).join('')}
     </div>` : '';
 
-  // Preserve search input value if already rendered (avoid wiping as user types)
-  const existingSearch = byId('social-search-input');
-  const existingQuery  = existingSearch ? existingSearch.value : '';
-
   el.innerHTML = `
     <div class="social-search-wrap">
-      <label for="social-search-input" class="sr-only">Search for students</label>
       <div class="social-search-bar">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="social-search-input" name="social-search-input" type="search"
-          placeholder="Search for students by name…"
-          autocomplete="off" value="${escapeHtml(existingQuery)}"
-          aria-label="Search for students by name"
-          aria-controls="social-search-results"
-          oninput="App.socialSearch(this.value)">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="social-search-input" type="text" placeholder="Search for students by name…"
+          oninput="App.socialSearch(this.value)" autocomplete="off">
       </div>
-      <div id="social-search-results" class="social-search-dropdown" role="listbox" aria-label="Search results"></div>
+      <div id="social-search-results" class="social-search-dropdown"></div>
     </div>
-    <div id="social-friends-content">
-      ${pendingHtml}
-      ${friendsHtml}
-      ${!_socialState.friends.length && !pending.length ? `
-        <div class="social-empty-state">
-          <div style="font-size:2.5rem">👥</div>
-          <p>No friends yet — search for students above to connect!</p>
-        </div>` : ''}
-    </div>`;
-
-  // Restore search results if user was mid-search
-  if (existingQuery.length >= 2) {
-    setTimeout(() => App.socialSearch(existingQuery), 0);
-  }
+    ${pendingHtml}
+    ${friendsHtml}
+    ${!_socialState.friends.length && !pending.length ? `
+      <div class="social-empty-state">
+        <div style="font-size:2.5rem">👥</div>
+        <p>No friends yet — search for students above to connect!</p>
+      </div>` : ''}`;
 }
 
 // ============================================================================
@@ -5997,9 +5745,6 @@ async function socialSearch(query) {
   if (q.length < 2) { resultsEl.innerHTML = ''; resultsEl.style.display = 'none'; return; }
 
   clearTimeout(_socialSearchTimer);
-  // Show dropdown with loading indicator immediately
-  resultsEl.innerHTML = `<div class="social-search-empty" style="padding:0.5rem 0.75rem;color:var(--text3)">Searching…</div>`;
-  resultsEl.style.display = '';
   _socialSearchTimer = setTimeout(async () => {
     try {
       const res  = await fetch(`${API_BASE_URL}/api/social/search?q=${encodeURIComponent(q)}`, { headers: authHeaders() });
@@ -6251,8 +5996,835 @@ function _bindGroupSocketEvents() {
 // ── Expose renderSocialPage as no-op (called from legacy code) ────────
 function renderSocialPage() {}
 
+// ============================================================================
 
-// ── Functions rescued from duplicate block ──────────────────────
+// ============================================================================
+// TOPICAL PAPER GENERATOR
+// ============================================================================
+
+const _tp = {
+  subject:    'chem',
+  type:       'mcq',       // mcq | structured | mixed
+  qtyPerTopic: 3,
+  selected:   new Set(),   // topic IDs
+};
+
+function renderTopical() {
+  // Require account to use topical paper generator
+  if (!auth.isLoggedIn) {
+    const container = byId('view-topical');
+    if (container) {
+      container.innerHTML = `
+        <div class="container page-pad">
+          <div class="card" style="text-align:center;padding:3rem 2rem;max-width:480px;margin:3rem auto">
+            <div style="font-size:2.8rem;margin-bottom:0.75rem">📄</div>
+            <h2 style="margin:0 0 0.5rem">Sign in to generate papers</h2>
+            <p style="color:var(--text2);margin:0 0 1.5rem">
+              The Topical Paper Generator is free — you just need an account
+              so we can save your paper history and preferences.
+            </p>
+            <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+              <button class="btn btn-primary" onclick="App.openAuthModal('login')">Sign In</button>
+              <button class="btn btn-outline" onclick="App.openAuthModal('register')">Create Free Account</button>
+            </div>
+          </div>
+        </div>`;
+    }
+    return;
+  }
+  // Restore the setup panel HTML if we previously replaced it with the gate
+  const container = byId('view-topical');
+  if (container && !byId('tp-setup')) {
+    // Re-render the full view from scratch
+    container.innerHTML = _tpViewHTML();
+  }
+  _tpRenderTopicGrid();
+  _tpWireSubjectTabs();
+  _tpWireTypeTabs();
+  byId('tp-paper-output').style.display = 'none';
+  byId('tp-setup').style.display        = '';
+}
+
+// Returns the setup HTML so we can restore it after showing the auth gate
+function _tpViewHTML() {
+  return `<div class="container page-pad">
+    <div class="page-head">
+      <h1>Topical Paper Generator</h1>
+      <p>Select a subject and topics to generate a custom exam-style practice paper.</p>
+    </div>
+    <div class="tp-setup card" id="tp-setup">
+      <div class="tp-row">
+        <div class="tp-field">
+          <label class="tp-label">Subject</label>
+          <div class="tp-subject-tabs" id="tp-subject-tabs">
+            <button class="tp-subj-btn active" data-subj="chem">⚗️ Chemistry</button>
+            <button class="tp-subj-btn" data-subj="bio">🧬 Biology</button>
+            <button class="tp-subj-btn" data-subj="phy">⚡ Physics</button>
+          </div>
+        </div>
+        <div class="tp-field">
+          <label class="tp-label">Paper Type</label>
+          <div class="tp-type-tabs" id="tp-type-tabs">
+            <button class="tp-type-btn active" data-type="mcq">MCQ (Paper 1)</button>
+            <button class="tp-type-btn" data-type="structured">Structured (Paper 2)</button>
+            <button class="tp-type-btn" data-type="mixed">Mixed</button>
+          </div>
+        </div>
+        <div class="tp-field">
+          <label class="tp-label">Questions per topic</label>
+          <div class="tp-qty-row">
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(-1)">−</button>
+            <span id="tp-qty-display">3</span>
+            <button class="tp-qty-btn" onclick="App.tpChangeQty(1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="tp-topic-section">
+        <div class="tp-topic-header">
+          <span class="tp-label">Select Topics</span>
+          <div class="tp-topic-actions">
+            <button class="btn btn-ghost btn-sm" onclick="App.tpSelectAll()">Select All</button>
+            <button class="btn btn-ghost btn-sm" onclick="App.tpClearAll()">Clear</button>
+          </div>
+        </div>
+        <div class="tp-topic-grid" id="tp-topic-grid"></div>
+      </div>
+      <div class="tp-generate-row">
+        <div id="tp-question-count" class="tp-count-badge">0 questions selected</div>
+        <button class="btn btn-primary tp-generate-btn" onclick="App.tpGenerate()">Generate Paper →</button>
+      </div>
+    </div>
+    <div id="tp-paper-output" style="display:none">
+      <div class="tp-paper-toolbar">
+        <button class="btn btn-outline btn-sm" onclick="App.tpBack()">← New Paper</button>
+        <button class="btn btn-outline btn-sm" onclick="App.tpShuffle()">🔀 Reshuffle</button>
+        <button class="btn btn-outline btn-sm" onclick="App.tpPrint()">🖨 Print</button>
+        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export PDF with Answers</button>
+      </div>
+      <div id="tp-paper-content"></div>
+    </div>
+  </div>`;
+}
+
+function _tpWireSubjectTabs() {
+  const tabs = document.querySelectorAll('.tp-subj-btn');
+  tabs.forEach(btn => {
+    btn.onclick = () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      _tp.subject = btn.dataset.subj;
+      _tp.selected.clear();
+      _tpRenderTopicGrid();
+    };
+  });
+}
+
+function _tpWireTypeTabs() {
+  const tabs = document.querySelectorAll('.tp-type-btn');
+  tabs.forEach(btn => {
+    btn.onclick = () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      _tp.type = btn.dataset.type;
+      _tpUpdateCount();
+    };
+  });
+}
+
+function _tpGetSubjectTopics() {
+  return Array.from(state.topics.values())
+    .filter(t => t.subject === _tp.subject)
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+function _tpRenderTopicGrid() {
+  const grid = byId('tp-topic-grid');
+  if (!grid) return;
+  const topics = _tpGetSubjectTopics();
+  grid.innerHTML = topics.map(t => {
+    const qCount = (t.quiz?.questions || []).length;
+    const weCount = (t.workedExamples || []).length;
+    const available = (_tp.type === 'mcq'        && qCount > 0)
+                   || (_tp.type === 'structured'  && weCount > 0)
+                   || (_tp.type === 'mixed'       && (qCount + weCount) > 0);
+    const checked = _tp.selected.has(t.id);
+    const disabled = !available;
+    return `<label class="tp-topic-chip ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}"
+      title="${disabled ? 'No questions available for this paper type' : ''}">
+      <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}
+        onchange="App.tpToggleTopic('${t.id}', this.checked)">
+      <span>${escapeHtml(t.title)}</span>
+      <small>${qCount}q ${weCount}we</small>
+    </label>`;
+  }).join('');
+  _tpUpdateCount();
+}
+
+function tpToggleTopic(id, checked) {
+  if (checked) _tp.selected.add(id);
+  else         _tp.selected.delete(id);
+  // Update chip visual
+  document.querySelectorAll('.tp-topic-chip').forEach(chip => {
+    const cb = chip.querySelector('input');
+    if (cb) chip.classList.toggle('checked', cb.checked);
+  });
+  _tpUpdateCount();
+}
+
+function tpChangeQty(delta) {
+  _tp.qtyPerTopic = Math.max(1, Math.min(5, _tp.qtyPerTopic + delta));
+  const el = byId('tp-qty-display');
+  if (el) el.textContent = _tp.qtyPerTopic;
+  _tpUpdateCount();
+}
+
+function tpSelectAll() {
+  _tpGetSubjectTopics().forEach(t => {
+    const qc = (t.quiz?.questions || []).length;
+    const wc = (t.workedExamples || []).length;
+    const ok = (_tp.type === 'mcq'       && qc > 0)
+            || (_tp.type === 'structured' && wc > 0)
+            || (_tp.type === 'mixed'      && (qc + wc) > 0);
+    if (ok) _tp.selected.add(t.id);
+  });
+  _tpRenderTopicGrid();
+}
+
+function tpClearAll() {
+  _tp.selected.clear();
+  _tpRenderTopicGrid();
+}
+
+function _tpUpdateCount() {
+  let total = 0;
+  _tp.selected.forEach(id => {
+    const t = state.topics.get(id);
+    if (!t) return;
+    if (_tp.type === 'mcq')        total += Math.min(_tp.qtyPerTopic, (t.quiz?.questions || []).length);
+    if (_tp.type === 'structured') total += Math.min(_tp.qtyPerTopic, (t.workedExamples || []).length);
+    if (_tp.type === 'mixed') {
+      total += Math.min(Math.ceil(_tp.qtyPerTopic / 2), (t.quiz?.questions || []).length);
+      total += Math.min(Math.floor(_tp.qtyPerTopic / 2), (t.workedExamples || []).length);
+    }
+  });
+  const el = byId('tp-question-count');
+  if (el) el.textContent = `${total} question${total !== 1 ? 's' : ''} · ${_tp.selected.size} topic${_tp.selected.size !== 1 ? 's' : ''}`;
+}
+
+function tpGenerate() {
+  if (!auth.isLoggedIn) { openAuthModal('login'); return; }
+  if (_tp.selected.size === 0) { showToast('Select at least one topic first'); return; }
+
+  const subjName = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' };
+  const typeLabel = { mcq: 'Paper 1 — Multiple Choice', structured: 'Paper 2 — Structured Questions', mixed: 'Mixed Practice Paper' };
+
+  // Build question bank
+  let questions = [];
+  let qNum = 1;
+
+  _tp.selected.forEach(id => {
+    const t = state.topics.get(id);
+    if (!t) return;
+
+    if (_tp.type === 'mcq' || _tp.type === 'mixed') {
+      const pool = [...(t.quiz?.questions || [])].sort(() => Math.random() - 0.5);
+      const take = _tp.type === 'mixed'
+        ? Math.ceil(_tp.qtyPerTopic / 2)
+        : _tp.qtyPerTopic;
+      pool.slice(0, take).forEach(q => {
+        questions.push({ type: 'mcq', topicTitle: t.title, q: q.q, opts: q.opts, ans: q.ans, exp: q.exp, num: qNum++ });
+      });
+    }
+
+    if (_tp.type === 'structured' || _tp.type === 'mixed') {
+      const pool = [...(t.workedExamples || [])].sort(() => Math.random() - 0.5);
+      const take = _tp.type === 'mixed'
+        ? Math.floor(_tp.qtyPerTopic / 2)
+        : _tp.qtyPerTopic;
+      pool.slice(0, take).forEach(we => {
+        questions.push({ type: 'structured', topicTitle: t.title, q: we.q, steps: we.steps, num: qNum++ });
+      });
+    }
+  });
+
+  if (!questions.length) { showToast('No questions available for the selected configuration'); return; }
+
+  // Shuffle the whole paper
+  questions = questions.sort(() => Math.random() - 0.5).map((q, i) => ({ ...q, num: i + 1 }));
+
+  // Render paper
+  _tp._questions = questions; // store for reshuffle
+  _tpAskMode(questions, subjName[_tp.subject], typeLabel[_tp.type]);
+}
+
+// ── Topical paper: display mode state ──────────────────────────────────
+let _tpMode = 'all';        // 'all' | 'one'
+let _tpCurrentQ = 0;        // index in _tp._questions for one-at-a-time mode
+
+function _tpAskMode(questions, subjName, typeLabel) {
+  // Prompt user to choose display mode
+  byId('tp-paper-content').innerHTML = `
+    <div class="tp-mode-prompt card">
+      <h2>How would you like to practice?</h2>
+      <p>Choose how the paper is displayed.</p>
+      <div class="tp-mode-options">
+        <button class="tp-mode-btn" onclick="App.tpStartMode('one', '${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')">
+          <span class="tp-mode-icon">1️⃣</span>
+          <strong>One at a time</strong>
+          <span>Answer each question, then reveal the answer before moving on.</span>
+        </button>
+        <button class="tp-mode-btn" onclick="App.tpStartMode('all', '${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')">
+          <span class="tp-mode-icon">📄</span>
+          <strong>Full paper</strong>
+          <span>See all questions at once. Mark scheme shown at the end.</span>
+        </button>
+      </div>
+    </div>`;
+  byId('tp-setup').style.display        = 'none';
+  byId('tp-paper-output').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function tpStartMode(mode, subjName, typeLabel) {
+  _tpMode      = mode;
+  _tpCurrentQ  = 0;
+  if (mode === 'one') {
+    _tpRenderOneAtATime(subjName, typeLabel);
+  } else {
+    _tpRenderPaper(_tp._questions, subjName, typeLabel);
+  }
+}
+
+function _tpRenderOneAtATime(subjName, typeLabel) {
+  const questions = _tp._questions;
+  const q = questions[_tpCurrentQ];
+  if (!q) return;
+
+  const isLast = _tpCurrentQ === questions.length - 1;
+  const progress = `${_tpCurrentQ + 1} / ${questions.length}`;
+
+  let answerHtml = '';
+  if (q.type === 'mcq') {
+    answerHtml = `
+      <div class="tp-reveal-answer" id="tp-answer-reveal" style="display:none">
+        <div class="tp-answer-badge">
+          <span class="tp-ms-ans">${String.fromCharCode(65 + q.ans)}</span>
+          <span>${richText((q.opts || [])[q.ans] || '')}</span>
+        </div>
+        <p class="tp-answer-exp">${richText(q.exp || '')}</p>
+      </div>`;
+  } else {
+    const stepsHtml = (q.steps || []).map((s, i) => `
+      <div class="tp-ms-step">
+        <span class="tp-ms-step-n">(${i+1})</span>
+        <div><strong>${escapeHtml(s.sub)}</strong><p>${richText(s.text)}</p></div>
+      </div>`).join('');
+    answerHtml = `
+      <div class="tp-reveal-answer" id="tp-answer-reveal" style="display:none">
+        <div class="tp-ms-steps">${stepsHtml}</div>
+      </div>`;
+  }
+
+  let bodyHtml = '';
+  if (q.type === 'mcq') {
+    bodyHtml = `
+      <div class="tp-opts">
+        ${(q.opts || []).map((opt, i) => `
+          <div class="tp-opt" id="tp-opt-${i}" onclick="App.tpSelectOpt(${i}, ${q.ans})">
+            <span class="tp-opt-letter">${String.fromCharCode(65+i)}</span>
+            <span>${richText(opt)}</span>
+          </div>`).join('')}
+      </div>`;
+  } else {
+    const marks = (q.steps || []).length;
+    bodyHtml = `
+      <div class="tp-qtext-row">
+        <span class="tp-marks">[${marks} marks]</span>
+      </div>
+      <div class="tp-answer-lines">
+        ${'<div class="tp-answer-line"></div>'.repeat(Math.max(4, marks * 2))}
+      </div>`;
+  }
+
+  byId('tp-paper-content').innerHTML = `
+    <div class="tp-one-wrap card">
+      <div class="tp-one-header">
+        <div class="tp-one-progress">
+          <div class="tp-one-progress-bar" style="width:${Math.round((_tpCurrentQ/questions.length)*100)}%"></div>
+        </div>
+        <div class="tp-one-meta">
+          <span class="tp-one-counter">${progress}</span>
+          <span class="tp-topic-tag">${escapeHtml(q.topicTitle)}</span>
+          <span class="tp-one-type">${q.type === 'mcq' ? 'Multiple Choice' : 'Structured'}</span>
+        </div>
+      </div>
+
+      <div class="tp-one-question">
+        <div class="tp-qnum">${q.num}</div>
+        <div class="tp-qbody">
+          <p class="tp-qtext">${richText(q.q)}</p>
+          ${bodyHtml}
+        </div>
+      </div>
+
+      ${answerHtml}
+
+      <div class="tp-one-actions">
+        <button class="btn btn-outline btn-sm" id="tp-reveal-btn"
+          onclick="App.tpRevealAnswer()">
+          👁 Reveal Answer
+        </button>
+        <button class="btn btn-primary" id="tp-next-btn"
+          onclick="App.tpNextQuestion('${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')"
+          style="display:none">
+          ${isLast ? '✅ Finish' : 'Next Question →'}
+        </button>
+        ${_tpCurrentQ > 0 ? `<button class="btn btn-ghost btn-sm" onclick="App.tpPrevQuestion('${escapeHtml(subjName)}', '${escapeHtml(typeLabel)}')">← Back</button>` : ''}
+      </div>
+    </div>`;
+}
+
+// Full-paper mode: clicking an MCQ option
+function tpFullSelectOpt(qNum, idx, correct, exp) {
+  const optsEl = byId(`tp-opts-${qNum}`);
+  if (!optsEl || optsEl.dataset.answered) return; // only answer once
+  optsEl.dataset.answered = '1';
+
+  optsEl.querySelectorAll('.tp-opt').forEach((el, i) => {
+    el.style.pointerEvents = 'none';
+    if (i === correct) el.classList.add('tp-opt-correct');
+    if (i === idx && idx !== correct) el.classList.add('tp-opt-wrong');
+  });
+
+  const ansEl = byId(`tp-ans-${qNum}`);
+  if (ansEl && exp) {
+    ansEl.innerHTML = `<div class="tp-inline-answer-inner">
+      <span class="tp-ms-ans">${String.fromCharCode(65+correct)}</span>
+      <span class="tp-answer-exp">${richText(exp)}</span>
+    </div>`;
+    ansEl.style.display = '';
+    ansEl.classList.add('tp-reveal-in');
+  }
+}
+
+// Full-paper mode: reveal structured answer
+function tpRevealStructured(qNum, btn) {
+  const ansEl = byId(`tp-ans-${qNum}`);
+  if (!ansEl) return;
+  ansEl.style.display = '';
+  ansEl.classList.add('tp-reveal-in');
+  if (btn) btn.style.display = 'none';
+}
+
+function tpRevealAnswer() {
+  const reveal = byId('tp-answer-reveal');
+  const revealBtn = byId('tp-reveal-btn');
+  const nextBtn   = byId('tp-next-btn');
+  if (reveal)    { reveal.style.display = ''; reveal.classList.add('tp-reveal-in'); }
+  if (revealBtn) revealBtn.style.display = 'none';
+  if (nextBtn)   nextBtn.style.display = '';
+}
+
+function tpSelectOpt(idx, correct) {
+  // Highlight selected option, mark right/wrong
+  document.querySelectorAll('.tp-opt').forEach((el, i) => {
+    if (i === idx)     el.classList.add(idx === correct ? 'tp-opt-correct' : 'tp-opt-wrong');
+    if (i === correct && idx !== correct) el.classList.add('tp-opt-correct');
+  });
+  tpRevealAnswer();
+}
+
+function tpNextQuestion(subjName, typeLabel) {
+  _tpCurrentQ++;
+  if (_tpCurrentQ >= _tp._questions.length) {
+    // Show full mark scheme at the end
+    _tpRenderPaper(_tp._questions, subjName, typeLabel);
+    showToast('Paper complete! Here is the full mark scheme.');
+  } else {
+    _tpRenderOneAtATime(subjName, typeLabel);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function tpPrevQuestion(subjName, typeLabel) {
+  if (_tpCurrentQ > 0) { _tpCurrentQ--; _tpRenderOneAtATime(subjName, typeLabel); }
+}
+
+function _tpRenderPaper(questions, subjName, typeLabel) {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  const mcqQs  = questions.filter(q => q.type === 'mcq');
+  const strQs  = questions.filter(q => q.type === 'structured');
+
+  // ── Question paper ───────────────────────────────────────────────────
+  let qHtml = `
+    <div class="tp-paper card" id="tp-questions-section">
+      <div class="tp-paper-header">
+        <div class="tp-paper-logo">Revise.</div>
+        <div class="tp-paper-meta">
+          <h2>${escapeHtml(subjName)}</h2>
+          <p>${escapeHtml(typeLabel)}</p>
+          <p class="tp-paper-date">Generated ${dateStr} · ${questions.length} questions</p>
+        </div>
+        <div class="tp-paper-instructions">
+          <strong>Instructions:</strong>
+          <ul>
+            <li>Answer <strong>all</strong> questions.</li>
+            ${mcqQs.length ? '<li>MCQ: circle your answer letter.</li>' : ''}
+            ${strQs.length ? '<li>Structured: show all working.</li>' : ''}
+          </ul>
+        </div>
+      </div>`;
+
+  if (mcqQs.length) {
+    qHtml += `<div class="tp-section-head">Section A — Multiple Choice (${mcqQs.length} marks)</div>`;
+    mcqQs.forEach(q => {
+      qHtml += `
+        <div class="tp-question tp-mcq" id="tp-q-${q.num}">
+          <div class="tp-qnum">${q.num}</div>
+          <div class="tp-qbody">
+            <p class="tp-qtext">${richText(q.q)}</p>
+            <div class="tp-topic-tag">${escapeHtml(q.topicTitle)}</div>
+            <div class="tp-opts" id="tp-opts-${q.num}">
+              ${(q.opts || []).map((opt, i) => `
+                <div class="tp-opt" id="tp-opt-${q.num}-${i}"
+                  onclick="App.tpFullSelectOpt(${q.num}, ${i}, ${q.ans}, '${escapeHtml(q.exp||'')}')">
+                  <span class="tp-opt-letter">${String.fromCharCode(65+i)}</span>
+                  <span>${richText(opt)}</span>
+                </div>`).join('')}
+            </div>
+            <div class="tp-inline-answer" id="tp-ans-${q.num}" style="display:none"></div>
+          </div>
+        </div>`;
+    });
+  }
+
+  if (strQs.length) {
+    qHtml += `<div class="tp-section-head">Section B — Structured Questions</div>`;
+    strQs.forEach(q => {
+      const marks = (q.steps || []).length;
+      const stepsHtml = (q.steps || []).map((s, i) => `
+        <div class="tp-ms-step">
+          <span class="tp-ms-step-n">(${i+1})</span>
+          <div><strong>${escapeHtml(s.sub)}</strong><p>${richText(s.text)}</p></div>
+        </div>`).join('');
+      qHtml += `
+        <div class="tp-question tp-structured" id="tp-q-${q.num}">
+          <div class="tp-qnum">${q.num}</div>
+          <div class="tp-qbody">
+            <div class="tp-qtext-row">
+              <p class="tp-qtext">${richText(q.q)}</p>
+              <span class="tp-marks">[${marks} marks]</span>
+            </div>
+            <div class="tp-topic-tag">${escapeHtml(q.topicTitle)}</div>
+            <div class="tp-answer-lines">
+              ${'<div class="tp-answer-line"></div>'.repeat(Math.max(4, marks * 2))}
+            </div>
+            <div class="tp-str-reveal-row">
+              <button class="btn btn-outline btn-sm tp-str-reveal-btn"
+                onclick="App.tpRevealStructured(${q.num}, this)">
+                👁 Show Answer
+              </button>
+              <div class="tp-inline-answer tp-ms-steps" id="tp-ans-${q.num}" style="display:none">
+                ${stepsHtml}
+              </div>
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+  qHtml += `</div>`;
+
+  // ── Mark scheme ──────────────────────────────────────────────────────
+  let msHtml = `
+    <div class="tp-paper tp-markscheme card">
+      <div class="tp-ms-header">
+        <div class="tp-paper-logo">Revise.</div>
+        <div>
+          <h2>${escapeHtml(subjName)} — Mark Scheme</h2>
+          <p>${escapeHtml(typeLabel)} · ${dateStr}</p>
+        </div>
+      </div>`;
+
+  questions.forEach(q => {
+    if (q.type === 'mcq') {
+      msHtml += `
+        <div class="tp-ms-item">
+          <span class="tp-ms-num">${q.num}</span>
+          <div>
+            <span class="tp-ms-ans">${String.fromCharCode(65 + q.ans)}</span>
+            <span class="tp-ms-exp">${richText(q.exp || '')}</span>
+          </div>
+        </div>`;
+    } else {
+      msHtml += `
+        <div class="tp-ms-item tp-ms-structured">
+          <span class="tp-ms-num">${q.num}</span>
+          <div class="tp-ms-steps">
+            ${(q.steps || []).map((s, i) => `
+              <div class="tp-ms-step">
+                <span class="tp-ms-step-n">(${i+1})</span>
+                <div>
+                  <strong>${escapeHtml(s.sub)}</strong>
+                  <p>${richText(s.text)}</p>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>`;
+    }
+  });
+
+  msHtml += `</div>`;
+
+  byId('tp-paper-content').innerHTML = qHtml + msHtml;
+  byId('tp-setup').style.display        = 'none';
+  byId('tp-paper-output').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function tpBack() {
+  byId('tp-paper-output').style.display = 'none';
+  byId('tp-setup').style.display        = '';
+}
+
+function tpShuffle() {
+  if (!_tp._questions) return;
+  _tp._questions = _tp._questions.sort(() => Math.random() - 0.5).map((q,i) => ({...q, num: i+1}));
+  const subjName = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' }[_tp.subject];
+  const typeLabel = { mcq: 'Paper 1 — Multiple Choice', structured: 'Paper 2 — Structured Questions', mixed: 'Mixed Practice Paper' }[_tp.type];
+  _tpRenderPaper(_tp._questions, subjName, typeLabel);
+  showToast('Paper reshuffled!');
+}
+
+function tpPrint() {
+  window.print();
+}
+
+function tpExportPdf() {
+  const questions = _tp._questions;
+  if (!questions || !questions.length) { showToast('Generate a paper first'); return; }
+
+  const subjName  = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' }[_tp.subject];
+  const typeLabel = { mcq: 'Paper 1 — Multiple Choice', structured: 'Paper 2 — Structured Questions', mixed: 'Mixed Practice Paper' }[_tp.type];
+  const dateStr   = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+
+  const mcqQs = questions.filter(q => q.type === 'mcq');
+  const strQs = questions.filter(q => q.type === 'structured');
+
+  let qSection = '';
+  if (mcqQs.length) {
+    qSection += `<h3 class="section-head">Section A — Multiple Choice &nbsp;<span class="section-marks">(${mcqQs.length} marks)</span></h3>`;
+    mcqQs.forEach(q => {
+      qSection += `<div class="question">
+        <div class="qnum">${q.num}</div>
+        <div class="qbody">
+          <p class="qtext">${q.q}</p>
+          <div class="opts">${(q.opts||[]).map((o,i)=>`
+            <div class="opt">
+              <span class="opt-letter">${String.fromCharCode(65+i)}</span>
+              <span class="opt-text">${o}</span>
+            </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+  if (strQs.length) {
+    qSection += `<h3 class="section-head">Section B — Structured Questions</h3>`;
+    strQs.forEach(q => {
+      const marks = (q.steps||[]).length;
+      const lines = Math.max(5, marks * 2);
+      qSection += `<div class="question str-question">
+        <div class="qnum">${q.num}</div>
+        <div class="qbody">
+          <p class="qtext">${q.q} <span class="marks-inline">[${marks}]</span></p>
+          <div class="ans-lines">${'<div class="ans-line"></div>'.repeat(lines)}</div>
+        </div>
+      </div>`;
+    });
+  }
+
+  let msSection = '';
+  questions.forEach(q => {
+    if (q.type === 'mcq') {
+      msSection += `<div class="ms-item">
+        <div class="ms-left">
+          <span class="ms-num">${q.num}</span>
+          <span class="ms-ans-badge">${String.fromCharCode(65+q.ans)}</span>
+        </div>
+        <div class="ms-right">
+          <span class="ms-exp">${q.exp||''}</span>
+        </div>
+      </div>`;
+    } else {
+      const stepsHtml = (q.steps||[]).map((s,i)=>`
+        <div class="ms-step">
+          <span class="ms-step-n">(${i+1})</span>
+          <div class="ms-step-body"><strong>${s.sub}</strong><p>${s.text}</p></div>
+        </div>`).join('');
+      msSection += `<div class="ms-item ms-str">
+        <div class="ms-left"><span class="ms-num">${q.num}</span></div>
+        <div class="ms-right"><div class="ms-steps">${stepsHtml}</div></div>
+      </div>`;
+    }
+  });
+
+  const css = `
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @page { size: A4; margin: 18mm 20mm; }
+    html { font-size: 10.5pt; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; line-height: 1.5; }
+
+    /* Header */
+    .doc-header { border-bottom: 2px solid #111; padding-bottom: 8px; margin-bottom: 16px; }
+    .doc-header h1 { font-size: 15pt; font-weight: 700; }
+    .doc-header .sub { font-size: 10pt; color: #444; margin-top: 2px; }
+    .doc-header .date { font-size: 8.5pt; color: #888; margin-top: 2px; }
+
+    /* Section headings */
+    .section-head {
+      font-size: 10pt; font-weight: 700;
+      background: #f2f2f2; border-left: 4px solid #111;
+      padding: 5px 9px; margin: 18px 0 10px;
+      break-after: avoid;          /* keep heading with next question */
+    }
+    .section-marks { font-weight: 400; color: #555; }
+
+    /* Questions — each is a page-break-inside:avoid unit */
+    .question {
+      display: flex; gap: 10px;
+      margin-bottom: 12px;
+      break-inside: avoid;         /* never split a question across pages */
+      page-break-inside: avoid;
+    }
+    .qnum {
+      flex-shrink: 0;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #111; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8pt; font-weight: 700; margin-top: 1px;
+    }
+    .qbody { flex: 1; }
+    .qtext { margin-bottom: 7px; font-size: 10.5pt; }
+
+    /* MCQ options */
+    .opts { display: flex; flex-direction: column; gap: 4px; }
+    .opt { display: flex; gap: 8px; align-items: flex-start; font-size: 10pt; }
+    .opt-letter {
+      flex-shrink: 0; width: 17px; height: 17px;
+      border: 1.5px solid #888; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8pt; font-weight: 700; margin-top: 1px;
+    }
+    .opt-text { line-height: 1.4; }
+
+    /* Structured answer lines */
+    .str-question .qbody { width: 100%; }
+    .marks-inline { font-size: 9pt; color: #666; margin-left: 4px; }
+    .ans-lines { margin-top: 8px; }
+    .ans-line {
+      border-bottom: 1px solid #bbb;
+      height: 22px;
+      margin-bottom: 0;
+    }
+
+    /* Mark scheme page */
+    .ms-page { break-before: page; page-break-before: always; }
+    .ms-header { border-bottom: 2px solid #111; padding-bottom: 8px; margin-bottom: 14px; }
+    .ms-header h1 { font-size: 14pt; font-weight: 700; }
+    .ms-header .sub { font-size: 9pt; color: #555; margin-top: 2px; }
+
+    .ms-item {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 7px 0; border-bottom: 1px solid #e8e8e8;
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .ms-item:last-child { border-bottom: none; }
+    .ms-left { display: flex; align-items: center; gap: 6px; flex-shrink: 0; min-width: 52px; }
+    .ms-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 1.5px solid #999;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8pt; font-weight: 700; flex-shrink: 0;
+    }
+    .ms-ans-badge {
+      background: #111; color: #fff; font-weight: 800;
+      padding: 2px 7px; border-radius: 3px; font-size: 10pt;
+    }
+    .ms-right { flex: 1; font-size: 9.5pt; }
+    .ms-exp { color: #333; line-height: 1.45; }
+
+    .ms-str .ms-right { padding-top: 1px; }
+    .ms-steps { display: flex; flex-direction: column; gap: 5px; }
+    .ms-step { display: flex; gap: 7px; font-size: 9.5pt; }
+    .ms-step-n { flex-shrink: 0; color: #777; min-width: 22px; }
+    .ms-step-body p { color: #444; margin-top: 2px; font-size: 9pt; }
+  `;
+
+  const html = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<title>${subjName} — ${typeLabel}</title>
+<style>${css}</style>
+</head><body>
+
+<div class="doc-header">
+  <h1>${subjName}</h1>
+  <p class="sub">${typeLabel}</p>
+  <p class="date">Generated ${dateStr} &nbsp;·&nbsp; ${questions.length} question${questions.length!==1?'s':''} &nbsp;·&nbsp; ${mcqQs.length} MCQ &nbsp;·&nbsp; ${strQs.length} structured</p>
+</div>
+
+${qSection}
+
+<div class="ms-page">
+  <div class="ms-header">
+    <h1>Mark Scheme</h1>
+    <p class="sub">${subjName} — ${typeLabel}</p>
+    <p class="sub">${dateStr}</p>
+  </div>
+  ${msSection}
+</div>
+
+<script>
+  // Auto-open print dialog when loaded
+  window.addEventListener('load', () => setTimeout(() => window.print(), 400));
+<\/script>
+</body></html>`;
+
+  const win = window.open('', '_blank');
+  if (!win) { showToast('Allow pop-ups to export PDF — check your browser settings'); return; }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+}
+
+
+function switchSocialTab(tab, btn) {
+  // Update tab buttons
+  document.querySelectorAll('.social-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Show/hide panels
+  ['forums','friends','groups'].forEach(t => {
+    const el = byId(`social-panel-${t}`);
+    if (el) el.style.display = t === tab ? '' : 'none';
+  });
+  // Load data when switching to social tabs
+  if (tab === 'friends' || tab === 'groups') renderSocialPage();
+}
+
+// ============================================================================
+// SOCIAL SYSTEM — friends, user profiles, group chats
+// ============================================================================
+
+let _socialState = {
+  friends:     [],
+  requests:    [],
+  groups:      [],
+  activeGroup: null,
+  searchResults: [],
+  viewingProfile: null,
+};
+
+// ── Last-seen helper ────────────────────────────────────────────────
 function formatLastSeen(dateStr) {
   if (!dateStr) return 'Unknown';
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -6263,6 +6835,43 @@ function formatLastSeen(dateStr) {
   if (hrs < 24)  return `Last seen ${hrs}h ago`;
   const days = Math.floor(hrs / 24);
   return `Last seen ${days}d ago`;
+}
+
+// ── Render Social (Friends / Group Chat tabs) ───────────────────────
+async function renderSocialPage() {
+  if (!auth.isLoggedIn) {
+    // Show auth gate
+    const main = document.querySelector('#view-community .community-main');
+    if (main) main.innerHTML = `
+      <div class="card" style="text-align:center;padding:2.5rem 1.5rem">
+        <div style="font-size:2.5rem;margin-bottom:0.6rem">👥</div>
+        <h2>Sign in to access social features</h2>
+        <p style="color:var(--text2);margin:0.5rem 0 1.25rem">Connect with other students, create group chats, and track friends' progress.</p>
+        <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="App.openAuthModal('login')">Sign In</button>
+          <button class="btn btn-outline" onclick="App.openAuthModal('register')">Create Account</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Load data
+  try {
+    const [frRes, grRes] = await Promise.all([
+      fetch(`${API_BASE_URL}/api/social/friends`,  { headers: authHeaders() }),
+      fetch(`${API_BASE_URL}/api/social/groups`,   { headers: authHeaders() }),
+    ]);
+    const frData = await frRes.json();
+    const grData = await grRes.json();
+    if (frData.success) {
+      _socialState.friends  = frData.data.friends  || [];
+      _socialState.requests = frData.data.requests || [];
+    }
+    if (grData.success) _socialState.groups = grData.data || [];
+  } catch (e) { console.warn('Social load error:', e.message); }
+
+  _renderFriendPanel();
+  _renderGroupPanel();
 }
 
 function _renderFriendPanel() {
@@ -6306,7 +6915,7 @@ function _renderFriendPanel() {
         <input id="social-search-input" type="text" placeholder="Search by name…"
           oninput="App.socialSearch(this.value)">
       </div>
-      <div id="social-search-results" class="social-search-dropdown"></div>
+      <div id="social-search-results" class="social-search-results" style="display:none"></div>
     </div>
     <div class="social-friends-list">${friendsHtml}</div>`;
 }
@@ -6328,6 +6937,139 @@ function _renderGroupPanel() {
     <button class="btn btn-primary btn-sm social-new-group-btn" onclick="App.openNewGroupModal()">
       + New Group
     </button>`;
+}
+
+// ── User search ─────────────────────────────────────────────────────
+let _socialSearchTimer = null;
+async function socialSearch(query) {
+  const q = query.trim();
+  const resultsEl = byId('social-search-results');
+  if (!resultsEl) return;
+
+  if (q.length < 2) { resultsEl.style.display = 'none'; return; }
+
+  clearTimeout(_socialSearchTimer);
+  _socialSearchTimer = setTimeout(async () => {
+    try {
+      const res  = await fetch(`${API_BASE_URL}/api/social/search?q=${encodeURIComponent(q)}`, { headers: authHeaders() });
+      const data = await res.json();
+      if (!data.success) return;
+      const results = data.data || [];
+
+      if (!results.length) {
+        resultsEl.innerHTML = '<p class="social-empty" style="padding:0.6rem">No users found.</p>';
+        resultsEl.style.display = '';
+        return;
+      }
+
+      resultsEl.innerHTML = results.map(u => `
+        <div class="social-search-result" onclick="App.openUserProfile('${u._id}')">
+          <div class="social-avatar sm">
+            ${u.avatarUrl
+              ? `<img src="${escapeHtml(u.avatarUrl)}" alt="" loading="lazy">`
+              : `<span>${escapeHtml((u.name||'?')[0].toUpperCase())}</span>`}
+          </div>
+          <div>
+            <strong>${escapeHtml(u.name)}</strong>
+            <small class="social-lastseen">${formatLastSeen(u.stats?.lastActiveAt)}</small>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();App.sendFriendReq('${u._id}','${escapeHtml(u.name)}')">+ Add</button>
+        </div>`).join('');
+      resultsEl.style.display = '';
+    } catch (e) { console.warn('Search error:', e.message); }
+  }, 300);
+}
+
+// ── User profile modal ──────────────────────────────────────────────
+async function openUserProfile(userId) {
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/profile/${userId}`, { headers: authHeaders() });
+    const data = await res.json();
+    if (!data.success) { showToast('Could not load profile'); return; }
+    const u = data.data;
+
+    let modal = byId('user-profile-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'user-profile-modal';
+      modal.className = 'social-modal-overlay';
+      document.body.appendChild(modal);
+      modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+    }
+
+    const isFriend = _socialState.friends.some(f => f._id?.toString() === userId);
+
+    modal.innerHTML = `
+      <div class="social-modal">
+        <button class="social-modal-close" onclick="byId('user-profile-modal').classList.remove('open')">&times;</button>
+        <div class="user-profile-header">
+          <div class="social-avatar lg">
+            ${u.avatarUrl
+              ? `<img src="${escapeHtml(u.avatarUrl)}" alt="avatar" loading="lazy">`
+              : `<span>${escapeHtml((u.name||'?')[0].toUpperCase())}</span>`}
+          </div>
+          <div>
+            <h2 style="margin:0">${escapeHtml(u.name)}</h2>
+            <p class="social-lastseen" style="margin:0.2rem 0 0">${formatLastSeen(u.stats?.lastActiveAt)}</p>
+          </div>
+        </div>
+        <div class="user-profile-stats">
+          <div class="ustat"><strong>⚡ ${u.stats?.xp || 0}</strong><span>XP</span></div>
+          <div class="ustat"><strong>🔥 ${u.stats?.streak || 0}</strong><span>Streak</span></div>
+          <div class="ustat"><strong>${u.stats?.totalTopicsCompleted || 0}</strong><span>Topics</span></div>
+          <div class="ustat"><strong>${u.stats?.averageQuizScore || 0}%</strong><span>Avg Quiz</span></div>
+        </div>
+        <div class="user-profile-actions">
+          ${isFriend
+            ? `<span class="social-friend-badge">✓ Friends</span>`
+            : `<button class="btn btn-primary btn-sm" onclick="App.sendFriendReq('${userId}','${escapeHtml(u.name)}');this.textContent='Request sent';this.disabled=true">+ Add Friend</button>`}
+        </div>
+      </div>`;
+
+    modal.classList.add('open');
+  } catch (e) { showToast('Network error'); }
+}
+
+// ── Friend request actions ──────────────────────────────────────────
+async function sendFriendReq(toUserId, name) {
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/friends/request`, {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({ toUserId }),
+    });
+    const data = await res.json();
+    if (data.success) showToast(`Friend request sent to ${name}!`);
+    else showToast(data.error || 'Could not send request');
+  } catch (e) { showToast('Network error'); }
+}
+
+async function respondFriend(requestId, status) {
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/friends/respond`, {
+      method: 'PATCH', headers: authHeaders(),
+      body: JSON.stringify({ requestId, status }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(status === 'accepted' ? 'Friend added! 🎉' : 'Request declined');
+      await renderSocialPage();
+    }
+  } catch (e) { showToast('Network error'); }
+}
+
+// ── Group chat ──────────────────────────────────────────────────────
+let _groupPollTimer = null;
+
+async function openGroupChat(groupId, groupName) {
+  _socialState.activeGroup = { _id: groupId, name: groupName };
+  if (socket) socket.emit('join_group', { groupId });
+
+  const chatEl = byId('social-group-chat');
+  if (chatEl) chatEl.style.display = '';
+
+  byId('social-group-name') && (byId('social-group-name').textContent = groupName);
+  _renderGroupPanel(); // update active state
+  await _loadGroupMessages(groupId);
 }
 
 async function _loadGroupMessages(groupId) {
@@ -6352,6 +7094,82 @@ function _groupMsgHtml(m) {
   </div>`;
 }
 
+async function sendGroupMessage() {
+  if (!_socialState.activeGroup) return;
+  const input = byId('social-group-input');
+  const text  = input?.value.trim();
+  if (!text) return;
+  input.value = '';
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/social/groups/${_socialState.activeGroup._id}/messages`, {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify({ text }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      const msgs = byId('social-group-messages');
+      if (msgs) {
+        msgs.innerHTML += _groupMsgHtml(data.data);
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+    }
+  } catch (e) { showToast('Could not send message'); }
+}
+
+function openNewGroupModal() {
+  let modal = byId('new-group-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'new-group-modal';
+    modal.className = 'social-modal-overlay';
+    modal.innerHTML = `
+      <div class="social-modal">
+        <button class="social-modal-close" onclick="byId('new-group-modal').classList.remove('open')">&times;</button>
+        <h3>Create Group Chat</h3>
+        <label>Group name<input id="ng-name" type="text" placeholder="Study Group…" maxlength="60" class="auth-input"></label>
+        <p style="color:var(--text2);font-size:0.85rem;margin:0.5rem 0">Add friends after creating the group.</p>
+        <div style="display:flex;gap:0.6rem;margin-top:1rem">
+          <button class="btn btn-primary" onclick="App.createGroup()">Create</button>
+          <button class="btn btn-outline" onclick="byId('new-group-modal').classList.remove('open')">Cancel</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+  }
+  modal.classList.add('open');
+  setTimeout(() => byId('ng-name')?.focus(), 50);
+}
+
+async function createGroup() {
+  const name = byId('ng-name')?.value.trim();
+  if (!name) { showToast('Enter a group name'); return; }
+  try {
+    const res  = await fetch(`${API_BASE_URL}/api/social/groups`, {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify({ name }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Group "${name}" created!`);
+      byId('new-group-modal')?.classList.remove('open');
+      _socialState.groups.unshift(data.data);
+      _renderGroupPanel();
+      openGroupChat(data.data._id, data.data.name);
+    } else showToast(data.error || 'Could not create group');
+  } catch (e) { showToast('Network error'); }
+}
+
+// Receive real-time group messages via socket
+function _bindGroupSocketEvents() {
+  if (!socket) return;
+  socket.off('group_message'); // avoid double-binding
+  socket.on('group_message', (msg) => {
+    if (!_socialState.activeGroup || msg.chatId !== _socialState.activeGroup._id) return;
+    const msgs = byId('social-group-messages');
+    if (msgs) {
+      msgs.innerHTML += _groupMsgHtml(msg);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+  });
+}
 
 const App = {
   go,
@@ -6446,8 +7264,6 @@ const App = {
   openNewGroupModal,
   createGroup,
   signInWithDiscord,
-  openTopicDiscussion,
-  sendVerificationEmail,
 };
 
 window.App = App;
