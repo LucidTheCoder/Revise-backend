@@ -5749,20 +5749,33 @@ let _socialSearchTimer = null;
 
 async function socialSearch(query) {
   const q = (query || '').trim();
+  // Always find the current results element (it gets recreated on re-render)
   const resultsEl = byId('social-search-results');
   if (!resultsEl) return;
-  if (q.length < 2) { resultsEl.innerHTML = ''; resultsEl.style.display = 'none'; return; }
+
+  if (q.length < 2) {
+    resultsEl.innerHTML = '';
+    resultsEl.removeAttribute('style');
+    return;
+  }
+
+  // Show immediate loading feedback
+  resultsEl.innerHTML = '<div class="social-search-empty" style="color:var(--text3);padding:0.5rem 0.75rem">Searching…</div>';
+  resultsEl.style.cssText = 'display:block !important';
 
   clearTimeout(_socialSearchTimer);
   _socialSearchTimer = setTimeout(async () => {
+    // Re-find the element — it may have been replaced by a re-render
+    const el = byId('social-search-results');
+    if (!el) return;
     try {
       const res  = await fetch(`${API_BASE_URL}/api/social/search?q=${encodeURIComponent(q)}`, { headers: authHeaders() });
       const data = await res.json();
       const results = data.success ? (data.data || []) : [];
       if (!results.length) {
-        resultsEl.innerHTML = `<div class="social-search-empty">No users found for "${escapeHtml(q)}"</div>`;
+        el.innerHTML = `<div class="social-search-empty">No users found for "${escapeHtml(q)}"</div>`;
       } else {
-        resultsEl.innerHTML = results.map(u => {
+        el.innerHTML = results.map(u => {
           const alreadyFriend = _socialState.friends.some(f => f._id?.toString() === u._id?.toString());
           return `<div class="social-search-item" onclick="App.openUserProfile('${u._id}')">
             <div class="social-avatar sm">
@@ -5773,22 +5786,33 @@ async function socialSearch(query) {
               <small class="social-status-text">${formatLastSeen(u.stats?.lastActiveAt)}</small>
             </div>
             <button class="btn ${alreadyFriend ? 'btn-ghost' : 'btn-outline'} btn-sm"
-              onclick="event.stopPropagation();${alreadyFriend ? '' : `App.sendFriendReq('${u._id}','${escapeHtml(u.name)}');this.textContent='Sent';this.disabled=true`}">
+              onclick="event.stopPropagation();${alreadyFriend ? '' : `App.sendFriendReq('${u._id}','${escapeHtml(u.name)}');this.textContent='Sent ✓';this.disabled=true`}">
               ${alreadyFriend ? '✓ Friends' : '+ Add'}
             </button>
           </div>`;
         }).join('');
       }
-      resultsEl.style.display = '';
-    } catch (e) { console.warn('Search error:', e.message); }
-  }, 280);
+      el.style.cssText = 'display:block !important';
+    } catch (e) {
+      const el2 = byId('social-search-results');
+      if (el2) el2.innerHTML = '<div class="social-search-empty">Search failed — check connection</div>';
+      console.warn('Search error:', e.message);
+    }
+  }, 300);
 }
 
-// Close search results when clicking outside
+// Close search results when clicking outside the search area entirely
 document.addEventListener('click', e => {
-  const wrap = byId('social-search-results');
-  if (wrap && !wrap.contains(e.target) && !byId('social-search-input')?.contains(e.target)) {
-    wrap.style.display = 'none';
+  const wrap  = byId('social-search-results');
+  const input = byId('social-search-input');
+  const bar   = input?.closest('.social-search-wrap, .social-search-bar, .social-search-field');
+  if (!wrap) return;
+  // Only close if the click was outside both the input and the results
+  const clickedInsideSearch = (bar && bar.contains(e.target)) || wrap.contains(e.target);
+  if (!clickedInsideSearch && wrap.innerHTML.trim()) {
+    wrap.innerHTML = '';
+    wrap.removeAttribute('style');
+    if (input) input.value = '';
   }
 });
 
@@ -5898,13 +5922,21 @@ async function openGroupChat(groupId, groupName) {
   try {
     const res  = await fetch(`${API_BASE_URL}/api/social/groups/${groupId}/messages`, { headers: authHeaders() });
     const data = await res.json();
-    if (data.success && msgs) {
-      msgs.innerHTML = data.data.length
-        ? data.data.map(m => _buildGroupMsgEl(m)).join('')
-        : '<div class="social-msgs-empty">No messages yet. Say hello!</div>';
-      msgs.scrollTop = msgs.scrollHeight;
+    const msgsEl = byId('social-group-messages'); // re-get in case DOM changed
+    if (!msgsEl) return;
+    if (!data.success) {
+      msgsEl.innerHTML = `<div class="social-msgs-error">${escapeHtml(data.error || 'Could not load messages')}</div>`;
+      return;
     }
-  } catch { if (msgs) msgs.innerHTML = '<div class="social-msgs-error">Could not load messages.</div>'; }
+    msgsEl.innerHTML = (data.data || []).length
+      ? (data.data || []).map(m => _buildGroupMsgEl(m)).join('')
+      : '<div class="social-msgs-empty">No messages yet. Say hello!</div>';
+    msgsEl.scrollTop = msgsEl.scrollHeight;
+  } catch (e) {
+    const msgsEl = byId('social-group-messages');
+    if (msgsEl) msgsEl.innerHTML = '<div class="social-msgs-error">Could not load messages — check connection.</div>';
+    console.warn('Group messages error:', e.message);
+  }
 }
 
 function _buildGroupMsgEl(m) {
@@ -6068,7 +6100,7 @@ function _renderFriendPanel() {
         <input id="social-search-input" type="text" placeholder="Search by name…"
           oninput="App.socialSearch(this.value)">
       </div>
-      <div id="social-search-results" class="social-search-results" style="display:none"></div>
+      <div id="social-search-results" class="social-search-dropdown"></div>
     </div>
     <div class="social-friends-list">${friendsHtml}</div>`;
 }

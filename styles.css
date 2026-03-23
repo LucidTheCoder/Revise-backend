@@ -5557,3 +5557,32 @@ html {
   .social-channel-btn { margin: 0.2rem; width: auto; white-space: nowrap; }
   .uprofile-stats { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* social-search-field mirrors social-search-bar (used in _renderFriendPanel) */
+.social-search-field {
+  display:       flex;
+  align-items:   center;
+  gap:           0.5rem;
+  background:    var(--bg3);
+  border:        1px solid var(--border);
+  border-radius: var(--radius2);
+  padding:       0.5rem 0.75rem;
+  color:         var(--text3);
+  transition:    border-color 0.15s;
+}
+.social-search-field:focus-within { border-color: var(--accent); color: var(--text1); }
+.social-search-field input {
+  flex:        1;
+  background:  none;
+  border:      none;
+  outline:     none;
+  color:       var(--text);
+  font-size:   0.9rem;
+  font-family: inherit;
+}
+
+
+/* Hide dropdown border/shadow when empty */
+.social-search-dropdown:empty {
+  display: none !important;
+}
