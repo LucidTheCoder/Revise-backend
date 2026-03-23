@@ -175,7 +175,14 @@ function injectAuthModal() {
     </button>
     <div class="auth-divider"><span>or</span></div>
     <label>Email<input type="email" id="login-email" placeholder="you@example.com"></label>
-    <label>Password<input type="password" id="login-password" placeholder="••••••••"></label>
+    <label>Password
+      <div class="pw-wrap">
+        <input type="password" id="login-password" placeholder="••••••••">
+        <button type="button" class="pw-toggle" onclick="App.togglePw('login-password',this)" aria-label="Show password">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+      </div>
+    </label>
     <div class="auth-error" id="login-error"></div>
     <button class="btn btn-primary auth-submit" id="login-submit">Sign In</button>
     <p class="auth-switch">No account? <button class="link-btn" id="switch-to-register">Create one</button></p>
@@ -202,7 +209,14 @@ function injectAuthModal() {
     <label>Name<input type="text" id="register-name" placeholder="Your name"></label>
     <label>Email<input type="email" id="register-email" placeholder="you@example.com"></label>
     <label>Confirm Email<input type="email" id="register-email-confirm" placeholder="Confirm your email"></label>
-    <label>Password<input type="password" id="register-password" placeholder="Min. 8 characters"></label>
+    <label>Password
+      <div class="pw-wrap">
+        <input type="password" id="register-password" placeholder="Min. 8 characters">
+        <button type="button" class="pw-toggle" onclick="App.togglePw('register-password',this)" aria-label="Show password">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+      </div>
+    </label>
     <div class="auth-error" id="register-error"></div>
     <button class="btn btn-primary auth-submit" id="register-submit">Create Account</button>
     <p class="auth-switch">Have an account? <button class="link-btn" id="switch-to-login">Sign in</button></p>
@@ -277,6 +291,19 @@ async function handleRegister() {
     showToast("Account created! Welcome, " + data.user.name.split(" ")[0] + ".");
   } catch { errEl.textContent = "Network error."; }
   finally { btn.textContent = "Create Account"; btn.disabled = false; }
+}
+
+
+function togglePw(inputId, btn) {
+  const inp = byId(inputId);
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  // Swap icon: eye / eye-off
+  btn.innerHTML = show
+    ? '<svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+    : '<svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>';
+  btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
 }
 
 function handleSignOut() { auth.clear(); updateNavForAuth(); showToast("Signed out."); }
@@ -3564,6 +3591,82 @@ async function init() {
 
 // Editor Functions
 
+
+// ── GIF picker (Tenor) ───────────────────────────────────────────────────────
+let _gifTarget = null; // 'group' | 'forum'
+let _gifTimer  = null;
+
+function openGifPicker(target) {
+  _gifTarget = target;
+  byId('gif-modal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'gif-modal';
+  modal.className = 'social-modal-overlay';
+  modal.innerHTML = `
+    <div class="social-modal gif-modal" role="dialog">
+      <div class="gif-modal-head">
+        <div class="social-search-bar" style="flex:1">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="gif-search" type="search" placeholder="Search GIFs…" autocomplete="off"
+            oninput="App._gifSearch(this.value)" autofocus>
+        </div>
+        <button class="social-modal-close" onclick="byId('gif-modal').remove()">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div id="gif-results" class="gif-grid"><p class="gif-hint">Type to search Tenor GIFs…</p></div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  requestAnimationFrame(() => modal.classList.add('open'));
+  setTimeout(() => byId('gif-search')?.focus(), 80);
+}
+
+async function _gifSearch(q) {
+  clearTimeout(_gifTimer);
+  const grid = byId('gif-results');
+  if (!grid) return;
+  if ((q||'').trim().length < 2) {
+    grid.innerHTML = '<p class="gif-hint">Type to search Tenor GIFs…</p>';
+    return;
+  }
+  grid.innerHTML = '<p class="gif-hint">Searching…</p>';
+  _gifTimer = setTimeout(async () => {
+    try {
+      const res  = await fetch(`${API_BASE_URL}/api/tenor/search?q=${encodeURIComponent(q)}&limit=16`, { headers: authHeaders() });
+      const data = await res.json();
+      if (!data.success || !data.data.length) {
+        grid.innerHTML = '<p class="gif-hint">No GIFs found.</p>';
+        return;
+      }
+      grid.innerHTML = data.data.map(g =>
+        `<button class="gif-item" onclick="App._gifInsert('${escapeHtml(g.url)}','${escapeHtml(g.title||'GIF')}')" title="${escapeHtml(g.title||'GIF')}">
+          <img src="${escapeHtml(g.preview)}" alt="${escapeHtml(g.title||'GIF')}" loading="lazy">
+        </button>`
+      ).join('');
+    } catch { grid.innerHTML = '<p class="gif-hint">Could not load GIFs.</p>'; }
+  }, 350);
+}
+
+function _gifInsert(gifUrl, gifTitle) {
+  byId('gif-modal')?.remove();
+  const gifMarkup = `[gif:${gifUrl}]`;
+  if (_gifTarget === 'group') {
+    const inp = byId('social-group-input');
+    if (inp) { inp.value += (inp.value ? ' ' : '') + gifMarkup; inp.focus(); }
+  } else if (_gifTarget === 'forum') {
+    const inp = byId('reply-input') || byId('thread-body');
+    if (inp) { inp.value += (inp.value ? '\n' : '') + gifMarkup; inp.focus(); }
+  }
+}
+
+// Render GIF markup in messages
+function renderGifs(html) {
+  return html.replace(/\[gif:(https?:\/\/[^\]]+)\]/g,
+    (_, url) => `<img class="chat-gif" src="${escapeHtml(url)}" alt="GIF" loading="lazy" style="max-width:240px;max-height:180px;border-radius:8px;display:block;margin:4px 0">`
+  );
+}
+
 // ── Custom topic persistence (localStorage) ─────────────────────────────────
 const CUSTOM_TOPICS_KEY = 'revise.customTopics'; // { topicId: { subject, data } }
 
@@ -3924,7 +4027,7 @@ function createNewTopic() {
   byId('editor-json-mode').style.display = 'none';
   _renderEditorForm(newTopic);
   loadEditorSubject(editorState.currentSubject);
-  showToast("New topic created — fill in the form and save.");
+  showSuccess('Topic created!', 'Fill in the form below and save.');
 }
 
 function showEditorHelp() {
@@ -4227,6 +4330,7 @@ async function renderThreadDetail() {
     <div class="forum-reply-box">
       <textarea id="reply-input" data-autoresize placeholder="Write a reply…" rows="3" maxlength="2000"></textarea>
       <div class="reply-actions">
+        <button class="gif-btn" onclick="App.openGifPicker('forum')" title="Add GIF">GIF</button>
         <button class="btn btn-primary btn-sm" onclick="App.submitReply('${id}')">Post Reply</button>
       </div>
     </div>
@@ -4235,7 +4339,7 @@ async function renderThreadDetail() {
 
   forumThread.innerHTML = `
     <h2>${escapeHtml(thread.title)}</h2>
-    <p style="margin:0.5rem 0;line-height:1.6;white-space:pre-wrap">${richText(thread.body)}</p>
+    <p style="margin:0.5rem 0;line-height:1.6;white-space:pre-wrap">${renderGifs(richText(thread.body))}</p>
     <p style="color:var(--text2);font-size:0.82rem">Posted by @${escapeHtml(thread.author)} · ${thread.createdAt ? new Date(thread.createdAt).toLocaleDateString() : ''} · 👍 ${thread.upvotes || 0} · 👁 ${thread.views || 0}</p>
     <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
       <button class="btn btn-outline btn-sm" onclick="App.upvoteThread('${id}')">👍 Upvote</button>
@@ -4559,10 +4663,10 @@ function renderAdminUsersTable(users) {
     const isSelf  = u._id === auth.user?._id;
     const isAdmin = u.role === 'admin';
     const isBanned = u.banned;
-    const roleBadge = `<span class="role-badge ${u.role}">${u.role}</span>${isBanned ? ' <span class="role-badge banned">banned</span>' : ''}`;
+    const roleBadge = '<span class="role-badge role-' + u.role + '">' + u.role + '</span>' + (isBanned ? ' <span class="role-badge role-student">banned</span>' : '');
     const actions = isSelf ? '<em style="color:var(--text2);font-size:0.8rem">You</em>' : `
       <div class="action-cell">
-        <button class="btn btn-outline btn-micro" onclick="App.toggleUserRole('${u._id}','${u.role}')">${isAdmin ? 'Demote' : 'Make Admin'}</button>
+        <button class="btn btn-outline btn-micro" onclick="App.toggleUserRole('${u._id}','${u.role}')">Change Role</button>
         <button class="btn btn-outline btn-micro ${isBanned ? '' : 'btn-danger'}" onclick="App.toggleUserBan('${u._id}',${!isBanned})">${isBanned ? 'Unban' : 'Ban'}</button>
         <button class="btn btn-danger btn-micro" onclick="App.adminDeleteUser('${u._id}','${escapeHtml(u.name)}')">Delete</button>
       </div>`;
@@ -4584,14 +4688,25 @@ function filterAdminUsers(q) {
 }
 
 async function toggleUserRole(userId, currentRole) {
-  const newRole = currentRole === 'admin' ? 'student' : 'admin';
-  if (!confirm(`Set user to ${newRole}?`)) return;
+  const options = ['student', 'teacher', 'admin'];
+  const labels  = { student: 'Student', teacher: 'Teacher (can edit topics)', admin: 'Admin (full access)' };
+  const newRole = window.prompt(
+    `Change role for this user.\nOptions: student, teacher, admin\nCurrent: ${currentRole}\n\nEnter new role:`,
+    currentRole
+  );
+  if (!newRole || !options.includes(newRole.trim().toLowerCase())) {
+    if (newRole !== null) showToast('Invalid role — use: student, teacher, or admin');
+    return;
+  }
+  const role = newRole.trim().toLowerCase();
+  if (role === currentRole) return;
+  if (!confirm(`Set user to ${labels[role]}?`)) return;
   try {
     const res = await fetch(`${API_BASE_URL}/api/admin/users/${userId}/role`, {
-      method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ role: newRole }),
+      method: 'PATCH', headers: authHeaders(), body: JSON.stringify({ role }),
     });
     const data = await res.json();
-    if (res.ok) { showToast(data.message); loadAdminUsers(); }
+    if (res.ok) { showToast(`Role updated to ${role}`); loadAdminUsers(); }
     else showToast(data.error || 'Failed');
   } catch { showToast('Network error'); }
 }
@@ -4783,7 +4898,7 @@ async function saveTopic() {
     const parsed  = JSON.parse(jsonStr);
 
     // If logged in as admin, persist to server
-    if (auth.isLoggedIn && auth.user?.role === 'admin' && editorState.currentSubject) {
+    if (auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher') && editorState.currentSubject) {
       const res = await fetch(`${API_BASE_URL}/api/topics/${editorState.currentTopic}`, {
         method: 'PUT',
         headers: authHeaders(),
@@ -4791,7 +4906,7 @@ async function saveTopic() {
       });
       const data = await res.json();
       if (!res.ok) { showToast(`Save error: ${data.error}`); return; }
-      showToast('Topic saved to server ✓');
+      showSuccess('Topic saved!', editorState.currentTopic);
     } else {
       // Non-admin: only allow editing in-session preview, explain clearly
       if (!auth.isLoggedIn) {
@@ -4860,7 +4975,8 @@ function updateNavForAuth() {
     btn.title       = 'Click to sign out';
     btn.onclick     = () => { if (confirm('Sign out?')) handleSignOut(); };
     if (adminBtn)  adminBtn.style.display  = isAdmin ? '' : 'none';
-    if (editorBtn) editorBtn.style.display = isAdmin ? '' : 'none';
+    const isTeacher = auth.user?.role === 'teacher';
+    if (editorBtn) editorBtn.style.display = (isAdmin || isTeacher) ? '' : 'none';
   } else {
     btn.textContent = 'Sign In'; btn.title = '';
     btn.onclick     = () => openAuthModal('login');
@@ -6210,7 +6326,19 @@ async function openGroupChat(groupId, groupName) {
   if (nameEl) nameEl.textContent = `# ${groupName}`;
 
   const compose = byId('social-group-compose');
-  if (compose) compose.style.display = '';
+  if (compose) {
+    compose.style.display = '';
+    // Inject GIF button if not already there
+    if (!compose.querySelector('.gif-btn')) {
+      const gifBtn = document.createElement('button');
+      gifBtn.className = 'gif-btn';
+      gifBtn.title = 'Add GIF';
+      gifBtn.setAttribute('aria-label', 'Add GIF');
+      gifBtn.innerHTML = '<span style="font-size:0.8rem;font-weight:700">GIF</span>';
+      gifBtn.onclick = () => App.openGifPicker('group');
+      compose.insertBefore(gifBtn, compose.firstChild);
+    }
+  }
 
   // Join socket room
   if (socket && socket.connected) socket.emit('join_group', { groupId });
@@ -6245,7 +6373,7 @@ function _buildGroupMsgEl(m) {
     ${!isSelf ? `<div class="social-msg-avatar">${escapeHtml((m.authorName||'?')[0].toUpperCase())}</div>` : ''}
     <div class="social-msg-body">
       ${!isSelf ? `<div class="social-msg-name">${escapeHtml(m.authorName)}</div>` : ''}
-      <div class="social-msg-bubble">${escapeHtml(m.text)}</div>
+      <div class="social-msg-bubble">${renderGifs(escapeHtml(m.text))}</div>
       <div class="social-msg-time">${time}</div>
     </div>
   </div>`;
@@ -6539,9 +6667,28 @@ const App = {
   openNewGroupModal,
   switchEditorMode,
   filterEditorTopics,
+  togglePw,
+  openGifPicker,
+  _gifSearch,
+  _gifInsert,
   createGroup,
   signInWithDiscord,
 };
 
 window.App = App;
-init();
+init();function showSuccess(msg, sub) {
+  const ex = byId('success-popup');
+  if (ex) ex.remove();
+  const el = document.createElement('div');
+  el.id = 'success-popup';
+  el.className = 'success-popup';
+  const subHtml = sub ? '<span>' + escapeHtml(sub) + '</span>' : '';
+  el.innerHTML = '<div class="success-popup-inner"><span class="success-popup-icon">&#x2705;</span>'
+    + '<div class="success-popup-text"><strong>' + escapeHtml(msg) + '</strong>' + subHtml + '</div>'
+    + '<button onclick="this.closest(\'#success-popup\').remove()" aria-label="Dismiss">&#x2715;</button></div>';
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('open'));
+  setTimeout(() => { el.classList.remove('open'); setTimeout(() => el.remove(), 400); }, 4000);
+}
+
+

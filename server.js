@@ -17,6 +17,14 @@ const dotenv     = require('dotenv');
 const fs         = require('fs').promises;
 const path       = require('path');
 const { register, login, getMe, authenticateToken, requireAdmin, optionalAuth } = require('./auth');
+
+// Teacher role: can edit topics but not admin functions
+function requireTeacherOrAdmin(req, res, next) {
+  if (req.user?.role !== 'admin' && req.user?.role !== 'teacher') {
+    return res.status(403).json({ success: false, error: 'Teacher or admin access required.' });
+  }
+  next();
+}
 const db         = require('./db');
 const { handleUpload, uploadAvatar, uploadTopicImage, uploadPdf, deleteFile } = require('./uploads');
 
@@ -709,7 +717,7 @@ app.post('/api/user/stats/update', authenticateToken, async (req, res, next) => 
 // ROUTES: TOPIC EDITOR (admin only)
 // ============================================================================
 
-app.post('/api/topics', authenticateToken, requireAdmin, async (req, res, next) => {
+app.post('/api/topics', authenticateToken, requireTeacherOrAdmin, async (req, res, next) => {
   try {
     const { topicId, subject, data } = req.body;
     if (!topicId || !subject || !data) return res.status(400).json({ success: false, error: 'topicId, subject, and data required' });
@@ -721,7 +729,7 @@ app.post('/api/topics', authenticateToken, requireAdmin, async (req, res, next) 
   } catch (error) { next(error); }
 });
 
-app.put('/api/topics/:topicId', authenticateToken, requireAdmin, async (req, res, next) => {
+app.put('/api/topics/:topicId', authenticateToken, requireTeacherOrAdmin, async (req, res, next) => {
   try {
     const { topicId } = req.params;
     const { subject, data } = req.body;
@@ -844,7 +852,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
           'anthropic-version': '2023-06-01',
         },
         body: JSON.stringify({
-          model: process.env.AI_MODEL || 'claude-haiku-4-5-20251001',
+          model: process.env.AI_MODEL || 'claude-haiku-4-5',
           max_tokens: 1024,
           system: systemPrompt,
           messages,
@@ -1002,7 +1010,7 @@ app.get('/api/admin/users', authenticateToken, requireAdmin, async (req, res, ne
 app.patch('/api/admin/users/:userId/role', authenticateToken, requireAdmin, async (req, res, next) => {
   try {
     const { role } = req.body;
-    if (!['student', 'admin'].includes(role)) return res.status(400).json({ success: false, error: 'role must be student or admin' });
+    if (!['student', 'admin', 'teacher'].includes(role)) return res.status(400).json({ success: false, error: 'role must be student or admin' });
     if (req.params.userId === req.user._id.toString()) return res.status(400).json({ success: false, error: 'Cannot change your own role' });
     const user = await db.setUserRole(req.params.userId, role);
     if (!user) return res.status(404).json({ success: false, error: 'User not found' });
@@ -1273,6 +1281,30 @@ startServer();
 process.on('SIGTERM', () => { console.log('SIGTERM: shutting down'); server.close(() => process.exit(0)); });
 
 module.exports = app;
+
+// ── Tenor GIF search proxy (keeps API key server-side) ───────────────────
+app.get('/api/tenor/search', optionalAuth, async (req, res, next) => {
+  try {
+    const apiKey = process.env.TENOR_API_KEY;
+    if (!apiKey) return res.json({ success: true, data: [] }); // graceful degradation
+    const q     = (req.query.q || '').trim().slice(0, 100);
+    const limit = Math.min(parseInt(req.query.limit) || 16, 32);
+    const url   = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=${apiKey}&limit=${limit}&media_filter=gif,tinygif&contentfilter=medium`;
+    const r     = await fetch(url);
+    if (!r.ok) return res.json({ success: true, data: [] });
+    const d     = await r.json();
+    const gifs  = (d.results || []).map(g => ({
+      id:       g.id,
+      title:    g.title,
+      url:      g.media_formats?.gif?.url      || '',
+      preview:  g.media_formats?.tinygif?.url  || g.media_formats?.gif?.url || '',
+      width:    g.media_formats?.gif?.dims?.[0] || 200,
+      height:   g.media_formats?.gif?.dims?.[1] || 200,
+    }));
+    res.json({ success: true, data: gifs });
+  } catch (e) { res.json({ success: true, data: [] }); }
+});
+
 // ============================================================================
 // CATCH-ALL / ERROR HANDLING
 // ============================================================================
