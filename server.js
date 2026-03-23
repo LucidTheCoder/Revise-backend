@@ -1274,38 +1274,6 @@ app.use((req, res, next) => {
   next();
 });
 
-async function startServer() {
-  // Bind to port FIRST so Render's health check passes immediately,
-  // then connect to MongoDB in the background.
-  await new Promise((resolve, reject) => {
-    server.listen(PORT, '0.0.0.0', () => {
-      console.log('');
-      console.log('╔════════════════════════════════════════╗');
-      console.log('║   Revise Study Platform — Started      ║');
-      console.log('╠════════════════════════════════════════╣');
-      console.log(`║ Port: ${PORT.toString().padEnd(33)}║`);
-      console.log(`║ Environment: ${(process.env.NODE_ENV || 'development').padEnd(26)}║`);
-      console.log('╚════════════════════════════════════════╝');
-      console.log('');
-      resolve();
-    });
-    server.once('error', reject);
-  });
-
-  // Connect to DB after port is bound (non-blocking for Render health check)
-  try {
-    await initializeDatabase();
-  } catch (err) {
-    console.error('Fatal: could not connect to MongoDB:', err.message);
-    process.exit(1);
-  }
-}
-
-startServer();
-
-process.on('SIGTERM', () => { console.log('SIGTERM: shutting down'); server.close(() => process.exit(0)); });
-
-module.exports = app;
 
 // ── Tenor GIF search proxy (keeps API key server-side) ───────────────────
 app.get('/api/tenor/search', optionalAuth, async (req, res, next) => {
@@ -1359,3 +1327,36 @@ app.use((error, req, res, next) => {
 // SERVER STARTUP
 // ============================================================================
 
+async function startServer() {
+  // 1. Bind port synchronously — Render health check sees it immediately
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log('');
+    console.log('╔════════════════════════════════════════╗');
+    console.log('║   Revise Study Platform — Started      ║');
+    console.log('╠════════════════════════════════════════╣');
+    console.log(`║ Port: ${PORT.toString().padEnd(33)}║`);
+    console.log(`║ Environment: ${(process.env.NODE_ENV || 'development').padEnd(26)}║`);
+    console.log('╚════════════════════════════════════════╝');
+    console.log('');
+  });
+
+  server.once('error', (err) => {
+    console.error('Failed to bind port:', err.message);
+    process.exit(1);
+  });
+
+  // 2. Connect to MongoDB completely asynchronously — never blocks startup
+  //    The DB readyState middleware handles requests arriving before DB is ready
+  initializeDatabase().then(() => {
+    console.log('✅ Ready to serve requests');
+  }).catch(err => {
+    // Log but don't exit — Mongoose will keep retrying automatically
+    console.error('⚠ MongoDB connection failed on startup (will retry):', err.message);
+  });
+}
+
+startServer();
+
+process.on('SIGTERM', () => { console.log('SIGTERM: shutting down'); server.close(() => process.exit(0)); });
+
+module.exports = app;
