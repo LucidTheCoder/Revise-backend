@@ -1577,6 +1577,16 @@ async function loadData() {
 }
 
 function hydrateDoneTopics() {
+  // First: strip any hardcoded done:true that may have been baked into data files.
+  // Done state is ONLY valid from localStorage — never from JSON files.
+  for (const subject of state.subjects) {
+    for (const unit of subject.units) {
+      for (const topic of unit.topics) {
+        delete topic.done;
+      }
+    }
+  }
+  // Then: apply done state from localStorage
   try {
     const raw = localStorage.getItem(doneStorageKey);
     if (!raw) return;
@@ -1589,7 +1599,7 @@ function hydrateDoneTopics() {
       }
     }
   } catch {
-    // Ignore invalid local storage.
+    // Ignore invalid localStorage.
   }
 }
 

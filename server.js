@@ -974,9 +974,11 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
     console.error('AI tutor error:', error.message);
     // Pass the real error to the client so it's debuggable
     const isConfigError = error.message.includes('API key') || error.message.includes('configured') || error.message.includes('not configured');
-    const isRateLimit   = error.message.includes('RESOURCE_EXHAUSTED') || error.message.includes('quota exceeded') || error.message.toLowerCase().includes('rate limit exceeded');
+    const isQuotaEmpty  = error.message.includes('limit: 0') || (error.message.includes('RESOURCE_EXHAUSTED') && error.message.includes('free_tier'));
+    const isRateLimit   = !isQuotaEmpty && (error.message.includes('RESOURCE_EXHAUSTED') || error.message.includes('quota exceeded') || error.message.toLowerCase().includes('rate limit exceeded'));
     const isSafety      = error.message.includes('safety') || error.message.includes('SAFETY');
     const clientMsg = isConfigError ? error.message
+      : isQuotaEmpty ? 'Gemini free-tier quota exhausted. In Google AI Studio, enable billing or switch to a paid plan. Until then set AI_PROVIDER=claude or AI_PROVIDER=openai in Render.'
       : isRateLimit  ? 'AI rate limit reached — please wait a moment and try again.'
       : isSafety     ? error.message
       : `AI error: ${error.message}`;
