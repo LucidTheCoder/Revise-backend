@@ -1520,6 +1520,8 @@ async function loadData() {
       state.selectedChannelId = state.community.chatChannels[0].id;
     }
     
+    // Restore any custom topics created in the editor
+    _restoreCustomTopics();
     console.log(`✅ Data loaded successfully (${state.topics.size} topics, ${state.subjects.length} subjects)`);
   } catch (error) {
     console.error('❌ Failed to load data:', error);
@@ -2424,6 +2426,8 @@ function renderTopicView(topicId) {
     </section>
   `;
   requestAnimationFrame(bindSectionScrollSpy);
+  // Re-apply AI visibility after DOM is rebuilt (elements didn't exist on init)
+  applyAiVisibility();
 }
 
 function toggleRecall(index) {
@@ -3559,6 +3563,249 @@ async function init() {
 }
 
 // Editor Functions
+
+// ── Custom topic persistence (localStorage) ─────────────────────────────────
+const CUSTOM_TOPICS_KEY = 'revise.customTopics'; // { topicId: { subject, data } }
+
+function _persistCustomTopic(topicId, data, subject) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CUSTOM_TOPICS_KEY) || '{}');
+    saved[topicId] = { subject: subject || data.subject, data };
+    localStorage.setItem(CUSTOM_TOPICS_KEY, JSON.stringify(saved));
+  } catch (e) { console.warn('Could not persist custom topic:', e.message); }
+}
+
+function _removeCustomTopic(topicId) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CUSTOM_TOPICS_KEY) || '{}');
+    delete saved[topicId];
+    localStorage.setItem(CUSTOM_TOPICS_KEY, JSON.stringify(saved));
+  } catch {}
+}
+
+function _restoreCustomTopics() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CUSTOM_TOPICS_KEY) || '{}');
+    let restored = 0;
+    for (const [topicId, { subject, data }] of Object.entries(saved)) {
+      // Only restore if not already loaded from server
+      if (!state.topics.has(topicId)) {
+        state.topics.set(topicId, data);
+        // Add to subject sidebar if subject exists
+        const subj = state.subjectMap.get(subject);
+        if (subj) {
+          let found = false;
+          for (const unit of subj.units) {
+            if (unit.topics.some(t => t.id === topicId)) { found = true; break; }
+          }
+          if (!found && subj.units.length > 0) {
+            subj.units[0].topics.push({ id: topicId, name: data.title || topicId, file: `${topicId}.json` });
+          }
+        }
+        restored++;
+      }
+    }
+    if (restored > 0) console.log(`✅ Restored ${restored} custom topic(s) from localStorage`);
+  } catch (e) { console.warn('Could not restore custom topics:', e.message); }
+}
+
+
+// ── Editor mode: 'form' | 'json' ─────────────────────────────────────────
+let _editorMode = 'form';
+
+function switchEditorMode(mode) {
+  _editorMode = mode;
+  const formEl = byId('editor-form-mode');
+  const jsonEl = byId('editor-json-mode');
+  byId('mode-btn-form')?.classList.toggle('active', mode === 'form');
+  byId('mode-btn-json')?.classList.toggle('active', mode === 'json');
+  if (mode === 'form') {
+    if (formEl) formEl.style.display = '';
+    if (jsonEl) jsonEl.style.display = 'none';
+    // Sync JSON → form if JSON was edited
+    if (editorState.currentTopic) {
+      try {
+        const parsed = JSON.parse(byId('editor-json')?.value || '{}');
+        _renderEditorForm(parsed);
+      } catch {}
+    }
+  } else {
+    if (formEl) formEl.style.display = 'none';
+    if (jsonEl) jsonEl.style.display = '';
+    // Sync form → JSON
+    _syncFormToJson();
+  }
+}
+
+function filterEditorTopics(q) {
+  const items = document.querySelectorAll('.editor-topic-item');
+  const ql = (q || '').toLowerCase();
+  items.forEach(item => {
+    item.style.display = item.textContent.toLowerCase().includes(ql) ? '' : 'none';
+  });
+}
+
+// Sync the visual form fields → the JSON textarea
+function _syncFormToJson() {
+  if (!editorState.currentTopic) return;
+  const topic = _readFormValues();
+  if (!topic) return;
+  const ta = byId('editor-json');
+  if (ta) ta.value = JSON.stringify(topic, null, 2);
+}
+
+// Read all form field values into a topic object
+function _readFormValues() {
+  const get = id => byId(id)?.value?.trim() || '';
+  const getLines = id => byId(id)?.value?.split('\n').map(s=>s.trim()).filter(Boolean) || [];
+
+  const topic = state.topics.get(editorState.currentTopic);
+  if (!topic) return null;
+
+  // Parse array-of-objects fields
+  const parseNotes = () => {
+    const raw = get('ef-notes');
+    return raw.split('\n\n').filter(Boolean).map(block => {
+      const lines = block.split('\n').filter(Boolean);
+      return { heading: lines[0] || 'Notes', items: lines.slice(1) };
+    });
+  };
+  const parseDefs = () => {
+    const raw = get('ef-defs');
+    return raw.split('\n').filter(Boolean).map(line => {
+      const sep = line.indexOf(':');
+      return sep > 0
+        ? { term: line.slice(0, sep).trim(), body: line.slice(sep+1).trim() }
+        : { term: line, body: '' };
+    });
+  };
+  const parseRecall = () => {
+    const raw = get('ef-recall');
+    return raw.split('\n\n').filter(Boolean).map(block => {
+      const lines = block.split('\n').filter(Boolean);
+      return { q: lines[0] || '', a: lines.slice(1).join(' ') || '' };
+    });
+  };
+  const parseSummary = () => {
+    return get('ef-summary').split('\n').filter(Boolean).map(line => {
+      const sep = line.indexOf(':');
+      return sep > 0
+        ? { label: line.slice(0, sep).trim(), value: line.slice(sep+1).trim() }
+        : { label: line, value: '' };
+    });
+  };
+  const parseFlashcards = () => {
+    return get('ef-flashcards').split('\n\n').filter(Boolean).map(block => {
+      const lines = block.split('\n').filter(Boolean);
+      return { q: lines[0] || '', a: lines.slice(1).join(' ') || '' };
+    });
+  };
+
+  return {
+    ...topic,
+    title:    get('ef-title')    || topic.title,
+    subtitle: get('ef-subtitle') || topic.subtitle,
+    concept:  getLines('ef-concept'),
+    notes:    parseNotes(),
+    definitions: parseDefs(),
+    mistakes: getLines('ef-mistakes'),
+    tips:     getLines('ef-tips'),
+    recall:   parseRecall(),
+    summary:  parseSummary(),
+    flashcards: parseFlashcards(),
+  };
+}
+
+// Render the visual form for the given topic data
+function _renderEditorForm(topic) {
+  const el = byId('editor-form-mode');
+  if (!el) return;
+
+  const notesText = (topic.notes || []).map(n =>
+    [n.heading, ...(n.items||[])].join('\n')
+  ).join('\n\n');
+  const defsText = (topic.definitions || []).map(d => `${d.term}: ${d.body}`).join('\n');
+  const recallText = (topic.recall || []).map(r => `${r.q}\n${r.a}`).join('\n\n');
+  const summaryText = (topic.summary || []).map(s => `${s.label||s.key||''}: ${s.value||s.val||''}`).join('\n');
+  const flashText = (topic.flashcards || []).map(f => `${f.q}\n${f.a}`).join('\n\n');
+
+  el.innerHTML = `
+    <div class="ef-form">
+      <div class="ef-row">
+        <div class="ef-field ef-field-wide">
+          <label class="ef-label" for="ef-title">Title</label>
+          <input id="ef-title" class="ef-input" type="text" value="${escapeHtml(topic.title||'')}" placeholder="Topic title">
+        </div>
+        <div class="ef-field ef-field-wide">
+          <label class="ef-label" for="ef-subtitle">Subtitle</label>
+          <input id="ef-subtitle" class="ef-input" type="text" value="${escapeHtml(topic.subtitle||'')}" placeholder="One-line summary">
+        </div>
+      </div>
+
+      <div class="ef-field">
+        <label class="ef-label" for="ef-concept">
+          Concept Paragraphs <span class="ef-hint">One paragraph per line</span>
+        </label>
+        <textarea id="ef-concept" class="ef-textarea" rows="4" placeholder="Add concept text…">${escapeHtml((topic.concept||[]).join('\n'))}</textarea>
+      </div>
+
+      <div class="ef-field">
+        <label class="ef-label" for="ef-notes">
+          Notes <span class="ef-hint">Heading on first line of each block, then bullet points. Blank line between sections.</span>
+        </label>
+        <textarea id="ef-notes" class="ef-textarea" rows="6" placeholder="Key Ideas&#10;Point one&#10;Point two&#10;&#10;Another Section&#10;More points">${escapeHtml(notesText)}</textarea>
+      </div>
+
+      <div class="ef-row">
+        <div class="ef-field ef-field-half">
+          <label class="ef-label" for="ef-defs">
+            Definitions <span class="ef-hint">Term: Definition (one per line)</span>
+          </label>
+          <textarea id="ef-defs" class="ef-textarea" rows="5" placeholder="Mole: Amount of substance&#10;Avogadro: 6.02×10²³">${escapeHtml(defsText)}</textarea>
+        </div>
+        <div class="ef-field ef-field-half">
+          <label class="ef-label" for="ef-mistakes">
+            Common Mistakes <span class="ef-hint">One per line</span>
+          </label>
+          <textarea id="ef-mistakes" class="ef-textarea" rows="5" placeholder="Forgetting units&#10;Using wrong formula">${escapeHtml((topic.mistakes||[]).join('\n'))}</textarea>
+        </div>
+      </div>
+
+      <div class="ef-field">
+        <label class="ef-label" for="ef-tips">
+          Exam Tips <span class="ef-hint">One per line</span>
+        </label>
+        <textarea id="ef-tips" class="ef-textarea" rows="3" placeholder="Show all working&#10;State the formula first">${escapeHtml((topic.tips||[]).join('\n'))}</textarea>
+      </div>
+
+      <div class="ef-row">
+        <div class="ef-field ef-field-half">
+          <label class="ef-label" for="ef-recall">
+            Recall Q&amp;A <span class="ef-hint">Question on line 1, answer on line 2. Blank line between pairs.</span>
+          </label>
+          <textarea id="ef-recall" class="ef-textarea" rows="6" placeholder="What is a mole?&#10;The amount of substance containing 6.02×10²³ particles.">${escapeHtml(recallText)}</textarea>
+        </div>
+        <div class="ef-field ef-field-half">
+          <label class="ef-label" for="ef-flashcards">
+            Flashcards <span class="ef-hint">Question on line 1, answer on line 2. Blank line between cards.</span>
+          </label>
+          <textarea id="ef-flashcards" class="ef-textarea" rows="6" placeholder="Define molar mass&#10;The mass of one mole in g mol⁻¹">${escapeHtml(flashText)}</textarea>
+        </div>
+      </div>
+
+      <div class="ef-field">
+        <label class="ef-label" for="ef-summary">
+          Summary Sheet <span class="ef-hint">Label: Value (one per line)</span>
+        </label>
+        <textarea id="ef-summary" class="ef-textarea" rows="4" placeholder="Molar mass: Mr in g mol⁻¹&#10;Avogadro: 6.02×10²³ mol⁻¹">${escapeHtml(summaryText)}</textarea>
+      </div>
+
+      <p class="ef-footer-note">
+        For worked examples and quiz questions, switch to <button class="link-btn" onclick="App.switchEditorMode('json')">JSON mode</button>.
+      </p>
+    </div>`;
+}
+
 let editorState = {
   currentSubject: null,
   currentTopic: null,
@@ -3606,6 +3853,15 @@ function openTopicInEditor(topicId) {
   byId("editor-save-btn").style.display = "inline-flex";
   byId("editor-cancel-btn").style.display = "inline-flex";
   byId("editor-delete-btn").style.display = "inline-flex";
+  byId("editor-actions").style.display = "";
+  byId("editor-mode-toggle").style.display = "";
+  // Default to form mode, render the form
+  _editorMode = 'form';
+  byId('mode-btn-form')?.classList.add('active');
+  byId('mode-btn-json')?.classList.remove('active');
+  byId('editor-form-mode').style.display = '';
+  byId('editor-json-mode').style.display = 'none';
+  _renderEditorForm(topic);
 }
 
 // saveTopic is defined in the new section below
@@ -3643,6 +3899,7 @@ function createNewTopic() {
   };
 
   state.topics.set(newId, newTopic);
+  _persistCustomTopic(newId, newTopic, editorState.currentSubject);
 
   // Add to current subject's first unit
   const subject = state.subjectMap.get(editorState.currentSubject);
@@ -3658,8 +3915,16 @@ function createNewTopic() {
   byId("editor-save-btn").style.display = "inline-flex";
   byId("editor-cancel-btn").style.display = "inline-flex";
   byId("editor-delete-btn").style.display = "inline-flex";
-
-  showToast("New topic created. Fill in details and save.");
+  byId("editor-actions").style.display = "";
+  byId("editor-mode-toggle").style.display = "";
+  _editorMode = 'form';
+  byId('mode-btn-form')?.classList.add('active');
+  byId('mode-btn-json')?.classList.remove('active');
+  byId('editor-form-mode').style.display = '';
+  byId('editor-json-mode').style.display = 'none';
+  _renderEditorForm(newTopic);
+  loadEditorSubject(editorState.currentSubject);
+  showToast("New topic created — fill in the form and save.");
 }
 
 function showEditorHelp() {
@@ -4512,6 +4777,8 @@ function goToTopicEditor(subjectId, topicId) {
 async function saveTopic() {
   if (!editorState.currentTopic) return;
   try {
+    // If in form mode, sync form → JSON first
+    if (_editorMode === 'form') _syncFormToJson();
     const jsonStr = byId('editor-json').value;
     const parsed  = JSON.parse(jsonStr);
 
@@ -4535,6 +4802,7 @@ async function saveTopic() {
     }
 
     state.topics.set(editorState.currentTopic, parsed);
+    _persistCustomTopic(editorState.currentTopic, parsed, editorState.currentSubject);
     editorState.originalJson = jsonStr;
     if (state.currentView === 'topic' && state.currentTopic === editorState.currentTopic) {
       renderTopicView(editorState.currentTopic);
@@ -4558,6 +4826,7 @@ async function deleteCurrentTopic() {
     } catch { showToast('Network error'); return; }
   }
 
+  _removeCustomTopic(editorState.currentTopic);
   state.topics.delete(editorState.currentTopic);
   for (const subject of state.subjects) {
     for (const unit of subject.units) {
@@ -6268,6 +6537,8 @@ const App = {
   openGroupChat,
   sendGroupMessage,
   openNewGroupModal,
+  switchEditorMode,
+  filterEditorTopics,
   createGroup,
   signInWithDiscord,
 };

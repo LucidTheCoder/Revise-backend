@@ -504,32 +504,64 @@
       <div class="container page-pad">
         <div class="page-head">
           <h1>Topic Editor</h1>
-          <p>Add, remove, or edit topics using JSON markup.</p>
-          <button class="btn btn-primary" onclick="App.showEditorHelp()">Help</button>
+          <p>Create and edit topics with the visual form, or switch to raw JSON for full control.</p>
         </div>
+
+        <!-- Toolbar -->
         <div class="editor-toolbar card card-sm">
           <select id="editor-subject-select" onchange="App.loadEditorSubject(this.value)">
-            <option value="">Select subject...</option>
-            <option value="chem">Chemistry</option>
-            <option value="bio">Biology</option>
-            <option value="phy">Physics</option>
+            <option value="">Select subject…</option>
+            <option value="chem">⚗️ Chemistry</option>
+            <option value="bio">🧬 Biology</option>
+            <option value="phy">⚡ Physics</option>
           </select>
-          <button class="btn btn-outline" onclick="App.createNewTopic()">+ New Topic</button>
+          <button class="btn btn-primary" onclick="App.createNewTopic()">+ New Topic</button>
+          <div class="editor-mode-toggle" id="editor-mode-toggle" style="display:none">
+            <button class="editor-mode-btn active" id="mode-btn-form" onclick="App.switchEditorMode('form')">📋 Form</button>
+            <button class="editor-mode-btn"        id="mode-btn-json" onclick="App.switchEditorMode('json')">{ } JSON</button>
+          </div>
         </div>
+
         <div class="editor-grid">
+          <!-- Sidebar: topic list -->
           <div class="editor-list card">
-            <h3>Topics</h3>
+            <div class="editor-list-head">
+              <h3>Topics</h3>
+              <input id="editor-topic-filter" type="search" placeholder="Filter…"
+                oninput="App.filterEditorTopics(this.value)" class="editor-filter-input">
+            </div>
             <div id="editor-topics-list"></div>
           </div>
-          <div class="editor-main card">
+
+          <!-- Main editing area -->
+          <div class="editor-main card" id="editor-main">
             <div class="editor-header">
               <h3 id="editor-title">Select a topic to edit</h3>
-              <button class="btn btn-outline btn-sm" id="editor-delete-btn" onclick="App.deleteCurrentTopic()" style="display:none;">Delete Topic</button>
+              <button class="btn btn-danger btn-sm" id="editor-delete-btn"
+                onclick="App.deleteCurrentTopic()" style="display:none">🗑 Delete</button>
             </div>
-            <textarea id="editor-json" placeholder="Topic JSON will appear here..." rows="30"></textarea>
-            <div class="editor-actions">
-              <button class="btn btn-primary" id="editor-save-btn" onclick="App.saveTopic()" style="display:none;">Save Changes</button>
-              <button class="btn btn-outline" id="editor-cancel-btn" onclick="App.cancelEdit()" style="display:none;">Cancel</button>
+
+            <!-- ── FORM MODE ─────────────────────────────────────── -->
+            <div id="editor-form-mode">
+              <div class="ef-placeholder">
+                <p>Select a topic from the list, or create a new one.</p>
+              </div>
+            </div>
+
+            <!-- ── JSON MODE ─────────────────────────────────────── -->
+            <div id="editor-json-mode" style="display:none">
+              <textarea id="editor-json" placeholder="Topic JSON will appear here…" rows="30"
+                spellcheck="false" autocomplete="off"></textarea>
+            </div>
+
+            <!-- Actions -->
+            <div class="editor-actions" id="editor-actions" style="display:none">
+              <button class="btn btn-primary" id="editor-save-btn" onclick="App.saveTopic()">
+                💾 Save Changes
+              </button>
+              <button class="btn btn-outline" id="editor-cancel-btn" onclick="App.cancelEdit()">
+                Discard
+              </button>
             </div>
           </div>
         </div>
