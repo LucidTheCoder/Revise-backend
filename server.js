@@ -48,8 +48,6 @@ const io = new Server(server, {
 const channelUsers = {};
 
 io.on('connection', (socket) => {
-  console.log(`[Socket] connected: ${socket.id}`);
-
   // Join a group chat room
   socket.on('join_group', ({ groupId }) => {
     socket.join(`group:${groupId}`);
@@ -204,7 +202,10 @@ app.use(cors({
 app.use(express.json({ limit: '1mb' })); // reduced from 10mb — API payloads have no reason to be large
 
 app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  // Only log API requests — suppress static file noise
+  if (req.path.startsWith('/api') || req.path.startsWith('/socket.io')) {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  }
   next();
 });
 
@@ -212,15 +213,20 @@ app.use((req, res, next) => {
 // DATABASE CONNECTION
 // ============================================================================
 
+let _dbReady = false;
 async function initializeDatabase() {
+  if (_dbReady && mongoose.connection.readyState === 1) return true;
   try {
-    console.log('🔌 Connecting to MongoDB...');
-    await db.connectDB();
+    if (mongoose.connection.readyState !== 1) {
+      console.log('🔌 Connecting to MongoDB...');
+      await db.connectDB();
+    }
+    _dbReady = true;
     console.log('✅ Database ready');
     return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error.message);
-    process.exit(1);
+    throw error; // let startServer handle it — don't exit mid-reconnect
   }
 }
 
@@ -1253,23 +1259,28 @@ app.use('/api/user', authenticateToken, (req, res, next) => {
   next();
 });
 
-// Middleware: ensure DB is connected before every API request
-// This handles Render free tier sleeping and MongoDB Atlas connection drops
-app.use(async (req, res, next) => {
-  // Only check for API routes — static files don't need DB
+// Middleware: lightweight DB health check before API routes.
+// Uses mongoose readyState directly — no async reconnect per request.
+// Reconnection is handled automatically by Mongoose's built-in reconnect logic.
+const mongoose = require('mongoose');
+app.use((req, res, next) => {
   if (!req.path.startsWith('/api')) return next();
-  try {
-    await initializeDatabase();
-    next();
-  } catch (err) {
-    console.error('DB reconnect failed:', err.message);
-    res.status(503).json({ success: false, error: 'Database temporarily unavailable — please retry in a moment.' });
+  const state = mongoose.connection.readyState;
+  // 1 = connected, 2 = connecting (let it through — query will queue)
+  if (state === 0 || state === 3) {
+    // disconnected or disconnecting — try to reconnect in background
+    db.connectDB().catch(err => console.error('DB reconnect error:', err.message));
+    return res.status(503).json({ success: false, error: 'Database reconnecting — please retry in a moment.' });
   }
+  next();
 });
 
 async function startServer() {
   try {
-    await initializeDatabase();
+    await initializeDatabase().catch(err => {
+      console.error('Fatal: could not connect to MongoDB on startup:', err.message);
+      process.exit(1);
+    });
     server.listen(PORT, '0.0.0.0', () => {
       console.log('');
       console.log('╔════════════════════════════════════════╗');
