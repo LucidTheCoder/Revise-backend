@@ -1109,35 +1109,6 @@ app.get('/api/user/spaced-rep', authenticateToken, async (req, res, next) => {
 });
 
 // ============================================================================
-// CATCH-ALL / ERROR HANDLING
-// ============================================================================
-
-app.get('*', (req, res) => {
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ success: false, error: 'API route not found', path: req.path });
-  }
-  // Guard against open redirect via crafted URLs (express CVE-2024-29041)
-  if (/^(https?:)?\/\//.test(req.path)) {
-    return res.status(400).json({ success: false, error: 'Invalid path' });
-  }
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.use((error, req, res, next) => {
-  console.error('❌ Error:', error.message);
-  const statusCode = error.statusCode || 500;
-  res.status(statusCode).json({
-    success: false,
-    error: error.message || 'Internal server error',
-    ...(process.env.NODE_ENV === 'development' && { stack: error.stack }),
-  });
-});
-
-// ============================================================================
-// SERVER STARTUP
-// ============================================================================
-
-// ============================================================================
 // ROUTES: SOCIAL — public profiles, user search
 // ============================================================================
 
@@ -1302,3 +1273,32 @@ startServer();
 process.on('SIGTERM', () => { console.log('SIGTERM: shutting down'); server.close(() => process.exit(0)); });
 
 module.exports = app;
+// ============================================================================
+// CATCH-ALL / ERROR HANDLING
+// ============================================================================
+
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ success: false, error: 'API route not found', path: req.path });
+  }
+  // Guard against open redirect via crafted URLs (express CVE-2024-29041)
+  if (/^(https?:)?\/\//.test(req.path)) {
+    return res.status(400).json({ success: false, error: 'Invalid path' });
+  }
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.use((error, req, res, next) => {
+  console.error('❌ Error:', error.message);
+  const statusCode = error.statusCode || 500;
+  res.status(statusCode).json({
+    success: false,
+    error: error.message || 'Internal server error',
+    ...(process.env.NODE_ENV === 'development' && { stack: error.stack }),
+  });
+});
+
+// ============================================================================
+// SERVER STARTUP
+// ============================================================================
+

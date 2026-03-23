@@ -3487,11 +3487,38 @@ function showDataLoadError(error) {
   `;
 }
 
+
+// ============================================================================
+// LOADING SCREEN
+// ============================================================================
+
+function loaderStep(msg, pct) {
+  const status = byId('loader-status');
+  const bar    = byId('loader-bar');
+  if (status) status.textContent = msg;
+  if (bar)    bar.style.width = pct + '%';
+}
+
+function loaderDone() {
+  const loader = byId('app-loader');
+  if (!loader) return;
+  loaderStep('Ready!', 100);
+  // Short pause so the 100% fills before fading
+  setTimeout(() => loader.classList.add('hidden'), 350);
+  // Remove from DOM after fade completes
+  setTimeout(() => loader.remove(), 900);
+}
+
 async function init() {
   try {
+    loaderStep('Initialising…', 8);
     initTheme();
     state.particleSystem = createParticleSystem();
+
+    loaderStep('Loading topics and data…', 25);
     await loadData();
+
+    loaderStep('Setting up interface…', 70);
     bindBaseEvents();
     updateNavForAuth();
     applyAiVisibility();
@@ -3522,8 +3549,11 @@ async function init() {
       } catch { showToast('Discord sign-in failed — network error'); }
     }
 
+    loaderStep('Done!', 100);
+    loaderDone();
     go("home");
   } catch (error) {
+    loaderDone(); // clear loader even on error
     showDataLoadError(error);
   }
 }

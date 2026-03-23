@@ -61,6 +61,23 @@
   </script>
 </head>
 <body>
+  <!-- ── Loading Screen ─────────────────────────────────────────────── -->
+  <div id="app-loader" aria-live="polite" aria-label="Loading Revise.">
+    <div class="loader-inner">
+      <div class="loader-hex" aria-hidden="true">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="loader-hex-border" points="40,4 72,22 72,58 40,76 8,58 8,22" stroke="var(--accent)" stroke-width="2" fill="none"/>
+          <polygon class="loader-hex-fill"   points="40,4 72,22 72,58 40,76 8,58 8,22" stroke="none" fill="var(--accent)" opacity="0.07"/>
+          <text x="40" y="52" text-anchor="middle" font-family="Georgia,serif" font-weight="900" font-size="30" fill="var(--accent)">R</text>
+        </svg>
+        <div class="loader-ring"></div>
+      </div>
+      <p class="loader-name">Revise<span class="loader-dot">.</span></p>
+      <p class="loader-sub" id="loader-status">Loading resources…</p>
+      <div class="loader-bar-track"><div class="loader-bar-fill" id="loader-bar"></div></div>
+    </div>
+  </div>
+
   <canvas id="ambient-particles" aria-hidden="true"></canvas>
   <nav class="nav" id="main-nav">
     <button class="nav-logo" data-route="home">Revise<span>.</span></button>
