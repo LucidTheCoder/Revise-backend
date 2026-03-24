@@ -6572,290 +6572,314 @@ html {
   line-height: 1.5;
 }
 
-/* ══════════════════════════════════════════════════════════════════════════
-   MOBILE OVERHAUL — bottom nav, layout & UX improvements
-   ══════════════════════════════════════════════════════════════════════════ */
-
-/* ── Bottom Navigation Bar ────────────────────────────────────────────── */
+/* ============================================================================
+   MOBILE — bottom navigation bar
+   ============================================================================ */
 
 .mobile-bottom-nav {
-  display:         none;
-  position:        fixed;
-  bottom:          0;
-  left:            0;
-  right:           0;
-  z-index:         200;
-  height:          64px;
-  background:      color-mix(in srgb, var(--bg2), transparent 6%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top:      1px solid var(--border);
-  box-shadow:      0 -4px 20px rgba(0,0,0,0.18);
-  padding-bottom:  env(safe-area-inset-bottom, 0px);
+  display: none;
 }
 
-.mbn-btn {
-  display:         flex;
-  flex-direction:  column;
-  align-items:     center;
-  justify-content: center;
-  gap:             2px;
-  padding:         6px 0 4px;
-  border:          none;
-  background:      none;
-  color:           var(--text3);
-  font-size:       0.62rem;
-  font-weight:     500;
-  cursor:          pointer;
-  transition:      color 0.15s, transform 0.1s;
-  -webkit-tap-highlight-color: transparent;
-  touch-action:    manipulation;
-  width:           100%;
-}
-.mbn-btn svg {
-  width:      22px;
-  height:     22px;
-  opacity:    0.6;
-  transition: opacity 0.15s, transform 0.15s;
-}
-.mbn-btn span { line-height: 1; }
-.mbn-btn:active { transform: scale(0.88); }
-
-.mbn-btn.active {
-  color: var(--accent);
-}
-.mbn-btn.active svg {
-  opacity:   1;
-  transform: translateY(-2px);
-}
-
-/* ── @media: show bottom nav + all mobile tweaks ─────────────────────── */
 @media (max-width: 760px) {
-
-  /* Show the bottom nav as a 5-column grid */
+  /* Show bottom nav, hide top hamburger links */
   .mobile-bottom-nav {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    align-items: stretch;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 500;
+    background: color-mix(in srgb, var(--bg2), transparent 5%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid var(--border);
+    padding: 0.45rem 0.5rem;
+    padding-bottom: max(0.45rem, env(safe-area-inset-bottom));
+    gap: 0.15rem;
   }
 
-  /* Push main content above the bottom nav */
-  main {
-    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-  }
-
-  /* Hide footer — bottom nav replaces it */
-  .site-footer { display: none; }
-
-  /* ── Top nav: compact, hide hamburger (bottom nav handles routing) ─── */
-  .nav {
-    min-height: 52px;
-    padding:    0 0.85rem;
-    gap:        0.5rem;
-  }
-  .nav-right { gap: 0.35rem; }
-  .nav-hamburger { display: none !important; }
-  .nav-links     { display: none !important; }
-
-  /* ── Page padding ─────────────────────────────────────────────────── */
-  main {
-    padding-left:  0.75rem;
-    padding-right: 0.75rem;
-    padding-top:   0.75rem;
-  }
-  .container, .page-pad { padding: 0; }
-
-  /* ── Cards ──────────────────────────────────────────────────────────── */
-  .card { padding: 1rem; border-radius: 12px; }
-
-  /* ── Hero ────────────────────────────────────────────────────────────── */
-  .hero { padding: 1.25rem 1rem; }
-  .hero h1 {
-    font-size:   clamp(1.4rem, 6vw, 2rem);
-    line-height: 1.2;
-  }
-  .hero-eyebrow { font-size: 0.72rem; margin-bottom: 0.5rem; }
-  .hero-actions {
-    display:               grid;
-    grid-template-columns: 1fr 1fr;
-    gap:                   0.5rem;
-    margin-top:            1rem;
-  }
-  .hero-actions .btn:first-child { grid-column: 1 / -1; }
-
-  /* ── Stats row ───────────────────────────────────────────────────────── */
-  .stats-row { grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem; }
-  .stat-card  { padding: 0.75rem 0.85rem; }
-  .stat-value { font-size: 1.4rem; }
-
-  /* ── Subject layout: sidebar becomes horizontal chip strip ──────────── */
-  .subject-layout {
-    grid-template-columns: 1fr;
-    min-height:            unset;
-  }
-  .sidebar {
-    position:        sticky;
-    top:             52px;
-    z-index:         50;
-    height:          auto;
-    max-height:      none;
-    overflow-x:      auto;
-    overflow-y:      hidden;
-    display:         flex;
-    flex-direction:  row;
-    align-items:     center;
-    padding:         0.35rem 0.6rem;
-    border-right:    none;
-    border-bottom:   1px solid var(--border);
-    scrollbar-width: none;
-    white-space:     nowrap;
-    gap:             0.3rem;
-  }
-  .sidebar::-webkit-scrollbar { display: none; }
-  .sidebar-banner              { display: none; }
-
-  /* Sidebar nav items → compact chips */
-  .sidebar .nav-item,
-  .sidebar > button,
-  .sidebar li > button {
-    flex-shrink:   0;
-    padding:       0.28rem 0.75rem;
-    border-radius: 99px;
-    font-size:     0.8rem;
-    white-space:   nowrap;
-    min-height:    32px;
-  }
-
-  /* ── Topic view ──────────────────────────────────────────────────────── */
-  .topic-head {
+  .mbn-btn {
+    flex: 1;
+    display: flex;
     flex-direction: column;
-    align-items:    flex-start;
-    gap:            0.5rem;
-  }
-  .topic-actions { flex-wrap: wrap; gap: 0.4rem; }
-  .topic-actions .btn {
-    flex:      1 1 calc(50% - 0.25rem);
-    font-size: 0.8rem;
-    padding:   0.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.4rem 0.2rem;
+    border: none;
+    background: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text3);
+    transition: color 0.15s, background 0.15s;
     min-width: 0;
+    -webkit-tap-highlight-color: transparent;
   }
-  .topic-meta-row { flex-wrap: wrap; gap: 0.4rem; }
+  .mbn-btn svg { flex-shrink: 0; }
+  .mbn-btn span { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
+  .mbn-btn:hover  { color: var(--text); background: var(--bg3); }
+  .mbn-btn.active { color: var(--accent); }
+  .mbn-btn.active svg { stroke: var(--accent); }
 
-  /* ── Section nav pills ───────────────────────────────────────────────── */
+  /* Push all page content above the bottom nav */
+  main {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  /* Hide hamburger — bottom nav replaces it */
+  .nav-hamburger { display: none !important; }
+  .nav-links { display: none !important; }
+
+  /* Slim down top nav on mobile */
+  .nav {
+    padding: 0 0.85rem;
+    min-height: 52px;
+  }
+}
+
+/* ============================================================================
+   MOBILE — sidebar as slide-in drawer
+   ============================================================================ */
+
+/* Backdrop */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 299;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+}
+.sidebar-backdrop.visible { display: block; }
+
+@media (max-width: 760px) {
+  /* Sidebar becomes a fixed drawer */
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: min(300px, 88vw) !important;
+    height: 100dvh !important;
+    z-index: 300;
+    transform: translateX(-105%);
+    transition: transform 0.28s cubic-bezier(.4,0,.2,1);
+    border-right: 1px solid var(--border2) !important;
+    border-bottom: none !important;
+    padding-top: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    box-shadow: 4px 0 32px rgba(0,0,0,0.25);
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Subject layout: single col, sidebar off-canvas */
+  .subject-layout {
+    grid-template-columns: 1fr !important;
+    min-height: unset;
+  }
+
+  /* Topics toggle button inside topic view */
+  .mobile-topics-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.85rem;
+    padding: 0.42rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    background: var(--bg3);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-topics-toggle:hover { border-color: var(--accent); color: var(--accent); }
+}
+@media (min-width: 761px) {
+  .mobile-topics-toggle { display: none !important; }
+}
+
+/* ============================================================================
+   MOBILE — reduce padding, tighten spacing
+   ============================================================================ */
+
+@media (max-width: 760px) {
+  .page-pad { padding: 1rem 0 1.5rem; }
+  .container { width: min(100%, 100% - 1.25rem); }
+  .card { padding: 1rem; }
+  .card-sm { padding: 0.65rem 0.85rem; }
+
+  /* Section nav — horizontal scroll, no wrap */
   .section-nav {
-    overflow-x:  auto;
-    flex-wrap:   nowrap;
-    padding-bottom: 2px;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    padding-bottom: 0.2rem;
+    gap: 0.35rem;
+    margin-right: -1rem; /* bleed to edge */
+    padding-right: 1rem;
   }
   .section-nav::-webkit-scrollbar { display: none; }
+  .section-nav .pill-btn { flex-shrink: 0; }
 
-  /* ── Quiz ────────────────────────────────────────────────────────────── */
-  .quiz-header { padding: 0.85rem 0.85rem 0.65rem; }
-  .quiz-wrap   { padding: 0.75rem 0 1.25rem; }
-  .q-option    { padding: 0.65rem 0.75rem; font-size: 0.88rem; }
-  .quiz-nav    { flex-direction: column; gap: 0.5rem; }
-  .quiz-nav .btn { width: 100%; }
+  /* Topic main — no extra padding top */
+  .topic-main { padding: 1rem; }
 
-  /* ── Flashcards ──────────────────────────────────────────────────────── */
-  .flash-wrap       { padding: 0.75rem 0 1.25rem; }
-  .flashcard-scene  { height: min(220px, 45vw); }
-  .flash-actions    { gap: 0.4rem; }
-  .flash-actions .btn { flex: 1; font-size: 0.82rem; padding: 0.5rem; }
+  /* Hero tighter */
+  .hero { padding: 1.25rem 1rem 1rem; margin-bottom: 0.85rem; }
+  .hero h1 { font-size: 1.65rem; line-height: 1.2; }
+  .hero p { font-size: 0.87rem; margin-bottom: 0.9rem; }
+  .hero-actions { gap: 0.4rem; flex-wrap: wrap; }
+  .hero-actions .btn { flex: 1 1 auto; font-size: 0.85rem; padding: 0.55rem 0.85rem; }
 
-  /* ── Past Papers ─────────────────────────────────────────────────────── */
-  .papers-grid    { grid-template-columns: 1fr !important; }
-  .paper-filters  { flex-wrap: wrap; gap: 0.4rem; }
-  .paper-filters select { flex: 1 1 45%; font-size: 0.82rem; }
+  /* Stats row — 2 columns */
+  .stats-row { grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem; }
+  .stat-item { padding: 0.7rem 0.8rem; }
+  .stat-item strong { font-size: 1.35rem; }
 
-  /* ── Topical Paper ───────────────────────────────────────────────────── */
-  .tp-subject-tabs, .tp-type-tabs {
-    flex-wrap: wrap;
-    gap:       0.35rem;
+  /* Home grid — single column, weekly goal moves below */
+  .home-grid { grid-template-columns: 1fr !important; }
+  .home-right-col { position: static !important; }
+
+  /* Quick actions — make them scrollable row on very small screens */
+  .home-quick-actions { gap: 0.35rem; }
+  .hqa-btn { padding: 0.6rem 0.35rem; }
+  .hqa-icon { font-size: 1.2rem; }
+  .hqa-label { font-size: 0.6rem; }
+
+  /* Subject progress bars — compact */
+  .hsp-item { padding: 0.5rem 0.75rem; }
+  .hsp-name { font-size: 0.78rem; }
+
+  /* Page heads */
+  .page-head h1 { font-size: 1.45rem; }
+  .page-head p  { font-size: 0.85rem; }
+
+  /* Wider touch targets on all interactive elements */
+  .btn, button, [role="button"] { min-height: 44px; }
+  .pill-btn { min-height: 36px; padding: 0.45rem 0.85rem; }
+  .nav-btn  { min-height: 44px; }
+
+  /* AI compose box — taller tap area */
+  .ai-compose textarea { font-size: 0.9rem; }
+  #ai-send-btn { min-width: 44px; min-height: 44px; }
+
+  /* Forum reply textarea */
+  #reply-input { min-height: 80px; font-size: 0.9rem; }
+
+  /* Social tabs — scrollable */
+  .social-nav-tabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
-  .tp-tab-btn {
-    flex:      1 1 calc(33% - 0.3rem);
-    font-size: 0.8rem;
-    padding:   0.45rem 0.4rem;
-  }
-  .tp-topic-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
-  }
-  .tp-generate-bar { flex-wrap: wrap; gap: 0.5rem; }
-  .tp-generate-bar .btn { flex: 1 1 100%; }
+  .social-nav-tabs::-webkit-scrollbar { display: none; }
+  .social-nav-tab { flex-shrink: 0; }
 
-  /* ── Profile ─────────────────────────────────────────────────────────── */
-  .profile-grid   { grid-template-columns: 1fr !important; }
-  .profile-header {
-    flex-direction: column;
-    text-align:     center;
-    align-items:    center;
-  }
+  /* Group compose bar */
+  .social-compose { padding: 0.5rem; gap: 0.4rem; }
+  .social-compose input { font-size: 0.9rem; min-height: 42px; }
 
-  /* ── Social ──────────────────────────────────────────────────────────── */
-  .social-page        { height: calc(100dvh - 52px - 64px - env(safe-area-inset-bottom, 0px)); }
-  .social-chat-layout { grid-template-columns: 1fr; }
-  .social-two-col     { grid-template-columns: 1fr; }
-  .social-col-left    { border-right: none; border-bottom: 1px solid var(--border); max-height: 44vh; }
-
-  /* ── Confidence map ──────────────────────────────────────────────────── */
-  .conf-map-grid { grid-template-columns: 1fr !important; }
-
-  /* ── AI panel ────────────────────────────────────────────────────────── */
-  .ai-panel { padding: 0.85rem; }
-
-  /* ── Modals ──────────────────────────────────────────────────────────── */
-  .modal-box,
-  .social-modal {
-    margin:        0.75rem;
-    border-radius: 16px;
-    max-height:    calc(100dvh - 140px);
-    overflow-y:    auto;
-  }
-
-  /* ── Diagrams: horizontal scroll ─────────────────────────────────────── */
-  .diagram-wrap       { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .diagram-wrap svg   { min-width: 420px; }
-
-  /* ── Section title row ───────────────────────────────────────────────── */
-  .section-title-row  { flex-wrap: wrap; gap: 0.5rem; }
-
-  /* ── Feature pills ───────────────────────────────────────────────────── */
-  .feature-pills      { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
-  .feature-pill       { padding: 0.3rem 0.65rem; font-size: 0.74rem; }
-
-  /* ── Generic tap targets ─────────────────────────────────────────────── */
-  .btn      { min-height: 40px; }
-  .pill-btn { min-height: 34px; padding: 0.35rem 0.75rem; }
-
-  /* ── Back-to-top: nudge above bottom nav ─────────────────────────────── */
+  /* Back-to-top: above bottom nav */
   #back-to-top {
-    bottom: calc(72px + env(safe-area-inset-bottom, 0px) + 0.75rem) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem) !important;
+    right: 0.85rem !important;
   }
 
-  /* ── Subject quick-launch cards (home page) ──────────────────────────── */
-  .subject-cards-row { grid-template-columns: 1fr !important; gap: 0.6rem; }
+  /* Weekly goal — stacked header on mobile */
+  .wg-header { gap: 0.85rem; }
+  .wg-bars { gap: 0.2rem; }
 
-  /* ── Grid overrides ──────────────────────────────────────────────────── */
-  .grid-3, .summary-grid { grid-template-columns: 1fr !important; }
+  /* Confidence map cells — 2 col on tiny screens */
+  .cmap-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  .cmap-subject { padding: 0.85rem; }
+
+  /* Admin tabs scroll */
+  .admin-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .admin-tabs::-webkit-scrollbar { display: none; }
+  .admin-tab { flex-shrink: 0; }
+
+  /* Editor grid — single column */
+  .editor-grid { grid-template-columns: 1fr !important; }
+  .editor-list { position: static !important; max-height: 220px; overflow-y: auto; }
+
+  /* TP chips — 2 col */
+  .tp-topic-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+
+  /* Profile grid */
+  .profile-grid { grid-template-columns: 1fr !important; }
+
+  /* Flashcard action buttons */
+  .flash-actions { gap: 0.4rem; }
+  .flash-actions .btn { flex: 1 1 0; font-size: 0.82rem; padding: 0.6rem 0.5rem; }
 }
 
-/* ── Extra-small phones (≤380px) ─────────────────────────────────────── */
-@media (max-width: 380px) {
+/* ============================================================================
+   MOBILE — 480px and below (very small phones)
+   ============================================================================ */
+
+@media (max-width: 480px) {
+  .page-pad { padding: 0.75rem 0 1rem; }
+  .card { padding: 0.85rem; border-radius: 12px; }
+  .hero h1 { font-size: 1.45rem; }
+
+  /* Stats 2×2 */
+  .stats-row { gap: 0.4rem; }
+
+  /* Section nav pills smaller */
+  .section-nav .pill-btn { font-size: 0.75rem; padding: 0.32rem 0.6rem; }
+
+  /* Topic title */
+  .topic-main h1 { font-size: 1.25rem; }
+
+  /* Quick actions — labels hidden at smallest, icons only */
+  .hqa-btn { padding: 0.55rem 0.25rem; }
+  .hqa-label { display: none; }
+  .hqa-icon { font-size: 1.3rem; }
+  .home-quick-actions { gap: 0.3rem; }
+
+  /* AI panel compact */
+  .ai-quick-btns { gap: 0.3rem; flex-wrap: wrap; }
+  .ai-quick { font-size: 0.75rem; padding: 0.3rem 0.55rem; }
+
+  /* Modals full-width */
+  .social-modal { width: calc(100vw - 1rem); max-height: 88dvh; }
+  .quiz-import-modal { width: calc(100vw - 1rem); }
+
+  /* Continue-learning cards */
+  .continue-item { padding: 0.65rem 0.75rem; }
+
+  /* Topical generate bar */
+  .tp-generate-bar { flex-direction: column; gap: 0.5rem; align-items: stretch; }
+  .tp-generate-bar .btn { width: 100%; justify-content: center; }
+}
+
+/* ============================================================================
+   MOBILE — landscape phone (short viewport)
+   ============================================================================ */
+
+@media (max-width: 812px) and (max-height: 480px) and (orientation: landscape) {
+  .mobile-bottom-nav { display: none; }
+  .nav-hamburger { display: flex !important; }
+  main { padding-bottom: 0; }
+  .hero { padding: 0.85rem 1rem; }
+  .hero h1 { font-size: 1.3rem; }
+}
+
+/* ============================================================================
+   PWA / installed app — extra safe area handling
+   ============================================================================ */
+
+@supports (padding: max(0px)) {
+  .mobile-bottom-nav {
+    padding-bottom: max(0.45rem, env(safe-area-inset-bottom));
+  }
   main {
-    padding-left:  0.5rem;
-    padding-right: 0.5rem;
+    padding-bottom: max(64px, calc(64px + env(safe-area-inset-bottom)));
   }
-  .hero-actions {
-    grid-template-columns: 1fr;
-  }
-  .hero-actions .btn:first-child { grid-column: auto; }
-  .stats-row   { grid-template-columns: 1fr !important; }
-  .topic-actions .btn { flex: 1 1 100%; }
-
-  /* Icons-only on tiny screens */
-  .mbn-btn span  { display: none; }
-  .mobile-bottom-nav { height: 52px; }
-  main { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
 }
-

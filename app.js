@@ -1828,17 +1828,6 @@ function setActiveView(viewName) {
   }
   state.currentView = viewName;
   window.scrollTo({ top: 0, behavior: "smooth" });
-
-  // Sync bottom nav active state
-  const _mbnMap = { home:'home', subjects:'subjects', subject:'subjects',
-                    topic:'subjects', quiz:'subjects', flash:'subjects',
-                    'past-papers':'past-papers', topical:'topical',
-                    profile:'profile', community:'profile',
-                    'confidence-map':'profile', editor:'profile', admin:'profile' };
-  const _mbnTarget = _mbnMap[viewName] || null;
-  document.querySelectorAll('.mbn-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-route') === _mbnTarget);
-  });
 }
 
 // go() is defined in the new section below
@@ -2529,8 +2518,18 @@ function renderTopicView(topicId) {
     </section>
   `;
   requestAnimationFrame(bindSectionScrollSpy);
-  // Re-apply AI visibility after DOM is rebuilt (elements didn't exist on init)
   applyAiVisibility();
+
+  // On mobile, add a "Topics" toggle button at the top of topic content
+  const topicMain = document.querySelector('.topic-main');
+  if (topicMain && !topicMain.querySelector('.mobile-topics-toggle')) {
+    const togBtn = document.createElement('button');
+    togBtn.className = 'mobile-topics-toggle';
+    togBtn.setAttribute('aria-label', 'Show topic list');
+    togBtn.innerHTML = '<svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> All Topics';
+    togBtn.onclick = openMobileSidebar;
+    topicMain.insertBefore(togBtn, topicMain.firstChild);
+  }
 }
 
 function toggleRecall(index) {
@@ -5207,6 +5206,24 @@ function updateNavForAuth() {
 // go() — add admin route
 // ============================================================================
 
+
+// ── Mobile sidebar drawer ────────────────────────────────────────────────
+function openMobileSidebar() {
+  const sidebar  = document.querySelector('.sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (sidebar)  sidebar.classList.add('mobile-open');
+  if (backdrop) backdrop.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileSidebar() {
+  const sidebar  = document.querySelector('.sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (sidebar)  sidebar.classList.remove('mobile-open');
+  if (backdrop) backdrop.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
 function go(viewName, payload = {}) {
   setActiveView(viewName);
   if (viewName === 'home')        renderHome();
@@ -5233,6 +5250,17 @@ function go(viewName, payload = {}) {
     byId('editor-title').textContent    = 'Select a topic to edit';
     byId('editor-json').value           = '';
   }
+
+  // Sync mobile bottom nav active state
+  const mbnMap = { home:'mbn-home', subjects:'mbn-notes', subject:'mbn-notes', topic:'mbn-notes',
+                   topical:'mbn-topical', 'past-papers':'mbn-topical', quiz:'mbn-notes', flash:'mbn-notes',
+                   community:'mbn-social', profile:'mbn-profile' };
+  document.querySelectorAll('.mbn-btn').forEach(b => b.classList.remove('active'));
+  const mbnId = mbnMap[viewName];
+  if (mbnId) { const btn = document.getElementById(mbnId); if (btn) btn.classList.add('active'); }
+
+  // Close mobile sidebar when navigating away
+  if (viewName !== 'topic' && viewName !== 'subject') closeMobileSidebar();
 }
 
 // ============================================================================
@@ -5245,7 +5273,7 @@ function go(viewName, payload = {}) {
   btn.title     = 'Back to top';
   btn.setAttribute('aria-label', 'Back to top');
   btn.style.cssText = [
-    'position:fixed','bottom:1.25rem','right:1.25rem','z-index:900',
+    'position:fixed','bottom:calc(env(safe-area-inset-bottom, 0px) + 5.5rem)','right:1rem','z-index:900',
     'width:2.4rem','height:2.4rem','border-radius:50%',
     'background:var(--accent)','color:#fff','border:none',
     'font-size:1.1rem','cursor:pointer','box-shadow:0 2px 8px rgba(0,0,0,0.3)',
@@ -6883,6 +6911,8 @@ const App = {
   openGroupChat,
   sendGroupMessage,
   openNewGroupModal,
+  openMobileSidebar,
+  closeMobileSidebar,
   switchEditorMode,
   filterEditorTopics,
   openQuizImport,
