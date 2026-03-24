@@ -970,11 +970,13 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
 
       // Primary model from env, fallback chain for free tier rate limits
       const primaryModel = process.env.AI_MODEL || 'meta-llama/llama-3.3-70b-instruct:free';
+      // Only use models confirmed working on OpenRouter free tier (March 2026)
+      // Avoid models that get removed without notice (mistral-7b, qwen free etc.)
       const fallbackModels = [
         'meta-llama/llama-3.1-8b-instruct:free',
         'google/gemma-3-27b-it:free',
-        'deepseek/deepseek-chat-v3-0324:free',
-        'qwen/qwen-2.5-72b-instruct:free',
+        'nousresearch/hermes-3-llama-3.1-405b:free',
+        'microsoft/phi-3-mini-128k-instruct:free',
       ];
       const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
 
@@ -1040,7 +1042,12 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       }
 
       if (!answer) {
-        throw new Error(lastError || 'All OpenRouter models failed — please try again shortly');
+        const msg = lastError || 'All OpenRouter models failed';
+        // If it's a "no endpoints" error, give a clear message
+        if (msg.includes('No endpoints') || msg.includes('not found')) {
+          throw new Error('The selected AI model is no longer available on OpenRouter free tier. Set AI_MODEL=meta-llama/llama-3.3-70b-instruct:free in your Render environment variables.');
+        }
+        throw new Error(msg + ' — please try again shortly');
       }
     }
 
@@ -1442,16 +1449,14 @@ app.get('/api/pdf-proxy', async (req, res, next) => {
     const url = req.query.url;
     if (!url) return res.status(400).json({ error: 'url query param required' });
 
-    // Only allow known safe domains + local paths
-    const allowed = [
-      'res.cloudinary.com',
-      'papers.gceguide.xyz',
-      'pastpapers.papacambridge.com',
-      'dynamicpapers.com',
-    ];
+    // Allow local paths and any HTTPS URL ending in .pdf (or containing /pdf/)
     const isLocal = url.startsWith('/papers/');
-    const isAllowed = isLocal || allowed.some(d => url.includes(d));
-    if (!isAllowed) return res.status(403).json({ error: 'URL not allowed' });
+    const isHttps = url.startsWith('https://');
+    const looksLikePdf = url.includes('.pdf') || url.includes('/pdf/');
+    // Block non-HTTPS and non-PDF URLs for safety
+    if (!isLocal && (!isHttps || !looksLikePdf)) {
+      return res.status(403).json({ error: 'Only HTTPS PDF URLs are allowed' });
+    }
 
     if (isLocal) {
       const filePath = path.join(__dirname, url);
@@ -1462,11 +1467,23 @@ app.get('/api/pdf-proxy', async (req, res, next) => {
       });
     }
 
-    // Fetch remote PDF and stream with correct headers
+    // Fetch remote PDF with browser-like headers to avoid hotlinking blocks
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Revise/1.0)' }
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept': 'application/pdf,*/*',
+        'Accept-Language': 'en-GB,en;q=0.9',
+        'Referer': url.split('/').slice(0,3).join('/') + '/',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+      },
+      redirect: 'follow',
     });
-    if (!response.ok) return res.status(response.status).json({ error: 'Could not fetch PDF' });
+    if (!response.ok) {
+      console.warn(`[PDF Proxy] ${response.status} from ${url}`);
+      // If proxy fails (site blocks server requests), redirect browser directly
+      return res.redirect(302, url);
+    }
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'inline');
