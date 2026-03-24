@@ -6883,3 +6883,22 @@ html {
     padding-bottom: max(64px, calc(64px + env(safe-area-inset-bottom)));
   }
 }
+
+/* ============================================================================
+   ADD PAPER MODAL
+   ============================================================================ */
+
+.add-paper-modal {
+  width: min(580px, calc(100vw - 1.5rem));
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+.add-paper-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+@media (max-width: 480px) { .add-paper-grid { grid-template-columns: 1fr; } }
+.add-paper-grid .ef-field-wide { grid-column: 1 / -1; }
+.add-paper-btn { margin-left: auto; }

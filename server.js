@@ -963,8 +963,54 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       }
     }
 
+    // ── OpenRouter ────────────────────────────────────────────────────
+    else if (provider === 'openrouter') {
+      const apiKey = process.env.OPENROUTER_API_KEY;
+      if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENROUTER_API_KEY in Render environment variables.' });
+
+      const model = process.env.AI_MODEL || 'google/gemini-2.0-flash-exp:free';
+
+      const messages = [
+        { role: 'system', content: systemPrompt },
+        ...history.filter(m => m.role === 'user' || m.role === 'assistant').map(m => ({
+          role: m.role,
+          content: String(m.text || ''),
+        })),
+        { role: 'user', content: prompt },
+      ];
+
+      console.log(`[AI] OpenRouter request: model=${model}, messages=${messages.length}`);
+
+      const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': process.env.SITE_URL || 'https://asrevise.onrender.com',
+          'X-Title': 'Revise AS Level Study Platform',
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: 1024,
+          messages,
+        }),
+      });
+
+      if (!orRes.ok) {
+        const errBody = await orRes.text();
+        console.error(`[AI] OpenRouter error ${orRes.status}:`, errBody.slice(0, 300));
+        let errMsg = `OpenRouter API error ${orRes.status}`;
+        try { errMsg = JSON.parse(errBody).error?.message || errMsg; } catch {}
+        throw new Error(errMsg);
+      }
+      const orData = await orRes.json();
+      console.log('[AI] OpenRouter finish_reason:', orData.choices?.[0]?.finish_reason);
+      answer = orData.choices?.[0]?.message?.content || '';
+      if (!answer) throw new Error('Empty response from OpenRouter — model may be rate-limited, try again');
+    }
+
     else {
-      return res.status(503).json({ success: false, error: `Unknown AI_PROVIDER "${provider}". Use "claude", "openai", or "gemini".` });
+      return res.status(503).json({ success: false, error: `Unknown AI_PROVIDER "${provider}". Use "claude", "openai", "gemini", or "openrouter".` });
     }
 
     if (!answer) throw new Error('Empty response from AI provider');
@@ -1203,7 +1249,25 @@ app.get('/api/social/friends', authenticateToken, async (req, res, next) => {
       db.getFriends(req.user._id),
       db.getFriendRequests(req.user._id),
     ]);
-    res.json({ success: true, data: { friends, requests } });
+
+    // Enrich pending requests with sender name (schema only stores ObjectIds)
+    const myId = req.user._id.toString();
+    const enriched = await Promise.all(requests.map(async r => {
+      const fromId = r.from?.toString();
+      const toId   = r.to?.toString();
+      // Attach fromName for the recipient; attach toName for the sender
+      if (toId === myId && fromId) {
+        const sender = await db.getPublicProfile(fromId).catch(() => null);
+        return { ...r, fromName: sender?.name || 'Unknown user', fromId };
+      }
+      if (fromId === myId && toId) {
+        const recipient = await db.getPublicProfile(toId).catch(() => null);
+        return { ...r, toName: recipient?.name || 'Unknown user', toId };
+      }
+      return r;
+    }));
+
+    res.json({ success: true, data: { friends, requests: enriched } });
   } catch (e) { next(e); }
 });
 
@@ -1283,6 +1347,47 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
+// ── Past Papers admin CRUD ────────────────────────────────────────────────
+
+// POST /api/past-papers — add a paper (admin/teacher)
+app.post('/api/past-papers', authenticateToken, requireTeacherOrAdmin, async (req, res, next) => {
+  try {
+    const { id, subject, code, year, session, paper, variant, title, difficulty, downloadUrl, msUrl } = req.body;
+    if (!subject || !year || !session || !paper || !variant) {
+      return res.status(400).json({ success: false, error: 'subject, year, session, paper, variant are required' });
+    }
+    if (!['chem','bio','phy'].includes(subject)) {
+      return res.status(400).json({ success: false, error: 'subject must be chem, bio, or phy' });
+    }
+    const data  = await loadJsonFile('past-papers.json');
+    const papers = data.papers || data;
+    const newId  = id || `${subject}-${code||'0000'}-${year}-${session.includes('June') ? 's' : session.includes('Nov') ? 'w' : 'x'}-p${variant}`;
+    if (papers.find(p => p.id === newId)) {
+      return res.status(409).json({ success: false, error: `Paper with id "${newId}" already exists` });
+    }
+    const newPaper = { id: newId, subject, code: code||'', year: parseInt(year), session, paper, variant: String(variant), title: title||'', difficulty: difficulty||'Medium', downloadUrl: downloadUrl||'', msUrl: msUrl||'' };
+    papers.unshift(newPaper);
+    const filePath = path.join(__dirname, 'data', 'past-papers.json');
+    await fs.writeFile(filePath, JSON.stringify({ papers }, null, 2), 'utf-8');
+    res.status(201).json({ success: true, data: newPaper });
+  } catch (e) { next(e); }
+});
+
+// DELETE /api/past-papers/:id — remove a paper (admin only)
+app.delete('/api/past-papers/:id', authenticateToken, requireAdmin, async (req, res, next) => {
+  try {
+    const data   = await loadJsonFile('past-papers.json');
+    const papers  = data.papers || data;
+    const before  = papers.length;
+    const filtered = papers.filter(p => p.id !== req.params.id);
+    if (filtered.length === before) return res.status(404).json({ success: false, error: 'Paper not found' });
+    const filePath = path.join(__dirname, 'data', 'past-papers.json');
+    await fs.writeFile(filePath, JSON.stringify({ papers: filtered }, null, 2), 'utf-8');
+    res.json({ success: true, message: 'Paper deleted' });
+  } catch (e) { next(e); }
+});
 
 // ── Tenor GIF search proxy (keeps API key server-side) ───────────────────
 app.get('/api/tenor/search', optionalAuth, async (req, res, next) => {

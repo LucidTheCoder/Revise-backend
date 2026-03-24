@@ -2899,7 +2899,166 @@ function renderFlashResult() {
 // Active subject filter for past papers tab UI
 let _paperSubjectFilter = "all";
 
+
+
+// ── Admin: add past paper modal ───────────────────────────────────────────
+function openAddPaperModal() {
+  document.getElementById('add-paper-modal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'add-paper-modal';
+  modal.className = 'social-modal-overlay';
+  const subjectNames = { chem: 'Chemistry (9701)', bio: 'Biology (9700)', phy: 'Physics (9702)' };
+
+  modal.innerHTML =
+    '<div class="social-modal add-paper-modal" role="dialog">' +
+      '<button class="social-modal-close" onclick="document.getElementById(&quot;add-paper-modal&quot;).remove()">' +
+        '<svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' +
+      '</button>' +
+      '<h3 style="margin:0 0 1rem">Add Past Paper</h3>' +
+      '<div class="add-paper-grid">' +
+        '<div class="ef-field"><label class="ef-label">Subject</label>' +
+          '<select id="ap-subject" class="ef-input">' +
+            '<option value="chem">Chemistry (9701)</option>' +
+            '<option value="bio">Biology (9700)</option>' +
+            '<option value="phy">Physics (9702)</option>' +
+          '</select></div>' +
+        '<div class="ef-field"><label class="ef-label">Year</label>' +
+          '<input id="ap-year" class="ef-input" type="number" placeholder="2024" min="2000" max="2030" value="2024"></div>' +
+        '<div class="ef-field"><label class="ef-label">Session</label>' +
+          '<select id="ap-session" class="ef-input">' +
+            '<option value="May/June">May/June</option>' +
+            '<option value="Oct/Nov">Oct/Nov</option>' +
+            '<option value="Feb/Mar">Feb/Mar</option>' +
+          '</select></div>' +
+        '<div class="ef-field"><label class="ef-label">Paper</label>' +
+          '<select id="ap-paper" class="ef-input">' +
+            '<option value="Paper 1">Paper 1 (MCQ)</option>' +
+            '<option value="Paper 2">Paper 2 (Structured)</option>' +
+            '<option value="Paper 3">Paper 3 (Practical)</option>' +
+            '<option value="Paper 4">Paper 4 (A Level)</option>' +
+          '</select></div>' +
+        '<div class="ef-field"><label class="ef-label">Variant</label>' +
+          '<input id="ap-variant" class="ef-input" type="text" placeholder="11" maxlength="3"></div>' +
+        '<div class="ef-field"><label class="ef-label">Title</label>' +
+          '<input id="ap-title" class="ef-input" type="text" placeholder="Multiple Choice"></div>' +
+        '<div class="ef-field ef-field-wide"><label class="ef-label">Question Paper URL <span class="ef-hint">Direct PDF link</span></label>' +
+          '<input id="ap-url" class="ef-input" type="url" placeholder="https://papers.gceguide.xyz/..."></div>' +
+        '<div class="ef-field ef-field-wide"><label class="ef-label">Mark Scheme URL <span class="ef-hint">Optional</span></label>' +
+          '<input id="ap-ms" class="ef-input" type="url" placeholder="https://papers.gceguide.xyz/..."></div>' +
+        '<div class="ef-field"><label class="ef-label">Difficulty</label>' +
+          '<select id="ap-diff" class="ef-input">' +
+            '<option value="Medium" selected>Medium</option>' +
+            '<option value="High">High</option>' +
+            '<option value="Low">Low</option>' +
+          '</select></div>' +
+      '</div>' +
+      '<p class="ef-footer-note" id="add-paper-hint">💡 URL format: <code>https://papers.gceguide.xyz/A%20Levels/Chemistry%20%289701%29/2024/9701_s24_qp_11.pdf</code></p>' +
+      '<div id="add-paper-status" style="min-height:1.2em;font-size:0.82rem;color:var(--success)"></div>' +
+      '<div style="display:flex;gap:0.5rem;margin-top:0.85rem">' +
+        '<button class="btn btn-primary" onclick="App.submitAddPaper()">Add Paper</button>' +
+        '<button class="btn btn-outline" onclick="document.getElementById(&quot;add-paper-modal&quot;).remove()">Cancel</button>' +
+      '</div>' +
+    '</div>';
+
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  requestAnimationFrame(() => modal.classList.add('open'));
+  setTimeout(() => document.getElementById('ap-year')?.focus(), 80);
+}
+
+async function submitAddPaper() {
+  const get = id => document.getElementById(id)?.value?.trim() || '';
+  const subject  = get('ap-subject');
+  const year     = get('ap-year');
+  const session  = get('ap-session');
+  const paper    = get('ap-paper');
+  const variant  = get('ap-variant');
+  const title    = get('ap-title');
+  const url      = get('ap-url');
+  const msUrl    = get('ap-ms');
+  const diff     = get('ap-diff');
+  const status   = document.getElementById('add-paper-status');
+
+  if (!variant) { if (status) { status.style.color='var(--warn)'; status.textContent='Enter a variant (e.g. 11, 12)'; } return; }
+
+  const codeMap  = { chem: '9701', bio: '9700', phy: '9702' };
+  const body     = { subject, code: codeMap[subject], year: parseInt(year), session, paper, variant, title, difficulty: diff, downloadUrl: url, msUrl };
+
+  try {
+    if (status) { status.style.color='var(--text3)'; status.textContent='Saving…'; }
+    const res  = await fetch(API_BASE_URL + '/api/past-papers', {
+      method: 'POST', headers: authHeaders(), body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (!res.ok) { if (status) { status.style.color='#f87171'; status.textContent = data.error || 'Failed'; } return; }
+    // Update local state
+    state.pastPapers.unshift(data.data);
+    if (status) { status.style.color='var(--success)'; status.textContent='✅ Paper added!'; }
+    setTimeout(() => {
+      document.getElementById('add-paper-modal')?.remove();
+      renderPastPapers();
+    }, 900);
+  } catch (e) {
+    if (status) { status.style.color='#f87171'; status.textContent='Network error: ' + e.message; }
+  }
+}
+
+async function deletePaper(paperId, paperLabel) {
+  if (!confirm('Delete "' + paperLabel + '"? This cannot be undone.')) return;
+  try {
+    const res  = await fetch(API_BASE_URL + '/api/past-papers/' + encodeURIComponent(paperId), {
+      method: 'DELETE', headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok) { showToast(data.error || 'Delete failed'); return; }
+    state.pastPapers = state.pastPapers.filter(p => p.id !== paperId);
+    showSuccess('Paper deleted');
+    renderPastPapers();
+  } catch { showToast('Network error'); }
+}
+
+function openPaperUrl(url) {
+  if (!url) return;
+  // Try opening directly first
+  const win = window.open(url, '_blank', 'noopener,noreferrer');
+  // If popup blocked or URL might be restricted, show a fallback modal
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    _showPaperLinkModal(url);
+  }
+}
+
+function _showPaperLinkModal(url) {
+  document.getElementById('paper-link-modal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'paper-link-modal';
+  modal.className = 'social-modal-overlay';
+  modal.innerHTML =
+    '<div class="social-modal" style="max-width:420px">' +
+      '<h3 style="margin:0 0 0.75rem">Open Paper</h3>' +
+      '<p style="color:var(--text2);font-size:0.85rem;margin:0 0 1rem">Click the link below to open the paper in a new tab. If it does not load, try the alternative sources.</p>' +
+      '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display:block;text-align:center;margin-bottom:0.5rem">Open Paper ↗</a>' +
+      '<div style="display:flex;gap:0.5rem;margin-top:0.5rem">' +
+        '<button class="btn btn-outline btn-sm" style="flex:1" onclick="document.getElementById(\"paper-link-modal\").remove()">Close</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  requestAnimationFrame(() => modal.classList.add('open'));
+}
+
 function renderPastPapers() {
+  // Show add paper button for admin/teacher
+  const ppHead = document.querySelector('#view-past-papers .page-head');
+  if (ppHead && (auth.user?.role === 'admin' || auth.user?.role === 'teacher')) {
+    if (!ppHead.querySelector('.add-paper-btn')) {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-primary add-paper-btn';
+      btn.textContent = '+ Add Paper';
+      btn.onclick = openAddPaperModal;
+      ppHead.appendChild(btn);
+    }
+  }
+
   // Wire subject tabs once
   const tabBar = byId("papers-subject-tabs");
   if (tabBar && !tabBar.dataset.wired) {
@@ -2982,12 +3141,15 @@ function _applyPaperFilters() {
           <p class="paper-subtitle">${escapeHtml(paper.title)}</p>
           <div class="paper-actions">
             ${hasUrl
-              ? `<a class="btn btn-primary btn-sm" href="${escapeHtml(paper.downloadUrl)}" target="_blank" rel="noreferrer noopener">📄 Question Paper</a>`
+              ? `<button class="btn btn-primary btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.downloadUrl)}')">📄 Question Paper</button>`
               : `<span class="paper-unavail">Coming soon</span>`}
             ${hasMsUrl
-              ? `<a class="btn btn-outline btn-sm" href="${escapeHtml(paper.msUrl)}" target="_blank" rel="noreferrer noopener">✓ Mark Scheme</a>`
+              ? `<button class="btn btn-outline btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.msUrl)}')">✓ Mark Scheme</button>`
               : ""}
             <button class="btn btn-ghost btn-sm" onclick="App.go('subject',{subjectId:'${paper.subject}'})">Revise Topics</button>
+            ${(auth.user?.role === 'admin' || auth.user?.role === 'teacher')
+              ? `<button class="btn btn-ghost btn-sm" style="color:#f87171" onclick="App.deletePaper('${paper.id}','${escapeHtml(paper.session+' '+paper.year+' '+paper.paper)}')">🗑</button>`
+              : ''}
           </div>
         </div>`;
       }
@@ -6913,6 +7075,10 @@ const App = {
   openNewGroupModal,
   openMobileSidebar,
   closeMobileSidebar,
+  openPaperUrl,
+  openAddPaperModal,
+  submitAddPaper,
+  deletePaper,
   switchEditorMode,
   filterEditorTopics,
   openQuizImport,
