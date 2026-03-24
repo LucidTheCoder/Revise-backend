@@ -3060,27 +3060,54 @@ async function deletePaper(paperId, paperLabel) {
 
 function openPaperUrl(url) {
   if (!url) return;
-  // Open directly — browser handles PDF viewing natively
-  window.open(url, '_blank', 'noopener,noreferrer');
-}
+  // Route through server proxy so browser gets Content-Type: application/pdf
+  // This fixes "downloads as file" for Cloudinary raw uploads and blocked direct links
+  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?url=' + encodeURIComponent(url);
 
-function _showPaperLinkModal(url) {
-  document.getElementById('paper-link-modal')?.remove();
-  const modal = document.createElement('div');
-  modal.id = 'paper-link-modal';
-  modal.className = 'social-modal-overlay';
-  modal.innerHTML =
-    '<div class="social-modal" style="max-width:420px">' +
-      '<h3 style="margin:0 0 0.75rem">Open Paper</h3>' +
-      '<p style="color:var(--text2);font-size:0.85rem;margin:0 0 1rem">Click the link below to open the paper in a new tab. If it does not load, try the alternative sources.</p>' +
-      '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display:block;text-align:center;margin-bottom:0.5rem">Open Paper ↗</a>' +
-      '<div style="display:flex;gap:0.5rem;margin-top:0.5rem">' +
-        '<button class="btn btn-outline btn-sm" style="flex:1" onclick="document.getElementById(\"paper-link-modal\").remove()">Close</button>' +
-      '</div>' +
-    '</div>';
-  document.body.appendChild(modal);
-  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-  requestAnimationFrame(() => modal.classList.add('open'));
+  // Show a modal with the link — reliable on mobile where window.open is often blocked
+  const existing = document.getElementById('paper-link-modal');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'paper-link-modal';
+  overlay.className = 'social-modal-overlay';
+
+  const box = document.createElement('div');
+  box.className = 'social-modal';
+  box.style.cssText = 'max-width:400px;display:flex;flex-direction:column;gap:0.85rem';
+
+  const h = document.createElement('h3');
+  h.style.margin = '0';
+  h.textContent = 'Open Paper';
+
+  const p = document.createElement('p');
+  p.style.cssText = 'color:var(--text2);font-size:0.85rem;margin:0';
+  p.textContent = 'Tap the button below to open the PDF.';
+
+  const a = document.createElement('a');
+  a.href = proxyUrl;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.className = 'btn btn-primary';
+  a.style.cssText = 'display:block;text-align:center';
+  a.textContent = '📄 Open PDF ↗';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn btn-outline btn-sm';
+  closeBtn.textContent = 'Close';
+  closeBtn.onclick = () => overlay.remove();
+
+  box.appendChild(h);
+  box.appendChild(p);
+  box.appendChild(a);
+  box.appendChild(closeBtn);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  requestAnimationFrame(() => overlay.classList.add('open'));
+
+  // Also try window.open
+  window.open(proxyUrl, '_blank', 'noopener,noreferrer');
 }
 
 function renderPastPapers() {

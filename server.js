@@ -973,7 +973,8 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const fallbackModels = [
         'meta-llama/llama-3.1-8b-instruct:free',
         'google/gemma-3-27b-it:free',
-        'mistralai/mistral-7b-instruct:free',
+        'deepseek/deepseek-chat-v3-0324:free',
+        'qwen/qwen-2.5-72b-instruct:free',
       ];
       const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
 
@@ -1084,7 +1085,17 @@ app.post('/api/upload/pdf', authenticateToken, requireAdmin, handleUpload(upload
   try {
     if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded' });
     const { subject, year, session, title } = req.body;
-    res.status(201).json({ success: true, data: { url: req.file.path, publicId: req.file.filename, metadata: { subject, year, session, title } } });
+    // Cloudinary raw files need fl_attachment to serve with correct Content-Type
+    // Replace /upload/ with /upload/fl_attachment/ in the URL
+    let url = req.file.path || '';
+    if (url.includes('res.cloudinary.com') && url.includes('/raw/upload/')) {
+      url = url.replace('/raw/upload/', '/raw/upload/fl_attachment/');
+    }
+    // Also ensure .pdf extension is present in the URL
+    if (!url.endsWith('.pdf') && !url.includes('fl_attachment')) {
+      url = url + '.pdf';
+    }
+    res.status(201).json({ success: true, data: { url, publicId: req.file.filename, metadata: { subject, year, session, title } } });
   } catch (err) { next(err); }
 });
 
@@ -1420,6 +1431,50 @@ app.delete('/api/past-papers/:id', authenticateToken, requireAdmin, async (req, 
     const filePath = path.join(__dirname, 'data', 'past-papers.json');
     await fs.writeFile(filePath, JSON.stringify({ papers: filtered }, null, 2), 'utf-8');
     res.json({ success: true, message: 'Paper deleted' });
+  } catch (e) { next(e); }
+});
+
+
+// PDF proxy — serves PDFs with correct Content-Type so browsers open/download them properly
+// Handles both Cloudinary URLs and local /papers/ files
+app.get('/api/pdf-proxy', async (req, res, next) => {
+  try {
+    const url = req.query.url;
+    if (!url) return res.status(400).json({ error: 'url query param required' });
+
+    // Only allow known safe domains + local paths
+    const allowed = [
+      'res.cloudinary.com',
+      'papers.gceguide.xyz',
+      'pastpapers.papacambridge.com',
+      'dynamicpapers.com',
+    ];
+    const isLocal = url.startsWith('/papers/');
+    const isAllowed = isLocal || allowed.some(d => url.includes(d));
+    if (!isAllowed) return res.status(403).json({ error: 'URL not allowed' });
+
+    if (isLocal) {
+      const filePath = path.join(__dirname, url);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'inline');
+      return res.sendFile(filePath, err => {
+        if (err) res.status(404).json({ error: 'File not found' });
+      });
+    }
+
+    // Fetch remote PDF and stream with correct headers
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Revise/1.0)' }
+    });
+    if (!response.ok) return res.status(response.status).json({ error: 'Could not fetch PDF' });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline');
+    const ct = response.headers.get('content-length');
+    if (ct) res.setHeader('Content-Length', ct);
+
+    const buf = await response.arrayBuffer();
+    res.send(Buffer.from(buf));
   } catch (e) { next(e); }
 });
 

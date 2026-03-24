@@ -1555,17 +1555,7 @@ p {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .subject-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
+  /* subject-layout stays 2-col until 760px where sidebar becomes a drawer */
   .community-layout,
   .profile-grid,
   .home-grid,
