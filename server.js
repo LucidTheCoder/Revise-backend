@@ -972,11 +972,15 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const primaryModel = process.env.AI_MODEL || 'meta-llama/llama-3.3-70b-instruct:free';
       // Only use models confirmed working on OpenRouter free tier (March 2026)
       // Avoid models that get removed without notice (mistral-7b, qwen free etc.)
+      // Fallback chain — models verified working on OpenRouter free tier (March 2026)
+      // If primary model is unavailable, these are tried in order
       const fallbackModels = [
         'meta-llama/llama-3.1-8b-instruct:free',
-        'google/gemma-3-27b-it:free',
-        'nousresearch/hermes-3-llama-3.1-405b:free',
-        'microsoft/phi-3-mini-128k-instruct:free',
+        'deepseek/deepseek-r1:free',
+        'google/gemma-3-12b-it:free',
+        'mistralai/mistral-small-3.1-24b-instruct:free',
+        'qwen/qwen3-8b:free',
+        'microsoft/phi-4-reasoning-plus:free',
       ];
       const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
 
@@ -1016,8 +1020,12 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
             const msg = orData.error?.message || JSON.stringify(orData.error);
             console.warn(`[AI] OpenRouter model ${model} error:`, msg);
             // "Provider returned error" or rate limit = try next model
+            // Any of these = model unavailable or rate limited, try next
             if (msg.includes('Provider returned error') || msg.includes('rate') ||
-                msg.includes('quota') || orRes.status === 429 || orRes.status === 503) {
+                msg.includes('quota') || msg.includes('not found') ||
+                msg.includes('No endpoints') || msg.includes('unavailable') ||
+                msg.includes('overloaded') || msg.includes('no longer') ||
+                orRes.status === 429 || orRes.status === 503 || orRes.status === 404) {
               lastError = msg;
               continue; // try next model
             }
@@ -1045,7 +1053,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
         const msg = lastError || 'All OpenRouter models failed';
         // If it's a "no endpoints" error, give a clear message
         if (msg.includes('No endpoints') || msg.includes('not found')) {
-          throw new Error('The selected AI model is no longer available on OpenRouter free tier. Set AI_MODEL=meta-llama/llama-3.3-70b-instruct:free in your Render environment variables.');
+          throw new Error('All AI models are currently rate-limited or unavailable. Please try again in a moment, or check your OpenRouter key at openrouter.ai/keys');
         }
         throw new Error(msg + ' — please try again shortly');
       }
@@ -1444,16 +1452,46 @@ app.delete('/api/past-papers/:id', authenticateToken, requireAdmin, async (req, 
 
 // PDF proxy — serves PDFs with correct Content-Type so browsers open/download them properly
 // Handles both Cloudinary URLs and local /papers/ files
+// Build alternate URLs for known paper mirror sites
+function _buildAlternateUrls(primaryUrl) {
+  const urls = [primaryUrl];
+  const filename = primaryUrl.split('/').pop(); // e.g. 9701_s24_qp_11.pdf
+  if (!filename) return urls;
+
+  // gceguide.xyz → try papacambridge as fallback
+  if (primaryUrl.includes('gceguide.xyz')) {
+    // Extract subject folder from gceguide URL
+    const gcMatch = primaryUrl.match(/A%20Levels\/([^/]+)\/(\d{4})\//);
+    if (gcMatch) {
+      const [, subjectFolder, year] = gcMatch;
+      // papacambridge format
+      const subjectDecode = decodeURIComponent(subjectFolder);
+      // e.g. "Chemistry (9701)" → "Chemistry-9701"
+      const papaCambSubj = subjectDecode.replace(/\s*\((\d+)\)/, '-$1');
+      urls.push(`https://pastpapers.papacambridge.com/directories/CAIE/AS%20and%20A%20Level/${encodeURIComponent(papaCambSubj)}/${year}/${filename}`);
+    }
+    // Also try xtremepape.rs (it may work intermittently)
+    const xtrMatch = primaryUrl.match(/A%20Levels\/([^/]+)\/(\d{4})\//);
+    if (xtrMatch) {
+      const [, subjectFolder, year] = xtrMatch;
+      const subjectDecode = decodeURIComponent(subjectFolder);
+      // "Chemistry (9701)" → "Chemistry - 9701"
+      const xtrSubj = subjectDecode.replace(/\s*\((\d+)\)/, ' - $1');
+      urls.push(`https://papers.xtremepape.rs/CAIE/AS%20%26%20A%20Level/${encodeURIComponent(xtrSubj)}/${year}/${filename}`);
+    }
+  }
+  return urls;
+}
+
 app.get('/api/pdf-proxy', async (req, res, next) => {
   try {
     const url = req.query.url;
     if (!url) return res.status(400).json({ error: 'url query param required' });
 
-    // Allow local paths and any HTTPS URL ending in .pdf (or containing /pdf/)
+    // Allow local paths and any HTTPS URL ending in .pdf (or containing /pdf/ or Cloudinary raw)
     const isLocal = url.startsWith('/papers/');
     const isHttps = url.startsWith('https://');
-    const looksLikePdf = url.includes('.pdf') || url.includes('/pdf/');
-    // Block non-HTTPS and non-PDF URLs for safety
+    const looksLikePdf = url.includes('.pdf') || url.includes('/pdf/') || url.includes('res.cloudinary.com');
     if (!isLocal && (!isHttps || !looksLikePdf)) {
       return res.status(403).json({ error: 'Only HTTPS PDF URLs are allowed' });
     }
@@ -1467,31 +1505,51 @@ app.get('/api/pdf-proxy', async (req, res, next) => {
       });
     }
 
-    // Fetch remote PDF with browser-like headers to avoid hotlinking blocks
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-        'Accept': 'application/pdf,*/*',
-        'Accept-Language': 'en-GB,en;q=0.9',
-        'Referer': url.split('/').slice(0,3).join('/') + '/',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-      },
-      redirect: 'follow',
-    });
-    if (!response.ok) {
-      console.warn(`[PDF Proxy] ${response.status} from ${url}`);
-      // If proxy fails (site blocks server requests), redirect browser directly
-      return res.redirect(302, url);
+    const browserHeaders = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+      'Accept': 'application/pdf,*/*',
+      'Accept-Language': 'en-GB,en;q=0.9',
+      'sec-fetch-dest': 'document',
+      'sec-fetch-mode': 'navigate',
+    };
+
+    // Try primary URL + alternates
+    const urlsToTry = _buildAlternateUrls(url);
+    let lastStatus = 0;
+
+    for (const tryUrl of urlsToTry) {
+      try {
+        console.log(`[PDF Proxy] trying: ${tryUrl}`);
+        const response = await fetch(tryUrl, {
+          headers: { ...browserHeaders, 'Referer': tryUrl.split('/').slice(0,3).join('/') + '/' },
+          redirect: 'follow',
+          signal: AbortSignal.timeout(8000),
+        });
+
+        if (!response.ok) {
+          console.warn(`[PDF Proxy] ${response.status} from ${tryUrl}`);
+          lastStatus = response.status;
+          continue; // try next source
+        }
+
+        // Success — stream back to client
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'inline; filename="' + tryUrl.split('/').pop() + '"');
+        const ct = response.headers.get('content-length');
+        if (ct) res.setHeader('Content-Length', ct);
+        const buf = await response.arrayBuffer();
+        return res.send(Buffer.from(buf));
+      } catch (fetchErr) {
+        console.warn(`[PDF Proxy] fetch error for ${tryUrl}:`, fetchErr.message);
+        lastStatus = 0;
+      }
     }
 
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'inline');
-    const ct = response.headers.get('content-length');
-    if (ct) res.setHeader('Content-Length', ct);
+    // All sources failed — redirect browser directly to primary URL so
+    // the browser can try with its own cookies/headers
+    console.warn(`[PDF Proxy] all sources failed (last status ${lastStatus}), redirecting to ${url}`);
+    return res.redirect(302, url);
 
-    const buf = await response.arrayBuffer();
-    res.send(Buffer.from(buf));
   } catch (e) { next(e); }
 });
 
