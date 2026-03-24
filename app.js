@@ -1828,6 +1828,17 @@ function setActiveView(viewName) {
   }
   state.currentView = viewName;
   window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // Sync bottom nav active state
+  const _mbnMap = { home:'home', subjects:'subjects', subject:'subjects',
+                    topic:'subjects', quiz:'subjects', flash:'subjects',
+                    'past-papers':'past-papers', topical:'topical',
+                    profile:'profile', community:'profile',
+                    'confidence-map':'profile', editor:'profile', admin:'profile' };
+  const _mbnTarget = _mbnMap[viewName] || null;
+  document.querySelectorAll('.mbn-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-route') === _mbnTarget);
+  });
 }
 
 // go() is defined in the new section below
