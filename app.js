@@ -2941,10 +2941,26 @@ function openAddPaperModal() {
           '<input id="ap-variant" class="ef-input" type="text" placeholder="11" maxlength="3"></div>' +
         '<div class="ef-field"><label class="ef-label">Title</label>' +
           '<input id="ap-title" class="ef-input" type="text" placeholder="Multiple Choice"></div>' +
-        '<div class="ef-field ef-field-wide"><label class="ef-label">Question Paper URL <span class="ef-hint">Direct PDF link</span></label>' +
-          '<input id="ap-url" class="ef-input" type="url" placeholder="https://papers.gceguide.xyz/..."></div>' +
-        '<div class="ef-field ef-field-wide"><label class="ef-label">Mark Scheme URL <span class="ef-hint">Optional</span></label>' +
-          '<input id="ap-ms" class="ef-input" type="url" placeholder="https://papers.gceguide.xyz/..."></div>' +
+        '<div class="ef-field ef-field-wide">' +
+          '<label class="ef-label">Question Paper <span class="ef-hint">Upload PDF or paste URL</span></label>' +
+          '<div class="ef-upload-row">' +
+            '<input id="ap-url" class="ef-input" type="url" placeholder="https://papers.gceguide.xyz/... (or upload below)">' +
+            '<label class="btn btn-outline btn-sm ef-upload-btn" for="ap-pdf-file">📎 Upload PDF' +
+              '<input id="ap-pdf-file" type="file" accept=".pdf" style="display:none" onchange="App._apHandleFile(this,\'ap-url\',\'ap-upload-status\')">' +
+            '</label>' +
+          '</div>' +
+          '<div id="ap-upload-status" style="font-size:0.78rem;color:var(--text3);min-height:1.2em;margin-top:0.25rem"></div>' +
+        '</div>' +
+        '<div class="ef-field ef-field-wide">' +
+          '<label class="ef-label">Mark Scheme <span class="ef-hint">Upload PDF or paste URL — optional</span></label>' +
+          '<div class="ef-upload-row">' +
+            '<input id="ap-ms" class="ef-input" type="url" placeholder="https://papers.gceguide.xyz/...">' +
+            '<label class="btn btn-outline btn-sm ef-upload-btn" for="ap-ms-file">📎 Upload PDF' +
+              '<input id="ap-ms-file" type="file" accept=".pdf" style="display:none" onchange="App._apHandleFile(this,\'ap-ms\',\'ap-ms-upload-status\')">' +
+            '</label>' +
+          '</div>' +
+          '<div id="ap-ms-upload-status" style="font-size:0.78rem;color:var(--text3);min-height:1.2em;margin-top:0.25rem"></div>' +
+        '</div>' +
         '<div class="ef-field"><label class="ef-label">Difficulty</label>' +
           '<select id="ap-diff" class="ef-input">' +
             '<option value="Medium" selected>Medium</option>' +
@@ -3003,6 +3019,31 @@ async function submitAddPaper() {
   }
 }
 
+// Upload a PDF file and fill the URL field with the Cloudinary URL
+async function _apHandleFile(input, urlFieldId, statusId) {
+  const file = input.files?.[0];
+  if (!file) return;
+  const statusEl = document.getElementById(statusId);
+  if (statusEl) { statusEl.style.color = 'var(--text3)'; statusEl.textContent = '⏳ Uploading…'; }
+  try {
+    if (file.size > 20 * 1024 * 1024) throw new Error('File too large — max 20 MB');
+    const form = new FormData();
+    form.append('pdf', file);
+    const res = await fetch(API_BASE_URL + '/api/upload/pdf', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + auth.token },
+      body: form,
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.error || 'Upload failed');
+    const urlField = document.getElementById(urlFieldId);
+    if (urlField) urlField.value = data.data.url;
+    if (statusEl) { statusEl.style.color = 'var(--success)'; statusEl.textContent = '✅ Uploaded: ' + file.name; }
+  } catch (err) {
+    if (statusEl) { statusEl.style.color = 'var(--danger)'; statusEl.textContent = '❌ ' + err.message; }
+  }
+}
+
 async function deletePaper(paperId, paperLabel) {
   if (!confirm('Delete "' + paperLabel + '"? This cannot be undone.')) return;
   try {
@@ -3019,12 +3060,8 @@ async function deletePaper(paperId, paperLabel) {
 
 function openPaperUrl(url) {
   if (!url) return;
-  // Try opening directly first
-  const win = window.open(url, '_blank', 'noopener,noreferrer');
-  // If popup blocked or URL might be restricted, show a fallback modal
-  if (!win || win.closed || typeof win.closed === 'undefined') {
-    _showPaperLinkModal(url);
-  }
+  // Open directly — browser handles PDF viewing natively
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 function _showPaperLinkModal(url) {
@@ -7077,6 +7114,7 @@ const App = {
   closeMobileSidebar,
   openPaperUrl,
   openAddPaperModal,
+  _apHandleFile,
   submitAddPaper,
   deletePaper,
   switchEditorMode,

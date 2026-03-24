@@ -6902,3 +6902,34 @@ html {
 @media (max-width: 480px) { .add-paper-grid { grid-template-columns: 1fr; } }
 .add-paper-grid .ef-field-wide { grid-column: 1 / -1; }
 .add-paper-btn { margin-left: auto; }
+
+/* ── Add Paper modal — upload row ──────────────────────────────────── */
+.ef-upload-row {
+  display:   flex;
+  gap:       0.5rem;
+  align-items: stretch;
+}
+.ef-upload-row .ef-input {
+  flex: 1;
+  min-width: 0;
+}
+.ef-upload-btn {
+  flex-shrink:   0;
+  white-space:   nowrap;
+  cursor:        pointer;
+  display:       inline-flex;
+  align-items:   center;
+  gap:           0.3rem;
+  font-size:     0.8rem;
+  padding:       0 0.75rem;
+}
+.add-paper-grid {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   0.65rem 0.85rem;
+  margin-bottom:         0.75rem;
+}
+.ef-field-wide { grid-column: 1 / -1; }
+@media (max-width: 500px) {
+  .add-paper-grid { grid-template-columns: 1fr; }
+}

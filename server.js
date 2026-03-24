@@ -968,7 +968,14 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const apiKey = process.env.OPENROUTER_API_KEY;
       if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENROUTER_API_KEY in Render environment variables.' });
 
-      const model = process.env.AI_MODEL || 'google/gemini-2.0-flash-exp:free';
+      // Primary model from env, fallback chain for free tier rate limits
+      const primaryModel = process.env.AI_MODEL || 'meta-llama/llama-3.3-70b-instruct:free';
+      const fallbackModels = [
+        'meta-llama/llama-3.1-8b-instruct:free',
+        'google/gemma-3-27b-it:free',
+        'mistralai/mistral-7b-instruct:free',
+      ];
+      const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
 
       const messages = [
         { role: 'system', content: systemPrompt },
@@ -979,34 +986,61 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
         { role: 'user', content: prompt },
       ];
 
-      console.log(`[AI] OpenRouter request: model=${model}, messages=${messages.length}`);
+      let lastError = null;
+      for (const model of modelsToTry) {
+        try {
+          console.log(`[AI] OpenRouter trying model=${model}, messages=${messages.length}`);
+          const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`,
+              'HTTP-Referer': process.env.FRONTEND_URL || 'https://asrevise.onrender.com',
+              'X-Title': 'Revise AS Level Study Platform',
+            },
+            body: JSON.stringify({
+              model,
+              max_tokens: 1024,
+              messages,
+              temperature: 0.7,
+            }),
+          });
 
-      const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-          'HTTP-Referer': process.env.SITE_URL || 'https://asrevise.onrender.com',
-          'X-Title': 'Revise AS Level Study Platform',
-        },
-        body: JSON.stringify({
-          model,
-          max_tokens: 1024,
-          messages,
-        }),
-      });
+          const orData = await orRes.json();
 
-      if (!orRes.ok) {
-        const errBody = await orRes.text();
-        console.error(`[AI] OpenRouter error ${orRes.status}:`, errBody.slice(0, 300));
-        let errMsg = `OpenRouter API error ${orRes.status}`;
-        try { errMsg = JSON.parse(errBody).error?.message || errMsg; } catch {}
-        throw new Error(errMsg);
+          // OpenRouter returns errors as JSON even on 200 sometimes
+          if (orData.error) {
+            const msg = orData.error?.message || JSON.stringify(orData.error);
+            console.warn(`[AI] OpenRouter model ${model} error:`, msg);
+            // "Provider returned error" or rate limit = try next model
+            if (msg.includes('Provider returned error') || msg.includes('rate') ||
+                msg.includes('quota') || orRes.status === 429 || orRes.status === 503) {
+              lastError = msg;
+              continue; // try next model
+            }
+            throw new Error(msg);
+          }
+
+          if (!orRes.ok) {
+            const msg = `OpenRouter HTTP ${orRes.status}`;
+            console.warn(`[AI] ${msg} for model ${model}`);
+            lastError = msg;
+            continue;
+          }
+
+          console.log('[AI] OpenRouter finish_reason:', orData.choices?.[0]?.finish_reason, 'model:', model);
+          answer = orData.choices?.[0]?.message?.content || '';
+          if (answer) break; // success — exit loop
+          lastError = 'Empty response from model';
+        } catch (fetchErr) {
+          lastError = fetchErr.message;
+          console.warn(`[AI] OpenRouter fetch error for ${model}:`, fetchErr.message);
+        }
       }
-      const orData = await orRes.json();
-      console.log('[AI] OpenRouter finish_reason:', orData.choices?.[0]?.finish_reason);
-      answer = orData.choices?.[0]?.message?.content || '';
-      if (!answer) throw new Error('Empty response from OpenRouter — model may be rate-limited, try again');
+
+      if (!answer) {
+        throw new Error(lastError || 'All OpenRouter models failed — please try again shortly');
+      }
     }
 
     else {
