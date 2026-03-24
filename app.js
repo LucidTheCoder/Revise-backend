@@ -2952,7 +2952,7 @@ function openAddPaperModal() {
             '<option value="Low">Low</option>' +
           '</select></div>' +
       '</div>' +
-      '<p class="ef-footer-note" id="add-paper-hint">💡 For external PDFs use a full URL. For uploaded PDFs: place the file in the <strong>papers/</strong> folder on the server, then enter <code>/papers/filename.pdf</code> as the URL.</p>' +
+      '<p class="ef-footer-note" id="add-paper-hint">💡 URL format: <code>https://papers.gceguide.xyz/A%20Levels/Chemistry%20%289701%29/2024/9701_s24_qp_11.pdf</code></p>' +
       '<div id="add-paper-status" style="min-height:1.2em;font-size:0.82rem;color:var(--success)"></div>' +
       '<div style="display:flex;gap:0.5rem;margin-top:0.85rem">' +
         '<button class="btn btn-primary" onclick="App.submitAddPaper()">Add Paper</button>' +
@@ -3019,52 +3019,31 @@ async function deletePaper(paperId, paperLabel) {
 
 function openPaperUrl(url) {
   if (!url) return;
-  // Always show a modal with the link — most reliable on mobile
-  // (window.open is blocked by default in many mobile browsers)
-  const existing = document.getElementById('paper-link-modal');
-  if (existing) existing.remove();
+  // Try opening directly first
+  const win = window.open(url, '_blank', 'noopener,noreferrer');
+  // If popup blocked or URL might be restricted, show a fallback modal
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    _showPaperLinkModal(url);
+  }
+}
 
+function _showPaperLinkModal(url) {
+  document.getElementById('paper-link-modal')?.remove();
   const modal = document.createElement('div');
   modal.id = 'paper-link-modal';
   modal.className = 'social-modal-overlay';
-
-  const inner = document.createElement('div');
-  inner.className = 'social-modal';
-  inner.style.cssText = 'max-width:400px;display:flex;flex-direction:column;gap:0.85rem';
-
-  const title = document.createElement('h3');
-  title.style.margin = '0';
-  title.textContent = 'Open Paper';
-
-  const desc = document.createElement('p');
-  desc.style.cssText = 'color:var(--text2);font-size:0.85rem;margin:0';
-  desc.textContent = 'Tap the button below to open the PDF in a new tab.';
-
-  const link = document.createElement('a');
-  link.href = url;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  link.className = 'btn btn-primary';
-  link.style.cssText = 'display:block;text-align:center';
-  link.textContent = '📄 Open PDF ↗';
-
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'btn btn-outline btn-sm';
-  closeBtn.textContent = 'Close';
-  closeBtn.onclick = () => modal.remove();
-
-  inner.appendChild(title);
-  inner.appendChild(desc);
-  inner.appendChild(link);
-  inner.appendChild(closeBtn);
-  modal.appendChild(inner);
+  modal.innerHTML =
+    '<div class="social-modal" style="max-width:420px">' +
+      '<h3 style="margin:0 0 0.75rem">Open Paper</h3>' +
+      '<p style="color:var(--text2);font-size:0.85rem;margin:0 0 1rem">Click the link below to open the paper in a new tab. If it does not load, try the alternative sources.</p>' +
+      '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display:block;text-align:center;margin-bottom:0.5rem">Open Paper ↗</a>' +
+      '<div style="display:flex;gap:0.5rem;margin-top:0.5rem">' +
+        '<button class="btn btn-outline btn-sm" style="flex:1" onclick="document.getElementById(\"paper-link-modal\").remove()">Close</button>' +
+      '</div>' +
+    '</div>';
   document.body.appendChild(modal);
-
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
   requestAnimationFrame(() => modal.classList.add('open'));
-
-  // Also attempt window.open as a parallel attempt
-  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 function renderPastPapers() {

@@ -144,8 +144,6 @@ io.on('connection', (socket) => {
 app.set('trust proxy', 1);
 
 app.use(express.static(path.join(__dirname)));
-// Serve uploaded past papers (PDFs placed in /papers/ directory)
-app.use('/papers', express.static(path.join(__dirname, 'papers')));
 
 // ── Security headers (no external package needed) ─────────────────────────
 app.use((req, res, next) => {
@@ -1006,25 +1004,9 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
         throw new Error(errMsg);
       }
       const orData = await orRes.json();
-
-      // OpenRouter can return 200 but with an error body
-      if (orData.error) {
-        const errCode = orData.error.code || orData.error.status || '';
-        const errMsg  = orData.error.message || 'Provider error';
-        console.error('[AI] OpenRouter body error:', errCode, errMsg);
-        if (String(errCode) === '429' || errMsg.toLowerCase().includes('rate')) {
-          throw new Error('rate limit exceeded');
-        }
-        throw new Error(errMsg);
-      }
-
-      const finishReason = orData.choices?.[0]?.finish_reason;
-      console.log('[AI] OpenRouter finish_reason:', finishReason, '| model:', orData.model);
+      console.log('[AI] OpenRouter finish_reason:', orData.choices?.[0]?.finish_reason);
       answer = orData.choices?.[0]?.message?.content || '';
-      if (!answer) {
-        if (finishReason === 'content_filter') throw new Error('Response blocked by content filter — try rephrasing.');
-        throw new Error('Empty response from model. The free tier may be overloaded — try again in a moment, or switch AI_MODEL in Render.');
-      }
+      if (!answer) throw new Error('Empty response from OpenRouter — model may be rate-limited, try again');
     }
 
     else {
