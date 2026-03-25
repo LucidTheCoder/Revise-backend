@@ -794,6 +794,49 @@ setInterval(() => {
 // ============================================================================
 
 /**
+ * GET /api/test-ai
+ * Quick sanity-check: sends "Say hello" to openrouter/auto and returns the reply.
+ * Use this to verify your OPENROUTER_API_KEY is working.
+ */
+app.get('/api/test-ai', async (req, res, next) => {
+  try {
+    const apiKey = process.env.OPENROUTER_API_KEY;
+    if (!apiKey) return res.status(503).json({ success: false, error: 'OPENROUTER_API_KEY not set' });
+
+    console.log(`[test-ai] API key present, length=${apiKey.length}`);
+
+    const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': process.env.FRONTEND_URL || 'https://asrevise.onrender.com',
+        'X-Title': 'Revise AS Level Study Platform',
+      },
+      body: JSON.stringify({
+        model: 'openrouter/auto',
+        max_tokens: 100,
+        messages: [{ role: 'user', content: 'Say hello in one sentence.' }],
+      }),
+    });
+
+    const data = await orRes.json();
+    console.log('[test-ai] Response status:', orRes.status, 'body:', JSON.stringify(data).slice(0, 400));
+
+    if (!orRes.ok || data.error) {
+      return res.status(orRes.status || 502).json({
+        success: false,
+        error: data.error?.message || `HTTP ${orRes.status}`,
+        raw: data,
+      });
+    }
+
+    const answer = data.choices?.[0]?.message?.content || '(empty)';
+    res.json({ success: true, model: data.model, answer });
+  } catch (e) { next(e); }
+});
+
+/**
  * POST /api/ai-tutor
  * Body: { topicId, topicTitle, subjectId, context, prompt, history }
  *
@@ -968,21 +1011,18 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const apiKey = process.env.OPENROUTER_API_KEY;
       if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENROUTER_API_KEY in Render environment variables.' });
 
-      // Primary model from env, fallback chain for free tier rate limits
-      const primaryModel = process.env.AI_MODEL || 'meta-llama/llama-3.3-70b-instruct:free';
-      // Only use models confirmed working on OpenRouter free tier (March 2026)
-      // Avoid models that get removed without notice (mistral-7b, qwen free etc.)
-      // Fallback chain — models verified working on OpenRouter free tier (March 2026)
-      // If primary model is unavailable, these are tried in order
+      // Primary: openrouter/auto lets OpenRouter pick the best available model
+      // Fallback chain: stable, confirmed free-tier models (avoid deepseek, phi reasoning, large models)
+      const primaryModel = process.env.AI_MODEL || 'openrouter/auto';
       const fallbackModels = [
         'meta-llama/llama-3.1-8b-instruct:free',
-        'deepseek/deepseek-r1:free',
-        'google/gemma-3-12b-it:free',
-        'mistralai/mistral-small-3.1-24b-instruct:free',
-        'qwen/qwen3-8b:free',
-        'microsoft/phi-4-reasoning-plus:free',
+        'google/gemma-2-9b-it:free',
+        'mistralai/mistral-small:free',
       ];
       const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
+
+      // Debug: log API key presence (never log the key itself)
+      console.log(`[AI] OpenRouter API key present: ${!!apiKey}, length: ${apiKey?.length || 0}`);
 
       const messages = [
         { role: 'system', content: systemPrompt },
@@ -996,7 +1036,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       let lastError = null;
       for (const model of modelsToTry) {
         try {
-          console.log(`[AI] OpenRouter trying model=${model}, messages=${messages.length}`);
+          console.log(`[AI] OpenRouter attempt: model=${model}, messages=${messages.length}`);
           const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -1015,47 +1055,47 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
 
           const orData = await orRes.json();
 
-          // OpenRouter returns errors as JSON even on 200 sometimes
+          // OpenRouter may return errors as JSON even on 2xx status
           if (orData.error) {
             const msg = orData.error?.message || JSON.stringify(orData.error);
-            console.warn(`[AI] OpenRouter model ${model} error:`, msg);
-            // "Provider returned error" or rate limit = try next model
-            // Any of these = model unavailable or rate limited, try next
-            if (msg.includes('Provider returned error') || msg.includes('rate') ||
-                msg.includes('quota') || msg.includes('not found') ||
-                msg.includes('No endpoints') || msg.includes('unavailable') ||
-                msg.includes('overloaded') || msg.includes('no longer') ||
-                orRes.status === 429 || orRes.status === 503 || orRes.status === 404) {
-              lastError = msg;
-              continue; // try next model
+            const code = orData.error?.code;
+            console.warn(`[AI] OpenRouter model=${model} error code=${code}:`, msg);
+            console.warn(`[AI] Full error response:`, JSON.stringify(orData).slice(0, 500));
+
+            // 401 = bad API key — don't retry, surface immediately
+            if (orRes.status === 401 || code === 401) {
+              throw new Error('Invalid OpenRouter API key — check OPENROUTER_API_KEY at openrouter.ai/keys');
             }
-            throw new Error(msg);
+
+            // These are retryable: rate limit, quota, model not found, provider error
+            lastError = msg;
+            continue; // try next model
           }
 
           if (!orRes.ok) {
             const msg = `OpenRouter HTTP ${orRes.status}`;
-            console.warn(`[AI] ${msg} for model ${model}`);
+            console.warn(`[AI] ${msg} for model=${model}`);
+            if (orRes.status === 401) throw new Error('Invalid OpenRouter API key — check OPENROUTER_API_KEY at openrouter.ai/keys');
             lastError = msg;
             continue;
           }
 
-          console.log('[AI] OpenRouter finish_reason:', orData.choices?.[0]?.finish_reason, 'model:', model);
+          const finishReason = orData.choices?.[0]?.finish_reason;
+          console.log(`[AI] OpenRouter success: model=${model}, finish_reason=${finishReason}`);
           answer = orData.choices?.[0]?.message?.content || '';
           if (answer) break; // success — exit loop
           lastError = 'Empty response from model';
         } catch (fetchErr) {
+          // Re-throw auth errors immediately
+          if (fetchErr.message.includes('Invalid OpenRouter')) throw fetchErr;
           lastError = fetchErr.message;
-          console.warn(`[AI] OpenRouter fetch error for ${model}:`, fetchErr.message);
+          console.warn(`[AI] OpenRouter fetch error for model=${model}:`, fetchErr.message);
         }
       }
 
       if (!answer) {
         const msg = lastError || 'All OpenRouter models failed';
-        // If it's a "no endpoints" error, give a clear message
-        if (msg.includes('No endpoints') || msg.includes('not found')) {
-          throw new Error('All AI models are currently rate-limited or unavailable. Please try again in a moment, or check your OpenRouter key at openrouter.ai/keys');
-        }
-        throw new Error(msg + ' — please try again shortly');
+        throw new Error('AI is currently busy — all models are rate-limited or unavailable. Please try again in a moment.');
       }
     }
 
@@ -1450,34 +1490,34 @@ app.delete('/api/past-papers/:id', authenticateToken, requireAdmin, async (req, 
 });
 
 
-// PDF proxy — serves PDFs with correct Content-Type so browsers open/download them properly
-// Handles both Cloudinary URLs and local /papers/ files
-// Build alternate URLs for known paper mirror sites
+// Build alternate mirror URLs for known past-paper hosts.
+// Expects `primaryUrl` to be FULLY DECODED (spaces not %20) — the
+// pdf-proxy route decodes iteratively before calling this.
 function _buildAlternateUrls(primaryUrl) {
   const urls = [primaryUrl];
-  const filename = primaryUrl.split('/').pop(); // e.g. 9701_s24_qp_11.pdf
+  let filename;
+  try {
+    filename = new URL(primaryUrl).pathname.split('/').pop();
+  } catch (_) {
+    filename = primaryUrl.split('/').pop();
+  }
   if (!filename) return urls;
 
-  // gceguide.xyz → try papacambridge as fallback
+  // gceguide.xyz → papacambridge + xtremepape.rs as fallbacks
   if (primaryUrl.includes('gceguide.xyz')) {
-    // Extract subject folder from gceguide URL
-    const gcMatch = primaryUrl.match(/A%20Levels\/([^/]+)\/(\d{4})\//);
+    // Match decoded path: "A Levels/Chemistry (9701)/2024/..."
+    const gcMatch = primaryUrl.match(/A Levels\/([^/]+)\/(\d{4})\//);
     if (gcMatch) {
       const [, subjectFolder, year] = gcMatch;
-      // papacambridge format
       const subjectDecode = decodeURIComponent(subjectFolder);
-      // e.g. "Chemistry (9701)" → "Chemistry-9701"
+
+      // papacambridge: "Chemistry (9701)" → "Chemistry-9701"
       const papaCambSubj = subjectDecode.replace(/\s*\((\d+)\)/, '-$1');
-      urls.push(`https://pastpapers.papacambridge.com/directories/CAIE/AS%20and%20A%20Level/${encodeURIComponent(papaCambSubj)}/${year}/${filename}`);
-    }
-    // Also try xtremepape.rs (it may work intermittently)
-    const xtrMatch = primaryUrl.match(/A%20Levels\/([^/]+)\/(\d{4})\//);
-    if (xtrMatch) {
-      const [, subjectFolder, year] = xtrMatch;
-      const subjectDecode = decodeURIComponent(subjectFolder);
-      // "Chemistry (9701)" → "Chemistry - 9701"
+      urls.push(`https://pastpapers.papacambridge.com/directories/CAIE/AS%20and%20A%20Level/${encodeURIComponent(papaCambSubj)}/${year}/${encodeURIComponent(filename)}`);
+
+      // xtremepape.rs: "Chemistry (9701)" → "Chemistry - 9701"
       const xtrSubj = subjectDecode.replace(/\s*\((\d+)\)/, ' - $1');
-      urls.push(`https://papers.xtremepape.rs/CAIE/AS%20%26%20A%20Level/${encodeURIComponent(xtrSubj)}/${year}/${filename}`);
+      urls.push(`https://papers.xtremepape.rs/CAIE/AS%20%26%20A%20Level/${encodeURIComponent(xtrSubj)}/${year}/${encodeURIComponent(filename)}`);
     }
   }
   return urls;
@@ -1485,70 +1525,121 @@ function _buildAlternateUrls(primaryUrl) {
 
 app.get('/api/pdf-proxy', async (req, res, next) => {
   try {
-    const url = req.query.url;
-    if (!url) return res.status(400).json({ error: 'url query param required' });
+    // ── Step 1: Decode the URL parameter ────────────────────────────────────
+    // Express already decodes %25 → % once, but the frontend may have called
+    // encodeURIComponent on an already-encoded URL (producing %2520 for a space).
+    // We decode repeatedly until the result stabilises to get the real URL.
+    let rawParam = req.query.url;
+    if (!rawParam) return res.status(400).json({ error: 'url query param required' });
 
-    // Allow local paths and any HTTPS URL ending in .pdf (or containing /pdf/ or Cloudinary raw)
+    let url = rawParam;
+    // Iterative decode: keeps decoding until stable (handles double-encoding like %2520 → %20 → space)
+    try {
+      let prev;
+      do {
+        prev = url;
+        url = decodeURIComponent(url);
+      } while (url !== prev);
+    } catch (_) {
+      url = rawParam; // if decoding fails, use as-is
+    }
+
+    console.log(`[PDF Proxy] raw param: ${rawParam.slice(0, 100)}`);
+    console.log(`[PDF Proxy] decoded URL: ${url.slice(0, 200)}`);
+
+    // ── Step 2: Validate ────────────────────────────────────────────────────
     const isLocal = url.startsWith('/papers/');
     const isHttps = url.startsWith('https://');
     const looksLikePdf = url.includes('.pdf') || url.includes('/pdf/') || url.includes('res.cloudinary.com');
+
     if (!isLocal && (!isHttps || !looksLikePdf)) {
       return res.status(403).json({ error: 'Only HTTPS PDF URLs are allowed' });
     }
 
+    // ── Step 3: Serve local files ────────────────────────────────────────────
     if (isLocal) {
       const filePath = path.join(__dirname, url);
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'inline');
+      res.setHeader('Content-Disposition', 'inline; filename="paper.pdf"');
+      res.setHeader('X-Content-Type-Options', 'nosniff');
       return res.sendFile(filePath, err => {
         if (err) res.status(404).json({ error: 'File not found' });
       });
     }
 
+    // ── Step 4: Proxy external PDF ───────────────────────────────────────────
     const browserHeaders = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-      'Accept': 'application/pdf,*/*',
+      'Accept': 'application/pdf,application/octet-stream,*/*',
       'Accept-Language': 'en-GB,en;q=0.9',
       'sec-fetch-dest': 'document',
       'sec-fetch-mode': 'navigate',
     };
 
-    // Try primary URL + alternates
+    // Get the safe filename for Content-Disposition
+    function safeFilename(u) {
+      try {
+        const seg = new URL(u).pathname.split('/').pop();
+        return seg && seg.endsWith('.pdf') ? seg : 'paper.pdf';
+      } catch (_) { return 'paper.pdf'; }
+    }
+
+    // Build list of URLs to try (primary + mirrors)
     const urlsToTry = _buildAlternateUrls(url);
     let lastStatus = 0;
+    let lastError  = '';
 
     for (const tryUrl of urlsToTry) {
       try {
-        console.log(`[PDF Proxy] trying: ${tryUrl}`);
+        console.log(`[PDF Proxy] fetching: ${tryUrl}`);
         const response = await fetch(tryUrl, {
-          headers: { ...browserHeaders, 'Referer': tryUrl.split('/').slice(0,3).join('/') + '/' },
+          headers: {
+            ...browserHeaders,
+            'Referer': new URL(tryUrl).origin + '/',
+          },
           redirect: 'follow',
-          signal: AbortSignal.timeout(8000),
+          signal: AbortSignal.timeout(12000),
         });
 
         if (!response.ok) {
-          console.warn(`[PDF Proxy] ${response.status} from ${tryUrl}`);
+          console.warn(`[PDF Proxy] HTTP ${response.status} from: ${tryUrl}`);
           lastStatus = response.status;
-          continue; // try next source
+          lastError  = `HTTP ${response.status} from source`;
+          continue;
         }
 
-        // Success — stream back to client
+        // ── Success: set correct headers then stream ──────────────────────
+        const filename = safeFilename(tryUrl);
+
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'inline; filename="' + tryUrl.split('/').pop() + '"');
-        const ct = response.headers.get('content-length');
-        if (ct) res.setHeader('Content-Length', ct);
+        res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        // Allow browsers to display PDF inline (important for <iframe> embedding)
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        const contentLength = response.headers.get('content-length');
+        if (contentLength) res.setHeader('Content-Length', contentLength);
+
+        console.log(`[PDF Proxy] streaming ${filename} (${contentLength || '?'} bytes)`);
+
+        // Use arrayBuffer → Buffer for reliable streaming in Node's fetch API
         const buf = await response.arrayBuffer();
         return res.send(Buffer.from(buf));
+
       } catch (fetchErr) {
         console.warn(`[PDF Proxy] fetch error for ${tryUrl}:`, fetchErr.message);
+        lastError = fetchErr.message;
         lastStatus = 0;
       }
     }
 
-    // All sources failed — redirect browser directly to primary URL so
-    // the browser can try with its own cookies/headers
-    console.warn(`[PDF Proxy] all sources failed (last status ${lastStatus}), redirecting to ${url}`);
-    return res.redirect(302, url);
+    // ── All sources failed ────────────────────────────────────────────────
+    console.warn(`[PDF Proxy] all sources failed. last status=${lastStatus}, error=${lastError}`);
+    return res.status(502).json({
+      error: 'Could not retrieve PDF',
+      detail: lastError || `HTTP ${lastStatus}`,
+      tried: urlsToTry.length,
+    });
 
   } catch (e) { next(e); }
 });

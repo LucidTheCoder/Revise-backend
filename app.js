@@ -3060,11 +3060,18 @@ async function deletePaper(paperId, paperLabel) {
 
 function openPaperUrl(url) {
   if (!url) return;
-  // Route through server proxy so browser gets Content-Type: application/pdf
-  // This fixes "downloads as file" for Cloudinary raw uploads and blocked direct links
-  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?url=' + encodeURIComponent(url);
 
-  // Show a modal with the link — reliable on mobile where window.open is often blocked
+  // Ensure URL is fully decoded before re-encoding once — prevents %2520 double-encode bug
+  let cleanUrl = url;
+  try {
+    let prev;
+    do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
+  } catch (_) { cleanUrl = url; }
+
+  // Build proxy URL with exactly one level of encoding
+  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?url=' + encodeURIComponent(cleanUrl);
+
+  // Remove any existing modal
   const existing = document.getElementById('paper-link-modal');
   if (existing) existing.remove();
 
@@ -3074,39 +3081,50 @@ function openPaperUrl(url) {
 
   const box = document.createElement('div');
   box.className = 'social-modal';
-  box.style.cssText = 'max-width:400px;display:flex;flex-direction:column;gap:0.85rem';
+  box.style.cssText = 'max-width:420px;display:flex;flex-direction:column;gap:0.85rem';
 
   const h = document.createElement('h3');
   h.style.margin = '0';
-  h.textContent = 'Open Paper';
+  h.textContent = '📄 Open Past Paper';
 
   const p = document.createElement('p');
   p.style.cssText = 'color:var(--text2);font-size:0.85rem;margin:0';
-  p.textContent = 'Tap the button below to open the PDF.';
+  p.textContent = 'Click the button to open the PDF in a new tab. If it fails to load, try the direct link.';
 
+  // Primary: proxy link (sets correct Content-Type)
   const a = document.createElement('a');
   a.href = proxyUrl;
   a.target = '_blank';
   a.rel = 'noopener noreferrer';
   a.className = 'btn btn-primary';
   a.style.cssText = 'display:block;text-align:center';
-  a.textContent = '📄 Open PDF ↗';
+  a.textContent = 'Open PDF ↗';
+
+  // Fallback: direct link if proxy fails
+  const fallback = document.createElement('a');
+  fallback.href = cleanUrl;
+  fallback.target = '_blank';
+  fallback.rel = 'noopener noreferrer';
+  fallback.className = 'btn btn-outline btn-sm';
+  fallback.style.cssText = 'display:block;text-align:center;font-size:0.82rem';
+  fallback.textContent = 'Try direct link (if PDF didn\'t open)';
 
   const closeBtn = document.createElement('button');
-  closeBtn.className = 'btn btn-outline btn-sm';
+  closeBtn.className = 'btn btn-ghost btn-sm';
   closeBtn.textContent = 'Close';
   closeBtn.onclick = () => overlay.remove();
 
   box.appendChild(h);
   box.appendChild(p);
   box.appendChild(a);
+  box.appendChild(fallback);
   box.appendChild(closeBtn);
   overlay.appendChild(box);
   document.body.appendChild(overlay);
   overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
   requestAnimationFrame(() => overlay.classList.add('open'));
 
-  // Also try window.open
+  // Auto-open in new tab (may be blocked on mobile)
   window.open(proxyUrl, '_blank', 'noopener,noreferrer');
 }
 
@@ -3471,15 +3489,15 @@ async function askAi(topicId) {
   renderAiChat(topicId);
 
   // Show loading bubble
-  const loadingId = `ai-loading-${Date.now()}`;
   const loadingDiv = document.createElement('div');
   loadingDiv.className = 'ai-bubble ai-bubble-assistant ai-bubble-loading';
-  loadingDiv.id = loadingId;
-  loadingDiv.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span>';
+  loadingDiv.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span><span style="margin-left:0.5rem;font-size:0.82rem;color:var(--text3)">AI is thinking…</span>';
   histEl.appendChild(loadingDiv);
   histEl.scrollTop = histEl.scrollHeight;
 
-  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '…'; }
+  // Lock UI while loading
+  if (sendBtn)  { sendBtn.disabled = true; }
+  if (promptEl) { promptEl.disabled = true; promptEl.placeholder = 'AI is thinking…'; }
 
   try {
     const topic   = state.topics.get(topicId);
@@ -3494,7 +3512,7 @@ async function askAi(topicId) {
         subjectId:    topic?.subject || state.currentSubject,
         context,
         prompt:       userText,
-        history:      aiChatHistory[topicId].slice(-8), // send last 8 turns for context
+        history:      aiChatHistory[topicId].slice(-8),
       }),
     });
 
@@ -3502,8 +3520,14 @@ async function askAi(topicId) {
     loadingDiv.remove();
 
     if (!res.ok) {
-      const errText = data.error || `Server error ${res.status}`;
-      aiChatHistory[topicId].push({ role: 'error', text: errText });
+      // Show a friendly user-facing error
+      const raw = data.error || `Server error ${res.status}`;
+      const friendly = raw.toLowerCase().includes('rate') || raw.toLowerCase().includes('busy') || raw.toLowerCase().includes('unavailable')
+        ? 'AI is currently busy — please try again in a moment.'
+        : raw.toLowerCase().includes('api key') || raw.toLowerCase().includes('configured')
+        ? 'AI is not configured yet. Please check your OpenRouter API key.'
+        : raw.length > 120 ? 'AI encountered an error. Please try again.' : raw;
+      aiChatHistory[topicId].push({ role: 'error', text: friendly });
     } else {
       aiChatHistory[topicId].push({ role: 'assistant', text: data.answer });
     }
@@ -3512,7 +3536,9 @@ async function askAi(topicId) {
     aiChatHistory[topicId].push({ role: 'error', text: 'Network error — check your connection and try again.' });
   }
 
-  if (sendBtn) { sendBtn.disabled = false; sendBtn.innerHTML = '<span class="ai-send-icon">↑</span>'; }
+  // Unlock UI
+  if (sendBtn)  { sendBtn.disabled = false; sendBtn.innerHTML = '<span class="ai-send-icon">↑</span>'; }
+  if (promptEl) { promptEl.disabled = false; promptEl.placeholder = `Ask anything about this topic…`; promptEl.focus(); }
   renderAiChat(topicId);
 }
 
@@ -3530,15 +3556,18 @@ function renderAiChat(topicId) {
   const histEl = byId('ai-chat-history');
   if (!histEl) return;
   const history = aiChatHistory[topicId] || [];
-  if (!history.length) { histEl.innerHTML = '<p class="ai-empty">Ask anything about this topic — I\'ll help you understand, practise, or prepare for exams.</p>'; return; }
+  if (!history.length) {
+    histEl.innerHTML = '<p class="ai-empty">Ask anything about this topic — I\'ll help you understand, practise, or prepare for exams.</p>';
+    return;
+  }
   histEl.innerHTML = history.map(msg => {
     if (msg.role === 'user') {
       return `<div class="ai-bubble ai-bubble-user"><p>${escapeHtml(msg.text)}</p></div>`;
     }
     if (msg.role === 'error') {
-      return `<div class="ai-bubble ai-bubble-error"><p>⚠ ${escapeHtml(msg.text)}</p></div>`;
+      return `<div class="ai-bubble ai-bubble-error"><p>${escapeHtml(msg.text)}</p></div>`;
     }
-    // assistant — render markdown-lite (bold, code, bullet points)
+    // assistant — render markdown-lite (bold, code, bullet points, headers)
     const html = msg.text
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
       .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
