@@ -795,7 +795,7 @@ setInterval(() => {
 
 /**
  * GET /api/test-ai
- * Quick sanity-check: sends "Say hello" to openrouter/auto and returns the reply.
+ * Quick sanity-check: sends "Say hello" to a free OpenRouter model and returns the reply.
  * Use this to verify your OPENROUTER_API_KEY is working.
  */
 app.get('/api/test-ai', async (req, res, next) => {
@@ -814,7 +814,7 @@ app.get('/api/test-ai', async (req, res, next) => {
         'X-Title': 'Revise AS Level Study Platform',
       },
       body: JSON.stringify({
-        model: 'openrouter/auto',
+        model: 'openrouter/free',
         max_tokens: 100,
         messages: [{ role: 'user', content: 'Say hello in one sentence.' }],
       }),
@@ -1011,9 +1011,9 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const apiKey = process.env.OPENROUTER_API_KEY;
       if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENROUTER_API_KEY in Render environment variables.' });
 
-      // Primary: openrouter/auto lets OpenRouter pick the best available model
-      // Fallback chain: stable, confirmed free-tier models (avoid deepseek, phi reasoning, large models)
-      const primaryModel = process.env.AI_MODEL || 'openrouter/auto';
+      // Primary: Use openrouter/free to automatically route to available free models
+      // Fallback chain: stable, confirmed free-tier models (all require :free suffix)
+      const primaryModel = process.env.AI_MODEL || 'openrouter/free';
       const fallbackModels = [
         'meta-llama/llama-3.1-8b-instruct:free',
         'google/gemma-2-9b-it:free',
