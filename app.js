@@ -3089,25 +3089,23 @@ function openPaperUrl(url) {
 
   const p = document.createElement('p');
   p.style.cssText = 'color:var(--text2);font-size:0.85rem;margin:0';
-  p.textContent = 'Click the button to open the PDF in a new tab. If it fails to load, try the direct link.';
+  p.textContent = 'Click the button to download the past paper. If it fails, try the direct download link.';
 
-  // Primary: proxy link (sets correct Content-Type)
+  // Primary: proxy link (forces download)
   const a = document.createElement('a');
   a.href = proxyUrl;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
+  a.download = 'past-paper.pdf';
   a.className = 'btn btn-primary';
   a.style.cssText = 'display:block;text-align:center';
-  a.textContent = 'Open PDF ↗';
+  a.textContent = 'Download PDF ↓';
 
   // Fallback: direct link if proxy fails
   const fallback = document.createElement('a');
   fallback.href = cleanUrl;
-  fallback.target = '_blank';
-  fallback.rel = 'noopener noreferrer';
+  fallback.download = 'past-paper.pdf';
   fallback.className = 'btn btn-outline btn-sm';
   fallback.style.cssText = 'display:block;text-align:center;font-size:0.82rem';
-  fallback.textContent = 'Try direct link (if PDF didn\'t open)';
+  fallback.textContent = 'Try direct download (if failed)';
 
   const closeBtn = document.createElement('button');
   closeBtn.className = 'btn btn-ghost btn-sm';

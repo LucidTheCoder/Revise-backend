@@ -864,7 +864,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       });
     }
 
-    const provider = (process.env.AI_PROVIDER || 'claude').toLowerCase();
+    const provider = (process.env.AI_PROVIDER || 'openrouter').toLowerCase();
 
     // Build system prompt
     const systemPrompt = [
@@ -1560,7 +1560,7 @@ app.get('/api/pdf-proxy', async (req, res, next) => {
     if (isLocal) {
       const filePath = path.join(__dirname, url);
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'inline; filename="paper.pdf"');
+      res.setHeader('Content-Disposition', 'attachment; filename="paper.pdf"');
       res.setHeader('X-Content-Type-Options', 'nosniff');
       return res.sendFile(filePath, err => {
         if (err) res.status(404).json({ error: 'File not found' });
@@ -1612,7 +1612,7 @@ app.get('/api/pdf-proxy', async (req, res, next) => {
         const filename = safeFilename(tryUrl);
 
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
         res.setHeader('X-Content-Type-Options', 'nosniff');
         // Allow browsers to display PDF inline (important for <iframe> embedding)
         res.setHeader('Access-Control-Allow-Origin', '*');
