@@ -547,6 +547,10 @@ app.get('/api/community/forum', async (req, res, next) => {
     const pageSize  = Math.min(parseInt(limit) || 20, 100);
     const threads   = await db.getForumThreads({ subject, sort, limit: pageSize, skip: (pageNum - 1) * pageSize });
     const total     = await db.countForumThreads(subject ? { subject } : {});
+    // Increment view count for each thread returned
+    if (threads.length > 0) {
+      await Promise.all(threads.map(t => db.ForumThread.updateOne({ _id: t._id }, { $inc: { views: 1 } }).catch(() => {})));
+    }
     res.json({ success: true, data: threads, count: threads.length, total, page: pageNum, pageSize });
   } catch (error) { next(error); }
 });
@@ -663,9 +667,9 @@ app.delete('/api/community/forum/:threadId/replies/:replyId', authenticateToken,
 // POST /api/community/forum/:threadId/upvote
 app.post('/api/community/forum/:threadId/upvote', authenticateToken, async (req, res, next) => {
   try {
-    const updated = await db.upvoteThread(req.params.threadId);
+    const updated = await db.upvoteThread(req.params.threadId, req.user._id);
     if (!updated) return res.status(404).json({ success: false, error: 'Thread not found' });
-    res.json({ success: true, upvotes: updated.upvotes });
+    res.json({ success: true, upvotes: updated.upvotes, hasUpvoted: updated.upvoterIds?.includes(req.user._id) });
   } catch (error) { next(error); }
 });
 
@@ -814,7 +818,7 @@ app.get('/api/test-ai', async (req, res, next) => {
         'X-Title': 'Revise AS Level Study Platform',
       },
       body: JSON.stringify({
-        model: 'openrouter/free',
+        model: 'meta-llama/llama-3.1-8b-instruct:free',
         max_tokens: 100,
         messages: [{ role: 'user', content: 'Say hello in one sentence.' }],
       }),
@@ -1011,18 +1015,18 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const apiKey = process.env.OPENROUTER_API_KEY;
       if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENROUTER_API_KEY in Render environment variables.' });
 
-      // Primary: Use openrouter/free to automatically route to available free models
-      // Fallback chain: stable, confirmed free-tier models (all require :free suffix)
-      const primaryModel = process.env.AI_MODEL || 'openrouter/free';
+      // Primary: Use meta-llama Instruct (stable free model)
+      // Fallback chain: other confirmed free-tier models
+      const primaryModel = process.env.AI_MODEL || 'meta-llama/llama-3.1-8b-instruct:free';
       const fallbackModels = [
-        'meta-llama/llama-3.1-8b-instruct:free',
         'google/gemma-2-9b-it:free',
-        'mistralai/mistral-small:free',
+        'mistralai/mistral-7b-instruct:free',
       ];
       const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
 
       // Debug: log API key presence (never log the key itself)
       console.log(`[AI] OpenRouter API key present: ${!!apiKey}, length: ${apiKey?.length || 0}`);
+      console.log(`[AI] Using OpenRouter models: ${modelsToTry.join(' → ')}`);
 
       const messages = [
         { role: 'system', content: systemPrompt },
@@ -1054,6 +1058,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
           });
 
           const orData = await orRes.json();
+          console.log(`[AI] OpenRouter response: status=${orRes.status}, has_choices=${!!orData.choices}, error=${!!orData.error}`);
 
           // OpenRouter may return errors as JSON even on 2xx status
           if (orData.error) {
@@ -1081,9 +1086,11 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
           }
 
           const finishReason = orData.choices?.[0]?.finish_reason;
-          console.log(`[AI] OpenRouter success: model=${model}, finish_reason=${finishReason}`);
-          answer = orData.choices?.[0]?.message?.content || '';
-          if (answer) break; // success — exit loop
+          const content = orData.choices?.[0]?.message?.content;
+          console.log(`[AI] OpenRouter response: model=${model}, finish_reason=${finishReason}, content_length=${content?.length || 0}`);
+          answer = content || '';
+          if (answer.trim()) break; // success — exit loop
+          console.warn(`[AI] Empty response from model=${model}, trying next...`);
           lastError = 'Empty response from model';
         } catch (fetchErr) {
           // Re-throw auth errors immediately

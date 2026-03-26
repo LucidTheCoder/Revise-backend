@@ -3085,27 +3085,33 @@ function openPaperUrl(url) {
 
   const h = document.createElement('h3');
   h.style.margin = '0';
-  h.textContent = '📄 Open Past Paper';
+  h.textContent = '📄 Download Past Paper';
 
   const p = document.createElement('p');
   p.style.cssText = 'color:var(--text2);font-size:0.85rem;margin:0';
-  p.textContent = 'Click the button to download the past paper. If it fails, try the direct download link.';
+  p.textContent = 'Click below to download your past paper. The file will be saved to your Downloads folder.';
 
-  // Primary: proxy link (forces download)
+  // Primary: proxy link (direct download)
   const a = document.createElement('a');
   a.href = proxyUrl;
-  a.download = 'past-paper.pdf';
+  a.download = '';
   a.className = 'btn btn-primary';
-  a.style.cssText = 'display:block;text-align:center';
+  a.style.cssText = 'display:block;text-align:center;text-decoration:none';
   a.textContent = 'Download PDF ↓';
+  a.onclick = (e) => {
+    overlay.remove();
+  };
 
   // Fallback: direct link if proxy fails
   const fallback = document.createElement('a');
   fallback.href = cleanUrl;
-  fallback.download = 'past-paper.pdf';
+  fallback.download = '';
   fallback.className = 'btn btn-outline btn-sm';
-  fallback.style.cssText = 'display:block;text-align:center;font-size:0.82rem';
+  fallback.style.cssText = 'display:block;text-align:center;font-size:0.82rem;text-decoration:none';
   fallback.textContent = 'Try direct download (if failed)';
+  fallback.onclick = (e) => {
+    overlay.remove();
+  };
 
   const closeBtn = document.createElement('button');
   closeBtn.className = 'btn btn-ghost btn-sm';
@@ -3121,9 +3127,6 @@ function openPaperUrl(url) {
   document.body.appendChild(overlay);
   overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
   requestAnimationFrame(() => overlay.classList.add('open'));
-
-  // Auto-open in new tab (may be blocked on mobile)
-  window.open(proxyUrl, '_blank', 'noopener,noreferrer');
 }
 
 function renderPastPapers() {

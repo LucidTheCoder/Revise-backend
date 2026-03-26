@@ -110,6 +110,7 @@ const forumThreadSchema = new mongoose.Schema({
   pinned:   { type: Boolean, default: false },
   locked:   { type: Boolean, default: false },
   upvotes:  { type: Number, default: 0 },
+  upvoterIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   views:    { type: Number, default: 0 },
   replies:  [replySchema],
 }, { timestamps: true });
@@ -263,8 +264,24 @@ const addForumReply = (threadId, { author, authorId, body }) =>
 const deleteForumReply = (threadId, replyId) =>
   ForumThread.findByIdAndUpdate(threadId, { $pull: { replies: { _id: replyId } } }, { new: true });
 
-const upvoteThread = (threadId) =>
-  ForumThread.findByIdAndUpdate(threadId, { $inc: { upvotes: 1 } }, { new: true });
+const upvoteThread = async (threadId, userId) => {
+  const thread = await ForumThread.findById(threadId);
+  if (!thread) return null;
+  
+  // Check if user already voted
+  if (thread.upvoterIds?.includes(userId)) {
+    // User already voted - toggle off (remove upvote)
+    thread.upvotes = Math.max(0, thread.upvotes - 1);
+    thread.upvoterIds = thread.upvoterIds.filter(id => !id.equals(userId));
+  } else {
+    // User hasn't voted - add upvote
+    thread.upvotes = (thread.upvotes || 0) + 1;
+    thread.upvoterIds = [...(thread.upvoterIds || []), userId];
+  }
+  
+  await thread.save();
+  return thread;
+};
 
 // ============================================================================
 // CHAT HELPERS
