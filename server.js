@@ -818,7 +818,7 @@ app.get('/api/test-ai', async (req, res, next) => {
         'X-Title': 'Revise AS Level Study Platform',
       },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3.1-8b-instruct:free',
+        model: 'mistralai/mistral-7b-instruct:free',
         max_tokens: 100,
         messages: [{ role: 'user', content: 'Say hello in one sentence.' }],
       }),
