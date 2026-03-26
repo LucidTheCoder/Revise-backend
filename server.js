@@ -1015,18 +1015,18 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const apiKey = process.env.OPENROUTER_API_KEY;
       if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENROUTER_API_KEY in Render environment variables.' });
 
-      // Primary: Use meta-llama Instruct (stable free model)
-      // Fallback chain: other confirmed free-tier models
-      const primaryModel = process.env.AI_MODEL || 'meta-llama/llama-3.1-8b-instruct:free';
+      // Use the most reliable free models with better uptime
+      const primaryModel = process.env.AI_MODEL || 'mistralai/mistral-7b-instruct:free';
       const fallbackModels = [
-        'google/gemma-2-9b-it:free',
-        'mistralai/mistral-7b-instruct:free',
+        'meta-llama/llama-2-7b-chat:free',
+        'google/gemini-flash-1.5-free',
+        'meta-llama/llama-3.1-8b-instruct:free',
       ];
       const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
 
       // Debug: log API key presence (never log the key itself)
       console.log(`[AI] OpenRouter API key present: ${!!apiKey}, length: ${apiKey?.length || 0}`);
-      console.log(`[AI] Using OpenRouter models: ${modelsToTry.join(' → ')}`);
+      console.log(`[AI] Trying models: ${modelsToTry.join(' → ')}`);
 
       const messages = [
         { role: 'system', content: systemPrompt },
@@ -1040,69 +1040,58 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       let lastError = null;
       for (const model of modelsToTry) {
         try {
-          console.log(`[AI] OpenRouter attempt: model=${model}, messages=${messages.length}`);
+          console.log(`[AI] Requesting: ${model}, messages: ${messages.length}`);
           const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${apiKey}`,
               'HTTP-Referer': process.env.FRONTEND_URL || 'https://asrevise.onrender.com',
-              'X-Title': 'Revise AS Level Study Platform',
+              'X-Title': 'Revise Study Platform',
             },
             body: JSON.stringify({
               model,
-              max_tokens: 1024,
+              max_tokens: 512,
               messages,
-              temperature: 0.7,
+              temperature: 0.6,
             }),
           });
 
           const orData = await orRes.json();
-          console.log(`[AI] OpenRouter response: status=${orRes.status}, has_choices=${!!orData.choices}, error=${!!orData.error}`);
 
-          // OpenRouter may return errors as JSON even on 2xx status
+          // Check for errors in response
           if (orData.error) {
             const msg = orData.error?.message || JSON.stringify(orData.error);
-            const code = orData.error?.code;
-            console.warn(`[AI] OpenRouter model=${model} error code=${code}:`, msg);
-            console.warn(`[AI] Full error response:`, JSON.stringify(orData).slice(0, 500));
-
-            // 401 = bad API key — don't retry, surface immediately
-            if (orRes.status === 401 || code === 401) {
-              throw new Error('Invalid OpenRouter API key — check OPENROUTER_API_KEY at openrouter.ai/keys');
-            }
-
-            // These are retryable: rate limit, quota, model not found, provider error
-            lastError = msg;
-            continue; // try next model
-          }
-
-          if (!orRes.ok) {
-            const msg = `OpenRouter HTTP ${orRes.status}`;
-            console.warn(`[AI] ${msg} for model=${model}`);
-            if (orRes.status === 401) throw new Error('Invalid OpenRouter API key — check OPENROUTER_API_KEY at openrouter.ai/keys');
+            console.warn(`[AI] ${model} error:`, msg.slice(0, 200));
+            if (orRes.status === 401) throw new Error('Invalid API key');
             lastError = msg;
             continue;
           }
 
-          const finishReason = orData.choices?.[0]?.finish_reason;
-          const content = orData.choices?.[0]?.message?.content;
-          console.log(`[AI] OpenRouter response: model=${model}, finish_reason=${finishReason}, content_length=${content?.length || 0}`);
-          answer = content || '';
-          if (answer.trim()) break; // success — exit loop
-          console.warn(`[AI] Empty response from model=${model}, trying next...`);
-          lastError = 'Empty response from model';
+          if (!orRes.ok) {
+            console.warn(`[AI] HTTP ${orRes.status} from ${model}`);
+            lastError = `HTTP ${orRes.status}`;
+            continue;
+          }
+
+          const content = orData.choices?.[0]?.message?.content || '';
+          if (content && content.trim()) {
+            console.log(`[AI] Success with ${model} (${content.length} chars)`);
+            answer = content.trim();
+            break;
+          } else {
+            console.warn(`[AI] Empty content from ${model}`);
+            lastError = 'Empty response';
+          }
         } catch (fetchErr) {
-          // Re-throw auth errors immediately
-          if (fetchErr.message.includes('Invalid OpenRouter')) throw fetchErr;
+          if (fetchErr.message.includes('Invalid API')) throw fetchErr;
+          console.warn(`[AI] Error with ${model}:`, fetchErr.message.slice(0, 100));
           lastError = fetchErr.message;
-          console.warn(`[AI] OpenRouter fetch error for model=${model}:`, fetchErr.message);
         }
       }
 
-      if (!answer) {
-        const msg = lastError || 'All OpenRouter models failed';
-        throw new Error('AI is currently busy — all models are rate-limited or unavailable. Please try again in a moment.');
+      if (!answer?.trim()) {
+        throw new Error('AI service temporarily unavailable — all models are busy. Try again in 30 seconds.');
       }
     }
 

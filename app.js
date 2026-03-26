@@ -3089,17 +3089,21 @@ function openPaperUrl(url) {
 
   const p = document.createElement('p');
   p.style.cssText = 'color:var(--text2);font-size:0.85rem;margin:0';
-  p.textContent = 'Click below to download your past paper. The file will be saved to your Downloads folder.';
+  p.textContent = 'Click to download. Please allow a moment for the file to prepare.';
 
   // Primary: proxy link (direct download)
   const a = document.createElement('a');
   a.href = proxyUrl;
   a.download = '';
   a.className = 'btn btn-primary';
-  a.style.cssText = 'display:block;text-align:center;text-decoration:none';
-  a.textContent = 'Download PDF ↓';
+  a.style.cssText = 'display:block;text-align:center;text-decoration:none;transition:all 0.2s';
+  a.textContent = '📥 Download PDF';
+  a.onmouseover = () => a.style.opacity = '0.9';
+  a.onmouseout = () => a.style.opacity = '1';
   a.onclick = (e) => {
-    overlay.remove();
+    a.disabled = true;
+    a.textContent = '⏳ Loading...';
+    setTimeout(() => { overlay.remove(); }, 1000);
   };
 
   // Fallback: direct link if proxy fails
@@ -3108,7 +3112,7 @@ function openPaperUrl(url) {
   fallback.download = '';
   fallback.className = 'btn btn-outline btn-sm';
   fallback.style.cssText = 'display:block;text-align:center;font-size:0.82rem;text-decoration:none';
-  fallback.textContent = 'Try direct download (if failed)';
+  fallback.textContent = '🔗 Try Direct Link';
   fallback.onclick = (e) => {
     overlay.remove();
   };
@@ -3489,16 +3493,14 @@ async function askAi(topicId) {
   promptEl.value = '';
   renderAiChat(topicId);
 
-  // Show loading bubble
   const loadingDiv = document.createElement('div');
   loadingDiv.className = 'ai-bubble ai-bubble-assistant ai-bubble-loading';
-  loadingDiv.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span><span style="margin-left:0.5rem;font-size:0.82rem;color:var(--text3)">AI is thinking…</span>';
+  loadingDiv.innerHTML = '<span class="ai-dots"><span></span><span></span><span></span></span><span style="margin-left:0.5rem;font-size:0.82rem;color:var(--text3)">🤔 Thinking...</span>';
   histEl.appendChild(loadingDiv);
   histEl.scrollTop = histEl.scrollHeight;
 
-  // Lock UI while loading
-  if (sendBtn)  { sendBtn.disabled = true; }
-  if (promptEl) { promptEl.disabled = true; promptEl.placeholder = 'AI is thinking…'; }
+  if (sendBtn)  { sendBtn.disabled = true; sendBtn.innerHTML = '<span style="opacity:0.6">⏳</span>'; }
+  if (promptEl) { promptEl.disabled = true; promptEl.placeholder = 'Waiting for AI...'; }
 
   try {
     const topic   = state.topics.get(topicId);
