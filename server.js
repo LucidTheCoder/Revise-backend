@@ -147,6 +147,14 @@ app.use(express.static(path.join(__dirname)));
 
 // ── Security headers (no external package needed) ─────────────────────────
 app.use((req, res, next) => {
+  // PDF viewer opens responses in an internal frame; X-Frame-Options/CSP frame-ancestors can break it.
+  // For this endpoint, keep only minimal safe headers.
+  if (req.path.startsWith('/api/pdf-proxy')) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    return next();
+  }
+
   // Prevent MIME sniffing
   res.setHeader('X-Content-Type-Options', 'nosniff');
   // Block clickjacking
@@ -1816,6 +1824,18 @@ async function handlePdfProxy(req, res, next) {
           continue;
         }
 
+        const sourceType = String(response.headers.get('content-type') || '').toLowerCase();
+        const sourceLength = response.headers.get('content-length');
+        const sourceBuffer = Buffer.from(await response.arrayBuffer());
+        const hasPdfSignature = sourceBuffer.slice(0, 5).toString('ascii') === '%PDF-';
+        const looksPdfByType = sourceType.includes('application/pdf') || sourceType.includes('application/octet-stream');
+        if (!hasPdfSignature && !looksPdfByType) {
+          console.warn(`[PDF Proxy] non-PDF payload from: ${tryUrl} (content-type=${sourceType || 'unknown'})`);
+          lastStatus = 0;
+          lastError = `Non-PDF payload from source (${sourceType || 'unknown'})`;
+          continue;
+        }
+
         // ── Success: set correct headers then stream ──────────────────────
         const filename = safeFilename(tryUrl);
 
@@ -1825,14 +1845,10 @@ async function handlePdfProxy(req, res, next) {
         // Allow browsers to display PDF inline (important for <iframe> embedding)
         res.setHeader('Access-Control-Allow-Origin', '*');
 
-        const contentLength = response.headers.get('content-length');
-        if (contentLength) res.setHeader('Content-Length', contentLength);
+        if (sourceLength) res.setHeader('Content-Length', sourceLength);
 
-        console.log(`[PDF Proxy] streaming ${filename} (${contentLength || '?'} bytes)`);
-
-        // Use arrayBuffer → Buffer for reliable streaming in Node's fetch API
-        const buf = await response.arrayBuffer();
-        return res.send(Buffer.from(buf));
+        console.log(`[PDF Proxy] streaming ${filename} (${sourceLength || sourceBuffer.length || '?'} bytes)`);
+        return res.send(sourceBuffer);
 
       } catch (fetchErr) {
         console.warn(`[PDF Proxy] fetch error for ${tryUrl}:`, fetchErr.message);
