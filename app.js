@@ -3246,22 +3246,9 @@ async function deletePaper(paperId, paperLabel) {
 function openPaperUrl(url) {
   if (!url) return;
 
-  // Ensure URL is fully decoded before re-encoding once — prevents %2520 double-encode bug
-  let cleanUrl = url;
-  try {
-    let prev;
-    do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
-  } catch (_) { cleanUrl = url; }
-
-  // Local /papers/ URLs: open directly in new tab
-  if (cleanUrl.startsWith('/papers/')) {
-    window.open(`${API_BASE_URL}${cleanUrl}`, '_blank', 'noopener,noreferrer');
-    return;
-  }
-
-  // External URLs: navigate directly in browser. This avoids proxy-side mirror 404s.
-  const targetUrl = cleanUrl;
-  console.log('[openPaperUrl] Opening direct URL:', targetUrl);
+  // Keep this intentionally simple: open the exact URL provided in data.
+  const targetUrl = String(url).trim();
+  console.log('[openPaperUrl] Opening URL:', targetUrl);
 
   // Use an anchor click instead of window.open; many browsers treat this as a direct user navigation.
   const a = document.createElement('a');
@@ -3275,15 +3262,7 @@ function openPaperUrl(url) {
 
 function downloadPaperUrl(url) {
   if (!url) return;
-  let cleanUrl = url;
-  try {
-    let prev;
-    do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
-  } catch (_) { cleanUrl = url; }
-
-  const targetUrl = cleanUrl.startsWith('/papers/')
-    ? `${API_BASE_URL}${cleanUrl}`
-    : cleanUrl;
+  const targetUrl = String(url).trim();
   const a = document.createElement('a');
   a.href = targetUrl;
   a.target = '_blank';
