@@ -155,6 +155,15 @@ const groupMessageSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // ============================================================================
+// SCHEMA: Curriculum (subjects metadata)
+// ============================================================================
+
+const curriculumSchema = new mongoose.Schema({
+  kind: { type: String, required: true, unique: true, default: 'subjects' },
+  subjects: { type: [mongoose.Schema.Types.Mixed], default: [] },
+}, { timestamps: true });
+
+// ============================================================================
 // MODELS
 // ============================================================================
 
@@ -165,6 +174,7 @@ const ChatMessage   = mongoose.models.ChatMessage   || mongoose.model('ChatMessa
 const FriendRequest = mongoose.models.FriendRequest || mongoose.model('FriendRequest', friendRequestSchema);
 const GroupChat     = mongoose.models.GroupChat     || mongoose.model('GroupChat',     groupChatSchema);
 const GroupMessage  = mongoose.models.GroupMessage  || mongoose.model('GroupMessage',  groupMessageSchema);
+const Curriculum    = mongoose.models.Curriculum    || mongoose.model('Curriculum',    curriculumSchema);
 
 // ============================================================================
 // USER HELPERS
@@ -363,9 +373,22 @@ const getGroupMessages  = (chatId, limit = 50) =>
 const addGroupMessage   = (chatId, authorId, authorName, text) =>
   GroupMessage.create({ chatId, authorId, authorName, text });
 
+// Curriculum subjects metadata
+const getCurriculumSubjects = async () => {
+  const doc = await Curriculum.findOne({ kind: 'subjects' }).lean();
+  return Array.isArray(doc?.subjects) ? doc.subjects : [];
+};
+
+const upsertCurriculumSubjects = (subjects) =>
+  Curriculum.findOneAndUpdate(
+    { kind: 'subjects' },
+    { $set: { subjects: Array.isArray(subjects) ? subjects : [] } },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  );
+
 module.exports = {
   connectDB,
-  User, Progress, ForumThread, ChatMessage, FriendRequest, GroupChat, GroupMessage,
+  User, Progress, ForumThread, ChatMessage, FriendRequest, GroupChat, GroupMessage, Curriculum,
   findUserByEmail, findUserById, createUser, updateUserAvatar,
   getAllUsers, setUserRole, banUser, deleteUser,
   upsertProgress, getAllProgress, getProgress,
@@ -377,4 +400,5 @@ module.exports = {
   getPublicProfile, searchUsers, touchLastActive,
   sendFriendRequest, respondFriendRequest, getFriendRequests, getFriends,
   createGroupChat, getUserGroupChats, getGroupMessages, addGroupMessage,
+  getCurriculumSubjects, upsertCurriculumSubjects,
 };

@@ -258,6 +258,48 @@ async function loadTopic(topicId, subject) {
   return JSON.parse(data.replace(/^\uFEFF/, ''));
 }
 
+function mergeSubjectsWithLocal(dbSubjects, fileSubjects) {
+  const safeDb = Array.isArray(dbSubjects) ? dbSubjects : [];
+  const safeFile = Array.isArray(fileSubjects) ? fileSubjects : [];
+  const fileById = new Map(safeFile.map(s => [s.id, s]));
+
+  return safeDb.map((subject) => {
+    const fileSubject = fileById.get(subject?.id);
+    if (!fileSubject || !Array.isArray(fileSubject.units)) return subject;
+
+    const doneMap = new Map();
+    for (const unit of subject.units || []) {
+      for (const topic of unit.topics || []) doneMap.set(topic.id, !!topic.done);
+    }
+
+    return {
+      ...subject,
+      units: (fileSubject.units || []).map((unit) => ({
+        ...unit,
+        topics: (unit.topics || []).map((topic) => ({
+          ...topic,
+          done: doneMap.has(topic.id) ? doneMap.get(topic.id) : !!topic.done,
+        })),
+      })),
+    };
+  });
+}
+
+async function getSubjectsFromDb() {
+  const fileData = await loadJsonFile('subjects.json');
+  const fileSubjects = fileData.subjects || fileData;
+
+  let dbSubjects = await db.getCurriculumSubjects();
+  if (!Array.isArray(dbSubjects) || !dbSubjects.length) {
+    await db.upsertCurriculumSubjects(fileSubjects);
+    return fileSubjects;
+  }
+
+  const merged = mergeSubjectsWithLocal(dbSubjects, fileSubjects);
+  await db.upsertCurriculumSubjects(merged);
+  return merged;
+}
+
 // Health check endpoint for Render
 app.get('/health', (req, res) => res.json({ status: 'ok', ts: Date.now() }));
 
@@ -398,16 +440,14 @@ app.post('/api/auth/discord', async (req, res, next) => {
 
 app.get('/api/subjects', async (req, res, next) => {
   try {
-    const data     = await loadJsonFile('subjects.json');
-    const subjects = data.subjects || data;
+    const subjects = await getSubjectsFromDb();
     res.json({ success: true, data: subjects, count: subjects.length });
   } catch (error) { next(error); }
 });
 
 app.get('/api/subjects/:subjectId', async (req, res, next) => {
   try {
-    const data     = await loadJsonFile('subjects.json');
-    const subjects = data.subjects || data;
+    const subjects = await getSubjectsFromDb();
     const subject  = subjects.find(s => s.id === req.params.subjectId);
     if (!subject) return res.status(404).json({ success: false, error: 'Subject not found' });
     res.json({ success: true, data: subject });
@@ -418,8 +458,7 @@ app.get('/api/topics/search', async (req, res, next) => {
   try {
     const query = req.query.q?.toLowerCase();
     if (!query || query.length < 2) return res.status(400).json({ success: false, error: 'Query too short' });
-    const data = await loadJsonFile('subjects.json');
-    const subjects = data.subjects || data;
+    const subjects = await getSubjectsFromDb();
     const results = [];
     for (const subject of subjects) {
       for (const unit of subject.units || []) {
@@ -437,7 +476,14 @@ app.get('/api/topics/search', async (req, res, next) => {
 app.get('/api/topics/:topicId', async (req, res, next) => {
   try {
     const { topicId } = req.params;
-    const { subject } = req.query;
+    let subject = req.query.subject;
+
+    if (!subject) {
+      const subjects = await getSubjectsFromDb();
+      const match = subjects.find(s => (s.units || []).some(u => (u.topics || []).some(t => t.id === topicId)));
+      subject = match?.id;
+    }
+
     if (!subject || !['chem', 'bio', 'phy'].includes(subject)) {
       return res.status(400).json({ success: false, error: 'subject param required: chem, bio, or phy' });
     }
@@ -452,7 +498,12 @@ app.get('/api/topics/:topicId', async (req, res, next) => {
 app.get('/api/topics/:topicId/quiz', async (req, res, next) => {
   try {
     const { topicId } = req.params;
-    const { subject } = req.query;
+    let { subject } = req.query;
+    if (!subject) {
+      const subjects = await getSubjectsFromDb();
+      const match = subjects.find(s => (s.units || []).some(u => (u.topics || []).some(t => t.id === topicId)));
+      subject = match?.id;
+    }
     if (!subject || !['chem', 'bio', 'phy'].includes(subject)) return res.status(400).json({ success: false, error: 'subject param required' });
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, quiz: topic.quiz || [] } });
@@ -462,7 +513,12 @@ app.get('/api/topics/:topicId/quiz', async (req, res, next) => {
 app.get('/api/topics/:topicId/flashcards', async (req, res, next) => {
   try {
     const { topicId } = req.params;
-    const { subject } = req.query;
+    let { subject } = req.query;
+    if (!subject) {
+      const subjects = await getSubjectsFromDb();
+      const match = subjects.find(s => (s.units || []).some(u => (u.topics || []).some(t => t.id === topicId)));
+      subject = match?.id;
+    }
     if (!subject || !['chem', 'bio', 'phy'].includes(subject)) return res.status(400).json({ success: false, error: 'subject param required' });
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, flashcards: topic.flashcards || [], recall: topic.recall || [] } });

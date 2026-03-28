@@ -649,15 +649,17 @@ p {
   padding: 1rem 0;
   position: sticky;
   top: 60px;
-  height: calc(100vh - 60px);
+  height: calc(100dvh - 60px);
+  max-height: calc(100dvh - 60px);
   overflow-y: auto;
-  padding-bottom: calc(1.8rem + env(safe-area-inset-bottom));
+  overscroll-behavior: contain;
+  padding-bottom: calc(4.2rem + env(safe-area-inset-bottom));
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--accent), transparent 32%) color-mix(in srgb, var(--bg3), var(--bg2) 35%);
 }
 
 #sidebar-topics-list {
-  padding-bottom: 0.9rem;
+  padding-bottom: 2.2rem;
 }
 
 .sidebar::-webkit-scrollbar {
