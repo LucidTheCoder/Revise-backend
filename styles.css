@@ -2938,6 +2938,32 @@ textarea:focus-visible {
   line-height: 1.55;
   white-space: pre;
 }
+.ai-hr {
+  border: none;
+  border-top: 1px solid var(--border2);
+  margin: 0.45rem 0;
+}
+.ai-table-wrap {
+  overflow-x: auto;
+  margin: 0.4rem 0;
+}
+.ai-md-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 540px;
+  font-size: 0.84rem;
+}
+.ai-md-table th,
+.ai-md-table td {
+  border: 1px solid var(--border2);
+  padding: 0.42rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+.ai-md-table th {
+  background: color-mix(in srgb, var(--bg3), var(--card) 26%);
+  font-weight: 700;
+}
 
 /* User bubble — right-aligned */
 .ai-bubble-user {
@@ -7107,10 +7133,17 @@ html {
 @media (min-width: 761px) {
   #subject-sidebar.sidebar,
   #topic-sidebar.sidebar {
-    height: calc(100vh - 60px);
-    height: calc(100dvh - 60px);
-    max-height: calc(100vh - 60px);
-    max-height: calc(100dvh - 60px);
+    position: sticky;
+    top: 60px;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible;
+    padding-bottom: 0.8rem;
+  }
+
+  #subject-sidebar #sidebar-topics-list,
+  #topic-sidebar #sidebar-topics-list {
+    padding-bottom: 1rem;
   }
 }
 .add-paper-grid {

@@ -3792,7 +3792,7 @@ function formatAiAssistantMessage(input) {
     return `@@AI_MATH_${idx}@@`;
   });
 
-  withPlaceholders = withPlaceholders.replace(/```([a-zA-Z0-9_-]+)?\n([\s\S]*?)```/g, (_, lang, code) => {
+  withPlaceholders = withPlaceholders.replace(/```([a-zA-Z0-9_-]+)?[ \t]*\n?([\s\S]*?)```/g, (_, lang, code) => {
     const idx = codeTokens.push({ lang: (lang || '').trim(), code: String(code || '').replace(/\n+$/, '') }) - 1;
     return `@@AI_CODE_${idx}@@`;
   });
@@ -3807,6 +3807,14 @@ function formatAiAssistantMessage(input) {
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(?!\*)([^*]+)\*/g, '<em>$1</em>');
 
+  const isTableSeparator = (line) => /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(line.trim());
+  const splitTableRow = (line) => line
+    .trim()
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map((cell) => inlineFormat(cell.trim()));
+
   const blocks = safeText.split(/\n{2,}/).filter(Boolean);
   const renderedBlocks = blocks.map((block) => {
     const lines = block.split('\n').map(l => l.trimEnd());
@@ -3815,6 +3823,20 @@ function formatAiAssistantMessage(input) {
 
     if (nonEmpty.length === 1 && /^@@AI_CODE_\d+@@$/.test(nonEmpty[0])) {
       return nonEmpty[0];
+    }
+
+    if (nonEmpty.length === 1 && /^-{3,}$/.test(nonEmpty[0].trim())) {
+      return '<hr class="ai-hr">';
+    }
+
+    if (nonEmpty.length >= 2 && nonEmpty[0].includes('|') && isTableSeparator(nonEmpty[1])) {
+      const header = splitTableRow(nonEmpty[0]);
+      const rows = nonEmpty.slice(2).filter(l => l.includes('|')).map(splitTableRow);
+      const headHtml = `<thead><tr>${header.map(c => `<th>${c}</th>`).join('')}</tr></thead>`;
+      const bodyHtml = rows.length
+        ? `<tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`
+        : '';
+      return `<div class="ai-table-wrap"><table class="ai-md-table">${headHtml}${bodyHtml}</table></div>`;
     }
 
     if (nonEmpty.every(l => /^[-*]\s+/.test(l))) {

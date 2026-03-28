@@ -1185,7 +1185,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
             },
             body: JSON.stringify({
               model,
-              max_tokens: 1200,
+              max_tokens: 1600,
               messages,
               temperature: 0.6,
             }),
