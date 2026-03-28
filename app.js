@@ -3246,9 +3246,9 @@ async function deletePaper(paperId, paperLabel) {
 function openPaperUrl(url) {
   if (!url) return;
 
-  // Keep this intentionally simple: open the exact URL provided in data.
-  const targetUrl = String(url).trim();
-  console.log('[openPaperUrl] Opening URL:', targetUrl);
+  const sourceUrl = String(url).trim();
+  const targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=inline&url=${encodeURIComponent(sourceUrl)}`;
+  console.log('[openPaperUrl] Opening proxy URL:', targetUrl);
 
   // Use an anchor click instead of window.open; many browsers treat this as a direct user navigation.
   const a = document.createElement('a');
@@ -3262,7 +3262,8 @@ function openPaperUrl(url) {
 
 function downloadPaperUrl(url) {
   if (!url) return;
-  const targetUrl = String(url).trim();
+  const sourceUrl = String(url).trim();
+  const targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=download&url=${encodeURIComponent(sourceUrl)}`;
   const a = document.createElement('a');
   a.href = targetUrl;
   a.target = '_blank';
