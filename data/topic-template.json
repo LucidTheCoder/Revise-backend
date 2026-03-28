@@ -33,12 +33,8 @@
       ]
     }
   ],
-  "mistakes": [
-    "Frequent misconception with correction."
-  ],
-  "tips": [
-    "Exam tip that improves marks quickly."
-  ],
+  "mistakes": ["Frequent misconception with correction."],
+  "tips": ["Exam tip that improves marks quickly."],
   "recall": [
     {
       "q": "Recall question",

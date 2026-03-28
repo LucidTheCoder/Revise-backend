@@ -103,7 +103,7 @@
   .editor-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .editor-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -116,12 +116,12 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .editor-toolbar select,
   .editor-toolbar .btn {
     width: 100%;
   }
-  
+
   .editor-list {
     grid-template-columns: 1fr;
   }
