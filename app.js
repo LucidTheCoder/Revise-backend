@@ -1485,6 +1485,18 @@ async function loadData() {
       state.subjects = [subjectsData];
     }
 
+    // If backend subject metadata is stale, merge in local topic refs.
+    try {
+      const localRes = await fetch('data/subjects.json', { cache: 'no-store' });
+      if (localRes.ok) {
+        const localRaw = await localRes.json();
+        const localSubjects = Array.isArray(localRaw) ? localRaw : (localRaw?.subjects || []);
+        state.subjects = mergeMissingSubjectTopics(state.subjects, localSubjects);
+      }
+    } catch {
+      // Keep backend subjects when local fallback is unavailable.
+    }
+
     // Setup papers
     let rawPapers = [];
     if (Array.isArray(papersData)) {
@@ -1505,6 +1517,7 @@ async function loadData() {
       state.community = communityData || { forumThreads: [], chatChannels: [] };
     }
 
+    state.subjectMap.clear();
     for (const subject of state.subjects) {
       state.subjectMap.set(subject.id, subject);
     }
@@ -2188,12 +2201,63 @@ function findTopicRefById(topicId) {
   return null;
 }
 
+function mergeMissingSubjectTopics(primarySubjects, localSubjects) {
+  const safePrimary = Array.isArray(primarySubjects) ? primarySubjects : [];
+  const safeLocal = Array.isArray(localSubjects) ? localSubjects : [];
+  const localById = new Map(safeLocal.map(s => [s.id, s]));
+
+  return safePrimary.map((subject) => {
+    const localSubject = localById.get(subject?.id);
+    if (!localSubject || !Array.isArray(localSubject.units)) return subject;
+
+    const doneMap = new Map();
+    for (const unit of subject.units || []) {
+      for (const topic of unit.topics || []) {
+        doneMap.set(topic.id, !!topic.done);
+      }
+    }
+
+    return {
+      ...subject,
+      units: (localSubject.units || []).map((unit) => ({
+        ...unit,
+        topics: (unit.topics || []).map((topic) => ({
+          ...topic,
+          done: doneMap.has(topic.id) ? doneMap.get(topic.id) : !!topic.done,
+        })),
+      })),
+    };
+  });
+}
+
 async function ensureTopicLoaded(topicId) {
   if (!topicId) return null;
   if (state.topics.has(topicId)) return state.topics.get(topicId);
 
   const match = findTopicRefById(topicId);
-  if (!match) return null;
+  if (!match) {
+    const candidates = [state.currentSubject, 'chem', 'bio', 'phy'].filter(Boolean);
+    for (const sid of [...new Set(candidates)]) {
+      const guessedPath = `data/topics/${sid}/${topicId}.json`;
+      try {
+        const guessed = await fetchJson(guessedPath);
+        const normalizedGuess = {
+          ...guessed,
+          id: guessed?.id || topicId,
+          subject: guessed?.subject || sid,
+          title: guessed?.title || topicId,
+        };
+        state.topics.set(topicId, normalizedGuess);
+        if (normalizedGuess.id && normalizedGuess.id !== topicId) {
+          state.topics.set(normalizedGuess.id, normalizedGuess);
+        }
+        return normalizedGuess;
+      } catch {
+        // try next candidate
+      }
+    }
+    return null;
+  }
 
   const { subject, topicRef } = match;
   const path = `data/topics/${subject.id}/${topicRef.file}`;
@@ -2367,7 +2431,23 @@ function renderTopicView(topicId) {
     localStorage.setItem(lastVisitedKey, JSON.stringify(lv));
   } catch { /* ignore */ }
 
-  const subject = state.subjectMap.get(topic.subject);
+  const subject = state.subjectMap.get(topic.subject) || state.subjectMap.get(state.currentSubject) || state.subjects[0];
+  if (!subject) {
+    const main = byId('topic-main');
+    if (main) {
+      main.innerHTML = `
+        <div class="card" style="text-align:center;padding:2rem 1.2rem">
+          <div style="font-size:2rem;margin-bottom:0.5rem">⚠</div>
+          <h2>Could not render this topic</h2>
+          <p style="color:var(--text2);margin-top:0.45rem">Subject metadata is missing. Please refresh and try again.</p>
+          <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.9rem">
+            <button class="btn btn-primary" onclick="location.reload()">Refresh Page</button>
+            <button class="btn btn-outline" onclick="App.go('subjects')">Back to Subjects</button>
+          </div>
+        </div>`;
+    }
+    return;
+  }
   byId("topic-sidebar").innerHTML = renderSubjectSidebar(subject, topic.id);
 
   const notesHtml = (topic.notes || [])
