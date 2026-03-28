@@ -3261,11 +3261,15 @@ function openPaperUrl(url) {
 
   const targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=inline&url=${encodeURIComponent(cleanUrl)}`;
   console.log('[openPaperUrl] Opening proxy URL:', targetUrl);
-  const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
-  if (!win) {
-    console.warn('[openPaperUrl] Popup blocked, using same-tab navigation');
-    window.location.href = targetUrl;
-  }
+
+  // Use an anchor click instead of window.open; many browsers treat this as a direct user navigation.
+  const a = document.createElement('a');
+  a.href = targetUrl;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }
 
 function downloadPaperUrl(url) {
