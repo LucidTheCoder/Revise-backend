@@ -1,13 +1,11 @@
-// Revise. Service Worker — offline-first for topic JSON and static assets
-const CACHE_VERSION  = 'revise-v1';
+// Revise. Service Worker — freshness-first to avoid stale topic/app content.
+const CACHE_VERSION  = 'revise-v2026-03-28-2';
 const STATIC_ASSETS  = [
   '/',
   '/index.html',
   '/app.js',
   '/styles.css',
   '/editor-styles.css',
-  '/data/subjects.json',
-  '/data/past-papers.json',
 ];
 
 // Install — cache static assets
@@ -28,33 +26,35 @@ self.addEventListener('activate', event => {
 });
 
 // Fetch strategy:
-// - Topic JSON files: cache-first (they rarely change)
-// - API calls: network-first with cache fallback
+// - App shell + JSON + API: network-first (prevents stale topic lists/content)
 // - Everything else: stale-while-revalidate
 self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Don't intercept non-GET or cross-origin API calls
+  // Don't intercept non-GET requests.
   if (request.method !== 'GET') return;
-  if (url.pathname.startsWith('/api/')) {
-    // Network-first for API
-    event.respondWith(
-      fetch(request).catch(() => caches.match(request))
-    );
-    return;
-  }
 
-  // Cache-first for topic JSON
-  if (url.pathname.startsWith('/data/topics/')) {
+  const isSameOrigin = url.origin === self.location.origin;
+  const path = url.pathname;
+  const isCriticalAsset =
+    path === '/' ||
+    path.endsWith('.html') ||
+    path.endsWith('.js') ||
+    path.endsWith('.css') ||
+    path.startsWith('/data/') ||
+    path.startsWith('/api/');
+
+  if (isSameOrigin && isCriticalAsset) {
     event.respondWith(
-      caches.open(CACHE_VERSION).then(async cache => {
-        const cached = await cache.match(request);
-        if (cached) return cached;
-        const response = await fetch(request);
-        if (response.ok) cache.put(request, response.clone());
-        return response;
-      })
+      fetch(request)
+        .then(response => {
+          if (response && response.ok && !path.startsWith('/api/')) {
+            caches.open(CACHE_VERSION).then(cache => cache.put(request, response.clone()));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
     );
     return;
   }

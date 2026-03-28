@@ -101,6 +101,33 @@ function applyAiVisibility() {
 // When true, all fetches go to API_BASE_URL with automatic local fallback on failure.
 const USE_BACKEND  = true;  // ← flip to false to develop offline with local files
 const API_BASE_URL = 'https://asrevise.onrender.com';
+const BUILD_CACHE_BUSTER = '2026-03-28-1';
+
+function withCacheBuster(url) {
+  const joiner = String(url).includes('?') ? '&' : '?';
+  return `${url}${joiner}v=${BUILD_CACHE_BUSTER}`;
+}
+
+async function cleanupLegacyServiceWorkers() {
+  if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
+  try {
+    const regs = await navigator.serviceWorker.getRegistrations();
+    if (!regs.length) return;
+
+    await Promise.all(regs.map(r => r.unregister()));
+    if (window.caches && typeof window.caches.keys === 'function') {
+      const keys = await window.caches.keys();
+      await Promise.all(keys.filter(k => k.startsWith('revise-')).map(k => window.caches.delete(k)));
+    }
+
+    if (!sessionStorage.getItem('revise.sw-cleaned')) {
+      sessionStorage.setItem('revise.sw-cleaned', '1');
+      window.location.reload();
+    }
+  } catch {
+    // Ignore cleanup failures.
+  }
+}
 
 const state = {
   subjects: [],
@@ -1430,7 +1457,7 @@ async function fetchJson(localPath, apiOverride = null) {
 
   // 1. Explicit API override (used by auth/admin routes)
   if (apiOverride) {
-    const res = await fetch(`${API_BASE_URL}${apiOverride}`, { cache: "no-store" });
+    const res = await fetch(withCacheBuster(`${API_BASE_URL}${apiOverride}`), { cache: "no-store" });
     if (!res.ok) throw new Error(`API ${apiOverride} returned ${res.status}`);
     return unwrap(await res.json());
   }
@@ -1440,7 +1467,7 @@ async function fetchJson(localPath, apiOverride = null) {
     const apiUrl = resolveApiUrl(localPath);
     if (apiUrl) {
       try {
-        const res = await fetch(apiUrl, { cache: "no-store" });
+        const res = await fetch(withCacheBuster(apiUrl), { cache: "no-store" });
         if (!res.ok) throw new Error(`Backend ${apiUrl} returned ${res.status}`);
         const data = unwrap(await res.json());
 
@@ -1460,7 +1487,7 @@ async function fetchJson(localPath, apiOverride = null) {
   }
 
   // 3. Local file fallback
-  const res = await fetch(localPath, { cache: "no-store" });
+  const res = await fetch(withCacheBuster(localPath), { cache: "no-store" });
   if (!res.ok) throw new Error(`Local file ${localPath} not found (${res.status})`);
   return await res.json();
 }
@@ -1487,7 +1514,7 @@ async function loadData() {
 
     // If backend subject metadata is stale, merge in local topic refs.
     try {
-      const localRes = await fetch('data/subjects.json', { cache: 'no-store' });
+      const localRes = await fetch(withCacheBuster('data/subjects.json'), { cache: 'no-store' });
       if (localRes.ok) {
         const localRaw = await localRes.json();
         const localSubjects = Array.isArray(localRaw) ? localRaw : (localRaw?.subjects || []);
@@ -4098,6 +4125,7 @@ function loaderDone() {
 
 async function init() {
   try {
+    await cleanupLegacyServiceWorkers();
     loaderStep('Initialising…', 8);
     initTheme();
     state.particleSystem = createParticleSystem();
