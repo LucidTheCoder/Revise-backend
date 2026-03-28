@@ -3243,25 +3243,78 @@ async function deletePaper(paperId, paperLabel) {
   } catch { showToast('Network error'); }
 }
 
-function openPaperUrl(url) {
-  if (!url) return;
-
-  const targetUrl = resolvePaperUrl(url);
-  console.log('[openPaperUrl] Opening URL:', targetUrl);
-
-  // Use an anchor click instead of window.open; many browsers treat this as a direct user navigation.
-  const a = document.createElement('a');
-  a.href = targetUrl;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+function _normalizePaperActionArgs(btnOrUrl, maybeUrl) {
+  const hasButtonArg = !!(maybeUrl && btnOrUrl && typeof btnOrUrl === 'object' && 'tagName' in btnOrUrl);
+  return {
+    triggerBtn: hasButtonArg ? btnOrUrl : null,
+    rawUrl: hasButtonArg ? maybeUrl : btnOrUrl,
+  };
 }
 
-function downloadPaperUrl(url) {
-  if (!url) return;
-  const targetUrl = resolvePaperUrl(url);
+function _setPaperActionBusy(buttonEl, busyLabel, timeoutMs = 1400) {
+  if (!buttonEl) return () => {};
+  const prevText = buttonEl.textContent;
+  buttonEl.disabled = true;
+  buttonEl.classList.add('is-loading');
+  buttonEl.setAttribute('aria-busy', 'true');
+  buttonEl.textContent = busyLabel;
+
+  const timer = setTimeout(() => {
+    buttonEl.disabled = false;
+    buttonEl.classList.remove('is-loading');
+    buttonEl.removeAttribute('aria-busy');
+    buttonEl.textContent = prevText;
+  }, timeoutMs);
+
+  return () => {
+    clearTimeout(timer);
+    buttonEl.disabled = false;
+    buttonEl.classList.remove('is-loading');
+    buttonEl.removeAttribute('aria-busy');
+    buttonEl.textContent = prevText;
+  };
+}
+
+function openPaperUrl(btnOrUrl, maybeUrl) {
+  const { triggerBtn, rawUrl } = _normalizePaperActionArgs(btnOrUrl, maybeUrl);
+  if (!rawUrl) { showToast('Paper URL is missing'); return; }
+
+  const restoreBtn = _setPaperActionBusy(triggerBtn, 'Opening...');
+  const targetUrl = resolvePaperUrl(rawUrl);
+  if (!targetUrl) {
+    restoreBtn();
+    showToast('Could not resolve paper URL');
+    return;
+  }
+
+  console.log('[openPaperUrl] Opening URL:', targetUrl);
+
+  if (/papers\.gceguide\.(xyz|com|cc|ws)/i.test(targetUrl)) {
+    showToast('This source appears offline. Try another paper/variant.');
+    restoreBtn();
+    return;
+  }
+
+  const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  if (!win) {
+    showToast('Popup blocked; opening in this tab...');
+    window.location.href = targetUrl;
+  } else {
+    showToast('Opening paper in new tab');
+  }
+}
+
+function downloadPaperUrl(btnOrUrl, maybeUrl) {
+  const { triggerBtn, rawUrl } = _normalizePaperActionArgs(btnOrUrl, maybeUrl);
+  if (!rawUrl) { showToast('Paper URL is missing'); return; }
+
+  _setPaperActionBusy(triggerBtn, 'Starting...');
+  const targetUrl = resolvePaperUrl(rawUrl);
+  if (!targetUrl) {
+    showToast('Could not resolve download URL');
+    return;
+  }
+
   const a = document.createElement('a');
   a.href = targetUrl;
   a.target = '_blank';
@@ -3269,6 +3322,7 @@ function downloadPaperUrl(url) {
   document.body.appendChild(a);
   a.click();
   a.remove();
+  showToast('Download opened in new tab');
 }
 
 function resolvePaperUrl(url) {
@@ -3396,12 +3450,12 @@ function _applyPaperFilters() {
           <p class="paper-subtitle">${escapeHtml(paper.title)}</p>
           <div class="paper-actions">
             ${hasUrl
-              ? `<button class="btn btn-primary btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.downloadUrl)}')">📄 Open Paper</button>
-                 <button class="btn btn-outline btn-sm" onclick="App.downloadPaperUrl('${escapeHtml(paper.downloadUrl)}')">⬇ Download</button>`
+              ? `<button class="btn btn-primary btn-sm" onclick="App.openPaperUrl(this,'${escapeHtml(paper.downloadUrl)}')" aria-label="Open ${escapeHtml(paper.session)} ${escapeHtml(String(paper.year))} ${escapeHtml(paper.paper)} question paper">📄 Open Paper</button>
+                <button class="btn btn-outline btn-sm" onclick="App.downloadPaperUrl(this,'${escapeHtml(paper.downloadUrl)}')" aria-label="Download ${escapeHtml(paper.session)} ${escapeHtml(String(paper.year))} ${escapeHtml(paper.paper)} question paper">⬇ Download</button>`
               : `<span class="paper-unavail">Coming soon</span>`}
             ${hasMsUrl
-              ? `<button class="btn btn-outline btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.msUrl)}')">✓ Open MS</button>
-                 <button class="btn btn-outline btn-sm" onclick="App.downloadPaperUrl('${escapeHtml(paper.msUrl)}')">⬇ MS</button>`
+              ? `<button class="btn btn-outline btn-sm" onclick="App.openPaperUrl(this,'${escapeHtml(paper.msUrl)}')" aria-label="Open ${escapeHtml(paper.session)} ${escapeHtml(String(paper.year))} ${escapeHtml(paper.paper)} mark scheme">✓ Open MS</button>
+                <button class="btn btn-outline btn-sm" onclick="App.downloadPaperUrl(this,'${escapeHtml(paper.msUrl)}')" aria-label="Download ${escapeHtml(paper.session)} ${escapeHtml(String(paper.year))} ${escapeHtml(paper.paper)} mark scheme">⬇ MS</button>`
               : ""}
             <button class="btn btn-ghost btn-sm" onclick="App.go('subject',{subjectId:'${paper.subject}'})">Revise Topics</button>
             ${(auth.user?.role === 'admin' || auth.user?.role === 'teacher')

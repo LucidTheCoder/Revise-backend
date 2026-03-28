@@ -308,6 +308,13 @@ p {
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
 }
+.btn:focus-visible,
+.papers-tab:focus-visible,
+.topic-item:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent), white 10%);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent), transparent 68%);
+}
 
 .btn-primary {
   background: var(--accent);
@@ -344,6 +351,19 @@ p {
   font-size: 0.82rem;
 }
 
+@keyframes paperCardIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.995); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paper-card {
+    animation: none;
+  }
+  .paper-card:hover,
+  .btn:hover {
+    transform: none;
+  }
+}
 .home-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3670,6 +3690,8 @@ main { flex: 1 0 auto; }
 
 /* Card */
 .paper-card {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -3678,6 +3700,18 @@ main { flex: 1 0 auto; }
   border-radius: 12px;
   background: var(--card);
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  animation: paperCardIn 0.28s ease both;
+}
+.paper-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(180px 90px at 86% -8%, color-mix(in srgb, var(--accent), transparent 84%), transparent 72%),
+    linear-gradient(170deg, color-mix(in srgb, var(--card), white 1%), color-mix(in srgb, var(--card), black 4%));
 }
 .paper-card:hover {
   transform: translateY(-3px);
@@ -3709,6 +3743,13 @@ main { flex: 1 0 auto; }
   font-size: 0.82rem;
   font-weight: 500;
   box-sizing: border-box;
+}
+.paper-actions .btn.is-loading {
+  opacity: 0.88;
+  cursor: wait;
+}
+.paper-actions .btn:disabled {
+  pointer-events: none;
 }
 .paper-actions .btn-ghost {
   opacity: 0.65;
