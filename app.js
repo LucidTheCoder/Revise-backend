@@ -3263,9 +3263,11 @@ function openPaperUrl(url) {
     targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=inline&url=${encodeURIComponent(cleanUrl)}`;
   }
   
+  console.log('[openPaperUrl] Opening:', targetUrl);
   const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
   if (!win) {
     // Popup blocked: fall back to same-tab navigation.
+    console.warn('[openPaperUrl] Popup blocked, using same-tab navigation');
     window.location.href = targetUrl;
   }
 }
