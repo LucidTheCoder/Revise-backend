@@ -3253,69 +3253,13 @@ function openPaperUrl(url) {
     do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
   } catch (_) { cleanUrl = url; }
 
-  // Build proxy URL with exactly one level of encoding
-  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?url=' + encodeURIComponent(cleanUrl);
-
-  // Remove any existing modal
-  const existing = document.getElementById('paper-link-modal');
-  if (existing) existing.remove();
-
-  const overlay = document.createElement('div');
-  overlay.id = 'paper-link-modal';
-  overlay.className = 'social-modal-overlay';
-
-  const box = document.createElement('div');
-  box.className = 'social-modal';
-  box.style.cssText = 'max-width:420px;display:flex;flex-direction:column;gap:0.85rem';
-
-  const h = document.createElement('h3');
-  h.style.margin = '0';
-  h.textContent = '📄 Download Past Paper';
-
-  const p = document.createElement('p');
-  p.style.cssText = 'color:var(--text2);font-size:0.85rem;margin:0';
-  p.textContent = 'Click to download. Please allow a moment for the file to prepare.';
-
-  // Primary: proxy link (direct download)
-  const a = document.createElement('a');
-  a.href = proxyUrl;
-  a.download = '';
-  a.className = 'btn btn-primary';
-  a.style.cssText = 'display:block;text-align:center;text-decoration:none;transition:all 0.2s';
-  a.textContent = '📥 Download PDF';
-  a.onmouseover = () => a.style.opacity = '0.9';
-  a.onmouseout = () => a.style.opacity = '1';
-  a.onclick = (e) => {
-    a.disabled = true;
-    a.textContent = '⏳ Loading...';
-    setTimeout(() => { overlay.remove(); }, 1000);
-  };
-
-  // Fallback: direct link if proxy fails
-  const fallback = document.createElement('a');
-  fallback.href = cleanUrl;
-  fallback.download = '';
-  fallback.className = 'btn btn-outline btn-sm';
-  fallback.style.cssText = 'display:block;text-align:center;font-size:0.82rem;text-decoration:none';
-  fallback.textContent = '🔗 Try Direct Link';
-  fallback.onclick = (e) => {
-    overlay.remove();
-  };
-
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'btn btn-ghost btn-sm';
-  closeBtn.textContent = 'Close';
-  closeBtn.onclick = () => overlay.remove();
-
-  box.appendChild(h);
-  box.appendChild(p);
-  box.appendChild(a);
-  box.appendChild(fallback);
-  box.appendChild(closeBtn);
-  overlay.appendChild(box);
-  document.body.appendChild(overlay);
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-  requestAnimationFrame(() => overlay.classList.add('open'));
+  // Open inline in new tab by default; backend supports download mode when needed.
+  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?mode=inline&url=' + encodeURIComponent(cleanUrl);
+  const win = window.open(proxyUrl, '_blank', 'noopener,noreferrer');
+  if (!win) {
+    // Popup blocked: fall back to same-tab navigation so user still reaches the paper.
+    window.location.href = proxyUrl;
+  }
 }
 
 function renderPastPapers() {

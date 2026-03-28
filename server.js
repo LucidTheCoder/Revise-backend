@@ -1727,6 +1727,8 @@ function _buildAlternateUrls(primaryUrl) {
 
 app.get('/api/pdf-proxy', async (req, res, next) => {
   try {
+    const mode = String(req.query.mode || 'inline').toLowerCase();
+    const asAttachment = mode === 'download' || req.query.download === '1';
     // ── Step 1: Decode the URL parameter ────────────────────────────────────
     // Express already decodes %25 → % once, but the frontend may have called
     // encodeURIComponent on an already-encoded URL (producing %2520 for a space).
@@ -1762,7 +1764,7 @@ app.get('/api/pdf-proxy', async (req, res, next) => {
     if (isLocal) {
       const filePath = path.join(__dirname, url);
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename="paper.pdf"');
+      res.setHeader('Content-Disposition', `${asAttachment ? 'attachment' : 'inline'}; filename="paper.pdf"`);
       res.setHeader('X-Content-Type-Options', 'nosniff');
       return res.sendFile(filePath, err => {
         if (err) res.status(404).json({ error: 'File not found' });
@@ -1814,7 +1816,7 @@ app.get('/api/pdf-proxy', async (req, res, next) => {
         const filename = safeFilename(tryUrl);
 
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-Disposition', `${asAttachment ? 'attachment' : 'inline'}; filename="${filename}"`);
         res.setHeader('X-Content-Type-Options', 'nosniff');
         // Allow browsers to display PDF inline (important for <iframe> embedding)
         res.setHeader('Access-Control-Allow-Origin', '*');

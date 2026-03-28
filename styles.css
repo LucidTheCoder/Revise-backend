@@ -7133,8 +7133,8 @@ html {
 @media (min-width: 761px) {
   #subject-sidebar.sidebar,
   #topic-sidebar.sidebar {
-    position: sticky;
-    top: 60px;
+    position: static !important;
+    top: auto !important;
     height: auto !important;
     max-height: none !important;
     overflow: visible;
