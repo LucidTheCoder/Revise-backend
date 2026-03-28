@@ -5729,6 +5729,10 @@ function closeMobileSidebar() {
 }
 
 function go(viewName, payload = {}) {
+  if (window.matchMedia('(max-width: 760px)').matches && (viewName === 'topic' || viewName === 'subject')) {
+    closeMobileSidebar();
+  }
+
   setActiveView(viewName);
   if (viewName === 'home')        renderHome();
   if (viewName === 'subjects')    renderSubjectSelection();
