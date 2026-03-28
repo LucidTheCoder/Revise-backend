@@ -2175,6 +2175,64 @@ function filterSidebarTopics(query) {
   });
 }
 
+function findTopicRefById(topicId) {
+  for (const subject of state.subjects || []) {
+    for (const unit of subject.units || []) {
+      for (const topicRef of unit.topics || []) {
+        if (topicRef.id === topicId) {
+          return { subject, topicRef };
+        }
+      }
+    }
+  }
+  return null;
+}
+
+async function ensureTopicLoaded(topicId) {
+  if (!topicId) return null;
+  if (state.topics.has(topicId)) return state.topics.get(topicId);
+
+  const match = findTopicRefById(topicId);
+  if (!match) return null;
+
+  const { subject, topicRef } = match;
+  const path = `data/topics/${subject.id}/${topicRef.file}`;
+
+  try {
+    const loaded = await fetchJson(path);
+    const normalized = {
+      ...loaded,
+      id: loaded?.id || topicRef.id,
+      subject: loaded?.subject || subject.id,
+      title: loaded?.title || topicRef.name,
+    };
+    state.topics.set(topicRef.id, normalized);
+    if (normalized.id && normalized.id !== topicRef.id) {
+      state.topics.set(normalized.id, normalized);
+    }
+    return normalized;
+  } catch {
+    const fallback = {
+      id: topicRef.id,
+      subject: subject.id,
+      title: topicRef.name,
+      subtitle: 'Topic file missing.',
+      concept: ['This topic could not be loaded right now. Please try again.'],
+      notes: [],
+      definitions: [],
+      workedExamples: [],
+      mistakes: [],
+      tips: [],
+      recall: [],
+      summary: [],
+      flashcards: [],
+      quiz: { title: `${topicRef.name} Quiz`, questions: [] },
+    };
+    state.topics.set(topicRef.id, fallback);
+    return fallback;
+  }
+}
+
 function renderSubjectView(subjectId) {
   if (!subjectId) {
     go("subjects");
@@ -2269,21 +2327,34 @@ function renderTopicView(topicId) {
     const main = byId('topic-main');
     if (main) {
       main.innerHTML = `
-        <div class="container page-pad">
-          <div class="card" style="text-align:center;padding:2.5rem 1.5rem">
-            <div style="font-size:3rem;margin-bottom:0.75rem">📭</div>
-            <h2>Topic not found</h2>
-            <p style="color:var(--text2);margin:0.5rem 0 1.25rem">
-              The topic <code>${escapeHtml(topicId)}</code> doesn't exist or hasn't loaded yet.
-            </p>
-            <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
-              <button class="btn btn-primary" onclick="App.go('subjects')">Browse Subjects</button>
-              <button class="btn btn-outline" onclick="App.go('home')">Go Home</button>
-            </div>
-          </div>
+        <div class="card" style="text-align:center;padding:2rem 1.2rem">
+          <div style="font-size:2.1rem;margin-bottom:0.6rem">⏳</div>
+          <h2 style="margin-bottom:0.4rem">Loading topic…</h2>
+          <p style="color:var(--text2)">Fetching the latest content for this topic.</p>
         </div>`;
     }
     setActiveView('topic');
+    ensureTopicLoaded(topicId).then((loaded) => {
+      if (loaded?.id && state.currentView === 'topic') {
+        renderTopicView(loaded.id);
+      } else if (state.currentView === 'topic') {
+        const missingMain = byId('topic-main');
+        if (missingMain) {
+          missingMain.innerHTML = `
+            <div class="card" style="text-align:center;padding:2.5rem 1.5rem">
+              <div style="font-size:3rem;margin-bottom:0.75rem">📭</div>
+              <h2>Topic not found</h2>
+              <p style="color:var(--text2);margin:0.5rem 0 1.25rem">
+                The topic <code>${escapeHtml(topicId)}</code> could not be loaded.
+              </p>
+              <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-primary" onclick="App.go('subjects')">Browse Subjects</button>
+                <button class="btn btn-outline" onclick="App.go('home')">Go Home</button>
+              </div>
+            </div>`;
+        }
+      }
+    });
     return;
   }
 

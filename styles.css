@@ -640,6 +640,7 @@ p {
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: calc(100vh - 60px);
+  align-items: start;
 }
 
 .sidebar {
@@ -650,8 +651,13 @@ p {
   top: 60px;
   height: calc(100vh - 60px);
   overflow-y: auto;
+  padding-bottom: calc(1.8rem + env(safe-area-inset-bottom));
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--accent), transparent 32%) color-mix(in srgb, var(--bg3), var(--bg2) 35%);
+}
+
+#sidebar-topics-list {
+  padding-bottom: 0.9rem;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -772,6 +778,11 @@ p {
 .subject-main,
 .topic-main {
   padding: 1.5rem;
+  min-width: 0;
+}
+
+.topic-main {
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
 }
 
 .subject-main h1,
@@ -2871,6 +2882,8 @@ textarea:focus-visible {
   padding: 0.72rem 0.95rem;
   font-size: 0.9rem;
   line-height: 1.65;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   animation: ai-fade-in 0.2s ease-out both;
 }
 @keyframes ai-fade-in {
