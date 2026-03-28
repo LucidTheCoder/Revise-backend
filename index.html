@@ -676,6 +676,9 @@ as a JSON array. Each item must have:
           <div class="card" id="admin-ai-toggle-card" style="margin-top:1rem">
             <!-- Populated by loadAdminStats() -->
           </div>
+          <div class="card" id="admin-openrouter-card" style="margin-top:1rem">
+            <!-- Populated by loadAdminOpenRouterModels() -->
+          </div>
         </div>
 
         <!-- Users -->
@@ -683,7 +686,10 @@ as a JSON array. Each item must have:
           <div class="card">
             <div class="admin-panel-head">
               <h3>All Users</h3>
-              <input class="admin-search" type="text" id="admin-user-search" placeholder="Search users..." oninput="App.filterAdminUsers(this.value)">
+              <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+                <input class="admin-search" type="text" id="admin-user-search" placeholder="Search users..." oninput="App.filterAdminUsers(this.value)">
+                <button class="btn btn-outline btn-sm" onclick="App.exportAdminUsersCsv()">Export CSV</button>
+              </div>
             </div>
             <div class="admin-table-wrap">
               <table class="admin-table" id="admin-users-table">

@@ -2858,7 +2858,7 @@ textarea:focus-visible {
 /* Chat history scroll area */
 .ai-chat-history {
   min-height: 80px;
-  max-height: 360px;
+  max-height: 520px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -3488,7 +3488,7 @@ textarea:focus-visible {
   .ai-panel-header { flex-direction: column; gap: 0.5rem; }
   .ai-quick-btns { flex-wrap: wrap; gap: 0.3rem; }
   .ai-quick { font-size: 0.72rem; padding: 0.2rem 0.5rem; }
-  .ai-chat-history { max-height: 220px; }
+  .ai-chat-history { max-height: 360px; }
 
   /* Community */
   .community-layout { gap: 0.65rem; }
@@ -7076,20 +7076,16 @@ html {
 #subject-sidebar.sidebar,
 #topic-sidebar.sidebar {
   min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  display: block;
+  overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(1.2rem + env(safe-area-inset-bottom));
 }
 
 #subject-sidebar #sidebar-topics-list,
 #topic-sidebar #sidebar-topics-list {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  padding-bottom: calc(4.4rem + env(safe-area-inset-bottom));
 }
 
 @media (max-width: 760px) {
@@ -7099,12 +7095,12 @@ html {
     bottom: 0 !important;
     height: 100dvh !important;
     max-height: 100dvh !important;
-    padding-bottom: calc(5.8rem + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom)) !important;
   }
 
   #subject-sidebar #sidebar-topics-list,
   #topic-sidebar #sidebar-topics-list {
-    padding-bottom: calc(6.4rem + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(5.8rem + env(safe-area-inset-bottom)) !important;
   }
 }
 

@@ -5400,7 +5400,40 @@ async function loadAdminStats() {
           <span style="margin-left:0.5rem;font-weight:600">${enabled ? 'Enabled' : 'Disabled'}</span>
         </label>`;
     }
+
+    await loadAdminOpenRouterModels();
   } catch (e) { showToast('Failed to load stats'); }
+}
+
+async function loadAdminOpenRouterModels() {
+  const card = byId('admin-openrouter-card');
+  if (!card) return;
+  card.innerHTML = '<p style="color:var(--text2);font-size:0.85rem">Loading AI model diagnostics…</p>';
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/openrouter-models`, { headers: authHeaders() });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      card.innerHTML = `<p style="color:#f87171;font-size:0.85rem">${escapeHtml(data.error || 'Could not load diagnostics')}</p>`;
+      return;
+    }
+
+    const models = Array.isArray(data.modelsToTry) ? data.modelsToTry : [];
+    const top = models.slice(0, 8);
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;gap:0.6rem;align-items:center;flex-wrap:wrap">
+        <h4 style="margin:0">OpenRouter Model Diagnostics</h4>
+        <button class="btn btn-outline btn-sm" onclick="App.loadAdminOpenRouterModels()">Refresh</button>
+      </div>
+      <p style="color:var(--text2);font-size:0.82rem;margin:0.45rem 0 0.7rem">
+        Configured model: <code>${escapeHtml(data.configuredModel || '')}</code><br>
+        Cache age: ${Math.round((data.cache?.ageMs || 0) / 1000)}s · discovered free models: ${data.cache?.count || 0}
+      </p>
+      <div style="display:grid;gap:0.35rem">
+        ${top.map(m => `<div class="role-badge" style="display:inline-flex;width:fit-content">${escapeHtml(m)}</div>`).join('') || '<span style="color:var(--text2)">No models currently available.</span>'}
+      </div>`;
+  } catch (e) {
+    card.innerHTML = `<p style="color:#f87171;font-size:0.85rem">Network error: ${escapeHtml(e.message)}</p>`;
+  }
 }
 
 async function loadAdminUsers() {
@@ -5453,6 +5486,30 @@ function filterAdminUsers(q) {
     ? adminData.users.filter(u => u.name.toLowerCase().includes(q.toLowerCase()) || u.email.toLowerCase().includes(q.toLowerCase()))
     : adminData.users;
   renderAdminUsersTable(filtered);
+}
+
+async function exportAdminUsersCsv() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/users/export`, { headers: authHeaders() });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      showToast(data.error || 'Failed to export CSV');
+      return;
+    }
+    const csv = await res.text();
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `revise-users-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('Users CSV downloaded');
+  } catch {
+    showToast('Network error while exporting users');
+  }
 }
 
 async function toggleUserRole(userId, currentRole) {
@@ -5664,13 +5721,20 @@ async function saveTopic() {
     if (_editorMode === 'form') _syncFormToJson();
     const jsonStr = byId('editor-json').value;
     const parsed  = JSON.parse(jsonStr);
+    const normalized = {
+      ...parsed,
+      id: editorState.currentTopic,
+      subject: editorState.currentSubject || parsed.subject,
+      title: (parsed.title || state.topics.get(editorState.currentTopic)?.title || editorState.currentTopic),
+    };
+    byId('editor-json').value = JSON.stringify(normalized, null, 2);
 
     // If logged in as admin, persist to server
     if (auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher') && editorState.currentSubject) {
       const res = await fetch(`${API_BASE_URL}/api/topics/${editorState.currentTopic}`, {
         method: 'PUT',
         headers: authHeaders(),
-        body: JSON.stringify({ subject: editorState.currentSubject, data: parsed }),
+        body: JSON.stringify({ subject: editorState.currentSubject, data: normalized }),
       });
       const data = await res.json();
       if (!res.ok) { showToast(`Save error: ${data.error}`); return; }
@@ -5684,9 +5748,24 @@ async function saveTopic() {
       }
     }
 
-    state.topics.set(editorState.currentTopic, parsed);
-    _persistCustomTopic(editorState.currentTopic, parsed, editorState.currentSubject);
-    editorState.originalJson = jsonStr;
+    state.topics.set(editorState.currentTopic, normalized);
+
+    const subject = state.subjectMap.get(editorState.currentSubject);
+    if (subject) {
+      for (const unit of subject.units || []) {
+        const ref = (unit.topics || []).find(t => t.id === editorState.currentTopic);
+        if (ref) {
+          ref.name = normalized.title;
+          if (!ref.file) ref.file = `${editorState.currentTopic}.json`;
+        }
+      }
+    }
+
+    _persistCustomTopic(editorState.currentTopic, normalized, editorState.currentSubject);
+    editorState.originalJson = JSON.stringify(normalized, null, 2);
+    byId('editor-title').textContent = `Editing: ${normalized.title}`;
+    loadEditorSubject(editorState.currentSubject);
+
     if (state.currentView === 'topic' && state.currentTopic === editorState.currentTopic) {
       renderTopicView(editorState.currentTopic);
     }
@@ -7431,8 +7510,10 @@ const App = {
   // Admin
   renderAdmin,
   switchAdminTab,
+  loadAdminOpenRouterModels,
   loadAdminTopicList,
   filterAdminUsers,
+  exportAdminUsersCsv,
   filterAdminThreads,
   toggleUserRole,
   toggleUserBan,

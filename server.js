@@ -1185,7 +1185,7 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
             },
             body: JSON.stringify({
               model,
-              max_tokens: 512,
+              max_tokens: 1200,
               messages,
               temperature: 0.6,
             }),
@@ -1340,6 +1340,46 @@ app.get('/api/admin/users', authenticateToken, requireAdmin, async (req, res, ne
   try {
     const users = await db.getAllUsers();
     res.json({ success: true, data: users, count: users.length });
+  } catch (error) { next(error); }
+});
+
+// GET /api/admin/users/export – download all users as CSV
+app.get('/api/admin/users/export', authenticateToken, requireAdmin, async (req, res, next) => {
+  try {
+    const users = await db.getAllUsers();
+    const esc = (v) => {
+      const s = String(v ?? '');
+      return `"${s.replace(/"/g, '""')}"`;
+    };
+
+    const header = [
+      'id', 'name', 'email', 'role', 'banned', 'createdAt', 'lastActiveAt',
+      'xp', 'streak', 'totalQuizzes', 'averageScore', 'totalStudyMinutes',
+    ];
+
+    const rows = users.map((u) => [
+      u._id,
+      u.name,
+      u.email,
+      u.role,
+      !!u.banned,
+      u.createdAt ? new Date(u.createdAt).toISOString() : '',
+      u.stats?.lastActiveAt ? new Date(u.stats.lastActiveAt).toISOString() : '',
+      u.stats?.xp ?? 0,
+      u.stats?.streak ?? 0,
+      u.stats?.totalQuizzes ?? 0,
+      u.stats?.averageScore ?? 0,
+      u.stats?.totalStudyMinutes ?? 0,
+    ]);
+
+    const csv = [
+      header.map(esc).join(','),
+      ...rows.map((r) => r.map(esc).join(',')),
+    ].join('\n');
+
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="revise-users-${new Date().toISOString().slice(0, 10)}.csv"`);
+    res.status(200).send(csv);
   } catch (error) { next(error); }
 });
 
