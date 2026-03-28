@@ -3253,13 +3253,31 @@ function openPaperUrl(url) {
     do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
   } catch (_) { cleanUrl = url; }
 
-  // Open inline in new tab by default; backend supports download mode when needed.
-  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?mode=inline&url=' + encodeURIComponent(cleanUrl);
-  const win = window.open(proxyUrl, '_blank', 'noopener,noreferrer');
+  // Prefer opening the original source in a new tab to avoid proxy/source compatibility issues.
+  const targetUrl = cleanUrl.startsWith('/papers/') ? `${API_BASE_URL}${cleanUrl}` : cleanUrl;
+  const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
   if (!win) {
-    // Popup blocked: fall back to same-tab navigation so user still reaches the paper.
-    window.location.href = proxyUrl;
+    // Popup blocked: fall back to same-tab navigation.
+    window.location.href = targetUrl;
   }
+}
+
+function downloadPaperUrl(url) {
+  if (!url) return;
+  let cleanUrl = url;
+  try {
+    let prev;
+    do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
+  } catch (_) { cleanUrl = url; }
+
+  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?mode=download&url=' + encodeURIComponent(cleanUrl);
+  const a = document.createElement('a');
+  a.href = proxyUrl;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }
 
 function renderPastPapers() {
@@ -3357,10 +3375,12 @@ function _applyPaperFilters() {
           <p class="paper-subtitle">${escapeHtml(paper.title)}</p>
           <div class="paper-actions">
             ${hasUrl
-              ? `<button class="btn btn-primary btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.downloadUrl)}')">📄 Question Paper</button>`
+              ? `<button class="btn btn-primary btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.downloadUrl)}')">📄 Open Paper</button>
+                 <button class="btn btn-outline btn-sm" onclick="App.downloadPaperUrl('${escapeHtml(paper.downloadUrl)}')">⬇ Download</button>`
               : `<span class="paper-unavail">Coming soon</span>`}
             ${hasMsUrl
-              ? `<button class="btn btn-outline btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.msUrl)}')">✓ Mark Scheme</button>`
+              ? `<button class="btn btn-outline btn-sm" onclick="App.openPaperUrl('${escapeHtml(paper.msUrl)}')">✓ Open MS</button>
+                 <button class="btn btn-outline btn-sm" onclick="App.downloadPaperUrl('${escapeHtml(paper.msUrl)}')">⬇ MS</button>`
               : ""}
             <button class="btn btn-ghost btn-sm" onclick="App.go('subject',{subjectId:'${paper.subject}'})">Revise Topics</button>
             ${(auth.user?.role === 'admin' || auth.user?.role === 'teacher')
@@ -7522,6 +7542,7 @@ const App = {
   openMobileSidebar,
   closeMobileSidebar,
   openPaperUrl,
+  downloadPaperUrl,
   openAddPaperModal,
   _apHandleFile,
   submitAddPaper,
