@@ -647,12 +647,13 @@ p {
   background: var(--bg2);
   border-right: 1px solid var(--border);
   padding: 1rem 0;
-  position: relative;
-  top: 0;
-  height: auto;
-  max-height: none;
-  overflow: visible;
-  padding-bottom: 1rem;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px - 1rem);
+  max-height: calc(100vh - 60px - 1rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 0;
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--accent), transparent 32%) color-mix(in srgb, var(--bg3), var(--bg2) 35%);
 }

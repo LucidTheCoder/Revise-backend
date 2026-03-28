@@ -3253,8 +3253,16 @@ function openPaperUrl(url) {
     do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
   } catch (_) { cleanUrl = url; }
 
-  // Prefer opening the original source in a new tab to avoid proxy/source compatibility issues.
-  const targetUrl = cleanUrl.startsWith('/papers/') ? `${API_BASE_URL}${cleanUrl}` : cleanUrl;
+  // Route ALL external URLs through proxy for inline viewing (avoids CORS/security issues)
+  // Local /papers/ URLs are served directly
+  let targetUrl;
+  if (cleanUrl.startsWith('/papers/')) {
+    targetUrl = `${API_BASE_URL}${cleanUrl}`;
+  } else {
+    // External HTTPS URLs: use proxy with mode=inline
+    targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=inline&url=${encodeURIComponent(cleanUrl)}`;
+  }
+  
   const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
   if (!win) {
     // Popup blocked: fall back to same-tab navigation.
