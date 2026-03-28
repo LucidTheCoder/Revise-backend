@@ -2891,11 +2891,17 @@ textarea:focus-visible {
 /* User bubble — right-aligned */
 .ai-bubble-user {
   align-self: flex-end;
-  background: var(--accent);
+  background: linear-gradient(145deg, #0f8a74, #0a705d);
   border: none;
-  color: #04231a;
+  color: #f3fffb;
   font-weight: 500;
   border-bottom-right-radius: 4px;
+}
+
+.ai-bubble-user p,
+.ai-bubble-user strong,
+.ai-bubble-user code {
+  color: inherit;
 }
 
 /* Assistant bubble — left-aligned */
@@ -2905,6 +2911,28 @@ textarea:focus-visible {
   border: 1px solid var(--border);
   color: var(--text);
   border-bottom-left-radius: 4px;
+}
+
+[data-theme="light"] .ai-bubble-user {
+  background: linear-gradient(145deg, #0f9d84, #0c836d);
+  color: #f5fffc;
+}
+
+.ai-bubble-assistant .katex {
+  color: inherit;
+  font-size: 1.02em;
+}
+
+.ai-math-inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ai-math-display {
+  display: block;
+  margin: 0.35rem 0;
+  padding: 0.1rem 0;
+  overflow-x: auto;
 }
 
 /* Error bubble */

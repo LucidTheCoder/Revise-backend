@@ -3555,6 +3555,75 @@ function buildAiContext(topic) {
   return parts.join('\n').slice(0, 1200);
 }
 
+function normalizeAiMathInput(input) {
+  let text = String(input || '');
+  // Common AI output pattern: \(^{23}_{11}\)Na -> \(^{23}_{11}\mathrm{Na}\)
+  text = text.replace(/\\\(([^)]*?)\\\)\s*([A-Z][a-z]?)/g, (_, expr, element) => {
+    if (/\\mathrm\{/.test(expr)) return `\\(${expr}\\)`;
+    return `\\(${expr}\\mathrm{${element}}\\)`;
+  });
+  return text;
+}
+
+function renderAiMathToken(token) {
+  const raw = String(token || '');
+  const hasKatex = typeof window !== 'undefined' && window.katex && typeof window.katex.renderToString === 'function';
+  if (!hasKatex) return escapeHtml(raw);
+
+  let expr = raw;
+  let displayMode = false;
+  if (raw.startsWith('\\[') && raw.endsWith('\\]')) {
+    expr = raw.slice(2, -2);
+    displayMode = true;
+  } else if (raw.startsWith('\\(') && raw.endsWith('\\)')) {
+    expr = raw.slice(2, -2);
+  } else if (raw.startsWith('$$') && raw.endsWith('$$')) {
+    expr = raw.slice(2, -2);
+    displayMode = true;
+  } else if (raw.startsWith('$') && raw.endsWith('$')) {
+    expr = raw.slice(1, -1);
+  }
+
+  try {
+    const rendered = window.katex.renderToString(expr, {
+      throwOnError: false,
+      strict: 'ignore',
+      displayMode,
+    });
+    return `<span class="ai-math ${displayMode ? 'ai-math-display' : 'ai-math-inline'}">${rendered}</span>`;
+  } catch {
+    return escapeHtml(raw);
+  }
+}
+
+function formatAiAssistantMessage(input) {
+  const source = normalizeAiMathInput(input);
+  const tokens = [];
+  const mathPattern = /(\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$\$[\s\S]*?\$\$|\$(?!\s)[^$\n]+?\$)/g;
+
+  const withPlaceholders = String(source).replace(mathPattern, (match) => {
+    const idx = tokens.push(match) - 1;
+    return `@@AI_MATH_${idx}@@`;
+  });
+
+  let html = withPlaceholders
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/^#{1,3}\s+(.+)$/gm,'<strong>$1</strong>')
+    .replace(/^\*\s+(.+)$/gm,'• $1')
+    .replace(/^-\s+(.+)$/gm,'• $1')
+    .replace(/\n{2,}/g,'</p><p>')
+    .replace(/\n/g,'<br>');
+
+  html = html.replace(/@@AI_MATH_(\d+)@@/g, (_, idx) => {
+    const token = tokens[Number(idx)] || '';
+    return renderAiMathToken(token);
+  });
+
+  return html;
+}
+
 function renderAiChat(topicId) {
   const histEl = byId('ai-chat-history');
   if (!histEl) return;
@@ -3570,16 +3639,7 @@ function renderAiChat(topicId) {
     if (msg.role === 'error') {
       return `<div class="ai-bubble ai-bubble-error"><p>${escapeHtml(msg.text)}</p></div>`;
     }
-    // assistant — render markdown-lite (bold, code, bullet points, headers)
-    const html = msg.text
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-      .replace(/`([^`]+)`/g,'<code>$1</code>')
-      .replace(/^#{1,3}\s+(.+)$/gm,'<strong>$1</strong>')
-      .replace(/^\*\s+(.+)$/gm,'• $1')
-      .replace(/^-\s+(.+)$/gm,'• $1')
-      .replace(/\n{2,}/g,'</p><p>')
-      .replace(/\n/g,'<br>');
+    const html = formatAiAssistantMessage(msg.text);
     return `<div class="ai-bubble ai-bubble-assistant"><p>${html}</p></div>`;
   }).join('');
   histEl.scrollTop = histEl.scrollHeight;
