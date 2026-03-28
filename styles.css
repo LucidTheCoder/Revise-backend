@@ -435,6 +435,15 @@ p {
   transform: translateY(-1px);
 }
 
+.continue-item.wip {
+  border-style: dashed;
+}
+
+.continue-item.locked {
+  opacity: 0.86;
+  cursor: not-allowed;
+}
+
 .continue-item small {
   color: var(--text2);
 }
@@ -859,6 +868,26 @@ p {
 
 .topic-title {
   margin-top: 0.45rem;
+}
+
+.topic-status-chip {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.45rem;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--warn);
+  border: 1px solid color-mix(in srgb, var(--warn), transparent 25%);
+  background: color-mix(in srgb, var(--warn), transparent 88%);
+  vertical-align: middle;
+}
+
+.topic-wip-gate {
+  text-align: center;
+  padding: 2rem 1.25rem;
 }
 
 .topic-subtitle {
@@ -4159,6 +4188,9 @@ main { flex: 1 0 auto; }
   transition: width 0.4s ease;
 }
 .topic-item-badge { font-size: 0.7rem; color: var(--success); }
+.topic-item-badge.wip { color: var(--warn); font-weight: 700; }
+.topic-item.wip { border-style: dashed; }
+.topic-item.locked { opacity: 0.86; cursor: not-allowed; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    TOPIC HEAD — quiz best score chip, keyboard hint, print btn, done btn
@@ -7287,6 +7319,19 @@ html {
   #subject-sidebar #sidebar-topics-list,
   #topic-sidebar #sidebar-topics-list {
     padding-bottom: 1rem;
+  }
+
+  #view-topic #topic-sidebar.sidebar {
+    position: relative !important;
+    top: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  #view-topic #topic-sidebar #sidebar-topics-list {
+    max-height: none !important;
+    overflow: visible !important;
   }
 }
 .add-paper-grid {

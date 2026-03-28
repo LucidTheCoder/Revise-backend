@@ -580,6 +580,29 @@ function setTopicConfidence(topicId, level) {
   showToast(`Confidence set: ${label}`);
 }
 
+function normalizeHexColor(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  const hex = raw.startsWith('#') ? raw.slice(1) : raw;
+  if (/^[0-9a-fA-F]{3}$/.test(hex)) {
+    return `#${hex.split('').map((c) => c + c).join('').toLowerCase()}`;
+  }
+  if (/^[0-9a-fA-F]{6}$/.test(hex)) {
+    return `#${hex.toLowerCase()}`;
+  }
+  return '';
+}
+
+function hexToRgba(hex, alpha) {
+  const normalized = normalizeHexColor(hex);
+  if (!normalized) return '';
+  const n = parseInt(normalized.slice(1), 16);
+  const r = (n >> 16) & 255;
+  const g = (n >> 8) & 255;
+  const b = n & 255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
 function buildTopicDiagramSvg(topic) {
   const tid = (topic.id  || "").toLowerCase();
   const sub = (topic.subject || "chem");
@@ -592,7 +615,17 @@ function buildTopicDiagramSvg(topic) {
     bio: {ac:"#22c55e",st:"#22c55e",fi:"#0a1c10",bg:"rgba(34,197,94,.08)",  li:"rgba(34,197,94,.55)"},
     phy: {ac:"#818cf8",st:"#818cf8",fi:"#0e1020",bg:"rgba(129,140,248,.08)",li:"rgba(129,140,248,.55)"},
   };
-  const P = PAL[sub] || PAL.chem;
+  let P = PAL[sub] || PAL.chem;
+  const customPrimary = normalizeHexColor(topic.primaryColor);
+  if (customPrimary) {
+    P = {
+      ...P,
+      ac: customPrimary,
+      st: customPrimary,
+      bg: hexToRgba(customPrimary, 0.08) || P.bg,
+      li: hexToRgba(customPrimary, 0.55) || P.li,
+    };
+  }
 
   // Viewbox: 700 × 260. Title at y=32. Usable space: y 46–252.
   const W = 700, H = 260;
@@ -1422,8 +1455,8 @@ function buildTopicDiagramSvg(topic) {
   const sp=spoke(350,148,95,5,-90);
   return wrap(`
     ${TT(topic.title)}
-    ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:"—"],i===0?11:9)}`).join("")}
     ${[1,2,3,4,5].map(i=>`${LN(sp[0].cx,sp[0].cy,sp[i].cx,sp[i].cy,P.li)}`).join("")}
+    ${sp.map((p,i)=>`${H6(p.cx,p.cy,i===0?40:28,P.fi,P.st)}${HT(p.cx,p.cy,[i===0?topic.title.split(" ")[0]:"—"],i===0?11:9)}`).join("")}
   `);
 }
 
@@ -2196,18 +2229,48 @@ function renderSubjectSidebar(subject, activeTopicId = "") {
             <div class="sidebar-unit-bar-fill" style="width:${unitPct}%"></div>
           </div>
           <div class="sidebar-topics">
-            ${unit.topics.map(topic => `
-              <button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""}"
+            ${unit.topics.map((topic) => {
+              const topicData = state.topics.get(topic.id);
+              const isWip = !!topicData?.wip;
+              const locked = isWip && !isStaffUser();
+              const action = locked
+                ? `App.showTopicWipNotice('${topic.id}')`
+                : `App.go('topic',{topicId:'${topic.id}'})`;
+              const badgeClass = isWip ? 'topic-item-badge wip' : 'topic-item-badge';
+              const badgeText = topic.done ? '✓' : (isWip ? 'WIP' : '');
+              return `
+              <button class="topic-item ${topic.id === activeTopicId ? "active" : ""} ${topic.done ? "done" : ""} ${isWip ? "wip" : ""} ${locked ? "locked" : ""}"
                       data-name="${escapeHtml(topic.name.toLowerCase())}"
-                      onclick="App.go('topic',{topicId:'${topic.id}'})">
+                      onclick="${action}">
                 <span>${escapeHtml(topic.name)}</span>
-                <span class="topic-item-badge">${topic.done ? "✓" : ""}</span>
-              </button>`).join("")}
+                <span class="${badgeClass}">${badgeText}</span>
+              </button>`;
+            }).join("")}
           </div>
         </div>`;
       }).join("")}
     </div>
   `;
+}
+
+function isStaffUser() {
+  return auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher');
+}
+
+function isTopicWip(topicId) {
+  if (!topicId) return false;
+  return !!state.topics.get(topicId)?.wip;
+}
+
+function canAccessTopic(topicId) {
+  if (!topicId) return true;
+  return !isTopicWip(topicId) || isStaffUser();
+}
+
+function showTopicWipNotice(topicId) {
+  const topic = state.topics.get(topicId);
+  const name = topic?.title || topicId;
+  showToast(`${name} is WIP and not released yet.`);
 }
 
 function filterSidebarTopics(query) {
@@ -2271,7 +2334,8 @@ async function ensureTopicLoaded(topicId) {
 
   const match = findTopicRefById(topicId);
   if (!match) {
-    const candidates = [state.currentSubject, 'chem', 'bio', 'phy'].filter(Boolean);
+    const dynamicSubjects = (state.subjects || []).map((s) => s.id).filter(Boolean);
+    const candidates = [state.currentSubject, ...dynamicSubjects].filter(Boolean);
     for (const sid of [...new Set(candidates)]) {
       const guessedPath = `data/topics/${sid}/${topicId}.json`;
       try {
@@ -2364,14 +2428,22 @@ function renderSubjectView(subjectId) {
         <div class="card subject-unit-card">
           <h2>${escapeHtml(unit.name)}</h2>
           ${unit.topics
-            .map(
-              (topic) => `
-            <button class="continue-item" onclick="App.go('topic',{topicId:'${topic.id}'})">
+            .map((topic) => {
+              const topicData = state.topics.get(topic.id);
+              const isWip = !!topicData?.wip;
+              const locked = isWip && !isStaffUser();
+              const action = locked
+                ? `App.showTopicWipNotice('${topic.id}')`
+                : `App.go('topic',{topicId:'${topic.id}'})`;
+              const badgeClass = topic.done ? 'badge-success' : 'badge-warn';
+              const badgeText = topic.done ? 'Done' : (isWip ? 'WIP' : 'Start');
+              return `
+            <button class="continue-item ${isWip ? 'wip' : ''} ${locked ? 'locked' : ''}" onclick="${action}">
               <span>${escapeHtml(topic.name)}</span>
-              <span class="badge ${topic.done ? "badge-success" : "badge-warn"}">${topic.done ? "Done" : "Start"}</span>
+              <span class="badge ${badgeClass}">${badgeText}</span>
             </button>
-          `
-            )
+          `;
+            })
             .join("")}
         </div>
       `
@@ -2459,6 +2531,22 @@ function renderTopicView(topicId) {
 
   state.currentTopic = topicId;
   state.currentSubject = topic.subject;
+
+  if (!canAccessTopic(topicId)) {
+    const main = byId('topic-main');
+    if (main) {
+      main.innerHTML = `
+        <div class="card topic-wip-gate">
+          <div style="font-size:2.1rem;margin-bottom:0.5rem">🚧</div>
+          <h2 style="margin:0 0 0.45rem">Topic In Progress</h2>
+          <p style="color:var(--text2);margin:0 0 0.95rem">${escapeHtml(topic.title || topicId)} is still being prepared and will be released soon.</p>
+          <button class="btn btn-outline" onclick="App.go('subject',{subjectId:'${topic.subject}'})">Back to notes</button>
+        </div>`;
+    }
+    showTopicWipNotice(topicId);
+    return;
+  }
+
   // Track last visited
   try {
     const lv = JSON.parse(localStorage.getItem(lastVisitedKey) || '{}');
@@ -2483,7 +2571,19 @@ function renderTopicView(topicId) {
     }
     return;
   }
-  byId("topic-sidebar").innerHTML = renderSubjectSidebar(subject, topic.id);
+  const topicSidebar = byId('topic-sidebar');
+  if (topicSidebar) topicSidebar.innerHTML = renderSubjectSidebar(subject, topic.id);
+
+  const topicAccent = normalizeHexColor(topic.primaryColor);
+  const topicMainEl = byId('topic-main');
+  if (topicMainEl) {
+    if (topicAccent) topicMainEl.style.setProperty('--accent', topicAccent);
+    else topicMainEl.style.removeProperty('--accent');
+  }
+  if (topicSidebar) {
+    if (topicAccent) topicSidebar.style.setProperty('--accent', topicAccent);
+    else topicSidebar.style.removeProperty('--accent');
+  }
 
   const notesHtml = (topic.notes || [])
     .map(
@@ -2595,7 +2695,7 @@ function renderTopicView(topicId) {
         </p>
         <span class="topic-ref">${escapeHtml(syllabusRef)}</span>
       </div>
-      <h1 class="topic-title">${escapeHtml(topic.title)}</h1>
+      <h1 class="topic-title">${escapeHtml(topic.title)} ${topic.wip ? '<span class="topic-status-chip">WIP</span>' : ''}</h1>
       <p class="topic-subtitle">${richText(topic.subtitle || "")}</p>
       <div class="topic-actions">
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${topic.id}'})">
@@ -2800,6 +2900,9 @@ function markTopicDone(topicId) {
 function buildQuizFromPayload(payload) {
   if (payload.topicId) {
     const topic = state.topics.get(payload.topicId);
+    if (topic?.wip && !isStaffUser()) {
+      return { title: 'Topic Quiz', sourceLabel: 'Restricted', questions: [] };
+    }
     if (topic && topic.quiz && Array.isArray(topic.quiz.questions)) {
       return {
         title: topic.quiz.title || `${topic.title} Quiz`,
@@ -2814,6 +2917,7 @@ function buildQuizFromPayload(payload) {
   const questions = [];
   for (const ref of refs) {
     const topic = state.topics.get(ref.id);
+    if (topic?.wip && !isStaffUser()) continue;
     if (!topic || !topic.quiz || !Array.isArray(topic.quiz.questions)) continue;
     for (const q of topic.quiz.questions) {
       questions.push({ ...q, sourceTopic: topic.title });
@@ -2960,6 +3064,9 @@ function renderQuizResult() {
 function buildFlashDeck(payload) {
   if (payload.topicId) {
     const topic = state.topics.get(payload.topicId);
+    if (topic?.wip && !isStaffUser()) {
+      return { label: 'Restricted', cards: [] };
+    }
     if (topic && Array.isArray(topic.flashcards) && topic.flashcards.length) {
       return { label: topic.title, cards: topic.flashcards };
     }
@@ -2970,6 +3077,7 @@ function buildFlashDeck(payload) {
   const cards = [];
   for (const ref of refs) {
     const topic = state.topics.get(ref.id);
+    if (topic?.wip && !isStaffUser()) continue;
     if (!topic || !Array.isArray(topic.flashcards)) continue;
     cards.push(...topic.flashcards.map((card) => ({ ...card, topic: topic.title })));
   }
@@ -4693,6 +4801,12 @@ function _readFormValues() {
     });
   };
 
+  const selectedStatus = get('ef-status') || (topic.wip ? 'wip' : 'released');
+  const releaseNow = !!byId('ef-release-now')?.checked;
+  const pickerColor = byId('ef-primary-color')?.value?.trim() || '';
+  const manualColor = get('ef-primary-color-hex');
+  const topicPrimaryColor = normalizeHexColor(manualColor || pickerColor || topic.primaryColor || '');
+
   return {
     ...topic,
     title:    get('ef-title')    || topic.title,
@@ -4705,6 +4819,8 @@ function _readFormValues() {
     recall:   parseRecall(),
     summary:  parseSummary(),
     flashcards: parseFlashcards(),
+    wip: selectedStatus === 'wip' && !releaseNow,
+    primaryColor: topicPrimaryColor,
   };
 }
 
@@ -4720,6 +4836,7 @@ function _renderEditorForm(topic) {
   const recallText = (topic.recall || []).map(r => `${r.q}\n${r.a}`).join('\n\n');
   const summaryText = (topic.summary || []).map(s => `${s.label||s.key||''}: ${s.value||s.val||''}`).join('\n');
   const flashText = (topic.flashcards || []).map(f => `${f.q}\n${f.a}`).join('\n\n');
+  const topicColor = normalizeHexColor(topic.primaryColor) || '#f97316';
 
   el.innerHTML = `
     <div class="ef-form">
@@ -4731,6 +4848,27 @@ function _renderEditorForm(topic) {
         <div class="ef-field ef-field-wide">
           <label class="ef-label" for="ef-subtitle">Subtitle</label>
           <input id="ef-subtitle" class="ef-input" type="text" value="${escapeHtml(topic.subtitle||'')}" placeholder="One-line summary">
+        </div>
+      </div>
+
+      <div class="ef-row">
+        <div class="ef-field ef-field-half">
+          <label class="ef-label" for="ef-status">Topic Status</label>
+          <select id="ef-status" class="ef-input">
+            <option value="released" ${topic.wip ? '' : 'selected'}>Released</option>
+            <option value="wip" ${topic.wip ? 'selected' : ''}>Work In Progress (WIP)</option>
+          </select>
+          <label class="ef-hint" style="display:flex;align-items:center;gap:0.45rem;margin-top:0.45rem">
+            <input id="ef-release-now" type="checkbox"> Release now (override WIP)
+          </label>
+        </div>
+        <div class="ef-field ef-field-half">
+          <label class="ef-label" for="ef-primary-color">Primary Topic Color</label>
+          <div style="display:flex;gap:0.55rem;align-items:center">
+            <input id="ef-primary-color" class="ef-input" type="color" value="${escapeHtml(topicColor)}" style="max-width:88px;padding:0.2rem 0.3rem" oninput="const hex=document.getElementById('ef-primary-color-hex'); if(hex) hex.value=this.value;">
+            <input id="ef-primary-color-hex" class="ef-input" type="text" value="${escapeHtml(topicColor)}" placeholder="#f97316" oninput="const c=this.value.trim(); if(/^#?[0-9a-fA-F]{6}$/.test(c)){ const p=document.getElementById('ef-primary-color'); if(p) p.value=c.startsWith('#')?c:'#'+c; }">
+          </div>
+          <small class="ef-hint">Used for topic accents and diagram highlight color.</small>
         </div>
       </div>
 
@@ -4921,6 +5059,8 @@ function createNewTopic() {
     subject: editorState.currentSubject,
     title: "New Topic",
     subtitle: "Brief summary",
+    wip: true,
+    primaryColor: '',
     concept: ["Add concept explanation here"],
     notes: [{ heading: "Key Ideas", items: ["Point 1", "Point 2"] }],
     definitions: [{ term: "Key term", body: "Definition" }],
@@ -6191,6 +6331,19 @@ function closeMobileSidebar() {
 }
 
 function go(viewName, payload = {}) {
+  const targetTopicId = payload.topicId || state.currentTopic;
+  if ((viewName === 'topic' || viewName === 'quiz' || viewName === 'flash') && targetTopicId && !canAccessTopic(targetTopicId)) {
+    showTopicWipNotice(targetTopicId);
+    if (state.currentSubject) {
+      setActiveView('subject');
+      renderSubjectView(state.currentSubject);
+    } else {
+      setActiveView('subjects');
+      renderSubjectSelection();
+    }
+    return;
+  }
+
   if (window.matchMedia('(max-width: 760px)').matches && (viewName === 'topic' || viewName === 'subject')) {
     closeMobileSidebar();
   }
@@ -7810,6 +7963,7 @@ const App = {
   go,
   scrollToSection,
   setTopicConfidence,
+  showTopicWipNotice,
   toggleRecall,
   markTopicDone,
   dismissSpacedRep,

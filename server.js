@@ -528,7 +528,7 @@ app.get('/api/topics/search', async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
-app.get('/api/topics/:topicId', async (req, res, next) => {
+app.get('/api/topics/:topicId', optionalAuth, async (req, res, next) => {
   try {
     const { topicId } = req.params;
     let subject = req.query.subject;
@@ -543,6 +543,10 @@ app.get('/api/topics/:topicId', async (req, res, next) => {
       return res.status(400).json({ success: false, error: 'valid subject query param required' });
     }
     const topic = await loadTopic(topicId, subject);
+    const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
+    if (topic?.wip && !isStaff) {
+      return res.status(403).json({ success: false, error: 'Topic is WIP and not released yet' });
+    }
     res.json({ success: true, data: topic });
   } catch (error) {
     if (error.code === 'ENOENT') return res.status(404).json({ success: false, error: 'Topic not found' });
@@ -550,7 +554,7 @@ app.get('/api/topics/:topicId', async (req, res, next) => {
   }
 });
 
-app.get('/api/topics/:topicId/quiz', async (req, res, next) => {
+app.get('/api/topics/:topicId/quiz', optionalAuth, async (req, res, next) => {
   try {
     const { topicId } = req.params;
     let { subject } = req.query;
@@ -561,11 +565,13 @@ app.get('/api/topics/:topicId/quiz', async (req, res, next) => {
     }
     if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const topic = await loadTopic(topicId, subject);
+    const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
+    if (topic?.wip && !isStaff) return res.status(403).json({ success: false, error: 'Topic is WIP and not released yet' });
     res.json({ success: true, data: { topicId, topicName: topic.concept, quiz: topic.quiz || [] } });
   } catch (error) { next(error); }
 });
 
-app.get('/api/topics/:topicId/flashcards', async (req, res, next) => {
+app.get('/api/topics/:topicId/flashcards', optionalAuth, async (req, res, next) => {
   try {
     const { topicId } = req.params;
     let { subject } = req.query;
@@ -576,6 +582,8 @@ app.get('/api/topics/:topicId/flashcards', async (req, res, next) => {
     }
     if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const topic = await loadTopic(topicId, subject);
+    const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
+    if (topic?.wip && !isStaff) return res.status(403).json({ success: false, error: 'Topic is WIP and not released yet' });
     res.json({ success: true, data: { topicId, topicName: topic.concept, flashcards: topic.flashcards || [], recall: topic.recall || [] } });
   } catch (error) { next(error); }
 });
