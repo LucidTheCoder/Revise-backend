@@ -3246,9 +3246,8 @@ async function deletePaper(paperId, paperLabel) {
 function openPaperUrl(url) {
   if (!url) return;
 
-  const sourceUrl = String(url).trim();
-  const targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=inline&url=${encodeURIComponent(sourceUrl)}`;
-  console.log('[openPaperUrl] Opening proxy URL:', targetUrl);
+  const targetUrl = resolvePaperUrl(url);
+  console.log('[openPaperUrl] Opening URL:', targetUrl);
 
   // Use an anchor click instead of window.open; many browsers treat this as a direct user navigation.
   const a = document.createElement('a');
@@ -3262,8 +3261,7 @@ function openPaperUrl(url) {
 
 function downloadPaperUrl(url) {
   if (!url) return;
-  const sourceUrl = String(url).trim();
-  const targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=download&url=${encodeURIComponent(sourceUrl)}`;
+  const targetUrl = resolvePaperUrl(url);
   const a = document.createElement('a');
   a.href = targetUrl;
   a.target = '_blank';
@@ -3271,6 +3269,36 @@ function downloadPaperUrl(url) {
   document.body.appendChild(a);
   a.click();
   a.remove();
+}
+
+function resolvePaperUrl(url) {
+  const raw = String(url || '').trim();
+  if (!raw) return raw;
+
+  // Keep direct local paths untouched.
+  if (raw.startsWith('/papers/')) return `${API_BASE_URL}${raw}`;
+
+  // If old gceguide host is used, rewrite to a working direct PDF source.
+  if (/papers\.gceguide\.(xyz|com|cc|ws)/i.test(raw)) {
+    let decoded = raw;
+    try { decoded = decodeURIComponent(raw); } catch (_) {}
+
+    const m = decoded.match(/A Levels\/([^/]+)\/(\d{4})\/([^/?#]+\.pdf)/i);
+    if (m) {
+      const subjectRaw = m[1];
+      const year = m[2];
+      const filename = m[3];
+      const subjectSlug = subjectRaw
+        .toLowerCase()
+        .replace(/\s*\((\d+)\)\s*/g, '-$1')
+        .replace(/[^a-z0-9-]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+      return `https://bestexamhelp.com/exam/cambridge-international-a-level/${subjectSlug}/${year}/${filename}`;
+    }
+  }
+
+  return raw;
 }
 
 function renderPastPapers() {
