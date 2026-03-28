@@ -3259,8 +3259,9 @@ function openPaperUrl(url) {
     return;
   }
 
-  const targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=inline&url=${encodeURIComponent(cleanUrl)}`;
-  console.log('[openPaperUrl] Opening proxy URL:', targetUrl);
+  // External URLs: navigate directly in browser. This avoids proxy-side mirror 404s.
+  const targetUrl = cleanUrl;
+  console.log('[openPaperUrl] Opening direct URL:', targetUrl);
 
   // Use an anchor click instead of window.open; many browsers treat this as a direct user navigation.
   const a = document.createElement('a');
@@ -3280,7 +3281,9 @@ function downloadPaperUrl(url) {
     do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
   } catch (_) { cleanUrl = url; }
 
-  const targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=download&url=${encodeURIComponent(cleanUrl)}`;
+  const targetUrl = cleanUrl.startsWith('/papers/')
+    ? `${API_BASE_URL}${cleanUrl}`
+    : cleanUrl;
   const a = document.createElement('a');
   a.href = targetUrl;
   a.target = '_blank';
