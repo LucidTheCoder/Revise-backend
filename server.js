@@ -793,6 +793,69 @@ setInterval(() => {
   }
 }, 5 * 60 * 1000);
 
+// Keep a short cache of available OpenRouter free models to avoid fetching on every request.
+const OPENROUTER_FREE_MODEL_CACHE_TTL_MS = 10 * 60 * 1000;
+const openRouterFreeModelCache = {
+  fetchedAt: 0,
+  models: [],
+};
+
+const OPENROUTER_PREFERRED_FREE_MODELS = [
+  'meta-llama/llama-3.1-8b-instruct:free',
+  'google/gemini-flash-1.5-free',
+  'qwen/qwen-2.5-7b-instruct:free',
+  'microsoft/phi-3-mini-128k-instruct:free',
+  'openchat/openchat-7b:free',
+];
+
+async function getOpenRouterFreeModels(apiKey) {
+  const now = Date.now();
+  if (openRouterFreeModelCache.models.length && (now - openRouterFreeModelCache.fetchedAt) < OPENROUTER_FREE_MODEL_CACHE_TTL_MS) {
+    return openRouterFreeModelCache.models;
+  }
+
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+    const modelRes = await fetch('https://openrouter.ai/api/v1/models', { headers });
+    if (!modelRes.ok) {
+      console.warn(`[AI] Could not refresh OpenRouter models (HTTP ${modelRes.status})`);
+      return openRouterFreeModelCache.models;
+    }
+
+    const modelData = await modelRes.json();
+    const rows = Array.isArray(modelData?.data) ? modelData.data : [];
+    const freeModels = [...new Set(
+      rows
+        .map(row => row?.id)
+        .filter(id => typeof id === 'string' && id.endsWith(':free'))
+    )];
+
+    if (freeModels.length) {
+      openRouterFreeModelCache.models = freeModels;
+      openRouterFreeModelCache.fetchedAt = now;
+    }
+
+    return openRouterFreeModelCache.models;
+  } catch (err) {
+    console.warn(`[AI] Failed to refresh OpenRouter models: ${String(err?.message || err).slice(0, 120)}`);
+    return openRouterFreeModelCache.models;
+  }
+}
+
+function buildOpenRouterModelList(primaryModel, discoveredModels = []) {
+  const normalizedPrimary = String(primaryModel || '').trim();
+  const lowered = normalizedPrimary.toLowerCase();
+  const isFreeAlias = lowered === 'openrouter/free' || lowered === 'openrouter/auto:free';
+  const seed = isFreeAlias ? 'openrouter/auto:free' : normalizedPrimary;
+  return [...new Set([
+    seed,
+    ...OPENROUTER_PREFERRED_FREE_MODELS,
+    ...discoveredModels,
+  ].filter(Boolean))];
+}
+
 // ============================================================================
 // ROUTES: AI STUDY COACH
 // ============================================================================
@@ -808,35 +871,51 @@ app.get('/api/test-ai', async (req, res, next) => {
     if (!apiKey) return res.status(503).json({ success: false, error: 'OPENROUTER_API_KEY not set' });
 
     console.log(`[test-ai] API key present, length=${apiKey.length}`);
+    const primaryModel = process.env.AI_MODEL || 'openrouter/auto:free';
+    const discoveredFreeModels = await getOpenRouterFreeModels(apiKey);
+    const modelsToTry = buildOpenRouterModelList(primaryModel, discoveredFreeModels);
 
-    const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': process.env.FRONTEND_URL || 'https://asrevise.onrender.com',
-        'X-Title': 'Revise AS Level Study Platform',
-      },
-      body: JSON.stringify({
-        model: 'mistralai/mistral-7b-instruct:free',
-        max_tokens: 100,
-        messages: [{ role: 'user', content: 'Say hello in one sentence.' }],
-      }),
-    });
-
-    const data = await orRes.json();
-    console.log('[test-ai] Response status:', orRes.status, 'body:', JSON.stringify(data).slice(0, 400));
-
-    if (!orRes.ok || data.error) {
-      return res.status(orRes.status || 502).json({
+    if (!modelsToTry.length) {
+      return res.status(503).json({
         success: false,
-        error: data.error?.message || `HTTP ${orRes.status}`,
-        raw: data,
+        error: 'No OpenRouter free models available to test right now.',
       });
     }
 
-    const answer = data.choices?.[0]?.message?.content || '(empty)';
-    res.json({ success: true, model: data.model, answer });
+    let lastError = null;
+    for (const model of modelsToTry) {
+      const orRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': process.env.FRONTEND_URL || 'https://asrevise.onrender.com',
+          'X-Title': 'Revise AS Level Study Platform',
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: 100,
+          messages: [{ role: 'user', content: 'Say hello in one sentence.' }],
+        }),
+      });
+
+      const data = await orRes.json().catch(() => ({}));
+      console.log(`[test-ai] ${model} status=${orRes.status} body=${JSON.stringify(data).slice(0, 220)}`);
+
+      if (!orRes.ok || data.error) {
+        lastError = data?.error?.message || `HTTP ${orRes.status}`;
+        continue;
+      }
+
+      const answer = data.choices?.[0]?.message?.content || '(empty)';
+      return res.json({ success: true, model: data.model || model, answer });
+    }
+
+    return res.status(502).json({
+      success: false,
+      error: lastError || 'OpenRouter test failed on all free models.',
+      triedModels: modelsToTry,
+    });
   } catch (e) { next(e); }
 });
 
@@ -1015,14 +1094,13 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       const apiKey = process.env.OPENROUTER_API_KEY;
       if (!apiKey) return res.status(503).json({ success: false, error: 'AI not configured. Add OPENROUTER_API_KEY in Render environment variables.' });
 
-      // Use the most reliable free models with better uptime
-      const primaryModel = process.env.AI_MODEL || 'mistralai/mistral-7b-instruct:free';
-      const fallbackModels = [
-        'meta-llama/llama-2-7b-chat:free',
-        'google/gemini-flash-1.5-free',
-        'meta-llama/llama-3.1-8b-instruct:free',
-      ];
-      const modelsToTry = [primaryModel, ...fallbackModels.filter(m => m !== primaryModel)];
+      const primaryModel = process.env.AI_MODEL || 'openrouter/auto:free';
+      const discoveredFreeModels = await getOpenRouterFreeModels(apiKey);
+      const modelsToTry = buildOpenRouterModelList(primaryModel, discoveredFreeModels);
+
+      if (!modelsToTry.length) {
+        throw new Error('No OpenRouter free models are currently available.');
+      }
 
       // Debug: log API key presence (never log the key itself)
       console.log(`[AI] OpenRouter API key present: ${!!apiKey}, length: ${apiKey?.length || 0}`);
@@ -1091,7 +1169,8 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       }
 
       if (!answer?.trim()) {
-        throw new Error('AI service temporarily unavailable — all models are busy. Try again in 30 seconds.');
+        const detail = lastError ? ` Last OpenRouter error: ${lastError}` : '';
+        throw new Error(`AI service temporarily unavailable — unable to find a working OpenRouter free model right now.${detail}`);
       }
     }
 
@@ -1115,6 +1194,37 @@ app.post('/api/ai-tutor', authenticateToken, async (req, res, next) => {
       : isSafety     ? error.message
       : `AI error: ${error.message}`;
     res.status(503).json({ success: false, error: clientMsg });
+  }
+});
+
+/**
+ * GET /api/admin/openrouter-models
+ * Admin-only debug endpoint to inspect currently discovered free OpenRouter models.
+ */
+app.get('/api/admin/openrouter-models', authenticateToken, requireAdmin, async (req, res, next) => {
+  try {
+    const apiKey = process.env.OPENROUTER_API_KEY;
+    if (!apiKey) return res.status(503).json({ success: false, error: 'OPENROUTER_API_KEY not set' });
+
+    const configuredModel = process.env.AI_MODEL || 'openrouter/auto:free';
+    const discoveredFreeModels = await getOpenRouterFreeModels(apiKey);
+    const modelsToTry = buildOpenRouterModelList(configuredModel, discoveredFreeModels);
+
+    res.json({
+      success: true,
+      configuredModel,
+      defaultModelAlias: 'openrouter/auto:free',
+      cache: {
+        fetchedAt: openRouterFreeModelCache.fetchedAt,
+        ageMs: Math.max(0, Date.now() - openRouterFreeModelCache.fetchedAt),
+        ttlMs: OPENROUTER_FREE_MODEL_CACHE_TTL_MS,
+        count: openRouterFreeModelCache.models.length,
+      },
+      discoveredFreeModels,
+      modelsToTry,
+    });
+  } catch (err) {
+    next(err);
   }
 });
 
