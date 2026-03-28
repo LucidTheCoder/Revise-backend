@@ -3243,7 +3243,7 @@ async function deletePaper(paperId, paperLabel) {
   } catch { showToast('Network error'); }
 }
 
-function openPaperUrl(url) {
+async function openPaperUrl(url) {
   if (!url) return;
 
   // Ensure URL is fully decoded before re-encoding once — prevents %2520 double-encode bug
@@ -3253,26 +3253,47 @@ function openPaperUrl(url) {
     do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
   } catch (_) { cleanUrl = url; }
 
-  // Route ALL external URLs through proxy for inline viewing (avoids CORS/security issues)
-  // Local /papers/ URLs are served directly
-  let targetUrl;
+  // Local /papers/ URLs: open directly in new tab
   if (cleanUrl.startsWith('/papers/')) {
-    targetUrl = `${API_BASE_URL}${cleanUrl}`;
-  } else {
-    // External HTTPS URLs: use proxy with mode=inline
-    targetUrl = `${API_BASE_URL}/api/pdf-proxy?mode=inline&url=${encodeURIComponent(cleanUrl)}`;
+    window.open(`${API_BASE_URL}${cleanUrl}`, '_blank', 'noopener,noreferrer');
+    return;
   }
   
-  console.log('[openPaperUrl] Opening:', targetUrl);
-  const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
-  if (!win) {
-    // Popup blocked: fall back to same-tab navigation.
-    console.warn('[openPaperUrl] Popup blocked, using same-tab navigation');
-    window.location.href = targetUrl;
+  // External HTTPS URLs: use proxy via POST to avoid URL length limits
+  try {
+    console.log('[openPaperUrl] Requesting proxy for:', cleanUrl.slice(0, 100));
+    const res = await fetch(API_BASE_URL + '/api/pdf-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'inline', url: cleanUrl })
+    });
+    
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({ error: 'Unknown error' }));
+      console.error('[openPaperUrl] Server error:', res.status, errData);
+      showToast('Failed to load PDF: ' + (errData.error || res.statusText));
+      return;
+    }
+    
+    // Get the PDF blob and open in new tab
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const win = window.open(blobUrl, '_blank', 'noopener,noreferrer');
+    if (!win) {
+      console.warn('[openPaperUrl] Popup blocked');
+      showToast('Popup was blocked. Please enable popups for this site.');
+      URL.revokeObjectURL(blobUrl);
+    } else {
+      // Clean up blob URL after a delay
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+    }
+  } catch (err) {
+    console.error('[openPaperUrl] Fetch error:', err);
+    showToast('Error loading PDF: ' + err.message);
   }
 }
 
-function downloadPaperUrl(url) {
+async function downloadPaperUrl(url) {
   if (!url) return;
   let cleanUrl = url;
   try {
@@ -3280,14 +3301,30 @@ function downloadPaperUrl(url) {
     do { prev = cleanUrl; cleanUrl = decodeURIComponent(cleanUrl); } while (cleanUrl !== prev);
   } catch (_) { cleanUrl = url; }
 
-  const proxyUrl = API_BASE_URL + '/api/pdf-proxy?mode=download&url=' + encodeURIComponent(cleanUrl);
-  const a = document.createElement('a');
-  a.href = proxyUrl;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  try {
+    const res = await fetch(API_BASE_URL + '/api/pdf-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'download', url: cleanUrl })
+    });
+    if (!res.ok) {
+      console.error('[downloadPaperUrl] Server error:', res.status, res.statusText);
+      const errData = await res.json().catch(() => ({}));
+      showToast('Download failed: ' + (errData.error || res.statusText));
+      return;
+    }
+    const blob = await res.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'paper.pdf';
+    document.body.appendChild(link);
+    link.click();
+    URL.revokeObjectURL(link.href);
+    link.remove();
+  } catch (err) {
+    console.error('[downloadPaperUrl] Fetch error:', err);
+    showToast('Download error: ' + err.message);
+  }
 }
 
 function renderPastPapers() {

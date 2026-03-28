@@ -1725,16 +1725,16 @@ function _buildAlternateUrls(primaryUrl) {
   return urls;
 }
 
-app.get('/api/pdf-proxy', async (req, res, next) => {
+app.post('/api/pdf-proxy', async (req, res, next) => {
   try {
-    const mode = String(req.query.mode || 'inline').toLowerCase();
-    const asAttachment = mode === 'download' || req.query.download === '1';
+    const mode = String(req.body.mode || 'inline').toLowerCase();
+    const asAttachment = mode === 'download' || req.body.download === '1';
     // ── Step 1: Decode the URL parameter ────────────────────────────────────
     // Express already decodes %25 → % once, but the frontend may have called
     // encodeURIComponent on an already-encoded URL (producing %2520 for a space).
     // We decode repeatedly until the result stabilises to get the real URL.
-    let rawParam = req.query.url;
-    if (!rawParam) return res.status(400).json({ error: 'url query param required' });
+    let rawParam = req.body.url;
+    if (!rawParam) return res.status(400).json({ error: 'url required in request body' });
 
     let url = rawParam;
     // Iterative decode: keeps decoding until stable (handles double-encoding like %2520 → %20 → space)
