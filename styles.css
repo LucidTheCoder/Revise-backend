@@ -6755,7 +6755,7 @@ html {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 299;
+  z-index: 640;
   background: rgba(0,0,0,0.45);
   backdrop-filter: blur(2px);
 }
@@ -6770,7 +6770,7 @@ html {
     bottom: 0 !important;
     width: min(300px, 88vw) !important;
     height: 100dvh !important;
-    z-index: 300;
+    z-index: 650;
     transform: translateX(-105%);
     transition: transform 0.28s cubic-bezier(.4,0,.2,1);
     border-right: 1px solid var(--border2) !important;

@@ -987,12 +987,12 @@ function buildTopicDiagramSvg(topic) {
       return wrap(`
         ${TT("Analytical Techniques")}
         ${cols.map(([h,l1,l2],i)=>`
-        `).join("")}
-        ${LB(350,245,"Used to determine molecular formula, structure and purity","#8b949e",8.5)}
           ${LN(xs[i],150,xs[i],167,P.li)}
-        ${AR(140,110,210,110,P.li)} ${AR(290,110,410,110,P.li)} ${AR(490,110,560,110,P.li)}
           ${H6(xs[i],110,40,P.fi,P.st)}${HT(xs[i],110,[h],9.5)}
           ${H6(xs[i],195,28,P.fi,P.st)}${HT(xs[i],195,[l1,l2],8.2)}
+        `).join("")}
+        ${LB(350,245,"Used to determine molecular formula, structure and purity","#8b949e",8.5)}
+        ${AR(140,110,210,110,P.li)} ${AR(290,110,410,110,P.li)} ${AR(490,110,560,110,P.li)}
       `);
     }
 
@@ -1559,7 +1559,13 @@ async function loadData() {
           topicLoads.push(
             fetchJson(path)
               .then((topic) => {
-                state.topics.set(topic.id, topic);
+                const normalizedTopic = {
+                  ...topic,
+                  id: topic?.id || topicRef.id,
+                  subject: topic?.subject || subject.id,
+                  title: topic?.title || topicRef.name,
+                };
+                state.topics.set(normalizedTopic.id, normalizedTopic);
               })
               .catch(() => {
                 state.topics.set(topicRef.id, {
