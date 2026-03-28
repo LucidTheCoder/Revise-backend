@@ -6044,13 +6044,30 @@ async function saveTopic() {
 
     // If logged in as admin, persist to server
     if (auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher') && editorState.currentSubject) {
-      const res = await fetch(`${API_BASE_URL}/api/topics/${editorState.currentTopic}`, {
+      const putRes = await fetch(`${API_BASE_URL}/api/topics/${editorState.currentTopic}`, {
         method: 'PUT',
         headers: authHeaders(),
         body: JSON.stringify({ subject: editorState.currentSubject, data: normalized }),
       });
-      const data = await res.json();
-      if (!res.ok) { showToast(`Save error: ${data.error}`); return; }
+
+      let putData = {};
+      try { putData = await putRes.json(); } catch { putData = {}; }
+
+      // New topics don't exist on disk yet; create them on first save.
+      if (!putRes.ok && putRes.status === 404) {
+        const postRes = await fetch(`${API_BASE_URL}/api/topics`, {
+          method: 'POST',
+          headers: authHeaders(),
+          body: JSON.stringify({ topicId: editorState.currentTopic, subject: editorState.currentSubject, data: normalized }),
+        });
+        let postData = {};
+        try { postData = await postRes.json(); } catch { postData = {}; }
+        if (!postRes.ok) { showToast(`Save error: ${postData.error || 'Could not create topic'}`); return; }
+      } else if (!putRes.ok) {
+        showToast(`Save error: ${putData.error || 'Could not save topic'}`);
+        return;
+      }
+
       showSuccess('Topic saved!', editorState.currentTopic);
     } else {
       // Non-admin: only allow editing in-session preview, explain clearly
