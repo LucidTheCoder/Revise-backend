@@ -11,6 +11,7 @@
   --text3: #6b7682;
   --accent: #00d4aa;
   --accent2: #00ac89;
+  --accent-ink: #05291f;
   --accentbg: rgba(0, 212, 170, 0.12);
   --warn: #fbbf24;
   --warnbg: rgba(251, 191, 36, 0.14);
@@ -40,6 +41,7 @@
   --text: #1a2330;
   --text2: #4f5d70;
   --text3: #7f8a98;
+  --accent-ink: #05291f;
   --accentbg: rgba(0, 180, 145, 0.1);
   --warnbg: rgba(251, 191, 36, 0.18);
   --successbg: rgba(74, 222, 128, 0.16);
@@ -231,7 +233,7 @@ p {
 
 .nav-btn.solid {
   background: var(--accent);
-  color: #032016;
+  color: var(--accent-ink);
 }
 
 .container {
@@ -319,7 +321,7 @@ p {
 .btn-primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #04231a;
+  color: var(--accent-ink);
 }
 
 .btn-outline {
@@ -1818,14 +1820,14 @@ p {
 .flashcard-back {
   transform: rotateY(180deg);
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
   border-color: transparent;
 }
 .flashcard-back small {
-  color: rgba(255,255,255,0.75);
+  color: color-mix(in srgb, var(--accent-ink), transparent 30%);
 }
 .flashcard-back p {
-  color: #fff;
+  color: var(--accent-ink);
 }
 .flashcard-front small,
 .flashcard-back small {
@@ -1950,7 +1952,7 @@ p {
   transition: background 0.15s, color 0.15s;
 }
 .admin-tab:hover  { background: var(--surface2); color: var(--text1); }
-.admin-tab.active { background: var(--accent);   color: #fff; }
+.admin-tab.active { background: var(--accent);   color: var(--accent-ink); }
 
 /* Tab panels */
 .admin-panel { display: none; }
@@ -3107,7 +3109,7 @@ textarea:focus-visible {
   border-radius: 12px;
   background: var(--accent);
   border-color: var(--accent);
-  color: #04231a;
+  color: var(--accent-ink);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -3447,7 +3449,7 @@ textarea:focus-visible {
   height: 24px;
   border-radius: 50%;
   background: var(--accent);
-  color: #04231a;
+  color: var(--accent-ink);
   font-size: 0.7rem;
   display: flex;
   align-items: center;
@@ -3662,7 +3664,93 @@ main { flex: 1 0 auto; }
   cursor: pointer; transition: background 0.14s, color 0.14s, border-color 0.14s;
 }
 .papers-tab:hover { background: var(--bg3); color: var(--text); }
-.papers-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.papers-tab.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+/* ============================================================================
+   SITEWIDE POLISH — mobile spacing/alignment + readability
+   ============================================================================ */
+
+@media (max-width: 760px) {
+  .container {
+    width: min(1200px, calc(100% - 1.2rem));
+  }
+
+  .page-pad {
+    padding: 0.95rem 0 1.35rem;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .card-sm {
+    padding: 0.78rem 0.84rem;
+  }
+
+  .page-head {
+    margin-bottom: 1rem;
+  }
+
+  .page-head h1 {
+    font-size: clamp(1.45rem, 5.8vw, 1.9rem);
+    line-height: 1.2;
+  }
+
+  .page-head p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .section-title-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .hero-actions,
+  .topic-actions,
+  .ai-actions {
+    justify-content: flex-start;
+  }
+
+  .home-grid,
+  .community-layout,
+  .profile-grid {
+    gap: 0.65rem;
+  }
+
+  button,
+  .btn,
+  input,
+  select,
+  textarea {
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: min(1200px, calc(100% - 0.9rem));
+  }
+
+  .page-pad {
+    padding: 0.75rem 0 1.1rem;
+  }
+
+  .card {
+    padding: 0.85rem;
+    border-radius: 12px;
+  }
+
+  .section-title-row h2 {
+    font-size: 1.05rem;
+  }
+
+  .papers-subject-tabs {
+    padding: 0.35rem 0.4rem;
+  }
+}
 
 /* ============================================================================
    PAST PAPERS — grid + cards (single authoritative definition)

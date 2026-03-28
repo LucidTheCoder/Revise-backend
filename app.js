@@ -3083,6 +3083,26 @@ function renderFlashResult() {
 }
 // Active subject filter for past papers tab UI
 let _paperSubjectFilter = "all";
+const _paperFilterStorageKey = 'revise.paperFilters';
+
+function _getStoredPaperFilters() {
+  try {
+    const raw = localStorage.getItem(_paperFilterStorageKey);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch (_) {
+    return {};
+  }
+}
+
+function _storePaperFilters(filters) {
+  try {
+    localStorage.setItem(_paperFilterStorageKey, JSON.stringify(filters || {}));
+  } catch (_) {
+    // ignore storage failures (private mode, quota, etc.)
+  }
+}
 
 
 
@@ -3356,6 +3376,11 @@ function resolvePaperUrl(url) {
 }
 
 function renderPastPapers() {
+  const savedFilters = _getStoredPaperFilters();
+  if (savedFilters.subject && ['all', 'chem', 'bio', 'phy'].includes(savedFilters.subject)) {
+    _paperSubjectFilter = savedFilters.subject;
+  }
+
   // Show add paper button for admin/teacher
   const ppHead = document.querySelector('#view-past-papers .page-head');
   if (ppHead && (auth.user?.role === 'admin' || auth.user?.role === 'teacher')) {
@@ -3377,9 +3402,26 @@ function renderPastPapers() {
         tabBar.querySelectorAll(".papers-tab").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         _paperSubjectFilter = btn.dataset.subject;
+        _storePaperFilters({
+          ..._getStoredPaperFilters(),
+          subject: _paperSubjectFilter,
+        });
         _applyPaperFilters();
       });
     });
+  }
+
+  if (tabBar) {
+    let matched = false;
+    tabBar.querySelectorAll('.papers-tab').forEach(btn => {
+      const active = btn.dataset.subject === _paperSubjectFilter;
+      btn.classList.toggle('active', active);
+      if (active) matched = true;
+    });
+    if (!matched) {
+      _paperSubjectFilter = 'all';
+      tabBar.querySelector('.papers-tab[data-subject="all"]')?.classList.add('active');
+    }
   }
 
   // Populate year dropdown once
@@ -3393,6 +3435,18 @@ function renderPastPapers() {
     byId("paper-component-filter")?.addEventListener("change", _applyPaperFilters);
   }
 
+  const sessionFilter = byId("paper-session-filter");
+  const componentFilter = byId("paper-component-filter");
+  if (yearFilter && savedFilters.year && [...yearFilter.options].some(o => o.value === savedFilters.year)) {
+    yearFilter.value = savedFilters.year;
+  }
+  if (sessionFilter && savedFilters.session && [...sessionFilter.options].some(o => o.value === savedFilters.session)) {
+    sessionFilter.value = savedFilters.session;
+  }
+  if (componentFilter && savedFilters.component && [...componentFilter.options].some(o => o.value === savedFilters.component)) {
+    componentFilter.value = savedFilters.component;
+  }
+
   _applyPaperFilters();
 }
 
@@ -3400,6 +3454,13 @@ function _applyPaperFilters() {
   const year      = byId("paper-year-filter")?.value      || "all";
   const session   = byId("paper-session-filter")?.value   || "all";
   const component = byId("paper-component-filter")?.value || "all";
+
+  _storePaperFilters({
+    subject: _paperSubjectFilter,
+    year,
+    session,
+    component,
+  });
 
   const papers = state.pastPapers.filter(p => {
     if (_paperSubjectFilter !== "all" && p.subject !== _paperSubjectFilter) return false;
