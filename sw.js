@@ -1,5 +1,5 @@
 // Revise. Service Worker — freshness-first to avoid stale topic/app content.
-const CACHE_VERSION  = 'revise-v2026-03-28-2';
+const CACHE_VERSION  = 'revise-v2026-03-28-3';
 const STATIC_ASSETS  = [
   '/',
   '/index.html',
