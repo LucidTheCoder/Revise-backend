@@ -2283,7 +2283,8 @@ function canAccessTopic(topicId) {
 function showSubjectWipNotice(subjectId) {
   const subject = state.subjectMap.get(subjectId);
   const name = subject?.name || subjectId;
-  showToast(`${name} is WIP and not released yet.`);
+  const custom = String(subject?.wipMessage || '').trim();
+  showToast(custom || `${name} is WIP and not released yet.`);
 }
 
 function showTopicWipNotice(topicId) {
@@ -4781,7 +4782,6 @@ function _readFormValues() {
 
   const topic = state.topics.get(editorState.currentTopic);
   if (!topic) return null;
-  const currentSubject = state.subjectMap.get(editorState.currentSubject);
 
   // Parse array-of-objects fields
   const parseNotes = () => {
@@ -4822,18 +4822,6 @@ function _readFormValues() {
     });
   };
 
-  const selectedStatus = get('ef-status') || (currentSubject?.wip ? 'wip' : 'released');
-  const releaseNow = !!byId('ef-release-now')?.checked;
-  const pickerColor = byId('ef-subject-primary-color')?.value?.trim() || '';
-  const manualColor = get('ef-subject-primary-color-hex');
-  const subjectPrimaryColor = normalizeHexColor(manualColor || pickerColor || currentSubject?.primaryColor || '');
-
-  if (currentSubject) {
-    currentSubject.wip = selectedStatus === 'wip' && !releaseNow;
-    if (subjectPrimaryColor) currentSubject.primaryColor = subjectPrimaryColor;
-    else delete currentSubject.primaryColor;
-  }
-
   return {
     ...topic,
     title:    get('ef-title')    || topic.title,
@@ -4861,8 +4849,6 @@ function _renderEditorForm(topic) {
   const recallText = (topic.recall || []).map(r => `${r.q}\n${r.a}`).join('\n\n');
   const summaryText = (topic.summary || []).map(s => `${s.label||s.key||''}: ${s.value||s.val||''}`).join('\n');
   const flashText = (topic.flashcards || []).map(f => `${f.q}\n${f.a}`).join('\n\n');
-  const currentSubject = state.subjectMap.get(editorState.currentSubject) || {};
-  const subjectColor = normalizeHexColor(currentSubject.primaryColor) || '#f97316';
 
   el.innerHTML = `
     <div class="ef-form">
@@ -4874,27 +4860,6 @@ function _renderEditorForm(topic) {
         <div class="ef-field ef-field-wide">
           <label class="ef-label" for="ef-subtitle">Subtitle</label>
           <input id="ef-subtitle" class="ef-input" type="text" value="${escapeHtml(topic.subtitle||'')}" placeholder="One-line summary">
-        </div>
-      </div>
-
-      <div class="ef-row">
-        <div class="ef-field ef-field-half">
-          <label class="ef-label" for="ef-status">Subject Status</label>
-          <select id="ef-status" class="ef-input">
-            <option value="released" ${currentSubject.wip ? '' : 'selected'}>Released</option>
-            <option value="wip" ${currentSubject.wip ? 'selected' : ''}>Work In Progress (WIP)</option>
-          </select>
-          <label class="ef-hint" style="display:flex;align-items:center;gap:0.45rem;margin-top:0.45rem">
-            <input id="ef-release-now" type="checkbox"> Release now (override WIP)
-          </label>
-        </div>
-        <div class="ef-field ef-field-half">
-          <label class="ef-label" for="ef-subject-primary-color">Primary Subject Color</label>
-          <div style="display:flex;gap:0.55rem;align-items:center">
-            <input id="ef-subject-primary-color" class="ef-input" type="color" value="${escapeHtml(subjectColor)}" style="max-width:88px;padding:0.2rem 0.3rem" oninput="const hex=document.getElementById('ef-subject-primary-color-hex'); if(hex) hex.value=this.value;">
-            <input id="ef-subject-primary-color-hex" class="ef-input" type="text" value="${escapeHtml(subjectColor)}" placeholder="#f97316" oninput="const c=this.value.trim(); if(/^#?[0-9a-fA-F]{6}$/.test(c)){ const p=document.getElementById('ef-subject-primary-color'); if(p) p.value=c.startsWith('#')?c:'#'+c; }">
-          </div>
-          <small class="ef-hint">Used for this subject's topic accents and diagram highlight color.</small>
         </div>
       </div>
 
@@ -5005,6 +4970,7 @@ function loadEditorSubject(subjectId) {
   if (!subjectId) return;
   editorState.currentSubject = subjectId;
   editorState.currentTopic = null;
+  renderSubjectSettingsPanel(subjectId);
 
   const refs = getTopicRefsForSubject(subjectId);
   const listEl = byId("editor-topics-list");
@@ -5026,6 +4992,119 @@ function loadEditorSubject(subjectId) {
 
   if (!refs.length) {
     listEl.innerHTML = `<div class="editor-empty">No topics yet. Create your first topic for this subject.</div>`;
+  }
+}
+
+function renderSubjectSettingsPanel(subjectId) {
+  const panel = byId('editor-subject-settings');
+  if (!panel) return;
+  const subject = state.subjectMap.get(subjectId);
+  if (!subject) {
+    panel.innerHTML = '<h4>Subject Settings</h4><p>Select a subject to configure release status and metadata.</p>';
+    return;
+  }
+
+  const color = normalizeHexColor(subject.primaryColor) || '#f97316';
+  panel.innerHTML = `
+    <h4>Subject Settings</h4>
+    <div class="ss-grid">
+      <label class="ss-field ss-wide">
+        <span>Name</span>
+        <input id="editor-subject-name" class="editor-filter-input" type="text" value="${escapeHtml(subject.name || '')}">
+      </label>
+      <label class="ss-field">
+        <span>Icon</span>
+        <input id="editor-subject-icon" class="editor-filter-input" type="text" maxlength="4" value="${escapeHtml(subject.icon || '')}" placeholder="CH">
+      </label>
+      <label class="ss-field">
+        <span>Status</span>
+        <select id="editor-subject-status" class="editor-filter-input">
+          <option value="released" ${subject.wip ? '' : 'selected'}>Released</option>
+          <option value="wip" ${subject.wip ? 'selected' : ''}>WIP</option>
+        </select>
+      </label>
+      <label class="ss-field ss-wide">
+        <span>Description</span>
+        <textarea id="editor-subject-desc" class="ef-textarea" rows="3" placeholder="Displayed on subject card">${escapeHtml(subject.desc || '')}</textarea>
+      </label>
+      <label class="ss-field ss-wide">
+        <span>WIP Message</span>
+        <input id="editor-subject-wip-message" class="editor-filter-input" type="text" value="${escapeHtml(subject.wipMessage || '')}" placeholder="This subject is currently in progress.">
+      </label>
+      <label class="ss-field">
+        <span>Primary Colour</span>
+        <input id="editor-subject-primary-color" class="editor-filter-input" type="color" value="${escapeHtml(color)}" style="max-width:96px;padding:0.2rem 0.35rem" oninput="const hex=document.getElementById('editor-subject-primary-color-hex'); if(hex) hex.value=this.value;">
+      </label>
+      <label class="ss-field">
+        <span>Hex</span>
+        <input id="editor-subject-primary-color-hex" class="editor-filter-input" type="text" value="${escapeHtml(color)}" placeholder="#f97316" oninput="const c=this.value.trim(); if(/^#?[0-9a-fA-F]{6}$/.test(c)){ const p=document.getElementById('editor-subject-primary-color'); if(p) p.value=c.startsWith('#')?c:'#'+c; }">
+      </label>
+    </div>
+    <div class="ss-actions">
+      <button class="btn btn-primary btn-sm" onclick="App.saveSubjectSettings()">Save Subject Settings</button>
+      <span class="ss-status" id="editor-subject-settings-status"></span>
+    </div>
+  `;
+}
+
+async function saveSubjectSettings() {
+  if (!editorState.currentSubject) {
+    showToast('Select a subject first');
+    return;
+  }
+  if (!(auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher'))) {
+    showToast('Teacher or admin access required');
+    return;
+  }
+
+  const subject = state.subjectMap.get(editorState.currentSubject);
+  if (!subject) {
+    showToast('Subject not found');
+    return;
+  }
+
+  const get = (id) => String(byId(id)?.value || '').trim();
+  const statusEl = byId('editor-subject-settings-status');
+  const name = get('editor-subject-name');
+  const icon = get('editor-subject-icon').slice(0, 4).toUpperCase();
+  const desc = get('editor-subject-desc');
+  const wip = get('editor-subject-status') === 'wip';
+  const wipMessage = get('editor-subject-wip-message');
+  const primaryColor = normalizeHexColor(get('editor-subject-primary-color-hex') || get('editor-subject-primary-color'));
+
+  if (!name) {
+    if (statusEl) statusEl.textContent = 'Name is required';
+    return;
+  }
+  if (statusEl) statusEl.textContent = 'Saving...';
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/subjects/${subject.id}`, {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ name, icon, desc, wip, wipMessage, primaryColor }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      if (statusEl) statusEl.textContent = data.error || 'Could not save settings';
+      return;
+    }
+
+    const updated = data.data;
+    state.subjectMap.set(updated.id, updated);
+    const i = state.subjects.findIndex((s) => s.id === updated.id);
+    if (i >= 0) state.subjects[i] = updated;
+
+    populateSubjectSelects(updated.id);
+    if (state.currentView === 'subject' && state.currentSubject === updated.id) renderSubjectView(updated.id);
+    if (state.currentView === 'topic' && state.currentSubject === updated.id && state.currentTopic) renderTopicView(state.currentTopic);
+    if (state.currentView === 'subjects') renderSubjectSelection();
+
+    renderSubjectSettingsPanel(updated.id);
+    if (statusEl) statusEl.textContent = 'Saved';
+    showSuccess('Subject settings saved', updated.name);
+  } catch (e) {
+    if (statusEl) statusEl.textContent = `Network error: ${e.message}`;
   }
 }
 
@@ -6187,33 +6266,6 @@ function goToTopicEditor(subjectId, topicId) {
   }, 50);
 }
 
-async function saveCurrentSubjectSettings() {
-  const subject = state.subjectMap.get(editorState.currentSubject);
-  if (!subject) return true;
-  if (!(auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher'))) return true;
-
-  const payload = {
-    wip: !!subject.wip,
-    primaryColor: normalizeHexColor(subject.primaryColor || ''),
-  };
-
-  const res = await fetch(`${API_BASE_URL}/api/subjects/${subject.id}`, {
-    method: 'PUT',
-    headers: authHeaders(),
-    body: JSON.stringify(payload),
-  });
-  let data = {};
-  try { data = await res.json(); } catch { data = {}; }
-  if (!res.ok) {
-    showToast(`Subject settings error: ${data.error || 'Could not save subject settings'}`);
-    return false;
-  }
-  state.subjectMap.set(subject.id, data.data || { ...subject, ...payload });
-  const i = state.subjects.findIndex((s) => s.id === subject.id);
-  if (i >= 0) state.subjects[i] = state.subjectMap.get(subject.id);
-  return true;
-}
-
 // ============================================================================
 // EDITOR: wire save to backend API
 // ============================================================================
@@ -6258,9 +6310,6 @@ async function saveTopic() {
         showToast(`Save error: ${putData.error || 'Could not save topic'}`);
         return;
       }
-
-      const subjectOk = await saveCurrentSubjectSettings();
-      if (!subjectOk) return;
 
       showSuccess('Topic saved!', editorState.currentTopic);
     } else {
@@ -6442,6 +6491,8 @@ function go(viewName, payload = {}) {
     byId('editor-topics-list').innerHTML = '';
     byId('editor-title').textContent    = 'Select a topic to edit';
     byId('editor-json').value           = '';
+    const ss = byId('editor-subject-settings');
+    if (ss) ss.innerHTML = '<h4>Subject Settings</h4><p>Select a subject to configure release status, colours, and metadata.</p>';
     const duplicateBtn = byId('editor-duplicate-btn');
     if (duplicateBtn) duplicateBtn.style.display = 'none';
   }
@@ -8061,6 +8112,7 @@ const App = {
   openFromSearch,
   // Editor
   loadEditorSubject,
+  saveSubjectSettings,
   openTopicInEditor,
   saveTopic,
   duplicateCurrentTopic,

@@ -486,6 +486,9 @@ app.post('/api/subjects', authenticateToken, requireTeacherOrAdmin, async (req, 
       name,
       icon,
       desc: desc || `Core topics for ${name}.`,
+      wip: false,
+      wipMessage: '',
+      primaryColor: '',
       units: [{ name: 'Core Topics', topics: [] }],
     };
 
@@ -525,9 +528,19 @@ app.put('/api/subjects/:subjectId', authenticateToken, requireTeacherOrAdmin, as
       ? (rawColor.startsWith('#') ? rawColor.toLowerCase() : `#${rawColor.toLowerCase()}`)
       : '';
 
+    const name = String(req.body?.name ?? current.name ?? '').trim();
+    const icon = String(req.body?.icon ?? current.icon ?? '').trim().toUpperCase().slice(0, 4);
+    const desc = String(req.body?.desc ?? current.desc ?? '').trim();
+    const wipMessage = String(req.body?.wipMessage ?? current.wipMessage ?? '').trim().slice(0, 200);
+    if (!name) return res.status(400).json({ success: false, error: 'name is required' });
+
     const next = {
       ...current,
+      name,
+      icon,
+      desc,
       wip: !!req.body?.wip,
+      wipMessage,
       primaryColor: normalizedColor,
     };
 
@@ -578,7 +591,7 @@ app.get('/api/topics/:topicId', optionalAuth, async (req, res, next) => {
     const subjectDoc = subjects.find((s) => s.id === subject);
     const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
     if (subjectDoc?.wip && !isStaff) {
-      return res.status(403).json({ success: false, error: 'Subject is WIP and not released yet' });
+      return res.status(403).json({ success: false, error: subjectDoc.wipMessage || 'Subject is WIP and not released yet' });
     }
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: topic });
@@ -600,7 +613,7 @@ app.get('/api/topics/:topicId/quiz', optionalAuth, async (req, res, next) => {
     if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const subjectDoc = subjects.find((s) => s.id === subject);
     const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
-    if (subjectDoc?.wip && !isStaff) return res.status(403).json({ success: false, error: 'Subject is WIP and not released yet' });
+    if (subjectDoc?.wip && !isStaff) return res.status(403).json({ success: false, error: subjectDoc.wipMessage || 'Subject is WIP and not released yet' });
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, quiz: topic.quiz || [] } });
   } catch (error) { next(error); }
@@ -618,7 +631,7 @@ app.get('/api/topics/:topicId/flashcards', optionalAuth, async (req, res, next) 
     if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const subjectDoc = subjects.find((s) => s.id === subject);
     const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
-    if (subjectDoc?.wip && !isStaff) return res.status(403).json({ success: false, error: 'Subject is WIP and not released yet' });
+    if (subjectDoc?.wip && !isStaff) return res.status(403).json({ success: false, error: subjectDoc.wipMessage || 'Subject is WIP and not released yet' });
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, flashcards: topic.flashcards || [], recall: topic.recall || [] } });
   } catch (error) { next(error); }

@@ -6159,6 +6159,7 @@ html {
 }
 @media (max-width: 760px) {
   .editor-grid { grid-template-columns: 1fr; }
+  .ss-grid { grid-template-columns: 1fr; }
 }
 
 /* Sidebar */
@@ -6198,6 +6199,58 @@ html {
 .editor-topic-item.active  { background: var(--accentbg); border-left: 3px solid var(--accent); }
 .editor-topic-item strong  { font-size: 0.83rem; display: block; }
 .editor-topic-item small   { font-size: 0.7rem; color: var(--text3); }
+
+.editor-subject-settings {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.editor-subject-settings h4 {
+  margin: 0 0 0.45rem;
+  font-size: 0.82rem;
+}
+
+.editor-subject-settings p {
+  margin: 0;
+  color: var(--text2);
+  font-size: 0.78rem;
+}
+
+.ss-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.45rem;
+}
+
+.ss-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ss-field span {
+  font-size: 0.72rem;
+  color: var(--text2);
+}
+
+.ss-wide {
+  grid-column: 1 / -1;
+}
+
+.ss-actions {
+  margin-top: 0.55rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.ss-status {
+  font-size: 0.72rem;
+  color: var(--text2);
+}
 
 /* Main panel */
 .editor-main {
