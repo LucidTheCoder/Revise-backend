@@ -2902,6 +2902,42 @@ textarea:focus-visible {
   font-family: var(--font-mono);
   font-size: 0.85em;
 }
+.ai-bubble h3,
+.ai-bubble h4,
+.ai-bubble h5 {
+  margin: 0.2rem 0 0.45rem;
+  line-height: 1.35;
+}
+.ai-bubble ul,
+.ai-bubble ol {
+  margin: 0.25rem 0 0.2rem 1.1rem;
+  padding: 0;
+}
+.ai-bubble li { margin: 0.2rem 0; }
+.ai-bubble blockquote {
+  margin: 0.35rem 0;
+  padding: 0.35rem 0.6rem;
+  border-left: 3px solid color-mix(in srgb, var(--accent), transparent 30%);
+  background: color-mix(in srgb, var(--bg3), var(--card) 30%);
+  border-radius: 8px;
+  color: var(--text2);
+}
+.ai-code-block {
+  margin: 0.4rem 0;
+  padding: 0.6rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg2), black 6%);
+  overflow-x: auto;
+}
+.ai-code-block code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  white-space: pre;
+}
 
 /* User bubble — right-aligned */
 .ai-bubble-user {
@@ -7040,13 +7076,19 @@ html {
 #subject-sidebar.sidebar,
 #topic-sidebar.sidebar {
   min-height: 0;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
 
 #subject-sidebar #sidebar-topics-list,
 #topic-sidebar #sidebar-topics-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
 }
 

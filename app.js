@@ -3783,26 +3783,73 @@ function renderAiMathToken(token) {
 
 function formatAiAssistantMessage(input) {
   const source = normalizeAiMathInput(input);
-  const tokens = [];
+  const mathTokens = [];
+  const codeTokens = [];
   const mathPattern = /(\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$\$[\s\S]*?\$\$|\$(?!\s)[^$\n]+?\$)/g;
 
-  const withPlaceholders = String(source).replace(mathPattern, (match) => {
-    const idx = tokens.push(match) - 1;
+  let withPlaceholders = String(source).replace(mathPattern, (match) => {
+    const idx = mathTokens.push(match) - 1;
     return `@@AI_MATH_${idx}@@`;
   });
 
-  let html = withPlaceholders
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/^#{1,3}\s+(.+)$/gm,'<strong>$1</strong>')
-    .replace(/^\*\s+(.+)$/gm,'• $1')
-    .replace(/^-\s+(.+)$/gm,'• $1')
-    .replace(/\n{2,}/g,'</p><p>')
-    .replace(/\n/g,'<br>');
+  withPlaceholders = withPlaceholders.replace(/```([a-zA-Z0-9_-]+)?\n([\s\S]*?)```/g, (_, lang, code) => {
+    const idx = codeTokens.push({ lang: (lang || '').trim(), code: String(code || '').replace(/\n+$/, '') }) - 1;
+    return `@@AI_CODE_${idx}@@`;
+  });
+
+  const safeText = withPlaceholders
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const inlineFormat = (line) => line
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(?!\*)([^*]+)\*/g, '<em>$1</em>');
+
+  const blocks = safeText.split(/\n{2,}/).filter(Boolean);
+  const renderedBlocks = blocks.map((block) => {
+    const lines = block.split('\n').map(l => l.trimEnd());
+    const nonEmpty = lines.filter(l => l.trim() !== '');
+    if (!nonEmpty.length) return '';
+
+    if (nonEmpty.length === 1 && /^@@AI_CODE_\d+@@$/.test(nonEmpty[0])) {
+      return nonEmpty[0];
+    }
+
+    if (nonEmpty.every(l => /^[-*]\s+/.test(l))) {
+      return `<ul>${nonEmpty.map(l => `<li>${inlineFormat(l.replace(/^[-*]\s+/, ''))}</li>`).join('')}</ul>`;
+    }
+
+    if (nonEmpty.every(l => /^\d+\.\s+/.test(l))) {
+      return `<ol>${nonEmpty.map(l => `<li>${inlineFormat(l.replace(/^\d+\.\s+/, ''))}</li>`).join('')}</ol>`;
+    }
+
+    if (nonEmpty.every(l => /^>\s?/.test(l))) {
+      return `<blockquote>${nonEmpty.map(l => inlineFormat(l.replace(/^>\s?/, ''))).join('<br>')}</blockquote>`;
+    }
+
+    const linesHtml = nonEmpty.map((l) => {
+      if (/^###\s+/.test(l)) return `<h5>${inlineFormat(l.replace(/^###\s+/, ''))}</h5>`;
+      if (/^##\s+/.test(l)) return `<h4>${inlineFormat(l.replace(/^##\s+/, ''))}</h4>`;
+      if (/^#\s+/.test(l)) return `<h3>${inlineFormat(l.replace(/^#\s+/, ''))}</h3>`;
+      return inlineFormat(l);
+    });
+
+    return `<p>${linesHtml.join('<br>')}</p>`;
+  }).filter(Boolean);
+
+  let html = renderedBlocks.join('');
+
+  html = html.replace(/@@AI_CODE_(\d+)@@/g, (_, idx) => {
+    const token = codeTokens[Number(idx)];
+    if (!token) return '';
+    const langClass = token.lang ? ` language-${escapeHtml(token.lang)}` : '';
+    return `<pre class="ai-code-block"><code class="${langClass}">${escapeHtml(token.code)}</code></pre>`;
+  });
 
   html = html.replace(/@@AI_MATH_(\d+)@@/g, (_, idx) => {
-    const token = tokens[Number(idx)] || '';
+    const token = mathTokens[Number(idx)] || '';
     return renderAiMathToken(token);
   });
 
@@ -3825,7 +3872,7 @@ function renderAiChat(topicId) {
       return `<div class="ai-bubble ai-bubble-error"><p>${escapeHtml(msg.text)}</p></div>`;
     }
     const html = formatAiAssistantMessage(msg.text);
-    return `<div class="ai-bubble ai-bubble-assistant"><p>${html}</p></div>`;
+    return `<div class="ai-bubble ai-bubble-assistant">${html}</div>`;
   }).join('');
   histEl.scrollTop = histEl.scrollHeight;
 }
@@ -5860,6 +5907,12 @@ function bindBaseEvents() {
   });
 
   bindSearch();
+
+  window.addEventListener('resize', () => {
+    if (!window.matchMedia('(max-width: 760px)').matches) {
+      closeMobileSidebar();
+    }
+  });
 
   // Global keyboard shortcuts
   document.addEventListener('keydown', e => {
