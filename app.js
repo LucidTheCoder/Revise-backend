@@ -3258,6 +3258,13 @@ async function openPaperUrl(url) {
     window.open(`${API_BASE_URL}${cleanUrl}`, '_blank', 'noopener,noreferrer');
     return;
   }
+
+  // Open a blank tab synchronously from click event to avoid popup blockers.
+  const popup = window.open('', '_blank');
+  if (popup) {
+    popup.document.title = 'Loading paper...';
+    popup.document.body.innerHTML = '<p style="font-family: system-ui, sans-serif; padding: 16px;">Loading past paper...</p>';
+  }
   
   // External HTTPS URLs: use proxy via POST to avoid URL length limits
   try {
@@ -3271,6 +3278,7 @@ async function openPaperUrl(url) {
     if (!res.ok) {
       const errData = await res.json().catch(() => ({ error: 'Unknown error' }));
       console.error('[openPaperUrl] Server error:', res.status, errData);
+      if (popup && !popup.closed) popup.close();
       showToast('Failed to load PDF: ' + (errData.error || res.statusText));
       return;
     }
@@ -3278,17 +3286,17 @@ async function openPaperUrl(url) {
     // Get the PDF blob and open in new tab
     const blob = await res.blob();
     const blobUrl = URL.createObjectURL(blob);
-    const win = window.open(blobUrl, '_blank', 'noopener,noreferrer');
-    if (!win) {
-      console.warn('[openPaperUrl] Popup blocked');
-      showToast('Popup was blocked. Please enable popups for this site.');
-      URL.revokeObjectURL(blobUrl);
+    if (popup) {
+      popup.location.href = blobUrl;
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 15000);
     } else {
-      // Clean up blob URL after a delay
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+      console.warn('[openPaperUrl] Popup blocked');
+      window.location.href = blobUrl;
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 15000);
     }
   } catch (err) {
     console.error('[openPaperUrl] Fetch error:', err);
+    if (popup && !popup.closed) popup.close();
     showToast('Error loading PDF: ' + err.message);
   }
 }

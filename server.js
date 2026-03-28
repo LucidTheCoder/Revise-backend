@@ -1725,16 +1725,20 @@ function _buildAlternateUrls(primaryUrl) {
   return urls;
 }
 
-app.post('/api/pdf-proxy', async (req, res, next) => {
+async function handlePdfProxy(req, res, next) {
   try {
-    const mode = String(req.body.mode || 'inline').toLowerCase();
-    const asAttachment = mode === 'download' || req.body.download === '1';
+    const requestData = {
+      ...(req.query || {}),
+      ...((req.body && typeof req.body === 'object') ? req.body : {}),
+    };
+    const mode = String(requestData.mode || 'inline').toLowerCase();
+    const asAttachment = mode === 'download' || requestData.download === '1';
     // ── Step 1: Decode the URL parameter ────────────────────────────────────
     // Express already decodes %25 → % once, but the frontend may have called
     // encodeURIComponent on an already-encoded URL (producing %2520 for a space).
     // We decode repeatedly until the result stabilises to get the real URL.
-    let rawParam = req.body.url;
-    if (!rawParam) return res.status(400).json({ error: 'url required in request body' });
+    let rawParam = requestData.url;
+    if (!rawParam) return res.status(400).json({ error: 'url required (query or JSON body)' });
 
     let url = rawParam;
     // Iterative decode: keeps decoding until stable (handles double-encoding like %2520 → %20 → space)
@@ -1846,7 +1850,10 @@ app.post('/api/pdf-proxy', async (req, res, next) => {
     });
 
   } catch (e) { next(e); }
-});
+}
+
+app.get('/api/pdf-proxy', handlePdfProxy);
+app.post('/api/pdf-proxy', handlePdfProxy);
 
 // ── Tenor GIF search proxy (keeps API key server-side) ───────────────────
 app.get('/api/tenor/search', optionalAuth, async (req, res, next) => {
