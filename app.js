@@ -539,6 +539,28 @@ function colorVar(subjectId) {
   return "var(--phy)";
 }
 
+function subjectReleaseInfo(subject) {
+  const releaseDateRaw = String(subject?.releaseDate || '').trim();
+  const releaseDateObj = releaseDateRaw ? new Date(`${releaseDateRaw}T00:00:00`) : null;
+  const hasFutureDate = !!(releaseDateObj && !Number.isNaN(releaseDateObj.getTime()) && releaseDateObj.getTime() > Date.now());
+  const isWip = !!subject?.wip;
+  const locked = isWip || hasFutureDate;
+  const releaseLabel = hasFutureDate
+    ? releaseDateObj.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' })
+    : '';
+  const badge = String(subject?.comingSoonBadge || '').trim() || (hasFutureDate ? `Coming ${releaseLabel}` : (isWip ? 'WIP' : ''));
+  return { locked, isWip, hasFutureDate, releaseLabel, badge };
+}
+
+function getOrderedSubjects() {
+  return [...(state.subjects || [])].sort((a, b) => {
+    const ao = Number.isFinite(Number(a?.sortOrder)) ? Number(a.sortOrder) : 999;
+    const bo = Number.isFinite(Number(b?.sortOrder)) ? Number(b.sortOrder) : 999;
+    if (ao !== bo) return ao - bo;
+    return String(a?.name || '').localeCompare(String(b?.name || ''));
+  });
+}
+
 function hashString(input) {
   let hash = 2166136261;
   for (let i = 0; i < input.length; i += 1) {
@@ -2182,16 +2204,18 @@ function renderHome() {
 
 function renderSubjectSelection() {
   const grid = byId("subject-select-grid");
-  grid.innerHTML = state.subjects
+  grid.innerHTML = getOrderedSubjects()
     .map((subject) => {
       const p = getProgress(subject.id);
+      const availability = subjectReleaseInfo(subject);
       const locked = !canAccessSubject(subject.id);
       const action = locked
         ? `App.showSubjectWipNotice('${subject.id}')`
         : `App.go('subject',{subjectId:'${subject.id}'})`;
       return `
-      <button class="subject-card ${subject.wip ? 'wip' : ''} ${locked ? 'locked' : ''}" onclick="${action}">
+      <button class="subject-card ${availability.locked ? 'wip' : ''} ${locked ? 'locked' : ''}" onclick="${action}">
         <h3 style="color:${colorVar(subject.id)}">${escapeHtml(subject.name)}</h3>
+        ${availability.badge ? `<span class="subject-coming-chip">${escapeHtml(availability.badge)}</span>` : ''}
         <p>${escapeHtml(subject.desc)}</p>
         <div class="subject-card-progress">
           <div class="subject-card-bar">
@@ -2199,7 +2223,7 @@ function renderSubjectSelection() {
           </div>
           <span class="subject-card-pct">${p.done}/${p.total} topics &mdash; ${p.pct}%</span>
         </div>
-        <div class="subject-meta"><span>${p.done}/${p.total} done</span><span>${subject.wip ? 'WIP' : `${p.pct}% complete`}</span></div>
+        <div class="subject-meta"><span>${p.done}/${p.total} done</span><span>${availability.locked ? availability.badge : `${p.pct}% complete`}</span></div>
       </button>
     `;
     })
@@ -2210,11 +2234,13 @@ function renderSubjectSidebar(subject, activeTopicId = "") {
   const totalTopics = subject.units.reduce((s, u) => s + u.topics.length, 0);
   const doneTopics  = subject.units.reduce((s, u) => s + u.topics.filter(t => t.done).length, 0);
   const overallPct  = totalTopics ? Math.round((doneTopics / totalTopics) * 100) : 0;
+  const availability = subjectReleaseInfo(subject);
 
   return `
     <div class="sidebar-head">
       <button onclick="App.go('subjects')">← Subjects</button>
       <p class="sidebar-subject-name">${escapeHtml(subject.name)}</p>
+      ${availability.badge ? `<p class="sidebar-overall-label" style="margin-top:-0.25rem">${escapeHtml(availability.badge)}</p>` : ''}
       <div class="sidebar-overall-bar">
         <div class="sidebar-overall-fill" style="width:${overallPct}%"></div>
       </div>
@@ -2236,7 +2262,7 @@ function renderSubjectSidebar(subject, activeTopicId = "") {
           </div>
           <div class="sidebar-topics">
             ${unit.topics.map((topic) => {
-              const isWip = !!subject.wip;
+              const isWip = availability.locked;
               const locked = isWip && !isStaffUser();
               const action = locked
                 ? `App.showSubjectWipNotice('${subject.id}')`
@@ -2264,14 +2290,14 @@ function isStaffUser() {
 
 function isTopicWip(topicId) {
   const match = findTopicRefById(topicId);
-  return !!match?.subject?.wip;
+  return !!subjectReleaseInfo(match?.subject).locked;
 }
 
 function canAccessSubject(subjectId) {
   if (!subjectId) return true;
   const subject = state.subjectMap.get(subjectId);
   if (!subject) return true;
-  return !subject.wip || isStaffUser();
+  return !subjectReleaseInfo(subject).locked || isStaffUser();
 }
 
 function canAccessTopic(topicId) {
@@ -2284,7 +2310,11 @@ function showSubjectWipNotice(subjectId) {
   const subject = state.subjectMap.get(subjectId);
   const name = subject?.name || subjectId;
   const custom = String(subject?.wipMessage || '').trim();
-  showToast(custom || `${name} is WIP and not released yet.`);
+  const availability = subjectReleaseInfo(subject);
+  const fallback = availability.hasFutureDate
+    ? `${name} will be released on ${availability.releaseLabel}.`
+    : `${name} is WIP and not released yet.`;
+  showToast(custom || fallback);
 }
 
 function showTopicWipNotice(topicId) {
@@ -2431,11 +2461,12 @@ function renderSubjectView(subjectId) {
   byId("subject-sidebar").innerHTML = renderSubjectSidebar(subject);
 
   const p = getProgress(subjectId);
+  const availability = subjectReleaseInfo(subject);
   const subjectMain = byId("subject-main");
   subjectMain.innerHTML = `
     <div class="card" style="margin-bottom:1rem">
       <p style="color:var(--text2)">Home / Subjects / ${escapeHtml(subject.name)}</p>
-      <h1>${escapeHtml(subject.name)} ${subject.wip ? '<span class="topic-status-chip">WIP</span>' : ''}</h1>
+      <h1>${escapeHtml(subject.name)} ${availability.badge ? `<span class="topic-status-chip">${escapeHtml(availability.badge)}</span>` : ''}</h1>
       <p>${escapeHtml(subject.desc)}</p>
       <div class="topic-actions">
         <button class="btn btn-primary" onclick="App.go('quiz',{subjectId:'${subject.id}'})">Take Subject Quiz</button>
@@ -2451,7 +2482,7 @@ function renderSubjectView(subjectId) {
           <h2>${escapeHtml(unit.name)}</h2>
           ${unit.topics
             .map((topic) => {
-              const isWip = !!subject.wip;
+              const isWip = availability.locked;
               const locked = isWip && !isStaffUser();
               const action = locked
                 ? `App.showSubjectWipNotice('${subject.id}')`
@@ -2595,16 +2626,9 @@ function renderTopicView(topicId) {
   const topicSidebar = byId('topic-sidebar');
   if (topicSidebar) topicSidebar.innerHTML = renderSubjectSidebar(subject, topic.id);
 
-  const topicAccent = normalizeHexColor(subject.primaryColor);
   const topicMainEl = byId('topic-main');
-  if (topicMainEl) {
-    if (topicAccent) topicMainEl.style.setProperty('--accent', topicAccent);
-    else topicMainEl.style.removeProperty('--accent');
-  }
-  if (topicSidebar) {
-    if (topicAccent) topicSidebar.style.setProperty('--accent', topicAccent);
-    else topicSidebar.style.removeProperty('--accent');
-  }
+  if (topicMainEl) topicMainEl.style.removeProperty('--accent');
+  if (topicSidebar) topicSidebar.style.removeProperty('--accent');
 
   const notesHtml = (topic.notes || [])
     .map(
@@ -2697,6 +2721,7 @@ function renderTopicView(topicId) {
     .join("");
   const diagramHtml = buildTopicDiagramSvg(topic);
   const syllabusRef = topic.syllabusRef || "Syllabus reference not set";
+  const availability = subjectReleaseInfo(subject);
   const confidence = getTopicConfidence(topic.id);
   const isConfident = confidence === "confident" ? "is-active" : "";
   const isNeedsPractice = confidence === "needs-practice" ? "is-active" : "";
@@ -2716,9 +2741,10 @@ function renderTopicView(topicId) {
         </p>
         <span class="topic-ref">${escapeHtml(syllabusRef)}</span>
       </div>
-      <h1 class="topic-title">${escapeHtml(topic.title)} ${subject.wip ? '<span class="topic-status-chip">SUBJECT WIP</span>' : ''}</h1>
+      <h1 class="topic-title">${escapeHtml(topic.title)} ${availability.badge ? `<span class="topic-status-chip">${escapeHtml(availability.badge)}</span>` : ''}</h1>
       <p class="topic-subtitle">${richText(topic.subtitle || "")}</p>
       <div class="topic-actions">
+        <button class="btn btn-outline" onclick="App.quickBack()">← Back</button>
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${topic.id}'})">
           Topic Quiz${(() => { const scores = quizHistory().filter(q => q.topicId === topic.id); const best = scores.length ? Math.max(...scores.map(q => q.scorePct)) : null; return best !== null ? ` <span class="quiz-best-chip">${best}%</span>` : ''; })()}
         </button>
@@ -2892,6 +2918,18 @@ function revealAllSteps(topicId, exampleIdx, total) {
 
 function printTopic() {
   window.print();
+}
+
+function quickBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  if (state.currentView === 'topic' && state.currentSubject) {
+    go('subject', { subjectId: state.currentSubject });
+    return;
+  }
+  go('home');
 }
 
 function markTopicDone(topicId) {
@@ -4942,7 +4980,7 @@ function slugifyTopicId(value) {
 }
 
 function populateSubjectSelects(preferredSubjectId = '') {
-  const subjects = (state.subjects || []).map((s) => ({
+  const subjects = getOrderedSubjects().map((s) => ({
     id: s.id,
     name: s.name,
   }));
@@ -5005,6 +5043,9 @@ function renderSubjectSettingsPanel(subjectId) {
   }
 
   const color = normalizeHexColor(subject.primaryColor) || '#f97316';
+  const sortOrder = Number.isFinite(Number(subject.sortOrder)) ? Number(subject.sortOrder) : 999;
+  const comingSoonBadge = String(subject.comingSoonBadge || '').trim();
+  const releaseDate = String(subject.releaseDate || '').trim();
   panel.innerHTML = `
     <h4>Subject Settings</h4>
     <div class="ss-grid">
@@ -5030,6 +5071,18 @@ function renderSubjectSettingsPanel(subjectId) {
       <label class="ss-field ss-wide">
         <span>WIP Message</span>
         <input id="editor-subject-wip-message" class="editor-filter-input" type="text" value="${escapeHtml(subject.wipMessage || '')}" placeholder="This subject is currently in progress.">
+      </label>
+      <label class="ss-field">
+        <span>Subject Order</span>
+        <input id="editor-subject-order" class="editor-filter-input" type="number" min="0" step="1" value="${sortOrder}" placeholder="0">
+      </label>
+      <label class="ss-field">
+        <span>Release Date</span>
+        <input id="editor-subject-release-date" class="editor-filter-input" type="date" value="${escapeHtml(releaseDate)}">
+      </label>
+      <label class="ss-field ss-wide">
+        <span>Coming Soon Badge</span>
+        <input id="editor-subject-coming-soon" class="editor-filter-input" type="text" value="${escapeHtml(comingSoonBadge)}" placeholder="Coming Soon">
       </label>
       <label class="ss-field">
         <span>Primary Colour</span>
@@ -5070,19 +5123,50 @@ async function saveSubjectSettings() {
   const desc = get('editor-subject-desc');
   const wip = get('editor-subject-status') === 'wip';
   const wipMessage = get('editor-subject-wip-message');
+  const sortOrderRaw = get('editor-subject-order');
+  const sortOrder = Number.isFinite(Number(sortOrderRaw)) ? Math.max(0, Number(sortOrderRaw)) : 999;
+  const releaseDate = get('editor-subject-release-date');
+  const comingSoonBadge = get('editor-subject-coming-soon');
   const primaryColor = normalizeHexColor(get('editor-subject-primary-color-hex') || get('editor-subject-primary-color'));
 
   if (!name) {
     if (statusEl) statusEl.textContent = 'Name is required';
     return;
   }
-  if (statusEl) statusEl.textContent = 'Saving...';
+  if (releaseDate && !/^\d{4}-\d{2}-\d{2}$/.test(releaseDate)) {
+    if (statusEl) statusEl.textContent = 'Release date must be YYYY-MM-DD';
+    return;
+  }
+
+  const optimistic = {
+    ...subject,
+    name,
+    icon,
+    desc,
+    wip,
+    wipMessage,
+    sortOrder,
+    releaseDate,
+    comingSoonBadge,
+    primaryColor,
+  };
+
+  state.subjectMap.set(optimistic.id, optimistic);
+  const idx = state.subjects.findIndex((s) => s.id === optimistic.id);
+  if (idx >= 0) state.subjects[idx] = optimistic;
+
+  populateSubjectSelects(optimistic.id);
+  if (state.currentView === 'subject' && state.currentSubject === optimistic.id) renderSubjectView(optimistic.id);
+  if (state.currentView === 'topic' && state.currentSubject === optimistic.id && state.currentTopic) renderTopicView(state.currentTopic);
+  if (state.currentView === 'subjects') renderSubjectSelection();
+
+  if (statusEl) statusEl.textContent = 'Saved locally, syncing...';
 
   try {
     const res = await fetch(`${API_BASE_URL}/api/subjects/${subject.id}`, {
       method: 'PUT',
       headers: authHeaders(),
-      body: JSON.stringify({ name, icon, desc, wip, wipMessage, primaryColor }),
+      body: JSON.stringify({ name, icon, desc, wip, wipMessage, sortOrder, releaseDate, comingSoonBadge, primaryColor }),
     });
     const data = await res.json();
     if (!res.ok || !data.success) {
@@ -8081,6 +8165,7 @@ function _groupMsgHtml(m) {
 
 const App = {
   go,
+  quickBack,
   scrollToSection,
   setTopicConfidence,
   showSubjectWipNotice,

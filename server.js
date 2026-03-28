@@ -270,6 +270,37 @@ function normalizeSubjectId(value) {
   return String(value || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
 }
 
+function normalizeReleaseDate(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return null;
+  const parsed = new Date(`${raw}T00:00:00`);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return raw;
+}
+
+function getSubjectReleaseInfo(subject) {
+  const releaseDateRaw = String(subject?.releaseDate || '').trim();
+  const releaseDateObj = releaseDateRaw ? new Date(`${releaseDateRaw}T00:00:00`) : null;
+  const hasFutureDate = !!(releaseDateObj && !Number.isNaN(releaseDateObj.getTime()) && releaseDateObj.getTime() > Date.now());
+  const isWip = !!subject?.wip;
+  return {
+    locked: isWip || hasFutureDate,
+    hasFutureDate,
+    releaseDateObj,
+  };
+}
+
+function getSubjectLockedMessage(subject) {
+  const custom = String(subject?.wipMessage || '').trim();
+  if (custom) return custom;
+  const info = getSubjectReleaseInfo(subject);
+  if (info.hasFutureDate && info.releaseDateObj) {
+    return `Subject will be released on ${info.releaseDateObj.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' })}`;
+  }
+  return 'Subject is WIP and not released yet';
+}
+
 async function loadTopic(topicId, subject) {
   const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
   let data = await fs.readFile(filePath, 'utf-8');
@@ -488,6 +519,9 @@ app.post('/api/subjects', authenticateToken, requireTeacherOrAdmin, async (req, 
       desc: desc || `Core topics for ${name}.`,
       wip: false,
       wipMessage: '',
+      sortOrder: null,
+      releaseDate: '',
+      comingSoonBadge: '',
       primaryColor: '',
       units: [{ name: 'Core Topics', topics: [] }],
     };
@@ -532,6 +566,30 @@ app.put('/api/subjects/:subjectId', authenticateToken, requireTeacherOrAdmin, as
     const icon = String(req.body?.icon ?? current.icon ?? '').trim().toUpperCase().slice(0, 4);
     const desc = String(req.body?.desc ?? current.desc ?? '').trim();
     const wipMessage = String(req.body?.wipMessage ?? current.wipMessage ?? '').trim().slice(0, 200);
+    let sortOrder = current.sortOrder ?? null;
+    if (Object.prototype.hasOwnProperty.call(req.body || {}, 'sortOrder')) {
+      const rawSortOrder = req.body?.sortOrder;
+      if (rawSortOrder === '' || rawSortOrder === null || typeof rawSortOrder === 'undefined') {
+        sortOrder = null;
+      } else {
+        const parsedSort = Number(rawSortOrder);
+        if (!Number.isFinite(parsedSort)) {
+          return res.status(400).json({ success: false, error: 'sortOrder must be a number' });
+        }
+        sortOrder = Math.round(parsedSort);
+      }
+    }
+    let releaseDate = String(current.releaseDate || '').trim();
+    if (Object.prototype.hasOwnProperty.call(req.body || {}, 'releaseDate')) {
+      const normalizedReleaseDate = normalizeReleaseDate(req.body?.releaseDate);
+      if (normalizedReleaseDate === null) {
+        return res.status(400).json({ success: false, error: 'releaseDate must be in YYYY-MM-DD format' });
+      }
+      releaseDate = normalizedReleaseDate;
+    }
+    const comingSoonBadge = Object.prototype.hasOwnProperty.call(req.body || {}, 'comingSoonBadge')
+      ? String(req.body?.comingSoonBadge || '').trim().slice(0, 80)
+      : String(current.comingSoonBadge || '').trim();
     if (!name) return res.status(400).json({ success: false, error: 'name is required' });
 
     const next = {
@@ -541,6 +599,9 @@ app.put('/api/subjects/:subjectId', authenticateToken, requireTeacherOrAdmin, as
       desc,
       wip: !!req.body?.wip,
       wipMessage,
+      sortOrder,
+      releaseDate,
+      comingSoonBadge,
       primaryColor: normalizedColor,
     };
 
@@ -590,8 +651,8 @@ app.get('/api/topics/:topicId', optionalAuth, async (req, res, next) => {
     }
     const subjectDoc = subjects.find((s) => s.id === subject);
     const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
-    if (subjectDoc?.wip && !isStaff) {
-      return res.status(403).json({ success: false, error: subjectDoc.wipMessage || 'Subject is WIP and not released yet' });
+    if (subjectDoc && getSubjectReleaseInfo(subjectDoc).locked && !isStaff) {
+      return res.status(403).json({ success: false, error: getSubjectLockedMessage(subjectDoc) });
     }
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: topic });
@@ -613,7 +674,9 @@ app.get('/api/topics/:topicId/quiz', optionalAuth, async (req, res, next) => {
     if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const subjectDoc = subjects.find((s) => s.id === subject);
     const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
-    if (subjectDoc?.wip && !isStaff) return res.status(403).json({ success: false, error: subjectDoc.wipMessage || 'Subject is WIP and not released yet' });
+    if (subjectDoc && getSubjectReleaseInfo(subjectDoc).locked && !isStaff) {
+      return res.status(403).json({ success: false, error: getSubjectLockedMessage(subjectDoc) });
+    }
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, quiz: topic.quiz || [] } });
   } catch (error) { next(error); }
@@ -631,7 +694,9 @@ app.get('/api/topics/:topicId/flashcards', optionalAuth, async (req, res, next) 
     if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const subjectDoc = subjects.find((s) => s.id === subject);
     const isStaff = req.user?.role === 'admin' || req.user?.role === 'teacher';
-    if (subjectDoc?.wip && !isStaff) return res.status(403).json({ success: false, error: subjectDoc.wipMessage || 'Subject is WIP and not released yet' });
+    if (subjectDoc && getSubjectReleaseInfo(subjectDoc).locked && !isStaff) {
+      return res.status(403).json({ success: false, error: getSubjectLockedMessage(subjectDoc) });
+    }
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, flashcards: topic.flashcards || [], recall: topic.recall || [] } });
   } catch (error) { next(error); }

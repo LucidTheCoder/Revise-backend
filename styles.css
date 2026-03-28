@@ -4073,6 +4073,19 @@ main { flex: 1 0 auto; }
 .subject-card-bar { height: 5px; background: var(--bg3); border-radius: 99px; overflow: hidden; margin-bottom: 0.3rem; }
 .subject-card-fill { height: 100%; border-radius: 99px; transition: width 0.6s cubic-bezier(.4,0,.2,1); }
 .subject-card-pct { font-size: 0.75rem; color: var(--text3); }
+.subject-coming-chip {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.35rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--warn);
+  border: 1px solid color-mix(in srgb, var(--warn), transparent 28%);
+  background: color-mix(in srgb, var(--warn), transparent 90%);
+}
 
 /* ============================================================================
    PROFILE GRID
