@@ -260,6 +260,16 @@ async function loadJsonFile(filename) {
   return JSON.parse(data.replace(/^\uFEFF/, ''));
 }
 
+async function writeSubjectsFile(subjects) {
+  const filePath = path.join(__dirname, 'data', 'subjects.json');
+  const payload = JSON.stringify({ subjects: Array.isArray(subjects) ? subjects : [] }, null, 2);
+  await fs.writeFile(filePath, payload, 'utf-8');
+}
+
+function normalizeSubjectId(value) {
+  return String(value || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+
 async function loadTopic(topicId, subject) {
   const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
   let data = await fs.readFile(filePath, 'utf-8');
@@ -453,6 +463,43 @@ app.get('/api/subjects', async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
+app.post('/api/subjects', authenticateToken, requireTeacherOrAdmin, async (req, res, next) => {
+  try {
+    const name = String(req.body?.name || '').trim();
+    const id = normalizeSubjectId(req.body?.id || name);
+    const code = String(req.body?.code || '').trim().toUpperCase();
+    const desc = String(req.body?.desc || '').trim();
+
+    if (!name) return res.status(400).json({ success: false, error: 'name is required' });
+    if (!id || id.length < 2 || id.length > 24) {
+      return res.status(400).json({ success: false, error: 'id must be 2-24 chars (letters, numbers, hyphens)' });
+    }
+
+    const subjects = await getSubjectsFromDb();
+    if (subjects.some((s) => s.id === id)) {
+      return res.status(409).json({ success: false, error: 'Subject id already exists' });
+    }
+
+    const icon = (code || name).replace(/[^A-Z]/g, '').slice(0, 2) || name.slice(0, 2).toUpperCase();
+    const newSubject = {
+      id,
+      name,
+      icon,
+      desc: desc || `Core topics for ${name}.`,
+      units: [{ name: 'Core Topics', topics: [] }],
+    };
+
+    const nextSubjects = [...subjects, newSubject];
+    await fs.mkdir(path.join(__dirname, 'data', 'topics', id), { recursive: true });
+    await Promise.all([
+      db.upsertCurriculumSubjects(nextSubjects),
+      writeSubjectsFile(nextSubjects),
+    ]);
+
+    res.status(201).json({ success: true, data: newSubject, message: 'Subject created' });
+  } catch (error) { next(error); }
+});
+
 app.get('/api/subjects/:subjectId', async (req, res, next) => {
   try {
     const subjects = await getSubjectsFromDb();
@@ -485,15 +532,15 @@ app.get('/api/topics/:topicId', async (req, res, next) => {
   try {
     const { topicId } = req.params;
     let subject = req.query.subject;
+    const subjects = await getSubjectsFromDb();
 
     if (!subject) {
-      const subjects = await getSubjectsFromDb();
       const match = subjects.find(s => (s.units || []).some(u => (u.topics || []).some(t => t.id === topicId)));
       subject = match?.id;
     }
 
-    if (!subject || !['chem', 'bio', 'phy'].includes(subject)) {
-      return res.status(400).json({ success: false, error: 'subject param required: chem, bio, or phy' });
+    if (!subject || !subjects.some((s) => s.id === subject)) {
+      return res.status(400).json({ success: false, error: 'valid subject query param required' });
     }
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: topic });
@@ -507,12 +554,12 @@ app.get('/api/topics/:topicId/quiz', async (req, res, next) => {
   try {
     const { topicId } = req.params;
     let { subject } = req.query;
+    const subjects = await getSubjectsFromDb();
     if (!subject) {
-      const subjects = await getSubjectsFromDb();
       const match = subjects.find(s => (s.units || []).some(u => (u.topics || []).some(t => t.id === topicId)));
       subject = match?.id;
     }
-    if (!subject || !['chem', 'bio', 'phy'].includes(subject)) return res.status(400).json({ success: false, error: 'subject param required' });
+    if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, quiz: topic.quiz || [] } });
   } catch (error) { next(error); }
@@ -522,12 +569,12 @@ app.get('/api/topics/:topicId/flashcards', async (req, res, next) => {
   try {
     const { topicId } = req.params;
     let { subject } = req.query;
+    const subjects = await getSubjectsFromDb();
     if (!subject) {
-      const subjects = await getSubjectsFromDb();
       const match = subjects.find(s => (s.units || []).some(u => (u.topics || []).some(t => t.id === topicId)));
       subject = match?.id;
     }
-    if (!subject || !['chem', 'bio', 'phy'].includes(subject)) return res.status(400).json({ success: false, error: 'subject param required' });
+    if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const topic = await loadTopic(topicId, subject);
     res.json({ success: true, data: { topicId, topicName: topic.concept, flashcards: topic.flashcards || [], recall: topic.recall || [] } });
   } catch (error) { next(error); }
@@ -626,8 +673,9 @@ app.post('/api/community/forum', authenticateToken, async (req, res, next) => {
     if (!title || !body || !subject) {
       return res.status(400).json({ success: false, error: 'title, body, and subject are required' });
     }
-    if (!['chem', 'bio', 'phy', 'general'].includes(subject)) {
-      return res.status(400).json({ success: false, error: 'subject must be chem, bio, phy, or general' });
+    const subjects = await getSubjectsFromDb();
+    if (subject !== 'general' && !subjects.some((s) => s.id === subject)) {
+      return res.status(400).json({ success: false, error: 'Invalid subject' });
     }
     if (title.length > 200) return res.status(400).json({ success: false, error: 'Title too long (max 200 chars)' });
     if (body.length > 5000) return res.status(400).json({ success: false, error: 'Body too long (max 5000 chars)' });
@@ -796,7 +844,9 @@ app.post('/api/topics', authenticateToken, requireTeacherOrAdmin, async (req, re
   try {
     const { topicId, subject, data } = req.body;
     if (!topicId || !subject || !data) return res.status(400).json({ success: false, error: 'topicId, subject, and data required' });
-    if (!['chem', 'bio', 'phy'].includes(subject)) return res.status(400).json({ success: false, error: 'subject must be chem, bio, or phy' });
+    const subjects = await getSubjectsFromDb();
+    if (!subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'Invalid subject' });
+    await fs.mkdir(path.join(__dirname, 'data', 'topics', subject), { recursive: true });
     const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
     try { await fs.access(filePath); return res.status(409).json({ success: false, error: 'Topic already exists' }); } catch {}
     await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
@@ -809,7 +859,8 @@ app.put('/api/topics/:topicId', authenticateToken, requireTeacherOrAdmin, async 
     const { topicId } = req.params;
     const { subject, data } = req.body;
     if (!subject || !data) return res.status(400).json({ success: false, error: 'subject and data required' });
-    if (!['chem', 'bio', 'phy'].includes(subject)) return res.status(400).json({ success: false, error: 'Invalid subject' });
+    const subjects = await getSubjectsFromDb();
+    if (!subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'Invalid subject' });
     const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
     try { await fs.access(filePath); } catch { return res.status(404).json({ success: false, error: 'Topic not found' }); }
     await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
@@ -821,7 +872,8 @@ app.delete('/api/topics/:topicId', authenticateToken, requireAdmin, async (req, 
   try {
     const { topicId } = req.params;
     const { subject } = req.query;
-    if (!subject || !['chem', 'bio', 'phy'].includes(subject)) return res.status(400).json({ success: false, error: 'subject query param required' });
+    const subjects = await getSubjectsFromDb();
+    if (!subject || !subjects.some((s) => s.id === subject)) return res.status(400).json({ success: false, error: 'valid subject query param required' });
     const filePath = path.join(__dirname, 'data', 'topics', subject, `${topicId}.json`);
     try { await fs.access(filePath); } catch { return res.status(404).json({ success: false, error: 'Topic not found' }); }
     await fs.unlink(filePath);
@@ -1668,8 +1720,9 @@ app.post('/api/past-papers', authenticateToken, requireTeacherOrAdmin, async (re
     if (!subject || !year || !session || !paper || !variant) {
       return res.status(400).json({ success: false, error: 'subject, year, session, paper, variant are required' });
     }
-    if (!['chem','bio','phy'].includes(subject)) {
-      return res.status(400).json({ success: false, error: 'subject must be chem, bio, or phy' });
+    const subjects = await getSubjectsFromDb();
+    if (!subjects.some((s) => s.id === subject)) {
+      return res.status(400).json({ success: false, error: 'Invalid subject' });
     }
     const data  = await loadJsonFile('past-papers.json');
     const papers = data.papers || data;

@@ -1549,6 +1549,7 @@ async function loadData() {
     for (const subject of state.subjects) {
       state.subjectMap.set(subject.id, subject);
     }
+    populateSubjectSelects();
 
     //Load all topics
     const topicLoads = [];
@@ -4803,6 +4804,39 @@ let editorState = {
   originalJson: null,
 };
 
+function slugifyTopicId(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60) || `topic-${Date.now()}`;
+}
+
+function populateSubjectSelects(preferredSubjectId = '') {
+  const subjects = (state.subjects || []).map((s) => ({
+    id: s.id,
+    name: s.name,
+  }));
+
+  const editorSelect = byId('editor-subject-select');
+  if (editorSelect) {
+    const previous = preferredSubjectId || editorSelect.value || '';
+    editorSelect.innerHTML = `<option value="">Select subject…</option>${subjects
+      .map((s) => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`)
+      .join('')}`;
+    if (previous && subjects.some((s) => s.id === previous)) editorSelect.value = previous;
+  }
+
+  const adminSelect = byId('admin-pages-subject');
+  if (adminSelect) {
+    const previous = preferredSubjectId || adminSelect.value || '';
+    adminSelect.innerHTML = `<option value="">Select subject...</option>${subjects
+      .map((s) => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`)
+      .join('')}`;
+    if (previous && subjects.some((s) => s.id === previous)) adminSelect.value = previous;
+  }
+}
+
 function loadEditorSubject(subjectId) {
   if (!subjectId) return;
   editorState.currentSubject = subjectId;
@@ -4810,6 +4844,10 @@ function loadEditorSubject(subjectId) {
 
   const refs = getTopicRefsForSubject(subjectId);
   const listEl = byId("editor-topics-list");
+  if (!listEl) return;
+
+  const duplicateBtn = byId('editor-duplicate-btn');
+  if (duplicateBtn) duplicateBtn.style.display = 'none';
 
   listEl.innerHTML = refs
     .map(
@@ -4821,6 +4859,10 @@ function loadEditorSubject(subjectId) {
     `
     )
     .join("");
+
+  if (!refs.length) {
+    listEl.innerHTML = `<div class="editor-empty">No topics yet. Create your first topic for this subject.</div>`;
+  }
 }
 
 function openTopicInEditor(topicId) {
@@ -4844,6 +4886,8 @@ function openTopicInEditor(topicId) {
   byId("editor-save-btn").style.display = "inline-flex";
   byId("editor-cancel-btn").style.display = "inline-flex";
   byId("editor-delete-btn").style.display = "inline-flex";
+  const duplicateBtn = byId('editor-duplicate-btn');
+  if (duplicateBtn) duplicateBtn.style.display = 'inline-flex';
   byId("editor-actions").style.display = "";
   byId("editor-mode-toggle").style.display = "";
   const _qib = byId("quiz-import-btn"); if (_qib) _qib.style.display = "";
@@ -4907,6 +4951,8 @@ function createNewTopic() {
   byId("editor-save-btn").style.display = "inline-flex";
   byId("editor-cancel-btn").style.display = "inline-flex";
   byId("editor-delete-btn").style.display = "inline-flex";
+  const duplicateBtn = byId('editor-duplicate-btn');
+  if (duplicateBtn) duplicateBtn.style.display = 'inline-flex';
   byId("editor-actions").style.display = "";
   byId("editor-mode-toggle").style.display = "";
   const _qib = byId("quiz-import-btn"); if (_qib) _qib.style.display = "";
@@ -4918,6 +4964,150 @@ function createNewTopic() {
   _renderEditorForm(newTopic);
   loadEditorSubject(editorState.currentSubject);
   showSuccess('Topic created!', 'Fill in the form below and save.');
+}
+
+async function duplicateCurrentTopic() {
+  if (!editorState.currentTopic || !editorState.currentSubject) {
+    showToast('Open a topic first');
+    return;
+  }
+
+  const source = state.topics.get(editorState.currentTopic);
+  if (!source) {
+    showToast('Topic not found');
+    return;
+  }
+
+  const base = slugifyTopicId(`${source.id || source.title || 'topic'}-copy`);
+  let newId = base;
+  let i = 2;
+  while (state.topics.has(newId)) {
+    newId = `${base}-${i++}`;
+  }
+
+  const cloned = JSON.parse(JSON.stringify(source));
+  cloned.id = newId;
+  cloned.subject = editorState.currentSubject;
+  cloned.title = `${source.title || 'Untitled Topic'} (Copy)`;
+
+  state.topics.set(newId, cloned);
+  _persistCustomTopic(newId, cloned, editorState.currentSubject);
+
+  const subject = state.subjectMap.get(editorState.currentSubject);
+  if (subject) {
+    const sourceUnit = subject.units.find((u) => (u.topics || []).some((t) => t.id === editorState.currentTopic));
+    const targetUnit = sourceUnit || subject.units[0];
+    if (targetUnit) {
+      targetUnit.topics.push({ id: newId, name: cloned.title, file: `${newId}.json`, done: false });
+    }
+  }
+
+  if (auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher')) {
+    try {
+      await fetch(`${API_BASE_URL}/api/topics`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ topicId: newId, subject: editorState.currentSubject, data: cloned }),
+      });
+    } catch (_) {
+      // Keep local copy even if server save fails.
+    }
+  }
+
+  loadEditorSubject(editorState.currentSubject);
+  openTopicInEditor(newId);
+  showSuccess('Topic duplicated', newId);
+}
+
+function openAddSubjectModal() {
+  if (!auth.isLoggedIn || (auth.user?.role !== 'admin' && auth.user?.role !== 'teacher')) {
+    showToast('Teacher or admin access required');
+    return;
+  }
+
+  document.getElementById('add-subject-modal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'add-subject-modal';
+  modal.className = 'social-modal-overlay';
+  modal.innerHTML = `
+    <div class="social-modal add-paper-modal" role="dialog" aria-modal="true" aria-label="Add subject">
+      <button class="social-modal-close" onclick="document.getElementById('add-subject-modal').remove()">✕</button>
+      <h3 style="margin:0 0 1rem">Add New Subject</h3>
+      <div class="add-paper-grid">
+        <div class="ef-field ef-field-wide">
+          <label class="ef-label">Subject Name</label>
+          <input id="as-name" class="ef-input" type="text" placeholder="e.g. Computer Science">
+        </div>
+        <div class="ef-field">
+          <label class="ef-label">Subject ID</label>
+          <input id="as-id" class="ef-input" type="text" placeholder="e.g. cs">
+        </div>
+        <div class="ef-field">
+          <label class="ef-label">Code (optional)</label>
+          <input id="as-code" class="ef-input" type="text" placeholder="e.g. 9618">
+        </div>
+        <div class="ef-field ef-field-wide">
+          <label class="ef-label">Description</label>
+          <input id="as-desc" class="ef-input" type="text" placeholder="Short description shown on cards">
+        </div>
+      </div>
+      <div id="add-subject-status" style="min-height:1.2em;font-size:0.82rem;color:var(--text2);margin-top:0.65rem"></div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.85rem">
+        <button class="btn btn-primary" onclick="App.submitAddSubject()">Create Subject</button>
+        <button class="btn btn-outline" onclick="document.getElementById('add-subject-modal').remove()">Cancel</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+
+  const nameEl = document.getElementById('as-name');
+  const idEl = document.getElementById('as-id');
+  if (nameEl && idEl) {
+    nameEl.addEventListener('input', () => {
+      if (!idEl.value.trim()) idEl.value = slugifyTopicId(nameEl.value).slice(0, 16);
+    });
+  }
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+  setTimeout(() => nameEl?.focus(), 80);
+}
+
+async function submitAddSubject() {
+  const getVal = (id) => String(document.getElementById(id)?.value || '').trim();
+  const status = document.getElementById('add-subject-status');
+  const name = getVal('as-name');
+  const idRaw = getVal('as-id');
+  const id = slugifyTopicId(idRaw || name).slice(0, 24);
+  const code = getVal('as-code');
+  const desc = getVal('as-desc') || `Core topics for ${name}.`;
+
+  if (!name) {
+    if (status) status.textContent = 'Name is required';
+    return;
+  }
+
+  try {
+    if (status) status.textContent = 'Creating subject…';
+    const res = await fetch(`${API_BASE_URL}/api/subjects`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ id, name, code, desc }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      if (status) status.textContent = data.error || 'Could not create subject';
+      return;
+    }
+
+    state.subjects.push(data.data);
+    state.subjectMap.set(data.data.id, data.data);
+    populateSubjectSelects(data.data.id);
+    loadEditorSubject(data.data.id);
+
+    const modal = document.getElementById('add-subject-modal');
+    if (modal) modal.remove();
+    showSuccess('Subject created', data.data.name);
+  } catch (e) {
+    if (status) status.textContent = `Network error: ${e.message}`;
+  }
 }
 
 function showEditorHelp() {
@@ -5960,8 +6150,15 @@ function updateNavForAuth() {
 
 
 // ── Mobile sidebar drawer ────────────────────────────────────────────────
+function getActiveSidebarElement() {
+  return document.querySelector('.view.active .sidebar')
+    || (state.currentView === 'topic' ? byId('topic-sidebar') : null)
+    || (state.currentView === 'subject' ? byId('subject-sidebar') : null)
+    || document.querySelector('.sidebar');
+}
+
 function openMobileSidebar() {
-  const sidebar  = document.querySelector('.sidebar');
+  const sidebar  = getActiveSidebarElement();
   const backdrop = document.getElementById('sidebar-backdrop');
   if (sidebar)  sidebar.classList.add('mobile-open');
   if (backdrop) backdrop.classList.add('visible');
@@ -5969,9 +6166,8 @@ function openMobileSidebar() {
 }
 
 function closeMobileSidebar() {
-  const sidebar  = document.querySelector('.sidebar');
+  document.querySelectorAll('.sidebar.mobile-open').forEach((sidebar) => sidebar.classList.remove('mobile-open'));
   const backdrop = document.getElementById('sidebar-backdrop');
-  if (sidebar)  sidebar.classList.remove('mobile-open');
   if (backdrop) backdrop.classList.remove('visible');
   document.body.style.overflow = '';
 }
@@ -6001,10 +6197,13 @@ function go(viewName, payload = {}) {
   if (viewName === 'confidence-map') { renderConfidenceMap(); }
   if (viewName === 'admin')       renderAdmin();
   if (viewName === 'editor') {
+    populateSubjectSelects();
     byId('editor-subject-select').value = '';
     byId('editor-topics-list').innerHTML = '';
     byId('editor-title').textContent    = 'Select a topic to edit';
     byId('editor-json').value           = '';
+    const duplicateBtn = byId('editor-duplicate-btn');
+    if (duplicateBtn) duplicateBtn.style.display = 'none';
   }
 
   // Sync mobile bottom nav active state
@@ -6136,6 +6335,13 @@ function bindBaseEvents() {
       e.preventDefault();
       const si = byId('search-input');
       if (si) { si.focus(); si.select(); }
+      return;
+    }
+
+    // Ctrl/Cmd + S in editor saves topic quickly
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && state.currentView === 'editor') {
+      e.preventDefault();
+      saveTopic();
       return;
     }
 
@@ -7615,9 +7821,12 @@ const App = {
   loadEditorSubject,
   openTopicInEditor,
   saveTopic,
+  duplicateCurrentTopic,
   cancelEdit,
   deleteCurrentTopic,
   createNewTopic,
+  openAddSubjectModal,
+  submitAddSubject,
   showEditorHelp,
   // Forum
   openNewThreadModal,

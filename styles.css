@@ -680,6 +680,15 @@ p {
   scrollbar-color: color-mix(in srgb, var(--accent), transparent 32%) color-mix(in srgb, var(--bg3), var(--bg2) 35%);
 }
 
+/* In topic reading view, let sidebar move naturally with page scroll. */
+#view-topic .sidebar {
+  position: relative;
+  top: 0;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
 #sidebar-topics-list {
   padding-bottom: 1rem;
 }
@@ -6061,6 +6070,11 @@ html {
   flex-wrap: wrap;
   padding: 0.65rem 1rem;
   margin-bottom: 1rem;
+}
+.editor-empty {
+  color: var(--text2);
+  font-size: 0.88rem;
+  padding: 0.6rem 0.1rem;
 }
 .editor-toolbar select {
   padding: 0.42rem 0.75rem;

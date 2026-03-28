@@ -81,7 +81,7 @@ const userSchema = new mongoose.Schema({
 const progressSchema = new mongoose.Schema({
   userId:      { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   topicId:     { type: String, required: true },
-  subject:     { type: String, required: true, enum: ['chem', 'bio', 'phy'] },
+  subject:     { type: String, required: true, trim: true },
   confidence:  { type: Number, default: 0, min: 0, max: 5 },
   isComplete:  { type: Boolean, default: false },
   quizScore:   { type: Number, default: null, min: 0, max: 100 },
@@ -104,7 +104,7 @@ const replySchema = new mongoose.Schema({
 const forumThreadSchema = new mongoose.Schema({
   title:    { type: String, required: true, trim: true, maxlength: 200 },
   body:     { type: String, required: true, maxlength: 5000 },
-  subject:  { type: String, required: true, enum: ['chem', 'bio', 'phy', 'general'] },
+  subject:  { type: String, required: true, trim: true },
   author:   { type: String, required: true },
   authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   pinned:   { type: Boolean, default: false },
