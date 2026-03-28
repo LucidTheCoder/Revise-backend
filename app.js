@@ -532,6 +532,8 @@ function escapeXml(input) {
 }
 
 function colorVar(subjectId) {
+  const custom = normalizeHexColor(state.subjectMap.get(subjectId)?.primaryColor);
+  if (custom) return custom;
   if (subjectId === "chem") return "var(--chem)";
   if (subjectId === "bio") return "var(--bio)";
   return "var(--phy)";
@@ -616,7 +618,7 @@ function buildTopicDiagramSvg(topic) {
     phy: {ac:"#818cf8",st:"#818cf8",fi:"#0e1020",bg:"rgba(129,140,248,.08)",li:"rgba(129,140,248,.55)"},
   };
   let P = PAL[sub] || PAL.chem;
-  const customPrimary = normalizeHexColor(topic.primaryColor);
+  const customPrimary = normalizeHexColor(state.subjectMap.get(topic.subject)?.primaryColor);
   if (customPrimary) {
     P = {
       ...P,
@@ -2183,8 +2185,12 @@ function renderSubjectSelection() {
   grid.innerHTML = state.subjects
     .map((subject) => {
       const p = getProgress(subject.id);
+      const locked = !canAccessSubject(subject.id);
+      const action = locked
+        ? `App.showSubjectWipNotice('${subject.id}')`
+        : `App.go('subject',{subjectId:'${subject.id}'})`;
       return `
-      <button class="subject-card" onclick="App.go('subject',{subjectId:'${subject.id}'})">
+      <button class="subject-card ${subject.wip ? 'wip' : ''} ${locked ? 'locked' : ''}" onclick="${action}">
         <h3 style="color:${colorVar(subject.id)}">${escapeHtml(subject.name)}</h3>
         <p>${escapeHtml(subject.desc)}</p>
         <div class="subject-card-progress">
@@ -2193,7 +2199,7 @@ function renderSubjectSelection() {
           </div>
           <span class="subject-card-pct">${p.done}/${p.total} topics &mdash; ${p.pct}%</span>
         </div>
-        <div class="subject-meta"><span>${p.done}/${p.total} done</span><span>${p.pct}% complete</span></div>
+        <div class="subject-meta"><span>${p.done}/${p.total} done</span><span>${subject.wip ? 'WIP' : `${p.pct}% complete`}</span></div>
       </button>
     `;
     })
@@ -2230,11 +2236,10 @@ function renderSubjectSidebar(subject, activeTopicId = "") {
           </div>
           <div class="sidebar-topics">
             ${unit.topics.map((topic) => {
-              const topicData = state.topics.get(topic.id);
-              const isWip = !!topicData?.wip;
+              const isWip = !!subject.wip;
               const locked = isWip && !isStaffUser();
               const action = locked
-                ? `App.showTopicWipNotice('${topic.id}')`
+                ? `App.showSubjectWipNotice('${subject.id}')`
                 : `App.go('topic',{topicId:'${topic.id}'})`;
               const badgeClass = isWip ? 'topic-item-badge wip' : 'topic-item-badge';
               const badgeText = topic.done ? '✓' : (isWip ? 'WIP' : '');
@@ -2258,16 +2263,32 @@ function isStaffUser() {
 }
 
 function isTopicWip(topicId) {
-  if (!topicId) return false;
-  return !!state.topics.get(topicId)?.wip;
+  const match = findTopicRefById(topicId);
+  return !!match?.subject?.wip;
+}
+
+function canAccessSubject(subjectId) {
+  if (!subjectId) return true;
+  const subject = state.subjectMap.get(subjectId);
+  if (!subject) return true;
+  return !subject.wip || isStaffUser();
 }
 
 function canAccessTopic(topicId) {
-  if (!topicId) return true;
-  return !isTopicWip(topicId) || isStaffUser();
+  const match = findTopicRefById(topicId);
+  if (!match?.subject?.id) return true;
+  return canAccessSubject(match.subject.id);
+}
+
+function showSubjectWipNotice(subjectId) {
+  const subject = state.subjectMap.get(subjectId);
+  const name = subject?.name || subjectId;
+  showToast(`${name} is WIP and not released yet.`);
 }
 
 function showTopicWipNotice(topicId) {
+  const match = findTopicRefById(topicId);
+  if (match?.subject?.id) return showSubjectWipNotice(match.subject.id);
   const topic = state.topics.get(topicId);
   const name = topic?.title || topicId;
   showToast(`${name} is WIP and not released yet.`);
@@ -2413,7 +2434,7 @@ function renderSubjectView(subjectId) {
   subjectMain.innerHTML = `
     <div class="card" style="margin-bottom:1rem">
       <p style="color:var(--text2)">Home / Subjects / ${escapeHtml(subject.name)}</p>
-      <h1>${escapeHtml(subject.name)}</h1>
+      <h1>${escapeHtml(subject.name)} ${subject.wip ? '<span class="topic-status-chip">WIP</span>' : ''}</h1>
       <p>${escapeHtml(subject.desc)}</p>
       <div class="topic-actions">
         <button class="btn btn-primary" onclick="App.go('quiz',{subjectId:'${subject.id}'})">Take Subject Quiz</button>
@@ -2429,11 +2450,10 @@ function renderSubjectView(subjectId) {
           <h2>${escapeHtml(unit.name)}</h2>
           ${unit.topics
             .map((topic) => {
-              const topicData = state.topics.get(topic.id);
-              const isWip = !!topicData?.wip;
+              const isWip = !!subject.wip;
               const locked = isWip && !isStaffUser();
               const action = locked
-                ? `App.showTopicWipNotice('${topic.id}')`
+                ? `App.showSubjectWipNotice('${subject.id}')`
                 : `App.go('topic',{topicId:'${topic.id}'})`;
               const badgeClass = topic.done ? 'badge-success' : 'badge-warn';
               const badgeText = topic.done ? 'Done' : (isWip ? 'WIP' : 'Start');
@@ -2574,7 +2594,7 @@ function renderTopicView(topicId) {
   const topicSidebar = byId('topic-sidebar');
   if (topicSidebar) topicSidebar.innerHTML = renderSubjectSidebar(subject, topic.id);
 
-  const topicAccent = normalizeHexColor(topic.primaryColor);
+  const topicAccent = normalizeHexColor(subject.primaryColor);
   const topicMainEl = byId('topic-main');
   if (topicMainEl) {
     if (topicAccent) topicMainEl.style.setProperty('--accent', topicAccent);
@@ -2695,7 +2715,7 @@ function renderTopicView(topicId) {
         </p>
         <span class="topic-ref">${escapeHtml(syllabusRef)}</span>
       </div>
-      <h1 class="topic-title">${escapeHtml(topic.title)} ${topic.wip ? '<span class="topic-status-chip">WIP</span>' : ''}</h1>
+      <h1 class="topic-title">${escapeHtml(topic.title)} ${subject.wip ? '<span class="topic-status-chip">SUBJECT WIP</span>' : ''}</h1>
       <p class="topic-subtitle">${richText(topic.subtitle || "")}</p>
       <div class="topic-actions">
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${topic.id}'})">
@@ -2900,7 +2920,7 @@ function markTopicDone(topicId) {
 function buildQuizFromPayload(payload) {
   if (payload.topicId) {
     const topic = state.topics.get(payload.topicId);
-    if (topic?.wip && !isStaffUser()) {
+    if (!canAccessTopic(payload.topicId)) {
       return { title: 'Topic Quiz', sourceLabel: 'Restricted', questions: [] };
     }
     if (topic && topic.quiz && Array.isArray(topic.quiz.questions)) {
@@ -2917,7 +2937,7 @@ function buildQuizFromPayload(payload) {
   const questions = [];
   for (const ref of refs) {
     const topic = state.topics.get(ref.id);
-    if (topic?.wip && !isStaffUser()) continue;
+    if (!canAccessTopic(ref.id)) continue;
     if (!topic || !topic.quiz || !Array.isArray(topic.quiz.questions)) continue;
     for (const q of topic.quiz.questions) {
       questions.push({ ...q, sourceTopic: topic.title });
@@ -3064,7 +3084,7 @@ function renderQuizResult() {
 function buildFlashDeck(payload) {
   if (payload.topicId) {
     const topic = state.topics.get(payload.topicId);
-    if (topic?.wip && !isStaffUser()) {
+    if (!canAccessTopic(payload.topicId)) {
       return { label: 'Restricted', cards: [] };
     }
     if (topic && Array.isArray(topic.flashcards) && topic.flashcards.length) {
@@ -3077,7 +3097,7 @@ function buildFlashDeck(payload) {
   const cards = [];
   for (const ref of refs) {
     const topic = state.topics.get(ref.id);
-    if (topic?.wip && !isStaffUser()) continue;
+    if (!canAccessTopic(ref.id)) continue;
     if (!topic || !Array.isArray(topic.flashcards)) continue;
     cards.push(...topic.flashcards.map((card) => ({ ...card, topic: topic.title })));
   }
@@ -4761,6 +4781,7 @@ function _readFormValues() {
 
   const topic = state.topics.get(editorState.currentTopic);
   if (!topic) return null;
+  const currentSubject = state.subjectMap.get(editorState.currentSubject);
 
   // Parse array-of-objects fields
   const parseNotes = () => {
@@ -4801,11 +4822,17 @@ function _readFormValues() {
     });
   };
 
-  const selectedStatus = get('ef-status') || (topic.wip ? 'wip' : 'released');
+  const selectedStatus = get('ef-status') || (currentSubject?.wip ? 'wip' : 'released');
   const releaseNow = !!byId('ef-release-now')?.checked;
-  const pickerColor = byId('ef-primary-color')?.value?.trim() || '';
-  const manualColor = get('ef-primary-color-hex');
-  const topicPrimaryColor = normalizeHexColor(manualColor || pickerColor || topic.primaryColor || '');
+  const pickerColor = byId('ef-subject-primary-color')?.value?.trim() || '';
+  const manualColor = get('ef-subject-primary-color-hex');
+  const subjectPrimaryColor = normalizeHexColor(manualColor || pickerColor || currentSubject?.primaryColor || '');
+
+  if (currentSubject) {
+    currentSubject.wip = selectedStatus === 'wip' && !releaseNow;
+    if (subjectPrimaryColor) currentSubject.primaryColor = subjectPrimaryColor;
+    else delete currentSubject.primaryColor;
+  }
 
   return {
     ...topic,
@@ -4819,8 +4846,6 @@ function _readFormValues() {
     recall:   parseRecall(),
     summary:  parseSummary(),
     flashcards: parseFlashcards(),
-    wip: selectedStatus === 'wip' && !releaseNow,
-    primaryColor: topicPrimaryColor,
   };
 }
 
@@ -4836,7 +4861,8 @@ function _renderEditorForm(topic) {
   const recallText = (topic.recall || []).map(r => `${r.q}\n${r.a}`).join('\n\n');
   const summaryText = (topic.summary || []).map(s => `${s.label||s.key||''}: ${s.value||s.val||''}`).join('\n');
   const flashText = (topic.flashcards || []).map(f => `${f.q}\n${f.a}`).join('\n\n');
-  const topicColor = normalizeHexColor(topic.primaryColor) || '#f97316';
+  const currentSubject = state.subjectMap.get(editorState.currentSubject) || {};
+  const subjectColor = normalizeHexColor(currentSubject.primaryColor) || '#f97316';
 
   el.innerHTML = `
     <div class="ef-form">
@@ -4853,22 +4879,22 @@ function _renderEditorForm(topic) {
 
       <div class="ef-row">
         <div class="ef-field ef-field-half">
-          <label class="ef-label" for="ef-status">Topic Status</label>
+          <label class="ef-label" for="ef-status">Subject Status</label>
           <select id="ef-status" class="ef-input">
-            <option value="released" ${topic.wip ? '' : 'selected'}>Released</option>
-            <option value="wip" ${topic.wip ? 'selected' : ''}>Work In Progress (WIP)</option>
+            <option value="released" ${currentSubject.wip ? '' : 'selected'}>Released</option>
+            <option value="wip" ${currentSubject.wip ? 'selected' : ''}>Work In Progress (WIP)</option>
           </select>
           <label class="ef-hint" style="display:flex;align-items:center;gap:0.45rem;margin-top:0.45rem">
             <input id="ef-release-now" type="checkbox"> Release now (override WIP)
           </label>
         </div>
         <div class="ef-field ef-field-half">
-          <label class="ef-label" for="ef-primary-color">Primary Topic Color</label>
+          <label class="ef-label" for="ef-subject-primary-color">Primary Subject Color</label>
           <div style="display:flex;gap:0.55rem;align-items:center">
-            <input id="ef-primary-color" class="ef-input" type="color" value="${escapeHtml(topicColor)}" style="max-width:88px;padding:0.2rem 0.3rem" oninput="const hex=document.getElementById('ef-primary-color-hex'); if(hex) hex.value=this.value;">
-            <input id="ef-primary-color-hex" class="ef-input" type="text" value="${escapeHtml(topicColor)}" placeholder="#f97316" oninput="const c=this.value.trim(); if(/^#?[0-9a-fA-F]{6}$/.test(c)){ const p=document.getElementById('ef-primary-color'); if(p) p.value=c.startsWith('#')?c:'#'+c; }">
+            <input id="ef-subject-primary-color" class="ef-input" type="color" value="${escapeHtml(subjectColor)}" style="max-width:88px;padding:0.2rem 0.3rem" oninput="const hex=document.getElementById('ef-subject-primary-color-hex'); if(hex) hex.value=this.value;">
+            <input id="ef-subject-primary-color-hex" class="ef-input" type="text" value="${escapeHtml(subjectColor)}" placeholder="#f97316" oninput="const c=this.value.trim(); if(/^#?[0-9a-fA-F]{6}$/.test(c)){ const p=document.getElementById('ef-subject-primary-color'); if(p) p.value=c.startsWith('#')?c:'#'+c; }">
           </div>
-          <small class="ef-hint">Used for topic accents and diagram highlight color.</small>
+          <small class="ef-hint">Used for this subject's topic accents and diagram highlight color.</small>
         </div>
       </div>
 
@@ -5059,8 +5085,6 @@ function createNewTopic() {
     subject: editorState.currentSubject,
     title: "New Topic",
     subtitle: "Brief summary",
-    wip: true,
-    primaryColor: '',
     concept: ["Add concept explanation here"],
     notes: [{ heading: "Key Ideas", items: ["Point 1", "Point 2"] }],
     definitions: [{ term: "Key term", body: "Definition" }],
@@ -6163,6 +6187,33 @@ function goToTopicEditor(subjectId, topicId) {
   }, 50);
 }
 
+async function saveCurrentSubjectSettings() {
+  const subject = state.subjectMap.get(editorState.currentSubject);
+  if (!subject) return true;
+  if (!(auth.isLoggedIn && (auth.user?.role === 'admin' || auth.user?.role === 'teacher'))) return true;
+
+  const payload = {
+    wip: !!subject.wip,
+    primaryColor: normalizeHexColor(subject.primaryColor || ''),
+  };
+
+  const res = await fetch(`${API_BASE_URL}/api/subjects/${subject.id}`, {
+    method: 'PUT',
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  let data = {};
+  try { data = await res.json(); } catch { data = {}; }
+  if (!res.ok) {
+    showToast(`Subject settings error: ${data.error || 'Could not save subject settings'}`);
+    return false;
+  }
+  state.subjectMap.set(subject.id, data.data || { ...subject, ...payload });
+  const i = state.subjects.findIndex((s) => s.id === subject.id);
+  if (i >= 0) state.subjects[i] = state.subjectMap.get(subject.id);
+  return true;
+}
+
 // ============================================================================
 // EDITOR: wire save to backend API
 // ============================================================================
@@ -6207,6 +6258,9 @@ async function saveTopic() {
         showToast(`Save error: ${putData.error || 'Could not save topic'}`);
         return;
       }
+
+      const subjectOk = await saveCurrentSubjectSettings();
+      if (!subjectOk) return;
 
       showSuccess('Topic saved!', editorState.currentTopic);
     } else {
@@ -6331,6 +6385,21 @@ function closeMobileSidebar() {
 }
 
 function go(viewName, payload = {}) {
+  const targetSubjectId = payload.subjectId || state.currentSubject;
+  if (viewName === 'subject' && targetSubjectId && !canAccessSubject(targetSubjectId)) {
+    showSubjectWipNotice(targetSubjectId);
+    setActiveView('subjects');
+    renderSubjectSelection();
+    return;
+  }
+
+  if ((viewName === 'quiz' || viewName === 'flash') && targetSubjectId && !payload.topicId && !canAccessSubject(targetSubjectId)) {
+    showSubjectWipNotice(targetSubjectId);
+    setActiveView('subjects');
+    renderSubjectSelection();
+    return;
+  }
+
   const targetTopicId = payload.topicId || state.currentTopic;
   if ((viewName === 'topic' || viewName === 'quiz' || viewName === 'flash') && targetTopicId && !canAccessTopic(targetTopicId)) {
     showTopicWipNotice(targetTopicId);
@@ -7963,6 +8032,7 @@ const App = {
   go,
   scrollToSection,
   setTopicConfidence,
+  showSubjectWipNotice,
   showTopicWipNotice,
   toggleRecall,
   markTopicDone,

@@ -444,6 +444,15 @@ p {
   cursor: not-allowed;
 }
 
+.subject-card.wip {
+  border-style: dashed;
+}
+
+.subject-card.locked {
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+
 .continue-item small {
   color: var(--text2);
 }
