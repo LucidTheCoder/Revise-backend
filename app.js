@@ -1455,6 +1455,8 @@ async function fetchJson(localPath, apiOverride = null) {
     ? data.data
     : data;
 
+  const isCoreContentFile = localPath === 'data/subjects.json' || localPath.startsWith('data/topics/');
+
   // 1. Explicit API override (used by auth/admin routes)
   if (apiOverride) {
     const res = await fetch(withCacheBuster(`${API_BASE_URL}${apiOverride}`), { cache: "no-store" });
@@ -1462,7 +1464,17 @@ async function fetchJson(localPath, apiOverride = null) {
     return unwrap(await res.json());
   }
 
-  // 2. Try backend if enabled
+  // 2. For core content files, prefer local JSON first to avoid stale backend metadata.
+  if (isCoreContentFile) {
+    try {
+      const localRes = await fetch(withCacheBuster(localPath), { cache: 'no-store' });
+      if (localRes.ok) return await localRes.json();
+    } catch {
+      // Fall through to backend/network fallback.
+    }
+  }
+
+  // 3. Try backend if enabled
   if (USE_BACKEND) {
     const apiUrl = resolveApiUrl(localPath);
     if (apiUrl) {
@@ -1486,7 +1498,7 @@ async function fetchJson(localPath, apiOverride = null) {
     }
   }
 
-  // 3. Local file fallback
+  // 4. Local file fallback
   const res = await fetch(withCacheBuster(localPath), { cache: "no-store" });
   if (!res.ok) throw new Error(`Local file ${localPath} not found (${res.status})`);
   return await res.json();
