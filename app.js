@@ -5067,6 +5067,7 @@ function openAddSubjectModal() {
     });
   }
   modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+  requestAnimationFrame(() => modal.classList.add('open'));
   setTimeout(() => nameEl?.focus(), 80);
 }
 
