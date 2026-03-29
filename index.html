@@ -230,7 +230,6 @@
             </button>
             <div class="nav-group-menu">
               <button class="nav-btn ghost" data-route="profile">Profile</button>
-              <button class="nav-btn ghost" data-route="confidence-map">Map</button>
             </div>
           </div>
           <div class="nav-group" id="nav-group-manage">
@@ -1001,6 +1000,28 @@
                 >
               </div>
               <div id="profile-quiz-history"></div>
+            </div>
+            <div class="card" style="grid-column: 1 / -1">
+              <div style="margin-bottom: 0.75rem">
+                <h2 style="margin: 0; margin-bottom: 0.5rem">📊 Confidence Map</h2>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text2)">Your topic confidence at a glance</p>
+              </div>
+              <div class="cmap-legend" style="margin-bottom: 0.75rem">
+                <span class="cmap-legend-label">Confidence:</span>
+                <span class="cmap-legend-item"
+                  ><span class="cmap-dot cmap-confident"></span>Confident</span
+                >
+                <span class="cmap-legend-item"
+                  ><span class="cmap-dot cmap-needs-practice"></span>Needs Practice</span
+                >
+                <span class="cmap-legend-item"
+                  ><span class="cmap-dot cmap-no-idea"></span>No Idea</span
+                >
+                <span class="cmap-legend-item"
+                  ><span class="cmap-dot cmap-none"></span>Not rated</span
+                >
+              </div>
+              <div id="profile-confidence-map-grid" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
           </div>
         </div>

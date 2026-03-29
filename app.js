@@ -186,6 +186,8 @@ const state = {
   myStuffTopicId: null,
   myStuffMode: "quiz",
   myStuffDifficulty: "Medium",
+  aiLoading: false,
+  structureQuestionsToday: 0,
 };
 
 const doneStorageKey = "revise.doneTopics";
@@ -201,6 +203,8 @@ const lastVisitedKey = "revise.lastVisited"; // {topicId: timestamp}
 const themeKey = "revise.theme";
 const myStuffStorageKey = "revise.mystuff";
 const myStuffDifficultyKey = "revise.mystuffDifficulty";
+const structureQuestionsKey = "revise.structureToday";
+const structureQuestionsDateKey = "revise.structureTodayDate";
 
 const auth = {
   get token() {
@@ -4685,6 +4689,73 @@ function renderProfile() {
       quizEl.innerHTML = `<table class="quiz-history-table"><thead><tr><th>Topic</th><th>Score</th><th>Date</th></tr></thead><tbody>${rows}</tbody></table>`;
     }
   }
+
+  // ── Render confidence map in profile ──────────────────────────────
+  renderConfidenceMapInProfile();
+}
+
+function renderConfidenceMapInProfile() {
+  const container = byId("profile-confidence-map-grid");
+  if (!container) return;
+  const conf = confidenceByTopic();
+  const icons = { chem: "⚗️", bio: "🧬", phy: "⚡" };
+  const confidenceLabel = {
+    confident: "Confident",
+    "needs-practice": "Needs practice",
+    "no-idea": "No idea",
+    none: "Not rated",
+  };
+  const html = state.subjects
+    .map((subject) => {
+      const subjectTopics = subject.units.flatMap((u) =>
+        u.topics.map((t) => ({ ...t, unitName: u.name })),
+      );
+      const total = subjectTopics.length;
+      const confident = subjectTopics.filter(
+        (t) => (conf[t.id] || "none") === "confident",
+      ).length;
+      const noIdea = subjectTopics.filter(
+        (t) => (conf[t.id] || "none") === "no-idea",
+      ).length;
+      const needsPrac = subjectTopics.filter(
+        (t) => (conf[t.id] || "none") === "needs-practice",
+      ).length;
+      const pct = total ? Math.round((confident / total) * 100) : 0;
+      return `
+      <div class="cmap-subject">
+        <h3 class="cmap-subject-title" style="color:${colorVar(subject.id)}">
+          ${icons[subject.id] || ""} ${escapeHtml(subject.name)}
+          <span style="font-size:0.75rem;font-weight:500;color:var(--text3);margin-left:0.5rem">
+            ${confident}/${total} confident · ${pct}%
+          </span>
+        </h3>
+        <div class="cmap-grid">
+          ${subjectTopics
+            .map((t) => {
+              const c = conf[t.id] || "none";
+              const badge = confidenceLabel[c] || "Not rated";
+              return (
+                '<button class="cmap-cell cmap-' +
+                c +
+                "\" onclick=\"App.go('topic',{topicId:'" +
+                t.id +
+                "'})\">" +
+                '<span class="cmap-cell-name">' +
+                escapeHtml(t.name) +
+                "</span>" +
+                '<span class="cmap-cell-badge">' +
+                badge +
+                "</span>" +
+                "</button>"
+              );
+            })
+            .join("")}
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+  container.innerHTML = html;
 }
 // ── AI Study Coach ────────────────────────────────────────────────────────────
 
@@ -4754,6 +4825,31 @@ function setMyStuffDifficulty(level) {
   localStorage.setItem(myStuffDifficultyKey, state.myStuffDifficulty);
 }
 
+// ── Structure Questions ─────────────────────────────────────────────────────
+function loadStructureQuestionsCount() {
+  const today = new Date().toDateString();
+  const savedDate = localStorage.getItem(structureQuestionsDateKey);
+  if (savedDate !== today) {
+    localStorage.setItem(structureQuestionsKey, "0");
+    localStorage.setItem(structureQuestionsDateKey, today);
+    state.structureQuestionsToday = 0;
+  } else {
+    state.structureQuestionsToday = parseInt(localStorage.getItem(structureQuestionsKey) || "0", 10);
+  }
+}
+
+function incrementStructureQuestions() {
+  state.structureQuestionsToday = (state.structureQuestionsToday || 0) + 1;
+  localStorage.setItem(structureQuestionsKey, String(state.structureQuestionsToday));
+}
+
+const STRUCTURE_QUESTIONS_DAILY_LIMIT = 3;
+
+function canGenerateStructureQuestions() {
+  loadStructureQuestionsCount();
+  return state.structureQuestionsToday < STRUCTURE_QUESTIONS_DAILY_LIMIT;
+}
+
 function renderMyStuff() {
   const root = byId("mystuff-root");
   if (!root) return;
@@ -4801,9 +4897,13 @@ function renderMyStuff() {
           const playBtn =
             item.mode === "quiz"
               ? `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffQuiz('${item.id}')">Start Interactive Quiz</button>`
-              : `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffFlashcards('${item.id}')">Start Interactive Deck</button>`;
+              : item.mode === "flashcards"
+              ? `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffFlashcards('${item.id}')">Start Interactive Deck</button>`
+              : `<button class="btn btn-primary btn-micro" onclick="App.reviewStructureQuestion('${item.id}')">Review & Mark</button>`;
           const diff = normalizeMyStuffDifficulty(item.difficulty || "Medium");
-          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${item.mode === "quiz" ? "Questions" : "Flashcards"}</span><span class="mystuff-badge level">${escapeHtml(diff)}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
+          const modeLabel = item.mode === "quiz" ? "Questions" : item.mode === "flashcards" ? "Flashcards" : "Structure";
+          const markedBadge = item.mode === "structure" && item.marked ? `<span class="mystuff-badge" style="background:var(--success-bg);color:var(--success)">✓ Marked</span>` : "";
+          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${modeLabel}</span><span class="mystuff-badge level">${escapeHtml(diff)}</span>${markedBadge}<strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
 
           if (item.mode === "quiz") {
             const questions = Array.isArray(item.data?.questions)
@@ -4836,6 +4936,17 @@ function renderMyStuff() {
                 .join("")}</ol></div>`
             : "";
           return `<article class="card mystuff-item">${head}${quota}${renderedCards}</article>`;
+        } else if (item.mode === "structure") {
+          const q = item.data?.question || "";
+          const markingCriteria = item.data?.markingCriteria || [];
+          const renderedStructure = `<div class="mystuff-structure">
+            <p><strong>Question:</strong> ${escapeHtml(String(q))}</p>
+            ${markingCriteria.length ? `<details><summary>Marking Criteria (${markingCriteria.length} points)</summary><ol>${markingCriteria
+              .map((c) => `<li>${escapeHtml(String(c || ""))}</li>`)
+              .join("")}</ol></details>` : ""}
+            ${item.data?.modelAnswer ? `<details><summary>Model Answer</summary><p>${escapeHtml(String(item.data.modelAnswer))}</p></details>` : ""}
+          </div>`;
+          return `<article class="card mystuff-item">${head}${quota}${renderedStructure}</article>`;
         })
         .join("")
     : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : "flashcard decks"} generated yet.</p></div>`;
@@ -4872,6 +4983,7 @@ function renderMyStuff() {
       <div class="mystuff-actions">
         <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">${activeMode === "quiz" ? "Generate 5 Questions" : "Generate 8 Flashcards"}</button>
         <button class="btn btn-outline" id="mystuff-gen-other" onclick="App.myStuffGenerate('${activeMode === "quiz" ? "flashcards" : "quiz"}')">Generate ${activeMode === "quiz" ? "8 Flashcards" : "5 Questions"}</button>
+        <button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`}">Generate Structure (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})</button>
         <button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>
         <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : "Flashcards"}</button>
       </div>
@@ -4911,6 +5023,13 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
   const statusEl = byId("mystuff-status");
   const mainBtn = byId("mystuff-gen-main");
   const otherBtn = byId("mystuff-gen-other");
+  
+  showAiLoading(
+    effectiveMode === "quiz"
+      ? `Generating ${state.myStuffDifficulty} AS questions...`
+      : `Generating ${state.myStuffDifficulty} AS flashcards...`
+  );
+  
   if (statusEl)
     statusEl.textContent =
       effectiveMode === "quiz"
@@ -4936,6 +5055,7 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
     );
     const data = await res.json();
     if (!res.ok || !data.success) {
+      hideAiLoading();
       if (statusEl) statusEl.textContent = data.error || "Could not generate right now.";
       return;
     }
@@ -4954,16 +5074,98 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
     };
     state.myStuff = Array.isArray(state.myStuff) ? [item, ...state.myStuff] : [item];
     saveMyStuffItems();
+    hideAiLoading();
     renderMyStuff();
     if (statusEl)
       statusEl.textContent = data.fallback
         ? "Saved to MyStuff (fallback mode)."
         : "Saved to MyStuff.";
   } catch {
+    hideAiLoading();
     if (statusEl) statusEl.textContent = "Network error while generating content.";
   } finally {
     if (mainBtn) mainBtn.disabled = false;
     if (otherBtn) otherBtn.disabled = false;
+  }
+}
+
+async function myStuffGenerateStructure() {
+  if (!canGenerateStructureQuestions()) {
+    showToast(`Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`);
+    return;
+  }
+
+  if (!auth.isLoggedIn) {
+    openAuthModal("login");
+    return;
+  }
+
+  const topicId = state.myStuffTopicId || state.currentTopic;
+  const topic = state.topics.get(topicId);
+  if (!topic) {
+    showToast("Select a valid topic first.");
+    return;
+  }
+
+  const statusEl = byId("mystuff-status");
+  const structBtn = byId("mystuff-gen-structure");
+  
+  showAiLoading("Generating structure question...");
+  if (statusEl) statusEl.textContent = "Generating AI-marked structure question...";
+  if (structBtn) structBtn.disabled = true;
+
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/ai-lite/structure-question`,
+      {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({
+          topicId,
+          topicTitle: topic.title || topicId,
+          subjectId: topic.subject || state.currentSubject || "general",
+          difficulty: normalizeMyStuffDifficulty(state.myStuffDifficulty || "Medium"),
+          context: buildAiContext(topic),
+        }),
+      },
+    );
+    const data = await res.json();
+    hideAiLoading();
+
+    if (!res.ok || !data.success) {
+      if (statusEl) statusEl.textContent = data.error || "Could not generate structure question.";
+      return;
+    }
+
+    const item = {
+      id: `ms_str_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      mode: "structure",
+      topicId,
+      topicTitle: topic.title || topicId,
+      subjectId: topic.subject || "general",
+      difficulty: normalizeMyStuffDifficulty(state.myStuffDifficulty || "Medium"),
+      data: data.data,
+      quota: data.quota || null,
+      fallback: !!data.fallback,
+      createdAt: Date.now(),
+      marked: !!data.data?.marked, // Auto-marked flag
+    };
+    state.myStuff = Array.isArray(state.myStuff) ? [item, ...state.myStuff] : [item];
+    saveMyStuffItems();
+    incrementStructureQuestions();
+    renderMyStuff();
+    if (statusEl)
+      statusEl.textContent = data.fallback
+        ? "Saved to MyStuff (fallback mode)."
+        : "Saved to MyStuff. ✓ Auto-marked by AI.";
+  } catch {
+    hideAiLoading();
+    if (statusEl) statusEl.textContent = "Network error while generating structure question.";
+  } finally {
+    if (structBtn) {
+      structBtn.disabled = !canGenerateStructureQuestions();
+      renderMyStuff(); // Refresh to update quota display
+    }
   }
 }
 
@@ -5023,6 +5225,63 @@ function removeMyStuffItem(itemId) {
   state.myStuff = (state.myStuff || []).filter((item) => item.id !== itemId);
   saveMyStuffItems();
   renderMyStuff();
+}
+
+function reviewStructureQuestion(itemId) {
+  const item = (state.myStuff || []).find(
+    (x) => x.id === itemId && x.mode === "structure",
+  );
+  if (!item) {
+    showToast("Structure question not found.");
+    return;
+  }
+
+  // Display structure question with marking in a modal or detail view
+  // For now, show a simple summary
+  const question = item.data?.question || "No question";
+  const markingCriteria = item.data?.markingCriteria || [];
+  const modelAnswer = item.data?.modelAnswer || "No model answer";
+  const aiMarking = item.data?.aiMarking || {};
+
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
+    z-index: 10000;
+  `;
+  modal.onclick = (e) => e.target === modal && modal.remove();
+
+  const content = document.createElement("div");
+  content.className = "card";
+  content.style.cssText = `
+    background: var(--bg2); max-width: 600px; max-height: 80vh; overflow-y: auto;
+    border-radius: 8px; padding: 1.5rem;
+  `;
+
+  content.innerHTML = `
+    <button onclick="this.closest('[style*=position]').remove()" style="float:right;cursor:pointer;background:none;border:none;font-size:1.5rem">×</button>
+    <h2>Structure Question Review</h2>
+    <p><strong>Question:</strong></p>
+    <p style="background:var(--bg3);padding:0.75rem;border-radius:4px;margin-bottom:1rem">${escapeHtml(question)}</p>
+    
+    <p><strong>Marking Criteria (${markingCriteria.length} points):</strong></p>
+    <ol style="margin-bottom:1rem">${markingCriteria
+      .map((c, i) => `<li>${escapeHtml(String(c))}</li>`)
+      .join("")}</ol>
+    
+    <p><strong>Model Answer:</strong></p>
+    <p style="background:var(--bg3);padding:0.75rem;border-radius:4px;margin-bottom:1rem">${escapeHtml(modelAnswer)}</p>
+    
+    ${aiMarking?.score ? `
+    <div style="background:var(--success-bg);border-left:4px solid var(--success);padding:1rem;border-radius:4px;margin-bottom:1rem">
+      <strong>AI Marking: ${aiMarking.score}/${markingCriteria.length} points</strong>
+      ${aiMarking.feedback ? `<p style="margin-top:0.5rem;color:var(--text2)">${escapeHtml(aiMarking.feedback)}</p>` : ""}
+    </div>
+    ` : ""}
+  `;
+
+  modal.appendChild(content);
+  document.body.appendChild(modal);
 }
 
 function clearMyStuff(mode = null) {
@@ -5552,6 +5811,25 @@ function showToast(message) {
   }, 2600);
 }
 
+// ── AI Loading Screen ──────────────────────────────────────────────────────
+function showAiLoading(message = "Generating content...") {
+  state.aiLoading = true;
+  const loader = byId("app-loader");
+  if (loader) {
+    loader.style.display = "flex";
+    const statusEl = byId("loader-status");
+    if (statusEl) statusEl.textContent = message;
+  }
+}
+
+function hideAiLoading() {
+  state.aiLoading = false;
+  const loader = byId("app-loader");
+  if (loader) {
+    loader.style.display = "none";
+  }
+}
+
 function syncThemeIcon(theme) {
   const icon = byId("theme-icon");
   if (!icon) return;
@@ -5866,6 +6144,7 @@ async function init() {
     state.myStuffDifficulty = normalizeMyStuffDifficulty(
       localStorage.getItem(myStuffDifficultyKey) || state.myStuffDifficulty,
     );
+    loadStructureQuestionsCount();
     bindBaseEvents();
     updateNavForAuth();
     applyAiVisibility();

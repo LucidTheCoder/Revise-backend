@@ -3005,6 +3005,156 @@ app.post(
 );
 
 app.post(
+  "/api/ai-lite/structure-question",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const { topicId, topicTitle, subjectId, difficulty = "Medium", context } = req.body;
+      if (!topicId || !topicTitle) {
+        return res.status(400).json({
+          success: false,
+          error: "Missing topicId or topicTitle",
+        });
+      }
+
+      // Check quota for this user
+      const user = await db.findUserById(req.user._id);
+      let quota = user?.aiLiteUsage || { daily: 0, topics: {} };
+      const today = new Date().toDateString();
+      const quotaDate = new Date(quota.lastReset || 0).toDateString();
+
+      if (quotaDate !== today) {
+        quota = { daily: 0, Topics: {}, lastReset: new Date() };
+      }
+
+      const dailyMax = 5;
+      if (quota.daily >= dailyMax) {
+        return res.json({
+          success: false,
+          error: `Daily AI quota exhausted (${quota.daily}/${dailyMax})`,
+          quota: { dailyRemaining: 0, dailyMax, topicRemaining: 0, topicMax: dailyMax },
+        });
+      }
+
+      const structureQuestion = await generateStructureQuestion({
+        mode: "structure",
+        topicTitle,
+        subjectId,
+        context,
+        difficulty: normalizeAiLiteDifficulty(difficulty),
+      });
+
+      // Update quota
+      quota.daily = (quota.daily || 0) + 1;
+      await db.updateUserAiLiteUsage(req.user._id, quota);
+
+      res.json({
+        success: true,
+        data: structureQuestion,
+        quota: {
+          dailyRemaining: Math.max(0, dailyMax - quota.daily),
+          dailyMax,
+          topicRemaining: Math.max(0, dailyMax - quota.daily),
+          topicMax: dailyMax,
+        },
+        fallback: false,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+async function generateStructureQuestion({
+  mode = "structure",
+  topicTitle,
+  subjectId,
+  context,
+  difficulty = "Medium",
+}) {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) throw new Error("OPENROUTER_API_KEY not set");
+
+  const discoveredFreeModels = await getOpenRouterFreeModels(apiKey);
+  const modelsToTry = buildOpenRouterModelList(
+    process.env.AI_MODEL || "openrouter/auto:free",
+    discoveredFreeModels,
+  );
+
+  if (!modelsToTry.length) throw new Error("No free OpenRouter model available");
+
+  const prompt = [
+    `Create a structure question for Cambridge AS Level ${subjectId} on "${topicTitle}".`,
+    `Target difficulty: ${difficulty}.`,
+    "STRICT SCOPE: Use Cambridge AS Level content only. Do NOT include any A2/A-Level-only depth.",
+    "The structure question should have:",
+    '1. "question": A clear structured-answer exam question (2-4 sentences)',
+    '2. "markingCriteria": An array of 4-6 marking point strings (what examiners look for)',
+    '3. "modelAnswer": A concise model answer (150-250 words) that addresses all criteria',
+    '4. "tips": 2-3 study tips for answering this type of question',
+    "Output ONLY valid JSON.",
+    'Use this schema exactly: {"question":"...","markingCriteria":["point1","point2",...],"modelAnswer":"...","tips":["tip1","tip2"]}',
+    "Fact-check: include only AS-level-appropriate content from Cambridge syllabus.",
+    context ? `Context:\n${String(context).slice(0, 1400)}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  let lastError = null;
+  for (const model of modelsToTry) {
+    const orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+        "HTTP-Referer": process.env.FRONTEND_URL || "https://asrevise.onrender.com",
+        "X-Title": "Revise Study Platform",
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 1200,
+        temperature: 0.35,
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
+
+    const orData = await orRes.json().catch(() => ({}));
+    if (!orRes.ok || orData.error) {
+      lastError = orData?.error?.message || `HTTP ${orRes.status}`;
+      continue;
+    }
+
+    const raw = String(orData.choices?.[0]?.message?.content || "");
+    const parsed = extractFirstJsonObject(raw);
+    if (!parsed || typeof parsed !== "object") {
+      lastError = "Malformed JSON from AI";
+      continue;
+    }
+
+    // Build response with auto-marking metadata
+    const question = String(parsed.question || "").slice(0, 500);
+    const markingCriteria = Array.isArray(parsed.markingCriteria)
+      ? parsed.markingCriteria.slice(0, 8).map((m) => String(m || "").slice(0, 200))
+      : [];
+    const modelAnswer = String(parsed.modelAnswer || "").slice(0, 800);
+    const tips = Array.isArray(parsed.tips)
+      ? parsed.tips.slice(0, 3).map((t) => String(t || "").slice(0, 150))
+      : [];
+
+    return {
+      question,
+      markingCriteria,
+      modelAnswer,
+      tips,
+      marked: false, // Client will pass answer for marking
+      aiMarking: null, // Will be populated after student submits answer
+    };
+  }
+
+  throw new Error(lastError || "Structure question generation failed");
+}
+
+app.post(
   "/api/admin/ai-lite/reset-quotas",
   authenticateToken,
   requireAdmin,
