@@ -6019,7 +6019,7 @@ function createParticleSystem() {
   }
 
   function rebuildParticles() {
-    const count = width < 760 ? 32 : 48;
+    const count = width < 760 ? 36 : 54;
     particles = new Array(count).fill(null).map(() => makeParticle());
   }
 
@@ -10206,6 +10206,7 @@ function _tpViewHTML() {
             <span id="tp-qty-display">3</span>
             <button class="tp-qty-btn" onclick="App.tpChangeQty(1)">+</button>
           </div>
+          <p class="tp-qty-help">If a topic has fewer questions, extra questions are pulled from other selected topics.</p>
         </div>
       </div>
       <div class="tp-topic-section">
@@ -10280,12 +10281,18 @@ function _tpRenderTopicGrid() {
         (_tp.type === "mixed" && qCount + weCount > 0);
       const checked = _tp.selected.has(t.id);
       const disabled = !available;
+      const meta =
+        _tp.type === "mcq"
+          ? `${qCount} MCQ`
+          : _tp.type === "structured"
+            ? `${weCount} structured`
+            : `${qCount + weCount} total`;
       return `<label class="tp-topic-chip ${checked ? "checked" : ""} ${disabled ? "disabled" : ""}"
       title="${disabled ? "No questions available for this paper type" : ""}">
       <input type="checkbox" ${checked ? "checked" : ""} ${disabled ? "disabled" : ""}
         onchange="App.tpToggleTopic('${t.id}', this.checked)">
       <span>${escapeHtml(t.title)}</span>
-      <small>${qCount}q ${weCount}we</small>
+      <small>${meta}</small>
     </label>`;
     })
     .join("");
@@ -10329,28 +10336,31 @@ function tpClearAll() {
 }
 
 function _tpUpdateCount() {
-  let total = 0;
-  _tp.selected.forEach((id) => {
-    const t = state.topics.get(id);
-    if (!t) return;
-    if (_tp.type === "mcq")
-      total += Math.min(_tp.qtyPerTopic, (t.quiz?.questions || []).length);
-    if (_tp.type === "structured")
-      total += Math.min(_tp.qtyPerTopic, (t.workedExamples || []).length);
-    if (_tp.type === "mixed") {
-      total += Math.min(
-        Math.ceil(_tp.qtyPerTopic / 2),
-        (t.quiz?.questions || []).length,
-      );
-      total += Math.min(
-        Math.floor(_tp.qtyPerTopic / 2),
-        (t.workedExamples || []).length,
-      );
-    }
-  });
+  const selectedTopics = Array.from(_tp.selected)
+    .map((id) => state.topics.get(id))
+    .filter(Boolean);
+
+  const target = _tp.qtyPerTopic * selectedTopics.length;
+  const totalAvailable = selectedTopics.reduce((sum, t) => {
+    const mcq = (t.quiz?.questions || []).length;
+    const structured = (t.workedExamples || []).length;
+    if (_tp.type === "mcq") return sum + mcq;
+    if (_tp.type === "structured") return sum + structured;
+    return sum + mcq + structured;
+  }, 0);
+
+  const total = Math.min(target, totalAvailable);
   const el = byId("tp-question-count");
   if (el)
     el.textContent = `${total} question${total !== 1 ? "s" : ""} · ${_tp.selected.size} topic${_tp.selected.size !== 1 ? "s" : ""}`;
+}
+
+function _tpShuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function _tpTakeUpTo(pool, count) {
+  return pool.splice(0, Math.max(0, count));
 }
 
 function tpGenerate() {
@@ -10374,52 +10384,112 @@ function tpGenerate() {
     mixed: "Mixed Practice Paper",
   };
 
-  // Build question bank
+  // Build question bank with fair per-topic caps and redistribution when some
+  // topics have fewer available questions.
   let questions = [];
-  let qNum = 1;
+  const selectedTopics = Array.from(_tp.selected)
+    .map((id) => state.topics.get(id))
+    .filter(Boolean);
+  const targetTotal = _tp.qtyPerTopic * selectedTopics.length;
 
-  _tp.selected.forEach((id) => {
-    const t = state.topics.get(id);
-    if (!t) return;
+  const topicPools = selectedTopics.map((t) => ({
+    topicTitle: t.title,
+    mcq: _tpShuffle(t.quiz?.questions || []),
+    structured: _tpShuffle(t.workedExamples || []),
+  }));
 
-    if (_tp.type === "mcq" || _tp.type === "mixed") {
-      const pool = [...(t.quiz?.questions || [])].sort(
-        () => Math.random() - 0.5,
-      );
-      const take =
-        _tp.type === "mixed" ? Math.ceil(_tp.qtyPerTopic / 2) : _tp.qtyPerTopic;
-      pool.slice(0, take).forEach((q) => {
-        questions.push({
+  if (_tp.type === "mcq" || _tp.type === "structured") {
+    const key = _tp.type === "mcq" ? "mcq" : "structured";
+    const firstPass = [];
+    const extras = [];
+
+    topicPools.forEach((pool) => {
+      const chosen = _tpTakeUpTo(pool[key], _tp.qtyPerTopic);
+      firstPass.push(...chosen.map((item) => ({ topicTitle: pool.topicTitle, item })));
+      extras.push(...pool[key].map((item) => ({ topicTitle: pool.topicTitle, item })));
+    });
+
+    const need = Math.max(0, targetTotal - firstPass.length);
+    const extraPicked = need > 0 ? _tpTakeUpTo(_tpShuffle(extras), need) : [];
+    const combined = [...firstPass, ...extraPicked];
+
+    questions = combined.map((entry) => {
+      if (_tp.type === "mcq") {
+        return {
           type: "mcq",
-          topicTitle: t.title,
-          q: q.q,
-          opts: q.opts,
-          ans: q.ans,
-          exp: q.exp,
-          num: qNum++,
-        });
-      });
-    }
+          topicTitle: entry.topicTitle,
+          q: entry.item.q,
+          opts: entry.item.opts,
+          ans: entry.item.ans,
+          exp: entry.item.exp,
+        };
+      }
+      return {
+        type: "structured",
+        topicTitle: entry.topicTitle,
+        q: entry.item.q,
+        steps: entry.item.steps,
+      };
+    });
+  }
 
-    if (_tp.type === "structured" || _tp.type === "mixed") {
-      const pool = [...(t.workedExamples || [])].sort(
-        () => Math.random() - 0.5,
+  if (_tp.type === "mixed") {
+    const firstPass = [];
+    const extras = [];
+
+    topicPools.forEach((pool) => {
+      const takeMcqBase = Math.ceil(_tp.qtyPerTopic / 2);
+      const takeStructuredBase = Math.floor(_tp.qtyPerTopic / 2);
+
+      const chosenMcq = _tpTakeUpTo(pool.mcq, takeMcqBase);
+      const chosenStructured = _tpTakeUpTo(pool.structured, takeStructuredBase);
+
+      let used = chosenMcq.length + chosenStructured.length;
+      if (used < _tp.qtyPerTopic) {
+        const topUpMcq = _tpTakeUpTo(pool.mcq, _tp.qtyPerTopic - used);
+        used += topUpMcq.length;
+        const topUpStructured =
+          used < _tp.qtyPerTopic
+            ? _tpTakeUpTo(pool.structured, _tp.qtyPerTopic - used)
+            : [];
+        chosenMcq.push(...topUpMcq);
+        chosenStructured.push(...topUpStructured);
+      }
+
+      firstPass.push(
+        ...chosenMcq.map((item) => ({ type: "mcq", topicTitle: pool.topicTitle, item })),
+        ...chosenStructured.map((item) => ({ type: "structured", topicTitle: pool.topicTitle, item })),
       );
-      const take =
-        _tp.type === "mixed"
-          ? Math.floor(_tp.qtyPerTopic / 2)
-          : _tp.qtyPerTopic;
-      pool.slice(0, take).forEach((we) => {
-        questions.push({
-          type: "structured",
-          topicTitle: t.title,
-          q: we.q,
-          steps: we.steps,
-          num: qNum++,
-        });
-      });
-    }
-  });
+
+      extras.push(
+        ...pool.mcq.map((item) => ({ type: "mcq", topicTitle: pool.topicTitle, item })),
+        ...pool.structured.map((item) => ({ type: "structured", topicTitle: pool.topicTitle, item })),
+      );
+    });
+
+    const need = Math.max(0, targetTotal - firstPass.length);
+    const extraPicked = need > 0 ? _tpTakeUpTo(_tpShuffle(extras), need) : [];
+    const combined = [...firstPass, ...extraPicked];
+
+    questions = combined.map((entry) => {
+      if (entry.type === "mcq") {
+        return {
+          type: "mcq",
+          topicTitle: entry.topicTitle,
+          q: entry.item.q,
+          opts: entry.item.opts,
+          ans: entry.item.ans,
+          exp: entry.item.exp,
+        };
+      }
+      return {
+        type: "structured",
+        topicTitle: entry.topicTitle,
+        q: entry.item.q,
+        steps: entry.item.steps,
+      };
+    });
+  }
 
   if (!questions.length) {
     showToast("No questions available for the selected configuration");
@@ -10427,9 +10497,7 @@ function tpGenerate() {
   }
 
   // Shuffle the whole paper
-  questions = questions
-    .sort(() => Math.random() - 0.5)
-    .map((q, i) => ({ ...q, num: i + 1 }));
+  questions = _tpShuffle(questions).map((q, i) => ({ ...q, num: i + 1 }));
 
   // Render paper
   _tp._questions = questions; // store for reshuffle
