@@ -5202,6 +5202,7 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
     if (effectiveMode === "flashcards" && Array.isArray(item.data?.cards)) {
       item.data.cards = item.data.cards.slice(0, requestedCount);
     }
+    // Allow multiple generated blocks per mode (quiz/flashcards)
     state.myStuff = Array.isArray(state.myStuff) ? [item, ...state.myStuff] : [item];
     saveMyStuffItems();
     hideAiLoading();
