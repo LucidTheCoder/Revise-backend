@@ -1,3 +1,29 @@
+// Hide Manage tab if not admin
+function updateManageTabVisibility() {
+  const manageTab = document.getElementById("nav-group-manage");
+  const user = auth.user;
+  if (!manageTab) return;
+  if (user && user.role === "admin") {
+    manageTab.style.display = "";
+  } else {
+    manageTab.style.display = "none";
+  }
+}
+
+// Call on page load and after login/logout
+document.addEventListener("DOMContentLoaded", updateManageTabVisibility);
+
+// Patch into auth.set and auth.clear
+const _authSet = auth.set;
+auth.set = function(token, user) {
+  _authSet.call(this, token, user);
+  updateManageTabVisibility();
+};
+const _authClear = auth.clear;
+auth.clear = function() {
+  _authClear.call(this);
+  updateManageTabVisibility();
+};
 // ============================================================================
 // BACKEND API CONFIGURATION
 // ============================================================================
@@ -5300,7 +5326,11 @@ async function myStuffGenerateStructure() {
 
 function startMyStuffQuiz(itemId) {
   const item = (state.myStuff || []).find((x) => x.id === itemId && x.mode === "quiz");
-  if (!item) return;
+  if (!item) {
+    showToast("This quiz set has been removed or cleared.");
+    renderMyStuff();
+    return;
+  }
   const questions = (Array.isArray(item.data?.questions) ? item.data.questions : [])
     .slice(0, 5)
     .map((q) => ({
@@ -5330,7 +5360,11 @@ function startMyStuffFlashcards(itemId) {
   const item = (state.myStuff || []).find(
     (x) => x.id === itemId && x.mode === "flashcards",
   );
-  if (!item) return;
+  if (!item) {
+    showToast("This flashcard deck has been removed or cleared.");
+    renderMyStuff();
+    return;
+  }
   const cards = (Array.isArray(item.data?.cards) ? item.data.cards : [])
     .slice(0, 8)
     .map((c) => ({ q: String(c.front || ""), a: String(c.back || "") }));
