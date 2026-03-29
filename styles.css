@@ -9544,17 +9544,29 @@ body {
   height: 100%;
 }
 
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+}
+
 body {
   min-height: 100vh;
   height: 100vh;
   overflow: hidden !important;
 }
 
-main {
+.page-container > main {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.page-container > .site-footer {
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .view,
@@ -9580,8 +9592,9 @@ body[data-view="topic"] #view-topic.view.active {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   align-items: stretch;
+  flex: 1 1 auto;
   height: 100%;
-  min-height: 0;
+  min-height: 100%;
   overflow: hidden;
 }
 
@@ -9601,7 +9614,11 @@ body[data-view="topic"] #view-topic.view.active {
 
 .subject-main,
 .topic-main {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  flex: 1 1 auto;
+  align-self: stretch;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;

@@ -152,7 +152,8 @@
     </div>
 
     <canvas id="ambient-particles" aria-hidden="true"></canvas>
-    <nav class="nav" id="main-nav">
+    <div class="page-container">
+      <nav class="nav" id="main-nav">
       <button class="nav-logo" data-route="home">Revise<span>.</span></button>
       <div class="nav-search">
         <svg
@@ -234,9 +235,9 @@
           <span></span><span></span><span></span>
         </button>
       </div>
-    </nav>
+      </nav>
 
-    <main>
+      <main>
       <section class="view active" id="view-home">
         <div class="container page-pad">
           <!-- HERO -->
@@ -1492,7 +1493,7 @@ as a JSON array. Each item must have:
           <div id="confidence-map-grid"></div>
         </div>
       </section>
-    </main>
+      </main>
 
     <div id="toast-root"></div>
     <script>
@@ -1519,13 +1520,14 @@ as a JSON array. Each item must have:
         document.body.appendChild(warning);
       })();
     </script>
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <span class="footer-brand">Revise<strong>.</strong></span>
-        <span class="footer-copy">© 2025 Revise. All rights reserved.</span>
-        <span class="footer-version">v1.3.0</span>
-      </div>
-    </footer>
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <span class="footer-brand">Revise<strong>.</strong></span>
+          <span class="footer-copy">© 2025 Revise. All rights reserved.</span>
+          <span class="footer-version">v1.3.0</span>
+        </div>
+      </footer>
+    </div>
 
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script type="module" src="app.js?v=2026-03-28-2"></script>
