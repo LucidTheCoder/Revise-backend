@@ -182,6 +182,8 @@ const state = {
   streak: 0,
   xp: 0,
   weeklyMinutes: [0, 0, 0, 0, 0, 0, 0],
+  myStuff: [],
+  myStuffTopicId: null,
 };
 
 const doneStorageKey = "revise.doneTopics";
@@ -195,6 +197,7 @@ const streakKey = "revise.streak";
 const streakDateKey = "revise.streakDate";
 const lastVisitedKey = "revise.lastVisited"; // {topicId: timestamp}
 const themeKey = "revise.theme";
+const myStuffStorageKey = "revise.mystuff";
 
 const auth = {
   get token() {
@@ -3324,8 +3327,6 @@ function renderTopicView(topicId) {
           <button class="pill-btn ai-quick" onclick="App.aiQuick('${topic.id}','quiz')">Test me</button>
           <button class="pill-btn ai-quick" onclick="App.aiQuick('${topic.id}','mistake')">Common mistakes</button>
           <button class="pill-btn ai-quick" onclick="App.aiQuick('${topic.id}','exam')">Exam tips</button>
-          <button class="pill-btn ai-quick" onclick="App.generateAiLiteQuiz('${topic.id}')">Generate 5 Questions</button>
-          <button class="pill-btn ai-quick" onclick="App.generateAiLiteFlashcards('${topic.id}')">Generate 8 Flashcards</button>
         </div>`
             : ""
         }
@@ -4665,6 +4666,205 @@ function aiQuick(topicId, type) {
   askAi(topicId);
 }
 
+function loadMyStuffItems() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(myStuffStorageKey) || "[]");
+    if (!Array.isArray(raw)) return [];
+    return raw.slice(0, 100);
+  } catch {
+    return [];
+  }
+}
+
+function saveMyStuffItems() {
+  localStorage.setItem(
+    myStuffStorageKey,
+    JSON.stringify((state.myStuff || []).slice(0, 100)),
+  );
+}
+
+function formatMyStuffDate(ts) {
+  try {
+    return new Date(ts).toLocaleString();
+  } catch {
+    return "";
+  }
+}
+
+function renderMyStuff() {
+  const root = byId("mystuff-root");
+  if (!root) return;
+
+  if (!auth.isLoggedIn) {
+    root.innerHTML = `
+      <div class="card mystuff-empty">
+        <h3>Sign in to use MyStuff</h3>
+        <p>Generate and save custom questions/flashcards in one place.</p>
+        <button class="btn btn-primary" onclick="App.openAuthModal('login')">Sign In</button>
+      </div>`;
+    return;
+  }
+
+  const topicRows = [...state.topics.values()]
+    .sort((a, b) => String(a.title || "").localeCompare(String(b.title || "")))
+    .map((t) => ({
+      id: t.id,
+      label: `${t.title} (${String(t.subject || "").toUpperCase()})`,
+    }));
+
+  if (!topicRows.length) {
+    root.innerHTML = '<div class="card mystuff-empty"><p>No topics loaded yet.</p></div>';
+    return;
+  }
+
+  if (!state.myStuffTopicId || !topicRows.some((t) => t.id === state.myStuffTopicId)) {
+    state.myStuffTopicId = state.currentTopic || topicRows[0].id;
+  }
+
+  const items = [...(state.myStuff || [])].sort(
+    (a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0),
+  );
+
+  const rowsHtml = items.length
+    ? items
+        .map((item) => {
+          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${item.mode === "quiz" ? "Questions" : "Flashcards"}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div>`;
+          const quota = item.quota
+            ? `<p class="mystuff-meta">Daily ${item.quota.dailyRemaining}/${item.quota.dailyMax} · Topic ${item.quota.topicRemaining}/${item.quota.topicMax}${item.fallback ? " · Fallback" : ""}</p>`
+            : "";
+
+          if (item.mode === "quiz") {
+            const qs = Array.isArray(item.data?.questions) ? item.data.questions : [];
+            const qHtml = qs
+              .map((q, i) => {
+                const opts = (Array.isArray(q.options) ? q.options : [])
+                  .map((o, idx) => `<li>${String.fromCharCode(65 + idx)}. ${escapeHtml(String(o || ""))}</li>`)
+                  .join("");
+                const ans = String.fromCharCode(65 + Math.max(0, Math.min(3, Number(q.answerIndex || 0))));
+                return `<div class="mystuff-qa"><p><strong>Q${i + 1}.</strong> ${escapeHtml(String(q.question || ""))}</p><ul>${opts}</ul><p class="mystuff-answer">Answer: ${ans} · ${escapeHtml(String(q.explanation || ""))}</p></div>`;
+              })
+              .join("");
+            return `<article class="card mystuff-item">${head}${quota}${qHtml}</article>`;
+          }
+
+          const cards = Array.isArray(item.data?.cards) ? item.data.cards : [];
+          const cHtml = cards
+            .map(
+              (c, i) => `<div class="mystuff-card"><p><strong>Card ${i + 1}:</strong> ${escapeHtml(String(c.front || ""))}</p><p>${escapeHtml(String(c.back || ""))}</p></div>`,
+            )
+            .join("");
+          return `<article class="card mystuff-item">${head}${quota}${cHtml}</article>`;
+        })
+        .join("")
+    : '<div class="card mystuff-empty"><p>No generated content yet. Generate your first set below.</p></div>';
+
+  root.innerHTML = `
+    <div class="card mystuff-controls">
+      <label>
+        Topic
+        <select id="mystuff-topic-select" onchange="App.setMyStuffTopic(this.value)">
+          ${topicRows
+            .map(
+              (t) => `<option value="${escapeHtml(t.id)}" ${t.id === state.myStuffTopicId ? "selected" : ""}>${escapeHtml(t.label)}</option>`,
+            )
+            .join("")}
+        </select>
+      </label>
+      <div class="mystuff-actions">
+        <button class="btn btn-primary" id="mystuff-gen-quiz" onclick="App.myStuffGenerate('quiz')">Generate 5 Questions</button>
+        <button class="btn btn-outline" id="mystuff-gen-flash" onclick="App.myStuffGenerate('flashcards')">Generate 8 Flashcards</button>
+        <button class="btn btn-ghost" onclick="App.clearMyStuff()">Clear All</button>
+      </div>
+      <p id="mystuff-status" class="mystuff-status"></p>
+    </div>
+    <div class="mystuff-list">${rowsHtml}</div>
+  `;
+}
+
+function setMyStuffTopic(topicId) {
+  state.myStuffTopicId = topicId;
+}
+
+async function myStuffGenerate(mode, forcedTopicId = null) {
+  if (!auth.isLoggedIn) {
+    openAuthModal("login");
+    return;
+  }
+
+  const topicId = forcedTopicId || state.myStuffTopicId || state.currentTopic;
+  const topic = state.topics.get(topicId);
+  if (!topic) {
+    showToast("Select a valid topic first.");
+    return;
+  }
+
+  const statusEl = byId("mystuff-status");
+  const quizBtn = byId("mystuff-gen-quiz");
+  const flashBtn = byId("mystuff-gen-flash");
+  if (statusEl)
+    statusEl.textContent =
+      mode === "quiz" ? "Generating custom questions..." : "Generating custom flashcards...";
+  if (quizBtn) quizBtn.disabled = true;
+  if (flashBtn) flashBtn.disabled = true;
+
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/ai-lite/${mode === "quiz" ? "quiz" : "flashcards"}`,
+      {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({
+          topicId,
+          topicTitle: topic.title || topicId,
+          subjectId: topic.subject || state.currentSubject || "general",
+          context: buildAiContext(topic),
+        }),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      if (statusEl) statusEl.textContent = data.error || "Could not generate right now.";
+      return;
+    }
+
+    const item = {
+      id: `ms_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      mode,
+      topicId,
+      topicTitle: topic.title || topicId,
+      subjectId: topic.subject || "general",
+      data: data.data,
+      quota: data.quota || null,
+      fallback: !!data.fallback,
+      createdAt: Date.now(),
+    };
+    state.myStuff = Array.isArray(state.myStuff) ? [item, ...state.myStuff] : [item];
+    saveMyStuffItems();
+    renderMyStuff();
+    if (statusEl)
+      statusEl.textContent = data.fallback
+        ? "Saved to MyStuff (fallback mode)."
+        : "Saved to MyStuff.";
+  } catch {
+    if (statusEl) statusEl.textContent = "Network error while generating content.";
+  } finally {
+    if (quizBtn) quizBtn.disabled = false;
+    if (flashBtn) flashBtn.disabled = false;
+  }
+}
+
+function removeMyStuffItem(itemId) {
+  state.myStuff = (state.myStuff || []).filter((item) => item.id !== itemId);
+  saveMyStuffItems();
+  renderMyStuff();
+}
+
+function clearMyStuff() {
+  state.myStuff = [];
+  saveMyStuffItems();
+  renderMyStuff();
+}
+
 function formatAiLiteQuizText(payload) {
   const arr = Array.isArray(payload?.questions) ? payload.questions : [];
   if (!arr.length) return "No quiz questions were generated.";
@@ -4779,11 +4979,13 @@ async function _runAiLite(topicId, mode) {
 }
 
 async function generateAiLiteQuiz(topicId) {
-  await _runAiLite(topicId, "quiz");
+  go("mystuff", { topicId });
+  await myStuffGenerate("quiz", topicId);
 }
 
 async function generateAiLiteFlashcards(topicId) {
-  await _runAiLite(topicId, "flashcards");
+  go("mystuff", { topicId });
+  await myStuffGenerate("flashcards", topicId);
 }
 
 async function askAi(topicId) {
@@ -5427,6 +5629,7 @@ async function init() {
     await loadData();
 
     loaderStep("Setting up interface…", 70);
+    state.myStuff = loadMyStuffItems();
     bindBaseEvents();
     updateNavForAuth();
     applyAiVisibility();
@@ -8838,6 +9041,10 @@ function go(viewName, payload = {}) {
     initSocket();
   }
   if (viewName === "profile") renderProfile();
+  if (viewName === "mystuff") {
+    if (payload.topicId) state.myStuffTopicId = payload.topicId;
+    renderMyStuff();
+  }
   if (viewName === "confidence-map") {
     renderConfidenceMap();
   }
@@ -8867,6 +9074,7 @@ function go(viewName, payload = {}) {
     quiz: "mbn-notes",
     flash: "mbn-notes",
     community: "mbn-social",
+    mystuff: "mbn-profile",
     profile: "mbn-profile",
   };
   document
@@ -11242,6 +11450,11 @@ const App = {
   selectChannel,
   askAi,
   aiQuick,
+  renderMyStuff,
+  myStuffGenerate,
+  setMyStuffTopic,
+  removeMyStuffItem,
+  clearMyStuff,
   generateAiLiteQuiz,
   generateAiLiteFlashcards,
   showToast,

@@ -7549,6 +7549,146 @@ html {
   }
 }
 
+  /* ==========================================================================
+     MYSTUFF — custom generated questions/flashcards
+     ========================================================================== */
+
+  .mystuff-controls {
+    display: grid;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .mystuff-controls label {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.84rem;
+    color: var(--text2);
+  }
+
+  .mystuff-controls select {
+    width: 100%;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    background: var(--bg3);
+    color: var(--text1);
+    padding: 0.55rem 0.7rem;
+    font-family: inherit;
+    font-size: 0.88rem;
+  }
+
+  .mystuff-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .mystuff-status {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text3);
+  }
+
+  .mystuff-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .mystuff-item {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .mystuff-item-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .mystuff-item-head strong {
+    font-size: 0.92rem;
+  }
+
+  .mystuff-item-head small {
+    color: var(--text3);
+    margin-left: auto;
+  }
+
+  .mystuff-badge {
+    border: 1px solid var(--border2);
+    border-radius: 999px;
+    padding: 0.18rem 0.5rem;
+    font-size: 0.7rem;
+    color: var(--text2);
+    background: var(--surface2);
+  }
+
+  .mystuff-badge.quiz {
+    border-color: color-mix(in srgb, var(--accent), transparent 35%);
+    color: var(--accent);
+  }
+
+  .mystuff-badge.flashcards {
+    border-color: color-mix(in srgb, #f59e0b, transparent 30%);
+    color: #f59e0b;
+  }
+
+  .mystuff-meta {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text3);
+  }
+
+  .mystuff-qa,
+  .mystuff-card {
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    background: var(--surface2);
+    padding: 0.6rem 0.7rem;
+  }
+
+  .mystuff-qa p,
+  .mystuff-card p {
+    margin: 0.15rem 0;
+    line-height: 1.45;
+  }
+
+  .mystuff-qa ul {
+    margin: 0.35rem 0 0.35rem 1.1rem;
+    padding: 0;
+    display: grid;
+    gap: 0.18rem;
+  }
+
+  .mystuff-answer {
+    font-size: 0.82rem;
+    color: var(--text2);
+  }
+
+  .mystuff-empty {
+    text-align: center;
+    display: grid;
+    gap: 0.65rem;
+    justify-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .mystuff-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .mystuff-actions .btn {
+      width: 100%;
+    }
+
+    .mystuff-item-head small {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
 /* Group chat messages — bubble style */
 .social-msg {
   display: flex;
