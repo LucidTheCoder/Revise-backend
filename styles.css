@@ -9563,6 +9563,7 @@ body {
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-bottom: 0 !important;
 }
 
 .page-container > .site-footer {
@@ -9590,10 +9591,19 @@ body[data-view="topic"] #view-topic.view.active {
   min-height: 0;
 }
 
+#view-subject.view.active,
+#view-topic.view.active {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .subject-layout {
   display: flex;
   align-items: stretch;
   flex: 1 1 auto;
+  height: 100%;
   min-height: 0;
   overflow: hidden;
 }
@@ -9648,6 +9658,10 @@ body[data-view="topic"] #view-topic.view.active {
     height: auto;
   }
 
+  .page-container > main {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+  }
+
   .subject-layout {
     display: block;
     height: auto;
@@ -9680,6 +9694,12 @@ body[data-view="topic"] #view-topic.view.active {
     min-height: calc(100dvh - 52px - 64px);
     overflow-y: visible;
     padding: 1rem;
+  }
+}
+
+@media (max-width: 812px) and (max-height: 480px) and (orientation: landscape) {
+  .page-container > main {
+    padding-bottom: 0 !important;
   }
 }
 .add-paper-grid {
