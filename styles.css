@@ -28,6 +28,9 @@
   --font-head: "Crimson Pro", Georgia, serif;
   --font-body: "DM Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+  --text1: var(--text);
+  --surface2: color-mix(in srgb, var(--bg3), var(--bg2) 38%);
+  --font-sans: var(--font-body);
 }
 
 [data-theme="light"] {
@@ -122,7 +125,7 @@ select {
   border: 1px solid var(--border2);
   border-radius: 12px;
   background: var(--bg3);
-  color: var(--text1);
+  color: var(--text);
   padding: 0.62rem 2.2rem 0.62rem 0.78rem;
   font-family: inherit;
   font-size: 0.9rem;
@@ -140,6 +143,12 @@ select {
     border-color 140ms ease,
     box-shadow 140ms ease,
     background-color 140ms ease;
+}
+
+input,
+select,
+textarea {
+  line-height: 1.35;
 }
 
 select:hover {
@@ -358,7 +367,7 @@ p {
 .goal-actions .btn {
   flex: 1;
   min-width: 140px;
-  padding: 0.1rem 1.2rem;
+  padding: 0.55rem 1.2rem;
 }
 
 .btn:hover {
@@ -487,6 +496,7 @@ p {
   align-items: center;
   gap: 0.8rem;
   margin-bottom: 0.55rem;
+  text-align: left;
   background: color-mix(in srgb, var(--bg2), var(--bg3) 20%);
   transition:
     transform 0.15s ease,
@@ -540,6 +550,14 @@ p {
 .continue-item span:first-child {
   min-width: 0;
   flex: 1;
+  display: block;
+  text-align: left;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.continue-item .badge {
+  flex-shrink: 0;
 }
 
 .continue-item strong {
