@@ -3809,9 +3809,9 @@ textarea:focus-visible {
   font-size: 1.15rem;
 }
 
-/* Continue item — accent left border on hover */
+/* Continue item — keep a visible left edge; accent on hover */
 .continue-item {
-  border-left: 3px solid transparent;
+  border-left: 1px solid var(--border);
   transition:
     border-color 0.18s ease,
     background 0.18s ease,
@@ -7944,18 +7944,10 @@ html {
   border-top: 1px solid var(--border);
   flex-shrink: 0;
 }
+
 .social-compose input {
-body[data-view="community"] .social-chat-layout,
-body[data-view="community"] .social-chat-main,
-body[data-view="community"] .social-panel {
-  min-height: 0;
-}
-body[data-view="community"] .social-compose {
-  position: sticky;
-  bottom: 0;
-  z-index: 3;
-}
   flex: 1;
+  min-width: 0;
   background: var(--bg3);
   border: 1px solid var(--border);
   border-radius: var(--radius2);
@@ -7966,8 +7958,21 @@ body[data-view="community"] .social-compose {
   transition: border-color 0.15s;
   font-family: inherit;
 }
+
 .social-compose input:focus {
   border-color: var(--accent);
+}
+
+body[data-view="community"] .social-chat-layout,
+body[data-view="community"] .social-chat-main,
+body[data-view="community"] .social-panel {
+  min-height: 0;
+}
+
+body[data-view="community"] .social-compose {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
 }
 
 .social-send-btn {
@@ -10466,5 +10471,151 @@ body[data-view="topic"] #view-topic.view.active {
   }
   .home-right-col {
     position: static;
+  }
+}
+
+/* ============================================================================
+   FINAL MOBILE STABILITY OVERRIDES (MyStuff + Social + Topic Cards)
+   ============================================================================ */
+
+.continue-item {
+  text-align: left;
+}
+
+.continue-item > span:first-child {
+  display: block;
+  text-align: left;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+@media (max-width: 760px) {
+  #view-mystuff .container {
+    width: min(100%, 100% - 0.9rem);
+  }
+
+  #view-mystuff .card,
+  #view-community .card {
+    padding: 0.85rem;
+    border-radius: 12px;
+  }
+
+  .mystuff-item-head {
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .mystuff-item-head strong {
+    width: 100%;
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+
+  .mystuff-item-head small {
+    font-size: 0.75rem;
+    width: 100%;
+  }
+
+  .mystuff-qa,
+  .mystuff-card {
+    padding: 0.7rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mystuff-qa ol,
+  .mystuff-card ol,
+  .mystuff-qa ul {
+    margin-left: 1rem;
+    gap: 0.35rem;
+  }
+
+  .mystuff-qa li,
+  .mystuff-card li {
+    line-height: 1.45;
+  }
+
+  .mystuff-item-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .mystuff-item-actions .btn {
+    flex: 1 1 calc(50% - 0.25rem);
+    min-height: 38px;
+    font-size: 0.76rem;
+    padding: 0.48rem 0.56rem;
+  }
+
+  .social-chat-layout,
+  .social-two-col {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+  }
+
+  .social-col-left,
+  .social-channels {
+    max-height: 34vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .social-col-left,
+  .social-col-right,
+  .social-chat-header,
+  .social-messages,
+  .social-compose {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+  }
+
+  .social-messages {
+    max-height: 42vh;
+  }
+
+  .social-msg,
+  .social-msg.self,
+  .social-msg:not(.self) {
+    max-width: 100%;
+  }
+
+  .social-msg-bubble {
+    font-size: 0.84rem;
+    line-height: 1.4;
+    padding: 0.45rem 0.65rem;
+  }
+
+  .social-compose {
+    position: sticky;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    background: var(--bg2);
+    z-index: 12;
+  }
+
+  .social-compose input {
+    min-height: 38px;
+    font-size: 0.86rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mystuff-mode-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .mystuff-actions .btn,
+  .mystuff-item-actions .btn {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .social-col-left,
+  .social-channels {
+    max-height: 30vh;
+  }
+
+  .social-messages {
+    max-height: 46vh;
   }
 }
