@@ -528,14 +528,38 @@ const createGroupChat = (name, creatorId, memberIds) =>
   GroupChat.create({
     name,
     createdBy: creatorId,
-    members: [creatorId, ...memberIds],
+    members: [...new Set([creatorId, ...(Array.isArray(memberIds) ? memberIds : [])].map((id) => id.toString()))],
   });
 const getUserGroupChats = (userId) =>
   GroupChat.find({ members: userId }).sort({ updatedAt: -1 }).lean();
+const getGroupChatById = (chatId) => GroupChat.findById(chatId).lean();
+const addMembersToGroupChat = (chatId, memberIds) =>
+  GroupChat.findByIdAndUpdate(
+    chatId,
+    { $addToSet: { members: { $each: memberIds || [] } } },
+    { new: true },
+  ).lean();
 const getGroupMessages = (chatId, limit = 50) =>
   GroupMessage.find({ chatId }).sort({ createdAt: -1 }).limit(limit).lean();
 const addGroupMessage = (chatId, authorId, authorName, text) =>
   GroupMessage.create({ chatId, authorId, authorName, text });
+
+const areUsersFriends = async (userA, userB) => {
+  if (!userA || !userB) return false;
+  const a = userA.toString();
+  const b = userB.toString();
+  if (a === b) return true;
+  const relation = await FriendRequest.findOne({
+    status: "accepted",
+    $or: [
+      { from: userA, to: userB },
+      { from: userB, to: userA },
+    ],
+  })
+    .select("_id")
+    .lean();
+  return !!relation;
+};
 
 // Curriculum subjects metadata
 const getCurriculumSubjects = async () => {
@@ -594,9 +618,12 @@ module.exports = {
   getFriendRequests,
   getFriends,
   createGroupChat,
+  getGroupChatById,
+  addMembersToGroupChat,
   getUserGroupChats,
   getGroupMessages,
   addGroupMessage,
+  areUsersFriends,
   getCurriculumSubjects,
   upsertCurriculumSubjects,
 };

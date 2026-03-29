@@ -5393,14 +5393,27 @@ async function _gifSearch(q) {
         grid.innerHTML = '<p class="gif-hint">No GIFs found.</p>';
         return;
       }
-      grid.innerHTML = data.data
+      const safe = (data.data || []).filter((g) => g?.url && g?.preview);
+      if (!safe.length) {
+        grid.innerHTML = '<p class="gif-hint">No GIFs found.</p>';
+        return;
+      }
+      grid.innerHTML = safe
         .map(
-          (g) =>
-            `<button class="gif-item" onclick="App._gifInsert('${escapeHtml(g.url)}','${escapeHtml(g.title || "GIF")}')" title="${escapeHtml(g.title || "GIF")}">
+          (g, i) =>
+            `<button class="gif-item" data-gif-idx="${i}" title="${escapeHtml(g.title || "GIF")}">
           <img src="${escapeHtml(g.preview)}" alt="${escapeHtml(g.title || "GIF")}" loading="lazy">
         </button>`,
         )
         .join("");
+      grid.querySelectorAll(".gif-item").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const idx = Number(btn.getAttribute("data-gif-idx"));
+          const picked = safe[idx];
+          if (!picked?.url) return;
+          App._gifInsert(picked.url, picked.title || "GIF");
+        });
+      });
     } catch {
       grid.innerHTML = '<p class="gif-hint">Could not load GIFs.</p>';
     }
@@ -6512,6 +6525,10 @@ function initSocket() {
       if (msg.channelId !== state.selectedChannelId) return;
       appendChatMessage(msg);
       scrollChatToBottom();
+    });
+
+    socket.on("message_rejected", (payload) => {
+      showToast(payload?.reason || "Message blocked by moderation.");
     });
 
     socket.on("channel_users", (count) => {
@@ -9568,6 +9585,7 @@ async function openGroupChat(groupId, groupName) {
 
   const nameEl = byId("social-group-name");
   if (nameEl) nameEl.textContent = `# ${groupName}`;
+  _injectGroupInviteButton();
 
   const compose = byId("social-group-compose");
   if (compose) {
@@ -9616,6 +9634,19 @@ async function openGroupChat(groupId, groupName) {
   }
 }
 
+function _injectGroupInviteButton() {
+  const header = document.querySelector("#social-group-main .social-chat-header");
+  if (!header) return;
+  header.querySelector(".social-group-invite-btn")?.remove();
+  if (!auth.isLoggedIn || !_socialState.activeGroup?._id) return;
+
+  const btn = document.createElement("button");
+  btn.className = "btn btn-outline btn-sm social-group-invite-btn";
+  btn.textContent = "+ Add Friends";
+  btn.onclick = openAddGroupMembersModal;
+  header.appendChild(btn);
+}
+
 function _buildGroupMsgEl(m) {
   const isSelf = m.authorId?.toString?.() === auth.user?._id?.toString?.();
   const time = m.createdAt
@@ -9657,6 +9688,8 @@ async function sendGroupMessage() {
         msgs.innerHTML += _buildGroupMsgEl(data.data);
         msgs.scrollTop = msgs.scrollHeight;
       }
+    } else {
+      showToast(data.error || "Could not send message");
     }
   } catch {
     showToast("Could not send message");
@@ -9665,6 +9698,16 @@ async function sendGroupMessage() {
 
 // New group modal
 function openNewGroupModal() {
+  const friendChoices = (_socialState.friends || [])
+    .map(
+      (f) => `
+      <label class="social-inline-check">
+        <input type="checkbox" name="ng-members" value="${escapeHtml(f._id)}">
+        <span>${escapeHtml(f.name)}</span>
+      </label>`,
+    )
+    .join("");
+
   byId("new-group-modal")?.remove();
   const modal = document.createElement("div");
   modal.id = "new-group-modal";
@@ -9686,6 +9729,10 @@ function openNewGroupModal() {
         "
         onfocus="this.style.borderColor='var(--accent)'"
         onblur="this.style.borderColor='var(--border2)'">
+      <label style="display:block;margin-bottom:0.45rem;font-size:0.85rem;color:var(--text2)">Invite friends (optional)</label>
+      <div class="social-member-picker" style="margin-bottom:1rem">
+        ${friendChoices || '<p class="social-muted">No friends yet. You can add people later.</p>'}
+      </div>
       <div style="display:flex;gap:0.6rem">
         <button class="btn btn-primary" onclick="App.createGroup()">Create Group</button>
         <button class="btn btn-outline" onclick="document.getElementById('new-group-modal').remove()">Cancel</button>
@@ -9701,6 +9748,9 @@ function openNewGroupModal() {
 
 async function createGroup() {
   const name = byId("ng-name")?.value.trim();
+  const memberIds = [...document.querySelectorAll('input[name="ng-members"]:checked')]
+    .map((el) => el.value)
+    .filter(Boolean);
   if (!name) {
     showToast("Enter a group name");
     return;
@@ -9709,7 +9759,7 @@ async function createGroup() {
     const res = await fetch(`${API_BASE_URL}/api/social/groups`, {
       method: "POST",
       headers: authHeaders(),
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ name, memberIds }),
     });
     const data = await res.json();
     if (data.success) {
@@ -9719,6 +9769,87 @@ async function createGroup() {
       _renderGroupList();
       openGroupChat(data.data._id, data.data.name);
     } else showToast(data.error || "Could not create group");
+  } catch {
+    showToast("Network error");
+  }
+}
+
+function openAddGroupMembersModal() {
+  if (!auth.isLoggedIn || !_socialState.activeGroup?._id) return;
+  const active = _socialState.groups.find(
+    (g) => g._id?.toString() === _socialState.activeGroup._id?.toString(),
+  );
+  const existing = new Set(
+    (active?.members || []).map((m) => m?.toString?.() || String(m)),
+  );
+  const candidates = (_socialState.friends || []).filter(
+    (f) => !existing.has(f._id?.toString()),
+  );
+
+  byId("add-group-members-modal")?.remove();
+  const modal = document.createElement("div");
+  modal.id = "add-group-members-modal";
+  modal.className = "social-modal-overlay";
+  modal.innerHTML = `
+    <div class="social-modal" role="dialog">
+      <button class="social-modal-close" onclick="document.getElementById('add-group-members-modal').remove()">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <h3 style="margin:0 0 0.65rem">Add Friends To Group</h3>
+      <div class="social-member-picker" style="margin-bottom:0.9rem">
+        ${
+          candidates.length
+            ? candidates
+                .map(
+                  (f) => `
+              <label class="social-inline-check">
+                <input type="checkbox" name="agm-members" value="${escapeHtml(f._id)}">
+                <span>${escapeHtml(f.name)}</span>
+              </label>`,
+                )
+                .join("")
+            : '<p class="social-muted">No eligible friends to add.</p>'
+        }
+      </div>
+      <div style="display:flex;gap:0.6rem">
+        <button class="btn btn-primary" onclick="App.addFriendsToActiveGroup()" ${candidates.length ? "" : "disabled"}>Add Selected</button>
+        <button class="btn btn-outline" onclick="document.getElementById('add-group-members-modal').remove()">Cancel</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.remove();
+  });
+  requestAnimationFrame(() => modal.classList.add("open"));
+}
+
+async function addFriendsToActiveGroup() {
+  if (!_socialState.activeGroup?._id) return;
+  const memberIds = [...document.querySelectorAll('input[name="agm-members"]:checked')]
+    .map((el) => el.value)
+    .filter(Boolean);
+  if (!memberIds.length) {
+    showToast("Select at least one friend.");
+    return;
+  }
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/social/groups/${_socialState.activeGroup._id}/members`,
+      {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({ memberIds }),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not add friends to group");
+      return;
+    }
+    byId("add-group-members-modal")?.remove();
+    showToast("Friends added to group");
+    await _initGroupsTab();
+    await openGroupChat(_socialState.activeGroup._id, _socialState.activeGroup.name);
   } catch {
     showToast("Network error");
   }
@@ -9971,6 +10102,8 @@ const App = {
   openGroupChat,
   sendGroupMessage,
   openNewGroupModal,
+  openAddGroupMembersModal,
+  addFriendsToActiveGroup,
   openMobileSidebar,
   closeMobileSidebar,
   openPaperUrl,

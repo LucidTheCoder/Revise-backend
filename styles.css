@@ -7598,6 +7598,43 @@ html {
   animation: socialModalIn 0.2s ease;
 }
 
+.social-member-picker {
+  max-height: 210px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg3), transparent 35%);
+  padding: 0.45rem;
+  display: grid;
+  gap: 0.38rem;
+}
+
+.social-inline-check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.42rem 0.55rem;
+  font-size: 0.85rem;
+  color: var(--text2);
+  background: var(--bg2);
+}
+
+.social-inline-check input {
+  accent-color: var(--accent);
+}
+
+.social-inline-check span {
+  color: var(--text);
+}
+
+.social-muted {
+  color: var(--text3);
+  font-size: 0.82rem;
+  padding: 0.3rem;
+}
+
 .social-modal-close {
   position: absolute;
   top: 0.85rem;

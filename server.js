@@ -70,6 +70,81 @@ const io = new Server(server, {
 // Track connected users per channel (channelId -> Set of socket info)
 const channelUsers = {};
 
+// ── Social moderation helpers ──────────────────────────────────────────────
+const MODERATED_WORDS = [
+  "fuck",
+  "shit",
+  "bitch",
+  "asshole",
+  "bastard",
+  "dick",
+  "pussy",
+  "slut",
+  "whore",
+  "nigga",
+  "nigger",
+  "faggot",
+  "retard",
+  "kys",
+];
+
+const HARD_BLOCK_WORDS = ["nigger", "faggot", "kys"];
+
+const SOCIAL_RATE_WINDOW_MS = 10_000;
+const SOCIAL_RATE_MAX = 8;
+const socialRateBucket = new Map(); // key -> timestamps[]
+
+function _normalizeModerationText(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function moderateSocialText(text) {
+  const source = String(text || "");
+  const normalized = _normalizeModerationText(source);
+  if (!normalized) return { allowed: true, sanitized: source, blocked: false };
+
+  for (const hard of HARD_BLOCK_WORDS) {
+    const re = new RegExp(`\\b${hard}\\b`, "i");
+    if (re.test(normalized)) {
+      return {
+        allowed: false,
+        blocked: true,
+        reason: "Message blocked by moderation policy.",
+        sanitized: "",
+      };
+    }
+  }
+
+  let sanitized = source;
+  let changed = false;
+  for (const bad of MODERATED_WORDS) {
+    const re = new RegExp(`\\b${bad}\\b`, "gi");
+    if (re.test(sanitized)) {
+      changed = true;
+      sanitized = sanitized.replace(re, (m) => "*".repeat(Math.max(3, m.length)));
+    }
+  }
+
+  return { allowed: true, sanitized, blocked: false, changed };
+}
+
+function checkSocialRateLimit(key) {
+  const now = Date.now();
+  const entries = socialRateBucket.get(key) || [];
+  const fresh = entries.filter((t) => now - t < SOCIAL_RATE_WINDOW_MS);
+  if (fresh.length >= SOCIAL_RATE_MAX) {
+    socialRateBucket.set(key, fresh);
+    return false;
+  }
+  fresh.push(now);
+  socialRateBucket.set(key, fresh);
+  return true;
+}
+
 io.on("connection", (socket) => {
   // Join a group chat room
   socket.on("join_group", ({ groupId }) => {
@@ -124,7 +199,23 @@ io.on("connection", (socket) => {
         }
       }
 
-      const sanitized = text.trim().slice(0, 2000);
+      const rateKey = `chat:${verifiedUserId || socket.id}`;
+      if (!checkSocialRateLimit(rateKey)) {
+        socket.emit("message_rejected", {
+          reason: "You are sending messages too quickly. Please slow down.",
+        });
+        return;
+      }
+
+      const moderated = moderateSocialText(text.trim().slice(0, 2000));
+      if (!moderated.allowed) {
+        socket.emit("message_rejected", {
+          reason: moderated.reason || "Message blocked by moderation.",
+        });
+        return;
+      }
+
+      const sanitized = moderated.sanitized;
       const saved = await db.saveChatMessage({
         channelId,
         userId: verifiedUserId,
@@ -1100,9 +1191,17 @@ app.post("/api/community/forum", authenticateToken, async (req, res, next) => {
         .status(400)
         .json({ success: false, error: "Body too long (max 5000 chars)" });
 
+    const modTitle = moderateSocialText(title.trim());
+    const modBody = moderateSocialText(body.trim());
+    if (!modTitle.allowed || !modBody.allowed) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Post blocked by moderation policy." });
+    }
+
     const thread = await db.createForumThread({
-      title: title.trim(),
-      body: body.trim(),
+      title: modTitle.sanitized,
+      body: modBody.sanitized,
       subject,
       author: req.user.name,
       authorId: req.user._id,
@@ -1225,10 +1324,17 @@ app.post(
           .status(400)
           .json({ success: false, error: "Reply too long (max 2000 chars)" });
 
+      const modReply = moderateSocialText(body.trim());
+      if (!modReply.allowed) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Reply blocked by moderation policy." });
+      }
+
       const updated = await db.addForumReply(req.params.threadId, {
         author: req.user.name,
         authorId: req.user._id,
-        body: body.trim(),
+        body: modReply.sanitized,
       });
       res
         .status(201)
@@ -2669,16 +2775,79 @@ app.post("/api/social/groups", authenticateToken, async (req, res, next) => {
       return res.status(400).json({ success: false, error: "name required" });
     memberIds = Array.isArray(memberIds) ? memberIds : [];
     await db.touchLastActive(req.user._id);
+
+    const uniqueMemberIds = [...new Set(memberIds.map((id) => String(id)))].filter(
+      (id) => id && id !== req.user._id.toString(),
+    );
+
+    const approvedMemberIds = [];
+    for (const candidateId of uniqueMemberIds) {
+      const isFriend = await db.areUsersFriends(req.user._id, candidateId);
+      if (isFriend) approvedMemberIds.push(candidateId);
+    }
+
     const group = await db.createGroupChat(
       name.trim(),
       req.user._id,
-      memberIds,
+      approvedMemberIds,
     );
     res.status(201).json({ success: true, data: group });
   } catch (e) {
     next(e);
   }
 });
+
+// POST /api/social/groups/:groupId/members — add friends to group
+app.post(
+  "/api/social/groups/:groupId/members",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const group = await db.getGroupChatById(req.params.groupId);
+      if (!group) {
+        return res
+          .status(404)
+          .json({ success: false, error: "Group not found" });
+      }
+
+      const requesterId = req.user._id.toString();
+      const isMember = (group.members || []).map(String).includes(requesterId);
+      if (!isMember) {
+        return res
+          .status(403)
+          .json({ success: false, error: "Only group members can invite friends" });
+      }
+
+      const memberIds = Array.isArray(req.body.memberIds) ? req.body.memberIds : [];
+      if (!memberIds.length) {
+        return res
+          .status(400)
+          .json({ success: false, error: "memberIds is required" });
+      }
+
+      const existingIds = new Set((group.members || []).map((m) => m.toString()));
+      const toAdd = [];
+      for (const rawId of memberIds) {
+        const candidateId = String(rawId || "").trim();
+        if (!candidateId || existingIds.has(candidateId)) continue;
+        const isFriend = await db.areUsersFriends(req.user._id, candidateId);
+        if (isFriend) toAdd.push(candidateId);
+      }
+
+      if (!toAdd.length) {
+        return res.status(400).json({
+          success: false,
+          error: "No eligible friends to add.",
+        });
+      }
+
+      const updated = await db.addMembersToGroupChat(req.params.groupId, toAdd);
+      res.json({ success: true, data: updated });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
 
 // GET /api/social/groups/:groupId/messages — get messages
 app.get(
@@ -2726,12 +2895,28 @@ app.post(
       const text = (req.body.text || "").trim().slice(0, 2000);
       if (!text)
         return res.status(400).json({ success: false, error: "text required" });
+
+      const rateKey = `group:${req.user._id}:${req.params.groupId}`;
+      if (!checkSocialRateLimit(rateKey)) {
+        return res.status(429).json({
+          success: false,
+          error: "You are sending messages too quickly. Please slow down.",
+        });
+      }
+
+      const moderated = moderateSocialText(text);
+      if (!moderated.allowed) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Message blocked by moderation policy." });
+      }
+
       await db.touchLastActive(req.user._id);
       const msg = await db.addGroupMessage(
         req.params.groupId,
         req.user._id,
         req.user.name,
-        text,
+        moderated.sanitized,
       );
       // Emit to socket room
       io.to(`group:${req.params.groupId}`).emit("group_message", msg);
@@ -3091,14 +3276,33 @@ app.get("/api/tenor/search", optionalAuth, async (req, res, next) => {
     const r = await fetch(url);
     if (!r.ok) return res.json({ success: true, data: [] });
     const d = await r.json();
-    const gifs = (d.results || []).map((g) => ({
-      id: g.id,
-      title: g.title,
-      url: g.media_formats?.gif?.url || "",
-      preview: g.media_formats?.tinygif?.url || g.media_formats?.gif?.url || "",
-      width: g.media_formats?.gif?.dims?.[0] || 200,
-      height: g.media_formats?.gif?.dims?.[1] || 200,
-    }));
+    const gifs = (d.results || [])
+      .map((g) => {
+        const mf = g.media_formats || {};
+        const url =
+          mf.gif?.url ||
+          mf.mediumgif?.url ||
+          mf.tinygif?.url ||
+          mf.nanogif?.url ||
+          "";
+        const preview =
+          mf.tinygif?.url ||
+          mf.gifpreview?.url ||
+          mf.nanogif?.url ||
+          mf.tinymp4?.url ||
+          url;
+        const dims =
+          mf.gif?.dims || mf.mediumgif?.dims || mf.tinygif?.dims || [200, 200];
+        return {
+          id: g.id,
+          title: g.title || g.content_description || "GIF",
+          url,
+          preview,
+          width: dims?.[0] || 200,
+          height: dims?.[1] || 200,
+        };
+      })
+      .filter((g) => g.url);
     res.json({ success: true, data: gifs });
   } catch (e) {
     res.json({ success: true, data: [] });
