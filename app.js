@@ -5392,7 +5392,7 @@ const SOCIAL_EMOJI_CATEGORIES = [
       E("😜", "winking face with tongue"),
       E("🤪", "zany face"),
       E("🤔", "thinking face"),
-      E("🫡", "saluting face"),
+      E("😌", "relieved face"),
       E("😎", "smiling face with sunglasses"),
       E("🥳", "partying face"),
       E("😴", "sleeping face"),
@@ -5419,13 +5419,13 @@ const SOCIAL_EMOJI_CATEGORIES = [
       E("👌", "ok hand"),
       E("🤌", "pinched fingers"),
       E("👀", "eyes"),
-      E("🫶", "heart hands"),
+      E("🤲", "palms up hands"),
       E("💪", "flexed biceps"),
       E("🧠", "brain"),
-      E("🫂", "people hugging"),
-      E("🧑‍🎓", "student"),
-      E("🧑‍🏫", "teacher"),
-      E("🧑‍💻", "technologist"),
+      E("🤗", "hugging face"),
+      E("🎓", "graduation cap"),
+      E("👨‍🏫", "man teacher"),
+      E("👩‍💻", "woman technologist"),
     ],
   },
   {
@@ -5436,7 +5436,7 @@ const SOCIAL_EMOJI_CATEGORIES = [
       E("🧡", "orange heart"),
       E("💛", "yellow heart"),
       E("💚", "green heart"),
-      E("🩵", "light blue heart"),
+      E("💙", "blue heart"),
       E("💙", "blue heart"),
       E("💜", "purple heart"),
       E("🖤", "black heart"),
@@ -5494,7 +5494,7 @@ const SOCIAL_EMOJI_CATEGORIES = [
       E("🍰", "shortcake"),
       E("🍪", "cookie"),
       E("☕", "hot beverage"),
-      E("🧋", "bubble tea"),
+      E("🍵", "teacup without handle"),
       E("🥤", "cup with straw"),
       E("🍿", "popcorn"),
     ],
@@ -5552,6 +5552,14 @@ const SOCIAL_EMOJI_CATEGORIES = [
     ],
   },
 ];
+const EMOJI_WINDOWS_UNSUPPORTED = new Set(["🩵", "🫶", "🫂", "🫡", "🧋"]);
+const _isWindowsPlatform =
+  typeof navigator !== "undefined" && /Windows NT/i.test(navigator.userAgent || "");
+
+function _isEmojiLikelySupported(emoji) {
+  return !(_isWindowsPlatform && EMOJI_WINDOWS_UNSUPPORTED.has(emoji));
+}
+
 const SOCIAL_ALL_EMOJIS = SOCIAL_EMOJI_CATEGORIES.flatMap((c) => c.emojis);
 
 function _readRecentEmojis() {
@@ -5751,12 +5759,15 @@ function openEmojiPicker(target, context = null) {
         ? SOCIAL_ALL_EMOJIS
         : SOCIAL_EMOJI_CATEGORIES.find((c) => c.key === activeCategory)?.emojis || [];
 
-    const matches = categoryList.filter(
+    const compatList = categoryList.filter((entry) => _isEmojiLikelySupported(entry.emoji));
+
+    const matches = compatList.filter(
       (entry) => !q || entry.name.includes(q) || entry.emoji.includes(q),
     );
     const recents = _readRecentEmojis()
       .map((emoji) => SOCIAL_ALL_EMOJIS.find((entry) => entry.emoji === emoji))
       .filter(Boolean)
+      .filter((entry) => _isEmojiLikelySupported(entry.emoji))
       .filter((entry) => !q || entry.name.includes(q) || entry.emoji.includes(q));
 
     const recentHtml =
