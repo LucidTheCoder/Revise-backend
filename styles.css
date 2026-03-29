@@ -9087,11 +9087,14 @@ html {
   position: fixed;
   inset: 0;
   z-index: 640;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;
 }
 .sidebar-backdrop.visible {
   display: block;
+  pointer-events: auto;
 }
 
 @media (max-width: 760px) {

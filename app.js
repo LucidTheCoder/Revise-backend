@@ -7884,8 +7884,9 @@ function getActiveSidebarElement() {
 
 function openMobileSidebar() {
   const sidebar = getActiveSidebarElement();
+  if (!sidebar) return;
   const backdrop = document.getElementById("sidebar-backdrop");
-  if (sidebar) sidebar.classList.add("mobile-open");
+  sidebar.classList.add("mobile-open");
   if (backdrop) backdrop.classList.add("visible");
   document.body.style.overflow = "hidden";
 }
