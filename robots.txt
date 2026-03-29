@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asrevise.onrender.com/sitemap.xml

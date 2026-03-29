@@ -133,10 +133,22 @@ function applyAiVisibility() {
 const USE_BACKEND = true; // ← flip to false to develop offline with local files
 const API_BASE_URL = "https://asrevise.onrender.com";
 const BUILD_CACHE_BUSTER = "2026-03-28-1";
+const DATA_FETCH_TIMEOUT_MS = 12000;
+const API_FETCH_TIMEOUT_MS = 14000;
 
 function withCacheBuster(url) {
   const joiner = String(url).includes("?") ? "&" : "?";
   return `${url}${joiner}v=${BUILD_CACHE_BUSTER}`;
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = DATA_FETCH_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function cleanupLegacyServiceWorkers() {
@@ -1855,9 +1867,11 @@ async function fetchJson(localPath, apiOverride = null) {
 
   // 1. Explicit API override (used by auth/admin routes)
   if (apiOverride) {
-    const res = await fetch(withCacheBuster(`${API_BASE_URL}${apiOverride}`), {
-      cache: "no-store",
-    });
+    const res = await fetchWithTimeout(
+      withCacheBuster(`${API_BASE_URL}${apiOverride}`),
+      { cache: "no-store" },
+      API_FETCH_TIMEOUT_MS,
+    );
     if (!res.ok) throw new Error(`API ${apiOverride} returned ${res.status}`);
     return unwrap(await res.json());
   }
@@ -1867,7 +1881,11 @@ async function fetchJson(localPath, apiOverride = null) {
     const apiUrl = resolveApiUrl(localPath);
     if (apiUrl) {
       try {
-        const res = await fetch(withCacheBuster(apiUrl), { cache: "no-store" });
+        const res = await fetchWithTimeout(
+          withCacheBuster(apiUrl),
+          { cache: "no-store" },
+          API_FETCH_TIMEOUT_MS,
+        );
         if (!res.ok)
           throw new Error(`Backend ${apiUrl} returned ${res.status}`);
         const data = unwrap(await res.json());
@@ -1893,7 +1911,11 @@ async function fetchJson(localPath, apiOverride = null) {
   }
 
   // 3. Local file fallback
-  const res = await fetch(withCacheBuster(localPath), { cache: "no-store" });
+  const res = await fetchWithTimeout(
+    withCacheBuster(localPath),
+    { cache: "no-store" },
+    DATA_FETCH_TIMEOUT_MS,
+  );
   if (!res.ok)
     throw new Error(`Local file ${localPath} not found (${res.status})`);
   return await res.json();
@@ -1923,9 +1945,11 @@ async function loadData() {
 
     // If backend subject metadata is stale, merge in local topic refs.
     try {
-      const localRes = await fetch(withCacheBuster("data/subjects.json"), {
-        cache: "no-store",
-      });
+      const localRes = await fetchWithTimeout(
+        withCacheBuster("data/subjects.json"),
+        { cache: "no-store" },
+        DATA_FETCH_TIMEOUT_MS,
+      );
       if (localRes.ok) {
         const localRaw = await localRes.json();
         const localSubjects = Array.isArray(localRaw)
