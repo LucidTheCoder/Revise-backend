@@ -7335,10 +7335,11 @@ html {
 
 .social-compose-meta {
   display: none;
+  width: 100%;
+  flex-direction: column;
   align-items: stretch;
   gap: 0.45rem;
-  margin-top: 0.4rem;
-  flex-wrap: wrap;
+  margin: 0 0 0.45rem;
 }
 
 .social-compose-chip {
@@ -7351,13 +7352,25 @@ html {
   color: var(--text2);
   padding: 0.25rem 0.4rem;
   min-height: 34px;
-  max-width: min(380px, 100%);
+  max-width: min(420px, 100%);
 }
 
 .social-compose-chip.reply {
+  width: 100%;
+  max-width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.12rem;
+  gap: 0.2rem;
+  padding: 0.45rem 0.6rem;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--surface2), var(--accentbg) 28%);
+}
+
+.social-compose-reply-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .social-compose-chip.reply strong {
@@ -7368,6 +7381,10 @@ html {
 .social-compose-chip.reply span {
   font-size: 0.76rem;
   color: var(--text3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .social-compose-chip.gif img {
@@ -7389,27 +7406,92 @@ html {
 }
 
 .emoji-modal {
-  max-width: 360px;
+  width: min(560px, 96vw);
+  max-height: min(78vh, 620px);
+  display: flex;
+  flex-direction: column;
 }
 
 .emoji-grid {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 160px;
+  padding: 0.45rem 0 0.1rem;
+}
+
+.emoji-grid-row {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 0.45rem;
 }
 
+.emoji-modal-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.65rem;
+}
+
+.emoji-tabs {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.emoji-tab {
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 0.74rem;
+  line-height: 1;
+  padding: 0.32rem 0.55rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.emoji-tab.active,
+.emoji-tab:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.emoji-section-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+  margin: 0.1rem 0 0.45rem;
+}
+
+.emoji-empty {
+  margin: 0;
+  text-align: center;
+  color: var(--text3);
+  font-size: 0.82rem;
+  padding: 1.15rem 0.2rem;
+}
+
 .emoji-btn {
-  height: 38px;
+  height: 40px;
   border: 1px solid var(--border2);
   border-radius: 10px;
   background: var(--surface2);
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .emoji-btn:hover {
   border-color: var(--accent);
   transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .emoji-grid-row {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 /* Group chat messages — bubble style */

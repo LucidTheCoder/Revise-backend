@@ -3350,6 +3350,18 @@ function renderTopicView(topicId) {
   requestAnimationFrame(bindSectionScrollSpy);
   applyAiVisibility();
 
+  const aiCompose = document.querySelector(".ai-compose");
+  if (aiCompose && !aiCompose.querySelector(".ai-emoji-btn")) {
+    const aiEmojiBtn = document.createElement("button");
+    aiEmojiBtn.className = "gif-btn emoji-open-btn ai-emoji-btn";
+    aiEmojiBtn.type = "button";
+    aiEmojiBtn.title = "Add emoji";
+    aiEmojiBtn.setAttribute("aria-label", "Add emoji");
+    aiEmojiBtn.textContent = "😀";
+    aiEmojiBtn.onclick = () => App.openInputEmojiPicker("ai-prompt");
+    aiCompose.insertBefore(aiEmojiBtn, byId("ai-send-btn"));
+  }
+
   // On mobile, add a "Topics" toggle button at the top of topic content
   const topicMain = document.querySelector(".topic-main");
   if (topicMain && !topicMain.querySelector(".mobile-topics-toggle")) {
@@ -5348,28 +5360,239 @@ let _chatPendingGif = null;
 let _groupPendingGif = null;
 let _chatReplyTo = null;
 let _groupReplyTo = null;
-const SOCIAL_EMOJIS = [
-  "😀",
-  "😂",
-  "😍",
-  "🔥",
-  "👏",
-  "👍",
-  "🙏",
-  "💯",
-  "🎉",
-  "🤝",
-  "😎",
-  "🤔",
-  "😢",
-  "😭",
-  "😡",
-  "❤️",
-  "🫡",
-  "✅",
-  "❌",
-  "👀",
+const EMOJI_RECENTS_KEY = "rv_emoji_recents_v1";
+const EMOJI_RECENTS_MAX = 24;
+const E = (emoji, name) => ({ emoji, name });
+const SOCIAL_EMOJI_CATEGORIES = [
+  {
+    key: "smileys",
+    label: "Smileys",
+    emojis: [
+      E("😀", "grinning face"),
+      E("😃", "grinning face with big eyes"),
+      E("😄", "grinning face with smiling eyes"),
+      E("😁", "beaming face"),
+      E("😆", "grinning squinting face"),
+      E("😅", "grinning face with sweat"),
+      E("😂", "face with tears of joy"),
+      E("🤣", "rolling on the floor laughing"),
+      E("🙂", "slightly smiling face"),
+      E("🙃", "upside-down face"),
+      E("😉", "winking face"),
+      E("😊", "smiling face with smiling eyes"),
+      E("😇", "smiling face with halo"),
+      E("🥰", "smiling face with hearts"),
+      E("😍", "smiling face with heart-eyes"),
+      E("🤩", "star-struck"),
+      E("😘", "face blowing a kiss"),
+      E("😗", "kissing face"),
+      E("😚", "kissing face with closed eyes"),
+      E("😋", "face savoring food"),
+      E("😛", "face with tongue"),
+      E("😜", "winking face with tongue"),
+      E("🤪", "zany face"),
+      E("🤔", "thinking face"),
+      E("🫡", "saluting face"),
+      E("😎", "smiling face with sunglasses"),
+      E("🥳", "partying face"),
+      E("😴", "sleeping face"),
+      E("😢", "crying face"),
+      E("😭", "loudly crying face"),
+      E("😡", "pouting face"),
+      E("🤯", "exploding head"),
+    ],
+  },
+  {
+    key: "people",
+    label: "People",
+    emojis: [
+      E("👍", "thumbs up"),
+      E("👎", "thumbs down"),
+      E("👏", "clapping hands"),
+      E("🙌", "raising hands"),
+      E("🙏", "folded hands"),
+      E("🤝", "handshake"),
+      E("👋", "waving hand"),
+      E("🤟", "love-you gesture"),
+      E("✌️", "victory hand"),
+      E("🤘", "sign of the horns"),
+      E("👌", "ok hand"),
+      E("🤌", "pinched fingers"),
+      E("👀", "eyes"),
+      E("🫶", "heart hands"),
+      E("💪", "flexed biceps"),
+      E("🧠", "brain"),
+      E("🫂", "people hugging"),
+      E("🧑‍🎓", "student"),
+      E("🧑‍🏫", "teacher"),
+      E("🧑‍💻", "technologist"),
+    ],
+  },
+  {
+    key: "hearts",
+    label: "Hearts",
+    emojis: [
+      E("❤️", "red heart"),
+      E("🧡", "orange heart"),
+      E("💛", "yellow heart"),
+      E("💚", "green heart"),
+      E("🩵", "light blue heart"),
+      E("💙", "blue heart"),
+      E("💜", "purple heart"),
+      E("🖤", "black heart"),
+      E("🤍", "white heart"),
+      E("🤎", "brown heart"),
+      E("💔", "broken heart"),
+      E("❣️", "heart exclamation"),
+      E("💕", "two hearts"),
+      E("💞", "revolving hearts"),
+      E("💓", "beating heart"),
+      E("💗", "growing heart"),
+      E("💖", "sparkling heart"),
+    ],
+  },
+  {
+    key: "nature",
+    label: "Nature",
+    emojis: [
+      E("🌱", "seedling"),
+      E("🌿", "herb"),
+      E("🍀", "four leaf clover"),
+      E("🌵", "cactus"),
+      E("🌴", "palm tree"),
+      E("🌸", "cherry blossom"),
+      E("🌻", "sunflower"),
+      E("🌈", "rainbow"),
+      E("🔥", "fire"),
+      E("⭐", "star"),
+      E("🌙", "crescent moon"),
+      E("☀️", "sun"),
+      E("⚡", "high voltage"),
+      E("❄️", "snowflake"),
+      E("🌊", "water wave"),
+      E("🐶", "dog face"),
+      E("🐱", "cat face"),
+      E("🦊", "fox"),
+      E("🐼", "panda"),
+      E("🦉", "owl"),
+    ],
+  },
+  {
+    key: "food",
+    label: "Food",
+    emojis: [
+      E("🍎", "red apple"),
+      E("🍌", "banana"),
+      E("🍇", "grapes"),
+      E("🍓", "strawberry"),
+      E("🍕", "pizza"),
+      E("🍔", "hamburger"),
+      E("🍟", "french fries"),
+      E("🌮", "taco"),
+      E("🍜", "steaming bowl"),
+      E("🍣", "sushi"),
+      E("🍰", "shortcake"),
+      E("🍪", "cookie"),
+      E("☕", "hot beverage"),
+      E("🧋", "bubble tea"),
+      E("🥤", "cup with straw"),
+      E("🍿", "popcorn"),
+    ],
+  },
+  {
+    key: "objects",
+    label: "Objects",
+    emojis: [
+      E("💯", "hundred points"),
+      E("✅", "check mark button"),
+      E("❌", "cross mark"),
+      E("⚠️", "warning"),
+      E("🚀", "rocket"),
+      E("🎯", "direct hit"),
+      E("🎉", "party popper"),
+      E("🏆", "trophy"),
+      E("📚", "books"),
+      E("📝", "memo"),
+      E("📌", "pushpin"),
+      E("🔒", "lock"),
+      E("🔓", "unlocked"),
+      E("🔔", "bell"),
+      E("💡", "light bulb"),
+      E("🧪", "test tube"),
+      E("⚗️", "alembic"),
+      E("🔬", "microscope"),
+      E("🧲", "magnet"),
+      E("🧭", "compass"),
+    ],
+  },
+  {
+    key: "symbols",
+    label: "Symbols",
+    emojis: [
+      E("➕", "plus"),
+      E("➖", "minus"),
+      E("✖️", "multiply"),
+      E("➗", "divide"),
+      E("♻️", "recycle"),
+      E("🔁", "repeat"),
+      E("🔄", "counterclockwise arrows"),
+      E("➡️", "right arrow"),
+      E("⬅️", "left arrow"),
+      E("⬆️", "up arrow"),
+      E("⬇️", "down arrow"),
+      E("❓", "question mark"),
+      E("❗", "exclamation mark"),
+      E("⭕", "hollow red circle"),
+      E("🟢", "green circle"),
+      E("🔵", "blue circle"),
+      E("🟡", "yellow circle"),
+      E("🟠", "orange circle"),
+      E("🟣", "purple circle"),
+      E("⚫", "black circle"),
+    ],
+  },
 ];
+const SOCIAL_ALL_EMOJIS = SOCIAL_EMOJI_CATEGORIES.flatMap((c) => c.emojis);
+
+function _readRecentEmojis() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(EMOJI_RECENTS_KEY) || "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((x) => typeof x === "string").slice(0, EMOJI_RECENTS_MAX);
+  } catch {
+    return [];
+  }
+}
+
+function _rememberRecentEmoji(emoji) {
+  const list = _readRecentEmojis().filter((x) => x !== emoji);
+  list.unshift(emoji);
+  localStorage.setItem(EMOJI_RECENTS_KEY, JSON.stringify(list.slice(0, EMOJI_RECENTS_MAX)));
+}
+
+function _insertEmojiAtCaret(input, emoji) {
+  if (!input) return;
+  const start = Number.isFinite(input.selectionStart) ? input.selectionStart : input.value.length;
+  const end = Number.isFinite(input.selectionEnd) ? input.selectionEnd : input.value.length;
+  const before = input.value.slice(0, start);
+  const after = input.value.slice(end);
+  input.value = `${before}${emoji}${after}`;
+  const pos = start + emoji.length;
+  input.focus();
+  input.setSelectionRange(pos, pos);
+}
+
+function openChatReactionPicker(messageId) {
+  openEmojiPicker("chat-reaction", messageId);
+}
+
+function openGroupReactionPicker(messageId) {
+  openEmojiPicker("group-reaction", messageId);
+}
+
+function openInputEmojiPicker(inputId) {
+  openEmojiPicker("input", inputId);
+}
 
 function _plainMsgSnippet(text) {
   return String(text || "")
@@ -5393,7 +5616,8 @@ function _getComposeMetaEl(target) {
   meta = document.createElement("div");
   meta.id = id;
   meta.className = "social-compose-meta";
-  compose.insertAdjacentElement("afterend", meta);
+  // Keep reply/gif preview above the compose row for better visibility.
+  compose.insertAdjacentElement("beforebegin", meta);
   return meta;
 }
 
@@ -5413,9 +5637,11 @@ function _renderComposeMeta(target) {
 
   const replyHtml = replying
     ? `<div class="social-compose-chip reply">
-        <strong>Replying to ${escapeHtml(replying.author || "User")}</strong>
+        <div class="social-compose-reply-head">
+          <strong>Replying to ${escapeHtml(replying.author || "User")}</strong>
+          <button class="social-chip-x" onclick="App.clearReplyTarget('${target}')" aria-label="Cancel reply">×</button>
+        </div>
         <span>${escapeHtml(replying.text || "")}</span>
-        <button class="social-chip-x" onclick="App.clearReplyTarget('${target}')" aria-label="Cancel reply">×</button>
       </div>`
     : "";
 
@@ -5459,32 +5685,124 @@ function replyToGroupMessage(messageId) {
   byId("social-group-input")?.focus();
 }
 
-function openEmojiPicker(target) {
+function _applyPickedEmoji(target, context, emoji) {
+  if (!emoji) return;
+  if (target === "chat") {
+    _insertEmojiAtCaret(byId("chat-input"), emoji);
+    return;
+  }
+  if (target === "group") {
+    _insertEmojiAtCaret(byId("social-group-input"), emoji);
+    return;
+  }
+  if (target === "chat-reaction") {
+    reactChatMessage(context, emoji);
+    return;
+  }
+  if (target === "group-reaction") {
+    reactGroupMessage(context, emoji);
+    return;
+  }
+  if (target === "input") {
+    _insertEmojiAtCaret(byId(String(context || "")), emoji);
+  }
+}
+
+function openEmojiPicker(target, context = null) {
   byId("emoji-picker-modal")?.remove();
   const modal = document.createElement("div");
   modal.id = "emoji-picker-modal";
   modal.className = "social-modal-overlay";
+  const tabHtml = [
+    '<button class="emoji-tab active" data-cat="all">All</button>',
+    ...SOCIAL_EMOJI_CATEGORIES.map(
+      (c) => `<button class="emoji-tab" data-cat="${c.key}">${escapeHtml(c.label)}</button>`,
+    ),
+  ].join("");
   modal.innerHTML = `
     <div class="social-modal emoji-modal" role="dialog">
-      <div class="emoji-grid">
-        ${SOCIAL_EMOJIS.map((e) => `<button class="emoji-btn" data-emoji="${e}">${e}</button>`).join("")}
+      <div class="emoji-modal-head">
+        <div class="social-search-bar" style="flex:1">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m17 17 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="emoji-search" type="search" placeholder="Search emoji..." autocomplete="off" autofocus>
+        </div>
+        <button class="social-modal-close" aria-label="Close emoji picker">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
       </div>
+      <div class="emoji-tabs">${tabHtml}</div>
+      <div id="emoji-grid" class="emoji-grid"></div>
     </div>`;
   document.body.appendChild(modal);
   modal.addEventListener("click", (e) => {
     if (e.target === modal) modal.remove();
   });
+  modal.querySelector(".social-modal-close")?.addEventListener("click", () => modal.remove());
 
-  modal.querySelectorAll(".emoji-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const emoji = btn.getAttribute("data-emoji") || "";
-      const input = target === "chat" ? byId("chat-input") : byId("social-group-input");
-      if (!input) return;
-      input.value += emoji;
-      input.focus();
-      modal.remove();
+  let activeCategory = "all";
+  const searchInput = byId("emoji-search");
+  const grid = byId("emoji-grid");
+
+  const renderEmojiGrid = () => {
+    if (!grid) return;
+    const q = String(searchInput?.value || "").trim().toLowerCase();
+    const categoryList =
+      activeCategory === "all"
+        ? SOCIAL_ALL_EMOJIS
+        : SOCIAL_EMOJI_CATEGORIES.find((c) => c.key === activeCategory)?.emojis || [];
+
+    const matches = categoryList.filter(
+      (entry) => !q || entry.name.includes(q) || entry.emoji.includes(q),
+    );
+    const recents = _readRecentEmojis()
+      .map((emoji) => SOCIAL_ALL_EMOJIS.find((entry) => entry.emoji === emoji))
+      .filter(Boolean)
+      .filter((entry) => !q || entry.name.includes(q) || entry.emoji.includes(q));
+
+    const recentHtml =
+      !q && activeCategory === "all" && recents.length
+        ? `<div class="emoji-section-title">Recent</div>
+           <div class="emoji-grid-row">${recents
+             .map(
+               (entry) => `<button class="emoji-btn" data-emoji="${entry.emoji}" title="${escapeHtml(entry.name)}">${entry.emoji}</button>`,
+             )
+             .join("")}</div>`
+        : "";
+
+    const listHtml = matches.length
+      ? `<div class="emoji-grid-row">${matches
+          .map(
+            (entry) => `<button class="emoji-btn" data-emoji="${entry.emoji}" title="${escapeHtml(entry.name)}">${entry.emoji}</button>`,
+          )
+          .join("")}</div>`
+      : '<p class="emoji-empty">No emoji found.</p>';
+
+    grid.innerHTML = `${recentHtml}${listHtml}`;
+    grid.querySelectorAll(".emoji-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const emoji = btn.getAttribute("data-emoji") || "";
+        if (!emoji) return;
+        _rememberRecentEmoji(emoji);
+        _applyPickedEmoji(target, context, emoji);
+        modal.remove();
+      });
+    });
+  };
+
+  modal.querySelectorAll(".emoji-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      activeCategory = tab.getAttribute("data-cat") || "all";
+      modal.querySelectorAll(".emoji-tab").forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      renderEmojiGrid();
     });
   });
+  searchInput?.addEventListener("input", renderEmojiGrid);
+  modal.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") modal.remove();
+  });
+
+  renderEmojiGrid();
   requestAnimationFrame(() => modal.classList.add("open"));
 }
 
@@ -6791,7 +7109,7 @@ function _buildChatMessageEl(msg) {
         minute: "2-digit",
       })
     : "";
-  const actions = `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.replyToChatMessage('${msg._id}')">Reply</button><button class="social-msg-action" onclick="App.reactChatMessage('${msg._id}','👍')">React</button>${isSelf ? `<button class="social-msg-action" onclick="App.editChatMessage('${msg._id}')">Edit</button>` : ""}${canDelete ? `<button class="social-msg-action danger" onclick="App.deleteChatMessage('${msg._id}')">Delete</button>` : ""}</span>`;
+  const actions = `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.replyToChatMessage('${msg._id}')">Reply</button><button class="social-msg-action" onclick="App.openChatReactionPicker('${msg._id}')">React</button>${isSelf ? `<button class="social-msg-action" onclick="App.editChatMessage('${msg._id}')">Edit</button>` : ""}${canDelete ? `<button class="social-msg-action danger" onclick="App.deleteChatMessage('${msg._id}')">Delete</button>` : ""}</span>`;
   const reply = msg.replyTo
     ? `<div class="social-msg-reply-ref"><strong>${escapeHtml(msg.replyTo.author || "User")}</strong><span>${escapeHtml(_plainMsgSnippet(msg.replyTo.text || ""))}</span></div>`
     : "";
@@ -7224,6 +7542,7 @@ async function renderThreadDetail() {
       <textarea id="reply-input" data-autoresize placeholder="Write a reply…" rows="3" maxlength="2000"></textarea>
       <div class="reply-actions">
         <button class="gif-btn" onclick="App.openGifPicker('forum')" title="Add GIF">GIF</button>
+        <button class="gif-btn emoji-open-btn" onclick="App.openInputEmojiPicker('reply-input')" title="Add emoji">😀</button>
         <button class="btn btn-primary btn-sm" onclick="App.submitReply('${id}')">Post Reply</button>
       </div>
     </div>
@@ -7474,6 +7793,7 @@ function openNewThreadModal() {
         </label>
         <div id="ntm-error" class="auth-error"></div>
         <div style="display:flex;gap:0.6rem">
+          <button class="gif-btn emoji-open-btn" onclick="App.openInputEmojiPicker('ntm-body')" title="Add emoji">😀</button>
           <button class="btn btn-primary" onclick="App.submitNewThread()">Post Thread</button>
           <button class="btn btn-outline" onclick="App.closeNewThreadModal()">Cancel</button>
         </div>
@@ -8526,6 +8846,21 @@ function bindBaseEvents() {
     if (event.key === "Enter") sendChatMessage();
     else emitTyping();
   });
+
+  const adminThreadBody = byId("nt-body");
+  if (adminThreadBody && !byId("nt-body-emoji-btn")) {
+    const adminEmojiBtn = document.createElement("button");
+    adminEmojiBtn.id = "nt-body-emoji-btn";
+    adminEmojiBtn.className = "gif-btn emoji-open-btn";
+    adminEmojiBtn.type = "button";
+    adminEmojiBtn.title = "Add emoji";
+    adminEmojiBtn.setAttribute("aria-label", "Add emoji");
+    adminEmojiBtn.textContent = "😀";
+    adminEmojiBtn.style.marginTop = "0.45rem";
+    adminEmojiBtn.onclick = () => App.openInputEmojiPicker("nt-body");
+    adminThreadBody.insertAdjacentElement("afterend", adminEmojiBtn);
+  }
+
   // AI compose Shift+Enter = newline, Enter = send
   document.addEventListener("keydown", (event) => {
     const ta = byId("ai-prompt");
@@ -10183,7 +10518,7 @@ function _buildGroupMsgEl(m) {
     m._id || "",
   );
   const actions = m._id
-    ? `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.replyToGroupMessage('${m._id}')">Reply</button><button class="social-msg-action" onclick="App.reactGroupMessage('${m._id}','👍')">React</button>${isSelf ? `<button class="social-msg-action" onclick="App.editGroupMessage('${m._id}')">Edit</button>` : ""}${canDelete ? `<button class="social-msg-action danger" onclick="App.deleteGroupMessage('${m._id}')">Delete</button>` : ""}</span>`
+    ? `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.replyToGroupMessage('${m._id}')">Reply</button><button class="social-msg-action" onclick="App.openGroupReactionPicker('${m._id}')">React</button>${isSelf ? `<button class="social-msg-action" onclick="App.editGroupMessage('${m._id}')">Edit</button>` : ""}${canDelete ? `<button class="social-msg-action danger" onclick="App.deleteGroupMessage('${m._id}')">Delete</button>` : ""}</span>`
     : "";
   return `<div class="social-msg ${isSelf ? "self" : ""}" data-message-id="${escapeHtml(m._id || "")}" data-author-id="${escapeHtml(m.authorId?.toString?.() || "")}">
     ${!isSelf ? `<div class="social-msg-avatar">${escapeHtml((m.authorName || "?")[0].toUpperCase())}</div>` : ""}
@@ -10830,6 +11165,9 @@ const App = {
   switchSocialTab,
   renderSocialPage,
   openEmojiPicker,
+  openInputEmojiPicker,
+  openChatReactionPicker,
+  openGroupReactionPicker,
   clearPendingGif,
   clearReplyTarget,
   replyToChatMessage,
