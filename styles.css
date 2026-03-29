@@ -7518,7 +7518,11 @@ html {
   height: 52px;
   flex-shrink: 0;
   border-bottom: 1px solid var(--border);
-  background: var(--card);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--card), var(--accent) 5%),
+    var(--card)
+  );
   gap: 0.75rem;
 }
 
