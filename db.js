@@ -496,6 +496,13 @@ const sendFriendRequest = (from, to) =>
     { from, to, status: "pending" },
     { upsert: true, new: true },
   );
+const removeFriendship = (userA, userB) =>
+  FriendRequest.deleteMany({
+    $or: [
+      { from: userA, to: userB },
+      { from: userB, to: userA },
+    ],
+  });
 const respondFriendRequest = (id, status) =>
   FriendRequest.findByIdAndUpdate(id, { status }, { new: true });
 const getFriendRequests = (userId) =>
@@ -614,6 +621,7 @@ module.exports = {
   searchUsers,
   touchLastActive,
   sendFriendRequest,
+  removeFriendship,
   respondFriendRequest,
   getFriendRequests,
   getFriends,

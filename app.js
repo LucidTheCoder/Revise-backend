@@ -6560,6 +6560,7 @@ function joinSocketChannel(channelId) {
   socket.emit("join_channel", {
     channelId,
     user: auth.user?.name || "Anonymous",
+    token: auth.token || null,
   });
 }
 
@@ -6605,7 +6606,7 @@ async function renderChatSidebar() {
         (ch) => `
       <button class="social-channel-btn ${ch.id === state.selectedChannelId ? "active" : ""}"
               onclick="App.selectChannel('${ch.id}')">
-        <span class="social-channel-hash">#</span>
+        <span class="social-channel-hash">${ch.id?.startsWith("dm:") ? "@" : "#"}</span>
         <span class="social-channel-name">${escapeHtml(ch.name)}</span>
       </button>
     `,
@@ -6621,6 +6622,7 @@ async function renderChatSidebar() {
   try {
     const res = await fetch(
       `${API_BASE_URL}/api/community/chat/${state.selectedChannelId}/messages?limit=100`,
+      { headers: auth.isLoggedIn ? authHeaders() : { Accept: "application/json" } },
     );
     const data = await res.json();
     const messages = data.data || [];
@@ -6883,9 +6885,11 @@ async function selectChannel(channelId) {
   // Update chat header label
   const lbl = byId("chat-channel-label");
   const ch = state.community.chatChannels.find((c) => c.id === channelId);
-  if (lbl) lbl.textContent = `# ${ch?.name || channelId}`;
+  if (lbl)
+    lbl.textContent = `${channelId?.startsWith("dm:") ? "@" : "#"} ${ch?.name || channelId}`;
   const inp = byId("chat-input");
-  if (inp) inp.placeholder = `Message #${ch?.name || channelId}…`;
+  if (inp)
+    inp.placeholder = `Message ${channelId?.startsWith("dm:") ? "@" : "#"}${ch?.name || channelId}…`;
   if (state.selectedChannelId) leaveSocketChannel(state.selectedChannelId);
   state.selectedChannelId = channelId;
   joinSocketChannel(channelId);
@@ -9202,7 +9206,35 @@ function switchSocialTab(tab, btn) {
 // SOCIAL — chat tab
 // ============================================================================
 
-function _initChatTab() {
+async function _refreshChatChannels() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/community/chat/channels`, {
+      headers: auth.isLoggedIn ? authHeaders() : { Accept: "application/json" },
+    });
+    const data = await res.json();
+    if (data.success && Array.isArray(data.data)) {
+      state.community.chatChannels = data.data;
+      const hasSelected = state.community.chatChannels.some(
+        (c) => c.id === state.selectedChannelId,
+      );
+      if (!hasSelected) {
+        state.selectedChannelId = state.community.chatChannels[0]?.id || null;
+      }
+    }
+  } catch {
+    // Keep cached channels if refresh fails.
+  }
+}
+
+function _buildDmChannelId(a, b) {
+  const left = String(a || "").trim();
+  const right = String(b || "").trim();
+  if (!left || !right) return "";
+  return left < right ? `dm:${left}:${right}` : `dm:${right}:${left}`;
+}
+
+async function _initChatTab() {
+  await _refreshChatChannels();
   renderChatSidebar();
   initSocket();
   if (state.selectedChannelId) {
@@ -9293,6 +9325,10 @@ function _renderFriendsTab() {
           <div class="social-user-stats">
             <span>🔥 ${f.stats?.streak || 0}</span>
             <span>⚡ ${f.stats?.xp || 0}</span>
+          </div>
+          <div class="social-row-actions">
+            <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();App.openDmWithFriend('${f._id}','${escapeHtml(f.name)}')">DM</button>
+            <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();App.unfriendUser('${f._id}','${escapeHtml(f.name)}')">Unfriend</button>
           </div>
         </div>`,
         )
@@ -9434,9 +9470,9 @@ async function socialSearch(query) {
               <strong>${escapeHtml(u.name)}</strong>
               <small class="social-status-text">${formatLastSeen(u.stats?.lastActiveAt)}</small>
             </div>
-            <button class="btn ${alreadyFriend ? "btn-ghost" : "btn-outline"} btn-sm"
-              onclick="event.stopPropagation();${alreadyFriend ? "" : `App.sendFriendReq('${u._id}','${escapeHtml(u.name)}');this.textContent='Sent ✓';this.disabled=true`}">
-              ${alreadyFriend ? "✓ Friends" : "+ Add"}
+            <button class="btn btn-outline btn-sm"
+              onclick="event.stopPropagation();${alreadyFriend ? `App.openDmWithFriend('${u._id}','${escapeHtml(u.name)}')` : `App.sendFriendReq('${u._id}','${escapeHtml(u.name)}');this.textContent='Sent ✓';this.disabled=true`}">
+              ${alreadyFriend ? "DM" : "+ Add"}
             </button>
           </div>`;
           })
@@ -9519,7 +9555,8 @@ async function openUserProfile(userId) {
         <div class="uprofile-actions">
           ${
             alreadyFriend
-              ? `<span class="social-badge-friends">✓ Friends</span>`
+              ? `<button class="btn btn-outline btn-sm" onclick="App.openDmWithFriend('${userId}','${escapeHtml(u.name)}')">DM</button>
+                 <button class="btn btn-ghost btn-sm" onclick="App.unfriendUser('${userId}','${escapeHtml(u.name)}')">Unfriend</button>`
               : `<button class="btn btn-primary btn-sm"
                 onclick="App.sendFriendReq('${userId}','${escapeHtml(u.name)}');this.textContent='Request sent ✓';this.disabled=true">
                 + Add Friend
@@ -9577,6 +9614,57 @@ async function respondFriend(requestId, status) {
   } catch {
     showToast("Network error");
   }
+}
+
+async function unfriendUser(friendId, name) {
+  if (!auth.isLoggedIn) return;
+  const confirmed = window.confirm(
+    `Unfriend ${name || "this user"}? You can send a new request later.`,
+  );
+  if (!confirmed) return;
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/social/friends/${friendId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not unfriend user");
+      return;
+    }
+    showToast(`${name || "User"} removed from friends`);
+    byId("user-profile-modal")?.remove();
+    await _loadFriendsData();
+    _renderFriendsTab();
+  } catch {
+    showToast("Network error");
+  }
+}
+
+async function openDmWithFriend(friendId, friendName) {
+  if (!auth.isLoggedIn || !auth.user?._id) {
+    openAuthModal("login");
+    return;
+  }
+
+  const dmId = _buildDmChannelId(auth.user._id, friendId);
+  if (!dmId) return;
+
+  await _refreshChatChannels();
+  if (!state.community.chatChannels.some((c) => c.id === dmId)) {
+    state.community.chatChannels.push({
+      id: dmId,
+      name: friendName || "Direct Message",
+      description: "Direct message",
+      type: "dm",
+      peerId: friendId,
+    });
+  }
+
+  const chatTab = document.querySelector('.social-nav-tab[data-tab="chat"]');
+  switchSocialTab("chat", chatTab);
+  await selectChannel(dmId);
 }
 
 // ============================================================================
@@ -10103,6 +10191,8 @@ const App = {
   openUserProfile,
   sendFriendReq,
   respondFriend,
+  unfriendUser,
+  openDmWithFriend,
   openGroupChat,
   sendGroupMessage,
   openNewGroupModal,

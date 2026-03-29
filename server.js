@@ -92,14 +92,30 @@ function _normalizeModerationText(text) {
     .trim();
 }
 
+function _canonicalModerationText(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[4@]/g, "a")
+    .replace(/[3]/g, "e")
+    .replace(/[1!|]/g, "i")
+    .replace(/[0]/g, "o")
+    .replace(/[5$]/g, "s")
+    .replace(/[7+]/g, "t")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/(.)\1{2,}/g, "$1$1")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function moderateSocialText(text) {
   const source = String(text || "");
   const normalized = _normalizeModerationText(source);
+  const canonical = _canonicalModerationText(source);
   if (!normalized) return { allowed: true, sanitized: source, blocked: false };
 
   for (const hard of HARD_BLOCK_WORDS) {
     const re = new RegExp(`\\b${hard}\\b`, "i");
-    if (re.test(normalized)) {
+    if (re.test(normalized) || re.test(canonical)) {
       return {
         allowed: false,
         blocked: true,
@@ -116,6 +132,18 @@ function moderateSocialText(text) {
     if (re.test(sanitized)) {
       changed = true;
       sanitized = sanitized.replace(re, (m) => "*".repeat(Math.max(3, m.length)));
+    }
+
+    // Block obvious obfuscation attempts like "fvck" that bypass direct matching.
+    const canonicalRe = new RegExp(`\\b${bad}\\b`, "i");
+    const directRe = new RegExp(`\\b${bad}\\b`, "i");
+    if (canonicalRe.test(canonical) && !directRe.test(normalized)) {
+      return {
+        allowed: false,
+        blocked: true,
+        reason: "Message blocked by moderation policy.",
+        sanitized: "",
+      };
     }
   }
 
@@ -145,10 +173,31 @@ io.on("connection", (socket) => {
   });
 
   // Join a channel room
-  socket.on("join_channel", ({ channelId, user }) => {
+  socket.on("join_channel", async ({ channelId, user, token }) => {
+    if (!channelId) return;
+
+    let verifiedUserId = null;
+    if (token) {
+      try {
+        const jwt = require("jsonwebtoken");
+        const payload = jwt.verify(
+          token,
+          process.env.JWT_SECRET || "change-this-in-production",
+        );
+        const userRecord = await db.findUserById(payload.sub);
+        if (userRecord && !userRecord.banned) verifiedUserId = userRecord._id;
+      } catch {
+        verifiedUserId = null;
+      }
+    }
+
+    const canJoin = await canAccessChannel(verifiedUserId, channelId);
+    if (!canJoin) return;
+
     socket.join(channelId);
     socket.data.channelId = channelId;
     socket.data.user = user;
+    socket.data.userId = verifiedUserId;
     if (!channelUsers[channelId]) channelUsers[channelId] = new Set();
     channelUsers[channelId].add(socket.id);
     io.to(channelId).emit("channel_users", channelUsers[channelId].size);
@@ -187,6 +236,14 @@ io.on("connection", (socket) => {
         } catch {
           /* invalid token, use anonymous */
         }
+      }
+
+      const canSend = await canAccessChannel(verifiedUserId, channelId);
+      if (!canSend) {
+        socket.emit("message_rejected", {
+          reason: "You are not allowed to send messages in this channel.",
+        });
+        return;
       }
 
       const rateKey = `chat:${verifiedUserId || socket.id}`;
@@ -1065,6 +1122,46 @@ const CHANNELS = [
   },
 ];
 
+function buildDmChannelId(userA, userB) {
+  const a = String(userA || "").trim();
+  const b = String(userB || "").trim();
+  if (!a || !b) return "";
+  return a < b ? `dm:${a}:${b}` : `dm:${b}:${a}`;
+}
+
+function parseDmChannelId(channelId) {
+  const m = String(channelId || "").match(/^dm:([^:]+):([^:]+)$/);
+  if (!m) return null;
+  return { a: m[1], b: m[2] };
+}
+
+async function getUserDmChannels(userId) {
+  if (!userId) return [];
+  const friends = await db.getFriends(userId);
+  return (friends || []).map((f) => ({
+    id: buildDmChannelId(userId, f._id),
+    name: f.name,
+    description: `Direct messages with ${f.name}`,
+    type: "dm",
+    peerId: f._id,
+  }));
+}
+
+async function canAccessChannel(userId, channelId) {
+  const id = String(channelId || "").trim();
+  if (!id) return false;
+  if (CHANNELS.some((c) => c.id === id)) return true;
+
+  const dm = parseDmChannelId(id);
+  if (!dm) return false;
+  if (!userId) return false;
+
+  const uid = userId.toString();
+  if (uid !== dm.a && uid !== dm.b) return false;
+  const other = uid === dm.a ? dm.b : dm.a;
+  return db.areUsersFriends(uid, other);
+}
+
 app.get("/api/community", async (req, res, next) => {
   try {
     const threads = await db.getForumThreads({ sort: "pinned", limit: 50 });
@@ -1080,17 +1177,35 @@ app.get("/api/community", async (req, res, next) => {
   }
 });
 
-app.get("/api/community/chat/channels", (req, res) => {
-  res.json({ success: true, data: CHANNELS });
-});
+app.get(
+  "/api/community/chat/channels",
+  optionalAuth,
+  async (req, res, next) => {
+    try {
+      if (!req.user?._id) {
+        return res.json({ success: true, data: CHANNELS });
+      }
+      const dmChannels = await getUserDmChannels(req.user._id);
+      res.json({ success: true, data: [...CHANNELS, ...dmChannels] });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
-app.get("/api/community/chat/:channelId/messages", async (req, res, next) => {
+app.get(
+  "/api/community/chat/:channelId/messages",
+  optionalAuth,
+  async (req, res, next) => {
   try {
     const { channelId } = req.params;
-    if (!CHANNELS.find((c) => c.id === channelId)) {
-      return res
-        .status(404)
-        .json({ success: false, error: "Channel not found" });
+    const canAccess = await canAccessChannel(req.user?._id, channelId);
+    if (!canAccess) {
+      const isDm = /^dm:/.test(String(channelId || ""));
+      return res.status(isDm ? 403 : 404).json({
+        success: false,
+        error: isDm ? "Not allowed to access this DM channel" : "Channel not found",
+      });
     }
     const limit = Math.min(parseInt(req.query.limit) || 100, 500);
     const messages = await db.getChatMessages(channelId, limit);
@@ -1098,7 +1213,8 @@ app.get("/api/community/chat/:channelId/messages", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+  },
+);
 
 // Admin: delete a chat message
 app.delete(
@@ -2710,6 +2826,27 @@ app.patch(
   },
 );
 
+// DELETE /api/social/friends/:friendId — remove a friendship
+app.delete(
+  "/api/social/friends/:friendId",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const friendId = String(req.params.friendId || "").trim();
+      if (!friendId || friendId === req.user._id.toString()) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Invalid friendId" });
+      }
+      await db.touchLastActive(req.user._id);
+      await db.removeFriendship(req.user._id, friendId);
+      res.json({ success: true, message: "Unfriended" });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
+
 // GET /api/social/friends — get friend list + pending requests
 app.get("/api/social/friends", authenticateToken, async (req, res, next) => {
   try {
@@ -3255,48 +3392,38 @@ async function handlePdfProxy(req, res, next) {
 app.get("/api/pdf-proxy", handlePdfProxy);
 app.post("/api/pdf-proxy", handlePdfProxy);
 
-// ── Tenor GIF search proxy (keeps API key server-side) ───────────────────
+// ── GIF search proxy (GIPHY) ───────────────────────────────────────────────
 app.get("/api/tenor/search", optionalAuth, async (req, res, next) => {
   try {
-    const apiKey = process.env.TENOR_API_KEY;
+    const apiKey = process.env.GIPHY_API_KEY;
     if (!apiKey) {
       return res.json({
         success: false,
         data: [],
-        error: "TENOR_API_KEY is not configured on the server.",
+        error: "GIPHY_API_KEY is not configured on the server.",
       });
     }
     const q = (req.query.q || "").trim().slice(0, 100);
     if (!q) return res.json({ success: true, data: [] });
     const limit = Math.min(parseInt(req.query.limit) || 16, 32);
-    const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=${apiKey}&limit=${limit}&contentfilter=medium`;
+    const url =
+      `https://api.giphy.com/v1/gifs/search?api_key=${encodeURIComponent(apiKey)}` +
+      `&q=${encodeURIComponent(q)}&limit=${limit}&rating=pg-13&lang=en`;
     const r = await fetch(url);
     if (!r.ok) return res.json({ success: true, data: [] });
     const d = await r.json();
-    const gifs = (d.results || [])
+    const gifs = (d.data || [])
       .map((g) => {
-        const mf = g.media_formats || {};
-        const url =
-          mf.gif?.url ||
-          mf.mediumgif?.url ||
-          mf.tinygif?.url ||
-          mf.nanogif?.url ||
-          "";
-        const preview =
-          mf.tinygif?.url ||
-          mf.gifpreview?.url ||
-          mf.nanogif?.url ||
-          mf.tinymp4?.url ||
-          url;
-        const dims =
-          mf.gif?.dims || mf.mediumgif?.dims || mf.tinygif?.dims || [200, 200];
+        const fixed = g.images?.fixed_width || g.images?.downsized || {};
+        const gifUrl = fixed.url || g.images?.original?.url || "";
+        const preview = g.images?.fixed_width_still?.url || gifUrl;
         return {
           id: g.id,
-          title: g.title || g.content_description || "GIF",
-          url,
+          title: g.title || "GIF",
+          url: gifUrl,
           preview,
-          width: dims?.[0] || 200,
-          height: dims?.[1] || 200,
+          width: Number(fixed.width) || 200,
+          height: Number(fixed.height) || 200,
         };
       })
       .filter((g) => g.url);
