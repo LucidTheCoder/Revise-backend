@@ -7163,6 +7163,55 @@ function filterEditorTopics(q) {
   });
 }
 
+function getSubjectUnits(subjectId) {
+  const subject = state.subjectMap.get(subjectId);
+  if (!subject) return [];
+  if (!Array.isArray(subject.units)) subject.units = [];
+  return subject.units;
+}
+
+function getTopicUnitName(subjectId, topicId) {
+  const units = getSubjectUnits(subjectId);
+  for (const unit of units) {
+    if ((unit.topics || []).some((t) => t.id === topicId)) {
+      return String(unit.name || "").trim();
+    }
+  }
+  return "";
+}
+
+function upsertTopicInUnit(subjectId, { topicId, topicName, unitName }) {
+  const units = getSubjectUnits(subjectId);
+  if (!units.length) {
+    units.push({ name: "Core Topics", topics: [] });
+  }
+
+  const cleanName = String(unitName || "").trim() || "Core Topics";
+  let targetUnit = units.find(
+    (u) => String(u.name || "").trim().toLowerCase() === cleanName.toLowerCase(),
+  );
+  if (!targetUnit) {
+    targetUnit = { name: cleanName, topics: [] };
+    units.push(targetUnit);
+  }
+
+  for (const unit of units) {
+    unit.topics = (unit.topics || []).filter((t) => t.id !== topicId);
+  }
+
+  targetUnit.topics.push({
+    id: topicId,
+    name: topicName,
+    file: `${topicId}.json`,
+    done: false,
+  });
+
+  for (let i = units.length - 1; i >= 0; i -= 1) {
+    const u = units[i];
+    if ((u.topics || []).length === 0) units.splice(i, 1);
+  }
+}
+
 // Sync the visual form fields → the JSON textarea
 function _syncFormToJson() {
   if (!editorState.currentTopic) return;
@@ -7264,6 +7313,15 @@ function _renderEditorForm(topic) {
   const el = byId("editor-form-mode");
   if (!el) return;
 
+  const currentUnitName =
+    getTopicUnitName(editorState.currentSubject, editorState.currentTopic) ||
+    "Core Topics";
+  const unitOptions = getSubjectUnits(editorState.currentSubject)
+    .map((u) => String(u.name || "").trim())
+    .filter(Boolean)
+    .map((name) => `<option value="${escapeHtml(name)}"></option>`)
+    .join("");
+
   const notesText = (topic.notes || [])
     .map((n) => [n.heading, ...(n.items || [])].join("\n"))
     .join("\n\n");
@@ -7286,6 +7344,11 @@ function _renderEditorForm(topic) {
         <div class="ef-field ef-field-wide">
           <label class="ef-label" for="ef-title">Title</label>
           <input id="ef-title" class="ef-input" type="text" value="${escapeHtml(topic.title || "")}" placeholder="Topic title">
+        </div>
+        <div class="ef-field">
+          <label class="ef-label" for="ef-unit">Unit</label>
+          <input id="ef-unit" class="ef-input" type="text" list="ef-unit-list" value="${escapeHtml(currentUnitName)}" placeholder="e.g. Cell and Molecular Biology">
+          <datalist id="ef-unit-list">${unitOptions}</datalist>
         </div>
         <div class="ef-field ef-field-wide">
           <label class="ef-label" for="ef-subtitle">Subtitle</label>
@@ -7724,15 +7787,11 @@ function createNewTopic() {
   state.topics.set(newId, newTopic);
   _persistCustomTopic(newId, newTopic, editorState.currentSubject);
 
-  // Add to current subject's first unit
-  const subject = state.subjectMap.get(editorState.currentSubject);
-  if (subject && subject.units.length > 0) {
-    subject.units[0].topics.push({
-      id: newId,
-      name: "New Topic",
-      file: `${newId}.json`,
-    });
-  }
+  upsertTopicInUnit(editorState.currentSubject, {
+    topicId: newId,
+    topicName: "New Topic",
+    unitName: "Core Topics",
+  });
 
   editorState.currentTopic = newId;
   editorState.originalJson = JSON.stringify(newTopic, null, 2);
@@ -7790,15 +7849,11 @@ async function duplicateCurrentTopic() {
     const sourceUnit = subject.units.find((u) =>
       (u.topics || []).some((t) => t.id === editorState.currentTopic),
     );
-    const targetUnit = sourceUnit || subject.units[0];
-    if (targetUnit) {
-      targetUnit.topics.push({
-        id: newId,
-        name: cloned.title,
-        file: `${newId}.json`,
-        done: false,
-      });
-    }
+    upsertTopicInUnit(editorState.currentSubject, {
+      topicId: newId,
+      topicName: cloned.title,
+      unitName: sourceUnit?.name || "Core Topics",
+    });
   }
 
   if (
@@ -9481,15 +9536,15 @@ async function saveTopic() {
 
     const subject = state.subjectMap.get(editorState.currentSubject);
     if (subject) {
-      for (const unit of subject.units || []) {
-        const ref = (unit.topics || []).find(
-          (t) => t.id === editorState.currentTopic,
-        );
-        if (ref) {
-          ref.name = normalized.title;
-          if (!ref.file) ref.file = `${editorState.currentTopic}.json`;
-        }
-      }
+      const chosenUnit =
+        String(byId("ef-unit")?.value || "").trim() ||
+        getTopicUnitName(editorState.currentSubject, editorState.currentTopic) ||
+        "Core Topics";
+      upsertTopicInUnit(editorState.currentSubject, {
+        topicId: editorState.currentTopic,
+        topicName: normalized.title,
+        unitName: chosenUnit,
+      });
     }
 
     _persistCustomTopic(
