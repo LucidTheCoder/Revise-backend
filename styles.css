@@ -7160,6 +7160,7 @@ html {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 0;
 }
 
 .social-chat-header {
@@ -7320,6 +7321,16 @@ html {
   flex-shrink: 0;
 }
 .social-compose input {
+body[data-view="community"] .social-chat-layout,
+body[data-view="community"] .social-chat-main,
+body[data-view="community"] .social-panel {
+  min-height: 0;
+}
+body[data-view="community"] .social-compose {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+}
   flex: 1;
   background: var(--bg3);
   border: 1px solid var(--border);
@@ -9129,11 +9140,11 @@ html {
   background: rgba(0, 0, 0, 0.38);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 .sidebar-backdrop.visible {
   display: block;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 @media (max-width: 760px) {
@@ -9642,6 +9653,16 @@ body[data-view="topic"] .site-footer {
   display: none;
 }
 
+body[data-view="community"] .page-container > .site-footer {
+  display: none !important;
+}
+
+body[data-view="community"] #view-community.view.active {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .view,
 .subject-layout,
 .subject-main,
@@ -9731,6 +9752,14 @@ body[data-view="topic"] #view-topic.view.active {
 
   .page-container > main {
     padding-bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+  }
+
+  body[data-view="community"] .social-page {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    box-sizing: border-box;
+  }
+  body[data-view="community"] .social-compose {
+    bottom: calc(64px + env(safe-area-inset-bottom));
   }
 
   .subject-layout {
