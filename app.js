@@ -186,6 +186,8 @@ const state = {
   myStuffTopicId: null,
   myStuffMode: "quiz",
   myStuffDifficulty: "Medium",
+  myStuffQuizCount: 5,
+  myStuffFlashCount: 8,
   aiLoading: false,
   structureQuestionsToday: 0,
 };
@@ -203,6 +205,8 @@ const lastVisitedKey = "revise.lastVisited"; // {topicId: timestamp}
 const themeKey = "revise.theme";
 const myStuffStorageKey = "revise.mystuff";
 const myStuffDifficultyKey = "revise.mystuffDifficulty";
+const myStuffQuizCountKey = "revise.mystuffQuizCount";
+const myStuffFlashCountKey = "revise.mystuffFlashCount";
 const structureQuestionsKey = "revise.structureToday";
 const structureQuestionsDateKey = "revise.structureTodayDate";
 
@@ -4825,6 +4829,25 @@ function setMyStuffDifficulty(level) {
   localStorage.setItem(myStuffDifficultyKey, state.myStuffDifficulty);
 }
 
+function normalizeMyStuffCount(mode, value) {
+  const max = mode === "quiz" ? 5 : 8;
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return max;
+  return Math.max(1, Math.min(max, Math.floor(parsed)));
+}
+
+function setMyStuffCount(value) {
+  const activeMode = state.myStuffMode === "flashcards" ? "flashcards" : "quiz";
+  const normalized = normalizeMyStuffCount(activeMode, value);
+  if (activeMode === "quiz") {
+    state.myStuffQuizCount = normalized;
+    localStorage.setItem(myStuffQuizCountKey, String(normalized));
+  } else {
+    state.myStuffFlashCount = normalized;
+    localStorage.setItem(myStuffFlashCountKey, String(normalized));
+  }
+}
+
 // ── Structure Questions ─────────────────────────────────────────────────────
 function loadStructureQuestionsCount() {
   const today = new Date().toDateString();
@@ -4887,6 +4910,11 @@ function renderMyStuff() {
   const quizItems = allItems.filter((item) => item.mode === "quiz");
   const flashItems = allItems.filter((item) => item.mode === "flashcards");
   const items = activeMode === "quiz" ? quizItems : flashItems;
+  const selectedCount =
+    activeMode === "quiz"
+      ? normalizeMyStuffCount("quiz", state.myStuffQuizCount)
+      : normalizeMyStuffCount("flashcards", state.myStuffFlashCount);
+  const maxCount = activeMode === "quiz" ? 5 : 8;
 
   const rowsHtml = items.length
     ? items
@@ -4926,17 +4954,20 @@ function renderMyStuff() {
             return `<article class="card mystuff-item">${head}${quota}${renderedQuestions}</article>`;
           }
 
-          const cards = Array.isArray(item.data?.cards) ? item.data.cards : [];
-          const renderedCards = cards.length
-            ? `<div class="mystuff-card"><ol>${cards
-                .map(
-                  (c) =>
-                    `<li><p><strong>${escapeHtml(String(c.front || ""))}</strong></p><p class="mystuff-answer">${escapeHtml(String(c.back || ""))}</p></li>`,
-                )
-                .join("")}</ol></div>`
-            : "";
-          return `<article class="card mystuff-item">${head}${quota}${renderedCards}</article>`;
-        } else if (item.mode === "structure") {
+          if (item.mode === "flashcards") {
+            const cards = Array.isArray(item.data?.cards) ? item.data.cards : [];
+            const renderedCards = cards.length
+              ? `<div class="mystuff-card"><ol>${cards
+                  .map(
+                    (c) =>
+                      `<li><p><strong>${escapeHtml(String(c.front || ""))}</strong></p><p class="mystuff-answer">${escapeHtml(String(c.back || ""))}</p></li>`,
+                  )
+                  .join("")}</ol></div>`
+              : "";
+            return `<article class="card mystuff-item">${head}${quota}${renderedCards}</article>`;
+          }
+
+          if (item.mode === "structure") {
           const q = item.data?.question || "";
           const markingCriteria = item.data?.markingCriteria || [];
           const renderedStructure = `<div class="mystuff-structure">
@@ -4947,6 +4978,9 @@ function renderMyStuff() {
             ${item.data?.modelAnswer ? `<details><summary>Model Answer</summary><p>${escapeHtml(String(item.data.modelAnswer))}</p></details>` : ""}
           </div>`;
           return `<article class="card mystuff-item">${head}${quota}${renderedStructure}</article>`;
+          }
+
+          return `<article class="card mystuff-item">${head}${quota}</article>`;
         })
         .join("")
     : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : "flashcard decks"} generated yet.</p></div>`;
@@ -4979,10 +5013,20 @@ function renderMyStuff() {
               .join("")}
           </select>
         </label>
+        <label>
+          Count
+          <select id="mystuff-count-select" onchange="App.setMyStuffCount(this.value)">
+            ${Array.from({ length: maxCount }, (_, i) => i + 1)
+              .map(
+                (count) =>
+                  `<option value="${count}" ${count === selectedCount ? "selected" : ""}>${count}</option>`,
+              )
+              .join("")}
+          </select>
+        </label>
       </div>
       <div class="mystuff-actions">
-        <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">${activeMode === "quiz" ? "Generate 5 Questions" : "Generate 8 Flashcards"}</button>
-        <button class="btn btn-outline" id="mystuff-gen-other" onclick="App.myStuffGenerate('${activeMode === "quiz" ? "flashcards" : "quiz"}')">Generate ${activeMode === "quiz" ? "8 Flashcards" : "5 Questions"}</button>
+        <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">${activeMode === "quiz" ? `Generate ${selectedCount} Questions` : `Generate ${selectedCount} Flashcards`}</button>
         <button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`}">Generate Structure (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})</button>
         <button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>
         <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : "Flashcards"}</button>
@@ -5012,6 +5056,10 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
 
   const effectiveMode =
     mode || (state.myStuffMode === "flashcards" ? "flashcards" : "quiz");
+  const requestedCount =
+    effectiveMode === "quiz"
+      ? normalizeMyStuffCount("quiz", state.myStuffQuizCount)
+      : normalizeMyStuffCount("flashcards", state.myStuffFlashCount);
 
   const topicId = forcedTopicId || state.myStuffTopicId || state.currentTopic;
   const topic = state.topics.get(topicId);
@@ -5022,21 +5070,19 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
 
   const statusEl = byId("mystuff-status");
   const mainBtn = byId("mystuff-gen-main");
-  const otherBtn = byId("mystuff-gen-other");
   
   showAiLoading(
     effectiveMode === "quiz"
-      ? `Generating ${state.myStuffDifficulty} AS questions...`
-      : `Generating ${state.myStuffDifficulty} AS flashcards...`
+      ? `Generating ${requestedCount} ${state.myStuffDifficulty} AS questions...`
+      : `Generating ${requestedCount} ${state.myStuffDifficulty} AS flashcards...`
   );
   
   if (statusEl)
     statusEl.textContent =
       effectiveMode === "quiz"
-        ? `Generating ${state.myStuffDifficulty} custom AS questions...`
-        : `Generating ${state.myStuffDifficulty} custom AS flashcards...`;
+        ? `Generating ${requestedCount} ${state.myStuffDifficulty} custom AS questions...`
+        : `Generating ${requestedCount} ${state.myStuffDifficulty} custom AS flashcards...`;
   if (mainBtn) mainBtn.disabled = true;
-  if (otherBtn) otherBtn.disabled = true;
 
   try {
     const res = await fetch(
@@ -5049,6 +5095,7 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
           topicTitle: topic.title || topicId,
           subjectId: topic.subject || state.currentSubject || "general",
           difficulty: normalizeMyStuffDifficulty(state.myStuffDifficulty),
+          count: requestedCount,
           context: buildAiContext(topic),
         }),
       },
@@ -5072,6 +5119,12 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
       fallback: !!data.fallback,
       createdAt: Date.now(),
     };
+    if (effectiveMode === "quiz" && Array.isArray(item.data?.questions)) {
+      item.data.questions = item.data.questions.slice(0, requestedCount);
+    }
+    if (effectiveMode === "flashcards" && Array.isArray(item.data?.cards)) {
+      item.data.cards = item.data.cards.slice(0, requestedCount);
+    }
     state.myStuff = Array.isArray(state.myStuff) ? [item, ...state.myStuff] : [item];
     saveMyStuffItems();
     hideAiLoading();
@@ -5085,7 +5138,6 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
     if (statusEl) statusEl.textContent = "Network error while generating content.";
   } finally {
     if (mainBtn) mainBtn.disabled = false;
-    if (otherBtn) otherBtn.disabled = false;
   }
 }
 
@@ -6143,6 +6195,14 @@ async function init() {
     state.myStuff = loadMyStuffItems();
     state.myStuffDifficulty = normalizeMyStuffDifficulty(
       localStorage.getItem(myStuffDifficultyKey) || state.myStuffDifficulty,
+    );
+    state.myStuffQuizCount = normalizeMyStuffCount(
+      "quiz",
+      localStorage.getItem(myStuffQuizCountKey) || state.myStuffQuizCount,
+    );
+    state.myStuffFlashCount = normalizeMyStuffCount(
+      "flashcards",
+      localStorage.getItem(myStuffFlashCountKey) || state.myStuffFlashCount,
     );
     loadStructureQuestionsCount();
     bindBaseEvents();
@@ -12015,11 +12075,14 @@ const App = {
   aiQuick,
   renderMyStuff,
   myStuffGenerate,
+  myStuffGenerateStructure,
   switchMyStuffMode,
   setMyStuffTopic,
   setMyStuffDifficulty,
+  setMyStuffCount,
   startMyStuffQuiz,
   startMyStuffFlashcards,
+  reviewStructureQuestion,
   removeMyStuffItem,
   clearMyStuff,
   exportMyStuffPdf,
