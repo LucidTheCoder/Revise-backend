@@ -5963,9 +5963,9 @@ function createParticleSystem() {
   let rafId = 0;
   let particles = [];
   let palette = {
-    a: "rgba(0, 212, 170, 0.25)",
-    b: "rgba(129, 140, 248, 0.2)",
-    link: "rgba(255, 255, 255, 0.08)",
+    a: "rgba(0, 212, 170, 0.36)",
+    b: "rgba(129, 140, 248, 0.3)",
+    link: "rgba(255, 255, 255, 0.16)",
   };
 
   function withAlpha(color, alpha) {
@@ -6001,9 +6001,9 @@ function createParticleSystem() {
     const phy = style.getPropertyValue("--phy").trim() || "#818cf8";
     const text = style.getPropertyValue("--text").trim() || "#e6edf3";
     palette = {
-      a: withAlpha(accent, 0.25),
-      b: withAlpha(phy, 0.2),
-      link: withAlpha(text, 0.1),
+      a: withAlpha(accent, 0.36),
+      b: withAlpha(phy, 0.3),
+      link: withAlpha(text, 0.16),
     };
   }
 
@@ -6019,7 +6019,7 @@ function createParticleSystem() {
   }
 
   function rebuildParticles() {
-    const count = width < 760 ? 26 : 40;
+    const count = width < 760 ? 32 : 48;
     particles = new Array(count).fill(null).map(() => makeParticle());
   }
 
@@ -6044,10 +6044,10 @@ function createParticleSystem() {
         const dy = a.y - b.y;
         const dist = Math.hypot(dx, dy);
         if (dist > 120) continue;
-        const alpha = Math.max(0, 1 - dist / 120) * 0.35;
+        const alpha = Math.max(0, 1 - dist / 120) * 0.5;
         ctx.strokeStyle = palette.link;
         ctx.globalAlpha = alpha;
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
