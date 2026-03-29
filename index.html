@@ -211,19 +211,33 @@
         </button>
         <div class="nav-links" id="nav-links">
           <button class="nav-btn ghost" data-route="subjects">Notes</button>
-          <button class="nav-btn ghost" data-route="past-papers">
-            Past Papers
-          </button>
-          <button class="nav-btn ghost" data-route="topical">Topical</button>
+          <div class="nav-group" id="nav-group-practice">
+            <button class="nav-btn ghost nav-group-toggle" type="button">
+              Practice ▾
+            </button>
+            <div class="nav-group-menu">
+              <button class="nav-btn ghost" data-route="past-papers">
+                Past Papers
+              </button>
+              <button class="nav-btn ghost" data-route="topical">Topical</button>
+            </div>
+          </div>
           <button class="nav-btn ghost" data-route="community">Social</button>
           <button class="nav-btn ghost" data-route="mystuff">MyStuff</button>
-          <div class="nav-more" id="nav-more">
-            <button class="nav-btn ghost" id="nav-more-toggle" type="button">
-              More ▾
+          <div class="nav-group" id="nav-group-account">
+            <button class="nav-btn ghost nav-group-toggle" type="button">
+              Profile ▾
             </button>
-            <div class="nav-more-menu">
+            <div class="nav-group-menu">
               <button class="nav-btn ghost" data-route="profile">Profile</button>
               <button class="nav-btn ghost" data-route="confidence-map">Map</button>
+            </div>
+          </div>
+          <div class="nav-group" id="nav-group-manage">
+            <button class="nav-btn ghost nav-group-toggle" type="button">
+              Manage ▾
+            </button>
+            <div class="nav-group-menu">
               <button class="nav-btn ghost" data-route="editor" id="editor-nav-btn">
                 Editor
               </button>

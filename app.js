@@ -185,6 +185,7 @@ const state = {
   myStuff: [],
   myStuffTopicId: null,
   myStuffMode: "quiz",
+  myStuffDifficulty: "Medium",
 };
 
 const doneStorageKey = "revise.doneTopics";
@@ -199,6 +200,7 @@ const streakDateKey = "revise.streakDate";
 const lastVisitedKey = "revise.lastVisited"; // {topicId: timestamp}
 const themeKey = "revise.theme";
 const myStuffStorageKey = "revise.mystuff";
+const myStuffDifficultyKey = "revise.mystuffDifficulty";
 
 const auth = {
   get token() {
@@ -3641,7 +3643,9 @@ function renderQuizResult() {
   if (!quiz) return;
 
   const pct = Math.round((quiz.score / quiz.questions.length) * 100);
-  const xp = quiz.score * 20;
+  const difficulty = normalizeMyStuffDifficulty(quiz.difficulty || "Medium");
+  const xpMultiplier = myStuffDifficultyMultiplier(difficulty);
+  const xp = Math.round(quiz.score * 20 * xpMultiplier);
   state.xp += xp;
   persistXp();
   pushQuizScore(pct, state.currentTopic);
@@ -3657,7 +3661,8 @@ function renderQuizResult() {
       <h1>Quiz Complete</h1>
       <div class="result-score">${pct}%</div>
       <p>${quiz.score}/${quiz.questions.length} correct</p>
-      <p style="margin:0.7rem 0;color:var(--text2)">+${xp} XP earned</p>
+      <p style="margin:0.35rem 0;color:var(--text2)">Difficulty: ${escapeHtml(difficulty)}</p>
+      <p style="margin:0.35rem 0;color:var(--text2)">+${xp} XP earned</p>
       <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="App.go('quiz',{topicId:'${state.currentTopic || ""}',subjectId:'${state.currentSubject || ""}'})">Retry</button>
         <button class="btn btn-outline" onclick="App.go('home')">Back Home</button>
@@ -3785,12 +3790,21 @@ function rateFlash(value) {
 function renderFlashResult() {
   const flash = state.flash;
   const known = flash.results.filter((r) => r === true).length;
+  const difficulty = normalizeMyStuffDifficulty(flash.difficulty || "Medium");
+  const xp = Math.round(known * 8 * myStuffDifficultyMultiplier(difficulty));
+  state.xp += xp;
+  persistXp();
+  touchStreakToday();
+  addStudyMinutes(8);
+  updateStatsOnBackend(xp, 8);
 
   byId("flash-content").innerHTML = `
     <div class="card result-box">
       <h1>Flashcards Complete</h1>
       <div class="result-score">${known}/${flash.cards.length}</div>
       <p style="color:var(--text2)">Cards marked as known.</p>
+      <p style="margin:0.35rem 0;color:var(--text2)">Difficulty: ${escapeHtml(difficulty)}</p>
+      <p style="margin:0.35rem 0;color:var(--text2)">+${xp} XP earned</p>
       <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem">
         <button class="btn btn-primary" onclick="App.go('flash',{subjectId:'${state.currentSubject || "chem"}'})">Restart</button>
         <button class="btn btn-outline" onclick="App.go('home')">Back Home</button>
@@ -3798,7 +3812,7 @@ function renderFlashResult() {
     </div>
   `;
 
-  showToast("Flashcard session completed.");
+  showToast(`Flashcard session completed. +${xp} XP.`);
 }
 // Active subject filter for past papers tab UI
 let _paperSubjectFilter = "all";
@@ -4623,8 +4637,15 @@ function renderProfile() {
     .join("");
 
   // Reset progress button — always visible
+  const canEdit = user && (user.role === "teacher" || user.role === "admin");
+  const canAdmin = user && user.role === "admin";
   byId("profile-progress").innerHTML += `
     <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)">
+      <div style="display:flex;gap:0.45rem;flex-wrap:wrap;margin-bottom:0.7rem">
+        <button class="btn btn-outline btn-sm" onclick="App.go('confidence-map')">Open Confidence Map</button>
+        ${canEdit ? `<button class="btn btn-outline btn-sm" onclick="App.go('editor')">Open Editor</button>` : ""}
+        ${canAdmin ? `<button class="btn btn-outline btn-sm" onclick="App.go('admin')">Open Admin</button>` : ""}
+      </div>
       ${!user ? `<p style="color:var(--text2);font-size:0.85rem;margin-bottom:0.65rem">Progress is tracked locally. <button class="link-btn" onclick="App.openAuthModal('register')">Create an account</button> to save it to the cloud.</p>` : ""}
       <button class="btn btn-outline btn-danger btn-sm" onclick="App.resetProgress()">Reset Local Progress</button>
     </div>`;
@@ -4711,6 +4732,28 @@ function formatMyStuffDate(ts) {
   }
 }
 
+function normalizeMyStuffDifficulty(value) {
+  const v = String(value || "").trim().toLowerCase();
+  if (v === "easy") return "Easy";
+  if (v === "hard") return "Hard";
+  if (v === "very hard" || v === "very-hard" || v === "very_hard")
+    return "Very Hard";
+  return "Medium";
+}
+
+function myStuffDifficultyMultiplier(label) {
+  const d = normalizeMyStuffDifficulty(label);
+  if (d === "Easy") return 0.8;
+  if (d === "Hard") return 1.25;
+  if (d === "Very Hard") return 1.5;
+  return 1;
+}
+
+function setMyStuffDifficulty(level) {
+  state.myStuffDifficulty = normalizeMyStuffDifficulty(level);
+  localStorage.setItem(myStuffDifficultyKey, state.myStuffDifficulty);
+}
+
 function renderMyStuff() {
   const root = byId("mystuff-root");
   if (!root) return;
@@ -4759,7 +4802,8 @@ function renderMyStuff() {
             item.mode === "quiz"
               ? `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffQuiz('${item.id}')">Start Interactive Quiz</button>`
               : `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffFlashcards('${item.id}')">Start Interactive Deck</button>`;
-          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${item.mode === "quiz" ? "Questions" : "Flashcards"}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
+          const diff = normalizeMyStuffDifficulty(item.difficulty || "Medium");
+          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${item.mode === "quiz" ? "Questions" : "Flashcards"}</span><span class="mystuff-badge level">${escapeHtml(diff)}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
 
           if (item.mode === "quiz") {
             const questions = Array.isArray(item.data?.questions)
@@ -4802,16 +4846,29 @@ function renderMyStuff() {
         <button class="mystuff-mode-tab ${activeMode === "quiz" ? "active" : ""}" onclick="App.switchMyStuffMode('quiz')">Questions (${quizItems.length})</button>
         <button class="mystuff-mode-tab ${activeMode === "flashcards" ? "active" : ""}" onclick="App.switchMyStuffMode('flashcards')">Flashcards (${flashItems.length})</button>
       </div>
-      <label>
-        Topic
-        <select id="mystuff-topic-select" onchange="App.setMyStuffTopic(this.value)">
-          ${topicRows
-            .map(
-              (t) => `<option value="${escapeHtml(t.id)}" ${t.id === state.myStuffTopicId ? "selected" : ""}>${escapeHtml(t.label)}</option>`,
-            )
-            .join("")}
-        </select>
-      </label>
+      <div class="mystuff-input-grid">
+        <label>
+          Topic
+          <select id="mystuff-topic-select" onchange="App.setMyStuffTopic(this.value)">
+            ${topicRows
+              .map(
+                (t) => `<option value="${escapeHtml(t.id)}" ${t.id === state.myStuffTopicId ? "selected" : ""}>${escapeHtml(t.label)}</option>`,
+              )
+              .join("")}
+          </select>
+        </label>
+        <label>
+          Difficulty
+          <select id="mystuff-difficulty-select" onchange="App.setMyStuffDifficulty(this.value)">
+            ${["Easy", "Medium", "Hard", "Very Hard"]
+              .map(
+                (level) =>
+                  `<option value="${level}" ${normalizeMyStuffDifficulty(state.myStuffDifficulty) === level ? "selected" : ""}>${level}</option>`,
+              )
+              .join("")}
+          </select>
+        </label>
+      </div>
       <div class="mystuff-actions">
         <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">${activeMode === "quiz" ? "Generate 5 Questions" : "Generate 8 Flashcards"}</button>
         <button class="btn btn-outline" id="mystuff-gen-other" onclick="App.myStuffGenerate('${activeMode === "quiz" ? "flashcards" : "quiz"}')">Generate ${activeMode === "quiz" ? "8 Flashcards" : "5 Questions"}</button>
@@ -4834,6 +4891,8 @@ function setMyStuffTopic(topicId) {
 }
 
 async function myStuffGenerate(mode = null, forcedTopicId = null) {
+  state.myStuffDifficulty = normalizeMyStuffDifficulty(state.myStuffDifficulty);
+  localStorage.setItem(myStuffDifficultyKey, state.myStuffDifficulty);
   if (!auth.isLoggedIn) {
     openAuthModal("login");
     return;
@@ -4855,8 +4914,8 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
   if (statusEl)
     statusEl.textContent =
       effectiveMode === "quiz"
-        ? "Generating custom questions..."
-        : "Generating custom flashcards...";
+        ? `Generating ${state.myStuffDifficulty} custom AS questions...`
+        : `Generating ${state.myStuffDifficulty} custom AS flashcards...`;
   if (mainBtn) mainBtn.disabled = true;
   if (otherBtn) otherBtn.disabled = true;
 
@@ -4870,6 +4929,7 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
           topicId,
           topicTitle: topic.title || topicId,
           subjectId: topic.subject || state.currentSubject || "general",
+          difficulty: normalizeMyStuffDifficulty(state.myStuffDifficulty),
           context: buildAiContext(topic),
         }),
       },
@@ -4886,6 +4946,7 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
       topicId,
       topicTitle: topic.title || topicId,
       subjectId: topic.subject || "general",
+      difficulty: normalizeMyStuffDifficulty(state.myStuffDifficulty),
       data: data.data,
       quota: data.quota || null,
       fallback: !!data.fallback,
@@ -4924,6 +4985,7 @@ function startMyStuffQuiz(itemId) {
   state.quiz = {
     title: `${item.topicTitle || "MyStuff"} - Custom Quiz`,
     sourceLabel: "MyStuff",
+    difficulty: normalizeMyStuffDifficulty(item.difficulty || "Medium"),
     questions,
     qIndex: 0,
     score: 0,
@@ -4947,6 +5009,7 @@ function startMyStuffFlashcards(itemId) {
   }
   state.flash = {
     label: `${item.topicTitle || "MyStuff"} - Custom Deck`,
+    difficulty: normalizeMyStuffDifficulty(item.difficulty || "Medium"),
     cards,
     index: 0,
     flipped: false,
@@ -5104,6 +5167,7 @@ async function _runAiLite(topicId, mode) {
           topicId,
           topicTitle: topic?.title || topicId,
           subjectId: topic?.subject || state.currentSubject || "general",
+          difficulty: normalizeMyStuffDifficulty(state.myStuffDifficulty),
           context: buildAiContext(topic),
         }),
       },
@@ -5799,6 +5863,9 @@ async function init() {
 
     loaderStep("Setting up interface…", 70);
     state.myStuff = loadMyStuffItems();
+    state.myStuffDifficulty = normalizeMyStuffDifficulty(
+      localStorage.getItem(myStuffDifficultyKey) || state.myStuffDifficulty,
+    );
     bindBaseEvents();
     updateNavForAuth();
     applyAiVisibility();
@@ -9341,21 +9408,31 @@ function bindBaseEvents() {
       if (links) links.classList.remove("open");
       const hamburger = byId("nav-hamburger");
       if (hamburger) hamburger.classList.remove("open");
-      byId("nav-more")?.classList.remove("open");
+      document
+        .querySelectorAll(".nav-group.open")
+        .forEach((el) => el.classList.remove("open"));
       go(button.getAttribute("data-route"));
     });
   });
 
-  const navMore = byId("nav-more");
-  const navMoreToggle = byId("nav-more-toggle");
-  if (navMore && navMoreToggle) {
-    navMoreToggle.addEventListener("click", () => {
-      navMore.classList.toggle("open");
+  document.querySelectorAll(".nav-group-toggle").forEach((toggle) => {
+    toggle.addEventListener("click", (e) => {
+      const group = e.currentTarget.closest(".nav-group");
+      if (!group) return;
+      const shouldOpen = !group.classList.contains("open");
+      document
+        .querySelectorAll(".nav-group.open")
+        .forEach((el) => el.classList.remove("open"));
+      if (shouldOpen) group.classList.add("open");
     });
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest("#nav-more")) navMore.classList.remove("open");
-    });
-  }
+  });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".nav-group")) {
+      document
+        .querySelectorAll(".nav-group.open")
+        .forEach((el) => el.classList.remove("open"));
+    }
+  });
 
   // Hamburger toggle
   const hamburger = byId("nav-hamburger");
@@ -11661,6 +11738,7 @@ const App = {
   myStuffGenerate,
   switchMyStuffMode,
   setMyStuffTopic,
+  setMyStuffDifficulty,
   startMyStuffQuiz,
   startMyStuffFlashcards,
   removeMyStuffItem,

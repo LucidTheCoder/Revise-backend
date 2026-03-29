@@ -3867,16 +3867,16 @@ textarea:focus-visible {
   gap: 0.5rem;
 }
 
-.nav-more {
+.nav-group {
   position: relative;
 }
 
-.nav-more-menu {
+.nav-group-menu {
   display: none;
   position: absolute;
   top: calc(100% + 0.35rem);
   right: 0;
-  min-width: 170px;
+  min-width: 178px;
   padding: 0.35rem;
   border: 1px solid var(--border2);
   border-radius: 12px;
@@ -3885,12 +3885,12 @@ textarea:focus-visible {
   z-index: 105;
 }
 
-.nav-more.open .nav-more-menu {
+.nav-group.open .nav-group-menu {
   display: grid;
   gap: 0.35rem;
 }
 
-.nav-more-menu .nav-btn {
+.nav-group-menu .nav-btn {
   width: 100%;
   text-align: left;
 }
@@ -3941,11 +3941,15 @@ textarea:focus-visible {
     background: var(--bg3);
   }
 
-  .nav-more {
+  .nav-group {
     width: 100%;
   }
 
-  .nav-more-menu {
+  .nav-group-toggle {
+    width: 100%;
+  }
+
+  .nav-group-menu {
     position: static;
     margin-top: 0.35rem;
     border-radius: 10px;
@@ -7620,6 +7624,12 @@ html {
     border-color: var(--accent);
   }
 
+  .mystuff-input-grid {
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
   .mystuff-controls label {
     display: grid;
     gap: 0.35rem;
@@ -7702,6 +7712,11 @@ html {
     color: #f59e0b;
   }
 
+  .mystuff-badge.level {
+    border-color: color-mix(in srgb, var(--phy), transparent 30%);
+    color: var(--phy);
+  }
+
   .mystuff-meta {
     margin: 0;
     font-size: 0.78rem;
@@ -7758,6 +7773,10 @@ html {
     .mystuff-mode-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
+    }
+
+    .mystuff-input-grid {
+      grid-template-columns: 1fr;
     }
 
     .mystuff-actions {

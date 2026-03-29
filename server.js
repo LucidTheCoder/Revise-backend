@@ -2117,7 +2117,16 @@ function buildAiLiteFallback(mode, topicTitle, subjectId) {
   };
 }
 
-async function generateAiLiteWithOpenRouter({ mode, topicTitle, subjectId, context }) {
+function normalizeAiLiteDifficulty(raw) {
+  const v = String(raw || "").trim().toLowerCase();
+  if (v === "easy") return "Easy";
+  if (v === "hard") return "Hard";
+  if (v === "very hard" || v === "very-hard" || v === "very_hard")
+    return "Very Hard";
+  return "Medium";
+}
+
+async function generateAiLiteWithOpenRouter({ mode, topicTitle, subjectId, context, difficulty = "Medium" }) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) throw new Error("OPENROUTER_API_KEY not set");
 
@@ -2135,8 +2144,12 @@ async function generateAiLiteWithOpenRouter({ mode, topicTitle, subjectId, conte
       ? '{"questions":[{"question":"...","options":["...","...","...","..."],"answerIndex":0,"explanation":"..."}]}'
       : '{"cards":[{"front":"...","back":"..."}]}';
 
+  const normalizedDifficulty = normalizeAiLiteDifficulty(difficulty);
   const prompt = [
-    `Create ${mode === "quiz" ? "exactly 5" : "exactly 8"} ${mode === "quiz" ? "AS-level multiple-choice questions" : "AS-level flashcards"} for topic "${topicTitle}" (${subjectId}).`,
+    `Create ${mode === "quiz" ? "exactly 5" : "exactly 8"} ${mode === "quiz" ? "Cambridge AS-level multiple-choice questions" : "Cambridge AS-level flashcards"} for topic "${topicTitle}" (${subjectId}).`,
+    `Target difficulty: ${normalizedDifficulty}.`,
+    "STRICT SCOPE: Use Cambridge AS Level content only. Do NOT include any A2/A-Level-only depth, derivations, or extension material.",
+    "If a point is not clearly AS-level, omit it and replace with AS-level-valid content.",
     "Output ONLY valid JSON.",
     `Use this schema exactly: ${schemaHint}`,
     "Fact-check before finalizing: include only statements that are well-established for Cambridge AS-level syllabus content.",
@@ -2144,7 +2157,7 @@ async function generateAiLiteWithOpenRouter({ mode, topicTitle, subjectId, conte
     "Prefer canonical definitions, mechanisms, and examiner-style phrasing over trivia.",
     mode === "quiz"
       ? "For quiz questions: provide 4 options each, exactly one correct option, answerIndex 0-3, and one-line explanation justifying the correct answer."
-      : "For flashcards: concise fronts and exam-focused backs; each back must be directly verifiable from standard syllabus knowledge.",
+      : "For flashcards: concise fronts and exam-focused backs; each back must be directly verifiable from standard AS syllabus knowledge.",
     context ? `Context:\n${String(context).slice(0, 1400)}` : "",
   ]
     .filter(Boolean)
@@ -2834,7 +2847,7 @@ app.get("/api/ai-lite/quota", authenticateToken, async (req, res, next) => {
 
 async function handleAiLiteGenerate(req, res, next, mode) {
   try {
-    const { topicId, topicTitle, subjectId, context } = req.body || {};
+    const { topicId, topicTitle, subjectId, context, difficulty } = req.body || {};
     if (!topicId || !topicTitle) {
       return res
         .status(400)
@@ -2845,6 +2858,7 @@ async function handleAiLiteGenerate(req, res, next, mode) {
     const topicMax = parseInt(process.env.AI_LITE_TOPIC_LIMIT || "2", 10);
     const userKey = String(req.user._id);
     const isAdmin = req.user?.role === "admin";
+    const normalizedDifficulty = normalizeAiLiteDifficulty(difficulty);
 
     if (isAdmin) {
       try {
@@ -2853,6 +2867,7 @@ async function handleAiLiteGenerate(req, res, next, mode) {
           topicTitle,
           subjectId,
           context,
+          difficulty: normalizedDifficulty,
         });
         return res.json({
           success: true,
@@ -2929,6 +2944,7 @@ async function handleAiLiteGenerate(req, res, next, mode) {
         topicTitle,
         subjectId,
         context,
+        difficulty: normalizedDifficulty,
       });
 
       await db.consumeAiLiteQuota(snapshot.user, {
