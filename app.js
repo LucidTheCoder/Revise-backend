@@ -190,6 +190,7 @@ const state = {
   myStuffFlashCount: 8,
   aiLoading: false,
   structureQuestionsToday: 0,
+  structureQuestionsDailyMax: 3,
 };
 
 const doneStorageKey = "revise.doneTopics";
@@ -4862,21 +4863,60 @@ function loadStructureQuestionsCount() {
     localStorage.setItem(structureQuestionsKey, "0");
     localStorage.setItem(structureQuestionsDateKey, today);
     state.structureQuestionsToday = 0;
+    state.structureQuestionsDailyMax = 3;
   } else {
-    state.structureQuestionsToday = parseInt(localStorage.getItem(structureQuestionsKey) || "0", 10);
+    const parsed = parseInt(localStorage.getItem(structureQuestionsKey) || "0", 10);
+    state.structureQuestionsToday = Number.isFinite(parsed) ? parsed : 0;
   }
 }
 
 function incrementStructureQuestions() {
+  const today = new Date().toDateString();
+  if (localStorage.getItem(structureQuestionsDateKey) !== today) {
+    localStorage.setItem(structureQuestionsDateKey, today);
+    localStorage.setItem(structureQuestionsKey, "0");
+    state.structureQuestionsToday = 0;
+  }
   state.structureQuestionsToday = (state.structureQuestionsToday || 0) + 1;
+  localStorage.setItem(structureQuestionsDateKey, today);
   localStorage.setItem(structureQuestionsKey, String(state.structureQuestionsToday));
 }
 
 const STRUCTURE_QUESTIONS_DAILY_LIMIT = 3;
 
+function structureQuestionsQuotaText() {
+  const max =
+    Number.isFinite(Number(state.structureQuestionsDailyMax)) &&
+    Number(state.structureQuestionsDailyMax) > 0
+      ? Number(state.structureQuestionsDailyMax)
+      : STRUCTURE_QUESTIONS_DAILY_LIMIT;
+  const used = Math.max(0, Number(state.structureQuestionsToday) || 0);
+  return `${used}/${max}`;
+}
+
+function syncStructureQuotaFromResponse(quota) {
+  if (!quota || typeof quota !== "object") return;
+  const dailyRemaining = Number(quota.dailyRemaining);
+  const dailyMax = Number(quota.dailyMax);
+  if (!Number.isFinite(dailyRemaining) || !Number.isFinite(dailyMax) || dailyMax <= 0)
+    return;
+
+  const used = Math.max(0, dailyMax - dailyRemaining);
+  state.structureQuestionsToday = used;
+  state.structureQuestionsDailyMax = dailyMax;
+  const today = new Date().toDateString();
+  localStorage.setItem(structureQuestionsDateKey, today);
+  localStorage.setItem(structureQuestionsKey, String(used));
+}
+
 function canGenerateStructureQuestions() {
   loadStructureQuestionsCount();
-  return state.structureQuestionsToday < STRUCTURE_QUESTIONS_DAILY_LIMIT;
+  const max =
+    Number.isFinite(Number(state.structureQuestionsDailyMax)) &&
+    Number(state.structureQuestionsDailyMax) > 0
+      ? Number(state.structureQuestionsDailyMax)
+      : STRUCTURE_QUESTIONS_DAILY_LIMIT;
+  return state.structureQuestionsToday < max;
 }
 
 function renderMyStuff() {
@@ -5041,7 +5081,7 @@ function renderMyStuff() {
       <div class="mystuff-control-sep" aria-hidden="true"></div>
       <div class="mystuff-actions">
         <button class="btn btn-primary" id="mystuff-gen-main" onclick="${activeMode === "structure" ? "App.myStuffGenerateStructure()" : "App.myStuffGenerate()"}">${activeMode === "structure" ? "Generate Structure" : "Generate"}</button>
-        ${activeMode === "structure" ? "" : `<button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`}">Generate Structure (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})</button>`}
+        ${activeMode === "structure" ? "" : `<button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${structureQuestionsQuotaText()})`}">Generate Structure (${structureQuestionsQuotaText()})</button>`}
         ${activeMode === "structure" ? "" : `<button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>`}
         <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : activeMode === "flashcards" ? "Flashcards" : "Structure"}</button>
       </div>
@@ -5158,7 +5198,7 @@ async function myStuffGenerate(mode = null, forcedTopicId = null) {
 
 async function myStuffGenerateStructure() {
   if (!canGenerateStructureQuestions()) {
-    showToast(`Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`);
+    showToast(`Daily limit reached (${structureQuestionsQuotaText()})`);
     return;
   }
 
@@ -5198,9 +5238,11 @@ async function myStuffGenerateStructure() {
     );
     const data = await res.json();
     hideAiLoading();
+    syncStructureQuotaFromResponse(data?.quota);
 
     if (!res.ok || !data.success) {
       if (statusEl) statusEl.textContent = data.error || "Could not generate structure question.";
+      renderMyStuff();
       return;
     }
 
@@ -5219,7 +5261,7 @@ async function myStuffGenerateStructure() {
     };
     state.myStuff = Array.isArray(state.myStuff) ? [item, ...state.myStuff] : [item];
     saveMyStuffItems();
-    incrementStructureQuestions();
+    if (!data?.quota) incrementStructureQuestions();
     renderMyStuff();
     if (statusEl)
       statusEl.textContent = data.fallback
@@ -9040,6 +9082,11 @@ async function adminResetAiLiteQuotas() {
     }
     if (statusEl)
       statusEl.textContent = `Reset complete (${Number(data.modified || 0)} users).`;
+    state.structureQuestionsToday = 0;
+    state.structureQuestionsDailyMax = STRUCTURE_QUESTIONS_DAILY_LIMIT;
+    localStorage.setItem(structureQuestionsKey, "0");
+    localStorage.setItem(structureQuestionsDateKey, new Date().toDateString());
+    if (state.currentView === "mystuff") renderMyStuff();
     showToast("AI-lite quotas reset sitewide.");
   } catch {
     if (statusEl) statusEl.textContent = "Network error while resetting quotas.";
