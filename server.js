@@ -2139,9 +2139,12 @@ async function generateAiLiteWithOpenRouter({ mode, topicTitle, subjectId, conte
     `Create ${mode === "quiz" ? "exactly 5" : "exactly 8"} ${mode === "quiz" ? "AS-level multiple-choice questions" : "AS-level flashcards"} for topic "${topicTitle}" (${subjectId}).`,
     "Output ONLY valid JSON.",
     `Use this schema exactly: ${schemaHint}`,
+    "Fact-check before finalizing: include only statements that are well-established for Cambridge AS-level syllabus content.",
+    "Do not invent facts, values, experiments, or named details. If uncertain, simplify to a safe, accurate statement.",
+    "Prefer canonical definitions, mechanisms, and examiner-style phrasing over trivia.",
     mode === "quiz"
-      ? "For quiz questions: provide 4 options each, answerIndex 0-3, and one-line explanation."
-      : "For flashcards: concise fronts and exam-focused backs.",
+      ? "For quiz questions: provide 4 options each, exactly one correct option, answerIndex 0-3, and one-line explanation justifying the correct answer."
+      : "For flashcards: concise fronts and exam-focused backs; each back must be directly verifiable from standard syllabus knowledge.",
     context ? `Context:\n${String(context).slice(0, 1400)}` : "",
   ]
     .filter(Boolean)

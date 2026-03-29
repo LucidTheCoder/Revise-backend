@@ -216,20 +216,27 @@
           </button>
           <button class="nav-btn ghost" data-route="topical">Topical</button>
           <button class="nav-btn ghost" data-route="community">Social</button>
-          <button class="nav-btn ghost" data-route="editor" id="editor-nav-btn">
-            Editor
-          </button>
           <button class="nav-btn ghost" data-route="mystuff">MyStuff</button>
-          <button class="nav-btn ghost" data-route="profile">Profile</button>
-          <button class="nav-btn ghost" data-route="confidence-map">Map</button>
-          <button
-            class="nav-btn ghost admin-only-nav"
-            data-route="admin"
-            id="admin-nav-btn"
-            style="display: none"
-          >
-            Admin
-          </button>
+          <div class="nav-more" id="nav-more">
+            <button class="nav-btn ghost" id="nav-more-toggle" type="button">
+              More ▾
+            </button>
+            <div class="nav-more-menu">
+              <button class="nav-btn ghost" data-route="profile">Profile</button>
+              <button class="nav-btn ghost" data-route="confidence-map">Map</button>
+              <button class="nav-btn ghost" data-route="editor" id="editor-nav-btn">
+                Editor
+              </button>
+              <button
+                class="nav-btn ghost admin-only-nav"
+                data-route="admin"
+                id="admin-nav-btn"
+                style="display: none"
+              >
+                Admin
+              </button>
+            </div>
+          </div>
           <button class="nav-btn solid" id="signin-btn">Sign In</button>
         </div>
         <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">

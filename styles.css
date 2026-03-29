@@ -3867,6 +3867,34 @@ textarea:focus-visible {
   gap: 0.5rem;
 }
 
+.nav-more {
+  position: relative;
+}
+
+.nav-more-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  min-width: 170px;
+  padding: 0.35rem;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg2), transparent 6%);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  z-index: 105;
+}
+
+.nav-more.open .nav-more-menu {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.nav-more-menu .nav-btn {
+  width: 100%;
+  text-align: left;
+}
+
 @media (max-width: 760px) {
   .nav-search {
     display: none;
@@ -3911,6 +3939,17 @@ textarea:focus-visible {
   }
   .nav-links .nav-btn.ghost:hover {
     background: var(--bg3);
+  }
+
+  .nav-more {
+    width: 100%;
+  }
+
+  .nav-more-menu {
+    position: static;
+    margin-top: 0.35rem;
+    border-radius: 10px;
+    box-shadow: none;
   }
 }
 
@@ -7681,6 +7720,19 @@ html {
   .mystuff-card p {
     margin: 0.15rem 0;
     line-height: 1.45;
+  }
+
+  .mystuff-qa ol,
+  .mystuff-card ol {
+    margin: 0.2rem 0 0.2rem 1.2rem;
+    padding: 0;
+    display: grid;
+    gap: 0.42rem;
+  }
+
+  .mystuff-qa li,
+  .mystuff-card li {
+    margin: 0;
   }
 
   .mystuff-qa ul {

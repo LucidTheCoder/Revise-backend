@@ -1814,6 +1814,27 @@ function resolveApiUrl(localPath) {
   return null; // no API equivalent — use local file directly
 }
 
+const backendFallbackState = {
+  disabledUntil: 0,
+  warnedInCooldown: false,
+};
+
+function isBackendTemporarilyDisabled() {
+  return Date.now() < backendFallbackState.disabledUntil;
+}
+
+function disableBackendTemporarily(reason = "", cooldownMs = 180000) {
+  backendFallbackState.disabledUntil = Date.now() + Math.max(30000, cooldownMs);
+  if (!backendFallbackState.warnedInCooldown) {
+    backendFallbackState.warnedInCooldown = true;
+    const seconds = Math.round((backendFallbackState.disabledUntil - Date.now()) / 1000);
+    console.warn(
+      `⚠ Backend data API unavailable, using local JSON fallback for ~${seconds}s.`,
+      reason || "",
+    );
+  }
+}
+
 // ── Safe JSON fetcher: backend first, local fallback ──────────────────────
 async function fetchJson(localPath, apiOverride = null) {
   const unwrap = (data) =>
@@ -1831,7 +1852,7 @@ async function fetchJson(localPath, apiOverride = null) {
   }
 
   // 2. Try backend if enabled
-  if (USE_BACKEND) {
+  if (USE_BACKEND && !isBackendTemporarilyDisabled()) {
     const apiUrl = resolveApiUrl(localPath);
     if (apiUrl) {
       try {
@@ -1851,13 +1872,11 @@ async function fetchJson(localPath, apiOverride = null) {
             "⚠ Backend papers have no URLs — loading local past-papers.json",
           );
         } else {
+          backendFallbackState.warnedInCooldown = false;
           return data;
         }
       } catch (err) {
-        console.warn(
-          `⚠ Backend unavailable for ${localPath}, using local file:`,
-          err.message,
-        );
+        disableBackendTemporarily(err?.message || "backend fetch error");
       }
     }
   }
@@ -4743,20 +4762,36 @@ function renderMyStuff() {
           const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${item.mode === "quiz" ? "Questions" : "Flashcards"}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
 
           if (item.mode === "quiz") {
-            const first = Array.isArray(item.data?.questions)
-              ? item.data.questions[0]
-              : null;
-            const preview = first
-              ? `<div class="mystuff-qa"><p><strong>Preview:</strong> ${escapeHtml(String(first.question || ""))}</p></div>`
+            const questions = Array.isArray(item.data?.questions)
+              ? item.data.questions
+              : [];
+            const renderedQuestions = questions.length
+              ? `<div class="mystuff-qa"><ol>${questions
+                  .map((q) => {
+                    const options = Array.isArray(q.options) ? q.options : [];
+                    const answerIndex = Math.max(
+                      0,
+                      Math.min(3, Number(q.answerIndex || 0)),
+                    );
+                    return `<li><p><strong>${escapeHtml(String(q.question || ""))}</strong></p><ul>${options
+                      .map((opt, idx) => `<li>${escapeHtml(String(opt || ""))}${idx === answerIndex ? ' <span class="mystuff-answer">(Answer)</span>' : ""}</li>`)
+                      .join("")}</ul>${q.explanation ? `<p class="mystuff-answer">${escapeHtml(String(q.explanation))}</p>` : ""}</li>`;
+                  })
+                  .join("")}</ol></div>`
               : "";
-            return `<article class="card mystuff-item">${head}${quota}${preview}</article>`;
+            return `<article class="card mystuff-item">${head}${quota}${renderedQuestions}</article>`;
           }
 
-          const firstCard = Array.isArray(item.data?.cards) ? item.data.cards[0] : null;
-          const preview = firstCard
-            ? `<div class="mystuff-card"><p><strong>Preview:</strong> ${escapeHtml(String(firstCard.front || ""))}</p></div>`
+          const cards = Array.isArray(item.data?.cards) ? item.data.cards : [];
+          const renderedCards = cards.length
+            ? `<div class="mystuff-card"><ol>${cards
+                .map(
+                  (c) =>
+                    `<li><p><strong>${escapeHtml(String(c.front || ""))}</strong></p><p class="mystuff-answer">${escapeHtml(String(c.back || ""))}</p></li>`,
+                )
+                .join("")}</ol></div>`
             : "";
-          return `<article class="card mystuff-item">${head}${quota}${preview}</article>`;
+          return `<article class="card mystuff-item">${head}${quota}${renderedCards}</article>`;
         })
         .join("")
     : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : "flashcard decks"} generated yet.</p></div>`;
@@ -4780,6 +4815,7 @@ function renderMyStuff() {
       <div class="mystuff-actions">
         <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">${activeMode === "quiz" ? "Generate 5 Questions" : "Generate 8 Flashcards"}</button>
         <button class="btn btn-outline" id="mystuff-gen-other" onclick="App.myStuffGenerate('${activeMode === "quiz" ? "flashcards" : "quiz"}')">Generate ${activeMode === "quiz" ? "8 Flashcards" : "5 Questions"}</button>
+        <button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>
         <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : "Flashcards"}</button>
       </div>
       <p id="mystuff-status" class="mystuff-status"></p>
@@ -4932,6 +4968,70 @@ function clearMyStuff(mode = null) {
     state.myStuff = (state.myStuff || []).filter((item) => item.mode !== mode);
   saveMyStuffItems();
   renderMyStuff();
+}
+
+function exportMyStuffPdf(mode = null) {
+  const activeMode =
+    mode || (state.myStuffMode === "flashcards" ? "flashcards" : "quiz");
+  const items = (state.myStuff || [])
+    .filter((item) => item.mode === activeMode)
+    .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+
+  if (!items.length) {
+    showToast(`No ${activeMode === "quiz" ? "question sets" : "flashcards"} to export.`);
+    return;
+  }
+
+  const win = window.open("", "_blank");
+  if (!win) {
+    showToast("Allow pop-ups to export PDF — check your browser settings");
+    return;
+  }
+
+  const heading = activeMode === "quiz" ? "MyStuff Questions" : "MyStuff Flashcards";
+  const body = items
+    .map((item, idx) => {
+      const title = escapeHtml(item.topicTitle || item.topicId || "Topic");
+      const created = escapeHtml(formatMyStuffDate(item.createdAt));
+      if (activeMode === "quiz") {
+        const questions = Array.isArray(item.data?.questions) ? item.data.questions : [];
+        const rows = questions
+          .map((q, qIdx) => {
+            const options = Array.isArray(q.options) ? q.options : [];
+            const answerIndex = Math.max(0, Math.min(3, Number(q.answerIndex || 0)));
+            return `<li><p><strong>Q${qIdx + 1}. ${escapeHtml(String(q.question || ""))}</strong></p><ul>${options
+              .map((opt, oIdx) => `<li>${escapeHtml(String(opt || ""))}${oIdx === answerIndex ? " (Answer)" : ""}</li>`)
+              .join("")}</ul>${q.explanation ? `<p><em>${escapeHtml(String(q.explanation))}</em></p>` : ""}</li>`;
+          })
+          .join("");
+        return `<section class="set"><h2>${idx + 1}. ${title}</h2><p class="meta">${created}</p><ol>${rows}</ol></section>`;
+      }
+
+      const cards = Array.isArray(item.data?.cards) ? item.data.cards : [];
+      const rows = cards
+        .map(
+          (c, cIdx) =>
+            `<li><p><strong>${cIdx + 1}. ${escapeHtml(String(c.front || ""))}</strong></p><p>${escapeHtml(String(c.back || ""))}</p></li>`,
+        )
+        .join("");
+      return `<section class="set"><h2>${idx + 1}. ${title}</h2><p class="meta">${created}</p><ol>${rows}</ol></section>`;
+    })
+    .join("");
+
+  win.document.open();
+  win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${heading}</title><style>
+    body{font-family:Arial,sans-serif;padding:20px;color:#111;line-height:1.45}
+    h1{margin:0 0 10px}
+    .meta{color:#444;font-size:12px;margin:0 0 8px}
+    .set{border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin:0 0 14px;page-break-inside:avoid}
+    li{margin-bottom:8px}
+    ul{margin-top:4px}
+  </style></head><body><h1>${heading}</h1>${body}</body></html>`);
+  win.document.close();
+  setTimeout(() => {
+    win.focus();
+    win.print();
+  }, 250);
 }
 
 function formatAiLiteQuizText(payload) {
@@ -9241,9 +9341,21 @@ function bindBaseEvents() {
       if (links) links.classList.remove("open");
       const hamburger = byId("nav-hamburger");
       if (hamburger) hamburger.classList.remove("open");
+      byId("nav-more")?.classList.remove("open");
       go(button.getAttribute("data-route"));
     });
   });
+
+  const navMore = byId("nav-more");
+  const navMoreToggle = byId("nav-more-toggle");
+  if (navMore && navMoreToggle) {
+    navMoreToggle.addEventListener("click", () => {
+      navMore.classList.toggle("open");
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#nav-more")) navMore.classList.remove("open");
+    });
+  }
 
   // Hamburger toggle
   const hamburger = byId("nav-hamburger");
@@ -11553,6 +11665,7 @@ const App = {
   startMyStuffFlashcards,
   removeMyStuffItem,
   clearMyStuff,
+  exportMyStuffPdf,
   generateAiLiteQuiz,
   generateAiLiteFlashcards,
   showToast,
