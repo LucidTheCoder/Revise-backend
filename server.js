@@ -2148,6 +2148,9 @@ async function generateAiLiteWithOpenRouter({ mode, topicTitle, subjectId, conte
   const prompt = [
     `Create ${mode === "quiz" ? "exactly 5" : "exactly 8"} ${mode === "quiz" ? "Cambridge AS-level multiple-choice questions" : "Cambridge AS-level flashcards"} for topic "${topicTitle}" (${subjectId}).`,
     `Target difficulty: ${normalizedDifficulty}.`,
+    "TOPIC RELEVANCE: Every generated item must be directly about the selected topic, not the broader subject.",
+    `If an item does not explicitly match \"${topicTitle}\", replace it with one that does.`,
+    "Avoid generic revision items that could apply equally to many different topics.",
     "STRICT SCOPE: Use Cambridge AS Level content only. Do NOT include any A2/A-Level-only depth, derivations, or extension material.",
     "If a point is not clearly AS-level, omit it and replace with AS-level-valid content.",
     "Output ONLY valid JSON.",

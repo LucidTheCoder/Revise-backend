@@ -5025,8 +5025,9 @@ function renderMyStuff() {
           </select>
         </label>
       </div>
+      <div class="mystuff-control-sep" aria-hidden="true"></div>
       <div class="mystuff-actions">
-        <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">${activeMode === "quiz" ? `Generate ${selectedCount} Questions` : `Generate ${selectedCount} Flashcards`}</button>
+        <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">Generate</button>
         <button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`}">Generate Structure (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})</button>
         <button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>
         <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : "Flashcards"}</button>
