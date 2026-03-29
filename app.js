@@ -5386,23 +5386,27 @@ async function _gifSearch(q) {
     try {
       const res = await fetch(
         `${API_BASE_URL}/api/tenor/search?q=${encodeURIComponent(q)}&limit=16`,
-        { headers: authHeaders() },
+        { headers: { Accept: "application/json" } },
       );
       const data = await res.json();
-      if (!data.success || !data.data.length) {
-        grid.innerHTML = '<p class="gif-hint">No GIFs found.</p>';
+      if (!data.success) {
+        grid.innerHTML = `<p class="gif-hint">${escapeHtml(data.error || "GIF search unavailable right now.")}</p>`;
         return;
       }
-      const safe = (data.data || []).filter((g) => g?.url && g?.preview);
+      if (!data.data.length) {
+        grid.innerHTML = '<p class="gif-hint">No GIFs found for that search.</p>';
+        return;
+      }
+      const safe = (data.data || []).filter((g) => g?.url);
       if (!safe.length) {
-        grid.innerHTML = '<p class="gif-hint">No GIFs found.</p>';
+        grid.innerHTML = '<p class="gif-hint">No GIFs found for that search.</p>';
         return;
       }
       grid.innerHTML = safe
         .map(
           (g, i) =>
             `<button class="gif-item" data-gif-idx="${i}" title="${escapeHtml(g.title || "GIF")}">
-          <img src="${escapeHtml(g.preview)}" alt="${escapeHtml(g.title || "GIF")}" loading="lazy">
+          <img src="${escapeHtml(g.preview || g.url)}" alt="${escapeHtml(g.title || "GIF")}" loading="lazy">
         </button>`,
         )
         .join("");

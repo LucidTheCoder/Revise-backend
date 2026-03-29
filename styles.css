@@ -6942,7 +6942,8 @@ html {
 .social-page {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 56px); /* full height minus nav */
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -7017,6 +7018,7 @@ html {
 
 .social-panel {
   flex: 1;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -9131,7 +9133,7 @@ html {
 }
 .sidebar-backdrop.visible {
   display: block;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 @media (max-width: 760px) {
@@ -9632,6 +9634,12 @@ body {
 .page-container > .site-footer {
   flex-shrink: 0;
   margin-top: auto;
+}
+
+body[data-view="community"] .site-footer,
+body[data-view="subject"] .site-footer,
+body[data-view="topic"] .site-footer {
+  display: none;
 }
 
 .view,

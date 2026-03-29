@@ -1,0 +1,19 @@
+{
+  "moderatedWords": [
+    "fuck",
+    "shit",
+    "bitch",
+    "asshole",
+    "bastard",
+    "dick",
+    "pussy",
+    "slut",
+    "whore",
+    "nigga",
+    "nigger",
+    "faggot",
+    "retard",
+    "kys"
+  ],
+  "hardBlockWords": ["nigger", "faggot", "kys"]
+}

@@ -16,6 +16,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const fs = require("fs").promises;
 const path = require("path");
+const moderationWordsConfig = require("./moderation-words.json");
 const {
   register,
   login,
@@ -71,24 +72,13 @@ const io = new Server(server, {
 const channelUsers = {};
 
 // ── Social moderation helpers ──────────────────────────────────────────────
-const MODERATED_WORDS = [
-  "fuck",
-  "shit",
-  "bitch",
-  "asshole",
-  "bastard",
-  "dick",
-  "pussy",
-  "slut",
-  "whore",
-  "nigga",
-  "nigger",
-  "faggot",
-  "retard",
-  "kys",
-];
+const MODERATED_WORDS = Array.isArray(moderationWordsConfig?.moderatedWords)
+  ? moderationWordsConfig.moderatedWords
+  : [];
 
-const HARD_BLOCK_WORDS = ["nigger", "faggot", "kys"];
+const HARD_BLOCK_WORDS = Array.isArray(moderationWordsConfig?.hardBlockWords)
+  ? moderationWordsConfig.hardBlockWords
+  : [];
 
 const SOCIAL_RATE_WINDOW_MS = 10_000;
 const SOCIAL_RATE_MAX = 8;
@@ -3269,10 +3259,17 @@ app.post("/api/pdf-proxy", handlePdfProxy);
 app.get("/api/tenor/search", optionalAuth, async (req, res, next) => {
   try {
     const apiKey = process.env.TENOR_API_KEY;
-    if (!apiKey) return res.json({ success: true, data: [] }); // graceful degradation
+    if (!apiKey) {
+      return res.json({
+        success: false,
+        data: [],
+        error: "TENOR_API_KEY is not configured on the server.",
+      });
+    }
     const q = (req.query.q || "").trim().slice(0, 100);
+    if (!q) return res.json({ success: true, data: [] });
     const limit = Math.min(parseInt(req.query.limit) || 16, 32);
-    const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=${apiKey}&limit=${limit}&media_filter=gif,tinygif&contentfilter=medium`;
+    const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=${apiKey}&limit=${limit}&contentfilter=medium`;
     const r = await fetch(url);
     if (!r.ok) return res.json({ success: true, data: [] });
     const d = await r.json();
