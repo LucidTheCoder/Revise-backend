@@ -184,6 +184,7 @@ const state = {
   weeklyMinutes: [0, 0, 0, 0, 0, 0, 0],
   myStuff: [],
   myStuffTopicId: null,
+  myStuffMode: "quiz",
 };
 
 const doneStorageKey = "revise.doneTopics";
@@ -4721,45 +4722,51 @@ function renderMyStuff() {
     state.myStuffTopicId = state.currentTopic || topicRows[0].id;
   }
 
-  const items = [...(state.myStuff || [])].sort(
+  const activeMode = state.myStuffMode === "flashcards" ? "flashcards" : "quiz";
+  const allItems = [...(state.myStuff || [])].sort(
     (a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0),
   );
+  const quizItems = allItems.filter((item) => item.mode === "quiz");
+  const flashItems = allItems.filter((item) => item.mode === "flashcards");
+  const items = activeMode === "quiz" ? quizItems : flashItems;
 
   const rowsHtml = items.length
     ? items
         .map((item) => {
-          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${item.mode === "quiz" ? "Questions" : "Flashcards"}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div>`;
           const quota = item.quota
             ? `<p class="mystuff-meta">Daily ${item.quota.dailyRemaining}/${item.quota.dailyMax} · Topic ${item.quota.topicRemaining}/${item.quota.topicMax}${item.fallback ? " · Fallback" : ""}</p>`
             : "";
+          const playBtn =
+            item.mode === "quiz"
+              ? `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffQuiz('${item.id}')">Start Interactive Quiz</button>`
+              : `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffFlashcards('${item.id}')">Start Interactive Deck</button>`;
+          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${item.mode === "quiz" ? "Questions" : "Flashcards"}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
 
           if (item.mode === "quiz") {
-            const qs = Array.isArray(item.data?.questions) ? item.data.questions : [];
-            const qHtml = qs
-              .map((q, i) => {
-                const opts = (Array.isArray(q.options) ? q.options : [])
-                  .map((o, idx) => `<li>${String.fromCharCode(65 + idx)}. ${escapeHtml(String(o || ""))}</li>`)
-                  .join("");
-                const ans = String.fromCharCode(65 + Math.max(0, Math.min(3, Number(q.answerIndex || 0))));
-                return `<div class="mystuff-qa"><p><strong>Q${i + 1}.</strong> ${escapeHtml(String(q.question || ""))}</p><ul>${opts}</ul><p class="mystuff-answer">Answer: ${ans} · ${escapeHtml(String(q.explanation || ""))}</p></div>`;
-              })
-              .join("");
-            return `<article class="card mystuff-item">${head}${quota}${qHtml}</article>`;
+            const first = Array.isArray(item.data?.questions)
+              ? item.data.questions[0]
+              : null;
+            const preview = first
+              ? `<div class="mystuff-qa"><p><strong>Preview:</strong> ${escapeHtml(String(first.question || ""))}</p></div>`
+              : "";
+            return `<article class="card mystuff-item">${head}${quota}${preview}</article>`;
           }
 
-          const cards = Array.isArray(item.data?.cards) ? item.data.cards : [];
-          const cHtml = cards
-            .map(
-              (c, i) => `<div class="mystuff-card"><p><strong>Card ${i + 1}:</strong> ${escapeHtml(String(c.front || ""))}</p><p>${escapeHtml(String(c.back || ""))}</p></div>`,
-            )
-            .join("");
-          return `<article class="card mystuff-item">${head}${quota}${cHtml}</article>`;
+          const firstCard = Array.isArray(item.data?.cards) ? item.data.cards[0] : null;
+          const preview = firstCard
+            ? `<div class="mystuff-card"><p><strong>Preview:</strong> ${escapeHtml(String(firstCard.front || ""))}</p></div>`
+            : "";
+          return `<article class="card mystuff-item">${head}${quota}${preview}</article>`;
         })
         .join("")
-    : '<div class="card mystuff-empty"><p>No generated content yet. Generate your first set below.</p></div>';
+    : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : "flashcard decks"} generated yet.</p></div>`;
 
   root.innerHTML = `
     <div class="card mystuff-controls">
+      <div class="mystuff-mode-tabs">
+        <button class="mystuff-mode-tab ${activeMode === "quiz" ? "active" : ""}" onclick="App.switchMyStuffMode('quiz')">Questions (${quizItems.length})</button>
+        <button class="mystuff-mode-tab ${activeMode === "flashcards" ? "active" : ""}" onclick="App.switchMyStuffMode('flashcards')">Flashcards (${flashItems.length})</button>
+      </div>
       <label>
         Topic
         <select id="mystuff-topic-select" onchange="App.setMyStuffTopic(this.value)">
@@ -4771,9 +4778,9 @@ function renderMyStuff() {
         </select>
       </label>
       <div class="mystuff-actions">
-        <button class="btn btn-primary" id="mystuff-gen-quiz" onclick="App.myStuffGenerate('quiz')">Generate 5 Questions</button>
-        <button class="btn btn-outline" id="mystuff-gen-flash" onclick="App.myStuffGenerate('flashcards')">Generate 8 Flashcards</button>
-        <button class="btn btn-ghost" onclick="App.clearMyStuff()">Clear All</button>
+        <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">${activeMode === "quiz" ? "Generate 5 Questions" : "Generate 8 Flashcards"}</button>
+        <button class="btn btn-outline" id="mystuff-gen-other" onclick="App.myStuffGenerate('${activeMode === "quiz" ? "flashcards" : "quiz"}')">Generate ${activeMode === "quiz" ? "8 Flashcards" : "5 Questions"}</button>
+        <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : "Flashcards"}</button>
       </div>
       <p id="mystuff-status" class="mystuff-status"></p>
     </div>
@@ -4781,15 +4788,23 @@ function renderMyStuff() {
   `;
 }
 
+function switchMyStuffMode(mode) {
+  state.myStuffMode = mode === "flashcards" ? "flashcards" : "quiz";
+  renderMyStuff();
+}
+
 function setMyStuffTopic(topicId) {
   state.myStuffTopicId = topicId;
 }
 
-async function myStuffGenerate(mode, forcedTopicId = null) {
+async function myStuffGenerate(mode = null, forcedTopicId = null) {
   if (!auth.isLoggedIn) {
     openAuthModal("login");
     return;
   }
+
+  const effectiveMode =
+    mode || (state.myStuffMode === "flashcards" ? "flashcards" : "quiz");
 
   const topicId = forcedTopicId || state.myStuffTopicId || state.currentTopic;
   const topic = state.topics.get(topicId);
@@ -4799,17 +4814,19 @@ async function myStuffGenerate(mode, forcedTopicId = null) {
   }
 
   const statusEl = byId("mystuff-status");
-  const quizBtn = byId("mystuff-gen-quiz");
-  const flashBtn = byId("mystuff-gen-flash");
+  const mainBtn = byId("mystuff-gen-main");
+  const otherBtn = byId("mystuff-gen-other");
   if (statusEl)
     statusEl.textContent =
-      mode === "quiz" ? "Generating custom questions..." : "Generating custom flashcards...";
-  if (quizBtn) quizBtn.disabled = true;
-  if (flashBtn) flashBtn.disabled = true;
+      effectiveMode === "quiz"
+        ? "Generating custom questions..."
+        : "Generating custom flashcards...";
+  if (mainBtn) mainBtn.disabled = true;
+  if (otherBtn) otherBtn.disabled = true;
 
   try {
     const res = await fetch(
-      `${API_BASE_URL}/api/ai-lite/${mode === "quiz" ? "quiz" : "flashcards"}`,
+      `${API_BASE_URL}/api/ai-lite/${effectiveMode === "quiz" ? "quiz" : "flashcards"}`,
       {
         method: "POST",
         headers: authHeaders(),
@@ -4829,7 +4846,7 @@ async function myStuffGenerate(mode, forcedTopicId = null) {
 
     const item = {
       id: `ms_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-      mode,
+      mode: effectiveMode,
       topicId,
       topicTitle: topic.title || topicId,
       subjectId: topic.subject || "general",
@@ -4848,9 +4865,59 @@ async function myStuffGenerate(mode, forcedTopicId = null) {
   } catch {
     if (statusEl) statusEl.textContent = "Network error while generating content.";
   } finally {
-    if (quizBtn) quizBtn.disabled = false;
-    if (flashBtn) flashBtn.disabled = false;
+    if (mainBtn) mainBtn.disabled = false;
+    if (otherBtn) otherBtn.disabled = false;
   }
+}
+
+function startMyStuffQuiz(itemId) {
+  const item = (state.myStuff || []).find((x) => x.id === itemId && x.mode === "quiz");
+  if (!item) return;
+  const questions = (Array.isArray(item.data?.questions) ? item.data.questions : [])
+    .slice(0, 5)
+    .map((q) => ({
+      q: String(q.question || ""),
+      opts: (Array.isArray(q.options) ? q.options : []).slice(0, 4),
+      ans: Math.max(0, Math.min(3, Number(q.answerIndex || 0))),
+      exp: String(q.explanation || ""),
+    }));
+  if (!questions.length) {
+    showToast("This question set is empty.");
+    return;
+  }
+  state.quiz = {
+    title: `${item.topicTitle || "MyStuff"} - Custom Quiz`,
+    sourceLabel: "MyStuff",
+    questions,
+    qIndex: 0,
+    score: 0,
+    answered: false,
+  };
+  go("quiz");
+  renderQuizQuestion();
+}
+
+function startMyStuffFlashcards(itemId) {
+  const item = (state.myStuff || []).find(
+    (x) => x.id === itemId && x.mode === "flashcards",
+  );
+  if (!item) return;
+  const cards = (Array.isArray(item.data?.cards) ? item.data.cards : [])
+    .slice(0, 8)
+    .map((c) => ({ q: String(c.front || ""), a: String(c.back || "") }));
+  if (!cards.length) {
+    showToast("This flashcard deck is empty.");
+    return;
+  }
+  state.flash = {
+    label: `${item.topicTitle || "MyStuff"} - Custom Deck`,
+    cards,
+    index: 0,
+    flipped: false,
+    results: new Array(cards.length).fill(null),
+  };
+  go("flash");
+  renderFlashcard();
 }
 
 function removeMyStuffItem(itemId) {
@@ -4859,8 +4926,10 @@ function removeMyStuffItem(itemId) {
   renderMyStuff();
 }
 
-function clearMyStuff() {
-  state.myStuff = [];
+function clearMyStuff(mode = null) {
+  if (!mode) state.myStuff = [];
+  else
+    state.myStuff = (state.myStuff || []).filter((item) => item.mode !== mode);
   saveMyStuffItems();
   renderMyStuff();
 }
@@ -8296,7 +8365,11 @@ async function loadAdminStats() {
             onchange="App.setAiEnabled(this.checked)">
           <span class="ai-toggle-slider"></span>
           <span style="margin-left:0.5rem;font-weight:600">${enabled ? "Enabled" : "Disabled"}</span>
-        </label>`;
+        </label>
+        <div style="margin-top:0.8rem;display:flex;gap:0.55rem;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-outline btn-sm" onclick="App.adminResetAiLiteQuotas()">Reset AI-lite Quotas (Sitewide)</button>
+          <span id="admin-ai-reset-status" style="font-size:0.78rem;color:var(--text3)"></span>
+        </div>`;
     }
 
     await loadAdminOpenRouterModels();
@@ -8336,6 +8409,28 @@ async function loadAdminOpenRouterModels() {
       </div>`;
   } catch (e) {
     card.innerHTML = `<p style="color:#f87171;font-size:0.85rem">Network error: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
+async function adminResetAiLiteQuotas() {
+  const statusEl = byId("admin-ai-reset-status");
+  if (statusEl) statusEl.textContent = "Resetting...";
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/ai-lite/reset-quotas`, {
+      method: "POST",
+      headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      if (statusEl)
+        statusEl.textContent = data.error || "Could not reset quotas.";
+      return;
+    }
+    if (statusEl)
+      statusEl.textContent = `Reset complete (${Number(data.modified || 0)} users).`;
+    showToast("AI-lite quotas reset sitewide.");
+  } catch {
+    if (statusEl) statusEl.textContent = "Network error while resetting quotas.";
   }
 }
 
@@ -11452,7 +11547,10 @@ const App = {
   aiQuick,
   renderMyStuff,
   myStuffGenerate,
+  switchMyStuffMode,
   setMyStuffTopic,
+  startMyStuffQuiz,
+  startMyStuffFlashcards,
   removeMyStuffItem,
   clearMyStuff,
   generateAiLiteQuiz,
@@ -11487,6 +11585,7 @@ const App = {
   // Admin
   renderAdmin,
   switchAdminTab,
+  adminResetAiLiteQuotas,
   loadAdminOpenRouterModels,
   loadAdminTopicList,
   filterAdminUsers,

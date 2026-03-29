@@ -2791,9 +2791,22 @@ app.get(
 
 app.get("/api/ai-lite/quota", authenticateToken, async (req, res, next) => {
   try {
+    const isAdmin = req.user?.role === "admin";
     const dailyMax = parseInt(process.env.AI_LITE_DAILY_LIMIT || "6", 10);
     const topicMax = parseInt(process.env.AI_LITE_TOPIC_LIMIT || "2", 10);
     const topicId = String(req.query.topicId || "unknown");
+
+    if (isAdmin) {
+      return res.json({
+        success: true,
+        quota: {
+          dailyRemaining: "unlimited",
+          topicRemaining: "unlimited",
+          dailyMax: "unlimited",
+          topicMax: "unlimited",
+        },
+      });
+    }
 
     const snapshot = await db.getAiLiteQuotaSnapshot(req.user._id, topicId, {
       dailyMax,
@@ -2828,6 +2841,47 @@ async function handleAiLiteGenerate(req, res, next, mode) {
     const dailyMax = parseInt(process.env.AI_LITE_DAILY_LIMIT || "6", 10);
     const topicMax = parseInt(process.env.AI_LITE_TOPIC_LIMIT || "2", 10);
     const userKey = String(req.user._id);
+    const isAdmin = req.user?.role === "admin";
+
+    if (isAdmin) {
+      try {
+        const generated = await generateAiLiteWithOpenRouter({
+          mode,
+          topicTitle,
+          subjectId,
+          context,
+        });
+        return res.json({
+          success: true,
+          mode,
+          source: "ai",
+          fallback: false,
+          data: generated,
+          quota: {
+            dailyRemaining: "unlimited",
+            topicRemaining: "unlimited",
+            dailyMax: "unlimited",
+            topicMax: "unlimited",
+          },
+        });
+      } catch {
+        const fallback = buildAiLiteFallback(mode, topicTitle, subjectId);
+        return res.json({
+          success: true,
+          mode,
+          source: "fallback",
+          fallback: true,
+          reason: "provider_unavailable",
+          data: fallback,
+          quota: {
+            dailyRemaining: "unlimited",
+            topicRemaining: "unlimited",
+            dailyMax: "unlimited",
+            topicMax: "unlimited",
+          },
+        });
+      }
+    }
 
     if (!checkAiLiteBurstLimit(userKey)) {
       const fallback = buildAiLiteFallback(mode, topicTitle, subjectId);
@@ -2928,6 +2982,24 @@ app.post(
   authenticateToken,
   async (req, res, next) => {
     await handleAiLiteGenerate(req, res, next, "flashcards");
+  },
+);
+
+app.post(
+  "/api/admin/ai-lite/reset-quotas",
+  authenticateToken,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const modified = await db.resetAllAiLiteUsage();
+      res.json({
+        success: true,
+        message: "AI-lite quotas reset sitewide.",
+        modified,
+      });
+    } catch (e) {
+      next(e);
+    }
   },
 );
 

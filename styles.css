@@ -7559,6 +7559,28 @@ html {
     margin-bottom: 1rem;
   }
 
+  .mystuff-mode-tabs {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  .mystuff-mode-tab {
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text2);
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .mystuff-mode-tab.active,
+  .mystuff-mode-tab:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
   .mystuff-controls label {
     display: grid;
     gap: 0.35rem;
@@ -7613,6 +7635,13 @@ html {
   .mystuff-item-head small {
     color: var(--text3);
     margin-left: auto;
+  }
+
+  .mystuff-item-actions {
+    display: flex;
+    gap: 0.4rem;
+    margin-left: auto;
+    flex-wrap: wrap;
   }
 
   .mystuff-badge {
@@ -7674,6 +7703,11 @@ html {
   }
 
   @media (max-width: 640px) {
+    .mystuff-mode-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
     .mystuff-actions {
       display: grid;
       grid-template-columns: 1fr;
@@ -7686,6 +7720,16 @@ html {
     .mystuff-item-head small {
       margin-left: 0;
       width: 100%;
+    }
+
+    .mystuff-item-actions {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    .mystuff-item-actions .btn {
+      flex: 1;
+      min-width: 0;
     }
   }
 

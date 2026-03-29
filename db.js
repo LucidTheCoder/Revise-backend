@@ -376,6 +376,21 @@ async function consumeAiLiteQuota(user, { dayKey, topicId }) {
   return user;
 }
 
+async function resetAllAiLiteUsage(dayKey = getUtcDayKey()) {
+  const result = await User.updateMany(
+    {},
+    {
+      $set: {
+        "aiUsage.lite.dayKey": dayKey,
+        "aiUsage.lite.dailyCount": 0,
+        "aiUsage.lite.perTopic": {},
+        "aiUsage.lite.lastUsedAt": null,
+      },
+    },
+  );
+  return result?.modifiedCount || 0;
+}
+
 // ============================================================================
 // PROGRESS HELPERS
 // ============================================================================
@@ -787,6 +802,7 @@ module.exports = {
   deleteUser,
   getAiLiteQuotaSnapshot,
   consumeAiLiteQuota,
+  resetAllAiLiteUsage,
   upsertProgress,
   getAllProgress,
   getProgress,
