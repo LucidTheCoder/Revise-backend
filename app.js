@@ -8615,8 +8615,8 @@ async function renderCommunity(forceRefresh = false) {
   forumList.innerHTML = `
     <div class="forum-list-shell card">
       <div class="forum-actions-bar">
-        <button class="btn btn-primary btn-sm" onclick="App.openNewThreadModal()">+ New Thread</button>
-        <select style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text1);padding:0.3rem 0.6rem;font-size:0.8rem" onchange="App.filterForumBySubject(this.value)">
+        <button class="btn btn-primary btn-sm forum-thread-cta" onclick="App.openNewThreadModal()">+ New Thread</button>
+        <select class="forum-subject-select" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text1);padding:0.3rem 0.6rem;font-size:0.8rem" onchange="App.filterForumBySubject(this.value)">
           <option value="">All Subjects</option>
           <option value="general">General</option>
           <option value="chem">Chemistry</option>

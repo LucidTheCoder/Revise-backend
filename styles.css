@@ -2751,6 +2751,18 @@ p {
   margin-bottom: 0.75rem;
 }
 
+.forum-actions-bar .forum-thread-cta,
+.forum-actions-bar .forum-subject-select {
+  min-height: 34px;
+  height: 34px;
+  box-sizing: border-box;
+}
+
+.forum-actions-bar .forum-thread-cta {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .forum-reply-box {
   margin-top: 1rem;
   display: flex;
