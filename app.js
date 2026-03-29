@@ -6019,7 +6019,7 @@ function createParticleSystem() {
   }
 
   function rebuildParticles() {
-    const count = width < 760 ? 36 : 54;
+    const count = width < 760 ? 40 : 62;
     particles = new Array(count).fill(null).map(() => makeParticle());
   }
 
@@ -8923,7 +8923,13 @@ async function submitNewThread() {
 // ADMIN PANEL
 // ============================================================================
 
-let adminData = { users: [], threads: [] };
+let adminData = {
+  users: [],
+  threads: [],
+  topics: [],
+  currentTopicSubject: "",
+  stats: null,
+};
 
 async function renderAdmin() {
   if (!auth.isLoggedIn || auth.user?.role !== "admin") {
@@ -8945,6 +8951,7 @@ function switchAdminTab(tab) {
 
   if (tab === "users") loadAdminUsers();
   if (tab === "forum") loadAdminForum();
+  if (tab === "analytics") loadAdminAnalytics();
   if (tab === "pages") {
     /* prompt user to pick subject */
   }
@@ -8959,6 +8966,7 @@ async function loadAdminStats() {
     const data = await res.json();
     if (!data.success) return;
     const s = data.data;
+    adminData.stats = s;
     const setText = (id, val) => {
       const el = byId(id);
       if (el) el.textContent = val;
@@ -9023,6 +9031,143 @@ async function loadAdminStats() {
   } catch (e) {
     showToast("Failed to load stats");
   }
+}
+
+function _adminCsv(value) {
+  const text = String(value ?? "");
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+function _adminNumber(value) {
+  return Number(value || 0).toLocaleString();
+}
+
+function _adminPercent(part, total) {
+  if (!total) return 0;
+  return Math.round((part / total) * 100);
+}
+
+function _adminBarRow(label, value, total, color = "var(--accent)") {
+  const pct = _adminPercent(value, total);
+  return `
+    <div class="admin-bar-row">
+      <div class="admin-bar-label"><span>${escapeHtml(label)}</span><strong>${_adminNumber(value)} (${pct}%)</strong></div>
+      <div class="admin-bar-track"><div class="admin-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+    </div>`;
+}
+
+async function loadAdminAnalytics() {
+  const root = byId("admin-analytics-root");
+  if (!root) return;
+
+  root.innerHTML =
+    '<div class="card"><p style="color:var(--text2)">Loading analytics…</p></div>';
+
+  if (!adminData.stats) await loadAdminStats();
+  if (!adminData.users.length) await loadAdminUsers();
+  if (!adminData.threads.length) await loadAdminForum();
+
+  const users = adminData.users || [];
+  const threads = adminData.threads || [];
+  const stats = adminData.stats || {};
+
+  const roleCounts = users.reduce(
+    (acc, u) => {
+      const role = String(u.role || "student");
+      acc[role] = (acc[role] || 0) + 1;
+      if (u.banned) acc.banned += 1;
+      return acc;
+    },
+    { student: 0, teacher: 0, admin: 0, banned: 0 },
+  );
+
+  const totalUsers = users.length || Number(stats.totalUsers || 0);
+  const totalThreads = threads.length || Number(stats.totalThreads || 0);
+  const totalMessages = Number(stats.totalMessages || 0);
+  const pinnedThreads = threads.filter((t) => t.pinned).length;
+  const lockedThreads = threads.filter((t) => t.locked).length;
+  const totalReplies = threads.reduce(
+    (sum, t) => sum + Number(t.replies?.length || 0),
+    0,
+  );
+  const avgReplies = totalThreads ? (totalReplies / totalThreads).toFixed(1) : "0.0";
+
+  const subjects = getOrderedSubjects();
+  const releasedSubjects = subjects.filter((s) => !subjectReleaseInfo(s).locked).length;
+  const wipSubjects = subjects.length - releasedSubjects;
+
+  const topicCoverage = subjects.map((s) => {
+    const refs = getTopicRefsForSubject(s.id);
+    let mcq = 0;
+    let structured = 0;
+    refs.forEach((ref) => {
+      const t = state.topics.get(ref.id);
+      mcq += Number(t?.quiz?.questions?.length || 0);
+      structured += Number(t?.workedExamples?.length || 0);
+    });
+    return {
+      id: s.id,
+      name: s.name,
+      topics: refs.length,
+      mcq,
+      structured,
+      total: mcq + structured,
+    };
+  });
+
+  const maxQuestionBank = Math.max(
+    1,
+    ...topicCoverage.map((s) => Number(s.total || 0)),
+  );
+
+  root.innerHTML = `
+    <div class="admin-analytics-grid">
+      <div class="card admin-analytics-card">
+        <h3>User Analytics</h3>
+        <div class="admin-kpi-row">
+          <div class="admin-kpi"><span>Total Users</span><strong>${_adminNumber(totalUsers)}</strong></div>
+          <div class="admin-kpi"><span>Banned</span><strong>${_adminNumber(roleCounts.banned)}</strong></div>
+        </div>
+        ${_adminBarRow("Students", roleCounts.student, Math.max(1, totalUsers), "var(--accent)")}
+        ${_adminBarRow("Teachers", roleCounts.teacher, Math.max(1, totalUsers), "var(--bio)")}
+        ${_adminBarRow("Admins", roleCounts.admin, Math.max(1, totalUsers), "var(--phy)")}
+      </div>
+
+      <div class="card admin-analytics-card">
+        <h3>Forum Analytics</h3>
+        <div class="admin-kpi-row">
+          <div class="admin-kpi"><span>Threads</span><strong>${_adminNumber(totalThreads)}</strong></div>
+          <div class="admin-kpi"><span>Messages</span><strong>${_adminNumber(totalMessages)}</strong></div>
+          <div class="admin-kpi"><span>Avg Replies</span><strong>${avgReplies}</strong></div>
+        </div>
+        ${_adminBarRow("Pinned", pinnedThreads, Math.max(1, totalThreads), "var(--chem)")}
+        ${_adminBarRow("Locked", lockedThreads, Math.max(1, totalThreads), "#f87171")}
+      </div>
+
+      <div class="card admin-analytics-card admin-analytics-wide">
+        <h3>Content Coverage</h3>
+        <div class="admin-kpi-row">
+          <div class="admin-kpi"><span>Subjects</span><strong>${_adminNumber(subjects.length)}</strong></div>
+          <div class="admin-kpi"><span>Released</span><strong>${_adminNumber(releasedSubjects)}</strong></div>
+          <div class="admin-kpi"><span>WIP</span><strong>${_adminNumber(wipSubjects)}</strong></div>
+        </div>
+        <div class="admin-subject-coverage">
+          ${topicCoverage
+            .map(
+              (item) => `
+            <div class="admin-subject-row">
+              <div class="admin-subject-row-head">
+                <strong>${escapeHtml(item.name)}</strong>
+                <small>${item.topics} topics · ${item.total} questions</small>
+              </div>
+              <div class="admin-bar-track"><div class="admin-bar-fill" style="width:${Math.round((item.total / maxQuestionBank) * 100)}%;background:${colorVar(item.id)}"></div></div>
+              <div class="admin-subject-row-meta">MCQ ${item.mcq} · Structured ${item.structured}</div>
+            </div>`,
+            )
+            .join("")}
+        </div>
+      </div>
+    </div>`;
 }
 
 async function loadAdminOpenRouterModels() {
@@ -9187,6 +9332,54 @@ async function exportAdminUsersCsv() {
   } catch {
     showToast("Network error while exporting users");
   }
+}
+
+function exportAdminForumCsv() {
+  if (!adminData.threads.length) {
+    showToast("Load forum data first");
+    return;
+  }
+  const header = [
+    "id",
+    "title",
+    "subject",
+    "author",
+    "replies",
+    "pinned",
+    "locked",
+    "createdAt",
+  ];
+  const rows = adminData.threads.map((t) => [
+    t._id,
+    t.title,
+    t.subject,
+    t.author,
+    Number(t.replies?.length || 0),
+    t.pinned ? "yes" : "no",
+    t.locked ? "yes" : "no",
+    t.createdAt,
+  ]);
+  const csv = [header, ...rows]
+    .map((row) => row.map((cell) => _adminCsv(cell)).join(","))
+    .join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `revise-forum-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast("Forum CSV downloaded");
+}
+
+async function adminRefreshAllData() {
+  await Promise.all([loadAdminStats(), loadAdminUsers(), loadAdminForum()]);
+  if (document.querySelector("#admin-tab-analytics.admin-panel.active")) {
+    await loadAdminAnalytics();
+  }
+  showToast("Admin data refreshed");
 }
 
 async function toggleUserRole(userId, currentRole) {
@@ -9444,7 +9637,14 @@ async function adminCreateThread() {
 // Admin: load topic list
 function loadAdminTopicList(subjectId) {
   const container = byId("admin-topic-list");
-  if (!container || !subjectId) return;
+  if (!container) return;
+  if (!subjectId) {
+    adminData.topics = [];
+    adminData.currentTopicSubject = "";
+    container.innerHTML =
+      '<p style="color:var(--text2)">Select a subject to load topics.</p>';
+    return;
+  }
   const subject = state.subjectMap.get(subjectId);
   if (!subject) {
     container.innerHTML =
@@ -9459,7 +9659,16 @@ function loadAdminTopicList(subjectId) {
       '<p style="color:var(--text2)">No topics in this subject.</p>';
     return;
   }
-  container.innerHTML = allTopics
+  adminData.currentTopicSubject = subjectId;
+  adminData.topics = allTopics;
+  renderAdminTopicList(allTopics);
+}
+
+function renderAdminTopicList(entries) {
+  const container = byId("admin-topic-list");
+  if (!container) return;
+  const subjectId = adminData.currentTopicSubject;
+  container.innerHTML = entries
     .map(
       (t) => `
     <div class="admin-topic-card">
@@ -9473,6 +9682,21 @@ function loadAdminTopicList(subjectId) {
   `,
     )
     .join("");
+}
+
+function filterAdminTopics(query) {
+  const q = String(query || "").trim().toLowerCase();
+  if (!q) {
+    renderAdminTopicList(adminData.topics || []);
+    return;
+  }
+  const filtered = (adminData.topics || []).filter(
+    (t) =>
+      String(t.name || "").toLowerCase().includes(q) ||
+      String(t.id || "").toLowerCase().includes(q) ||
+      String(t.unitName || "").toLowerCase().includes(q),
+  );
+  renderAdminTopicList(filtered);
 }
 
 function goToTopicEditor(subjectId, topicId) {
@@ -12357,9 +12581,13 @@ const App = {
   switchAdminTab,
   adminResetAiLiteQuotas,
   loadAdminOpenRouterModels,
+  loadAdminAnalytics,
+  adminRefreshAllData,
   loadAdminTopicList,
+  filterAdminTopics,
   filterAdminUsers,
   exportAdminUsersCsv,
+  exportAdminForumCsv,
   filterAdminThreads,
   toggleUserRole,
   toggleUserBan,

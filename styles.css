@@ -2499,6 +2499,246 @@ p {
   border-radius: 5px;
 }
 
+/* Admin overhaul layer */
+#view-admin .page-head {
+  margin-bottom: 0.95rem;
+}
+
+.admin-tabs {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.45rem;
+  background: color-mix(in srgb, var(--bg3), transparent 8%);
+  margin-bottom: 1rem;
+}
+
+.admin-tab {
+  min-height: 36px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 9px;
+  font-weight: 600;
+}
+
+.admin-tab.active {
+  box-shadow: 0 3px 16px color-mix(in srgb, var(--accent), transparent 78%);
+}
+
+.admin-panel > .card,
+.admin-analytics-shell,
+#admin-tab-dashboard > .card,
+#admin-tab-users > .card,
+#admin-tab-forum > .card,
+#admin-tab-pages > .card,
+#admin-tab-newthread > .card {
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent), var(--border) 88%);
+}
+
+.admin-stats-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+}
+
+.admin-stat-card {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--bg2), var(--accent) 3%);
+}
+
+.admin-recent-grid .card {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.admin-quick-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-quick-actions .btn {
+  min-height: 34px;
+}
+
+.admin-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.8rem;
+}
+
+.admin-tool-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg2), var(--phy) 2%);
+}
+
+.admin-tool-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.admin-tool-card p {
+  margin: 0;
+  color: var(--text2);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.admin-tool-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.admin-tool-actions .btn {
+  min-height: 34px;
+}
+
+.admin-analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.admin-analytics-card {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--bg2), var(--accent) 2%);
+}
+
+.admin-analytics-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+.admin-analytics-wide {
+  grid-column: 1 / -1;
+}
+
+.admin-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.55rem;
+  margin-bottom: 0.65rem;
+}
+
+.admin-kpi {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--bg3);
+  padding: 0.45rem 0.55rem;
+}
+
+.admin-kpi span {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text3);
+  margin-bottom: 0.15rem;
+}
+
+.admin-kpi strong {
+  font-size: 1.12rem;
+  color: var(--text1);
+}
+
+.admin-bar-row {
+  margin-bottom: 0.5rem;
+}
+
+.admin-bar-row:last-child {
+  margin-bottom: 0;
+}
+
+.admin-bar-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  margin-bottom: 0.22rem;
+  color: var(--text2);
+}
+
+.admin-bar-label strong {
+  color: var(--text1);
+  font-weight: 600;
+}
+
+.admin-bar-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg3), black 8%);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.admin-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 180ms ease;
+}
+
+.admin-subject-coverage {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.admin-subject-row {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.45rem 0.55rem;
+  background: var(--bg3);
+}
+
+.admin-subject-row-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.admin-subject-row-head small,
+.admin-subject-row-meta {
+  color: var(--text2);
+  font-size: 0.75rem;
+}
+
+.admin-subject-row-meta {
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 860px) {
+  .admin-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-analytics-wide {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-tabs {
+    gap: 0.32rem;
+  }
+
+  .admin-tab {
+    flex: 1 1 calc(50% - 0.32rem);
+    text-align: center;
+  }
+
+  .admin-search {
+    width: 100%;
+  }
+
+  .admin-panel-head {
+    align-items: stretch;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════
    FORUM — NEW THREAD BUTTON + REPLY BOX
    ═══════════════════════════════════════════════════════════════════════ */

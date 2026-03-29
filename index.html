@@ -1303,10 +1303,24 @@
             </button>
             <button
               class="admin-tab"
+              data-tab="analytics"
+              onclick="App.switchAdminTab('analytics')"
+            >
+              Analytics
+            </button>
+            <button
+              class="admin-tab"
               data-tab="pages"
               onclick="App.switchAdminTab('pages')"
             >
               Pages / Topics
+            </button>
+            <button
+              class="admin-tab"
+              data-tab="tools"
+              onclick="App.switchAdminTab('tools')"
+            >
+              Tools
             </button>
             <button
               class="admin-tab"
@@ -1360,6 +1374,28 @@
               style="margin-top: 1rem"
             >
               <!-- Populated by loadAdminOpenRouterModels() -->
+            </div>
+            <div class="card" style="margin-top: 1rem">
+              <div class="admin-panel-head" style="margin-bottom: 0.45rem">
+                <h3>Quick Actions</h3>
+              </div>
+              <div class="admin-quick-actions">
+                <button class="btn btn-outline btn-sm" onclick="App.adminRefreshAllData()">Refresh All Data</button>
+                <button class="btn btn-outline btn-sm" onclick="App.go('community')">Open Community Moderation</button>
+                <button class="btn btn-outline btn-sm" onclick="App.go('editor')">Open Topic Editor</button>
+                <button class="btn btn-outline btn-sm" onclick="App.go('past-papers')">Open Past Papers</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analytics -->
+          <div class="admin-panel" id="admin-tab-analytics">
+            <div class="card admin-analytics-shell">
+              <div class="admin-panel-head">
+                <h3>Platform Analytics</h3>
+                <button class="btn btn-outline btn-sm" onclick="App.loadAdminAnalytics()">Refresh</button>
+              </div>
+              <div id="admin-analytics-root"></div>
             </div>
           </div>
 
@@ -1457,8 +1493,43 @@
                   <option value="bio">Biology</option>
                   <option value="phy">Physics</option>
                 </select>
+                <input
+                  class="admin-search"
+                  type="text"
+                  id="admin-topic-search"
+                  placeholder="Filter topics..."
+                  oninput="App.filterAdminTopics(this.value)"
+                />
               </div>
               <div id="admin-topic-list" class="admin-topic-grid"></div>
+            </div>
+          </div>
+
+          <!-- Tools -->
+          <div class="admin-panel" id="admin-tab-tools">
+            <div class="admin-tools-grid">
+              <div class="card admin-tool-card">
+                <h3>Data Maintenance</h3>
+                <p>Refresh cached admin data and ensure all panels are up to date.</p>
+                <button class="btn btn-primary" onclick="App.adminRefreshAllData()">Refresh All Admin Data</button>
+              </div>
+              <div class="card admin-tool-card">
+                <h3>Exports</h3>
+                <p>Download user and forum datasets for backup or reporting.</p>
+                <div class="admin-tool-actions">
+                  <button class="btn btn-outline" onclick="App.exportAdminUsersCsv()">Export Users CSV</button>
+                  <button class="btn btn-outline" onclick="App.exportAdminForumCsv()">Export Forum CSV</button>
+                </div>
+              </div>
+              <div class="card admin-tool-card">
+                <h3>Moderation Shortcuts</h3>
+                <p>Jump directly into moderation and content management workflows.</p>
+                <div class="admin-tool-actions">
+                  <button class="btn btn-outline" onclick="App.go('community')">Community</button>
+                  <button class="btn btn-outline" onclick="App.go('editor')">Topic Editor</button>
+                  <button class="btn btn-outline" onclick="App.go('past-papers')">Past Papers</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1582,7 +1653,7 @@
         <div class="footer-inner">
           <span class="footer-brand">Revise<strong>.</strong></span>
           <span class="footer-copy">© 2025 Revise. All rights reserved.</span>
-          <span class="footer-version">v1.3.0</span>
+          <span class="footer-version">v1.5.0</span>
         </div>
       </footer>
     </div>
