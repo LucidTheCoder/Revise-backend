@@ -6822,7 +6822,7 @@ async function _gifSearch(q) {
   _gifTimer = setTimeout(async () => {
     try {
       const res = await fetch(
-        `${API_BASE_URL}/api/tenor/search?q=${encodeURIComponent(q)}&limit=16`,
+        `${API_BASE_URL}/api/tenor/search?q=${encodeURIComponent(q)}&limit=36`,
         { headers: { Accept: "application/json" } },
       );
       const data = await res.json();
@@ -8158,6 +8158,72 @@ function _reactionPillsHtml(reactions, onClickName, messageId) {
     .join("")}</div>`;
 }
 
+const SOCIAL_CLUSTER_WINDOW_MS = 5 * 60 * 1000;
+
+function _messageTimestamp(msg) {
+  if (!msg?.createdAt) return 0;
+  const t = new Date(msg.createdAt).getTime();
+  return Number.isFinite(t) ? t : 0;
+}
+
+function _isClusteredWithPrevious(prev, current, authorKey) {
+  if (!prev || !current) return false;
+  const prevAuthor = String(prev?.[authorKey] || "");
+  const currAuthor = String(current?.[authorKey] || "");
+  if (!prevAuthor || prevAuthor !== currAuthor) return false;
+  const delta = _messageTimestamp(current) - _messageTimestamp(prev);
+  return delta >= 0 && delta <= SOCIAL_CLUSTER_WINDOW_MS;
+}
+
+function _applyChatClusters() {
+  const container = byId("chat-messages");
+  const messages = Array.isArray(state._chatMessages) ? state._chatMessages : [];
+  if (!container || !messages.length) return;
+  const nodes = container.querySelectorAll(".social-chat-message");
+  if (!nodes.length) return;
+
+  const len = Math.min(nodes.length, messages.length);
+  for (let i = 0; i < len; i += 1) {
+    const prevJoined = i > 0 && _isClusteredWithPrevious(messages[i - 1], messages[i], "userId");
+    const nextJoined =
+      i < len - 1 &&
+      _isClusteredWithPrevious(messages[i], messages[i + 1], "userId");
+
+    const node = nodes[i];
+    node.classList.remove("cluster-single", "cluster-start", "cluster-middle", "cluster-end");
+    if (!prevJoined && !nextJoined) node.classList.add("cluster-single");
+    else if (!prevJoined && nextJoined) node.classList.add("cluster-start");
+    else if (prevJoined && nextJoined) node.classList.add("cluster-middle");
+    else node.classList.add("cluster-end");
+  }
+}
+
+function _applyGroupClusters() {
+  const container = byId("social-group-messages");
+  const messages = Array.isArray(_socialState._groupMessages)
+    ? _socialState._groupMessages
+    : [];
+  if (!container || !messages.length) return;
+  const nodes = container.querySelectorAll(".social-msg");
+  if (!nodes.length) return;
+
+  const len = Math.min(nodes.length, messages.length);
+  for (let i = 0; i < len; i += 1) {
+    const prevJoined =
+      i > 0 && _isClusteredWithPrevious(messages[i - 1], messages[i], "authorId");
+    const nextJoined =
+      i < len - 1 &&
+      _isClusteredWithPrevious(messages[i], messages[i + 1], "authorId");
+
+    const node = nodes[i];
+    node.classList.remove("cluster-single", "cluster-start", "cluster-middle", "cluster-end");
+    if (!prevJoined && !nextJoined) node.classList.add("cluster-single");
+    else if (!prevJoined && nextJoined) node.classList.add("cluster-start");
+    else if (prevJoined && nextJoined) node.classList.add("cluster-middle");
+    else node.classList.add("cluster-end");
+  }
+}
+
 function _buildChatMessageEl(msg) {
   const d = document.createElement("div");
   const isSelf = _isOwnUserId(msg.userId);
@@ -8201,12 +8267,14 @@ function _removeChatMessageInDom(messageId) {
   document
     .querySelector(`.social-chat-message[data-message-id="${CSS.escape(messageId)}"]`)
     ?.remove();
+  _applyChatClusters();
 }
 
 function _clearOwnChatMessagesFromDom(userId) {
   document
     .querySelectorAll(`.social-chat-message[data-author-id="${CSS.escape(String(userId))}"]`)
     .forEach((n) => n.remove());
+  _applyChatClusters();
 }
 
 function _updateChatReactionsInDom(messageId, reactions) {
@@ -8221,6 +8289,7 @@ function appendChatMessage(msg) {
   const container = byId("chat-messages");
   if (!container) return;
   container.appendChild(_buildChatMessageEl(msg));
+  _applyChatClusters();
 }
 
 function scrollChatToBottom() {
@@ -8264,6 +8333,7 @@ async function renderChatSidebar() {
     state._chatMessages = messages;
     container.innerHTML = "";
     messages.forEach((m) => appendChatMessage(m));
+    _applyChatClusters();
     _renderChatHeaderTools();
     _renderComposeMeta("chat");
     scrollChatToBottom();
@@ -10453,7 +10523,7 @@ function _tpViewHTML() {
         <button class="btn btn-outline btn-sm" onclick="App.tpBack()">← New Paper</button>
         <button class="btn btn-outline btn-sm" onclick="App.tpShuffle()">🔀 Reshuffle</button>
         <button class="btn btn-outline btn-sm" onclick="App.tpPrint()">🖨 Print</button>
-        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export PDF with Answers</button>
+        <button class="btn btn-primary btn-sm" onclick="App.tpExportPdf()">📥 Export Questions PDF</button>
       </div>
       <div id="tp-paper-content"></div>
     </div>
@@ -11175,35 +11245,6 @@ function tpExportPdf() {
     });
   }
 
-  let msSection = "";
-  questions.forEach((q) => {
-    if (q.type === "mcq") {
-      msSection += `<div class="ms-item">
-        <div class="ms-left">
-          <span class="ms-num">${q.num}</span>
-          <span class="ms-ans-badge">${String.fromCharCode(65 + q.ans)}</span>
-        </div>
-        <div class="ms-right">
-          <span class="ms-exp">${q.exp || ""}</span>
-        </div>
-      </div>`;
-    } else {
-      const stepsHtml = (q.steps || [])
-        .map(
-          (s, i) => `
-        <div class="ms-step">
-          <span class="ms-step-n">(${i + 1})</span>
-          <div class="ms-step-body"><strong>${s.sub}</strong><p>${s.text}</p></div>
-        </div>`,
-        )
-        .join("");
-      msSection += `<div class="ms-item ms-str">
-        <div class="ms-left"><span class="ms-num">${q.num}</span></div>
-        <div class="ms-right"><div class="ms-steps">${stepsHtml}</div></div>
-      </div>`;
-    }
-  });
-
   const css = `
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     @page { size: A4; margin: 18mm 20mm; }
@@ -11263,37 +11304,6 @@ function tpExportPdf() {
       margin-bottom: 0;
     }
 
-    /* Mark scheme page */
-    .ms-page { break-before: page; page-break-before: always; }
-    .ms-header { border-bottom: 2px solid #111; padding-bottom: 8px; margin-bottom: 14px; }
-    .ms-header h1 { font-size: 14pt; font-weight: 700; }
-    .ms-header .sub { font-size: 9pt; color: #555; margin-top: 2px; }
-
-    .ms-item {
-      display: flex; gap: 10px; align-items: flex-start;
-      padding: 7px 0; border-bottom: 1px solid #e8e8e8;
-      break-inside: avoid; page-break-inside: avoid;
-    }
-    .ms-item:last-child { border-bottom: none; }
-    .ms-left { display: flex; align-items: center; gap: 6px; flex-shrink: 0; min-width: 52px; }
-    .ms-num {
-      width: 20px; height: 20px; border-radius: 50%;
-      border: 1.5px solid #999;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 8pt; font-weight: 700; flex-shrink: 0;
-    }
-    .ms-ans-badge {
-      background: #111; color: #fff; font-weight: 800;
-      padding: 2px 7px; border-radius: 3px; font-size: 10pt;
-    }
-    .ms-right { flex: 1; font-size: 9.5pt; }
-    .ms-exp { color: #333; line-height: 1.45; }
-
-    .ms-str .ms-right { padding-top: 1px; }
-    .ms-steps { display: flex; flex-direction: column; gap: 5px; }
-    .ms-step { display: flex; gap: 7px; font-size: 9.5pt; }
-    .ms-step-n { flex-shrink: 0; color: #777; min-width: 22px; }
-    .ms-step-body p { color: #444; margin-top: 2px; font-size: 9pt; }
   `;
 
   const html = `<!DOCTYPE html>
@@ -11309,15 +11319,6 @@ function tpExportPdf() {
 </div>
 
 ${qSection}
-
-<div class="ms-page">
-  <div class="ms-header">
-    <h1>Mark Scheme</h1>
-    <p class="sub">${subjName} — ${typeLabel}</p>
-    <p class="sub">${dateStr}</p>
-  </div>
-  ${msSection}
-</div>
 
 <script>
   // Auto-open print dialog when loaded
@@ -11907,6 +11908,7 @@ async function openGroupChat(groupId, groupName) {
     msgsEl.innerHTML = (data.data || []).length
       ? (data.data || []).map((m) => _buildGroupMsgEl(m)).join("")
       : '<div class="social-msgs-empty">No messages yet. Say hello!</div>';
+    _applyGroupClusters();
     msgsEl.scrollTop = msgsEl.scrollHeight;
   } catch (e) {
     const msgsEl = byId("social-group-messages");
@@ -11981,12 +11983,14 @@ function _removeGroupMessageInDom(messageId) {
   document
     .querySelector(`.social-msg[data-message-id="${CSS.escape(messageId)}"]`)
     ?.remove();
+  _applyGroupClusters();
 }
 
 function _clearOwnGroupMessagesFromDom(userId) {
   document
     .querySelectorAll(`.social-msg[data-author-id="${CSS.escape(String(userId))}"]`)
     .forEach((n) => n.remove());
+  _applyGroupClusters();
 }
 
 function _updateGroupReactionsInDom(messageId, reactions) {
@@ -12027,6 +12031,7 @@ async function sendGroupMessage() {
         : [data.data];
       if (msgs) {
         msgs.innerHTML += _buildGroupMsgEl(data.data);
+        _applyGroupClusters();
         msgs.scrollTop = msgs.scrollHeight;
       }
     } else {
@@ -12216,6 +12221,7 @@ function _bindGroupSocketEvents() {
       ? [..._socialState._groupMessages, msg]
       : [msg];
     msgs.innerHTML += _buildGroupMsgEl(msg);
+    _applyGroupClusters();
     msgs.scrollTop = msgs.scrollHeight;
   });
 
