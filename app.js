@@ -4788,7 +4788,9 @@ function loadMyStuffItems() {
   try {
     const raw = JSON.parse(localStorage.getItem(myStuffStorageKey) || "[]");
     if (!Array.isArray(raw)) return [];
-    return raw.slice(0, 100);
+    return raw
+      .filter((item) => item?.mode === "quiz" || item?.mode === "flashcards")
+      .slice(0, 100);
   } catch {
     return [];
   }
@@ -4955,13 +4957,7 @@ function renderMyStuff() {
   );
   const quizItems = allItems.filter((item) => item.mode === "quiz");
   const flashItems = allItems.filter((item) => item.mode === "flashcards");
-  const structureItems = allItems.filter((item) => item.mode === "structure");
-  const items =
-    activeMode === "quiz"
-      ? quizItems
-      : activeMode === "flashcards"
-        ? flashItems
-        : structureItems;
+  const items = activeMode === "quiz" ? quizItems : flashItems;
   const selectedCount =
     activeMode === "quiz"
       ? normalizeMyStuffCount("quiz", state.myStuffQuizCount)
@@ -4977,13 +4973,10 @@ function renderMyStuff() {
           const playBtn =
             item.mode === "quiz"
               ? `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffQuiz('${item.id}')">Start Interactive Quiz</button>`
-              : item.mode === "flashcards"
-              ? `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffFlashcards('${item.id}')">Start Interactive Deck</button>`
-              : `<button class="btn btn-primary btn-micro" onclick="App.reviewStructureQuestion('${item.id}')">Review & Mark</button>`;
+              : `<button class="btn btn-primary btn-micro" onclick="App.startMyStuffFlashcards('${item.id}')">Start Interactive Deck</button>`;
           const diff = normalizeMyStuffDifficulty(item.difficulty || "Medium");
-          const modeLabel = item.mode === "quiz" ? "Questions" : item.mode === "flashcards" ? "Flashcards" : "Structure";
-          const markedBadge = item.mode === "structure" && item.marked ? `<span class="mystuff-badge" style="background:var(--success-bg);color:var(--success)">✓ Marked</span>` : "";
-          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${modeLabel}</span><span class="mystuff-badge level">${escapeHtml(diff)}</span>${markedBadge}<strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
+          const modeLabel = item.mode === "quiz" ? "Questions" : "Flashcards";
+          const head = `<div class="mystuff-item-head"><span class="mystuff-badge ${item.mode}">${modeLabel}</span><span class="mystuff-badge level">${escapeHtml(diff)}</span><strong>${escapeHtml(item.topicTitle || item.topicId || "Topic")}</strong><small>${escapeHtml(formatMyStuffDate(item.createdAt))}</small><div class="mystuff-item-actions">${playBtn}<button class="btn btn-outline btn-micro" onclick="App.removeMyStuffItem('${item.id}')">Remove</button></div></div>`;
 
           if (item.mode === "quiz") {
             const questions = Array.isArray(item.data?.questions)
@@ -5019,30 +5012,16 @@ function renderMyStuff() {
             return `<article class="card mystuff-item">${head}${quota}${renderedCards}</article>`;
           }
 
-          if (item.mode === "structure") {
-          const q = item.data?.question || "";
-          const markingCriteria = item.data?.markingCriteria || [];
-          const renderedStructure = `<div class="mystuff-structure">
-            <p><strong>Question:</strong> ${escapeHtml(String(q))}</p>
-            ${markingCriteria.length ? `<details><summary>Marking Criteria (${markingCriteria.length} points)</summary><ol>${markingCriteria
-              .map((c) => `<li>${escapeHtml(String(c || ""))}</li>`)
-              .join("")}</ol></details>` : ""}
-            ${item.data?.modelAnswer ? `<details><summary>Model Answer</summary><p>${escapeHtml(String(item.data.modelAnswer))}</p></details>` : ""}
-          </div>`;
-          return `<article class="card mystuff-item">${head}${quota}${renderedStructure}</article>`;
-          }
-
           return `<article class="card mystuff-item">${head}${quota}</article>`;
         })
         .join("")
-    : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : activeMode === "flashcards" ? "flashcard decks" : "structure questions"} generated yet.</p></div>`;
+    : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : "flashcard decks"} generated yet.</p></div>`;
 
   root.innerHTML = `
     <div class="card mystuff-controls">
       <div class="mystuff-mode-tabs">
         <button class="mystuff-mode-tab ${activeMode === "quiz" ? "active" : ""}" onclick="App.switchMyStuffMode('quiz')">Questions (${quizItems.length})</button>
         <button class="mystuff-mode-tab ${activeMode === "flashcards" ? "active" : ""}" onclick="App.switchMyStuffMode('flashcards')">Flashcards (${flashItems.length})</button>
-        <button class="mystuff-mode-tab ${activeMode === "structure" ? "active" : ""}" onclick="App.switchMyStuffMode('structure')">Structure (${structureItems.length})</button>
       </div>
       <div class="mystuff-input-grid">
         <label>
@@ -5066,7 +5045,7 @@ function renderMyStuff() {
               .join("")}
           </select>
         </label>
-        ${activeMode === "structure" ? "" : `<label>
+        <label>
           Count
           <select id="mystuff-count-select" onchange="App.setMyStuffCount(this.value)">
             ${Array.from({ length: maxCount }, (_, i) => i + 1)
@@ -5076,14 +5055,13 @@ function renderMyStuff() {
               )
               .join("")}
           </select>
-        </label>`}
+        </label>
       </div>
       <div class="mystuff-control-sep" aria-hidden="true"></div>
       <div class="mystuff-actions">
-        <button class="btn btn-primary" id="mystuff-gen-main" onclick="${activeMode === "structure" ? "App.myStuffGenerateStructure()" : "App.myStuffGenerate()"}">${activeMode === "structure" ? "Generate Structure" : "Generate"}</button>
-        ${activeMode === "structure" ? "" : `<button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${structureQuestionsQuotaText()})`}">Generate Structure (${structureQuestionsQuotaText()})</button>`}
-        ${activeMode === "structure" ? "" : `<button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>`}
-        <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : activeMode === "flashcards" ? "Flashcards" : "Structure"}</button>
+        <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">Generate</button>
+        <button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>
+        <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : "Flashcards"}</button>
       </div>
       <p id="mystuff-status" class="mystuff-status"></p>
     </div>
@@ -5092,8 +5070,7 @@ function renderMyStuff() {
 }
 
 function switchMyStuffMode(mode) {
-  state.myStuffMode =
-    mode === "flashcards" ? "flashcards" : mode === "structure" ? "structure" : "quiz";
+  state.myStuffMode = mode === "flashcards" ? "flashcards" : "quiz";
   renderMyStuff();
 }
 
@@ -12253,14 +12230,12 @@ const App = {
   aiQuick,
   renderMyStuff,
   myStuffGenerate,
-  myStuffGenerateStructure,
   switchMyStuffMode,
   setMyStuffTopic,
   setMyStuffDifficulty,
   setMyStuffCount,
   startMyStuffQuiz,
   startMyStuffFlashcards,
-  reviewStructureQuestion,
   removeMyStuffItem,
   clearMyStuff,
   exportMyStuffPdf,
