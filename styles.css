@@ -9549,17 +9549,17 @@ body[data-view="community"] .social-compose {
 }
 .gif-modal-head .social-search-bar {
   min-width: 0;
+  flex: 1 1 auto;
 }
 .gif-modal-head .social-modal-close {
-  position: static;
+  position: static !important;
   margin-left: 0.1rem;
   flex-shrink: 0;
 }
 .gif-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.42rem;
-  grid-auto-rows: 1fr;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0.78rem 0.1rem 0 0;
@@ -9574,13 +9574,15 @@ body[data-view="community"] .social-compose {
 }
 .gif-item {
   display: block;
+  width: 100%;
+  min-height: 0;
   border: none;
   padding: 0;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   background: var(--bg3);
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
   transition:
     transform 0.13s,
     opacity 0.13s;

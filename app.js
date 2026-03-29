@@ -8228,7 +8228,8 @@ function _applyChatClusters() {
       _isClusteredWithPrevious(messages[i], messages[i + 1], "userId");
 
     const node = nodes[i];
-    node.classList.remove("cluster-single", "cluster-start", "cluster-middle", "cluster-end");
+    node.classList.remove("clustered", "cluster-single", "cluster-start", "cluster-middle", "cluster-end");
+    node.classList.toggle("clustered", prevJoined);
     if (!prevJoined && !nextJoined) node.classList.add("cluster-single");
     else if (!prevJoined && nextJoined) node.classList.add("cluster-start");
     else if (prevJoined && nextJoined) node.classList.add("cluster-middle");
@@ -8254,7 +8255,8 @@ function _applyGroupClusters() {
       _isClusteredWithPrevious(messages[i], messages[i + 1], "authorId");
 
     const node = nodes[i];
-    node.classList.remove("cluster-single", "cluster-start", "cluster-middle", "cluster-end");
+    node.classList.remove("clustered", "cluster-single", "cluster-start", "cluster-middle", "cluster-end");
+    node.classList.toggle("clustered", prevJoined);
     if (!prevJoined && !nextJoined) node.classList.add("cluster-single");
     else if (!prevJoined && nextJoined) node.classList.add("cluster-start");
     else if (prevJoined && nextJoined) node.classList.add("cluster-middle");
