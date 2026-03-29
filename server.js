@@ -1957,6 +1957,7 @@ app.delete(
 // ============================================================================
 
 const aiRateLimiter = new Map(); // userId/ip -> { count, resetAt }
+const aiLiteBurstLimiter = new Map(); // userId -> { count, resetAt }
 
 function checkAiRateLimit(key) {
   const now = Date.now();
@@ -1971,6 +1972,19 @@ function checkAiRateLimit(key) {
   return entry.count <= max;
 }
 
+function checkAiLiteBurstLimit(key) {
+  const now = Date.now();
+  const windowMs = 60 * 1000;
+  const max = parseInt(process.env.AI_LITE_RATE_LIMIT_PER_MIN || "6", 10);
+  let entry = aiLiteBurstLimiter.get(key);
+  if (!entry || now > entry.resetAt) {
+    entry = { count: 0, resetAt: now + windowMs };
+    aiLiteBurstLimiter.set(key, entry);
+  }
+  entry.count += 1;
+  return entry.count <= max;
+}
+
 // Clean up rate limiter every 5 minutes
 setInterval(
   () => {
@@ -1978,9 +1992,225 @@ setInterval(
     for (const [k, v] of aiRateLimiter.entries()) {
       if (now > v.resetAt) aiRateLimiter.delete(k);
     }
+    for (const [k, v] of aiLiteBurstLimiter.entries()) {
+      if (now > v.resetAt) aiLiteBurstLimiter.delete(k);
+    }
   },
   5 * 60 * 1000,
 );
+
+function extractFirstJsonObject(text) {
+  const src = String(text || "").trim();
+  if (!src) return null;
+
+  const fenced = src.match(/```json\s*([\s\S]*?)```/i);
+  if (fenced?.[1]) {
+    try {
+      return JSON.parse(fenced[1]);
+    } catch {}
+  }
+
+  const firstBrace = src.indexOf("{");
+  const lastBrace = src.lastIndexOf("}");
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    try {
+      return JSON.parse(src.slice(firstBrace, lastBrace + 1));
+    } catch {}
+  }
+
+  try {
+    return JSON.parse(src);
+  } catch {
+    return null;
+  }
+}
+
+function buildAiLiteFallback(mode, topicTitle, subjectId) {
+  const safeTitle = String(topicTitle || "this topic");
+  const safeSubject =
+    subjectId === "chem"
+      ? "Chemistry"
+      : subjectId === "bio"
+        ? "Biology"
+        : subjectId === "phy"
+          ? "Physics"
+          : "Science";
+
+  if (mode === "quiz") {
+    return {
+      questions: [
+        {
+          question: `Which statement best describes the core idea of ${safeTitle}?`,
+          options: [
+            `A broad overview of ${safeTitle}`,
+            `Only historical context, not mechanisms`,
+            `Only calculations with no conceptual meaning`,
+            `An unrelated ${safeSubject} concept`,
+          ],
+          answerIndex: 0,
+          explanation:
+            "Start with the core definition and then add process-level detail.",
+        },
+        {
+          question: `In exam questions on ${safeTitle}, what is usually the safest first step?`,
+          options: [
+            "Write a concise definition or principle first",
+            "Guess the final answer immediately",
+            "Skip units and key terminology",
+            "Use unrelated formulas",
+          ],
+          answerIndex: 0,
+          explanation:
+            "A clear opening principle usually earns method marks early.",
+        },
+        {
+          question: `Which revision strategy is most effective for ${safeTitle}?`,
+          options: [
+            "Active recall with short self-testing",
+            "Only rereading notes passively",
+            "Memorizing without understanding",
+            "Avoiding past-paper practice",
+          ],
+          answerIndex: 0,
+          explanation:
+            "Retrieval practice improves retention and exam transfer.",
+        },
+        {
+          question: `What common mistake should be avoided in ${safeTitle} responses?`,
+          options: [
+            "Using vague terms instead of precise subject language",
+            "Linking cause and effect clearly",
+            "Showing relevant intermediate steps",
+            "Checking command words",
+          ],
+          answerIndex: 0,
+          explanation:
+            "Precision in terminology is often what separates mid and high marks.",
+        },
+        {
+          question: `To improve marks on ${safeTitle}, which habit matters most?`,
+          options: [
+            "Use mark-scheme style phrasing and structure",
+            "Write as much as possible without structure",
+            "Ignore the question command word",
+            "Avoid checking final answer logic",
+          ],
+          answerIndex: 0,
+          explanation:
+            "Structured, targeted responses align better with mark schemes.",
+        },
+      ],
+    };
+  }
+
+  return {
+    cards: [
+      { front: `${safeTitle}: Core definition`, back: `Define ${safeTitle} in one precise sentence using ${safeSubject} terminology.` },
+      { front: `${safeTitle}: Why it matters`, back: "Explain where this appears in exam questions and why examiners test it." },
+      { front: `${safeTitle}: Key process`, back: "State the process/mechanism in clear step order." },
+      { front: `${safeTitle}: Common mistake`, back: "Name one frequent student error and the corrected statement." },
+      { front: `${safeTitle}: Command words`, back: "Match describe/explain/evaluate to the response depth needed." },
+      { front: `${safeTitle}: Exam language`, back: "Write two mark-scheme style keywords you should include." },
+      { front: `${safeTitle}: Quick check`, back: "Create a one-minute self-test question and answer it." },
+      { front: `${safeTitle}: Final review`, back: "Summarize the topic in three bullet points without notes." },
+    ],
+  };
+}
+
+async function generateAiLiteWithOpenRouter({ mode, topicTitle, subjectId, context }) {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) throw new Error("OPENROUTER_API_KEY not set");
+
+  const discoveredFreeModels = await getOpenRouterFreeModels(apiKey);
+  const modelsToTry = buildOpenRouterModelList(
+    process.env.AI_MODEL || "openrouter/auto:free",
+    discoveredFreeModels,
+  );
+
+  if (!modelsToTry.length) throw new Error("No free OpenRouter model available");
+
+  const maxItems = mode === "quiz" ? 5 : 8;
+  const schemaHint =
+    mode === "quiz"
+      ? '{"questions":[{"question":"...","options":["...","...","...","..."],"answerIndex":0,"explanation":"..."}]}'
+      : '{"cards":[{"front":"...","back":"..."}]}';
+
+  const prompt = [
+    `Create ${mode === "quiz" ? "exactly 5" : "exactly 8"} ${mode === "quiz" ? "AS-level multiple-choice questions" : "AS-level flashcards"} for topic "${topicTitle}" (${subjectId}).`,
+    "Output ONLY valid JSON.",
+    `Use this schema exactly: ${schemaHint}`,
+    mode === "quiz"
+      ? "For quiz questions: provide 4 options each, answerIndex 0-3, and one-line explanation."
+      : "For flashcards: concise fronts and exam-focused backs.",
+    context ? `Context:\n${String(context).slice(0, 1400)}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  let lastError = null;
+  for (const model of modelsToTry) {
+    const orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+        "HTTP-Referer": process.env.FRONTEND_URL || "https://asrevise.onrender.com",
+        "X-Title": "Revise Study Platform",
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: mode === "quiz" ? 1000 : 900,
+        temperature: 0.35,
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
+
+    const orData = await orRes.json().catch(() => ({}));
+    if (!orRes.ok || orData.error) {
+      lastError = orData?.error?.message || `HTTP ${orRes.status}`;
+      continue;
+    }
+
+    const raw = String(orData.choices?.[0]?.message?.content || "");
+    const parsed = extractFirstJsonObject(raw);
+    if (!parsed || typeof parsed !== "object") {
+      lastError = "Malformed JSON from AI";
+      continue;
+    }
+
+    if (mode === "quiz") {
+      const qs = Array.isArray(parsed.questions) ? parsed.questions.slice(0, maxItems) : [];
+      if (!qs.length) {
+        lastError = "No questions returned";
+        continue;
+      }
+      return {
+        questions: qs.map((q) => ({
+          question: String(q.question || "").slice(0, 240),
+          options: (Array.isArray(q.options) ? q.options : [])
+            .slice(0, 4)
+            .map((o) => String(o || "").slice(0, 140)),
+          answerIndex: Math.max(0, Math.min(3, Number(q.answerIndex || 0))),
+          explanation: String(q.explanation || "").slice(0, 260),
+        })),
+      };
+    }
+
+    const cards = Array.isArray(parsed.cards) ? parsed.cards.slice(0, maxItems) : [];
+    if (!cards.length) {
+      lastError = "No cards returned";
+      continue;
+    }
+    return {
+      cards: cards.map((c) => ({
+        front: String(c.front || "").slice(0, 160),
+        back: String(c.back || "").slice(0, 320),
+      })),
+    };
+  }
+
+  throw new Error(lastError || "AI-lite generation failed");
+}
 
 // Keep a short cache of available OpenRouter free models to avoid fetching on every request.
 const OPENROUTER_FREE_MODEL_CACHE_TTL_MS = 10 * 60 * 1000;
@@ -2556,6 +2786,148 @@ app.get(
     } catch (err) {
       next(err);
     }
+  },
+);
+
+app.get("/api/ai-lite/quota", authenticateToken, async (req, res, next) => {
+  try {
+    const dailyMax = parseInt(process.env.AI_LITE_DAILY_LIMIT || "6", 10);
+    const topicMax = parseInt(process.env.AI_LITE_TOPIC_LIMIT || "2", 10);
+    const topicId = String(req.query.topicId || "unknown");
+
+    const snapshot = await db.getAiLiteQuotaSnapshot(req.user._id, topicId, {
+      dailyMax,
+      perTopicMax: topicMax,
+    });
+    if (!snapshot)
+      return res.status(404).json({ success: false, error: "User not found" });
+
+    res.json({
+      success: true,
+      quota: {
+        dailyRemaining: snapshot.dailyRemaining,
+        topicRemaining: snapshot.topicRemaining,
+        dailyMax,
+        topicMax,
+      },
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+async function handleAiLiteGenerate(req, res, next, mode) {
+  try {
+    const { topicId, topicTitle, subjectId, context } = req.body || {};
+    if (!topicId || !topicTitle) {
+      return res
+        .status(400)
+        .json({ success: false, error: "topicId and topicTitle are required" });
+    }
+
+    const dailyMax = parseInt(process.env.AI_LITE_DAILY_LIMIT || "6", 10);
+    const topicMax = parseInt(process.env.AI_LITE_TOPIC_LIMIT || "2", 10);
+    const userKey = String(req.user._id);
+
+    if (!checkAiLiteBurstLimit(userKey)) {
+      const fallback = buildAiLiteFallback(mode, topicTitle, subjectId);
+      return res.json({
+        success: true,
+        mode,
+        source: "fallback",
+        fallback: true,
+        reason: "burst_limit",
+        data: fallback,
+      });
+    }
+
+    const snapshot = await db.getAiLiteQuotaSnapshot(req.user._id, topicId, {
+      dailyMax,
+      perTopicMax: topicMax,
+    });
+    if (!snapshot)
+      return res.status(404).json({ success: false, error: "User not found" });
+
+    if (!snapshot.allowed) {
+      const fallback = buildAiLiteFallback(mode, topicTitle, subjectId);
+      return res.json({
+        success: true,
+        mode,
+        source: "fallback",
+        fallback: true,
+        reason: snapshot.blockedReason,
+        data: fallback,
+        quota: {
+          dailyRemaining: snapshot.dailyRemaining,
+          topicRemaining: snapshot.topicRemaining,
+          dailyMax,
+          topicMax,
+        },
+      });
+    }
+
+    try {
+      const generated = await generateAiLiteWithOpenRouter({
+        mode,
+        topicTitle,
+        subjectId,
+        context,
+      });
+
+      await db.consumeAiLiteQuota(snapshot.user, {
+        dayKey: snapshot.dayKey,
+        topicId: snapshot.topicId,
+      });
+
+      const updated = await db.getAiLiteQuotaSnapshot(req.user._id, topicId, {
+        dailyMax,
+        perTopicMax: topicMax,
+      });
+
+      return res.json({
+        success: true,
+        mode,
+        source: "ai",
+        fallback: false,
+        data: generated,
+        quota: {
+          dailyRemaining: updated?.dailyRemaining ?? 0,
+          topicRemaining: updated?.topicRemaining ?? 0,
+          dailyMax,
+          topicMax,
+        },
+      });
+    } catch {
+      const fallback = buildAiLiteFallback(mode, topicTitle, subjectId);
+      return res.json({
+        success: true,
+        mode,
+        source: "fallback",
+        fallback: true,
+        reason: "provider_unavailable",
+        data: fallback,
+        quota: {
+          dailyRemaining: snapshot.dailyRemaining,
+          topicRemaining: snapshot.topicRemaining,
+          dailyMax,
+          topicMax,
+        },
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+app.post("/api/ai-lite/quiz", authenticateToken, async (req, res, next) => {
+  await handleAiLiteGenerate(req, res, next, "quiz");
+});
+
+app.post(
+  "/api/ai-lite/flashcards",
+  authenticateToken,
+  async (req, res, next) => {
+    await handleAiLiteGenerate(req, res, next, "flashcards");
   },
 );
 

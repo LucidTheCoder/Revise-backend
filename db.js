@@ -78,6 +78,14 @@ const userSchema = new mongoose.Schema(
       totalMinutesStudied: { type: Number, default: 0 },
       lastActiveAt: { type: Date, default: Date.now },
     },
+    aiUsage: {
+      lite: {
+        dayKey: { type: String, default: "" },
+        dailyCount: { type: Number, default: 0 },
+        perTopic: { type: Map, of: Number, default: {} },
+        lastUsedAt: { type: Date, default: null },
+      },
+    },
   },
   { timestamps: true },
 );
@@ -284,6 +292,89 @@ const setUserRole = (userId, role) =>
 const banUser = (userId, banned) =>
   User.findByIdAndUpdate(userId, { $set: { banned } }, { new: true });
 const deleteUser = (userId) => User.findByIdAndDelete(userId);
+
+function getUtcDayKey(date = new Date()) {
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+async function getAiLiteQuotaSnapshot(
+  userId,
+  topicId,
+  { dailyMax = 6, perTopicMax = 2 } = {},
+) {
+  const user = await User.findById(userId);
+  if (!user) return null;
+
+  const dayKey = getUtcDayKey();
+  user.aiUsage = user.aiUsage || {};
+  user.aiUsage.lite = user.aiUsage.lite || {
+    dayKey,
+    dailyCount: 0,
+    perTopic: new Map(),
+    lastUsedAt: null,
+  };
+
+  if (user.aiUsage.lite.dayKey !== dayKey) {
+    user.aiUsage.lite.dayKey = dayKey;
+    user.aiUsage.lite.dailyCount = 0;
+    user.aiUsage.lite.perTopic = new Map();
+  }
+
+  const safeTopicId = String(topicId || "unknown").slice(0, 80);
+  const perTopicMap = user.aiUsage.lite.perTopic || new Map();
+  const topicCount = Number(perTopicMap.get(safeTopicId) || 0);
+  const dailyCount = Number(user.aiUsage.lite.dailyCount || 0);
+
+  const dailyRemaining = Math.max(0, dailyMax - dailyCount);
+  const topicRemaining = Math.max(0, perTopicMax - topicCount);
+  const allowed = dailyRemaining > 0 && topicRemaining > 0;
+  const blockedReason =
+    dailyRemaining <= 0 ? "daily_limit" : topicRemaining <= 0 ? "topic_limit" : null;
+
+  return {
+    user,
+    dayKey,
+    topicId: safeTopicId,
+    dailyCount,
+    topicCount,
+    dailyRemaining,
+    topicRemaining,
+    allowed,
+    blockedReason,
+  };
+}
+
+async function consumeAiLiteQuota(user, { dayKey, topicId }) {
+  if (!user) return null;
+
+  user.aiUsage = user.aiUsage || {};
+  user.aiUsage.lite = user.aiUsage.lite || {
+    dayKey,
+    dailyCount: 0,
+    perTopic: new Map(),
+    lastUsedAt: null,
+  };
+
+  if (user.aiUsage.lite.dayKey !== dayKey) {
+    user.aiUsage.lite.dayKey = dayKey;
+    user.aiUsage.lite.dailyCount = 0;
+    user.aiUsage.lite.perTopic = new Map();
+  }
+
+  const perTopicMap = user.aiUsage.lite.perTopic || new Map();
+  const currentTopic = Number(perTopicMap.get(topicId) || 0);
+  perTopicMap.set(topicId, currentTopic + 1);
+
+  user.aiUsage.lite.perTopic = perTopicMap;
+  user.aiUsage.lite.dailyCount = Number(user.aiUsage.lite.dailyCount || 0) + 1;
+  user.aiUsage.lite.lastUsedAt = new Date();
+
+  await user.save();
+  return user;
+}
 
 // ============================================================================
 // PROGRESS HELPERS
@@ -694,6 +785,8 @@ module.exports = {
   setUserRole,
   banUser,
   deleteUser,
+  getAiLiteQuotaSnapshot,
+  consumeAiLiteQuota,
   upsertProgress,
   getAllProgress,
   getProgress,
