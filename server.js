@@ -3020,53 +3020,95 @@ app.post(
         });
       }
 
-      // Check quota for this user
-      const user = await db.findUserById(req.user._id);
-      let quota = user?.aiLiteUsage || { daily: 0, topics: {} };
-      const today = new Date().toDateString();
-      const quotaDate = new Date(quota.lastReset || 0).toDateString();
+      const dailyMax = parseInt(process.env.AI_LITE_DAILY_LIMIT || "6", 10);
+      const topicMax = parseInt(process.env.AI_LITE_TOPIC_LIMIT || "2", 10);
 
-      if (quotaDate !== today) {
-        quota = { daily: 0, Topics: {}, lastReset: new Date() };
-      }
+      const snapshot = await db.getAiLiteQuotaSnapshot(req.user._id, topicId, {
+        dailyMax,
+        perTopicMax: topicMax,
+      });
+      if (!snapshot)
+        return res.status(404).json({ success: false, error: "User not found" });
 
-      const dailyMax = 5;
-      if (quota.daily >= dailyMax) {
+      if (!snapshot.allowed) {
         return res.json({
           success: false,
-          error: `Daily AI quota exhausted (${quota.daily}/${dailyMax})`,
-          quota: { dailyRemaining: 0, dailyMax, topicRemaining: 0, topicMax: dailyMax },
+          error:
+            snapshot.blockedReason === "daily_limit"
+              ? `Daily AI quota exhausted (${dailyMax}/${dailyMax})`
+              : `Topic quota exhausted for this topic (${topicMax}/${topicMax})`,
+          quota: {
+            dailyRemaining: snapshot.dailyRemaining,
+            dailyMax,
+            topicRemaining: snapshot.topicRemaining,
+            topicMax,
+          },
         });
       }
 
-      const structureQuestion = await generateStructureQuestion({
-        mode: "structure",
-        topicTitle,
-        subjectId,
-        context,
-        difficulty: normalizeAiLiteDifficulty(difficulty),
+      let structureQuestion;
+      let fallback = false;
+      try {
+        structureQuestion = await generateStructureQuestion({
+          mode: "structure",
+          topicTitle,
+          subjectId,
+          context,
+          difficulty: normalizeAiLiteDifficulty(difficulty),
+        });
+      } catch {
+        structureQuestion = buildStructureFallback(topicTitle, subjectId);
+        fallback = true;
+      }
+
+      await db.consumeAiLiteQuota(snapshot.user, {
+        dayKey: snapshot.dayKey,
+        topicId: snapshot.topicId,
       });
 
-      // Update quota
-      quota.daily = (quota.daily || 0) + 1;
-      await db.updateUserAiLiteUsage(req.user._id, quota);
+      const updated = await db.getAiLiteQuotaSnapshot(req.user._id, topicId, {
+        dailyMax,
+        perTopicMax: topicMax,
+      });
 
       res.json({
         success: true,
         data: structureQuestion,
         quota: {
-          dailyRemaining: Math.max(0, dailyMax - quota.daily),
+          dailyRemaining: updated?.dailyRemaining ?? 0,
           dailyMax,
-          topicRemaining: Math.max(0, dailyMax - quota.daily),
-          topicMax: dailyMax,
+          topicRemaining: updated?.topicRemaining ?? 0,
+          topicMax,
         },
-        fallback: false,
+        fallback,
       });
     } catch (err) {
       next(err);
     }
   },
 );
+
+function buildStructureFallback(topicTitle, subjectId) {
+  const safeTopic = String(topicTitle || "this topic").trim();
+  const safeSubject = String(subjectId || "subject").toUpperCase();
+  return {
+    question: `Explain two key exam-relevant ideas from ${safeTopic} (${safeSubject}) and apply them to a short exam scenario.`,
+    markingCriteria: [
+      `Accurate AS-level definition or statement directly about ${safeTopic}.`,
+      "Clear explanation of mechanism/process using correct terminology.",
+      "Relevant application to the scenario with logical linkage.",
+      "Use of precise subject vocabulary and concise exam structure.",
+    ],
+    modelAnswer: `A high-scoring response should begin with a clear AS-level point specific to ${safeTopic}, then explain the mechanism step-by-step, and finally apply it directly to the scenario. Avoid generic subject comments and keep each paragraph tied to the question command words.`,
+    tips: [
+      "Underline command words before writing.",
+      "Make one marking point per sentence.",
+      "Link every paragraph back to the exact topic named.",
+    ],
+    marked: false,
+    aiMarking: null,
+  };
+}
 
 async function generateStructureQuestion({
   mode = "structure",

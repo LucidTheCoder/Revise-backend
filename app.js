@@ -3583,6 +3583,7 @@ function renderQuizQuestion() {
 
   const q = quiz.questions[quiz.qIndex];
   const pct = Math.round((quiz.qIndex / quiz.questions.length) * 100);
+  const exitRoute = quiz.sourceLabel === "MyStuff" ? "mystuff" : "home";
 
   byId("quiz-content").innerHTML = `
     <div class="card" style="margin-bottom:1rem">
@@ -3607,7 +3608,7 @@ function renderQuizQuestion() {
         <div class="q-explain" id="quiz-exp">${richText(q.exp || "")}</div>
       </div>
       <div class="quiz-nav">
-        <button class="btn btn-outline" onclick="App.go('home')">Exit Quiz</button>
+        <button class="btn btn-outline" onclick="App.go('${exitRoute}')">Exit Quiz</button>
         <button class="btn btn-primary" id="quiz-next" onclick="App.nextQuizQuestion()" style="display:none">${quiz.qIndex + 1 === quiz.questions.length ? "See Results" : "Next Question"}</button>
       </div>
     </div>
@@ -5869,6 +5870,7 @@ function showAiLoading(message = "Generating content...") {
   state.aiLoading = true;
   const loader = byId("app-loader");
   if (loader) {
+    loader.classList.remove("hidden");
     loader.style.display = "flex";
     const statusEl = byId("loader-status");
     if (statusEl) statusEl.textContent = message;
@@ -5879,7 +5881,10 @@ function hideAiLoading() {
   state.aiLoading = false;
   const loader = byId("app-loader");
   if (loader) {
-    loader.style.display = "none";
+    loader.classList.add("hidden");
+    setTimeout(() => {
+      if (!state.aiLoading && loader.isConnected) loader.style.display = "none";
+    }, 260);
   }
 }
 
@@ -6177,9 +6182,10 @@ function loaderDone() {
   if (!loader) return;
   loaderStep("Ready!", 100);
   // Short pause so the 100% fills before fading
-  setTimeout(() => loader.classList.add("hidden"), 350);
-  // Remove from DOM after fade completes
-  setTimeout(() => loader.remove(), 900);
+  setTimeout(() => {
+    loader.classList.add("hidden");
+    loader.style.display = "none";
+  }, 350);
 }
 
 async function init() {
