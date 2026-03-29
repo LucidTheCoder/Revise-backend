@@ -1,29 +1,3 @@
-// Hide Manage tab if not admin
-function updateManageTabVisibility() {
-  const manageTab = document.getElementById("nav-group-manage");
-  const user = auth.user;
-  if (!manageTab) return;
-  if (user && user.role === "admin") {
-    manageTab.style.display = "";
-  } else {
-    manageTab.style.display = "none";
-  }
-}
-
-// Call on page load and after login/logout
-document.addEventListener("DOMContentLoaded", updateManageTabVisibility);
-
-// Patch into auth.set and auth.clear
-const _authSet = auth.set;
-auth.set = function(token, user) {
-  _authSet.call(this, token, user);
-  updateManageTabVisibility();
-};
-const _authClear = auth.clear;
-auth.clear = function() {
-  _authClear.call(this);
-  updateManageTabVisibility();
-};
 // ============================================================================
 // BACKEND API CONFIGURATION
 // ============================================================================
@@ -250,6 +224,33 @@ const structureQuestionsKey = "revise.structureToday";
 const structureQuestionsDateKey = "revise.structureTodayDate";
 
 const auth = {
+  const auth = {
+  // Hide Manage tab if not admin
+  function updateManageTabVisibility() {
+    const manageTab = document.getElementById("nav-group-manage");
+    const user = auth.user;
+    if (!manageTab) return;
+    if (user && user.role === "admin") {
+      manageTab.style.display = "";
+    } else {
+      manageTab.style.display = "none";
+    }
+  }
+
+  // Call on page load and after login/logout
+  document.addEventListener("DOMContentLoaded", updateManageTabVisibility);
+
+  // Patch into auth.set and auth.clear
+  const _authSet = auth.set;
+  auth.set = function(token, user) {
+    _authSet.call(this, token, user);
+    updateManageTabVisibility();
+  };
+  const _authClear = auth.clear;
+  auth.clear = function() {
+    _authClear.call(this);
+    updateManageTabVisibility();
+  };
   get token() {
     return localStorage.getItem(authTokenKey);
   },
