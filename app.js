@@ -5721,10 +5721,20 @@ function openEmojiPicker(target, context = null) {
   const modal = document.createElement("div");
   modal.id = "emoji-picker-modal";
   modal.className = "social-modal-overlay";
+  const categoryIcons = {
+    all: "◉",
+    smileys: "😀",
+    people: "🙌",
+    hearts: "❤",
+    nature: "🌿",
+    food: "🍔",
+    objects: "💡",
+    symbols: "➕",
+  };
   const tabHtml = [
-    '<button class="emoji-tab active" data-cat="all">All</button>',
+    `<button class="emoji-tab active" data-cat="all"><span class="emoji-tab-icon">${categoryIcons.all}</span><span class="emoji-tab-label">All</span></button>`,
     ...SOCIAL_EMOJI_CATEGORIES.map(
-      (c) => `<button class="emoji-tab" data-cat="${c.key}">${escapeHtml(c.label)}</button>`,
+      (c) => `<button class="emoji-tab" data-cat="${c.key}"><span class="emoji-tab-icon">${categoryIcons[c.key] || "•"}</span><span class="emoji-tab-label">${escapeHtml(c.label)}</span></button>`,
     ),
   ].join("");
   modal.innerHTML = `
