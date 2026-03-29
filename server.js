@@ -308,6 +308,7 @@ io.on("connection", (socket) => {
       const messagePayload = {
         _id: saved._id,
         channelId,
+        userId: saved.userId,
         author: verifiedAuthor,
         text: sanitized,
         createdAt: saved.createdAt,
@@ -1251,15 +1252,129 @@ app.get(
   },
 );
 
-// Admin: delete a chat message
+// Delete one chat message (sender only)
 app.delete(
   "/api/community/chat/messages/:messageId",
   authenticateToken,
-  requireAdmin,
   async (req, res, next) => {
     try {
-      await db.deleteChatMessage(req.params.messageId);
+      const message = await db.getChatMessageById(req.params.messageId);
+      if (!message) {
+        return res.status(404).json({ success: false, error: "Message not found" });
+      }
+
+      const isOwner = message.userId?.toString() === req.user._id?.toString();
+      if (!isOwner) {
+        return res.status(403).json({
+          success: false,
+          error: "Only the sender can delete this message",
+        });
+      }
+
+      const deleted = await db.deleteChatMessageByUser(
+        req.params.messageId,
+        req.user._id,
+      );
+      if (!deleted) {
+        return res.status(404).json({ success: false, error: "Message not found" });
+      }
+
+      io.to(message.channelId).emit("chat_message_deleted", {
+        messageId: req.params.messageId,
+        channelId: message.channelId,
+      });
       res.json({ success: true, message: "Message deleted" });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+// Edit one chat message (sender only)
+app.patch(
+  "/api/community/chat/messages/:messageId",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const message = await db.getChatMessageById(req.params.messageId);
+      if (!message) {
+        return res.status(404).json({ success: false, error: "Message not found" });
+      }
+
+      const isOwner = message.userId?.toString() === req.user._id?.toString();
+      if (!isOwner) {
+        return res.status(403).json({
+          success: false,
+          error: "Only the sender can edit this message",
+        });
+      }
+
+      const rawText = String(req.body?.text || "")
+        .trim()
+        .slice(0, 2000);
+      if (!rawText) {
+        return res.status(400).json({ success: false, error: "text is required" });
+      }
+
+      const moderated = moderateSocialText(rawText);
+      if (!moderated.allowed) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Message blocked by moderation policy." });
+      }
+
+      const updated = await db.updateChatMessageTextByUser(
+        req.params.messageId,
+        req.user._id,
+        moderated.sanitized,
+      );
+      if (!updated) {
+        return res.status(404).json({ success: false, error: "Message not found" });
+      }
+
+      io.to(message.channelId).emit("chat_message_updated", {
+        messageId: req.params.messageId,
+        channelId: message.channelId,
+        text: updated.text,
+      });
+
+      res.json({ success: true, data: updated, message: "Message updated" });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+// Clear my messages in a chat channel
+app.delete(
+  "/api/community/chat/:channelId/messages/mine",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const { channelId } = req.params;
+      const canAccess = await canAccessChannel(req.user?._id, channelId);
+      if (!canAccess) {
+        return res.status(403).json({
+          success: false,
+          error: "Not allowed to access this channel",
+        });
+      }
+
+      const result = await db.deleteChatMessagesByUserInChannel(
+        channelId,
+        req.user._id,
+      );
+
+      io.to(channelId).emit("chat_messages_cleared", {
+        channelId,
+        userId: req.user._id,
+      });
+
+      res.json({
+        success: true,
+        deletedCount: result?.deletedCount || 0,
+        message: "Your messages were cleared",
+      });
     } catch (error) {
       next(error);
     }
@@ -3083,6 +3198,138 @@ app.post(
       // Emit to socket room
       io.to(`group:${req.params.groupId}`).emit("group_message", msg);
       res.status(201).json({ success: true, data: msg });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
+
+// PATCH /api/social/groups/:groupId/messages/:messageId — edit own message
+app.patch(
+  "/api/social/groups/:groupId/messages/:messageId",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const group = await db.GroupChat.findById(req.params.groupId).lean();
+      if (!group)
+        return res
+          .status(404)
+          .json({ success: false, error: "Group not found" });
+      const isMember = group.members
+        .map(String)
+        .includes(req.user._id.toString());
+      if (!isMember)
+        return res.status(403).json({ success: false, error: "Not a member" });
+
+      const rawText = String(req.body?.text || "")
+        .trim()
+        .slice(0, 2000);
+      if (!rawText)
+        return res.status(400).json({ success: false, error: "text required" });
+
+      const moderated = moderateSocialText(rawText);
+      if (!moderated.allowed) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Message blocked by moderation policy." });
+      }
+
+      const updated = await db.updateGroupMessageTextByUser(
+        req.params.messageId,
+        req.params.groupId,
+        req.user._id,
+        moderated.sanitized,
+      );
+      if (!updated) {
+        return res.status(403).json({
+          success: false,
+          error: "Only the sender can edit this message",
+        });
+      }
+
+      io.to(`group:${req.params.groupId}`).emit("group_message_updated", {
+        groupId: req.params.groupId,
+        messageId: req.params.messageId,
+        text: updated.text,
+      });
+      res.json({ success: true, data: updated });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
+
+// DELETE /api/social/groups/:groupId/messages/:messageId — delete own message
+app.delete(
+  "/api/social/groups/:groupId/messages/:messageId",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const group = await db.GroupChat.findById(req.params.groupId).lean();
+      if (!group)
+        return res
+          .status(404)
+          .json({ success: false, error: "Group not found" });
+      const isMember = group.members
+        .map(String)
+        .includes(req.user._id.toString());
+      if (!isMember)
+        return res.status(403).json({ success: false, error: "Not a member" });
+
+      const deleted = await db.deleteGroupMessageByUser(
+        req.params.messageId,
+        req.params.groupId,
+        req.user._id,
+      );
+      if (!deleted) {
+        return res.status(403).json({
+          success: false,
+          error: "Only the sender can delete this message",
+        });
+      }
+
+      io.to(`group:${req.params.groupId}`).emit("group_message_deleted", {
+        groupId: req.params.groupId,
+        messageId: req.params.messageId,
+      });
+      res.json({ success: true, message: "Message deleted" });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
+
+// DELETE /api/social/groups/:groupId/messages/mine — clear own messages
+app.delete(
+  "/api/social/groups/:groupId/messages/mine",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const group = await db.GroupChat.findById(req.params.groupId).lean();
+      if (!group)
+        return res
+          .status(404)
+          .json({ success: false, error: "Group not found" });
+      const isMember = group.members
+        .map(String)
+        .includes(req.user._id.toString());
+      if (!isMember)
+        return res.status(403).json({ success: false, error: "Not a member" });
+
+      const result = await db.deleteGroupMessagesByUser(
+        req.params.groupId,
+        req.user._id,
+      );
+
+      io.to(`group:${req.params.groupId}`).emit("group_messages_cleared", {
+        groupId: req.params.groupId,
+        userId: req.user._id,
+      });
+
+      res.json({
+        success: true,
+        deletedCount: result?.deletedCount || 0,
+      });
     } catch (e) {
       next(e);
     }

@@ -6541,6 +6541,23 @@ function initSocket() {
       showToast(payload?.reason || "Message blocked by moderation.");
     });
 
+    socket.on("chat_message_updated", (payload) => {
+      if (payload?.channelId !== state.selectedChannelId || !payload?.messageId)
+        return;
+      _updateChatMessageInDom(payload.messageId, payload.text || "");
+    });
+
+    socket.on("chat_message_deleted", (payload) => {
+      if (payload?.channelId !== state.selectedChannelId || !payload?.messageId)
+        return;
+      _removeChatMessageInDom(payload.messageId);
+    });
+
+    socket.on("chat_messages_cleared", (payload) => {
+      if (payload?.channelId !== state.selectedChannelId || !payload?.userId) return;
+      _clearOwnChatMessagesFromDom(payload.userId);
+    });
+
     socket.on("channel_users", (count) => {
       currentChannelUserCount = count;
       const el = byId("chat-user-count");
@@ -6575,23 +6592,61 @@ function leaveSocketChannel(channelId) {
   socket.emit("leave_channel", { channelId });
 }
 
-function appendChatMessage(msg) {
-  const container = byId("chat-messages");
-  if (!container) return;
+function _isOwnUserId(userId) {
+  if (!auth.user?._id || !userId) return false;
+  return userId?.toString?.() === auth.user._id?.toString?.();
+}
+
+function _buildChatMessageEl(msg) {
   const d = document.createElement("div");
-  d.className = "social-chat-message";
+  const isSelf = _isOwnUserId(msg.userId);
+  d.className = `social-chat-message ${isSelf ? "self" : ""}`;
+  d.dataset.messageId = msg._id || "";
+  d.dataset.authorId = msg.userId?.toString?.() || "";
   const time = msg.createdAt
     ? new Date(msg.createdAt).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       })
     : "";
+  const actions =
+    isSelf && msg._id
+      ? `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.editChatMessage('${msg._id}')">Edit</button><button class="social-msg-action danger" onclick="App.deleteChatMessage('${msg._id}')">Delete</button></span>`
+      : "";
   d.innerHTML = `
-    <strong>${escapeHtml(msg.author)}</strong>
-    <span class="msg-time">${time}</span>
-    <p>${renderRichMessage(msg.text)}</p>
+    <div class="social-chat-message-head">
+      <strong>${escapeHtml(msg.author)}</strong>
+      <span class="msg-time">${time}</span>
+      ${actions}
+    </div>
+    <p class="social-chat-message-text">${renderRichMessage(msg.text)}</p>
   `;
-  container.appendChild(d);
+  return d;
+}
+
+function _updateChatMessageInDom(messageId, text) {
+  const node = document.querySelector(
+    `.social-chat-message[data-message-id="${CSS.escape(messageId)}"] .social-chat-message-text`,
+  );
+  if (node) node.innerHTML = `${renderRichMessage(text)} <em>(edited)</em>`;
+}
+
+function _removeChatMessageInDom(messageId) {
+  document
+    .querySelector(`.social-chat-message[data-message-id="${CSS.escape(messageId)}"]`)
+    ?.remove();
+}
+
+function _clearOwnChatMessagesFromDom(userId) {
+  document
+    .querySelectorAll(`.social-chat-message[data-author-id="${CSS.escape(String(userId))}"]`)
+    .forEach((n) => n.remove());
+}
+
+function appendChatMessage(msg) {
+  const container = byId("chat-messages");
+  if (!container) return;
+  container.appendChild(_buildChatMessageEl(msg));
 }
 
 function scrollChatToBottom() {
@@ -6634,10 +6689,97 @@ async function renderChatSidebar() {
     const messages = data.data || [];
     container.innerHTML = "";
     messages.forEach((m) => appendChatMessage(m));
+    _renderChatHeaderTools();
     scrollChatToBottom();
   } catch {
     container.innerHTML =
       '<p style="color:var(--text2);padding:0.5rem;font-size:0.8rem">Could not load messages.</p>';
+  }
+}
+
+function _renderChatHeaderTools() {
+  const header = document.querySelector("#social-panel-chat .social-chat-header");
+  if (!header) return;
+  header.querySelector(".social-chat-tools")?.remove();
+  if (!auth.isLoggedIn) return;
+
+  const tools = document.createElement("div");
+  tools.className = "social-chat-tools";
+  tools.innerHTML = `<button class="btn btn-outline btn-sm" onclick="App.clearMyChatMessages()">Clear Mine</button>`;
+  header.appendChild(tools);
+}
+
+async function deleteChatMessage(messageId) {
+  if (!messageId) return;
+  if (!confirm("Delete this message?")) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/community/chat/messages/${messageId}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not delete message");
+      return;
+    }
+    _removeChatMessageInDom(messageId);
+    showToast("Message deleted");
+  } catch {
+    showToast("Network error");
+  }
+}
+
+async function editChatMessage(messageId) {
+  if (!messageId) return;
+  const current = document.querySelector(
+    `.social-chat-message[data-message-id="${CSS.escape(messageId)}"] .social-chat-message-text`,
+  );
+  const textOnly = current?.textContent?.replace(/\(edited\)\s*$/, "")?.trim() || "";
+  const nextText = prompt("Edit your message:", textOnly);
+  if (nextText === null) return;
+  const trimmed = nextText.trim();
+  if (!trimmed) {
+    showToast("Message cannot be empty");
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/community/chat/messages/${messageId}`, {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify({ text: trimmed }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not update message");
+      return;
+    }
+    _updateChatMessageInDom(messageId, data.data?.text || trimmed);
+    showToast("Message updated");
+  } catch {
+    showToast("Network error");
+  }
+}
+
+async function clearMyChatMessages() {
+  if (!state.selectedChannelId || !auth.isLoggedIn) return;
+  if (!confirm("Clear all messages you sent in this channel?")) return;
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/community/chat/${state.selectedChannelId}/messages/mine`,
+      {
+        method: "DELETE",
+        headers: authHeaders(),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not clear your messages");
+      return;
+    }
+    _clearOwnChatMessagesFromDom(auth.user._id);
+    showToast(`Cleared ${data.deletedCount || 0} messages`);
+  } catch {
+    showToast("Network error");
   }
 }
 
@@ -9742,12 +9884,19 @@ function _injectGroupInviteButton() {
   const header = document.querySelector("#social-group-main .social-chat-header");
   if (!header) return;
   header.querySelector(".social-group-invite-btn")?.remove();
+  header.querySelector(".social-group-clear-btn")?.remove();
   if (!auth.isLoggedIn || !_socialState.activeGroup?._id) return;
+
+  const clearBtn = document.createElement("button");
+  clearBtn.className = "btn btn-outline btn-sm social-group-clear-btn";
+  clearBtn.textContent = "Clear Mine";
+  clearBtn.onclick = clearMyGroupMessages;
 
   const btn = document.createElement("button");
   btn.className = "btn btn-outline btn-sm social-group-invite-btn";
   btn.textContent = "+ Add Friends";
   btn.onclick = openAddGroupMembersModal;
+  header.appendChild(clearBtn);
   header.appendChild(btn);
 }
 
@@ -9759,14 +9908,37 @@ function _buildGroupMsgEl(m) {
         minute: "2-digit",
       })
     : "";
-  return `<div class="social-msg ${isSelf ? "self" : ""}">
+  const actions =
+    isSelf && m._id
+      ? `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.editGroupMessage('${m._id}')">Edit</button><button class="social-msg-action danger" onclick="App.deleteGroupMessage('${m._id}')">Delete</button></span>`
+      : "";
+  return `<div class="social-msg ${isSelf ? "self" : ""}" data-message-id="${escapeHtml(m._id || "")}" data-author-id="${escapeHtml(m.authorId?.toString?.() || "")}">
     ${!isSelf ? `<div class="social-msg-avatar">${escapeHtml((m.authorName || "?")[0].toUpperCase())}</div>` : ""}
     <div class="social-msg-body">
-      ${!isSelf ? `<div class="social-msg-name">${escapeHtml(m.authorName)}</div>` : ""}
+      <div class="social-msg-head">${!isSelf ? `<div class="social-msg-name">${escapeHtml(m.authorName)}</div>` : ""}${actions}</div>
       <div class="social-msg-bubble">${renderRichMessage(m.text)}</div>
       <div class="social-msg-time">${time}</div>
     </div>
   </div>`;
+}
+
+function _updateGroupMessageInDom(messageId, text) {
+  const bubble = document.querySelector(
+    `.social-msg[data-message-id="${CSS.escape(messageId)}"] .social-msg-bubble`,
+  );
+  if (bubble) bubble.innerHTML = `${renderRichMessage(text)} <em>(edited)</em>`;
+}
+
+function _removeGroupMessageInDom(messageId) {
+  document
+    .querySelector(`.social-msg[data-message-id="${CSS.escape(messageId)}"]`)
+    ?.remove();
+}
+
+function _clearOwnGroupMessagesFromDom(userId) {
+  document
+    .querySelectorAll(`.social-msg[data-author-id="${CSS.escape(String(userId))}"]`)
+    .forEach((n) => n.remove());
 }
 
 async function sendGroupMessage() {
@@ -9963,6 +10135,9 @@ async function addFriendsToActiveGroup() {
 function _bindGroupSocketEvents() {
   if (!socket) return;
   socket.off("group_message");
+  socket.off("group_message_updated");
+  socket.off("group_message_deleted");
+  socket.off("group_messages_cleared");
   socket.on("group_message", (msg) => {
     if (!_socialState.activeGroup) return;
     if (msg.chatId?.toString?.() !== _socialState.activeGroup._id?.toString?.())
@@ -9974,6 +10149,110 @@ function _bindGroupSocketEvents() {
     msgs.innerHTML += _buildGroupMsgEl(msg);
     msgs.scrollTop = msgs.scrollHeight;
   });
+
+  socket.on("group_message_updated", (payload) => {
+    if (!_socialState.activeGroup?._id) return;
+    if (payload?.groupId?.toString?.() !== _socialState.activeGroup._id?.toString?.())
+      return;
+    if (!payload?.messageId) return;
+    _updateGroupMessageInDom(payload.messageId, payload.text || "");
+  });
+
+  socket.on("group_message_deleted", (payload) => {
+    if (!_socialState.activeGroup?._id) return;
+    if (payload?.groupId?.toString?.() !== _socialState.activeGroup._id?.toString?.())
+      return;
+    if (!payload?.messageId) return;
+    _removeGroupMessageInDom(payload.messageId);
+  });
+
+  socket.on("group_messages_cleared", (payload) => {
+    if (!_socialState.activeGroup?._id) return;
+    if (payload?.groupId?.toString?.() !== _socialState.activeGroup._id?.toString?.())
+      return;
+    if (!payload?.userId) return;
+    _clearOwnGroupMessagesFromDom(payload.userId);
+  });
+}
+
+async function deleteGroupMessage(messageId) {
+  if (!_socialState.activeGroup?._id || !messageId) return;
+  if (!confirm("Delete this message?")) return;
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/social/groups/${_socialState.activeGroup._id}/messages/${messageId}`,
+      {
+        method: "DELETE",
+        headers: authHeaders(),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not delete message");
+      return;
+    }
+    _removeGroupMessageInDom(messageId);
+    showToast("Message deleted");
+  } catch {
+    showToast("Network error");
+  }
+}
+
+async function editGroupMessage(messageId) {
+  if (!_socialState.activeGroup?._id || !messageId) return;
+  const current = document.querySelector(
+    `.social-msg[data-message-id="${CSS.escape(messageId)}"] .social-msg-bubble`,
+  );
+  const textOnly = current?.textContent?.replace(/\(edited\)\s*$/, "")?.trim() || "";
+  const nextText = prompt("Edit your message:", textOnly);
+  if (nextText === null) return;
+  const trimmed = nextText.trim();
+  if (!trimmed) {
+    showToast("Message cannot be empty");
+    return;
+  }
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/social/groups/${_socialState.activeGroup._id}/messages/${messageId}`,
+      {
+        method: "PATCH",
+        headers: authHeaders(),
+        body: JSON.stringify({ text: trimmed }),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not update message");
+      return;
+    }
+    _updateGroupMessageInDom(messageId, data.data?.text || trimmed);
+    showToast("Message updated");
+  } catch {
+    showToast("Network error");
+  }
+}
+
+async function clearMyGroupMessages() {
+  if (!_socialState.activeGroup?._id || !auth.isLoggedIn) return;
+  if (!confirm("Clear all messages you sent in this group?")) return;
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/social/groups/${_socialState.activeGroup._id}/messages/mine`,
+      {
+        method: "DELETE",
+        headers: authHeaders(),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not clear your messages");
+      return;
+    }
+    _clearOwnGroupMessagesFromDom(auth.user._id);
+    showToast(`Cleared ${data.deletedCount || 0} messages`);
+  } catch {
+    showToast("Network error");
+  }
 }
 
 // ── Expose renderSocialPage as no-op (called from legacy code) ────────
@@ -10157,6 +10436,9 @@ const App = {
   submitReply,
   deleteReply,
   deleteThread,
+  deleteChatMessage,
+  editChatMessage,
+  clearMyChatMessages,
   upvoteThread,
   filterForumBySubject,
   forumLoadMore,
@@ -10207,6 +10489,9 @@ const App = {
   openDmWithFriend,
   openGroupChat,
   sendGroupMessage,
+  deleteGroupMessage,
+  editGroupMessage,
+  clearMyGroupMessages,
   openNewGroupModal,
   openAddGroupMembersModal,
   addFriendsToActiveGroup,

@@ -426,6 +426,21 @@ const saveChatMessage = async ({ channelId, userId, author, text }) => {
   return m;
 };
 
+const getChatMessageById = (messageId) => ChatMessage.findById(messageId).lean();
+
+const updateChatMessageTextByUser = (messageId, userId, text) =>
+  ChatMessage.findOneAndUpdate(
+    { _id: messageId, userId },
+    { $set: { text } },
+    { new: true },
+  ).lean();
+
+const deleteChatMessageByUser = (messageId, userId) =>
+  ChatMessage.findOneAndDelete({ _id: messageId, userId }).lean();
+
+const deleteChatMessagesByUserInChannel = (channelId, userId) =>
+  ChatMessage.deleteMany({ channelId, userId });
+
 const deleteChatMessage = (messageId) =>
   ChatMessage.findByIdAndDelete(messageId);
 
@@ -550,6 +565,17 @@ const getGroupMessages = (chatId, limit = 50) =>
   GroupMessage.find({ chatId }).sort({ createdAt: -1 }).limit(limit).lean();
 const addGroupMessage = (chatId, authorId, authorName, text) =>
   GroupMessage.create({ chatId, authorId, authorName, text });
+const getGroupMessageById = (messageId) => GroupMessage.findById(messageId).lean();
+const updateGroupMessageTextByUser = (messageId, chatId, userId, text) =>
+  GroupMessage.findOneAndUpdate(
+    { _id: messageId, chatId, authorId: userId },
+    { $set: { text } },
+    { new: true },
+  ).lean();
+const deleteGroupMessageByUser = (messageId, chatId, userId) =>
+  GroupMessage.findOneAndDelete({ _id: messageId, chatId, authorId: userId }).lean();
+const deleteGroupMessagesByUser = (chatId, userId) =>
+  GroupMessage.deleteMany({ chatId, authorId: userId });
 
 const areUsersFriends = async (userA, userB) => {
   if (!userA || !userB) return false;
@@ -615,6 +641,10 @@ module.exports = {
   upvoteThread,
   getChatMessages,
   saveChatMessage,
+  getChatMessageById,
+  updateChatMessageTextByUser,
+  deleteChatMessageByUser,
+  deleteChatMessagesByUserInChannel,
   deleteChatMessage,
   getSiteStats,
   getPublicProfile,
@@ -631,6 +661,10 @@ module.exports = {
   getUserGroupChats,
   getGroupMessages,
   addGroupMessage,
+  getGroupMessageById,
+  updateGroupMessageTextByUser,
+  deleteGroupMessageByUser,
+  deleteGroupMessagesByUser,
   areUsersFriends,
   getCurriculumSubjects,
   upsertCurriculumSubjects,

@@ -7222,6 +7222,14 @@ html {
   padding: 0.45rem 0;
   border-bottom: 1px solid color-mix(in srgb, var(--border), transparent 60%);
 }
+.social-chat-message-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.social-chat-message.self .social-chat-message-head {
+  justify-content: flex-end;
+}
 .social-chat-message:last-child {
   border-bottom: none;
 }
@@ -7238,6 +7246,47 @@ html {
   margin: 0.15rem 0 0;
   font-size: 0.9rem;
   color: var(--text1);
+}
+.social-chat-message.self .social-chat-message-text {
+  text-align: right;
+}
+
+.social-chat-tools {
+  margin-left: auto;
+}
+
+.social-msg-head {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.social-msg-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+
+.social-msg-action {
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text2);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  line-height: 1;
+  padding: 0.2rem 0.42rem;
+  cursor: pointer;
+}
+
+.social-msg-action:hover {
+  color: var(--text1);
+  border-color: var(--accent);
+}
+
+.social-msg-action.danger:hover {
+  color: #fca5a5;
+  border-color: #f87171;
 }
 
 /* Group chat messages — bubble style */
