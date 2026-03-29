@@ -731,13 +731,14 @@ p {
     color-mix(in srgb, var(--bg3), var(--bg2) 35%);
 }
 
-/* In topic reading view, let sidebar move naturally with page scroll. */
+/* Keep the same sidebar behavior in both subject and topic views. */
 #view-topic .sidebar {
-  position: relative;
-  top: 0;
-  height: auto;
-  max-height: none;
-  overflow: visible;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px - 1rem);
+  max-height: calc(100vh - 60px - 1rem);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #sidebar-topics-list {
@@ -9524,67 +9525,143 @@ html {
 }
 
 /* ============================================================================
-   SIDEBAR SCROLL HARDENING (final overrides)
+   APP LAYOUT STABILITY (final overrides)
    ============================================================================ */
+
+:root {
+  --text1: var(--text);
+  --surface2: var(--bg3);
+  --font-sans: var(--font-body);
+}
+
+[data-theme="light"] {
+  --text1: var(--text);
+  --surface2: var(--bg3);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden !important;
+}
+
+main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.view,
+.subject-layout,
+.subject-main,
+.topic-main {
+  min-width: 0;
+}
+
+body[data-view="subject"] main,
+body[data-view="topic"] main {
+  overflow: hidden;
+}
+
+body[data-view="subject"] #view-subject.view.active,
+body[data-view="topic"] #view-topic.view.active {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.subject-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  align-items: stretch;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
 
 #subject-sidebar.sidebar,
 #topic-sidebar.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: stretch;
+  height: 100%;
+  max-height: none;
   min-height: 0;
-  display: block;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: calc(1.2rem + env(safe-area-inset-bottom));
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+.subject-main,
+.topic-main {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.5rem;
 }
 
 #subject-sidebar #sidebar-topics-list,
 #topic-sidebar #sidebar-topics-list {
-  padding-bottom: calc(4.4rem + env(safe-area-inset-bottom));
+  padding-bottom: 1rem;
 }
 
 @media (max-width: 760px) {
+  body {
+    overflow-x: hidden !important;
+  }
+
+  body[data-view="subject"] main,
+  body[data-view="topic"] main {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  body[data-view="subject"] #view-subject.view.active,
+  body[data-view="topic"] #view-topic.view.active {
+    height: auto;
+  }
+
+  .subject-layout {
+    grid-template-columns: 1fr !important;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
   #subject-sidebar.sidebar,
   #topic-sidebar.sidebar {
+    position: fixed !important;
     top: 0 !important;
+    left: 0 !important;
     bottom: 0 !important;
+    width: min(300px, 88vw) !important;
     height: 100dvh !important;
     max-height: 100dvh !important;
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom)) !important;
+    z-index: 650;
+    transform: translateX(-105%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  #subject-sidebar #sidebar-topics-list,
-  #topic-sidebar #sidebar-topics-list {
-    padding-bottom: calc(5.8rem + env(safe-area-inset-bottom)) !important;
-  }
-}
-
-@media (min-width: 761px) {
-  #subject-sidebar.sidebar,
-  #topic-sidebar.sidebar {
-    position: static !important;
-    top: auto !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible;
-    padding-bottom: 0.8rem;
+  #subject-sidebar.sidebar.mobile-open,
+  #topic-sidebar.sidebar.mobile-open {
+    transform: translateX(0);
   }
 
-  #subject-sidebar #sidebar-topics-list,
-  #topic-sidebar #sidebar-topics-list {
-    padding-bottom: 1rem;
-  }
-
-  #view-topic #topic-sidebar.sidebar {
-    position: relative !important;
-    top: 0 !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-
-  #view-topic #topic-sidebar #sidebar-topics-list {
-    max-height: none !important;
-    overflow: visible !important;
+  .subject-main,
+  .topic-main {
+    height: auto;
+    min-height: calc(100dvh - 52px - 64px);
+    overflow-y: visible;
+    padding: 1rem;
   }
 }
 .add-paper-grid {

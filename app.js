@@ -2298,7 +2298,14 @@ function setActiveView(viewName) {
     target.classList.add("view-enter");
   }
   state.currentView = viewName;
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  document.body.dataset.view = viewName;
+
+  const mainEl = document.querySelector("main");
+  if (mainEl && typeof mainEl.scrollTo === "function") {
+    mainEl.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 }
 
 // go() is defined in the new section below
