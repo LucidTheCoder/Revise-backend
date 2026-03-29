@@ -9548,7 +9548,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  height: 100vh;
 }
 
 body {
@@ -9559,6 +9558,8 @@ body {
 
 .page-container > main {
   flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -9583,18 +9584,17 @@ body[data-view="topic"] main {
 
 body[data-view="subject"] #view-subject.view.active,
 body[data-view="topic"] #view-topic.view.active {
-  display: block;
-  height: 100%;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   min-height: 0;
 }
 
 .subject-layout {
-  display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  display: flex;
   align-items: stretch;
   flex: 1 1 auto;
-  height: 100%;
-  min-height: 100%;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -9602,9 +9602,11 @@ body[data-view="topic"] #view-topic.view.active {
 #topic-sidebar.sidebar {
   position: sticky;
   top: 0;
+  width: 280px;
+  flex: 0 0 280px;
   align-self: stretch;
-  height: 100%;
-  max-height: none;
+  height: auto !important;
+  max-height: none !important;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -9616,7 +9618,6 @@ body[data-view="topic"] #view-topic.view.active {
 .topic-main {
   display: flex;
   flex-direction: column;
-  height: 100%;
   flex: 1 1 auto;
   align-self: stretch;
   min-height: 0;
@@ -9648,7 +9649,7 @@ body[data-view="topic"] #view-topic.view.active {
   }
 
   .subject-layout {
-    grid-template-columns: 1fr !important;
+    display: block;
     height: auto;
     min-height: 0;
     overflow: visible;
