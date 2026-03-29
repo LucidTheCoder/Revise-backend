@@ -2173,10 +2173,13 @@ function persistWeeklyMinutes() {
 }
 
 function addStudyMinutes(minutes) {
+  const add = Math.floor(Number(minutes) || 0);
+  if (add <= 0) return;
   const todayIndex = (new Date().getDay() + 6) % 7;
   state.weeklyMinutes[todayIndex] =
-    (state.weeklyMinutes[todayIndex] || 0) + minutes;
+    (state.weeklyMinutes[todayIndex] || 0) + add;
   persistWeeklyMinutes();
+  if (state.currentView === "home") renderHome();
 }
 
 // ── Streak (persisted, increments once per calendar day) ────────────────────
@@ -2207,13 +2210,29 @@ function hydrateStreak() {
 function touchStreakToday() {
   const today = new Date().toDateString();
   const lastDate = localStorage.getItem(streakDateKey);
-  if (lastDate !== today) {
+  if (lastDate === today) return;
+
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (!lastDate) {
+    state.streak = 1;
+  } else if (lastDate === yesterday) {
     state.streak = (state.streak || 0) + 1;
-    localStorage.setItem(streakKey, String(state.streak));
-    localStorage.setItem(streakDateKey, today);
-    const countEl = byId("streak-count");
-    if (countEl) countEl.textContent = String(state.streak);
+  } else {
+    state.streak = 1;
   }
+
+  localStorage.setItem(streakKey, String(state.streak));
+  localStorage.setItem(streakDateKey, today);
+  const countEl = byId("streak-count");
+  if (countEl) countEl.textContent = String(state.streak);
+  if (state.currentView === "home") renderHome();
+}
+
+function getWeeklyGoalTarget() {
+  const raw = parseInt(localStorage.getItem("revise.weeklyGoal") || "180", 10);
+  const target = Number.isFinite(raw) ? Math.max(10, Math.min(1440, raw)) : 180;
+  localStorage.setItem("revise.weeklyGoal", String(target));
+  return target;
 }
 
 function quizHistory() {
@@ -2521,13 +2540,10 @@ function renderHome() {
     )
     .join("");
 
-  const totalTarget = parseInt(
-    localStorage.getItem("revise.weeklyGoal") || "180",
-    10,
-  );
+  const totalTarget = getWeeklyGoalTarget();
   const current = state.weeklyMinutes.reduce((sum, m) => sum + m, 0);
   const labels = ["M", "T", "W", "T", "F", "S", "S"];
-  const weeklyPct = Math.round((current / totalTarget) * 100);
+  const weeklyPct = Math.round((current / Math.max(1, totalTarget)) * 100);
   const todayIndex = (new Date().getDay() + 6) % 7;
   const todayMinutes = state.weeklyMinutes[todayIndex] || 0;
   const maxMin = Math.max(...state.weeklyMinutes, 1);
@@ -3543,6 +3559,7 @@ function markTopicDone(topicId) {
   showToast(`✅ "${tname}" complete! +50 XP`);
   state.xp = (state.xp || 0) + 50;
   persistXp();
+  updateStatsOnBackend(50, 15);
   if (state.currentView === "topic") renderTopicView(topicId);
 }
 function buildQuizFromPayload(payload) {
@@ -4490,10 +4507,7 @@ function copyText(text) {
 }
 
 function setWeeklyGoal() {
-  const current = parseInt(
-    localStorage.getItem("revise.weeklyGoal") || "180",
-    10,
-  );
+  const current = getWeeklyGoalTarget();
   const input = prompt(
     `Set your weekly study goal (minutes).
 Current: ${current} min`,
@@ -10127,7 +10141,7 @@ function go(viewName, payload = {}) {
     // Set up action button for default forums tab
     const actionEl = byId("social-nav-action");
     if (actionEl)
-      actionEl.innerHTML = `<button class="btn btn-primary btn-sm" onclick="App.openNewThreadModal()">+ New Thread</button>`;
+      actionEl.innerHTML = `<button class="btn btn-primary btn-sm social-nav-cta" onclick="App.openNewThreadModal()">+ New Thread</button>`;
     initSocket();
   }
   if (viewName === "profile") renderProfile();
@@ -10629,7 +10643,7 @@ function tpToggleTopic(id, checked) {
 }
 
 function tpChangeQty(delta) {
-  _tp.qtyPerTopic = Math.max(1, Math.min(5, _tp.qtyPerTopic + delta));
+  _tp.qtyPerTopic = Math.max(1, _tp.qtyPerTopic + delta);
   const el = byId("tp-qty-display");
   if (el) el.textContent = _tp.qtyPerTopic;
   _tpUpdateCount();
@@ -11203,7 +11217,7 @@ function tpShuffle() {
 }
 
 function tpPrint() {
-  window.print();
+  tpExportPdf();
 }
 
 function tpExportPdf() {
@@ -11388,9 +11402,9 @@ function switchSocialTab(tab, btn) {
   const actionEl = byId("social-nav-action");
   if (actionEl) {
     if (tab === "forums") {
-      actionEl.innerHTML = `<button class="btn btn-primary btn-sm" onclick="App.openNewThreadModal()">+ New Thread</button>`;
+      actionEl.innerHTML = `<button class="btn btn-primary btn-sm social-nav-cta" onclick="App.openNewThreadModal()">+ New Thread</button>`;
     } else if (tab === "groups") {
-      actionEl.innerHTML = `<button class="btn btn-primary btn-sm" onclick="App.openNewGroupModal()">+ New Group</button>`;
+      actionEl.innerHTML = `<button class="btn btn-primary btn-sm social-nav-cta" onclick="App.openNewGroupModal()">+ New Group</button>`;
     } else {
       actionEl.innerHTML = "";
     }

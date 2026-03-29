@@ -7527,6 +7527,24 @@ html {
   gap: 0.15rem;
 }
 
+#social-nav-action {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+#social-nav-action .btn {
+  width: auto;
+  min-height: 34px;
+  padding: 0.4rem 0.7rem;
+  white-space: nowrap;
+}
+
+#social-nav-action .social-nav-cta {
+  max-width: max-content;
+  flex: 0 0 auto;
+}
+
 .social-nav-tab {
   display: inline-flex;
   align-items: center;
@@ -9525,12 +9543,22 @@ body[data-view="community"] .social-compose {
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
+.gif-modal-head .social-search-bar {
+  min-width: 0;
+}
+.gif-modal-head .social-modal-close {
+  position: static;
+  margin-left: 0.1rem;
+  flex-shrink: 0;
+}
 .gif-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.4rem;
+  gap: 0.42rem;
+  grid-auto-rows: 1fr;
   overflow-y: auto;
-  padding: 0.75rem 0 0;
+  overflow-x: hidden;
+  padding: 0.78rem 0.1rem 0 0;
   flex: 1;
   min-height: 220px;
   max-height: min(60dvh, 480px);
@@ -9541,6 +9569,7 @@ body[data-view="community"] .social-compose {
   }
 }
 .gif-item {
+  display: block;
   border: none;
   padding: 0;
   border-radius: 8px;
