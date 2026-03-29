@@ -6583,7 +6583,7 @@ function appendChatMessage(msg) {
   d.innerHTML = `
     <strong>${escapeHtml(msg.author)}</strong>
     <span class="msg-time">${time}</span>
-    <p>${escapeHtml(msg.text)}</p>
+    <p>${renderGifs(escapeHtml(msg.text))}</p>
   `;
   container.appendChild(d);
 }
@@ -6819,7 +6819,7 @@ async function renderThreadDetail() {
           <small>${t}</small>
           ${canDel ? `<button class="btn btn-outline btn-micro btn-danger" style="margin-left:auto" onclick="App.deleteReply('${id}','${r._id}')">Delete</button>` : ""}
         </div>
-        <p style="line-height:1.6;white-space:pre-wrap">${richText(r.body)}</p>
+        <p style="line-height:1.6;white-space:pre-wrap">${renderGifs(richText(r.body))}</p>
       </div>
     `;
     })
@@ -9239,8 +9239,14 @@ async function _initChatTab() {
   initSocket();
   if (state.selectedChannelId) {
     joinSocketChannel(state.selectedChannelId);
+    const selected = state.community.chatChannels.find(
+      (c) => c.id === state.selectedChannelId,
+    );
     const lbl = byId("chat-input");
-    if (lbl) lbl.placeholder = `Message #${state.selectedChannelId}…`;
+    if (lbl) {
+      const prefix = state.selectedChannelId?.startsWith("dm:") ? "@" : "#";
+      lbl.placeholder = `Message ${prefix}${selected?.name || state.selectedChannelId}…`;
+    }
   }
 }
 

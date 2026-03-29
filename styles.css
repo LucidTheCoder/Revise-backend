@@ -9660,7 +9660,14 @@ body[data-view="community"] .page-container > .site-footer {
 body[data-view="community"] #view-community.view.active {
   display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
   min-height: 0;
+  width: 100%;
+}
+
+body[data-view="community"] .social-page {
+  flex: 1 1 auto;
+  width: 100%;
 }
 
 .view,
@@ -9762,6 +9769,24 @@ body[data-view="topic"] #view-topic.view.active {
     bottom: calc(64px + env(safe-area-inset-bottom));
   }
 
+
+@keyframes socialSubtleIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.social-chat-message,
+.social-msg,
+.forum-reply,
+.forum-item {
+  animation: socialSubtleIn 0.2s ease both;
+}
   .subject-layout {
     display: block;
     height: auto;

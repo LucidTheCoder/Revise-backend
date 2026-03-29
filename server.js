@@ -101,6 +101,7 @@ function _canonicalModerationText(text) {
     .replace(/[0]/g, "o")
     .replace(/[5$]/g, "s")
     .replace(/[7+]/g, "t")
+    .replace(/[v]/g, "u")
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/(.)\1{2,}/g, "$1$1")
     .replace(/\s+/g, " ")
