@@ -7227,8 +7227,8 @@ html {
   align-items: center;
   gap: 0.4rem;
 }
-.social-chat-message.self .social-chat-message-head {
-  justify-content: flex-end;
+.social-chat-message-head .social-msg-actions {
+  margin-left: auto;
 }
 .social-chat-message:last-child {
   border-bottom: none;
@@ -7247,12 +7247,33 @@ html {
   font-size: 0.9rem;
   color: var(--text1);
 }
-.social-chat-message.self .social-chat-message-text {
-  text-align: right;
-}
 
 .social-chat-tools {
   margin-left: auto;
+}
+
+.social-msg-reply-ref {
+  margin-top: 0.25rem;
+  margin-bottom: 0.18rem;
+  border-left: 2px solid var(--accent);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--surface2), transparent 20%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.social-msg-reply-ref strong {
+  font-size: 0.72rem;
+  color: var(--text2);
+  line-height: 1.2;
+}
+
+.social-msg-reply-ref span {
+  font-size: 0.76rem;
+  color: var(--text3);
+  line-height: 1.2;
 }
 
 .social-msg-head {
@@ -7287,6 +7308,108 @@ html {
 .social-msg-action.danger:hover {
   color: #fca5a5;
   border-color: #f87171;
+}
+
+.social-reactions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-top: 0.3rem;
+}
+
+.social-reaction-pill {
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text2);
+  border-radius: 999px;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.social-reaction-pill.mine {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.social-compose-meta {
+  display: none;
+  align-items: stretch;
+  gap: 0.45rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.social-compose-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: var(--surface2);
+  color: var(--text2);
+  padding: 0.25rem 0.4rem;
+  min-height: 34px;
+  max-width: min(380px, 100%);
+}
+
+.social-compose-chip.reply {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+}
+
+.social-compose-chip.reply strong {
+  font-size: 0.72rem;
+  color: var(--text2);
+}
+
+.social-compose-chip.reply span {
+  font-size: 0.76rem;
+  color: var(--text3);
+}
+
+.social-compose-chip.gif img {
+  width: 44px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.social-chip-x {
+  border: none;
+  background: transparent;
+  color: var(--text3);
+  font-size: 0.95rem;
+  cursor: pointer;
+  line-height: 1;
+  margin-left: auto;
+}
+
+.emoji-modal {
+  max-width: 360px;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.45rem;
+}
+
+.emoji-btn {
+  height: 38px;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: var(--surface2);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.emoji-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 /* Group chat messages — bubble style */

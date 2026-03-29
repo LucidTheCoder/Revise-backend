@@ -147,6 +147,17 @@ const chatMessageSchema = new mongoose.Schema(
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     author: { type: String, required: true },
     text: { type: String, required: true, maxlength: 2000 },
+    replyTo: {
+      messageId: { type: mongoose.Schema.Types.ObjectId },
+      author: { type: String },
+      text: { type: String, maxlength: 280 },
+    },
+    reactions: [
+      {
+        emoji: { type: String, required: true },
+        userIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+      },
+    ],
   },
   { timestamps: true },
 );
@@ -197,6 +208,17 @@ const groupMessageSchema = new mongoose.Schema(
     },
     authorName: { type: String, required: true },
     text: { type: String, required: true, maxlength: 2000 },
+    replyTo: {
+      messageId: { type: mongoose.Schema.Types.ObjectId },
+      author: { type: String },
+      text: { type: String, maxlength: 280 },
+    },
+    reactions: [
+      {
+        emoji: { type: String, required: true },
+        userIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+      },
+    ],
   },
   { timestamps: true },
 );
@@ -420,8 +442,8 @@ const getChatMessages = (channelId, limit = 100) =>
     .lean()
     .then((m) => m.reverse());
 
-const saveChatMessage = async ({ channelId, userId, author, text }) => {
-  const m = new ChatMessage({ channelId, userId, author, text });
+const saveChatMessage = async ({ channelId, userId, author, text, replyTo }) => {
+  const m = new ChatMessage({ channelId, userId, author, text, replyTo });
   await m.save();
   return m;
 };
@@ -440,6 +462,29 @@ const deleteChatMessageByUser = (messageId, userId) =>
 
 const deleteChatMessagesByUserInChannel = (channelId, userId) =>
   ChatMessage.deleteMany({ channelId, userId });
+
+const toggleChatMessageReaction = async (messageId, userId, emoji) => {
+  const msg = await ChatMessage.findById(messageId);
+  if (!msg) return null;
+  const uid = userId?.toString?.() || String(userId);
+  msg.reactions = Array.isArray(msg.reactions) ? msg.reactions : [];
+
+  const bucket = msg.reactions.find((r) => r.emoji === emoji);
+  if (!bucket) {
+    msg.reactions.push({ emoji, userIds: [userId] });
+  } else {
+    const has = bucket.userIds.some((id) => id?.toString?.() === uid);
+    if (has) {
+      bucket.userIds = bucket.userIds.filter((id) => id?.toString?.() !== uid);
+    } else {
+      bucket.userIds.push(userId);
+    }
+  }
+
+  msg.reactions = msg.reactions.filter((r) => (r.userIds || []).length > 0);
+  await msg.save();
+  return msg.toObject();
+};
 
 const deleteChatMessage = (messageId) =>
   ChatMessage.findByIdAndDelete(messageId);
@@ -563,8 +608,8 @@ const addMembersToGroupChat = (chatId, memberIds) =>
   ).lean();
 const getGroupMessages = (chatId, limit = 50) =>
   GroupMessage.find({ chatId }).sort({ createdAt: -1 }).limit(limit).lean();
-const addGroupMessage = (chatId, authorId, authorName, text) =>
-  GroupMessage.create({ chatId, authorId, authorName, text });
+const addGroupMessage = (chatId, authorId, authorName, text, replyTo = null) =>
+  GroupMessage.create({ chatId, authorId, authorName, text, replyTo });
 const getGroupMessageById = (messageId) => GroupMessage.findById(messageId).lean();
 const updateGroupMessageTextByUser = (messageId, chatId, userId, text) =>
   GroupMessage.findOneAndUpdate(
@@ -576,6 +621,30 @@ const deleteGroupMessageByUser = (messageId, chatId, userId) =>
   GroupMessage.findOneAndDelete({ _id: messageId, chatId, authorId: userId }).lean();
 const deleteGroupMessagesByUser = (chatId, userId) =>
   GroupMessage.deleteMany({ chatId, authorId: userId });
+const deleteGroupMessageAny = (messageId, chatId) =>
+  GroupMessage.findOneAndDelete({ _id: messageId, chatId }).lean();
+const toggleGroupMessageReaction = async (chatId, messageId, userId, emoji) => {
+  const msg = await GroupMessage.findOne({ _id: messageId, chatId });
+  if (!msg) return null;
+  const uid = userId?.toString?.() || String(userId);
+  msg.reactions = Array.isArray(msg.reactions) ? msg.reactions : [];
+
+  const bucket = msg.reactions.find((r) => r.emoji === emoji);
+  if (!bucket) {
+    msg.reactions.push({ emoji, userIds: [userId] });
+  } else {
+    const has = bucket.userIds.some((id) => id?.toString?.() === uid);
+    if (has) {
+      bucket.userIds = bucket.userIds.filter((id) => id?.toString?.() !== uid);
+    } else {
+      bucket.userIds.push(userId);
+    }
+  }
+
+  msg.reactions = msg.reactions.filter((r) => (r.userIds || []).length > 0);
+  await msg.save();
+  return msg.toObject();
+};
 
 const areUsersFriends = async (userA, userB) => {
   if (!userA || !userB) return false;
@@ -645,6 +714,7 @@ module.exports = {
   updateChatMessageTextByUser,
   deleteChatMessageByUser,
   deleteChatMessagesByUserInChannel,
+  toggleChatMessageReaction,
   deleteChatMessage,
   getSiteStats,
   getPublicProfile,
@@ -665,6 +735,8 @@ module.exports = {
   updateGroupMessageTextByUser,
   deleteGroupMessageByUser,
   deleteGroupMessagesByUser,
+  deleteGroupMessageAny,
+  toggleGroupMessageReaction,
   areUsersFriends,
   getCurriculumSubjects,
   upsertCurriculumSubjects,

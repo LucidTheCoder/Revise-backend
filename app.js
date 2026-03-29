@@ -5341,9 +5341,152 @@ async function init() {
 
 // Editor Functions
 
-// ── GIF picker (Tenor) ───────────────────────────────────────────────────────
-let _gifTarget = null; // 'group' | 'forum'
+// ── GIF/Emoji social compose helpers ─────────────────────────────────────────
+let _gifTarget = null; // 'chat' | 'group' | 'forum'
 let _gifTimer = null;
+let _chatPendingGif = null;
+let _groupPendingGif = null;
+let _chatReplyTo = null;
+let _groupReplyTo = null;
+const SOCIAL_EMOJIS = [
+  "😀",
+  "😂",
+  "😍",
+  "🔥",
+  "👏",
+  "👍",
+  "🙏",
+  "💯",
+  "🎉",
+  "🤝",
+  "😎",
+  "🤔",
+  "😢",
+  "😭",
+  "😡",
+  "❤️",
+  "🫡",
+  "✅",
+  "❌",
+  "👀",
+];
+
+function _plainMsgSnippet(text) {
+  return String(text || "")
+    .replace(/\[gif:[^\]]+\]/g, "[GIF]")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 140);
+}
+
+function _getComposeMetaEl(target) {
+  const id = target === "chat" ? "chat-compose-meta" : "group-compose-meta";
+  let meta = byId(id);
+  if (meta) return meta;
+
+  const compose =
+    target === "chat"
+      ? document.querySelector("#social-panel-chat .social-compose")
+      : byId("social-group-compose");
+  if (!compose) return null;
+
+  meta = document.createElement("div");
+  meta.id = id;
+  meta.className = "social-compose-meta";
+  compose.insertAdjacentElement("afterend", meta);
+  return meta;
+}
+
+function _renderComposeMeta(target) {
+  const meta = _getComposeMetaEl(target);
+  if (!meta) return;
+  const pendingGif = target === "chat" ? _chatPendingGif : _groupPendingGif;
+  const replying = target === "chat" ? _chatReplyTo : _groupReplyTo;
+
+  const gifHtml = pendingGif
+    ? `<div class="social-compose-chip gif">
+        <img src="${escapeHtml(pendingGif.url)}" alt="GIF preview" loading="lazy">
+        <span>${escapeHtml(pendingGif.title || "GIF")}</span>
+        <button class="social-chip-x" onclick="App.clearPendingGif('${target}')" aria-label="Remove GIF">×</button>
+      </div>`
+    : "";
+
+  const replyHtml = replying
+    ? `<div class="social-compose-chip reply">
+        <strong>Replying to ${escapeHtml(replying.author || "User")}</strong>
+        <span>${escapeHtml(replying.text || "")}</span>
+        <button class="social-chip-x" onclick="App.clearReplyTarget('${target}')" aria-label="Cancel reply">×</button>
+      </div>`
+    : "";
+
+  meta.innerHTML = `${replyHtml}${gifHtml}`;
+  meta.style.display = replyHtml || gifHtml ? "flex" : "none";
+}
+
+function clearPendingGif(target) {
+  if (target === "chat") _chatPendingGif = null;
+  if (target === "group") _groupPendingGif = null;
+  _renderComposeMeta(target);
+}
+
+function clearReplyTarget(target) {
+  if (target === "chat") _chatReplyTo = null;
+  if (target === "group") _groupReplyTo = null;
+  _renderComposeMeta(target);
+}
+
+function replyToChatMessage(messageId) {
+  const msg = (state._chatMessages || []).find((m) => (m._id || "") === messageId);
+  if (!msg) return;
+  _chatReplyTo = {
+    messageId,
+    author: msg.author,
+    text: _plainMsgSnippet(msg.text),
+  };
+  _renderComposeMeta("chat");
+  byId("chat-input")?.focus();
+}
+
+function replyToGroupMessage(messageId) {
+  const msg = (_socialState._groupMessages || []).find((m) => (m._id || "") === messageId);
+  if (!msg) return;
+  _groupReplyTo = {
+    messageId,
+    author: msg.authorName,
+    text: _plainMsgSnippet(msg.text),
+  };
+  _renderComposeMeta("group");
+  byId("social-group-input")?.focus();
+}
+
+function openEmojiPicker(target) {
+  byId("emoji-picker-modal")?.remove();
+  const modal = document.createElement("div");
+  modal.id = "emoji-picker-modal";
+  modal.className = "social-modal-overlay";
+  modal.innerHTML = `
+    <div class="social-modal emoji-modal" role="dialog">
+      <div class="emoji-grid">
+        ${SOCIAL_EMOJIS.map((e) => `<button class="emoji-btn" data-emoji="${e}">${e}</button>`).join("")}
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.remove();
+  });
+
+  modal.querySelectorAll(".emoji-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const emoji = btn.getAttribute("data-emoji") || "";
+      const input = target === "chat" ? byId("chat-input") : byId("social-group-input");
+      if (!input) return;
+      input.value += emoji;
+      input.focus();
+      modal.remove();
+    });
+  });
+  requestAnimationFrame(() => modal.classList.add("open"));
+}
 
 function openGifPicker(target) {
   _gifTarget = target;
@@ -5427,7 +5570,15 @@ async function _gifSearch(q) {
 function _gifInsert(gifUrl, gifTitle) {
   byId("gif-modal")?.remove();
   const gifMarkup = `[gif:${gifUrl}]`;
-  if (_gifTarget === "group") {
+  if (_gifTarget === "chat") {
+    _chatPendingGif = { url: gifUrl, title: gifTitle || "GIF" };
+    _renderComposeMeta("chat");
+    byId("chat-input")?.focus();
+  } else if (_gifTarget === "group") {
+    _groupPendingGif = { url: gifUrl, title: gifTitle || "GIF" };
+    _renderComposeMeta("group");
+    byId("social-group-input")?.focus();
+  } else if (_gifTarget === "group-legacy") {
     const inp = byId("social-group-input");
     if (inp) {
       inp.value += (inp.value ? " " : "") + gifMarkup;
@@ -6533,6 +6684,9 @@ function initSocket() {
     socket.on("new_message", (msg) => {
       // Add message to the active channel's live view
       if (msg.channelId !== state.selectedChannelId) return;
+      state._chatMessages = Array.isArray(state._chatMessages)
+        ? [...state._chatMessages, msg]
+        : [msg];
       appendChatMessage(msg);
       scrollChatToBottom();
     });
@@ -6556,6 +6710,20 @@ function initSocket() {
     socket.on("chat_messages_cleared", (payload) => {
       if (payload?.channelId !== state.selectedChannelId || !payload?.userId) return;
       _clearOwnChatMessagesFromDom(payload.userId);
+      state._chatMessages = (state._chatMessages || []).filter(
+        (m) => (m.userId?.toString?.() || "") !== payload.userId?.toString?.(),
+      );
+    });
+
+    socket.on("chat_message_reactions", (payload) => {
+      if (payload?.channelId !== state.selectedChannelId || !payload?.messageId)
+        return;
+      _updateChatReactionsInDom(payload.messageId, payload.reactions || []);
+      state._chatMessages = (state._chatMessages || []).map((m) =>
+        (m._id || "") === payload.messageId
+          ? { ...m, reactions: payload.reactions || [] }
+          : m,
+      );
     });
 
     socket.on("channel_users", (count) => {
@@ -6597,9 +6765,23 @@ function _isOwnUserId(userId) {
   return userId?.toString?.() === auth.user._id?.toString?.();
 }
 
+function _reactionPillsHtml(reactions, onClickName, messageId) {
+  const arr = Array.isArray(reactions) ? reactions : [];
+  if (!arr.length) return "";
+  return `<div class="social-reactions">${arr
+    .map((r) => {
+      const count = (r.userIds || []).length;
+      const mine = (r.userIds || []).some((id) => _isOwnUserId(id));
+      return `<button class="social-reaction-pill ${mine ? "mine" : ""}" onclick="App.${onClickName}('${messageId}','${escapeHtml(r.emoji || "👍")}')">${escapeHtml(r.emoji || "👍")} ${count}</button>`;
+    })
+    .join("")}</div>`;
+}
+
 function _buildChatMessageEl(msg) {
   const d = document.createElement("div");
   const isSelf = _isOwnUserId(msg.userId);
+  const isAdmin = auth.user?.role === "admin";
+  const canDelete = isSelf || isAdmin;
   d.className = `social-chat-message ${isSelf ? "self" : ""}`;
   d.dataset.messageId = msg._id || "";
   d.dataset.authorId = msg.userId?.toString?.() || "";
@@ -6609,17 +6791,20 @@ function _buildChatMessageEl(msg) {
         minute: "2-digit",
       })
     : "";
-  const actions =
-    isSelf && msg._id
-      ? `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.editChatMessage('${msg._id}')">Edit</button><button class="social-msg-action danger" onclick="App.deleteChatMessage('${msg._id}')">Delete</button></span>`
-      : "";
+  const actions = `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.replyToChatMessage('${msg._id}')">Reply</button><button class="social-msg-action" onclick="App.reactChatMessage('${msg._id}','👍')">React</button>${isSelf ? `<button class="social-msg-action" onclick="App.editChatMessage('${msg._id}')">Edit</button>` : ""}${canDelete ? `<button class="social-msg-action danger" onclick="App.deleteChatMessage('${msg._id}')">Delete</button>` : ""}</span>`;
+  const reply = msg.replyTo
+    ? `<div class="social-msg-reply-ref"><strong>${escapeHtml(msg.replyTo.author || "User")}</strong><span>${escapeHtml(_plainMsgSnippet(msg.replyTo.text || ""))}</span></div>`
+    : "";
+  const reactions = _reactionPillsHtml(msg.reactions || [], "reactChatMessage", msg._id || "");
   d.innerHTML = `
     <div class="social-chat-message-head">
       <strong>${escapeHtml(msg.author)}</strong>
       <span class="msg-time">${time}</span>
       ${actions}
     </div>
+    ${reply}
     <p class="social-chat-message-text">${renderRichMessage(msg.text)}</p>
+    <div class="social-chat-message-reactions">${reactions}</div>
   `;
   return d;
 }
@@ -6641,6 +6826,14 @@ function _clearOwnChatMessagesFromDom(userId) {
   document
     .querySelectorAll(`.social-chat-message[data-author-id="${CSS.escape(String(userId))}"]`)
     .forEach((n) => n.remove());
+}
+
+function _updateChatReactionsInDom(messageId, reactions) {
+  const node = document.querySelector(
+    `.social-chat-message[data-message-id="${CSS.escape(messageId)}"] .social-chat-message-reactions`,
+  );
+  if (!node) return;
+  node.innerHTML = _reactionPillsHtml(reactions || [], "reactChatMessage", messageId);
 }
 
 function appendChatMessage(msg) {
@@ -6687,9 +6880,11 @@ async function renderChatSidebar() {
     );
     const data = await res.json();
     const messages = data.data || [];
+    state._chatMessages = messages;
     container.innerHTML = "";
     messages.forEach((m) => appendChatMessage(m));
     _renderChatHeaderTools();
+    _renderComposeMeta("chat");
     scrollChatToBottom();
   } catch {
     container.innerHTML =
@@ -6723,6 +6918,9 @@ async function deleteChatMessage(messageId) {
       return;
     }
     _removeChatMessageInDom(messageId);
+    state._chatMessages = (state._chatMessages || []).filter(
+      (m) => (m._id || "") !== messageId,
+    );
     showToast("Message deleted");
   } catch {
     showToast("Network error");
@@ -6754,6 +6952,11 @@ async function editChatMessage(messageId) {
       return;
     }
     _updateChatMessageInDom(messageId, data.data?.text || trimmed);
+    state._chatMessages = (state._chatMessages || []).map((m) =>
+      (m._id || "") === messageId
+        ? { ...m, text: data.data?.text || trimmed }
+        : m,
+    );
     showToast("Message updated");
   } catch {
     showToast("Network error");
@@ -6791,15 +6994,22 @@ async function sendChatMessage() {
   }
   const input = byId("chat-input");
   const text = input.value.trim();
-  if (!text) return;
+  const hasGif = !!_chatPendingGif?.url;
+  if (!text && !hasGif) return;
+  const composed = `${text}${hasGif ? `${text ? " " : ""}[gif:${_chatPendingGif.url}]` : ""}`;
+  const replyToMessageId = _chatReplyTo?.messageId || null;
   input.value = "";
+  _chatPendingGif = null;
+  _chatReplyTo = null;
+  _renderComposeMeta("chat");
 
   if (socket && socket.connected) {
     socket.emit("send_message", {
       channelId: state.selectedChannelId,
-      text,
+      text: composed,
       author: auth.user?.name,
       token: auth.token,
+      replyToMessageId,
     });
   } else {
     // Fallback: REST
@@ -6807,11 +7017,33 @@ async function sendChatMessage() {
       await fetch(`${API_BASE_URL}/api/community/chat/messages`, {
         method: "POST",
         headers: authHeaders(),
-        body: JSON.stringify({ channelId: state.selectedChannelId, text }),
+        body: JSON.stringify({ channelId: state.selectedChannelId, text: composed, replyToMessageId }),
       });
     } catch {
       showToast("Failed to send message");
     }
+  }
+}
+
+async function reactChatMessage(messageId, emoji = "👍") {
+  if (!auth.isLoggedIn || !messageId) return;
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/community/chat/messages/${messageId}/reactions`,
+      {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({ emoji }),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not react");
+      return;
+    }
+    _updateChatReactionsInDom(messageId, data.reactions || []);
+  } catch {
+    showToast("Network error");
   }
 }
 
@@ -8268,6 +8500,27 @@ function bindBaseEvents() {
 
   updateNavForAuth();
   byId("theme-toggle").addEventListener("click", toggleTheme);
+
+  const chatCompose = document.querySelector("#social-panel-chat .social-compose");
+  if (chatCompose && !chatCompose.querySelector(".gif-btn")) {
+    const gifBtn = document.createElement("button");
+    gifBtn.className = "gif-btn";
+    gifBtn.title = "Add GIF";
+    gifBtn.setAttribute("aria-label", "Add GIF");
+    gifBtn.textContent = "GIF";
+    gifBtn.onclick = () => App.openGifPicker("chat");
+
+    const emojiBtn = document.createElement("button");
+    emojiBtn.className = "gif-btn emoji-open-btn";
+    emojiBtn.title = "Emoji";
+    emojiBtn.setAttribute("aria-label", "Emoji");
+    emojiBtn.textContent = "😀";
+    emojiBtn.onclick = () => App.openEmojiPicker("chat");
+
+    chatCompose.insertBefore(emojiBtn, byId("chat-send"));
+    chatCompose.insertBefore(gifBtn, emojiBtn);
+  }
+
   byId("chat-send").addEventListener("click", sendChatMessage);
   byId("chat-input").addEventListener("keydown", (event) => {
     if (event.key === "Enter") sendChatMessage();
@@ -9836,7 +10089,7 @@ async function openGroupChat(groupId, groupName) {
   const compose = byId("social-group-compose");
   if (compose) {
     compose.style.display = "";
-    // Inject GIF button if not already there
+    // Inject compose buttons if not already there
     if (!compose.querySelector(".gif-btn")) {
       const gifBtn = document.createElement("button");
       gifBtn.className = "gif-btn";
@@ -9845,9 +10098,19 @@ async function openGroupChat(groupId, groupName) {
       gifBtn.innerHTML =
         '<span style="font-size:0.8rem;font-weight:700">GIF</span>';
       gifBtn.onclick = () => App.openGifPicker("group");
+
+      const emojiBtn = document.createElement("button");
+      emojiBtn.className = "gif-btn emoji-open-btn";
+      emojiBtn.title = "Emoji";
+      emojiBtn.setAttribute("aria-label", "Emoji");
+      emojiBtn.textContent = "😀";
+      emojiBtn.onclick = () => App.openEmojiPicker("group");
+
       compose.insertBefore(gifBtn, compose.firstChild);
+      compose.insertBefore(emojiBtn, compose.firstChild.nextSibling);
     }
   }
+  _renderComposeMeta("group");
 
   // Join socket room
   if (socket && socket.connected) socket.emit("join_group", { groupId });
@@ -9867,6 +10130,7 @@ async function openGroupChat(groupId, groupName) {
       msgsEl.innerHTML = `<div class="social-msgs-error">${escapeHtml(data.error || "Could not load messages")}</div>`;
       return;
     }
+    _socialState._groupMessages = data.data || [];
     msgsEl.innerHTML = (data.data || []).length
       ? (data.data || []).map((m) => _buildGroupMsgEl(m)).join("")
       : '<div class="social-msgs-empty">No messages yet. Say hello!</div>';
@@ -9902,22 +10166,33 @@ function _injectGroupInviteButton() {
 
 function _buildGroupMsgEl(m) {
   const isSelf = m.authorId?.toString?.() === auth.user?._id?.toString?.();
+  const isAdmin = auth.user?.role === "admin";
+  const canDelete = isSelf || isAdmin;
   const time = m.createdAt
     ? new Date(m.createdAt).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       })
     : "";
-  const actions =
-    isSelf && m._id
-      ? `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.editGroupMessage('${m._id}')">Edit</button><button class="social-msg-action danger" onclick="App.deleteGroupMessage('${m._id}')">Delete</button></span>`
-      : "";
+  const reply = m.replyTo
+    ? `<div class="social-msg-reply-ref"><strong>${escapeHtml(m.replyTo.author || "User")}</strong><span>${escapeHtml(_plainMsgSnippet(m.replyTo.text || ""))}</span></div>`
+    : "";
+  const reactions = _reactionPillsHtml(
+    m.reactions || [],
+    "reactGroupMessage",
+    m._id || "",
+  );
+  const actions = m._id
+    ? `<span class="social-msg-actions"><button class="social-msg-action" onclick="App.replyToGroupMessage('${m._id}')">Reply</button><button class="social-msg-action" onclick="App.reactGroupMessage('${m._id}','👍')">React</button>${isSelf ? `<button class="social-msg-action" onclick="App.editGroupMessage('${m._id}')">Edit</button>` : ""}${canDelete ? `<button class="social-msg-action danger" onclick="App.deleteGroupMessage('${m._id}')">Delete</button>` : ""}</span>`
+    : "";
   return `<div class="social-msg ${isSelf ? "self" : ""}" data-message-id="${escapeHtml(m._id || "")}" data-author-id="${escapeHtml(m.authorId?.toString?.() || "")}">
     ${!isSelf ? `<div class="social-msg-avatar">${escapeHtml((m.authorName || "?")[0].toUpperCase())}</div>` : ""}
     <div class="social-msg-body">
       <div class="social-msg-head">${!isSelf ? `<div class="social-msg-name">${escapeHtml(m.authorName)}</div>` : ""}${actions}</div>
+      ${reply}
       <div class="social-msg-bubble">${renderRichMessage(m.text)}</div>
       <div class="social-msg-time">${time}</div>
+      <div class="social-msg-reactions">${reactions}</div>
     </div>
   </div>`;
 }
@@ -9941,12 +10216,26 @@ function _clearOwnGroupMessagesFromDom(userId) {
     .forEach((n) => n.remove());
 }
 
+function _updateGroupReactionsInDom(messageId, reactions) {
+  const node = document.querySelector(
+    `.social-msg[data-message-id="${CSS.escape(messageId)}"] .social-msg-reactions`,
+  );
+  if (!node) return;
+  node.innerHTML = _reactionPillsHtml(reactions || [], "reactGroupMessage", messageId);
+}
+
 async function sendGroupMessage() {
   if (!_socialState.activeGroup) return;
   const input = byId("social-group-input");
   const text = input?.value.trim();
-  if (!text || !auth.isLoggedIn) return;
+  const hasGif = !!_groupPendingGif?.url;
+  if ((!text && !hasGif) || !auth.isLoggedIn) return;
+  const composed = `${text || ""}${hasGif ? `${text ? " " : ""}[gif:${_groupPendingGif.url}]` : ""}`;
+  const replyToMessageId = _groupReplyTo?.messageId || null;
   input.value = "";
+  _groupPendingGif = null;
+  _groupReplyTo = null;
+  _renderComposeMeta("group");
 
   try {
     const res = await fetch(
@@ -9954,12 +10243,15 @@ async function sendGroupMessage() {
       {
         method: "POST",
         headers: authHeaders(),
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text: composed, replyToMessageId }),
       },
     );
     const data = await res.json();
     if (data.success) {
       const msgs = byId("social-group-messages");
+      _socialState._groupMessages = Array.isArray(_socialState._groupMessages)
+        ? [..._socialState._groupMessages, data.data]
+        : [data.data];
       if (msgs) {
         msgs.innerHTML += _buildGroupMsgEl(data.data);
         msgs.scrollTop = msgs.scrollHeight;
@@ -10138,6 +10430,7 @@ function _bindGroupSocketEvents() {
   socket.off("group_message_updated");
   socket.off("group_message_deleted");
   socket.off("group_messages_cleared");
+  socket.off("group_message_reactions");
   socket.on("group_message", (msg) => {
     if (!_socialState.activeGroup) return;
     if (msg.chatId?.toString?.() !== _socialState.activeGroup._id?.toString?.())
@@ -10146,6 +10439,9 @@ function _bindGroupSocketEvents() {
     if (!msgs) return;
     // Don't duplicate if we sent it (REST already appended it)
     if (msg.authorId?.toString?.() === auth.user?._id?.toString?.()) return;
+    _socialState._groupMessages = Array.isArray(_socialState._groupMessages)
+      ? [..._socialState._groupMessages, msg]
+      : [msg];
     msgs.innerHTML += _buildGroupMsgEl(msg);
     msgs.scrollTop = msgs.scrollHeight;
   });
@@ -10156,6 +10452,9 @@ function _bindGroupSocketEvents() {
       return;
     if (!payload?.messageId) return;
     _updateGroupMessageInDom(payload.messageId, payload.text || "");
+    _socialState._groupMessages = (_socialState._groupMessages || []).map((m) =>
+      (m._id || "") === payload.messageId ? { ...m, text: payload.text || "" } : m,
+    );
   });
 
   socket.on("group_message_deleted", (payload) => {
@@ -10164,6 +10463,9 @@ function _bindGroupSocketEvents() {
       return;
     if (!payload?.messageId) return;
     _removeGroupMessageInDom(payload.messageId);
+    _socialState._groupMessages = (_socialState._groupMessages || []).filter(
+      (m) => (m._id || "") !== payload.messageId,
+    );
   });
 
   socket.on("group_messages_cleared", (payload) => {
@@ -10172,7 +10474,45 @@ function _bindGroupSocketEvents() {
       return;
     if (!payload?.userId) return;
     _clearOwnGroupMessagesFromDom(payload.userId);
+    _socialState._groupMessages = (_socialState._groupMessages || []).filter(
+      (m) => (m.authorId?.toString?.() || "") !== payload.userId?.toString?.(),
+    );
   });
+
+  socket.on("group_message_reactions", (payload) => {
+    if (!_socialState.activeGroup?._id) return;
+    if (payload?.groupId?.toString?.() !== _socialState.activeGroup._id?.toString?.())
+      return;
+    if (!payload?.messageId) return;
+    _updateGroupReactionsInDom(payload.messageId, payload.reactions || []);
+    _socialState._groupMessages = (_socialState._groupMessages || []).map((m) =>
+      (m._id || "") === payload.messageId
+        ? { ...m, reactions: payload.reactions || [] }
+        : m,
+    );
+  });
+}
+
+async function reactGroupMessage(messageId, emoji = "👍") {
+  if (!auth.isLoggedIn || !_socialState.activeGroup?._id || !messageId) return;
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/api/social/groups/${_socialState.activeGroup._id}/messages/${messageId}/reactions`,
+      {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({ emoji }),
+      },
+    );
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      showToast(data.error || "Could not react");
+      return;
+    }
+    _updateGroupReactionsInDom(messageId, data.reactions || []);
+  } catch {
+    showToast("Network error");
+  }
 }
 
 async function deleteGroupMessage(messageId) {
@@ -10192,6 +10532,9 @@ async function deleteGroupMessage(messageId) {
       return;
     }
     _removeGroupMessageInDom(messageId);
+    _socialState._groupMessages = (_socialState._groupMessages || []).filter(
+      (m) => (m._id || "") !== messageId,
+    );
     showToast("Message deleted");
   } catch {
     showToast("Network error");
@@ -10226,6 +10569,11 @@ async function editGroupMessage(messageId) {
       return;
     }
     _updateGroupMessageInDom(messageId, data.data?.text || trimmed);
+    _socialState._groupMessages = (_socialState._groupMessages || []).map((m) =>
+      (m._id || "") === messageId
+        ? { ...m, text: data.data?.text || trimmed }
+        : m,
+    );
     showToast("Message updated");
   } catch {
     showToast("Network error");
@@ -10481,6 +10829,13 @@ const App = {
   // Social
   switchSocialTab,
   renderSocialPage,
+  openEmojiPicker,
+  clearPendingGif,
+  clearReplyTarget,
+  replyToChatMessage,
+  replyToGroupMessage,
+  reactChatMessage,
+  reactGroupMessage,
   socialSearch,
   openUserProfile,
   sendFriendReq,

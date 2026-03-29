@@ -250,7 +250,7 @@ io.on("connection", (socket) => {
   // Send a message
   socket.on(
     "send_message",
-    async ({ channelId, text, author, userId, token }) => {
+    async ({ channelId, text, author, userId, token, replyToMessageId }) => {
       if (!text || !text.trim() || !channelId) return;
 
       // Basic auth check via token
@@ -298,11 +298,24 @@ io.on("connection", (socket) => {
       }
 
       const sanitized = moderated.sanitized;
+      let replyTo = null;
+      if (replyToMessageId) {
+        const parent = await db.getChatMessageById(replyToMessageId);
+        if (parent && parent.channelId === channelId) {
+          replyTo = {
+            messageId: parent._id,
+            author: parent.author,
+            text: String(parent.text || "").slice(0, 280),
+          };
+        }
+      }
+
       const saved = await db.saveChatMessage({
         channelId,
         userId: verifiedUserId,
         author: verifiedAuthor,
         text: sanitized,
+        replyTo,
       });
 
       const messagePayload = {
@@ -311,6 +324,8 @@ io.on("connection", (socket) => {
         userId: saved.userId,
         author: verifiedAuthor,
         text: sanitized,
+        replyTo: saved.replyTo || null,
+        reactions: saved.reactions || [],
         createdAt: saved.createdAt,
       };
 
@@ -1252,7 +1267,7 @@ app.get(
   },
 );
 
-// Delete one chat message (sender only)
+// Delete one chat message (sender or admin)
 app.delete(
   "/api/community/chat/messages/:messageId",
   authenticateToken,
@@ -1264,17 +1279,17 @@ app.delete(
       }
 
       const isOwner = message.userId?.toString() === req.user._id?.toString();
-      if (!isOwner) {
+      const isAdmin = req.user.role === "admin";
+      if (!isOwner && !isAdmin) {
         return res.status(403).json({
           success: false,
-          error: "Only the sender can delete this message",
+          error: "Only the sender or an admin can delete this message",
         });
       }
 
-      const deleted = await db.deleteChatMessageByUser(
-        req.params.messageId,
-        req.user._id,
-      );
+      const deleted = isAdmin
+        ? await db.deleteChatMessage(req.params.messageId)
+        : await db.deleteChatMessageByUser(req.params.messageId, req.user._id);
       if (!deleted) {
         return res.status(404).json({ success: false, error: "Message not found" });
       }
@@ -1284,6 +1299,47 @@ app.delete(
         channelId: message.channelId,
       });
       res.json({ success: true, message: "Message deleted" });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+// Toggle reaction on a chat message
+app.post(
+  "/api/community/chat/messages/:messageId/reactions",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const emoji = String(req.body?.emoji || "").trim().slice(0, 12);
+      if (!emoji) {
+        return res.status(400).json({ success: false, error: "emoji is required" });
+      }
+      const message = await db.getChatMessageById(req.params.messageId);
+      if (!message) {
+        return res.status(404).json({ success: false, error: "Message not found" });
+      }
+      const canAccess = await canAccessChannel(req.user?._id, message.channelId);
+      if (!canAccess) {
+        return res.status(403).json({ success: false, error: "Not allowed" });
+      }
+
+      const updated = await db.toggleChatMessageReaction(
+        req.params.messageId,
+        req.user._id,
+        emoji,
+      );
+      if (!updated) {
+        return res.status(404).json({ success: false, error: "Message not found" });
+      }
+
+      io.to(message.channelId).emit("chat_message_reactions", {
+        channelId: message.channelId,
+        messageId: req.params.messageId,
+        reactions: updated.reactions || [],
+      });
+
+      res.json({ success: true, reactions: updated.reactions || [] });
     } catch (error) {
       next(error);
     }
@@ -3170,6 +3226,7 @@ app.post(
       if (!isMember)
         return res.status(403).json({ success: false, error: "Not a member" });
       const text = (req.body.text || "").trim().slice(0, 2000);
+      const replyToMessageId = req.body.replyToMessageId;
       if (!text)
         return res.status(400).json({ success: false, error: "text required" });
 
@@ -3188,12 +3245,25 @@ app.post(
           .json({ success: false, error: "Message blocked by moderation policy." });
       }
 
+      let replyTo = null;
+      if (replyToMessageId) {
+        const parent = await db.getGroupMessageById(replyToMessageId);
+        if (parent && parent.chatId?.toString?.() === req.params.groupId) {
+          replyTo = {
+            messageId: parent._id,
+            author: parent.authorName,
+            text: String(parent.text || "").slice(0, 280),
+          };
+        }
+      }
+
       await db.touchLastActive(req.user._id);
       const msg = await db.addGroupMessage(
         req.params.groupId,
         req.user._id,
         req.user.name,
         moderated.sanitized,
+        replyTo,
       );
       // Emit to socket room
       io.to(`group:${req.params.groupId}`).emit("group_message", msg);
@@ -3259,7 +3329,7 @@ app.patch(
   },
 );
 
-// DELETE /api/social/groups/:groupId/messages/:messageId — delete own message
+// DELETE /api/social/groups/:groupId/messages/:messageId — delete own/admin
 app.delete(
   "/api/social/groups/:groupId/messages/:messageId",
   authenticateToken,
@@ -3276,15 +3346,18 @@ app.delete(
       if (!isMember)
         return res.status(403).json({ success: false, error: "Not a member" });
 
-      const deleted = await db.deleteGroupMessageByUser(
-        req.params.messageId,
-        req.params.groupId,
-        req.user._id,
-      );
+      const isAdmin = req.user.role === "admin";
+      const deleted = isAdmin
+        ? await db.deleteGroupMessageAny(req.params.messageId, req.params.groupId)
+        : await db.deleteGroupMessageByUser(
+            req.params.messageId,
+            req.params.groupId,
+            req.user._id,
+          );
       if (!deleted) {
         return res.status(403).json({
           success: false,
-          error: "Only the sender can delete this message",
+          error: "Only the sender or an admin can delete this message",
         });
       }
 
@@ -3293,6 +3366,49 @@ app.delete(
         messageId: req.params.messageId,
       });
       res.json({ success: true, message: "Message deleted" });
+    } catch (e) {
+      next(e);
+    }
+  },
+);
+
+// POST /api/social/groups/:groupId/messages/:messageId/reactions — toggle reaction
+app.post(
+  "/api/social/groups/:groupId/messages/:messageId/reactions",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const group = await db.GroupChat.findById(req.params.groupId).lean();
+      if (!group)
+        return res
+          .status(404)
+          .json({ success: false, error: "Group not found" });
+      const isMember = group.members
+        .map(String)
+        .includes(req.user._id.toString());
+      if (!isMember)
+        return res.status(403).json({ success: false, error: "Not a member" });
+
+      const emoji = String(req.body?.emoji || "").trim().slice(0, 12);
+      if (!emoji)
+        return res.status(400).json({ success: false, error: "emoji is required" });
+
+      const updated = await db.toggleGroupMessageReaction(
+        req.params.groupId,
+        req.params.messageId,
+        req.user._id,
+        emoji,
+      );
+      if (!updated)
+        return res.status(404).json({ success: false, error: "Message not found" });
+
+      io.to(`group:${req.params.groupId}`).emit("group_message_reactions", {
+        groupId: req.params.groupId,
+        messageId: req.params.messageId,
+        reactions: updated.reactions || [],
+      });
+
+      res.json({ success: true, reactions: updated.reactions || [] });
     } catch (e) {
       next(e);
     }
