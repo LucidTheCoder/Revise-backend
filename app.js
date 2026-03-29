@@ -2668,7 +2668,14 @@ function renderHome() {
 
 function renderSubjectSelection() {
   const grid = byId("subject-select-grid");
-  grid.innerHTML = getOrderedSubjects()
+  const ordered = getOrderedSubjects().sort((a, b) => {
+    const aWip = subjectReleaseInfo(a).isWip ? 1 : 0;
+    const bWip = subjectReleaseInfo(b).isWip ? 1 : 0;
+    if (aWip !== bWip) return aWip - bWip;
+    return 0;
+  });
+
+  grid.innerHTML = ordered
     .map((subject) => {
       const p = getProgress(subject.id);
       const availability = subjectReleaseInfo(subject);
@@ -2677,7 +2684,7 @@ function renderSubjectSelection() {
         ? `App.showSubjectWipNotice('${subject.id}')`
         : `App.go('subject',{subjectId:'${subject.id}'})`;
       return `
-      <button class="subject-card ${availability.locked ? "wip" : ""} ${locked ? "locked" : ""}" onclick="${action}">
+      <button class="subject-card ${availability.locked ? "wip" : ""} ${availability.isWip ? "subject-card-wip-dim" : ""} ${locked ? "locked" : ""}" onclick="${action}">
         <h3 style="color:${colorVar(subject.id)}">${escapeHtml(subject.name)}</h3>
         ${availability.badge ? `<span class="subject-coming-chip">${escapeHtml(availability.badge)}</span>` : ""}
         <p>${escapeHtml(subject.desc)}</p>

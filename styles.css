@@ -526,6 +526,11 @@ p {
   cursor: not-allowed;
 }
 
+.subject-card.subject-card-wip-dim {
+  filter: grayscale(0.72);
+  opacity: 0.72;
+}
+
 .continue-item small {
   color: var(--text2);
 }
@@ -4852,6 +4857,99 @@ main {
   padding: 2rem;
   text-align: center;
   color: var(--text2);
+}
+
+/* Compact layout pass for past papers tab */
+#view-past-papers .page-head {
+  margin-bottom: 0.75rem;
+}
+
+#view-past-papers .papers-subject-tabs {
+  padding: 0.25rem 0.3rem;
+  gap: 0.32rem;
+  margin-bottom: 0.55rem;
+}
+
+#view-past-papers .papers-tab {
+  padding: 0.35rem 0.55rem;
+  min-height: 34px;
+  font-size: 0.8rem;
+}
+
+#view-past-papers .papers-toolbar {
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+  padding: 0.45rem 0.6rem;
+}
+
+#view-past-papers .papers-toolbar label {
+  gap: 0.2rem;
+  font-size: 0.78rem;
+}
+
+#view-past-papers .papers-toolbar select {
+  padding: 0.3rem 0.4rem;
+  min-height: 34px;
+  font-size: 0.82rem;
+}
+
+#view-past-papers .paper-subject-group {
+  margin-bottom: 0.7rem;
+}
+
+#view-past-papers .paper-year-group {
+  margin-bottom: 0.45rem;
+}
+
+#view-past-papers .paper-year-label {
+  margin: 0 0 0.35rem;
+}
+
+#view-past-papers .papers-grid {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.42rem;
+}
+
+#view-past-papers .paper-card {
+  gap: 0.18rem;
+  padding: 0.56rem 0.62rem;
+  border-radius: 10px;
+}
+
+#view-past-papers .paper-title {
+  font-size: 0.84rem;
+  line-height: 1.32;
+}
+
+#view-past-papers .paper-subtitle {
+  font-size: 0.74rem;
+  line-height: 1.28;
+}
+
+#view-past-papers .paper-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.33rem;
+  margin-top: 0.38rem;
+}
+
+#view-past-papers .paper-actions .btn,
+#view-past-papers .paper-actions a.btn {
+  width: 100%;
+  padding: 0.3rem 0.35rem;
+  border-radius: 8px;
+  font-size: 0.73rem;
+  min-height: 30px;
+}
+
+@media (max-width: 760px) {
+  #view-past-papers .papers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #view-past-papers .paper-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
 .paper-unavail {
