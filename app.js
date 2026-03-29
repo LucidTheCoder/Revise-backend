@@ -7738,13 +7738,18 @@ function openTopicInEditor(topicId) {
   editorState.currentTopic = topicId;
   editorState.originalJson = JSON.stringify(topic, null, 2);
 
-  // Update UI
+  // Update UI with topic title and subtitle
   document.querySelectorAll(".editor-topic-item").forEach((item) => {
     item.classList.remove("active");
     if (item.dataset.topicId === topicId) item.classList.add("active");
   });
 
-  byId("editor-title").textContent = `Editing: ${topic.title}`;
+  byId("editor-title").textContent = topic.title || "Untitled Topic";
+  const subtitleEl = byId("editor-subtitle-text");
+  if (subtitleEl) {
+    subtitleEl.textContent = topic.subtitle || "No subtitle yet";
+  }
+
   byId("editor-json").value = editorState.originalJson;
   byId("editor-save-btn").style.display = "inline-flex";
   byId("editor-cancel-btn").style.display = "inline-flex";
@@ -7815,7 +7820,11 @@ function createNewTopic() {
   editorState.currentTopic = newId;
   editorState.originalJson = JSON.stringify(newTopic, null, 2);
 
-  byId("editor-title").textContent = `Editing: ${newTopic.title}`;
+  byId("editor-title").textContent = newTopic.title;
+  const subtitleEl = byId("editor-subtitle-text");
+  if (subtitleEl) {
+    subtitleEl.textContent = newTopic.subtitle;
+  }
   byId("editor-json").value = editorState.originalJson;
   byId("editor-save-btn").style.display = "inline-flex";
   byId("editor-cancel-btn").style.display = "inline-flex";
@@ -7833,7 +7842,7 @@ function createNewTopic() {
   byId("editor-json-mode").style.display = "none";
   _renderEditorForm(newTopic);
   loadEditorSubject(editorState.currentSubject);
-  showSuccess("Topic created!", "Fill in the form below and save.");
+  showSuccess("New topic created!", "Fill in the form below and save.");
 }
 
 async function duplicateCurrentTopic() {
