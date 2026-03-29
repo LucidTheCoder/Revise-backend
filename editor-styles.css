@@ -55,6 +55,75 @@
   font-weight: 600;
 }
 
+.editor-unit-group {
+  margin-bottom: 0.75rem;
+}
+
+.editor-unit-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.82rem;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editor-unit-count {
+  font-size: 0.72rem;
+  color: var(--text3);
+  font-weight: 500;
+}
+
+.editor-unit-topics {
+  display: grid;
+  gap: 0.35rem;
+}
+
+#ai-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 16, 28, 0.4);
+}
+
+.ai-loading-simple-box {
+  min-width: 180px;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: var(--bg2);
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+}
+
+.ai-loading-simple-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid color-mix(in srgb, var(--accent), transparent 75%);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: aiSpinner 0.8s linear infinite;
+}
+
+#ai-loading-simple-text {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--text2);
+  text-align: center;
+}
+
+@keyframes aiSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .editor-main {
   display: flex;
   flex-direction: column;

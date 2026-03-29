@@ -4838,7 +4838,12 @@ function normalizeMyStuffCount(mode, value) {
 }
 
 function setMyStuffCount(value) {
-  const activeMode = state.myStuffMode === "flashcards" ? "flashcards" : "quiz";
+  const activeMode =
+    state.myStuffMode === "flashcards"
+      ? "flashcards"
+      : state.myStuffMode === "structure"
+        ? "structure"
+        : "quiz";
   const normalized = normalizeMyStuffCount(activeMode, value);
   if (activeMode === "quiz") {
     state.myStuffQuizCount = normalized;
@@ -4910,7 +4915,13 @@ function renderMyStuff() {
   );
   const quizItems = allItems.filter((item) => item.mode === "quiz");
   const flashItems = allItems.filter((item) => item.mode === "flashcards");
-  const items = activeMode === "quiz" ? quizItems : flashItems;
+  const structureItems = allItems.filter((item) => item.mode === "structure");
+  const items =
+    activeMode === "quiz"
+      ? quizItems
+      : activeMode === "flashcards"
+        ? flashItems
+        : structureItems;
   const selectedCount =
     activeMode === "quiz"
       ? normalizeMyStuffCount("quiz", state.myStuffQuizCount)
@@ -4984,13 +4995,14 @@ function renderMyStuff() {
           return `<article class="card mystuff-item">${head}${quota}</article>`;
         })
         .join("")
-    : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : "flashcard decks"} generated yet.</p></div>`;
+    : `<div class="card mystuff-empty"><p>No ${activeMode === "quiz" ? "question sets" : activeMode === "flashcards" ? "flashcard decks" : "structure questions"} generated yet.</p></div>`;
 
   root.innerHTML = `
     <div class="card mystuff-controls">
       <div class="mystuff-mode-tabs">
         <button class="mystuff-mode-tab ${activeMode === "quiz" ? "active" : ""}" onclick="App.switchMyStuffMode('quiz')">Questions (${quizItems.length})</button>
         <button class="mystuff-mode-tab ${activeMode === "flashcards" ? "active" : ""}" onclick="App.switchMyStuffMode('flashcards')">Flashcards (${flashItems.length})</button>
+        <button class="mystuff-mode-tab ${activeMode === "structure" ? "active" : ""}" onclick="App.switchMyStuffMode('structure')">Structure (${structureItems.length})</button>
       </div>
       <div class="mystuff-input-grid">
         <label>
@@ -5014,7 +5026,7 @@ function renderMyStuff() {
               .join("")}
           </select>
         </label>
-        <label>
+        ${activeMode === "structure" ? "" : `<label>
           Count
           <select id="mystuff-count-select" onchange="App.setMyStuffCount(this.value)">
             ${Array.from({ length: maxCount }, (_, i) => i + 1)
@@ -5024,14 +5036,14 @@ function renderMyStuff() {
               )
               .join("")}
           </select>
-        </label>
+        </label>`}
       </div>
       <div class="mystuff-control-sep" aria-hidden="true"></div>
       <div class="mystuff-actions">
-        <button class="btn btn-primary" id="mystuff-gen-main" onclick="App.myStuffGenerate()">Generate</button>
-        <button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`}">Generate Structure (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})</button>
-        <button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>
-        <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : "Flashcards"}</button>
+        <button class="btn btn-primary" id="mystuff-gen-main" onclick="${activeMode === "structure" ? "App.myStuffGenerateStructure()" : "App.myStuffGenerate()"}">${activeMode === "structure" ? "Generate Structure" : "Generate"}</button>
+        ${activeMode === "structure" ? "" : `<button class="btn btn-outline" onclick="App.myStuffGenerateStructure()" id="mystuff-gen-structure" ${canGenerateStructureQuestions() ? "" : "disabled"} title="${canGenerateStructureQuestions() ? "Generate an AI-marked structure question" : `Daily limit reached (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})`}">Generate Structure (${state.structureQuestionsToday}/${STRUCTURE_QUESTIONS_DAILY_LIMIT})</button>`}
+        ${activeMode === "structure" ? "" : `<button class="btn btn-outline" onclick="App.exportMyStuffPdf()">Export ${activeMode === "quiz" ? "Questions" : "Flashcards"} PDF</button>`}
+        <button class="btn btn-ghost" onclick="App.clearMyStuff('${activeMode}')">Clear ${activeMode === "quiz" ? "Questions" : activeMode === "flashcards" ? "Flashcards" : "Structure"}</button>
       </div>
       <p id="mystuff-status" class="mystuff-status"></p>
     </div>
@@ -5040,7 +5052,8 @@ function renderMyStuff() {
 }
 
 function switchMyStuffMode(mode) {
-  state.myStuffMode = mode === "flashcards" ? "flashcards" : "quiz";
+  state.myStuffMode =
+    mode === "flashcards" ? "flashcards" : mode === "structure" ? "structure" : "quiz";
   renderMyStuff();
 }
 
@@ -5216,10 +5229,7 @@ async function myStuffGenerateStructure() {
     hideAiLoading();
     if (statusEl) statusEl.textContent = "Network error while generating structure question.";
   } finally {
-    if (structBtn) {
-      structBtn.disabled = !canGenerateStructureQuestions();
-      renderMyStuff(); // Refresh to update quota display
-    }
+    if (structBtn) structBtn.disabled = !canGenerateStructureQuestions();
   }
 }
 
@@ -5866,25 +5876,36 @@ function showToast(message) {
 }
 
 // ── AI Loading Screen ──────────────────────────────────────────────────────
+function ensureSimpleAiLoadingOverlay() {
+  let overlay = byId("ai-loading-overlay");
+  if (overlay) return overlay;
+
+  overlay = document.createElement("div");
+  overlay.id = "ai-loading-overlay";
+  overlay.innerHTML = `
+    <div class="ai-loading-simple-box" role="status" aria-live="polite" aria-label="Loading">
+      <div class="ai-loading-simple-spinner" aria-hidden="true"></div>
+      <p id="ai-loading-simple-text">Loading...</p>
+    </div>`;
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
 function showAiLoading(message = "Generating content...") {
   state.aiLoading = true;
-  const loader = byId("app-loader");
-  if (loader) {
-    loader.classList.remove("hidden");
-    loader.style.display = "flex";
-    const statusEl = byId("loader-status");
-    if (statusEl) statusEl.textContent = message;
-  }
+  const overlay = ensureSimpleAiLoadingOverlay();
+  overlay.style.display = "flex";
+  const statusEl = byId("ai-loading-simple-text");
+  if (statusEl) statusEl.textContent = message;
 }
 
 function hideAiLoading() {
   state.aiLoading = false;
-  const loader = byId("app-loader");
-  if (loader) {
-    loader.classList.add("hidden");
-    setTimeout(() => {
-      if (!state.aiLoading && loader.isConnected) loader.style.display = "none";
-    }, 260);
+  const overlay = byId("ai-loading-overlay");
+  if (overlay) {
+    overlay.style.display = "none";
+    const statusEl = byId("ai-loading-simple-text");
+    if (statusEl) statusEl.textContent = "Loading...";
   }
 }
 
@@ -7133,6 +7154,13 @@ function filterEditorTopics(q) {
       ? ""
       : "none";
   });
+
+  document.querySelectorAll(".editor-unit-group").forEach((group) => {
+    const visible = [...group.querySelectorAll(".editor-topic-item")].some(
+      (item) => item.style.display !== "none",
+    );
+    group.style.display = visible ? "" : "none";
+  });
 }
 
 // Sync the visual form fields → the JSON textarea
@@ -7384,25 +7412,41 @@ function loadEditorSubject(subjectId) {
   editorState.currentTopic = null;
   renderSubjectSettingsPanel(subjectId);
 
-  const refs = getTopicRefsForSubject(subjectId);
+  const subject = state.subjectMap.get(subjectId);
+  const units = Array.isArray(subject?.units) ? subject.units : [];
   const listEl = byId("editor-topics-list");
   if (!listEl) return;
 
   const duplicateBtn = byId("editor-duplicate-btn");
   if (duplicateBtn) duplicateBtn.style.display = "none";
 
-  listEl.innerHTML = refs
-    .map(
-      (ref) => `
-      <div class="editor-topic-item" onclick="App.openTopicInEditor('${ref.id}')" data-topic-id="${ref.id}">
-        <strong>${escapeHtml(ref.name)}</strong>
-        <small style="color:var(--text2);display:block;margin-top:0.2rem">${ref.id}</small>
-      </div>
-    `,
-    )
+  listEl.innerHTML = units
+    .map((unit) => {
+      const topics = Array.isArray(unit.topics) ? unit.topics : [];
+      return `
+      <section class="editor-unit-group">
+        <h4 class="editor-unit-title">${escapeHtml(unit.name || "Untitled Group")} <span class="editor-unit-count">${topics.length}</span></h4>
+        <div class="editor-unit-topics">
+          ${topics
+            .map(
+              (ref) => `
+            <div class="editor-topic-item" onclick="App.openTopicInEditor('${ref.id}')" data-topic-id="${ref.id}">
+              <strong>${escapeHtml(ref.name || ref.id)}</strong>
+              <small style="color:var(--text2);display:block;margin-top:0.2rem">${escapeHtml(ref.id || "")}</small>
+            </div>
+          `,
+            )
+            .join("")}
+        </div>
+      </section>`;
+    })
     .join("");
 
-  if (!refs.length) {
+  const totalTopics = units.reduce(
+    (sum, unit) => sum + ((unit.topics || []).length || 0),
+    0,
+  );
+  if (!totalTopics) {
     listEl.innerHTML = `<div class="editor-empty">No topics yet. Create your first topic for this subject.</div>`;
   }
 }
@@ -9475,24 +9519,49 @@ async function deleteCurrentTopic() {
   )
     return;
 
+  const topic = state.topics.get(editorState.currentTopic);
+
   // If admin, delete from server
   if (
     auth.isLoggedIn &&
     auth.user?.role === "admin" &&
     editorState.currentSubject
   ) {
+    const subjectCandidates = [
+      editorState.currentSubject,
+      String(topic?.subject || "").trim(),
+      ...state.subjects
+        .filter((s) =>
+          (s.units || []).some((u) =>
+            (u.topics || []).some((t) => t.id === editorState.currentTopic),
+          ),
+        )
+        .map((s) => s.id),
+    ].filter(Boolean);
+    const uniqueSubjects = [...new Set(subjectCandidates)];
+    let deletedOnServer = false;
+
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/api/topics/${editorState.currentTopic}?subject=${editorState.currentSubject}`,
-        {
-          method: "DELETE",
-          headers: authHeaders(),
-        },
-      );
-      const data = await res.json();
-      if (!res.ok) {
-        showToast(`Delete error: ${data.error}`);
-        return;
+      for (const subjectId of uniqueSubjects) {
+        const res = await fetch(
+          `${API_BASE_URL}/api/topics/${editorState.currentTopic}?subject=${subjectId}`,
+          {
+            method: "DELETE",
+            headers: authHeaders(),
+          },
+        );
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          deletedOnServer = true;
+          break;
+        }
+        if (res.status !== 404) {
+          showToast(`Delete error: ${data.error || "Unable to delete topic"}`);
+          return;
+        }
+      }
+      if (!deletedOnServer) {
+        showToast("Topic not found on server. Removed locally.");
       }
     } catch {
       showToast("Network error");
