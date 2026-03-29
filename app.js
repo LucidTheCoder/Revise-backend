@@ -5363,7 +5363,7 @@ function openGifPicker(target) {
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
-      <div id="gif-results" class="gif-grid"><p class="gif-hint">Type to search Tenor GIFs…</p></div>
+      <div id="gif-results" class="gif-grid"><p class="gif-hint">Type to search GIPHY GIFs…</p></div>
     </div>`;
   document.body.appendChild(modal);
   modal.addEventListener("click", (e) => {
@@ -5378,7 +5378,7 @@ async function _gifSearch(q) {
   const grid = byId("gif-results");
   if (!grid) return;
   if ((q || "").trim().length < 2) {
-    grid.innerHTML = '<p class="gif-hint">Type to search Tenor GIFs…</p>';
+    grid.innerHTML = '<p class="gif-hint">Type to search GIPHY GIFs…</p>';
     return;
   }
   grid.innerHTML = '<p class="gif-hint">Searching…</p>';
@@ -5449,6 +5449,12 @@ function renderGifs(html) {
     (_, url) =>
       `<img class="chat-gif" src="${escapeHtml(url)}" alt="GIF" loading="lazy" style="max-width:240px;max-height:180px;border-radius:8px;display:block;margin:4px 0">`,
   );
+}
+
+function renderRichMessage(text, options = {}) {
+  const source = String(text || "");
+  const base = options.forum ? richText(source) : escapeHtml(source);
+  return renderGifs(base);
 }
 
 // ── Quiz Question Quick-Import ───────────────────────────────────────────
@@ -6583,7 +6589,7 @@ function appendChatMessage(msg) {
   d.innerHTML = `
     <strong>${escapeHtml(msg.author)}</strong>
     <span class="msg-time">${time}</span>
-    <p>${renderGifs(escapeHtml(msg.text))}</p>
+    <p>${renderRichMessage(msg.text)}</p>
   `;
   container.appendChild(d);
 }
@@ -6819,7 +6825,7 @@ async function renderThreadDetail() {
           <small>${t}</small>
           ${canDel ? `<button class="btn btn-outline btn-micro btn-danger" style="margin-left:auto" onclick="App.deleteReply('${id}','${r._id}')">Delete</button>` : ""}
         </div>
-        <p style="line-height:1.6;white-space:pre-wrap">${renderGifs(richText(r.body))}</p>
+        <p style="line-height:1.6;white-space:pre-wrap">${renderRichMessage(r.body, { forum: true })}</p>
       </div>
     `;
     })
@@ -6854,7 +6860,7 @@ async function renderThreadDetail() {
 
   forumThread.innerHTML = `
     <h2>${escapeHtml(thread.title)}</h2>
-    <p style="margin:0.5rem 0;line-height:1.6;white-space:pre-wrap">${renderGifs(richText(thread.body))}</p>
+    <p style="margin:0.5rem 0;line-height:1.6;white-space:pre-wrap">${renderRichMessage(thread.body, { forum: true })}</p>
     <p style="color:var(--text2);font-size:0.82rem">Posted by @${escapeHtml(thread.author)} · ${thread.createdAt ? new Date(thread.createdAt).toLocaleDateString() : ""} · 👍 ${thread.upvotes || 0} · 👁 ${thread.views || 0}</p>
     <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
       <button class="btn btn-outline btn-sm" onclick="App.upvoteThread('${id}')">👍 Upvote</button>
@@ -9757,7 +9763,7 @@ function _buildGroupMsgEl(m) {
     ${!isSelf ? `<div class="social-msg-avatar">${escapeHtml((m.authorName || "?")[0].toUpperCase())}</div>` : ""}
     <div class="social-msg-body">
       ${!isSelf ? `<div class="social-msg-name">${escapeHtml(m.authorName)}</div>` : ""}
-      <div class="social-msg-bubble">${renderGifs(escapeHtml(m.text))}</div>
+      <div class="social-msg-bubble">${renderRichMessage(m.text)}</div>
       <div class="social-msg-time">${time}</div>
     </div>
   </div>`;

@@ -80,6 +80,10 @@ const HARD_BLOCK_WORDS = Array.isArray(moderationWordsConfig?.hardBlockWords)
   ? moderationWordsConfig.hardBlockWords
   : [];
 
+const CUSTOM_BLOCK_WORDS = Array.isArray(moderationWordsConfig?.customBlockedWords)
+  ? moderationWordsConfig.customBlockedWords
+  : [];
+
 const SOCIAL_RATE_WINDOW_MS = 10_000;
 const SOCIAL_RATE_MAX = 8;
 const socialRateBucket = new Map(); // key -> timestamps[]
@@ -108,15 +112,39 @@ function _canonicalModerationText(text) {
     .trim();
 }
 
+function _escapeRegex(str) {
+  return String(str || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function _looseWordRegex(word) {
+  const chars = String(word || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "")
+    .split("");
+  if (!chars.length) return null;
+  // Allow separated/elongated chars: e.g. f v c k, fuuuck, f.u.c.k
+  const pattern = chars.map((ch) => `${_escapeRegex(ch)}+`).join("\\s*");
+  return new RegExp(`\\b${pattern}\\b`, "i");
+}
+
 function moderateSocialText(text) {
   const source = String(text || "");
   const normalized = _normalizeModerationText(source);
   const canonical = _canonicalModerationText(source);
   if (!normalized) return { allowed: true, sanitized: source, blocked: false };
 
-  for (const hard of HARD_BLOCK_WORDS) {
-    const re = new RegExp(`\\b${hard}\\b`, "i");
-    if (re.test(normalized) || re.test(canonical)) {
+  const hardBlockedWords = [...new Set([...HARD_BLOCK_WORDS, ...CUSTOM_BLOCK_WORDS])];
+
+  for (const hard of hardBlockedWords) {
+    const hardWord = String(hard || "").trim().toLowerCase();
+    if (!hardWord) continue;
+    const exactRe = new RegExp(`\\b${_escapeRegex(hardWord)}\\b`, "i");
+    const looseRe = _looseWordRegex(hardWord);
+    if (
+      exactRe.test(normalized) ||
+      exactRe.test(canonical) ||
+      (looseRe && looseRe.test(canonical))
+    ) {
       return {
         allowed: false,
         blocked: true,
@@ -129,16 +157,22 @@ function moderateSocialText(text) {
   let sanitized = source;
   let changed = false;
   for (const bad of MODERATED_WORDS) {
-    const re = new RegExp(`\\b${bad}\\b`, "gi");
+    const badWord = String(bad || "").trim().toLowerCase();
+    if (!badWord) continue;
+    const re = new RegExp(`\\b${_escapeRegex(badWord)}\\b`, "gi");
     if (re.test(sanitized)) {
       changed = true;
       sanitized = sanitized.replace(re, (m) => "*".repeat(Math.max(3, m.length)));
     }
 
-    // Block obvious obfuscation attempts like "fvck" that bypass direct matching.
-    const canonicalRe = new RegExp(`\\b${bad}\\b`, "i");
-    const directRe = new RegExp(`\\b${bad}\\b`, "i");
-    if (canonicalRe.test(canonical) && !directRe.test(normalized)) {
+    // Block obfuscation attempts that try to dodge direct matching.
+    const canonicalRe = new RegExp(`\\b${_escapeRegex(badWord)}\\b`, "i");
+    const directRe = new RegExp(`\\b${_escapeRegex(badWord)}\\b`, "i");
+    const looseRe = _looseWordRegex(badWord);
+    if (
+      (canonicalRe.test(canonical) || (looseRe && looseRe.test(canonical))) &&
+      !directRe.test(normalized)
+    ) {
       return {
         allowed: false,
         blocked: true,

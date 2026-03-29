@@ -15,5 +15,6 @@
     "retard",
     "kys"
   ],
-  "hardBlockWords": ["nigger", "faggot", "kys"]
+  "hardBlockWords": ["nigger", "faggot", "kys"],
+  "customBlockedWords": ["buddy"]
 }
